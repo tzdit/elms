@@ -4,11 +4,13 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
+use yii\bootstrap4\Nav;
+use yii\bootstrap4\NavBar;
+use yii\bootstrap4\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use yii\helpers\Url;
+//use Yii;
 
 AppAsset::register($this);
 ?>
@@ -23,60 +25,111 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body>
+<body class="hold-transition sidebar-mini layout-fixed sidebar-fixed-layout layout-navbar-fixed">
 <?php $this->beginBody() ?>
 
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-    }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
-    NavBar::end();
-    ?>
+<div class="wrapper">
+     <!-- Preloader -->
+  <!-- <div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation__shake" src="<?php echo Yii::getAlias('@web/img/logo.png'); ?>" alt="LOGO" height="60" width="60">
+  </div> -->
+     <!-- Navbar -->
+  <?= $this->render('/includes/header') ?>
+  <!-- /.navbar -->
+    <!-- Main Sidebar Container -->
+    <!-- also this you may trie these 082B45  # #0062CC-->
+  <aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4 pace-primary" style="background:#001832">
+    <!-- Brand Logo -->
+    <a href="#" class="brand-link bg-primary">
+      <img src="<?= Yii::getAlias('@web/img/logo.png') ?>" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">CIVE-eCLASSROOM</span>
+    </a>
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+    <!-- Sidebar -->
+    <div class="sidebar">
+  
+      <!-- Sidebar Menu -->
+      <?= $this->render('/includes/sidebar') ?>
+    <!-- /.sidebar-custom -->
+  </aside>
+
+
+    <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header border-bottom p-2 show-sm">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+             
+          </div><!-- /.col -->
+          <div class="col-sm-6 float-right">
+           <?= Breadcrumbs::widget([
+              'homeLink'=>['label'=>'Dashboard', 'url'=>['/admin/dashboard']],
+            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : ['Home'],
+            'options'=>['class'=>'float-sm-right']
         ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+        <!--Alert messages-->
     </div>
+    <!-- /.content-header -->
+    </div><!-- /.container-fluid -->
+      <div class="container mt-2 show-sm">
+      <div class="row">
+      <div class="col-md-12">
+      <?php if(Yii::$app->session->hasFlash('success')): ?>
+
+          <div class="col-md-12">
+            <div class="alert alert-success alert-dismissible">
+              <button class="close" data-dismiss="alert">
+                <span>&times;</span>
+              </button>
+              <strong><?= Yii::$app->session->getFlash('success') ?></strong>
+            </div>
+          </div>
+      
+      <?php endif ?>
+       <?php if(Yii::$app->session->hasFlash('error')): ?>
+          <div class="col-md-12">
+            <div class="alert alert-danger alert-dismissible">
+              <button class="close" data-dismiss="alert">
+                <span>&times;</span>
+              </button>
+              <strong><?= Yii::$app->session->getFlash('error') ?></strong>
+            </div>
+          </div>
+        
+      <?php endif ?>
+      <?php if(Yii::$app->session->hasFlash('info')): ?>
+          <div class="col-md-12">
+            <div class="alert alert-info alert-dismissible">
+              <button class="close" data-dismiss="alert">
+                <span>&times;</span>
+              </button>
+              <strong><?= Yii::$app->session->getFlash('info') ?></strong>
+            </div>
+          </div>
+        
+      <?php endif ?>
+      </div>
+      
+      </div>
+      </div>
+
+    <!-- Main content -->
+    <section class="content mt-3">
+      <?= $content ?>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
 </div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
-
+  <!-- footer -->
+ <?= $this->render('/includes/footer') ?>
+  <!-- footer end -->
 <?php $this->endBody() ?>
 </body>
 </html>

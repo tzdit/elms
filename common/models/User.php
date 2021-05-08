@@ -6,6 +6,8 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use common\models\Admin;
+use common\models\Instructor;
 
 /**
  * User model
@@ -53,7 +55,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_INACTIVE],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
         ];
     }
@@ -208,5 +210,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+    
+    //establish relationship between User Table and Admin Table
+    public function getAdmin(){
+        return $this->hasOne(Admin::class, ['userID'=>'id']);
+    }
+   //establish relationship between User Table and Instructor Table
+    public function getInstructor(){
+        return $this->hasOne(Instructor::class, ['userID'=>'id']);
     }
 }
