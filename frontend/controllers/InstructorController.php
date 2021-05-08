@@ -60,7 +60,7 @@ public $defaultAction = 'dashboard';
     //function to enroll courses for instructor
     public function actionEnrollCourse(){
         if(Yii::$app->request->isPost){
-        if(Yii::$app->request->post('course_code') !==null){
+        if(Yii::$app->request->post('ccode') !==null){
             $ccode = Yii::$app->request->post('course_code');
             $inc = new InstructorCourse;
             $inc->course_code = $ccode;

@@ -62,4 +62,14 @@ environments/            contains environment-based overrides
 SOMA HAPA
 //Please import database file located  in common/db folder
 password for any user is 123456
+users
+1.SuperAdmin
+username: superadmin@udom.ac.yz
+2.Students
+T/UDOM/2020/00001 
+3.Admin
+username admin@udom.ac.tz
+4 Instructor
+ussername: instructor@gmail.com
+
 ========OVER=========

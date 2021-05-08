@@ -4,6 +4,7 @@ use yii\grid\GridView;
 use fedemotta\datatables\DataTables;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use common\helpers\Custom;
 /* @var $this yii\web\View */
 
 $this->title = 'Super Administrator Dashboard';
@@ -35,7 +36,7 @@ $this->title = 'Super Administrator Dashboard';
  
              <div class="row">
                <div class="col-md-12">
-                  <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%">
+                  <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
                   <thead>
                   <tr>
                   <th width="1%">#</th><th width="2%">Code</th><th>Name</th><th>Credit</th><th>Status</th><th>Enroll</th>
@@ -51,8 +52,11 @@ $this->title = 'Super Administrator Dashboard';
                   <td><?= $course->course_credit;  ?></td>
                   <td><?= $course->course_status;  ?></td>
                   <td>
-                  <a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#EnrollModal"><i class="fas fa-key"></i></a>
-                 
+                    <?php if(Custom::isEnrolled($course->course_code)): ?>
+                      <i class="fa fa-check text-success"></i> <span class="text-success">Enrolled</span>
+                      <?php else:?>
+                  <a href="#" class="btn btn-sm btn-info enroll" data-toggle="modal" data-target="#EnrollModal" ccode="<?= $course->course_code ?>" cname="<?= $course->course_name ?>"><i class="fas fa-key"></i></a>
+                 <?php endif ?>
                   </td>
                   </tr>
                   <?php endforeach ?>
@@ -85,11 +89,17 @@ $this->title = 'Super Administrator Dashboard';
 <button class="close" data-dismiss="modal">&times;</button>
 </div>
 <div class="modal-body">
-Course enrollment
-</div>
-<div class="modal-footer">
-  <button class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
-  <button class="btn btn-sm btn-primary">Enroll</button>
+ <?= Html::beginForm(['/instructor/enroll-course'], 'post', ['id'=>'enroll-course']) ?>
+ <span class="course-description mb-4"></span>
+ <?= Html::input('hidden', 'ccode', null, ['id'=>'ccode']) ?>
+ <div class="row border-top mt-4 mb-2">
+   <div class="col-md-12 mt-2">
+     <?= Html::submitButton('Enroll', ['name'=>'enroll', 'class'=>'btn btn-primary btn-sm float-right ml-2']) ?>
+      <button class="btn btn-sm btn-danger float-right" data-dismiss="modal">Close</button>
+   </div>
+ </div>
+
+ <?= Html::endForm() ?>
 </div>
 </div>
 </div>
@@ -101,7 +111,10 @@ $(document).ready(function(){
     responsive:true
   });
   
-  // alert("JS IS OKEY")
+  $(document).on('click', '.enroll', function(){
+      $('.course-description').text($(this).attr('ccode')+'=>'+$(this).attr('cname'));
+      $("#ccode").val($(this).attr('ccode'));
+    })
 });
 JS;
 $this->registerJs($script);
