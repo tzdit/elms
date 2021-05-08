@@ -58,3 +58,8 @@ frontend
 vendor/                  contains dependent 3rd-party packages
 environments/            contains environment-based overrides
 ```
+
+SOMA HAPA
+//Please import database file located  in common/db folder
+password for any user is 123456
+========OVER=========
