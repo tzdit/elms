@@ -61,7 +61,7 @@ public $defaultAction = 'dashboard';
     public function actionEnrollCourse(){
         if(Yii::$app->request->isPost){
         if(Yii::$app->request->post('ccode') !==null){
-            $ccode = Yii::$app->request->post('course_code');
+            $ccode = Yii::$app->request->post('ccode');
             $inc = new InstructorCourse;
             $inc->course_code = $ccode;
             $inc->instructorID = Yii::$app->user->identity->instructor->instructorID;
