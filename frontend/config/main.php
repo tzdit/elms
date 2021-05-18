@@ -37,12 +37,13 @@ return [
             'errorAction' => 'auth/error',
         ],
         
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
+        // 'urlManager' => [
+        //     'enablePrettyUrl' => true,
+        //     'showScriptName' => false,
+        //     'rules' => [
+        //         '<controller:\w+>/<action:\w+>/<id:\w+>' => '<controller>/<action>'
+        //     ],
+        // ],
         
     ],
     'params' => $params,

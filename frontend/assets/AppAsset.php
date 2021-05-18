@@ -24,7 +24,8 @@ class AppAsset extends AssetBundle
         'plugins/datatables-responsive/css/responsive.bootstrap4.min.css',
         'plugins/datatables-buttons/css/buttons.bootstrap4.min.css',
         'plugins/fileinput/css/fileinput.min.css',
-        'plugins/pace-progress/themes/orange/pace-theme-flat-top.css'
+        'plugins/pace-progress/themes/orange/pace-theme-flat-top.css',
+        'plugins/sweetalert2/sweetalert2.min.css'
         
     ];
     public $js = [
@@ -45,7 +46,9 @@ class AppAsset extends AssetBundle
         'plugins/datatables-buttons/js/dataTables.buttons.min.js',
         'plugins/dropzone/dropzone.js',
         'plugins/fileinput/js/fileinput.min.js',
-        'plugins/pace-progress/pace.min.js'
+        'plugins/pace-progress/pace.min.js',
+        'plugins/sweetalert2/sweetalert2.min.js',
+        'js/tooltip.js'
 
 
 

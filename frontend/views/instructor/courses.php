@@ -7,7 +7,12 @@ use yii\helpers\Html;
 use common\helpers\Custom;
 /* @var $this yii\web\View */
 
-$this->title = 'Super Administrator Dashboard';
+$this->title = 'Enroll Courses';
+$this->params['breadcrumbs'] = [
+  ['label'=>'Courses', 'url'=>Url::to(['/instructor/courses'])],
+  ['label'=>$this->title]
+];
+
 ?>
 <div class="site-index">
 
@@ -53,9 +58,9 @@ $this->title = 'Super Administrator Dashboard';
                   <td><?= $course->course_status;  ?></td>
                   <td>
                     <?php if(Custom::isEnrolled($course->course_code)): ?>
-                      <i class="fa fa-check text-success"></i> <span class="text-success">Enrolled</span>
+                      <a href="#" class="btn btn-sm btn-danger drop" data-toggle="tooltip" data-title="Drop this course"  ccode="<?= $course->course_code ?>" cname="<?= $course->course_name ?>"><i class="fas fa-times-circle"></i></a>
                       <?php else:?>
-                  <a href="#" class="btn btn-sm btn-info enroll" data-toggle="modal" data-target="#EnrollModal" ccode="<?= $course->course_code ?>" cname="<?= $course->course_name ?>"><i class="fas fa-key"></i></a>
+                  <a href="#" class="btn btn-sm btn-primary enroll" data-toggle="modal" data-target="#EnrollModal" ccode="<?= $course->course_code ?>" cname="<?= $course->course_name ?>"><i class="fas fa-check" data-toggle="tooltip" data-title="Take this course"></i></a>
                  <?php endif ?>
                   </td>
                   </tr>
@@ -108,13 +113,55 @@ $this->title = 'Super Administrator Dashboard';
 $script = <<<JS
 $(document).ready(function(){
   $("#CoursesTable").DataTable({
-    responsive:true
+    responsive:true,
   });
   
   $(document).on('click', '.enroll', function(){
       $('.course-description').text($(this).attr('ccode')+'=>'+$(this).attr('cname'));
       $("#ccode").val($(this).attr('ccode'));
     })
+    //sweetalert start here
+    $(document).on('click', '.drop', function(){
+      var ccode = $(this).attr('ccode');
+ 
+
+      Swal.fire({
+  title: '<small>Do you want to drop this course?</small>',
+  icon: 'question',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, Drop it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+ 
+    $.ajax({
+      url:'/instructor/dropcourse',
+      method:'post',
+      async:false,
+      dataType:'JSON',
+      data:{ccode:ccode},
+      success:function(data){
+        if(data.message){
+          Swal.fire(
+              'Droped!',
+              data.message,
+              'success'
+    )
+    setTimeout(function(){
+      window.location.reload();
+    }, 1500);
+   
+
+        }
+      }
+    })
+   
+  }
+})
+
+    })
+  
 });
 JS;
 $this->registerJs($script);

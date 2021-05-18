@@ -1,5 +1,8 @@
 <?php
 use yii\bootstrap4\Breadcrumbs;
+use yii\helpers\Url;
+use yii\helpers\Html;
+use common\helpers\Security;
 /* @var $this yii\web\View */
 
 $this->title = 'Instructor Dashboard';
@@ -12,25 +15,26 @@ $this->title = 'Instructor Dashboard';
             <!-- Content Wrapper. Contains page content -->
    
         <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
+     
         <div class="row">
+        <?php foreach($courses as $course): ?>
           <div class="col-lg-3 col-6">
-            <!-- small box -->
+       
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>TN 110</h3>
+                <h3><?= $course->course_code ?></h3>
 
-                <p>New Orders</p>
+                <p><?= $course->course_credit ?></p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
               </div>
-              <a href="#" class="small-box-footer">Enter <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="<?=Url::to(['instructor/classwork/', 'cid'=>$course->course_code]) ?>" class="small-box-footer">Enter <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
+        
+          <!-- <div class="col-lg-3 col-6">
+          
             <div class="small-box bg-success">
               <div class="inner">
                 <h3>CS 120<sup style="font-size: 20px">%</sup></h3>
@@ -43,9 +47,9 @@ $this->title = 'Instructor Dashboard';
               <a href="#" class="small-box-footer">Enter <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-          <!-- ./col -->
+         
           <div class="col-lg-3 col-6">
-            <!-- small box -->
+           
             <div class="small-box bg-warning">
               <div class="inner">
                 <h3>BT 220</h3>
@@ -58,9 +62,9 @@ $this->title = 'Instructor Dashboard';
               <a href="#" class="small-box-footer">Enter <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-          <!-- ./col -->
+        
           <div class="col-lg-3 col-6">
-            <!-- small box -->
+         
             <div class="small-box bg-danger">
               <div class="inner">
                 <h3>65</h3>
@@ -72,8 +76,9 @@ $this->title = 'Instructor Dashboard';
               </div>
               <a href="#" class="small-box-footer">Enter <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-          </div>
-          <!-- ./col -->
+          </div> 
+         -->
+          <?php endforeach ?>
         </div>
         <!-- /.row -->
         <!-- Main row -->

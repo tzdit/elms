@@ -6,8 +6,11 @@ use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use common\models\Course;
 use common\models\InstructorCourse;
+use frontend\models\UploadAssignment;
 use Yii;
 use yii\helpers\Url;
+use yii\web\UploadedFile;
+use common\helpers\Security;
 
 class InstructorController extends \yii\web\Controller
 {
@@ -27,7 +30,10 @@ public $defaultAction = 'dashboard';
                         'actions' => [
                             'dashboard',
                             'courses',
-                            'enroll-course'
+                            'enroll-course',
+                            'dropcourse',
+                            'classwork',
+                            'upload-assignment'
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -36,20 +42,20 @@ public $defaultAction = 'dashboard';
                     
                 ],
             ],
-            // 'verbs' => [
-            //     'class' => VerbFilter::className(),
-            //     'actions' => [
-            //         'logout' => ['post'],
-            //     ],
-            // ],
+             'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'dropcourse' => ['post'],
+                ],
+            ],
         ];
     }
 
 
     public function actionDashboard()
     {
-   
-        return $this->render('index');
+   $courses = Yii::$app->user->identity->instructor->courses;
+        return $this->render('index', ['courses'=>$courses]);
     }
     //function to render instructor courses
     public function actionCourses(){
@@ -77,5 +83,46 @@ public $defaultAction = 'dashboard';
 
   
     }
+    //fucntion to drop course
+    public function actionDropcourse(){
+        if(Yii::$app->request->isAjax){
+        $instructorID = Yii::$app->user->identity->instructor->instructorID;
+        $ccode = Yii::$app->request->post('ccode');
+        $instcourse = InstructorCourse::findOne(['course_code'=>$ccode, 'instructorID'=>$instructorID]);
+        if($instcourse->delete()){
+            return $this->asJson(['message'=>'Course droped']);
+        }
+    }
+}
+//classwork 
+public function actionClasswork($cid){
+    if(!empty($cid)){
+   Yii::$app->session->set('ccode', $cid);
+    }
+    return $this->render('classwork', ['cid'=>$cid]);
+
+}
+//function to create assignment
+public function actionUploadAssignment(){
+    $model = new UploadAssignment();
+    if($model->load(Yii::$app->request->post())){
+        $model->assFile = UploadedFile::getInstance($model, 'assFile');
+        // echo '<pre>';
+        // print_r($model);
+        // echo '</pre>';
+        // exit;
+        if($model->upload()){
+        Yii::$app->session->setFlash('success', 'Assignmet created successfully');
+        return $this->redirect(Yii::$app->request->referrer);
+        }else{
+          
+        Yii::$app->session->setFlash('error', 'Something went wrong');
+       
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+}
+}
+
+    
 
 }

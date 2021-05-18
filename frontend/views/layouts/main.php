@@ -10,6 +10,7 @@ use yii\bootstrap4\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use yii\helpers\Url;
+use common\widgets\Course;
 //use Yii;
 
 AppAsset::register($this);
@@ -60,13 +61,15 @@ AppAsset::register($this);
     <div class="content-header border-bottom p-2 show-sm">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
-             
+          <div class="col-sm-6 text-secondary font-weight-bold" style="font-family:'Times New Roman'; font-size:20px;">
+           <?= Course::widget([
+             'courseTitle'=>isset($this->params['courseTitle'])? $this->params['courseTitle']: ''
+           ])?>
           </div><!-- /.col -->
           <div class="col-sm-6 float-right">
            <?= Breadcrumbs::widget([
-              'homeLink'=>['label'=>'Dashboard', 'url'=>['/admin/dashboard']],
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : ['Home'],
+              'homeLink'=>['label'=>'Dashboard', 'url'=>['/home/dashboard']],
+            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [''],
             'options'=>['class'=>'float-sm-right']
         ]) ?>
           </div><!-- /.col -->
