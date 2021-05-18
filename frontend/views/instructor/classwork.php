@@ -32,19 +32,19 @@ $this->params['breadcrumbs'] = [
               <div class="card-header p-0 border-bottom-0">
                 <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                   <li class="nav-item">
-                    <a class="nav-link active" id="custom-tabs-forum" data-toggle="pill" href="#forum" role="tab" aria-controls="forum" aria-selected="true">Forum</a>
+                    <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true">Forum</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-materials" data-toggle="pill" href="#materials" role="tab" aria-controls="materials" aria-selected="false">Materials</a>
+                    <a class="nav-link" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false">Materials</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-assignments" data-toggle="pill" href="#assignments" role="tab" aria-controls="assignment" aria-selected="false">Assignments</a>
+                    <a class="nav-link" id="custom-tabs-assignments" data-toggle="tab" href="#assignments" role="tab" aria-controls="assignment" aria-selected="false">Assignments</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-lab" data-toggle="pill" href="#labs" role="tab" aria-controls="labs" aria-selected="false">Labs</a>
+                    <a class="nav-link" id="custom-tabs-lab" data-toggle="tab" href="#labs" role="tab" aria-controls="labs" aria-selected="false">Labs</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-tutorials" data-toggle="pill" href="#tutorials" role="tab" aria-controls="tutorials" aria-selected="false">Tutorials</a>
+                    <a class="nav-link" id="custom-tabs-tutorials" data-toggle="tab" href="#tutorials" role="tab" aria-controls="tutorials" aria-selected="false">Tutorials</a>
                   </li>
                 </ul>
               
@@ -197,7 +197,22 @@ $(document).ready(function(){
   }
 })
 
-    })
+})
+
+//Remember active tab
+$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+
+localStorage.setItem('activeTab', $(e.target).attr('href'));
+
+});
+
+var activeTab = localStorage.getItem('activeTab');
+
+if(activeTab){
+
+$('#custom-tabs-four-tab a[href="' + activeTab + '"]').tab('show');
+
+}
   
 });
 JS;
