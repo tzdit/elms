@@ -7,6 +7,7 @@ use yii\helpers\Html;
 use common\helpers\Custom;
 use common\helpers\Security;
 use frontend\models\UploadAssignment;
+use frontend\models\UploadTutorial;
 /* @var $this yii\web\View */
 $this->params['courseTitle'] = "Course ".$cid;
 $this->title = 'Classwork';
@@ -125,9 +126,76 @@ $this->params['breadcrumbs'] = [
 <div class="tab-pane fade" id="labs" role="tabpanel" aria-labelledby="custom-tabs-lab">
   No labs found
   </div>
-    <div class="tab-pane fade" id="tutorials" role="tabpanel" aria-labelledby="custom-tabs-tutorials">
-                  Currently no tutorial found!
-     </div>
+    
+       
+     <!-- ########################################### create tutorial ############################# -->
+     <div class="tab-pane fade" id="tutorials" role="tabpanel" aria-labelledby="custom-tabs-tutorials">
+                  <div class="row">
+                  <div class="col-md-12">
+                  <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i> Create</a>
+                  </div>
+                  
+                  </div>
+
+                  <div class="accordion" id="accordionExample1">
+                 
+              
+             
+                  <?php for($i = 1; $i<=10; $i++): ?>
+  <div class="card">
+    <div class="card-header p-2" id="heading<?=$i?>">
+      <h2 class="mb-0">
+      <div class="row">
+      <div class="col-sm-11">
+      <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$i?>" aria-expanded="true" aria-controls="collapse<?=$i?>">
+        <i class="fas fa-clipboard-list"></i> Tutorial # <?=$i?>
+        </button>
+      </div>
+      <div class="col-sm-1">
+      <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
+      </div>
+      </div>
+        
+       
+      </h2>
+    </div>
+
+    <div id="collapse<?=$i?>" class="collapse" aria-labelledby="heading<?=$i?>" data-parent="#accordionExample1">
+      <div class="card-body">
+       <?php if($i==1): ?>
+       <p>This is Tutorial One. All Students must attempt this assignemt</p>
+       <?php elseif ($i==2): ?>
+       This is Tutorial Two 
+       <?php elseif ($i==3): ?>
+       This is Tutorial Three my students 
+       <?php else: ?>
+       <p>Aisee kazi naiendeleeeeee</p>
+       <?php endif ?>
+      </div>
+      <div class="card-footer p-2 bg-white border-top">
+      <div class="row">
+      <div class="col-md-6">
+      <a href="#" class="text-mutted">View this tutorial</a>
+      </div>
+      <div class="col-md-6">
+      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span>Edit</span></a>
+      <a href="#" class="btn btn-sm btn-danger float-right"><span>Delete</span></a>
+     
+      </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <?php endfor ?>
+
+
+</div>
+
+</div>
+
+
+
+     <!-- ########################################### end tutorial ################################# -->
     </div>
     </div>
 </div>
@@ -140,11 +208,20 @@ $this->params['breadcrumbs'] = [
 
     </div>
 </div>
-<!--  Create assignments-->
+<!--  ###################################Create assignments###########################################-->
 <?php 
 $assmodel = new UploadAssignment();
 ?>
 <?= $this->render('assignments/create_assignment', ['assmodel'=>$assmodel, 'ccode'=>$cid]) ?>
+
+<!--  ###################################Create assignments###########################################-->
+<?php 
+$tutmodel = new UploadTutorial();
+?>
+<?= $this->render('tutorials/create_tutorial', ['tutmodel'=>$tutmodel, 'ccode'=>$cid]) ?>
+
+
+
 <?php 
 $script = <<<JS
 $(document).ready(function(){

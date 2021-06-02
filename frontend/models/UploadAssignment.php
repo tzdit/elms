@@ -12,11 +12,16 @@ class UploadAssignment extends Model{
     public $assFile;
     public $description;
     public $ccode;
+    
     public $totalMarks;
     public function rules(){
         return [
            [['assTitle', 'submitMode', 'assType', 'startDate', 'endDate', 'description'], 'required'],
            [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, jpg, png, doc, pkt, ppt'],
+           [['assName', 'assNature'], 'string', 'max' => 10],
+           [['ass_desc'], 'string', 'max' => 1000],
+           [['fileName'], 'string', 'max' => 20],
+
            [['totalMarks'], 'required']
 
         ];
@@ -27,6 +32,7 @@ class UploadAssignment extends Model{
             return false;
         }
         try{
+        
         $fileName = $this->assFile->baseName.'.'.$this->assFile->extension;
         $ass = new Assignment();
         $ass->assName = $this->assTitle;

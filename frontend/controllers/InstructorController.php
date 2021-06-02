@@ -7,6 +7,7 @@ use yii\data\ActiveDataProvider;
 use common\models\Course;
 use common\models\InstructorCourse;
 use frontend\models\UploadAssignment;
+use frontend\models\UploadTutorial;
 use Yii;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
@@ -33,7 +34,8 @@ public $defaultAction = 'dashboard';
                             'enroll-course',
                             'dropcourse',
                             'classwork',
-                            'upload-assignment'
+                            'upload-assignment',
+                            'upload-tutorial'
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -112,7 +114,28 @@ public function actionUploadAssignment(){
         // echo '</pre>';
         // exit;
         if($model->upload()){
-        Yii::$app->session->setFlash('success', 'Assignmet created successfully');
+        Yii::$app->session->setFlash('success', 'Assignment created successfully');
+        return $this->redirect(Yii::$app->request->referrer);
+        }else{
+          
+        Yii::$app->session->setFlash('error', 'Something went wrong');
+       
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+}
+}
+
+//function to create tutorial
+public function actionUploadTutorial(){
+    $model = new UploadTutorial();
+    if($model->load(Yii::$app->request->post())){
+        $model->assFile = UploadedFile::getInstance($model, 'assFile');
+        // echo '<pre>';
+        // print_r($model);
+        // echo '</pre>';
+        // exit;
+        if($model->upload()){
+        Yii::$app->session->setFlash('success', 'Tutorial created successfully');
         return $this->redirect(Yii::$app->request->referrer);
         }else{
           
