@@ -8,6 +8,7 @@ use common\helpers\Custom;
 use common\helpers\Security;
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
+use frontend\models\UploadLab;
 /* @var $this yii\web\View */
 $this->params['courseTitle'] = "Course ".$cid;
 $this->title = 'Classwork';
@@ -54,25 +55,30 @@ $this->params['breadcrumbs'] = [
               <div class="card-body">
              
                 <div class="tab-content" id="custom-tabs-four-tabContent">
+
+<!-- ########################################### forum work ######################################## --> 
                   <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">
                     TO DO FORUM!
                   </div>
-                  <div class="tab-pane fade" id="materials" role="tabpanel" aria-labelledby="custom-tabs-materials">
-                    No materials Found;
-                  </div>
-                  <div class="tab-pane fade" id="assignments" role="tabpanel" aria-labelledby="custom-tabs-assignment">
-                  <div class="row">
-                  <div class="col-md-12">
-                  <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createAssignmentModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create</a>
-                  </div>
-                  
-                  </div>
+<!-- ########################################### material work ######################################## --> 
+  <div class="tab-pane fade" id="materials" role="tabpanel" aria-labelledby="custom-tabs-materials">
+    No materials Found;
+   </div>
 
-                  <div class="accordion" id="accordionExample">
-                 
-              
-             
-                  <?php for($i = 1; $i<=10; $i++): ?>
+
+
+
+<!-- ########################################### assignment work ######################################## -->      
+<div class="tab-pane fade" id="assignments" role="tabpanel" aria-labelledby="custom-tabs-assignment">
+      <div class="row">
+        <div class="col-md-12">
+              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createAssignmentModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create</a>
+        </div>
+                  
+      </div>
+
+<div class="accordion" id="accordionExample">
+  <?php for($i = 1; $i<=10; $i++): ?>
   <div class="card">
     <div class="card-header p-2" id="heading<?=$i?>">
       <h2 class="mb-0">
@@ -123,25 +129,85 @@ $this->params['breadcrumbs'] = [
 </div>
 
 </div>
+
+
+<!-- ########################################### lab work ######################################## -->
 <div class="tab-pane fade" id="labs" role="tabpanel" aria-labelledby="custom-tabs-lab">
-  No labs found
+<div class="row">
+        <div class="col-md-12">
+              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createLabModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create</a>
+        </div>
+                  
+      </div>
+
+<div class="accordion" id="accordionExample3">
+  <?php for($i = 1; $i<=10; $i++): ?>
+  <div class="card">
+    <div class="card-header p-2" id="heading<?=$i?>">
+      <h2 class="mb-0">
+      <div class="row">
+      <div class="col-sm-11">
+      <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$i?>" aria-expanded="true" aria-controls="collapse<?=$i?>">
+        <i class="fas fa-clipboard-list"></i> Lab # <?=$i?>
+        </button>
+      </div>
+      <div class="col-sm-1">
+      <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
+      </div>
+      </div>
+        
+       
+      </h2>
+    </div>
+
+    <div id="collapse<?=$i?>" class="collapse" aria-labelledby="heading<?=$i?>" data-parent="#accordionExample">
+      <div class="card-body">
+       <?php if($i==1): ?>
+       <p>This is Lab One. All Students must attempt this lab</p>
+       <?php elseif ($i==2): ?>
+       This is lab Two 
+       <?php elseif ($i==3): ?>
+       This is lab Three my students 
+       <?php else: ?>
+       <p>Aisee kazi naiendeleeeeee</p>
+       <?php endif ?>
+      </div>
+      <div class="card-footer p-2 bg-white border-top">
+      <div class="row">
+      <div class="col-md-6">
+      <a href="#" class="text-mutted">View this lab</a>
+      </div>
+      <div class="col-md-6">
+      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span>Edit</span></a>
+      <a href="#" class="btn btn-sm btn-danger float-right"><span>Delete</span></a>
+     
+      </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <?php endfor ?>
+
+
+</div>
+
   </div>
     
        
-     <!-- ########################################### create tutorial ############################# -->
+<!-- ########################################### tutorial work ######################################## -->
      <div class="tab-pane fade" id="tutorials" role="tabpanel" aria-labelledby="custom-tabs-tutorials">
-                  <div class="row">
-                  <div class="col-md-12">
-                  <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i> Create</a>
-                  </div>
+          <div class="row">
+            <div class="col-md-12">
+            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i> Create</a>
+            </div>
                   
-                  </div>
+        </div>
 
-                  <div class="accordion" id="accordionExample1">
+        <div class="accordion" id="accordionExample">
                  
               
              
-                  <?php for($i = 1; $i<=10; $i++): ?>
+  <?php for($i = 1; $i<=10; $i++): ?>
   <div class="card">
     <div class="card-header p-2" id="heading<?=$i?>">
       <h2 class="mb-0">
@@ -208,18 +274,23 @@ $this->params['breadcrumbs'] = [
 
     </div>
 </div>
-<!--  ###################################Create assignments###########################################-->
+<!--  ###################################render model to create_assignment ###########################################-->
 <?php 
 $assmodel = new UploadAssignment();
 ?>
 <?= $this->render('assignments/create_assignment', ['assmodel'=>$assmodel, 'ccode'=>$cid]) ?>
 
-<!--  ###################################Create assignments###########################################-->
+<!--  ###################################render model to Create_tutorial ##############################################-->
 <?php 
 $tutmodel = new UploadTutorial();
 ?>
 <?= $this->render('tutorials/create_tutorial', ['tutmodel'=>$tutmodel, 'ccode'=>$cid]) ?>
 
+<!--  ###################################render model to Create_lab ####################################################-->
+<?php 
+$labmodel = new UploadLab();
+?>
+<?= $this->render('labs/create_lab', ['labmodel'=>$labmodel, 'ccode'=>$cid]) ?>
 
 
 <?php 

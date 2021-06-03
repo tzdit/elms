@@ -8,6 +8,7 @@ use common\models\Course;
 use common\models\InstructorCourse;
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
+use frontend\models\UploadLab;
 use Yii;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
@@ -19,7 +20,8 @@ class InstructorController extends \yii\web\Controller
        /**
      * {@inheritdoc}
      */
-//public $layout = 'admin';
+//################################# public $layout = 'admin'; #####################################
+
 public $defaultAction = 'dashboard';
   public function behaviors()
     {
@@ -35,7 +37,8 @@ public $defaultAction = 'dashboard';
                             'dropcourse',
                             'classwork',
                             'upload-assignment',
-                            'upload-tutorial'
+                            'upload-tutorial',
+                            'upload-lab'
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -59,13 +62,22 @@ public $defaultAction = 'dashboard';
    $courses = Yii::$app->user->identity->instructor->courses;
         return $this->render('index', ['courses'=>$courses]);
     }
-    //function to render instructor courses
+
+
+
+    //#################### function to render instructor courses ##############################
+
     public function actionCourses(){
         $courses = Course::find()->where(['course_semester'=>1])->all();
 
         return $this->render('courses', ['courses'=>$courses]);
+        
     }
-    //function to enroll courses for instructor
+
+
+
+    //###################function to enroll courses for instructor #############################
+
     public function actionEnrollCourse(){
         if(Yii::$app->request->isPost){
         if(Yii::$app->request->post('ccode') !==null){
@@ -85,7 +97,11 @@ public $defaultAction = 'dashboard';
 
   
     }
-    //fucntion to drop course
+
+
+
+//########################### fucntion to drop course ############################################
+
     public function actionDropcourse(){
         if(Yii::$app->request->isAjax){
         $instructorID = Yii::$app->user->identity->instructor->instructorID;
@@ -96,7 +112,11 @@ public $defaultAction = 'dashboard';
         }
     }
 }
-//classwork 
+
+
+
+//############################### classwork  #######################################################
+
 public function actionClasswork($cid){
     if(!empty($cid)){
    Yii::$app->session->set('ccode', $cid);
@@ -104,7 +124,10 @@ public function actionClasswork($cid){
     return $this->render('classwork', ['cid'=>$cid]);
 
 }
-//function to create assignment
+
+
+//############################## function to create assignment ######################################
+
 public function actionUploadAssignment(){
     $model = new UploadAssignment();
     if($model->load(Yii::$app->request->post())){
@@ -125,7 +148,10 @@ public function actionUploadAssignment(){
 }
 }
 
-//function to create tutorial
+
+
+//######################## function to create tutorial ###############################################
+
 public function actionUploadTutorial(){
     $model = new UploadTutorial();
     if($model->load(Yii::$app->request->post())){
@@ -146,6 +172,29 @@ public function actionUploadTutorial(){
 }
 }
 
-    
+ 
+//######################## function to create lab ###############################################
+
+public function actionUploadLab(){
+    $model = new UploadLab();
+    if($model->load(Yii::$app->request->post())){
+        $model->assFile = UploadedFile::getInstance($model, 'assFile');
+        // echo '<pre>';
+        // print_r($model);
+        // echo '</pre>';
+        // exit;
+        if($model->upload()){
+        Yii::$app->session->setFlash('success', 'Lab created successfully');
+        return $this->redirect(Yii::$app->request->referrer);
+        }else{
+          
+        Yii::$app->session->setFlash('error', 'Something went wrong');
+       
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+}
+}
+
+
 
 }
