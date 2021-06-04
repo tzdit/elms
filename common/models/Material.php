@@ -36,8 +36,8 @@ class Material extends \yii\db\ActiveRecord
     {
         return [
             [['instructorID'], 'integer'],
-            [['title', 'material_type', 'upload_date', 'upload_time', 'fileName'], 'required'],
-            [['upload_date', 'upload_time'], 'safe'],
+            [['title', 'material_type'], 'required'],
+            
             [['course_code'], 'string', 'max' => 7],
             [['title'], 'string', 'max' => 100],
             [['material_type'], 'string', 'max' => 15],
@@ -58,8 +58,6 @@ class Material extends \yii\db\ActiveRecord
             'course_code' => 'Course Code',
             'title' => 'Title',
             'material_type' => 'Material Type',
-            'upload_date' => 'Upload Date',
-            'upload_time' => 'Upload Time',
             'fileName' => 'File Name',
         ];
     }

@@ -9,6 +9,8 @@ use common\helpers\Security;
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
+use frontend\models\UploadMaterial;
+
 /* @var $this yii\web\View */
 $this->params['courseTitle'] = "Course ".$cid;
 $this->title = 'Classwork';
@@ -18,10 +20,9 @@ $this->params['breadcrumbs'] = [
 ];
 
 ?>
+
+
 <div class="site-index">
-
-    
-
     <div class="body-content">
             <!-- Content Wrapper. Contains page content -->
    
@@ -61,14 +62,78 @@ $this->params['breadcrumbs'] = [
                     TO DO FORUM!
                   </div>
 <!-- ########################################### material work ######################################## --> 
-  <div class="tab-pane fade" id="materials" role="tabpanel" aria-labelledby="custom-tabs-materials">
-    No materials Found;
-   </div>
+
+
+<div class="tab-pane fade" id="materials" role="tabpanel" aria-labelledby="custom-tabs-materials">
+          <div class="row">
+            <div class="col-md-12">
+            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createMaterialModal" data-toggle="modal"><i class="fas fa-plus"  ></i> Create</a>
+            </div>
+                  
+        </div>
+
+   <div class="accordion" id="accordionExample4">
+                 
+              
+             
+  <?php for($i = 1; $i<=10; $i++): ?>
+  <div class="card">
+    <div class="card-header p-2" id="heading<?=$i?>">
+      <h2 class="mb-0">
+      <div class="row">
+      <div class="col-sm-11">
+      <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$i?>" aria-expanded="true" aria-controls="collapse<?=$i?>">
+        <i class="fas fa-clipboard-list"></i> Material # <?=$i?>
+        </button>
+      </div>
+      <div class="col-sm-1">
+      <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
+      </div>
+      </div>
+        
+       
+      </h2>
+    </div>
+
+    <div id="collapse<?=$i?>" class="collapse" aria-labelledby="heading<?=$i?>" data-parent="#accordionExample4">
+      <div class="card-body">
+       <?php if($i==1): ?>
+       <p>This is Material One. </p>
+       <?php elseif ($i==2): ?>
+       This is Material Two 
+       <?php elseif ($i==3): ?>
+       This is Material Three my students 
+       <?php else: ?>
+       <p>Aisee kazi naiendeleeeeee</p>
+       <?php endif ?>
+      </div>
+      <div class="card-footer p-2 bg-white border-top">
+      <div class="row">
+      <div class="col-md-6">
+      <a href="#" class="text-mutted">View this Material</a>
+      </div>
+      <div class="col-md-6">
+      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span>Edit</span></a>
+      <a href="#" class="btn btn-sm btn-danger float-right"><span>Delete</span></a>
+     
+      </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <?php endfor ?>
+
+
+</div>
+
+</div>
+
 
 
 
 
 <!-- ########################################### assignment work ######################################## -->      
+
 <div class="tab-pane fade" id="assignments" role="tabpanel" aria-labelledby="custom-tabs-assignment">
       <div class="row">
         <div class="col-md-12">
@@ -132,6 +197,7 @@ $this->params['breadcrumbs'] = [
 
 
 <!-- ########################################### lab work ######################################## -->
+
 <div class="tab-pane fade" id="labs" role="tabpanel" aria-labelledby="custom-tabs-lab">
 <div class="row">
         <div class="col-md-12">
@@ -203,7 +269,7 @@ $this->params['breadcrumbs'] = [
                   
         </div>
 
-        <div class="accordion" id="accordionExample">
+   <div class="accordion" id="accordionExample4">
                  
               
              
@@ -291,6 +357,12 @@ $tutmodel = new UploadTutorial();
 $labmodel = new UploadLab();
 ?>
 <?= $this->render('labs/create_lab', ['labmodel'=>$labmodel, 'ccode'=>$cid]) ?>
+
+<!--  ###################################render model to create_material ####################################################-->
+<?php 
+$assmodel = new UploadMaterial();
+?>
+<?= $this->render('materials/create_material', ['assmodel'=>$assmodel, 'ccode'=>$cid]) ?>
 
 
 <?php 

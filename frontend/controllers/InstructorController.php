@@ -9,6 +9,7 @@ use common\models\InstructorCourse;
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
+use frontend\models\UploadMaterial;
 use Yii;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
@@ -38,7 +39,8 @@ public $defaultAction = 'dashboard';
                             'classwork',
                             'upload-assignment',
                             'upload-tutorial',
-                            'upload-lab'
+                            'upload-lab',
+                            'upload-material'
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -76,7 +78,7 @@ public $defaultAction = 'dashboard';
 
 
 
-    //###################function to enroll courses for instructor #############################
+//###################function to enroll courses for instructor #############################
 
     public function actionEnrollCourse(){
         if(Yii::$app->request->isPost){
@@ -196,5 +198,27 @@ public function actionUploadLab(){
 }
 
 
+//######################## function to create material ###############################################
+
+
+public function actionUploadMaterial(){
+    $model = new UploadMaterial();
+    if($model->load(Yii::$app->request->post())){
+        $model->assFile = UploadedFile::getInstance($model, 'assFile');
+        // echo '<pre>';
+        // print_r($model);
+        // echo '</pre>';
+        // exit;
+        if($model->upload()){
+        Yii::$app->session->setFlash('success', 'Material created successfully');
+        return $this->redirect(Yii::$app->request->referrer);
+        }else{
+          
+        Yii::$app->session->setFlash('error', 'Something went wrong');
+       
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+}
+}
 
 }
