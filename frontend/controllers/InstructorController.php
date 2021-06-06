@@ -5,6 +5,8 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use common\models\Course;
+use common\models\Assignment;
+use common\models\Material;
 use common\models\InstructorCourse;
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
@@ -40,7 +42,9 @@ public $defaultAction = 'dashboard';
                             'upload-assignment',
                             'upload-tutorial',
                             'upload-lab',
-                            'upload-material'
+                            'upload-material',
+                            'assignments',
+                            'materials'
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -75,7 +79,10 @@ public $defaultAction = 'dashboard';
         return $this->render('courses', ['courses'=>$courses]);
         
     }
+ 
 
+ 
+   
 
 
 //###################function to enroll courses for instructor #############################
@@ -123,7 +130,13 @@ public function actionClasswork($cid){
     if(!empty($cid)){
    Yii::$app->session->set('ccode', $cid);
     }
-    return $this->render('classwork', ['cid'=>$cid]);
+
+    $assignments = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->all();
+    $tutorials = Assignment::find()->where(['assNature' => 'tutorial', 'course_code' => $cid])->all();
+    $labs = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->all();
+    $materials = Material::find()->where(['course_code' => $cid])->all();
+    $courses = Yii::$app->user->identity->instructor->courses;
+    return $this->render('classwork', ['cid'=>$cid, 'courses'=>$courses, 'assignments'=>$assignments, 'tutorials'=>$tutorials, 'labs'=>$labs, 'materials'=>$materials]);
 
 }
 

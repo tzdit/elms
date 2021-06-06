@@ -6,6 +6,8 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use common\helpers\Custom;
 use common\helpers\Security;
+use common\models\Assignment;
+
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
@@ -97,6 +99,9 @@ $this->params['breadcrumbs'] = [
 
     <div id="collapse<?=$i?>" class="collapse" aria-labelledby="heading<?=$i?>" data-parent="#accordionExample4">
       <div class="card-body">
+     
+
+
        <?php if($i==1): ?>
        <p>This is Material One. </p>
        <?php elseif ($i==2): ?>
@@ -130,11 +135,12 @@ $this->params['breadcrumbs'] = [
 
 
 
-
+<?php $ass = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->count(); ?>
 
 <!-- ########################################### assignment work ######################################## -->      
 
 <div class="tab-pane fade" id="assignments" role="tabpanel" aria-labelledby="custom-tabs-assignment">
+
       <div class="row">
         <div class="col-md-12">
               <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createAssignmentModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create</a>
@@ -143,36 +149,32 @@ $this->params['breadcrumbs'] = [
       </div>
 
 <div class="accordion" id="accordionExample">
-  <?php for($i = 1; $i<=10; $i++): ?>
+<?php $assk = "Assignment".$ass ;
+$assk = "Assignment".$ass;
+?>
+<?php foreach( $assignments as $assign ) : ?>
+
   <div class="card">
-    <div class="card-header p-2" id="heading<?=$i?>">
+    <div class="card-header p-2" id="heading<?=$ass?>">
       <h2 class="mb-0">
       <div class="row">
       <div class="col-sm-11">
-      <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$i?>" aria-expanded="true" aria-controls="collapse<?=$i?>">
-        <i class="fas fa-clipboard-list"></i> Assignment # <?=$i?>
+      <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$ass?>" aria-expanded="true" aria-controls="collapse<?=$i?>">
+        <i class="fas fa-clipboard-list"></i> <?php echo "Assignment ".$ass;?>
         </button>
       </div>
       <div class="col-sm-1">
       <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
       </div>
       </div>
-        
+         
        
       </h2>
     </div>
 
-    <div id="collapse<?=$i?>" class="collapse" aria-labelledby="heading<?=$i?>" data-parent="#accordionExample">
+    <div id="collapse<?=$ass?>" class="collapse" aria-labelledby="heading<?=$ass?>" data-parent="#accordionExample">
       <div class="card-body">
-       <?php if($i==1): ?>
-       <p>This is Assignment One. All Students must attempt this assignemt</p>
-       <?php elseif ($i==2): ?>
-       This is assignment Two 
-       <?php elseif ($i==3): ?>
-       This is assignment Three my students 
-       <?php else: ?>
-       <p>Aisee kazi naiendeleeeeee</p>
-       <?php endif ?>
+         <p><span style="color:red"> Assignment Name: </span>  <?= $assign -> assName ?> </p>
       </div>
       <div class="card-footer p-2 bg-white border-top">
       <div class="row">
@@ -188,7 +190,13 @@ $this->params['breadcrumbs'] = [
       </div>
     </div>
   </div>
-  <?php endfor ?>
+
+  <?php 
+         $ass--;
+        
+        ?>
+  
+  <?php endforeach ?>
 
 
 </div>
@@ -207,14 +215,14 @@ $this->params['breadcrumbs'] = [
       </div>
 
 <div class="accordion" id="accordionExample3">
-  <?php for($i = 1; $i<=10; $i++): ?>
+<?php foreach( $labs as $lab ) : ?>
   <div class="card">
     <div class="card-header p-2" id="heading<?=$i?>">
       <h2 class="mb-0">
       <div class="row">
       <div class="col-sm-11">
       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$i?>" aria-expanded="true" aria-controls="collapse<?=$i?>">
-        <i class="fas fa-clipboard-list"></i> Lab # <?=$i?>
+        <i class="fas fa-clipboard-list"></i> <?= $lab->assName ?> <?=$i?>
         </button>
       </div>
       <div class="col-sm-1">
@@ -252,7 +260,7 @@ $this->params['breadcrumbs'] = [
       </div>
     </div>
   </div>
-  <?php endfor ?>
+  <?php endforeach ?>
 
 
 </div>
@@ -273,14 +281,14 @@ $this->params['breadcrumbs'] = [
                  
               
              
-  <?php for($i = 1; $i<=10; $i++): ?>
+   <?php foreach( $tutorials as $tutorial ) : ?>
   <div class="card">
     <div class="card-header p-2" id="heading<?=$i?>">
       <h2 class="mb-0">
       <div class="row">
       <div class="col-sm-11">
       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$i?>" aria-expanded="true" aria-controls="collapse<?=$i?>">
-        <i class="fas fa-clipboard-list"></i> Tutorial # <?=$i?>
+        <i class="fas fa-clipboard-list"></i> <?= $tutorial->assName ?> <?=$i?>
         </button>
       </div>
       <div class="col-sm-1">
@@ -292,17 +300,9 @@ $this->params['breadcrumbs'] = [
       </h2>
     </div>
 
-    <div id="collapse<?=$i?>" class="collapse" aria-labelledby="heading<?=$i?>" data-parent="#accordionExample1">
+    <div id="collapse<?=$i?>" class="collapse" aria-labelledby="heading<?=$i?>" data-parent="#accordionExample4">
       <div class="card-body">
-       <?php if($i==1): ?>
-       <p>This is Tutorial One. All Students must attempt this assignemt</p>
-       <?php elseif ($i==2): ?>
-       This is Tutorial Two 
-       <?php elseif ($i==3): ?>
-       This is Tutorial Three my students 
-       <?php else: ?>
-       <p>Aisee kazi naiendeleeeeee</p>
-       <?php endif ?>
+       
       </div>
       <div class="card-footer p-2 bg-white border-top">
       <div class="row">
@@ -318,7 +318,7 @@ $this->params['breadcrumbs'] = [
       </div>
     </div>
   </div>
-  <?php endfor ?>
+  <?php endforeach ?>
 
 
 </div>
