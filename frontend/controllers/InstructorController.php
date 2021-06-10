@@ -44,7 +44,8 @@ public $defaultAction = 'dashboard';
                             'upload-lab',
                             'upload-material',
                             'assignments',
-                            'materials'
+                            'materials',
+                            'stdwork'
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -139,6 +140,17 @@ public function actionClasswork($cid){
     return $this->render('classwork', ['cid'=>$cid, 'courses'=>$courses, 'assignments'=>$assignments, 'tutorials'=>$tutorials, 'labs'=>$labs, 'materials'=>$materials]);
 
 }
+
+public function actionStdwork($cid){
+    if(!empty($cid)){
+   Yii::$app->session->set('ccode', $cid);
+    }
+
+    $courses = Yii::$app->user->identity->instructor->courses;
+    return $this->render('stdwork', ['cid'=>$cid, 'courses'=>$courses]);
+
+}
+
 
 
 //############################## function to create assignment ######################################

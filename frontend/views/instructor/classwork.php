@@ -177,7 +177,7 @@ $assk = "Assignment".$ass;
       <div class="card-footer p-2 bg-white border-top">
       <div class="row">
       <div class="col-md-6">
-      <a href="#" class="text-mutted">View this assignment</a>
+      <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$assign->course_code]) ?>"  class="text-mutted">Assignment <i class="fas fa-eye"></i></a>
       </div>
       <div class="col-md-6">
       <a href="#" class="btn btn-sm btn-info float-right ml-2"><span>Edit</span></a>
@@ -363,6 +363,7 @@ $labmodel = new UploadLab();
 $assmodel = new UploadMaterial();
 ?>
 <?= $this->render('materials/create_material', ['assmodel'=>$assmodel, 'ccode'=>$cid]) ?>
+
 
 
 <?php 
