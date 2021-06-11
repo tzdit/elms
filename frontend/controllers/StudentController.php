@@ -27,7 +27,7 @@ class StudentController extends \yii\web\Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['dashboard','error','classwork'],
+                        'actions' => ['dashboard','error','classwork','courses'],
                         'allow' => true,
                         'roles'=>['STUDENT']
                     ],
@@ -55,5 +55,11 @@ class StudentController extends \yii\web\Controller
        return $this->render('classwork');
     
     }
+
+    public function actionCourses(){
+    
+        return $this->render('courses');
+     
+     }
 
 }
