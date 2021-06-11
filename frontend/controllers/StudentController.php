@@ -37,4 +37,8 @@ class StudentController extends \yii\web\Controller
         return $this->render('index');
     }
 
+    public function actionClasswork(){
+        return $this->render('classwork');
+    }
+
 }

@@ -1,5 +1,6 @@
 <?php
 use yii\bootstrap4\Breadcrumbs;
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 
 $this->title = 'Student Dashboard';
@@ -20,7 +21,7 @@ $this->title = 'Student Dashboard';
                                        <div class="icon">
                                           <i class="ion ion-bag"></i>
                                        </div>
-                                  <a href="#" class="small-box-footer">Enter <i class="fas fa-arrow-circle-right"></i></a>
+                                  <a href="<?=Url::to(['student/classwork/'])?>"  class="small-box-footer">Enter <i class="fas fa-arrow-circle-right"></i></a>
                              </div>
                          </div>
                    </div>
