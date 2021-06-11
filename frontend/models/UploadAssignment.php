@@ -13,14 +13,15 @@ class UploadAssignment extends Model{
     public $description;
     public $ccode;
     
+    
     public $totalMarks;
     public function rules(){
         return [
            [['assTitle', 'submitMode', 'assType', 'startDate', 'endDate', 'description', 'assFile'], 'required'],
            [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, jpg, png, doc, pkt, ppt'],
-           
-           
-           
+        //    [['assTitle'], 'string', 'max' => 50],
+        //     [['description'], 'string', 'max' => 1000],
+        //     [['assFile'], 'string', 'max' => 30],
 
            [['totalMarks'], 'required']
 
