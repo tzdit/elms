@@ -8,6 +8,7 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use common\models\Admin;
 use common\models\Instructor;
+use common\models\Student;
 
 /**
  * User model
@@ -220,4 +221,9 @@ class User extends ActiveRecord implements IdentityInterface
     public function getInstructor(){
         return $this->hasOne(Instructor::class, ['userID'=>'id']);
     }
+    //establishing relationship between User Table and Student Table
+    public function getStudent(){
+        return $this->hasOne(Student::class, ['userID'=>'id']);
+    }
+
 }

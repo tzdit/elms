@@ -44,11 +44,19 @@ class StudentController extends \yii\web\Controller
         ];
     }
    
-    
+   /* 
     public function actionDashboard()
     {
         return $this->render('index');
     }
+
+    */
+    public function actionDashboard()
+    {
+   $courses = Yii::$app->user->identity->student->program->courses;
+        return $this->render('index', ['courses'=>$courses]);
+    }
+
 
     public function actionClasswork(){
     

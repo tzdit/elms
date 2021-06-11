@@ -52,14 +52,14 @@ $this->params['breadcrumbs'] = [
                   <td>1</td>
                   <td>TN 330</td>
                   <td>Microwaves</td>
-                  <td>10</td>
+                  <td>8</td>
                   <td>Active</td>
                   </tr> 
                   <tr>
                   <td>2</td>
                   <td>TN 310</td>
                   <td>Antena and waves propagations</td>
-                  <td>10</td>
+                  <td>8</td>
                   <td>Active</td>
                   </tr>         
                   </tbody>
