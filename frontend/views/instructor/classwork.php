@@ -110,8 +110,9 @@ $this->params['breadcrumbs'] = [
       <a href=""  class="text-mutted">Material <i class="fas fa-eye"></i></a>
       </div>
       <div class="col-md-6">
-      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span>Edit</span></a>
-      <a href="#" class="btn btn-sm btn-danger float-right"><span>Delete</span></a>
+      <a href="#" class="btn btn-sm btn-danger float-right ml-2"><span><i class="fas fa-trash"></i></span></a>
+      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-edit"></i></span></a>
+      <a href="#" class="btn btn-sm btn-success float-right"><span><i class="fas fa-download"></i></span></a>
      
       </div>
       </div>
@@ -176,12 +177,15 @@ $assk = "Assignment".$ass;
       </div>
       <div class="card-footer p-2 bg-white border-top">
       <div class="row">
-      <div class="col-md-6">
-      <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$assign->course_code]) ?>"  class="text-mutted">Assignment <i class="fas fa-eye"></i></a>
+      <div class="col-md-8">
+      <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$assign->course_code]) ?>"  class="text-mutted">Assignment <i class="fas fa-eye"></i></a> &nbsp; &nbsp; &nbsp;
+      <a href=""  class="text-mutted" style="color:red;">Mark <i class="fas fa-check-circle"></i></a>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp;<b> Deadline : </b> <?= $assign -> finishDate ?>
       </div>
-      <div class="col-md-6">
-      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span>Edit</span></a>
-      <a href="#" class="btn btn-sm btn-danger float-right"><span>Delete</span></a>
+      <div class="col-md-4">
+      <a href="#" class="btn btn-sm btn-danger float-right ml-2"><span><i class="fas fa-trash"></i></span></a>
+      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-edit"></i></span></a>
+      <a href="#" class="btn btn-sm btn-success float-right"><span><i class="fas fa-download"></i></span></a>
      
       </div>
       </div>
@@ -239,13 +243,15 @@ $assk = "Assignment".$ass;
       </div>
       <div class="card-footer p-2 bg-white border-top">
       <div class="row">
-      <div class="col-md-6">
-      <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$lab->course_code]) ?>"  class="text-mutted">Lab <i class="fas fa-eye"></i></a>
+      <div class="col-md-8">
+      <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$lab->course_code]) ?>"  class="text-mutted">Lab <i class="fas fa-eye"></i></a> &nbsp; &nbsp; &nbsp;
+      <a href=""  class="text-mutted" style="color:red;">Mark <i class="fas fa-check-circle"></i></a>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp;<b> Deadline : </b> <?= $lab -> finishDate ?>
       </div>
-      <div class="col-md-6">
-      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span>Edit</span></a>
-      <a href="#" class="btn btn-sm btn-danger float-right"><span>Delete</span></a>
-     
+      <div class="col-md-4">
+      <a href="#" class="btn btn-sm btn-danger float-right ml-2"><span><i class="fas fa-trash"></i></span></a>
+      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-edit"></i></span></a>
+      <a href="#" class="btn btn-sm btn-success float-right"><span><i class="fas fa-download"></i></span></a>
       </div>
       </div>
       </div>
@@ -306,8 +312,9 @@ $assk = "Assignment".$ass;
       <a href=""  class="text-mutted">Tutorials <i class="fas fa-eye"></i></a>
       </div>
       <div class="col-md-6">
-      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span>Edit</span></a>
-      <a href="#" class="btn btn-sm btn-danger float-right"><span>Delete</span></a>
+      <a href="#" class="btn btn-sm btn-danger float-right ml-2"><span><i class="fas fa-trash"></i></span></a>
+      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-edit"></i></span></a>
+      <a href="#" class="btn btn-sm btn-success float-right"><span><i class="fas fa-download"></i></span></a>
      
       </div>
       </div>
