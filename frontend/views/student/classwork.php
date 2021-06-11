@@ -36,16 +36,19 @@ $this->params['breadcrumbs'] = [
                     <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true">Forum</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false">Materials</a>
+                    <a class="nav-link" id="custom-tabs-assessments" data-toggle="tab" href="#assessments" role="tab" aria-controls="assessments" aria-selected="false">Assessment</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-assignments" data-toggle="tab" href="#assignments" role="tab" aria-controls="assignment" aria-selected="false">Assignments</a>
+                    <a class="nav-link" id="custom-tabs-coursematerials" data-toggle="tab" href="#coursematerials" role="tab" aria-controls="coursematerials" aria-selected="false">Course materials</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-lab" data-toggle="tab" href="#labs" role="tab" aria-controls="labs" aria-selected="false">Labs</a>
+                    <a class="nav-link" id="custom-tabs-returned" data-toggle="tab" href="#returned" role="tab" aria-controls="returned" aria-selected="false">Returned</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-tutorials" data-toggle="tab" href="#tutorials" role="tab" aria-controls="tutorials" aria-selected="false">Tutorials</a>
+                    <a class="nav-link" id="custom-tabs-Announcements" data-toggle="tab" href="#announcements" role="tab" aria-controls="announcements" aria-selected="false">Announcements</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-quiz" data-toggle="tab" href="#quiz" role="tab" aria-controls="quiz" aria-selected="false">Quiz</a>
                   </li>
                 </ul>
               
@@ -60,10 +63,10 @@ $this->params['breadcrumbs'] = [
                     WASHA PENZI KAMA MOTO
                   </div>     
 
-<div class="tab-pane fade" id="materials" role="tabpanel" aria-labelledby="custom-tabs-material">
-
+<div class="tab-pane fade" id="assessments" role="tabpanel" aria-labelledby="custom-tabs-assessments">
+<!-- ########################################### kazi ######################################## --> 
       <div class="row">
-      <p>MATERIALS  TUTAYAVUTA HAPA</p>
+      <p>KAZI TUTAYAVUTA HAPA</p>
                   
       </div>
 
@@ -72,44 +75,55 @@ $this->params['breadcrumbs'] = [
 
 </div>
 
-<!-- ########################################### assignment work ######################################## -->      
+<!-- ########################################### materials ######################################## -->      
 
-<div class="tab-pane fade" id="assignments" role="tabpanel" aria-labelledby="custom-tabs-assignment">
+<div class="tab-pane fade" id="coursematerials" role="tabpanel" aria-labelledby="custom-tabs-coursematerials">
 
       <div class="row">
-      <p>TUTORIALS TUTAZIVUTA HAPA</p>           
+      <p>MATERIALS TUTAZIVUTA HAPA</p>           
       </div>
 
 <div class="accordion" id="accordionExample">
 </div>
 
 </div>
-<!-- ########################################### lab work ######################################## -->
+<!-- ########################################### returned marks ######################################## -->
 
-<div class="tab-pane fade" id="labs" role="tabpanel" aria-labelledby="custom-tabs-lab">
+<div class="tab-pane fade" id="returned" role="tabpanel" aria-labelledby="custom-tabs-returned">
 <div class="row">
-<p>LABS NITAZIVUTA HAPA</p>
+<p>RETURNED MARKS TUTAZIVUTA HAPA</p>
                   
-      </div>
+</div>
 
 <div class="accordion" id="accordionExample_3">
 </div>
 
   </div>
-     <div class="tab-pane fade" id="tutorials" role="tabpanel" aria-labelledby="custom-tabs-tutorials">
+  <!-- ########################################### announcements ######################################## --> 
+     <div class="tab-pane fade" id="announcements" role="tabpanel" aria-labelledby="custom-tabs-Announcements">
           <div class="row">
-            <p>TUTORIALS TUTAZIVUTA HAPA</p>
+            <p>ANOUNCEMENTS TUTAZIVUTA HAPA</p>
+                  
+        </div>
+
+   <div class="accordion" id="accordionExample_4"></div>
+   </div>
+   <!-- ########################################### quiz######################################## --> 
+   <div class="tab-pane fade" id="quiz" role="tabpanel" aria-labelledby="custom-tabs-quiz">
+          <div class="row">
+            <p>QUIZ TUTAZIVUTA HAPA</p>
                   
         </div>
 
    <div class="accordion" id="accordionExample_4">
-   </div>
+   
+  
 
 </div>
 
 
 
-     <!-- ########################################### end tutorial ################################# -->
+     <!-- ########################################### end ################################# -->
     </div>
     </div>
 </div>
