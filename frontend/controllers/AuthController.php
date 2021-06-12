@@ -22,6 +22,7 @@ class AuthController extends \yii\web\Controller
                     [
                         'actions' => ['login'],
                         'allow' => true,
+                     
                         
                     ],
                     [
