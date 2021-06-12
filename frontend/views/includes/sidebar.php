@@ -111,7 +111,7 @@ use yii\helpers\Url;
               <!-- START OF STUDENT ROLE -->
               <?php if(Yii::$app->user->can('STUDENT')): ?>
                 <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="<?= Url::toRoute('/student/courses') ?>" class="nav-link">
                   <i class="fas fa-book nav-icon"></i>
                   <p>My courses</p>
                 </a>

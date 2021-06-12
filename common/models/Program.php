@@ -85,4 +85,8 @@ class Program extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Student::className(), ['programCode' => 'programCode']);
     }
+
+    public function getCourses(){
+        return $this->hasMany(Course::className(), ['course_code'=>'course_code'])->viaTable('program_course',['programCode'=>'programCode']);
+    }
 }

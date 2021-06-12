@@ -1,5 +1,8 @@
 <?php
 use yii\bootstrap4\Breadcrumbs;
+use yii\helpers\Url;
+use yii\helpers\Html;
+use common\helpers\Security;
 /* @var $this yii\web\View */
 
 $this->title = 'Student Dashboard';
@@ -9,77 +12,28 @@ $this->title = 'Student Dashboard';
     
 
     <div class="body-content">
-            <!-- Content Wrapper. Contains page content -->
    
         <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
+     
         <div class="row">
+        <?php foreach($courses as $course): ?>
           <div class="col-lg-3 col-6">
-            <!-- small box -->
+       
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>TN 330</h3>
+                <h3><?= $course->course_code ?></h3>
 
-                <p>8 Credits</p>
+                <p><?= $course->course_credit ?></p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
               </div>
-              <a href="#" class="small-box-footer">Enter <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="<?=Url::to(['student/classwork/', 'cid'=>$course->course_code])  ?>"  class="small-box-footer">Enter <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info ">
-              <div class="inner">
-                <h3>BT 220</h3>
-
-                <p>9 Credits</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-stats-bars"></i>
-              </div>
-              <a href="#" class="small-box-footer">Enter <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3>TN 120</h3>
-
-                <p>10 Credits</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="#" class="small-box-footer">Enter <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-           <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3>TN 120</h3>
-
-                <p>9 credits</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="#" class="small-box-footer">Enter <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
+          </div> 
+          <?php endforeach ?>
         </div>
-        <!-- /.row -->
-        <!-- Main row -->
-
-        <!-- /.row (main row) -->
-      </div><!-- /.container-fluid -->
+      </div>
 
     </div>
 </div>

@@ -44,11 +44,11 @@ class Assignment extends \yii\db\ActiveRecord
         return [
             [['instructorID', 'total_marks'], 'integer'],
             [['assName', 'assNature'], 'required'],
-            
+            [['submitMode','startDate', 'finishDate', 'total_marks', 'assType' ], 'safe'],
             [['course_code'], 'string', 'max' => 7],
             [['assName', 'assNature'], 'string', 'max' => 10],
             [['ass_desc'], 'string', 'max' => 1000],
-            [['fileName'], 'string', 'max' => 20],
+            [['fileName'], 'string', 'max' => 30],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
             [['instructorID'], 'exist', 'skipOnError' => true, 'targetClass' => Instructor::className(), 'targetAttribute' => ['instructorID' => 'instructorID']],
         ];
@@ -62,7 +62,7 @@ class Assignment extends \yii\db\ActiveRecord
         return [
             'assID' => 'Ass ID',
             'instructorID' => 'Instructor ID',
-            'course_code' => 'Course Code',
+            'course_code' => 'Course Code', 
             'assName' => 'Assignment Name',
             'assType' => 'Assignment Type',
             'assNature' => 'Assignment Nature',

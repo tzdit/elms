@@ -44,7 +44,9 @@ public $defaultAction = 'dashboard';
                             'upload-lab',
                             'upload-material',
                             'assignments',
-                            'materials'
+                            'materials',
+                            'stdwork',
+                            'labwork'
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -109,7 +111,7 @@ public $defaultAction = 'dashboard';
 
 
 
-//########################### fucntion to drop course ############################################
+//########################### function to drop course ############################################
 
     public function actionDropcourse(){
         if(Yii::$app->request->isAjax){
@@ -131,12 +133,40 @@ public function actionClasswork($cid){
    Yii::$app->session->set('ccode', $cid);
     }
 
-    $assignments = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->all();
-    $tutorials = Assignment::find()->where(['assNature' => 'tutorial', 'course_code' => $cid])->all();
-    $labs = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->all();
-    $materials = Material::find()->where(['course_code' => $cid])->all();
+    $assignments = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->orderBy([
+        'assID' => SORT_DESC ])->all();
+    $tutorials = Assignment::find()->where(['assNature' => 'tutorial', 'course_code' => $cid])->orderBy([
+        'assID' => SORT_DESC])->all();
+    $labs = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->orderBy([
+        'assID' => SORT_DESC ])->all();
+    $materials = Material::find()->where(['course_code' => $cid])->orderBy([
+        'material_ID' => SORT_DESC ])->all();
     $courses = Yii::$app->user->identity->instructor->courses;
     return $this->render('classwork', ['cid'=>$cid, 'courses'=>$courses, 'assignments'=>$assignments, 'tutorials'=>$tutorials, 'labs'=>$labs, 'materials'=>$materials]);
+
+}
+
+
+//############################## student work assignment ######################################
+public function actionStdwork($cid){
+    if(!empty($cid)){
+   Yii::$app->session->set('ccode', $cid);
+    }
+
+    $courses = Yii::$app->user->identity->instructor->courses;
+    return $this->render('stdwork', ['cid'=>$cid, 'courses'=>$courses]);
+
+}
+
+
+//############################## student work lab ######################################
+public function actionLabwork($cid){
+    if(!empty($cid)){
+   Yii::$app->session->set('ccode', $cid);
+    }
+
+    $courses = Yii::$app->user->identity->instructor->courses;
+    return $this->render('labwork', ['cid'=>$cid, 'courses'=>$courses]);
 
 }
 

@@ -29,7 +29,7 @@ $this->title = 'Instructor Dashboard';
               <div class="icon">
                 <i class="ion ion-bag"></i>
               </div>
-              <a href="<?=Url::to(['instructor/classwork/', 'cid'=>$course->course_code]) ?>" class="small-box-footer">Enter <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="<?=Url::to(['instructor/classwork/', 'cid'=>$course->course_code])  ?>"  class="small-box-footer">Enter <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
         

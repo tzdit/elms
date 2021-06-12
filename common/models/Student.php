@@ -119,10 +119,6 @@ class Student extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getProgram()
-    {
-        return $this->hasOne(Program::className(), ['programCode' => 'programCode']);
-    }
 
     /**
      * Gets query for [[User]].
@@ -207,4 +203,11 @@ class Student extends \yii\db\ActiveRecord
     public function getFullName(){
         return $this->fname." ".$this->mname." ".$this->lname;
     }
+//student relation na programm
+    public function getProgram()
+    {
+        return $this->hasOne(Program::className(), ['programCode' => 'programCode']);
+    }
+    
+
 }

@@ -3,6 +3,19 @@
 namespace frontend\controllers;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
+use common\models\Course;
+use common\models\Assignment;
+use common\models\Material;
+use common\models\InstructorCourse;
+use frontend\models\UploadAssignment;
+use frontend\models\UploadTutorial;
+use frontend\models\UploadLab;
+use frontend\models\UploadMaterial;
+use Yii;
+use yii\helpers\Url;
+use yii\web\UploadedFile;
+use common\helpers\Security;
 class StudentController extends \yii\web\Controller
 {
 	//public $layout = 'student';
@@ -14,7 +27,7 @@ class StudentController extends \yii\web\Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['dashboard','error'],
+                        'actions' => ['dashboard','error','classwork','courses'],
                         'allow' => true,
                         'roles'=>['STUDENT']
                     ],
@@ -31,10 +44,30 @@ class StudentController extends \yii\web\Controller
         ];
     }
    
-    
+   /* 
     public function actionDashboard()
     {
         return $this->render('index');
     }
+
+    */
+    public function actionDashboard()
+    {
+   $courses = Yii::$app->user->identity->student->program->courses;
+        return $this->render('index', ['courses'=>$courses]);
+    }
+
+
+    public function actionClasswork(){
+    
+       return $this->render('classwork');
+    
+    }
+
+    public function actionCourses(){
+    
+        return $this->render('courses');
+     
+     }
 
 }
