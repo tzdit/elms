@@ -16,14 +16,9 @@ $this->params['breadcrumbs'] = [
 ?>
 <div class="site-index">
 
-    
-
-    <div class="body-content">
-            <!-- Content Wrapper. Contains page content -->
-   
-       <div class="container-fluid">
+<div class="body-content">
       
- <div class="row">
+ <div class="accordion" id="accordionExample_3">
           <!-- Left col -->
           <section class="col-lg-12">
             <!-- Custom tabs (Charts with tabs)-->
@@ -48,7 +43,7 @@ $this->params['breadcrumbs'] = [
                   <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
                   <thead>
                   <tr>
-                  <th width="1%">#</th><th width="10%">Code</th><th>Name</th><th>Credit</th><th>Status</th>
+                  <th width="5%">#</th><th width="10%">Code</th><th>Name</th><th>Credit</th><th>Status</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -64,21 +59,14 @@ $this->params['breadcrumbs'] = [
                   <?php endforeach ?>
                   </tbody>
                   </table>
-             </div>
-            
-             </div>
-              </div><!-- /.card-body -->
+             
+                  </div>
+                </div>
+              </div>
             </div>
-            <!-- /.card -->
 
           </section>
-          <!-- /.Left col -->
-          <!-- right col (We are only adding the ID to make the widgets sortable)-->
-         
-          <!-- right col -->
-        </div>
-
-      </div><!--/. container-fluid -->
-
+          </div>
+      </div>
     </div>
 </div>

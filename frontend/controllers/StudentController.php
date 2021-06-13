@@ -6,6 +6,7 @@ use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use common\models\Course;
 use common\models\Assignment;
+use common\models\Submit;
 use common\models\Material;
 use common\models\InstructorCourse;
 use frontend\models\UploadAssignment;
@@ -62,8 +63,9 @@ public function actionClasswork($cid){
         'assID' => SORT_DESC ])->all();
     $materials = Material::find()->where(['course_code' => $cid])->orderBy([
         'material_ID' => SORT_DESC ])->all();
+    $returned= Submit::find()->where(['reg_no' => 'T/UDOM/2020/00001'])->all();
     $courses = Yii::$app->user->identity->student->program->courses;
-    return $this->render('classwork', ['cid'=>$cid, 'courses'=>$courses, 'assignments'=>$assignments,'tutorials'=>$tutorials, 'labs'=>$labs, 'materials'=>$materials]);
+    return $this->render('classwork', ['cid'=>$cid,'returned'=>$returned, 'courses'=>$courses, 'assignments'=>$assignments,'tutorials'=>$tutorials, 'labs'=>$labs, 'materials'=>$materials]);
 
 }
 
