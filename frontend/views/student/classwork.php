@@ -61,20 +61,75 @@ $this->params['breadcrumbs'] = [
 <!-- ########################################### forum work ######################################## --> 
                   <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">
                     WASHA PENZI KAMA MOTO
-                  </div>     
+                  </div>  
 
-<div class="tab-pane fade" id="assessments" role="tabpanel" aria-labelledby="custom-tabs-assessments">
-<!-- ########################################### kazi ######################################## --> 
+<!-- ########################################### Assigments and Labs ######################################## --> 
+<?php $ass = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->count(); ?>      
+
+<div class="tab-pane fade" id="assignments" role="tabpanel" aria-labelledby="custom-tabs-assignment">
+
       <div class="row">
-      <p>KAZI TUTAYAVUTA HAPA</p>
+        <div class="col-md-12">
+              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createAssignmentModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create</a>
+        </div>
                   
       </div>
 
-<div class="accordion" id="accordionExample_6">
-</div>
+<div class="accordion" id="accordionExample">
+<?php $assk = "Assignment".$ass ;
+$assk = "Assignment".$ass;
+?>
+<?php foreach( $assignments as $assign ) : ?>
+
+  <div class="card">
+    <div class="card-header p-2" id="heading<?=$ass?>">
+      <h2 class="mb-0">
+      <div class="row">
+      <div class="col-sm-11">
+      <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$ass?>" aria-expanded="true" aria-controls="collapse<?=$ass?>">
+        <i class="fas fa-clipboard-list"></i> <?php echo "Assignment ".$ass;?>
+        </button>
+      </div>
+      <div class="col-sm-1">
+      <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
+      </div>
+      </div>
+         
+       
+      </h2>
+    </div>
+
+    <div id="collapse<?=$ass?>" class="collapse" aria-labelledby="heading<?=$ass?>" data-parent="#accordionExample">
+      <div class="card-body">
+         <p><span style="color:red"> Assignment Name: </span> <b> <?= $assign -> assName ?> </b></p>
+      </div>
+      <div class="card-footer p-2 bg-white border-top">
+      <div class="row">
+      <div class="col-md-8">
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp;<b> Deadline : </b> <?= $assign -> finishDate ?>
+      </div>
+      <div class="col-md-4">
+      <a href="#" class="btn btn-sm btn-danger float-right ml-2"><span><i class="fas fa-trash"></i></span></a>
+      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-edit"></i></span></a>
+      <a href="#" class="btn btn-sm btn-success float-right"><span><i class="fas fa-download"></i></span></a>
+     
+      </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <?php 
+         $ass--;
+        
+        ?>
+  
+  <?php endforeach ?>
+
 
 </div>
 
+</div>
 <!-- ########################################### materials ######################################## -->      
 
 <div class="tab-pane fade" id="coursematerials" role="tabpanel" aria-labelledby="custom-tabs-coursematerials">

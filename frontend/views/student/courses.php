@@ -31,7 +31,7 @@ $this->params['breadcrumbs'] = [
               <div class="card-header">
                 <h3 class="card-title com-sm-12 text-secondary">
                   <i class="fas fa-book mr-1"></i>
-               My Courses
+                My courses
                  
                 </h3>
                
@@ -48,20 +48,16 @@ $this->params['breadcrumbs'] = [
                   </tr>
                   </thead>
                   <tbody>
+                  <?php $i=0; ?>
+                  <?php foreach($courses as $course): ?>
                   <tr>
-                  <td>1</td>
-                  <td>TN 330</td>
-                  <td>Microwaves</td>
-                  <td>8</td>
-                  <td>Active</td>
-                  </tr> 
-                  <tr>
-                  <td>2</td>
-                  <td>TN 310</td>
-                  <td>Antena and waves propagations</td>
-                  <td>8</td>
-                  <td>Active</td>
-                  </tr>         
+                  <td><?= ++$i; ?></td>
+                  <td><?= $course->course_code;  ?></td>
+                  <td><?= $course->course_name;  ?></td>
+                  <td><?= $course->course_credit;  ?></td>
+                  <td><?= $course->course_status;  ?></td>
+                  </tr>
+                  <?php endforeach ?>
                   </tbody>
                   </table>
              </div>

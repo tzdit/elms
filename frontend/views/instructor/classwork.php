@@ -133,10 +133,9 @@ $this->params['breadcrumbs'] = [
 </div>
 
 
+<!-- ########################################### assignment work ######################################## -->
 
-<?php $ass = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->count(); ?>
-
-<!-- ########################################### assignment work ######################################## -->      
+<?php $ass = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->count(); ?>      
 
 <div class="tab-pane fade" id="assignments" role="tabpanel" aria-labelledby="custom-tabs-assignment">
 

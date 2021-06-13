@@ -43,31 +43,32 @@ class StudentController extends \yii\web\Controller
             ],
         ];
     }
-   
-   /* 
-    public function actionDashboard()
-    {
-        return $this->render('index');
-    }
-
-    */
     public function actionDashboard()
     {
    $courses = Yii::$app->user->identity->student->program->courses;
         return $this->render('index', ['courses'=>$courses]);
     }
+ ############################## clasworks in each course  #######################################################
 
-
-    public function actionClasswork(){
-    
-       return $this->render('classwork');
-    
+public function actionClasswork($cid){
+    if(!empty($cid)){
+   Yii::$app->session->set('ccode', $cid);
     }
+    $assignments = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->orderBy([
+    'assID' => SORT_DESC ])->all();
+    $courses = Yii::$app->user->identity->student->program->courses;
+    return $this->render('classwork', ['cid'=>$cid, 'courses'=>$courses, 'assignments'=>$assignments]);
+
+}
+
+     
+
+    #################### Student courses lists ##############################
 
     public function actionCourses(){
-    
-        return $this->render('courses');
-     
-     }
+        $courses = Yii::$app->user->identity->student->program->courses;
+        return $this->render('courses', ['courses'=>$courses]);
+        
+    }
 
 }
