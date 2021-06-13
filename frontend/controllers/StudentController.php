@@ -48,16 +48,22 @@ class StudentController extends \yii\web\Controller
    $courses = Yii::$app->user->identity->student->program->courses;
         return $this->render('index', ['courses'=>$courses]);
     }
- ############################## clasworks in each course  #######################################################
+ ############################## assignments in each course  #######################################################
 
 public function actionClasswork($cid){
     if(!empty($cid)){
    Yii::$app->session->set('ccode', $cid);
     }
     $assignments = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->orderBy([
-    'assID' => SORT_DESC ])->all();
+    'assID' => SORT_DESC ])->all(); 
+    $tutorials = Assignment::find()->where(['assNature' => 'tutorial', 'course_code' => $cid])->orderBy([
+        'assID' => SORT_DESC])->all();
+    $labs = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->orderBy([
+        'assID' => SORT_DESC ])->all();
+    $materials = Material::find()->where(['course_code' => $cid])->orderBy([
+        'material_ID' => SORT_DESC ])->all();
     $courses = Yii::$app->user->identity->student->program->courses;
-    return $this->render('classwork', ['cid'=>$cid, 'courses'=>$courses, 'assignments'=>$assignments]);
+    return $this->render('classwork', ['cid'=>$cid, 'courses'=>$courses, 'assignments'=>$assignments,'tutorials'=>$tutorials, 'labs'=>$labs, 'materials'=>$materials]);
 
 }
 
