@@ -32,7 +32,7 @@ class UploadTutorial extends Model{
         $tut->instructorID = Yii::$app->user->identity->instructor->instructorID;
         $tut->course_code = isset($this->ccode) ? $this->ccode : Yii::$app->session->get('ccode');
         $this->assFile->saveAs('storage/temp/'.$fileName);
-        $tut->save();     
+        $tut->save(false);     
         return true;
 
         

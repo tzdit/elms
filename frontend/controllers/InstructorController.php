@@ -7,6 +7,7 @@ use yii\data\ActiveDataProvider;
 use common\models\Course;
 use common\models\Assignment;
 use common\models\Material;
+use common\models\Submit;
 use common\models\InstructorCourse;
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
@@ -148,13 +149,23 @@ public function actionClasswork($cid){
 
 
 //############################## student work assignment ######################################
-public function actionStdwork($cid){
+public function actionStdwork($cid, $id){
     if(!empty($cid)){
    Yii::$app->session->set('ccode', $cid);
     }
+    
+    $submits = Submit::find()->where(['assID'=> $id])->all();
+
 
     $courses = Yii::$app->user->identity->instructor->courses;
-    return $this->render('stdwork', ['cid'=>$cid, 'courses'=>$courses]);
+
+        // echo '<pre>';
+        // print_r($cid);
+        // echo '<br>';
+        // print_r($id);
+        // echo '</pre>';
+        // exit;
+    return $this->render('stdwork', ['cid'=>$cid, 'courses'=>$courses, 'submits' => $submits]);
 
 }
 

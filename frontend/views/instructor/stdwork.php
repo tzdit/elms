@@ -50,42 +50,62 @@ use frontend\models\UploadMaterial;
 							<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-ex2">
 		<thead>
 			<tr>
-				<th>
-					#
-				</th>
+				
 
-				<th>
-					Student Name
-				</th>
+				
 				<th>
 					Registration no
 				</th>
 
 				<th>
-					Type
+					Assignment Name
 				</th>
 
 				<th>
-					Uploaded_on
+					File Name
+				</th>
+				<th>
+					Score
 				</th>
 				<!-- <th>
 					Question
 				</th> -->
 				
 				<th>
-					Answer
+					Submit Date
+				</th>
+
+				<th>
+					Submit Time
+				</th>
+
+				<th>
+					Comment
 				</th>
 				
-				<th>
+				<!-- <th>
 					Grading
-				</th>
+				</th> -->
 				
 			</tr>
 		</thead>
 		<tbody>
-		<?php 
-		
-		 ?>
+								<?php foreach ($submits as $submit) : ?>
+						 			<tr>
+									 	<td><?=  $submit->reg_no; ?></td>
+										 <td><?=  $submit->ass->assName; ?></td>
+										 <td><?= $submit->fileName; ?></td>
+										 <td><?= $submit->score; ?></td>
+										 <td><?= $submit->submit_date; ?></td>
+										 <td><?= $submit->submit_time; ?></td>
+										 <td><?= $submit->comment; ?></td>
+										
+										
+
+
+						 			</tr>
+						 		
+									 <?php endforeach ?>
 		
 			
 
@@ -112,11 +132,7 @@ use frontend\models\UploadMaterial;
 						 		</tr>
 						 	</thead>
 						 	<tbody>
-						 		
-						 			<tr>
-						 			</tr>
-						 		
-						 		
+						 		<tr></tr>
 						 	</tbody>
 						 	
 						 </table>

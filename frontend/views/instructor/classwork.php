@@ -177,7 +177,7 @@ $assk = "Assignment".$ass;
       <div class="card-footer p-2 bg-white border-top">
       <div class="row">
       <div class="col-md-8">
-      <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$assign->course_code]) ?>"  class="text-mutted">Assignment <i class="fas fa-eye"></i></a> &nbsp; &nbsp; &nbsp;
+      <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>"  class="text-mutted">Assignment <i class="fas fa-eye"></i></a> &nbsp; &nbsp; &nbsp;
       <a href=""  class="text-mutted" style="color:red;">Mark <i class="fas fa-check-circle"></i></a>
       &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp;<b> Deadline : </b> <?= $assign -> finishDate ?>
       </div>
@@ -243,7 +243,7 @@ $assk = "Assignment".$ass;
       <div class="card-footer p-2 bg-white border-top">
       <div class="row">
       <div class="col-md-8">
-      <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$lab->course_code]) ?>"  class="text-mutted">Lab <i class="fas fa-eye"></i></a> &nbsp; &nbsp; &nbsp;
+      <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$lab->course_code, 'id' => $lab->assID]) ?>"  class="text-mutted">Lab <i class="fas fa-eye"></i></a> &nbsp; &nbsp; &nbsp;
       <a href=""  class="text-mutted" style="color:red;">Mark <i class="fas fa-check-circle"></i></a>
       &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp;<b> Deadline : </b> <?= $lab -> finishDate ?>
       </div>
