@@ -178,13 +178,14 @@ $assk = "Assignment".$ass;
       <div class="row">
       <div class="col-md-8">
       <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>"  class="text-mutted">Assignment <i class="fas fa-eye"></i></a> &nbsp; &nbsp; &nbsp;
-      <a href=""  class="text-mutted" style="color:red;">Mark <i class="fas fa-check-circle"></i></a>
       &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp;<b> Deadline : </b> <?= $assign -> finishDate ?>
       </div>
       <div class="col-md-4">
-      <a href="#" class="btn btn-sm btn-danger float-right ml-2"><span><i class="fas fa-trash"></i></span></a>
+        
+      <a href="#" class="btn btn-sm btn-danger float-right ml-2" data-toggle="modal" data-target="#modal-danger<?= $assign -> assID ?>"><span><i class="fas fa-trash"></i></span></a>
       <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-edit"></i></span></a>
-      <a href="#" class="btn btn-sm btn-success float-right"><span><i class="fas fa-download"></i></span></a>
+      <a href="/storage/temp/<?= $assign -> fileName ?>" download target="_blank" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-download"></i></span></a>
+      <a href="#" class="btn btn-sm btn-danger float-right"><span> <i class="fa fa-check-circle"></i></span></a>
      
       </div>
       </div>
@@ -196,6 +197,36 @@ $assk = "Assignment".$ass;
          $ass--;
         
         ?>
+        
+<div class="modal fade" id="modal-danger<?= $assign -> assID ?>">
+
+        <div class="modal-dialog">
+          <div class="modal-content bg-danger">
+            <div class="modal-header">
+              <h4 class="modal-title">Deleting <b> <?= $assign -> assName ?> </b> Assignment</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            
+            <div class="modal-body">
+            
+              <p>Are you sure, you want to delete <b> <?= $assign -> assName ?> </b> assignment&hellip;?</p>
+              
+            </div>
+            <div class="modal-footer justify-content-between">
+            
+              <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+              <?= Html::a('Delete', ['delete', 'cid'=>$assign->course_code, 'id'=>$assign -> assID], ['class'=>'btn btn-sm btn-danger float-right ml-2 btn-outline-light']) ?>
+            </div>
+            
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+        
+      </div>
+      <!-- /.modal -->
   
   <?php endforeach ?>
 
@@ -248,7 +279,7 @@ $assk = "Assignment".$ass;
       &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp;<b> Deadline : </b> <?= $lab -> finishDate ?>
       </div>
       <div class="col-md-4">
-      <a href="#" class="btn btn-sm btn-danger float-right ml-2"><span><i class="fas fa-trash"></i></span></a>
+      <a href="#" class="btn btn-sm btn-danger float-right ml-2" data-toggle="modal" data-target=""><span><i class="fas fa-trash"></i></span></a>
       <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-edit"></i></span></a>
       <a href="#" class="btn btn-sm btn-success float-right"><span><i class="fas fa-download"></i></span></a>
       </div>

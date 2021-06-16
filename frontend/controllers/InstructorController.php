@@ -45,6 +45,7 @@ public $defaultAction = 'dashboard';
                             'upload-lab',
                             'upload-material',
                             'assignments',
+                            'delete',
                             'materials',
                             'stdwork',
                             'labwork'
@@ -124,6 +125,15 @@ public $defaultAction = 'dashboard';
         }
     }
 }
+
+    public function actionDelete($id)
+    {
+        $ass = Assignment::findOne($id)->delete(); 
+        if($ass){
+           Yii::$app->session->setFlash('success', 'Assignment deleted successfully');
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
 
 
 
