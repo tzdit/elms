@@ -48,7 +48,8 @@ public $defaultAction = 'dashboard';
                             'delete',
                             'materials',
                             'stdwork',
-                            'labwork'
+                            'labwork',
+                            'update'
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -133,6 +134,18 @@ public $defaultAction = 'dashboard';
            Yii::$app->session->setFlash('success', 'Assignment deleted successfully');
         }
         return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionUpdate($id)
+    {
+        $ass = Assignment::findOne($id);
+        if($ass->load(Yii::$app->request->post()) && $ass->save())
+        {
+            Yii::$app->session->setFlash('success', 'Assignment updated successfully');
+            return $this->redirect(['classwork', 'cid'=>$ass->course_code]);
+        }else{
+        return $this->render('update', ['ass'=>$ass]);
+        }
     }
 
 
