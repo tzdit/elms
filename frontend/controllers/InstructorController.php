@@ -47,6 +47,7 @@ public $defaultAction = 'dashboard';
                             'assignments',
                             'delete',
                             'deletelab',
+                            'deletetut',
                             'materials',
                             'stdwork',
                             'stdworkmark',
@@ -54,6 +55,8 @@ public $defaultAction = 'dashboard';
                             'stdworklab',
                             'stdlabmark',
                             'update',
+                            'updatetut',
+                            'updatelab',
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -149,6 +152,15 @@ public $defaultAction = 'dashboard';
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    public function actionDeletetut($id)
+    {
+        $tut = Assignment::findOne($id)->delete(); 
+        if($tut){
+           Yii::$app->session->setFlash('success', 'Tutorial deleted successfully');
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
     public function actionUpdate($id)
     {
         $ass = Assignment::findOne($id);
@@ -158,6 +170,30 @@ public $defaultAction = 'dashboard';
             return $this->redirect(['classwork', 'cid'=>$ass->course_code]);
         }else{
         return $this->render('update', ['ass'=>$ass]);
+        }
+    }
+
+    public function actionUpdatelab($id)
+    {
+        $lab = Assignment::findOne($id);
+        if($lab->load(Yii::$app->request->post()) && $lab->save())
+        {
+            Yii::$app->session->setFlash('success', 'Lab updated successfully');
+            return $this->redirect(['classwork', 'cid'=>$lab->course_code]);
+        }else{
+        return $this->render('updatelab', ['lab'=>$lab]);
+        }
+    }
+
+    public function actionUpdatetut($id)
+    {
+        $tut = Assignment::findOne($id);
+        if($tut->load(Yii::$app->request->post()) && $tut->save())
+        {
+            Yii::$app->session->setFlash('success', 'Tutorial updated successfully');
+            return $this->redirect(['classwork', 'cid'=>$tut->course_code]);
+        }else{
+        return $this->render('updatetut', ['tut'=>$tut]);
         }
     }
 
