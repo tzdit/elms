@@ -12,15 +12,16 @@ use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
+
 /* @var $this yii\web\View */
-$this->params['courseTitle'] = "Assignment ".$id;
-$this->title = 'Stdwork';
+$this->params['courseTitle'] = "Lab ".$id;
+$this->title = 'stdworklab';
 $this->params['breadcrumbs'] = [
-  ['label'=>'classwork', 'url'=>Url::to(['/instructor/stdwork', 'cid'=>$cid])],
+  ['label'=>'classwork', 'url'=>Url::to(['/instructor/stdworklab', 'cid'=>$cid])],
   ['label'=>$this->title]
 ];
-?>
 
+?>
 <div id="layoutSidenav_content">
 
     <main>
@@ -33,8 +34,10 @@ $this->params['breadcrumbs'] = [
 
             <hr>
 
+			
+
 				
-				
+
 	<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-ex2">
 		<thead>
 			<tr>
@@ -99,8 +102,12 @@ $this->params['breadcrumbs'] = [
 
 		</tbody>
 		</table>
-</div>
-</div>
+	</div>
+	</div>
+					
+						
+
+					
 
 			
 		<script>

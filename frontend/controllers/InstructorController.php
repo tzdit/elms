@@ -46,10 +46,14 @@ public $defaultAction = 'dashboard';
                             'upload-material',
                             'assignments',
                             'delete',
+                            'deletelab',
                             'materials',
                             'stdwork',
+                            'stdworkmark',
                             'labwork',
-                            'update'
+                            'stdworklab',
+                            'stdlabmark',
+                            'update',
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -136,6 +140,15 @@ public $defaultAction = 'dashboard';
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    public function actionDeletelab($id)
+    {
+        $lab = Assignment::findOne($id)->delete(); 
+        if($lab){
+           Yii::$app->session->setFlash('success', 'Lab deleted successfully');
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
     public function actionUpdate($id)
     {
         $ass = Assignment::findOne($id);
@@ -178,6 +191,26 @@ public function actionStdwork($cid, $id){
     }
     
     $submits = Submit::find()->where(['assID'=> $id])->all();
+    
+
+    $courses = Yii::$app->user->identity->instructor->courses;
+
+        // echo '<pre>';
+        // print_r($cid);
+        // echo '<br>';
+        // print_r($id);
+        // echo '</pre>';
+        // exit;
+    return $this->render('stdwork', ['cid'=>$cid, 'id'=>$id, 'courses'=>$courses, 'submits' => $submits, 'assignments']);
+
+}
+
+public function actionStdworkmark($cid, $id){
+    if(!empty($cid)){
+   Yii::$app->session->set('ccode', $cid);
+    }
+    
+    $submits = Submit::find()->where(['assID'=> $id])->all();
 
 
     $courses = Yii::$app->user->identity->instructor->courses;
@@ -188,7 +221,27 @@ public function actionStdwork($cid, $id){
         // print_r($id);
         // echo '</pre>';
         // exit;
-    return $this->render('stdwork', ['cid'=>$cid, 'courses'=>$courses, 'submits' => $submits]);
+    return $this->render('stdworkmark', ['cid'=>$cid, 'id'=>$id, 'courses'=>$courses, 'submits' => $submits]);
+
+}
+
+public function actionStdlabmark($cid, $id){
+    if(!empty($cid)){
+   Yii::$app->session->set('ccode', $cid);
+    }
+    
+    $submits = Submit::find()->where(['assID'=> $id])->all();
+
+
+    $courses = Yii::$app->user->identity->instructor->courses;
+
+        // echo '<pre>';
+        // print_r($cid);
+        // echo '<br>';
+        // print_r($id);
+        // echo '</pre>';
+        // exit;
+    return $this->render('stdlabmark', ['cid'=>$cid, 'id'=>$id, 'courses'=>$courses, 'submits' => $submits]);
 
 }
 
@@ -204,6 +257,26 @@ public function actionLabwork($cid){
 
 }
 
+
+public function actionStdworklab($cid, $id){
+    if(!empty($cid)){
+   Yii::$app->session->set('ccode', $cid);
+    }
+    
+    $submits = Submit::find()->where(['assID'=> $id])->all();
+    
+
+    $courses = Yii::$app->user->identity->instructor->courses;
+
+        // echo '<pre>';
+        // print_r($cid);
+        // echo '<br>';
+        // print_r($id);
+        // echo '</pre>';
+        // exit;
+    return $this->render('stdworklab', ['cid'=>$cid, 'id'=>$id, 'courses'=>$courses, 'submits' => $submits]);
+
+}
 
 //############################## function to create assignment ######################################
 

@@ -12,15 +12,16 @@ use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
+
 /* @var $this yii\web\View */
 $this->params['courseTitle'] = "Assignment ".$id;
-$this->title = 'Stdwork';
+$this->title = 'stdworkmark';
 $this->params['breadcrumbs'] = [
-  ['label'=>'classwork', 'url'=>Url::to(['/instructor/stdwork', 'cid'=>$cid])],
+  ['label'=>'classwork', 'url'=>Url::to(['/instructor/stdworkmark', 'cid'=>$cid])],
   ['label'=>$this->title]
 ];
-?>
 
+?>
 <div id="layoutSidenav_content">
 
     <main>
@@ -33,8 +34,13 @@ $this->params['breadcrumbs'] = [
 
             <hr>
 
+			
+				<div class="clear">	</div>
+
 				
-				
+
+				<div class="clear"></div>
+
 	<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-ex2">
 		<thead>
 			<tr>
@@ -46,30 +52,11 @@ $this->params['breadcrumbs'] = [
 				</th>
 
 				<th>
-					Assignment Name
-				</th>
-
-				<th>
-					File Name
-				</th>
-				<th>
 					Score
 				</th>
 				<!-- <th>
 					Question
 				</th> -->
-				
-				<th>
-					Submit Date
-				</th>
-
-				<th>
-					Submit Time
-				</th>
-
-				<th>
-					Comment
-				</th>
 				
 				<!-- <th>
 					Grading
@@ -77,30 +64,22 @@ $this->params['breadcrumbs'] = [
 				
 			</tr>
 		</thead>
-		<tbody>
+	<tbody>
 								<?php foreach ($submits as $submit) : ?>
 						 			<tr>
-									 	<td><?=  $submit->reg_no; ?></td>
-										 <td><?=  $submit->ass->assName; ?></td>
-										 <td><?= $submit->fileName; ?></td>
+									 	<td><?=  $submit->reg_no; ?></td> 
 										 <td><?= $submit->score; ?></td>
-										 <td><?= $submit->submit_date; ?></td>
-										 <td><?= $submit->submit_time; ?></td>
-										 <td><?= $submit->comment; ?></td>
-										
-										
-
-
 						 			</tr>
 						 		
 									 <?php endforeach ?>
 		
 			
 
-		</tbody>
+	</tbody>
 		</table>
-</div>
-</div>
+					
+					
+				</div>
 
 			
 		<script>

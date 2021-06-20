@@ -7,6 +7,7 @@ use yii\helpers\Html;
 use common\helpers\Custom;
 use common\helpers\Security;
 use common\models\Assignment;
+use common\models\Submit;
 use common\models\Material;
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
@@ -22,7 +23,7 @@ $this->params['breadcrumbs'] = [
 ];
 
 ?>
-
+ 
 
 <div class="site-index">
     <div class="body-content">
@@ -172,15 +173,30 @@ $assk = "Assignment".$ass;
 
     <div id="collapse<?=$ass?>" class="collapse" aria-labelledby="heading<?=$ass?>" data-parent="#accordionExample">
       <div class="card-body">
-         <p><span style="color:red"> Assignment Name: </span> <b> <?= $assign -> assName ?> </b></p>
+       <center>  <p><h6><span> Assignment Name: </span> <b> <?= $assign -> assName ?> </b></h6></p></center>
+         
+         <div class="card-footer p-0">
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                    <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>" class="nav-link">
+                    <span style="color: green">  Submitted Assignments</span> <span class="float-right badge bg-success"><?php echo $assi = Submit::find()->where(['assID' => $assign->assID])->count(); ?> </span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?=Url::to(['instructor/stdworkmark/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>" class="nav-link">
+                    <span style="color: red"> Marked Assignments </span> <span class="float-right badge bg-danger">5</span>
+                    </a>
+                  </li>
+                </ul>
+              </div> 
       </div>
+
       <div class="card-footer p-2 bg-white border-top">
       <div class="row">
-      <div class="col-md-8">
-      <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>"  class="text-mutted">Assignment <i class="fas fa-eye"></i></a> &nbsp; &nbsp; &nbsp;
-      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp;<b> Deadline : </b> <?= $assign -> finishDate ?>
+      <div class="col-md-9">
+      <i class="fas fa-clock" aria-hidden="true"></i> <b>Deadline : </b> <?= $assign -> finishDate ?>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         
       <a href="#" class="btn btn-sm btn-danger float-right ml-2" data-toggle="modal" data-target="#modal-danger<?= $assign -> assID ?>"><span><i class="fas fa-trash"></i></span></a>
       <?= Html::a('<i class="fas fa-edit"></i>',['update', 'id'=>$assign->assID], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
@@ -269,19 +285,36 @@ $assk = "Assignment".$ass;
 
     <div id="collapse<?=$labb?>" class="collapse" aria-labelledby="heading<?=$labb?>" data-parent="#accordionExample_3">
       <div class="card-body">
-      <p><span style="color:red"> Lab Title: </span> <b> <?= $lab -> assName ?> </b></p>
+      <center>  <p><h6><span> Lab Name: </span> <b> <?= $lab -> assName ?> </b></h6></p></center>
+         
+         <div class="card-footer p-0">
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                    <a href="<?=Url::to(['instructor/stdworklab/', 'cid'=>$lab->course_code, 'id' => $lab->assID]) ?>" class="nav-link">
+                    <span style="color: green">  Submitted Labs</span> <span class="float-right badge bg-success"><?php echo $labi = Submit::find()->where(['assID' => $lab->assID])->count(); ?> </span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?=Url::to(['instructor/stdlabmark/', 'cid'=>$lab->course_code, 'id' => $lab->assID]) ?>" class="nav-link">
+                    <span style="color: red"> Marked Labs </span> <span class="float-right badge bg-danger">5</span>
+                    </a>
+                  </li>
+                </ul>
+              </div> 
       </div>
+      
       <div class="card-footer p-2 bg-white border-top">
       <div class="row">
-      <div class="col-md-8">
-      <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$lab->course_code, 'id' => $lab->assID]) ?>"  class="text-mutted">Lab <i class="fas fa-eye"></i></a> &nbsp; &nbsp; &nbsp;
-      <a href=""  class="text-mutted" style="color:red;">Mark <i class="fas fa-check-circle"></i></a>
-      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp;<b> Deadline : </b> <?= $lab -> finishDate ?>
+      <div class="col-md-9">
+      <i class="fas fa-clock" aria-hidden="true"></i> <b>Deadline : </b> <?= $lab -> finishDate ?>
       </div>
-      <div class="col-md-4">
-      <a href="#" class="btn btn-sm btn-danger float-right ml-2" data-toggle="modal" data-target=""><span><i class="fas fa-trash"></i></span></a>
-      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-edit"></i></span></a>
-      <a href="#" class="btn btn-sm btn-success float-right"><span><i class="fas fa-download"></i></span></a>
+      <div class="col-md-3">
+        
+      <a href="#" class="btn btn-sm btn-danger float-right ml-2" data-toggle="modal" data-target="#modal-danger<?= $lab -> assID ?>"><span><i class="fas fa-trash"></i></span></a>
+      <?= Html::a('<i class="fas fa-edit"></i>',['update', 'id'=>$assign->assID], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
+      <a href="/storage/temp/<?= $lab -> fileName ?>" download target="_blank" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-download"></i></span></a>
+      <a href="#" class="btn btn-sm btn-danger float-right"><span> <i class="fa fa-check-circle"></i></span></a>
+     
       </div>
       </div>
       </div>
@@ -291,6 +324,36 @@ $assk = "Assignment".$ass;
          $labb--;
         
         ?>
+  <div class="modal fade" id="modal-danger<?= $lab -> assID ?>">
+
+<div class="modal-dialog">
+  <div class="modal-content bg-danger">
+    <div class="modal-header">
+      <h4 class="modal-title">Deleting <b> <?= $lab -> assName ?> </b> Lab</h4>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+    
+      <p>Are you sure, you want to delete <b> <?= $lab -> assName ?> </b> lab&hellip;?</p>
+      
+    </div>
+    <div class="modal-footer justify-content-between">
+    
+      <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+      <?= Html::a('Delete', ['deletelab', 'cid'=>$lab->course_code, 'id'=>$lab -> assID], ['class'=>'btn btn-sm btn-danger float-right ml-2 btn-outline-light']) ?>
+    </div>
+    
+  </div>
+  <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+
+
+
+</div>
   <?php endforeach ?>
 
 

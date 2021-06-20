@@ -15,7 +15,7 @@ use yii\helpers\Html;
       <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/upload-tutorial', 'enctype'=>'multipart/form-data']])?>
         <div class="row">
         <div class="col-md-12">
-        <?= $form->field($tutmodel, 'assTitle')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Assignment Title'])->label(false)?>
+        <?= $form->field($tutmodel, 'assTitle')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Tutorial Title'])->label(false)?>
         </div> 
         </div>
         <div class="row">
