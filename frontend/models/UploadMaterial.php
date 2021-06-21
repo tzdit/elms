@@ -36,7 +36,7 @@ class UploadMaterial extends Model{
         $ass->fileName =  $fileName;
         $ass->instructorID = Yii::$app->user->identity->instructor->instructorID;
         $ass->course_code = isset($this->ccode) ? $this->ccode : Yii::$app->session->get('ccode');
-        $this->assFile->saveAs('storage/temp/'.$fileName);
+        $this->assFile->saveAs('storage/temp/'.uniqid().$fileName);
         $ass->save(false);     
         return true;
 
