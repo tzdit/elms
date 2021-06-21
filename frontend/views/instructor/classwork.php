@@ -107,7 +107,7 @@ $this->params['breadcrumbs'] = [
       <div class="card-footer p-2 bg-white border-top">
       <div class="row">
       <div class="col-md-6">
-      <a href=""  class="text-mutted">Material <i class="fas fa-eye"></i></a>
+      <a href="<?=Url::to(['material/player','currentvid'=>$material->fileName,'currenttitle'=>$material->title])?>"  class="text-mutted">Material <i class="fas fa-eye"></i></a>
       </div>
       <div class="col-md-6">
       <a href="#" class="btn btn-sm btn-danger float-right ml-2"><span><i class="fas fa-trash"></i></span></a>

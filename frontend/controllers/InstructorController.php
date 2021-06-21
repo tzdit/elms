@@ -120,7 +120,7 @@ public $defaultAction = 'dashboard';
         $ccode = Yii::$app->request->post('ccode');
         $instcourse = InstructorCourse::findOne(['course_code'=>$ccode, 'instructorID'=>$instructorID]);
         if($instcourse->delete()){
-            return $this->asJson(['message'=>'Course droped']);
+          return $this->asJson(['message'=>'Course droped']);
         }
     }
 }
