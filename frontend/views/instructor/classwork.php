@@ -104,7 +104,7 @@ $this->params['breadcrumbs'] = [
           else
           {
       ?>
-      <i class="fa fa-files-o" style="font-size:36px;"></i><?= $material -> title ?>
+      <i class="fa fa-files-o" style="font-size:25px;margin-right:4px"></i><?= $material -> title ?>
       <?php
           }
       ?>
@@ -142,7 +142,6 @@ $this->params['breadcrumbs'] = [
       </div>
       <div class="col-md-6">
       <a href="#" class="btn btn-sm btn-danger float-right ml-2"><span><i class="fas fa-trash"></i></span></a>
-      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-edit"></i></span></a>
       <a href="/storage/temp/<?=$material->fileName ?>" class="btn btn-sm btn-success float-right" download><span><i class="fas fa-download"></i></span></a>
      
       </div>
