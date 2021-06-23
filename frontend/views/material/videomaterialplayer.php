@@ -7,7 +7,7 @@ use yii\helpers\Url;
               <div class="col-md-9 col-sm-12 col-xs-12 col-lg-9" style="max-height: 400px;">
                  <div class="thumbnail" height="30%">
                  <video   width="100%" height="400px" style="object-fit:fill"   preload controls autoplay muted>
-                 <source src="/storage/temp/<?php echo $currentvid; ?>" type="video/mp4" id="theplayer">
+                 <source src="/storage/temp/<?php echo $currentvid; ?>#t=0.5" type="video/mp4" id="theplayer">
                  </video>
                </div>
               </div>
@@ -20,8 +20,8 @@ use yii\helpers\Url;
                     <a href="#"  style="color:#030303; opacity: 0.7; ">
                       <div class="vide-encloseure col-md-12 col-sm-12 col-xs-12">
                          <div class="thumbnail">
-                    <video id="/storage/temp/<?php echo $vid->fileName;?>" width="200" height="100%" onclick="getnewvid(this)">
-                    <source src="/storage/temp/<?php echo $vid->fileName; ?>#t=1" type="video/mp4">
+                    <video id="/storage/temp/<?php echo $vid->fileName;?>" width="200" height="100%" onclick="getnewvid(this)" preload="metadata">
+                    <source src="/storage/temp/<?php echo $vid->fileName; ?>#t=0.5" type="video/mp4">
                     </video>
                     </div>
                     <div class="caption col-md-12 col-sm-12 justify-content-center small align-items-between" style="word-wrap: break-word; width:200px;">

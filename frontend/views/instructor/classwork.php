@@ -89,7 +89,25 @@ $this->params['breadcrumbs'] = [
       <div class="row">
       <div class="col-sm-11">
       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$mat?>" aria-expanded="true" aria-controls="collapse<?=$mat?>">
-        <i class="fas fa-clipboard-list"></i> <?php echo "Material ".$mat?>
+      <?php if(in_array(pathinfo($material->fileName,PATHINFO_EXTENSION),['MP4','mp4']))
+          {
+      ?>
+      <img src="/img/video thumb.png" style="width:4%;height:20px;margin-right:3px"/><?= $material -> title ?>
+       <?php 
+          }
+          else if(in_array(pathinfo($material->fileName,PATHINFO_EXTENSION),['pdf','PDF']))
+          {
+       ?>
+      <i class="fa fa-file-pdf-o" style="font-size:20px;color:red;margin-right:3px"></i><?= $material -> title ?>
+      <?php
+          }
+          else
+          {
+      ?>
+      <i class="fa fa-files-o" style="font-size:36px;"></i><?= $material -> title ?>
+      <?php
+          }
+      ?>
         </button>
       </div>
       <div class="col-sm-1">
@@ -108,12 +126,24 @@ $this->params['breadcrumbs'] = [
       <div class="card-footer p-2 bg-white border-top">
       <div class="row">
       <div class="col-md-6">
+       <?php if(in_array(pathinfo($material->fileName,PATHINFO_EXTENSION),['MP4','mp4']))
+       {
+         ?>
       <a href="<?=Url::to(['material/player','currentvid'=>$material->fileName,'currenttitle'=>$material->title])?>"  class="text-mutted">Material <i class="fas fa-eye"></i></a>
+      <?php
+       }
+      else{
+
+      ?>
+      <a href="/storage/temp/<?=$material->fileName ?>"  class="text-mutted">Material <i class="fas fa-eye"></i></a>
+      <?php
+      }
+      ?>
       </div>
       <div class="col-md-6">
       <a href="#" class="btn btn-sm btn-danger float-right ml-2"><span><i class="fas fa-trash"></i></span></a>
       <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-edit"></i></span></a>
-      <a href="#" class="btn btn-sm btn-success float-right"><span><i class="fas fa-download"></i></span></a>
+      <a href="/storage/temp/<?=$material->fileName ?>" class="btn btn-sm btn-success float-right" download><span><i class="fas fa-download"></i></span></a>
      
       </div>
       </div>
