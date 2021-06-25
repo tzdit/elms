@@ -57,6 +57,7 @@ public $defaultAction = 'dashboard';
                             'update',
                             'updatetut',
                             'updatelab',
+                            'add-partner',
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -396,7 +397,7 @@ public function actionUploadMaterial(){
         // echo '</pre>';
         // exit;
         if($model->upload()){
-        Yii::$app->session->setFlash('success', 'Material created successfully');
+        Yii::$app->session->setFlash('success', 'Material uploaded successfully');
         return $this->redirect(Yii::$app->request->referrer);
         }else{
           
@@ -405,6 +406,17 @@ public function actionUploadMaterial(){
         return $this->redirect(Yii::$app->request->referrer);
     }
 }
+}
+//##################################### add partner ##################################################################
+
+public function actionAddPartner()
+{
+  
+  
+
+print "adding partner";
+
+
 }
 
 }

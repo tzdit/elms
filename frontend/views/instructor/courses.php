@@ -58,7 +58,7 @@ $this->params['breadcrumbs'] = [
                   <td><?= $course->course_status;  ?></td>
                   <td>
                     <?php if(Custom::isEnrolled($course->course_code)): ?>
-                      <a href="#" class="btn btn-sm btn-danger drop" data-toggle="tooltip" data-title="Drop this course"  ccode="<?= $course->course_code ?>" cname="<?= $course->course_name ?>"><i class="fas fa-times-circle"></i></a>
+                      <a href="#" class="btn btn-sm btn-danger drop" style="cursor:no-drop" data-title="course already taken"  ccode="<?= $course->course_code ?>" cname="<?= $course->course_name ?>"><i class="fas fa-ban "></i></a>
                       <?php else:?>
                   <a href="#" class="btn btn-sm btn-primary enroll" data-toggle="modal" data-target="#EnrollModal" ccode="<?= $course->course_code ?>" cname="<?= $course->course_name ?>"><i class="fas fa-check" data-toggle="tooltip" data-title="Take this course"></i></a>
                  <?php endif ?>
@@ -120,47 +120,10 @@ $(document).ready(function(){
       $('.course-description').text($(this).attr('ccode')+'=>'+$(this).attr('cname'));
       $("#ccode").val($(this).attr('ccode'));
     })
-    //sweetalert start here
-    $(document).on('click', '.drop', function(){
-      var ccode = $(this).attr('ccode');
+    
  
 
-      Swal.fire({
-  title: '<small>Do you want to drop this course?</small>',
-  icon: 'question',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes, Drop it!'
-}).then((result) => {
-  if (result.isConfirmed) {
- 
-    $.ajax({
-      url:'/instructor/dropcourse',
-      method:'post',
-      async:false,
-      dataType:'JSON',
-      data:{ccode:ccode},
-      success:function(data){
-        if(data.message){
-          Swal.fire(
-              'Droped!',
-              data.message,
-              'success'
-    )
-    setTimeout(function(){
-      window.location.reload();
-    }, 1500);
-   
-
-        }
-      }
-    })
-   
-  }
-})
-
-    })
+      
   
 });
 JS;
