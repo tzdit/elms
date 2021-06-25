@@ -31,7 +31,7 @@ $this->params['breadcrumbs'] = [
               <div class="card-header">
                 <h3 class="card-title com-sm-12 text-secondary">
                   <i class="fas fa-book mr-1"></i>
-                Available courses
+                choose your course
                  
                 </h3>
                

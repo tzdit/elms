@@ -103,7 +103,7 @@ use yii\helpers\Url;
           <li class="nav-item">
                 <a href="<?= Url::toRoute('/instructor/courses') ?>" class="nav-link">
                   <i class="fas fa-book nav-icon"></i>
-                  <p>My courses</p>
+                  <p>Take a new course</p>
                 </a>
               </li>
             <?php  endif ?>  <!-- END OF INSTRUCTOR ROLE -->

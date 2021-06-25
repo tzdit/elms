@@ -2,6 +2,9 @@
     use yii\helpers\Html;
     use yii\bootstrap4\ActiveForm;
     ?>
+    <div class="container-fluid text-center ">
+    <img src="/img/logo.png" class="img-circle"  style="height:70%;width:25%;margin-bottom:1%"></img>
+    </div>
     <div class="card card-default shadow-lg bg-white rounded" style="font-family:'Lucida Bright'">
     <div class="card-header text-center bg-primary">
       <span><b>CIVE-eCLASSROOM</b></span>
