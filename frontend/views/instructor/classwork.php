@@ -7,6 +7,7 @@ use yii\helpers\Html;
 use common\helpers\Custom;
 use common\helpers\Security;
 use common\models\Assignment;
+use common\models\StudentCourse;
 use common\models\Submit;
 use common\models\Material;
 use frontend\models\UploadAssignment;
@@ -51,6 +52,9 @@ $this->params['breadcrumbs'] = [
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-tutorials" data-toggle="tab" href="#tutorials" role="tab" aria-controls="tutorials" aria-selected="false">Tutorials</a>
+                    <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-tutorials" data-toggle="tab" href="#students" role="tab" aria-controls="students" aria-selected="false">Students</a>
+                  </li>
                   </li>
                 </ul>
               
@@ -486,6 +490,68 @@ $assk = "Assignment".$ass;
 
 
      <!-- ########################################### end tutorial ################################# -->
+     <div class="tab-pane fade" id="students" role="tabpanel" aria-labelledby="custom-tabs-Students">
+          <div class="row">
+            <div class="col-md-12">
+            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i> Create</a>
+            </div>
+            </div>
+             <?php $students=StudentCourse::find()->where(['course_code'=>$cid])->all(); ?>
+            <table width="100%" class="table table-striped table-bordered table-hover" id="studenttable" style="font-size:12px">
+		<thead>
+			<tr>
+				<th>
+					Reg #
+				</th>
+
+				<th>
+				Degree program
+				</th>
+       <th>
+       Full name
+				</th>
+				<th>
+					Gender
+				</th>
+				<th>
+				YOS
+				</th>
+				<!-- <th>
+					Question
+				</th> -->
+				
+				<th>
+					Action
+				</th>
+				<!-- <th>
+					Grading
+				</th> -->
+				
+			</tr>
+		</thead>
+		<tbody>
+								<?php foreach ($students as $student) : ?>
+						 			<tr>
+									 	<td><?=  $student->reg_no; ?></td>
+                    <td><?=  $student->regNo->programCode; ?></td>
+                    <td><?=  $student->regNo->fname." ".$student->regNo->mname." ".$student->regNo->lname; ?></td>
+                    <td><?=  $student->regNo->gender; ?></td>
+                    <td><?=  $student->regNo->YOS; ?></td>
+                    <td><i class="fa fa-edit" style="font-size:18px"></i><i class="fa fa-eye" style="font-size:18px"></i><i class="fa fa-trash-alt" style="font-size:18px;color:red"></i></td>
+							
+									
+										
+										
+
+
+						 			</tr>
+						 		
+									 <?php endforeach ?>
+		
+			
+
+		</tbody>
+		</table>
     </div>
     </div>
 </div>
@@ -528,6 +594,9 @@ $assmodel = new UploadMaterial();
 $script = <<<JS
 $(document).ready(function(){
   $("#CoursesTable").DataTable({
+    responsive:true,
+  });
+  $("#studenttable").DataTable({
     responsive:true,
   });
   
