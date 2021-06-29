@@ -28,14 +28,14 @@ use Yii;
  * @property Material[] $materials
  * @property Thread[] $threads
  */
-class Instructor extends \yii\db\ActiveRecord
+class Hod extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'instructor';
+        return 'hod';
     }
 
     /**
@@ -62,12 +62,11 @@ class Instructor extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'instructorID' => 'Instructor ID',
+            'hodID' => 'Hod ID',
             'userID' => 'User ID',
             'departmentID' => 'Department ID',
             'full_name' => 'Full Name',
             'gender' => 'Gender',
-            'PP' => 'Pp',
             'phone' => 'Phone',
         ];
     }
@@ -197,4 +196,8 @@ class Instructor extends \yii\db\ActiveRecord
                     ->viaTable('instructor_course', ['instructorID'=>'instructorID']);
     }
     
+    public function getProgram()
+    {
+        return $this->hasMany(Program::className(), ['programCode' => 'programCode']);
+    }
 }
