@@ -492,8 +492,11 @@ $assk = "Assignment".$ass;
      <!-- ########################################### end tutorial ################################# -->
      <div class="tab-pane fade" id="students" role="tabpanel" aria-labelledby="custom-tabs-Students">
           <div class="row">
-            <div class="col-md-12">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i> Create</a>
+          <div class="col-md-6">
+            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-group" ></i>Student Groups</a>
+            </div>
+            <div class="col-md-6">
+            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus" ></i>Assign Students</a>
             </div>
             </div>
              <?php $students=StudentCourse::find()->where(['course_code'=>$cid])->all(); ?>
@@ -537,7 +540,7 @@ $assk = "Assignment".$ass;
                     <td><?=  $student->regNo->fname." ".$student->regNo->mname." ".$student->regNo->lname; ?></td>
                     <td><?=  $student->regNo->gender; ?></td>
                     <td><?=  $student->regNo->YOS; ?></td>
-                    <td><i class="fa fa-edit" style="font-size:18px"></i><i class="fa fa-eye" style="font-size:18px"></i><i class="fa fa-trash-alt" style="font-size:18px;color:red"></i></td>
+                    <td><i class="fa fa-edit" style="font-size:18px"></i><i class="fa fa-trash-alt" style="font-size:18px;color:red"></i></td>
 							
 									
 										
