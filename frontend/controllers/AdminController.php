@@ -10,11 +10,13 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use frontend\models\RegisterInstructorForm;
+use frontend\models\RegisterHodForm;
 use frontend\models\UploadStudentForm;
 use common\models\Instructor;
 use common\models\Student;
 use common\models\College;
 use common\models\Department;
+use common\models\Hod;
 use common\models\Program;
 use yii\helpers\ArrayHelper;
 use common\models\AuthItem;
@@ -42,7 +44,9 @@ public $defaultAction = 'dashboard';
                         'actions' => [
                             'dashboard',
                             'instructor-list',
+                            'hod-list',
                             'create-instructor',
+                            'create-hod',
                             'create-student',
                             'student-list',
                         ],
@@ -95,10 +99,40 @@ public $defaultAction = 'dashboard';
     }
 
 
+        //Create hod
+        public function actionCreateHod(){
+            $model = new RegisterHodForm;
+            $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'HOD'])->all(), 'name', 'name');
+            try{
+            $departments = ArrayHelper::map(Department::find()->where(['collegeID'=>Yii::$app->user->identity->admin->college->collegeID])->all(), 'departmentID', 'department_name');
+            if($model->load(Yii::$app->request->post())){
+                if($model->create()){
+                Yii::$app->session->setFlash('success', 'Hod registered successfully');
+                }else{
+                    Yii::$app->session->setFlash('error', 'Somethibg went Wrong!');
+                }
+           
+                    
+             } 
+            
+        }catch(\Exception $e){
+            Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+        }
+            return $this->render('create_hod', ['model'=>$model, 'departments'=>$departments, 'roles'=>$roles]);
+        }
+    
+    
+
     //get instructor list
     public function actionInstructorList(){
         $instructors = Instructor::find()->all();
         return $this->render('instructor_list', ['instructors'=>$instructors]);
+    }
+
+    //get Hod list
+    public function actionHodList(){
+        $hods = Hod::find()->all();
+        return $this->render('hod_list', ['hods'=>$hods]);
     }
 //create students
  //Create instructor

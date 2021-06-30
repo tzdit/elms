@@ -329,7 +329,7 @@ $assk = "Assignment".$ass;
                   </li>
                   <li class="nav-item">
                     <a href="<?=Url::to(['instructor/stdlabmark/', 'cid'=>$lab->course_code, 'id' => $lab->assID]) ?>" class="nav-link">
-                    <span style="color: red"> Marked Labs </span> <span class="float-right badge bg-danger"><?php echo  $assi = Submit::find()->where(['assID' => $lab->assID, 'score' => " " or 'Null'])->count(),  " / " ,Submit::find()->where(['assID' => $lab->assID])->count(); ?> </span>
+                    <span style="color: red"> Marked Labs </span> <span class="float-right badge bg-danger"><?php echo  $assi = Submit::find()->where(['assID' => $lab->assID, 'score' => null])->count(),  " / " ,Submit::find()->where(['assID' => $lab->assID])->count(); ?> </span>
                     </a>
                   </li>
                 </ul>
