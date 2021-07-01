@@ -14,6 +14,8 @@ use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
 use frontend\models\StudentGroups;
+use common\models\Groups;
+use common\models\GroupGenerationTypes;
 use Yii;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
@@ -60,6 +62,7 @@ public $defaultAction = 'dashboard';
                             'updatelab',
                             'add-partner',
                             'generate-groups',
+                            'view-groups',
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -445,4 +448,16 @@ public function actionGenerateGroups()
      }
 
 }
+
+ public function actionViewGroups()
+ {
+   $groupsModel=new GroupGenerationTypes();
+   $coursecode=Yii::$app->session->get('ccode');
+   $groups=$groupsModel::find()->orderBy(['typeID'=>SORT_DESC])->all();
+
+
+  return $this->render('courseGroups', ['groups'=>$groups,'cid'=>$coursecode]);
+
+
+ }
 }

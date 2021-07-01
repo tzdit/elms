@@ -12,13 +12,14 @@ use Yii;
  * @property string|null $course_code
  * @property string|null $reg_no
  * @property int|null $instructorID
- * @property string|null $generation_type
+ * @property int $generation_type
  * @property string $creator_type
  * @property string $created_date
  * @property string $created_time
  *
  * @property GroupAssignment[] $groupAssignments
  * @property Course $courseCode
+ * @property GroupGenerationTypes $generationType
  * @property Instructor $instructor
  * @property Student $regNo
  * @property StudentGroup[] $studentGroups
@@ -39,14 +40,14 @@ class Groups extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['groupName', 'creator_type'], 'required'],
-            [['instructorID'], 'integer'],
+            [['groupName', 'generation_type', 'creator_type'], 'required'],
+            [['instructorID', 'generation_type'], 'integer'],
             [['created_date', 'created_time'], 'safe'],
             [['groupName', 'creator_type'], 'string', 'max' => 10],
             [['course_code'], 'string', 'max' => 7],
             [['reg_no'], 'string', 'max' => 20],
-            [['generation_type'], 'string', 'max' => 100],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
+            [['generation_type'], 'exist', 'skipOnError' => true, 'targetClass' => GroupGenerationTypes::className(), 'targetAttribute' => ['generation_type' => 'typeID']],
             [['instructorID'], 'exist', 'skipOnError' => true, 'targetClass' => Instructor::className(), 'targetAttribute' => ['instructorID' => 'instructorID']],
             [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],
         ];
@@ -88,6 +89,16 @@ class Groups extends \yii\db\ActiveRecord
     public function getCourseCode()
     {
         return $this->hasOne(Course::className(), ['course_code' => 'course_code']);
+    }
+
+    /**
+     * Gets query for [[GenerationType]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGenerationType()
+    {
+        return $this->hasOne(GroupGenerationTypes::className(), ['typeID' => 'generation_type']);
     }
 
     /**

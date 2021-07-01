@@ -5,6 +5,7 @@ use yii\base\Model;
 use common\models\Student;
 use common\models\StudentCourse;
 use common\models\StudentGroup;
+use common\models\GroupGenerationTypes;
 use common\models\Groups;
 class StudentGroups extends Model{
     public $generationType;
@@ -55,7 +56,10 @@ class StudentGroups extends Model{
            $groupmodel=new Groups();
            $groupmodel->groupName=$groupname;
            $groupmodel->course_code=$ccode;
-           $groupmodel->generation_type=($this->generationType!="" || $this->generationType!=null)?$this->generationType:"Generation type ".$now;
+           $typesmodel=new GroupGenerationTypes();
+           $typesmodel->generation_type=($this->generationType!="" || $this->generationType!=null)?$this->generationType:"Generation type ".$now;
+           $typesmodel->save();
+           $groupmodel->generation_type=$typesmodel->typeID;
            $groupmodel->instructorID=$instructorID;
            $groupmodel->creator_type="instructor";
            if($groupmodel->save()){

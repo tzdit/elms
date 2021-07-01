@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2021 at 08:40 PM
+-- Generation Time: Jul 01, 2021 at 11:18 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -338,7 +338,7 @@ CREATE TABLE `groups` (
   `course_code` varchar(7) DEFAULT NULL,
   `reg_no` varchar(20) DEFAULT NULL,
   `instructorID` int(11) DEFAULT NULL,
-  `generation_type` varchar(100) DEFAULT NULL,
+  `generation_type` int(11) NOT NULL,
   `creator_type` varchar(10) NOT NULL,
   `created_date` date NOT NULL DEFAULT current_timestamp(),
   `created_time` time NOT NULL DEFAULT current_timestamp()
@@ -349,28 +349,8 @@ CREATE TABLE `groups` (
 --
 
 INSERT INTO `groups` (`groupID`, `groupName`, `course_code`, `reg_no`, `instructorID`, `generation_type`, `creator_type`, `created_date`, `created_time`) VALUES
-(1, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:19:00', 'instructor', '2021-07-01', '20:19:00'),
-(2, 'Group 2', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:19:01', 'instructor', '2021-07-01', '20:19:01'),
-(3, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:20:40', 'instructor', '2021-07-01', '20:20:40'),
-(4, 'Group 2', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:20:40', 'instructor', '2021-07-01', '20:20:40'),
-(5, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:22:20', 'instructor', '2021-07-01', '20:22:20'),
-(6, 'Group 2', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:22:20', 'instructor', '2021-07-01', '20:22:20'),
-(7, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:26:36', 'instructor', '2021-07-01', '20:26:36'),
-(8, 'Group 2', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:26:36', 'instructor', '2021-07-01', '20:26:37'),
-(9, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:41:54', 'instructor', '2021-07-01', '20:41:54'),
-(10, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:57:38', 'instructor', '2021-07-01', '20:57:38'),
-(11, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:59:12', 'instructor', '2021-07-01', '20:59:12'),
-(12, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:59:18', 'instructor', '2021-07-01', '20:59:18'),
-(13, 'Group 1', 'CP 111', NULL, 2, 'assign groups no2', 'instructor', '2021-07-01', '21:02:41'),
-(14, 'Group 1', 'CP 111', NULL, 2, '', 'instructor', '2021-07-01', '21:03:02'),
-(15, 'Group 1', 'CP 111', NULL, 2, '', 'instructor', '2021-07-01', '21:07:15'),
-(16, 'Group 1', 'CP 111', NULL, 2, 'assign groups no2', 'instructor', '2021-07-01', '21:08:03'),
-(17, 'Group 1', 'CP 111', NULL, 2, '', 'instructor', '2021-07-01', '21:10:36'),
-(18, 'Group 1', 'CP 111', NULL, 2, '', 'instructor', '2021-07-01', '21:11:47'),
-(19, 'Group 1', 'CP 111', NULL, 2, '', 'instructor', '2021-07-01', '21:12:16'),
-(20, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 08:14:22', 'instructor', '2021-07-01', '21:14:22'),
-(21, 'Group 1', 'CP 111', NULL, 2, 'assignment groups for january', 'instructor', '2021-07-01', '21:14:45'),
-(22, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 08:22:37', 'instructor', '2021-07-01', '21:22:37');
+(24, 'Group 1', 'CP 111', NULL, 2, 1, 'instructor', '2021-07-01', '23:46:05'),
+(25, 'Group 1', 'CP 111', NULL, 2, 2, 'instructor', '2021-07-02', '00:13:55');
 
 -- --------------------------------------------------------
 
@@ -383,6 +363,25 @@ CREATE TABLE `group_assignment` (
   `groupID` int(11) DEFAULT NULL,
   `assID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_generation_types`
+--
+
+CREATE TABLE `group_generation_types` (
+  `typeID` int(11) NOT NULL,
+  `generation_type` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `group_generation_types`
+--
+
+INSERT INTO `group_generation_types` (`typeID`, `generation_type`) VALUES
+(1, 'new strategy'),
+(2, 'Generation type 07:01:2021 11:13:55');
 
 -- --------------------------------------------------------
 
@@ -729,42 +728,10 @@ INSERT INTO `student_group` (`SG_ID`, `reg_no`, `groupID`) VALUES
 (6, 'T/UDOM/2020/00002', NULL),
 (7, 'T/UDOM/2020/00001', NULL),
 (8, 'T/UDOM/2020/00002', NULL),
-(9, 'T/UDOM/2020/00001', 1),
-(10, 'T/UDOM/2020/00002', 2),
-(11, 'T/UDOM/2020/00002', 3),
-(12, 'T/UDOM/2020/00001', 4),
-(13, 'T/UDOM/2020/00002', 5),
-(14, 'T/UDOM/2020/00001', 6),
-(15, 'T/UDOM/2020/00001', 7),
-(16, 'T/UDOM/2020/00002', 8),
-(17, 'T/UDOM/2020/00002', 9),
-(18, 'T/UDOM/2020/00001', 9),
-(19, 'T/UDOM/2020/00002', 10),
-(20, 'T/UDOM/2020/00001', 10),
-(21, 'T/UDOM/2020/00002', 11),
-(22, 'T/UDOM/2020/00001', 11),
-(23, 'T/UDOM/2020/00001', 12),
-(24, 'T/UDOM/2020/00002', 12),
-(25, 'T/UDOM/2020/00002', 13),
-(26, 'T/UDOM/2020/00001', 13),
-(27, 'T/UDOM/2020/00001', 14),
-(28, 'T/UDOM/2020/00002', 14),
-(29, 'T/UDOM/2020/00001', 15),
-(30, 'T/UDOM/2020/00002', 15),
-(31, 'T/UDOM/2020/00001', 16),
-(32, 'T/UDOM/2020/00002', 16),
-(33, 'T/UDOM/2020/00002', 17),
-(34, 'T/UDOM/2020/00001', 17),
-(35, 'T/UDOM/2020/00001', 18),
-(36, 'T/UDOM/2020/00002', 18),
-(37, 'T/UDOM/2020/00002', 19),
-(38, 'T/UDOM/2020/00001', 19),
-(39, 'T/UDOM/2020/00001', 20),
-(40, 'T/UDOM/2020/00002', 20),
-(41, 'T/UDOM/2020/00002', 21),
-(42, 'T/UDOM/2020/00001', 21),
-(43, 'T/UDOM/2020/00002', 22),
-(44, 'T/UDOM/2020/00001', 22);
+(47, 'T/UDOM/2020/00002', 24),
+(48, 'T/UDOM/2020/00001', 24),
+(49, 'T/UDOM/2020/00001', 25),
+(50, 'T/UDOM/2020/00002', 25);
 
 -- --------------------------------------------------------
 
@@ -984,7 +951,8 @@ ALTER TABLE `groups`
   ADD PRIMARY KEY (`groupID`),
   ADD KEY `coursekey1` (`course_code`),
   ADD KEY `studkey1` (`reg_no`),
-  ADD KEY `instructorkey1` (`instructorID`);
+  ADD KEY `instructorkey1` (`instructorID`),
+  ADD KEY `generation_type` (`generation_type`);
 
 --
 -- Indexes for table `group_assignment`
@@ -993,6 +961,12 @@ ALTER TABLE `group_assignment`
   ADD PRIMARY KEY (`GA_ID`),
   ADD KEY `gasskey` (`assID`),
   ADD KEY `gkey` (`groupID`);
+
+--
+-- Indexes for table `group_generation_types`
+--
+ALTER TABLE `group_generation_types`
+  ADD PRIMARY KEY (`typeID`);
 
 --
 -- Indexes for table `instructor`
@@ -1230,13 +1204,19 @@ ALTER TABLE `fresh_thread`
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `groupID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `groupID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `group_assignment`
 --
 ALTER TABLE `group_assignment`
   MODIFY `GA_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `group_generation_types`
+--
+ALTER TABLE `group_generation_types`
+  MODIFY `typeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `instructor`
@@ -1314,7 +1294,7 @@ ALTER TABLE `student_course`
 -- AUTO_INCREMENT for table `student_group`
 --
 ALTER TABLE `student_group`
-  MODIFY `SG_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `SG_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `student_lecture`
@@ -1434,6 +1414,7 @@ ALTER TABLE `fresh_thread`
 --
 ALTER TABLE `groups`
   ADD CONSTRAINT `coursekey1` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `groups_ibfk_1` FOREIGN KEY (`generation_type`) REFERENCES `group_generation_types` (`typeID`),
   ADD CONSTRAINT `instructorkey1` FOREIGN KEY (`instructorID`) REFERENCES `instructor` (`instructorID`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `studkey1` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON DELETE SET NULL ON UPDATE CASCADE;
 
