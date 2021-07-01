@@ -1,6 +1,7 @@
     <?php
     use yii\helpers\Html;
     use yii\bootstrap4\ActiveForm;
+    use yii\helpers\Url;
     ?>
     <div class="card card-default shadow-lg bg-white rounded" style="font-family:'Lucida Bright'">
     <div class="card-header text-center bg-primary">
@@ -17,6 +18,12 @@
         <div class="col-md-12">
             
                <?= $form->field($model, 'password')->passwordInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Password'])->label(false) ?>
+           </div>
+
+           <div class='col-md-12' id='forget_password'>
+           <a href="<?= Url::to(['/auth/requestpasswordreset'])  ?>">
+           <span class="small"> Forget password</span>
+          </a>
            </div>
             
            <div class="col-md-4 mr-auto ml-auto">

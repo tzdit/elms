@@ -13,6 +13,7 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
+        'css/student.css',
         'plugins/icheck-bootstrap/icheck-bootstrap.min.css',
         'plugins/jqvmap/jqvmap.min.css',
         'css/adminlte.min.css',
@@ -29,6 +30,7 @@ class AppAsset extends AssetBundle
         
     ];
     public $js = [
+        'js/student.js',
         'plugins/bootstrap/js/bootstrap.min.js',
         'plugins/chart.js/Chart.min.js',
         'plugins/sparklines/sparkline.js',

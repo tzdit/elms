@@ -3,10 +3,12 @@ use yii\bootstrap4\Breadcrumbs;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use common\helpers\Security;
-/* @var $this yii\web\View */
+use yii\helpers\VarDumper;
+/* @var $this yii\eb\View */
 
 $this->title = 'Student Dashboard';
 ?>
+<!-- <?= VarDumper::dump($courses) ?> -->
 <div class="site-index">
 
     

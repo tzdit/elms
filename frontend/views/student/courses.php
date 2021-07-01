@@ -5,6 +5,7 @@ use fedemotta\datatables\DataTables;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use common\helpers\Custom;
+use yii\helpers\VarDumper;
 /* @var $this yii\web\View */
 
 $this->title = 'My Courses';
@@ -15,8 +16,7 @@ $this->params['breadcrumbs'] = [
 
 ?>
 <div class="site-index">
-
-    
+  <!-- <?=  VarDumper::dump($data)?> -->
 
     <div class="body-content">
             <!-- Content Wrapper. Contains page content -->
@@ -40,32 +40,31 @@ $this->params['breadcrumbs'] = [
               <div class="card-body">
  
              <div class="row">
-               <div class="col-md-12">
-                  <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
-                  <thead>
-                  <tr>
-                  <th width="1%">#</th><th width="10%">Code</th><th>Name</th><th>Credit</th><th>Status</th>
-                  </tr>
-                  </thead>
+             <div class="col-md-12">
+
+              <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+              <thead>
+              <tr>
+              <th width="1%">#</th><th width="10%">Code</th><th>Name</th><th>Credit</th><th>Status</th>
+              </tr>
+              </thead>
+            
+              <?php foreach($data as $key =>$courses): ?>
+              
                   <tbody>
                   <tr>
-                  <td>1</td>
-                  <td>TN 330</td>
-                  <td>Microwaves</td>
-                  <td>8</td>
-                  <td>Active</td>
+                  <td><?= $key = $key + 1 ?></td>
+                  <td><?= $courses->course_code ?> </td>
+                  <td><?= $courses->course_name ?> </td>
+                  <td><?= $courses->course_credit ?> </td>
+                  <td><?= strtoupper( $courses->course_status ) ?> </td>
                   </tr> 
-                  <tr>
-                  <td>2</td>
-                  <td>TN 310</td>
-                  <td>Antena and waves propagations</td>
-                  <td>8</td>
-                  <td>Active</td>
-                  </tr>         
                   </tbody>
-                  </table>
-             </div>
-            
+                 
+             
+              <?php endforeach ?>
+              </table>
+              </div>
              </div>
               </div><!-- /.card-body -->
             </div>

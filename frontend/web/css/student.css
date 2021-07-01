@@ -1,0 +1,19 @@
+#forget_password{
+  margin-top: 0px;
+  padding-bottom: 5px;
+}
+
+#forget_password a {
+  font-style: italic;
+  color: red;
+  padding-left: 0%;
+  padding-bottom: 5px;
+}
+
+#forget_password a:hover {
+  color: rgb(108, 110, 221);
+}
+
+#username i {
+  font-style: italic;
+}

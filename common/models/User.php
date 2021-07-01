@@ -50,6 +50,13 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    //  /**
+    //  * {@inheritdoc}
+    //  */
+    // public function find_student_regno_no(){
+    //     $id = Yii::$app->user->getId(); 
+    // }
+
     /**
      * {@inheritdoc}
      */
