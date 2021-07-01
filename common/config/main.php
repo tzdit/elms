@@ -16,7 +16,11 @@ return [
             'showScriptName' => false,
             'rules' => [
                 //this rule for classwork route
-                '<controller:[\w\-]+>/<action:[\w\-]+>/<cid:\w->/classwork' => '<controller>/<action>' 
+               '<controller:[\w\-]+>/<action:[\w\-]+>/<cid:\w->/classwork' => '<controller>/
+                <action>',
+                '<controller:[\w\-]+>/<action:[\w\-]+>/<id:\w->' => '<controller>/
+                <action>'
+                 
             ],
         ],
         'hashids' => [

@@ -7,6 +7,7 @@ use yii\filters\AccessControl;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
+use frontend\models\VerifyEmailForm;
 class AuthController extends \yii\web\Controller
 {
         /**
@@ -20,12 +21,12 @@ class AuthController extends \yii\web\Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login'],
+                        'actions' => ['login','requestpasswordreset'],
                         'allow' => true,
                         
                     ],
                     [
-                        'actions' => ['logout', 'error'],
+                        'actions' => ['logout', 'error','requestPasswordResetToken','resertPassword','resendVerificationEmail','verify_email'],
                         'allow' => true,
                         'roles' =>['@']
                         
@@ -64,9 +65,7 @@ class AuthController extends \yii\web\Controller
      */
     public function actionLogin()
     {
-      
-  
-     if (!Yii::$app->user->isGuest) {
+      if (!Yii::$app->user->isGuest) {
             //return $this->goHome();
              return $this->redirect(['/home/dashboard']);
        }
@@ -88,6 +87,7 @@ class AuthController extends \yii\web\Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
+        $destroySession = true;
 
         return $this->redirect(['auth']);
     }
@@ -99,8 +99,9 @@ class AuthController extends \yii\web\Controller
      *
      * @return mixed
      */
-    public function actionRequestPasswordReset()
+    public function actionRequestpasswordreset()
     {
+        $this->layout = 'login';
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
@@ -150,7 +151,7 @@ class AuthController extends \yii\web\Controller
      * @throws BadRequestHttpException
      * @return yii\web\Response
      */
-    public function actionVerifyEmail($token)
+    public function actionVerify_email($token)
     {
         try {
             $model = new VerifyEmailForm($token);
@@ -189,6 +190,6 @@ class AuthController extends \yii\web\Controller
         ]);
     }
     
-   
+    
 
 }
