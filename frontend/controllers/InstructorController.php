@@ -13,6 +13,7 @@ use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
+use frontend\models\StudentGroups;
 use Yii;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
@@ -58,6 +59,7 @@ public $defaultAction = 'dashboard';
                             'updatetut',
                             'updatelab',
                             'add-partner',
+                            'generate-groups',
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -419,4 +421,28 @@ print "adding partner";
 
 }
 
+//########################### creating student groups ################################
+
+
+public function actionGenerateGroups()
+{
+ 
+    $model = new StudentGroups();
+    if($model->load(Yii::$app->request->post())){
+      
+     if($model->generateRandomGroups())
+     {
+
+        Yii::$app->session->setFlash('success', 'groups generated');
+        return $this->redirect(Yii::$app->request->referrer);
+     }
+     else{
+
+        Yii::$app->session->setFlash('success', 'groups generating failed');
+        return $this->redirect(Yii::$app->request->referrer);
+     }
+ 
+     }
+
+}
 }

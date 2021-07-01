@@ -12,6 +12,7 @@ use Yii;
  * @property string|null $course_code
  * @property string|null $reg_no
  * @property int|null $instructorID
+ * @property string|null $generation_type
  * @property string $creator_type
  * @property string $created_date
  * @property string $created_time
@@ -38,12 +39,13 @@ class Groups extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['groupName', 'creator_type', 'created_date', 'created_time'], 'required'],
+            [['groupName', 'creator_type'], 'required'],
             [['instructorID'], 'integer'],
             [['created_date', 'created_time'], 'safe'],
             [['groupName', 'creator_type'], 'string', 'max' => 10],
             [['course_code'], 'string', 'max' => 7],
             [['reg_no'], 'string', 'max' => 20],
+            [['generation_type'], 'string', 'max' => 100],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
             [['instructorID'], 'exist', 'skipOnError' => true, 'targetClass' => Instructor::className(), 'targetAttribute' => ['instructorID' => 'instructorID']],
             [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],
@@ -61,6 +63,7 @@ class Groups extends \yii\db\ActiveRecord
             'course_code' => 'Course Code',
             'reg_no' => 'Reg No',
             'instructorID' => 'Instructor ID',
+            'generation_type' => 'Generation Type',
             'creator_type' => 'Creator Type',
             'created_date' => 'Created Date',
             'created_time' => 'Created Time',

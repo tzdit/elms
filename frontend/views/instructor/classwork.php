@@ -14,6 +14,7 @@ use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
+use frontend\models\StudentGroups;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] = "Course ".$cid;
@@ -493,7 +494,7 @@ $assk = "Assignment".$ass;
      <div class="tab-pane fade" id="students" role="tabpanel" aria-labelledby="custom-tabs-Students">
           <div class="row">
           <div class="col-md-6">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-group" ></i>Student Groups</a>
+            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#mymodal" data-toggle="modal"><i class="fas fa-group" ></i>Student Groups</a>
             </div>
             <div class="col-md-6">
             <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus" ></i>Assign Students</a>
@@ -591,7 +592,12 @@ $assmodel = new UploadMaterial();
 ?>
 <?= $this->render('materials/create_material', ['assmodel'=>$assmodel, 'ccode'=>$cid]) ?>
 
+<!-- ################################################## model for new groups################################  -->
 
+<?php 
+$studentGroups = new StudentGroups();
+?>
+<?= $this->render('students/generate_group',['studentGroups'=>$studentGroups]) ?>
 
 <?php 
 $script = <<<JS

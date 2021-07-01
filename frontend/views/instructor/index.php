@@ -96,6 +96,7 @@ $instructors=Instructor::find()->all();
         </div>
         </div>
         <div class="modal-footer">
+        <input type="hidden" name="_csrf" value="<?=Yii::$app->request->csrfToken?>" />
         <input type="submit" class="btn btn-primary" name="added" value="Add"></input>
          </form>
          
