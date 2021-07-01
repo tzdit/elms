@@ -15,10 +15,8 @@ class UploadMaterial extends Model{
     public function rules(){
         return [
            [['assTitle', 'assType', 'assFile'], 'required'],
-           [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, jpg, png, doc, pkt, ppt'],
-           
-           
-        
+           [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, mp4, MP4, jpg, png, doc, docx, xlsx, xls, pkt, ppt'],
+
 
         ];
 
@@ -29,7 +27,7 @@ class UploadMaterial extends Model{
         }
         try{
         
-        $fileName = $this->assFile->baseName.'.'.$this->assFile->extension;
+        $fileName =uniqid().'.'.$this->assFile->extension;
         $ass = new Material();
         $ass->title = $this->assTitle;
         $ass->material_type = $this->assType;
@@ -37,7 +35,7 @@ class UploadMaterial extends Model{
         $ass->instructorID = Yii::$app->user->identity->instructor->instructorID;
         $ass->course_code = isset($this->ccode) ? $this->ccode : Yii::$app->session->get('ccode');
         $this->assFile->saveAs('storage/temp/'.$fileName);
-        $ass->save();     
+        $ass->save(false);     
         return true;
 
         

@@ -52,6 +52,10 @@ class HomeController extends \yii\web\Controller
       else if (Yii::$app->user->can('STUDENT')) {
         return $this->redirect(Url::to(['/student/dashboard']));
     }
+
+    else if (Yii::$app->user->can('HOD')) {
+        return $this->redirect(Url::to(['/hod/dashboard']));
+    }
         
 }
 

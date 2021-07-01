@@ -2,6 +2,7 @@
 use yii\bootstrap4\Breadcrumbs;
 use yii\grid\GridView;
 use fedemotta\datatables\DataTables;
+use common\models\Material;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use common\helpers\Custom;
@@ -10,10 +11,10 @@ use common\models\Assignment;
 use frontend\models\UploadMaterial;
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] = "TN 330";
-$this->title = 'Classwork';
+$this->params['courseTitle'] =$cid;
+$this->title = 'Classwork'; 
 $this->params['breadcrumbs'] = [
-  ['label'=>'classwork', 'url'=>Url::to(['/student/classwork'])],
+  ['label'=>'classwork', 'url'=>Url::to(['/student/classwork', 'cid'=>$cid])],
   ['label'=>$this->title]
 ];
 
@@ -36,7 +37,13 @@ $this->params['breadcrumbs'] = [
                     <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true">Forum</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-assessments" data-toggle="tab" href="#assessments" role="tab" aria-controls="assessments" aria-selected="false">Assessment</a>
+                    <a class="nav-link" id="custom-tabs-assessments" data-toggle="tab" href="#assessments" role="tab" aria-controls="assessments" aria-selected="false">Assignments</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-labs" data-toggle="tab" href="#labs" role="tab" aria-controls="labs" aria-selected="false">labs</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-tutorials" data-toggle="tab" href="#tutorials" role="tab" aria-controls="tutorials" aria-selected="false">tutorials</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-coursematerials" data-toggle="tab" href="#coursematerials" role="tab" aria-controls="coursematerials" aria-selected="false">Course materials</a>
@@ -60,42 +67,268 @@ $this->params['breadcrumbs'] = [
 
 <!-- ########################################### forum work ######################################## --> 
                   <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">
-                    WASHA PENZI KAMA MOTO
-                  </div>     
+                    WASHA KAZI KAMA MOTO
+                  </div>  
 
-<div class="tab-pane fade" id="assessments" role="tabpanel" aria-labelledby="custom-tabs-assessments">
-<!-- ########################################### kazi ######################################## --> 
+<!-- ########################################### Assigments and Labs ######################################## --> 
+<?php $ass = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->count(); ?>      
+<div class="tab-pane fade" id="assessments" role="tabpanel" aria-labelledby="custom-tabs-assignment">
+<div class="accordion" id="accordionExample">
+<?php $assk = "Assignment".$ass ;
+$assk = "Assignment".$ass;
+?>
+<?php foreach( $assignments as $assign ) : ?>
+
+  <div class="card">
+    <div class="card-header p-2" id="heading<?=$ass?>">
+      <h2 class="mb-0">
       <div class="row">
-      <p>KAZI TUTAYAVUTA HAPA</p>
-                  
+      <div class="col-sm-11">
+      <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$ass?>" aria-expanded="true" aria-controls="collapse<?=$ass?>">
+        <i class="fas fa-clipboard-list"></i> <?php echo "Assignment ".$ass;?>
+        </button>
       </div>
+      <div class="col-sm-1">
+      <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
+      </div>
+      </div>
+         
+       
+      </h2>
+    </div>
 
-<div class="accordion" id="accordionExample_6">
+    <div id="collapse<?=$ass?>" class="collapse" aria-labelledby="heading<?=$ass?>" data-parent="#accordionExample">
+      <div class="card-body">
+         <p><span style="color:green"> About: </span>  <?= $assign -> assName ?> </p>
+      </div>
+      <div class="card-footer p-2 bg-white border-top">
+      <div class="row">
+      <div class="col-md-8">
+      <b> Deadline : </b><?= $assign -> finishDate ?>
+      </div>
+      <div class="col-md-4">
+      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"></i></span></a>
+      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"></i></span></a>
+      <a href="#" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"></i></span></a>
+     
+      </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <?php 
+         $ass--;
+        
+        ?>
+  
+  <?php endforeach ?>
+
+
 </div>
 
 </div>
+
+<?php $labb = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->count(); ?>
+<!-- ########################################### lab work ######################################## -->
+
+<div class="tab-pane fade" id="labs" role="tabpanel" aria-labelledby="custom-tabs-lab">
+<div class="accordion" id="accordionExample_3">
+<?php foreach( $labs as $lab ) : ?>
+  <div class="card">
+    <div class="card-header p-2" id="heading<?=$labb?>">
+      <h2 class="mb-0">
+      <div class="row">
+      <div class="col-sm-11">
+      <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$labb?>" aria-expanded="true" aria-controls="collapse<?=$labb?>">
+        <i class="fas fa-clipboard-list"></i> <?php echo "Lab ".$labb;?>
+        </button>
+      </div>
+      <div class="col-sm-1">
+      <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
+      </div>
+      </div>
+        
+       
+      </h2>
+    </div>
+
+    <div id="collapse<?=$labb?>" class="collapse" aria-labelledby="heading<?=$labb?>" data-parent="#accordionExample_3">
+      <div class="card-body">
+      <p><span style="color:green"> About: </span> <?= $lab -> assName ?></p>
+      </div>
+      <div class="card-footer p-2 bg-white border-top">
+      <div class="row">
+      <div class="col-md-8 float-left">
+      <b> Deadline : </b> <?= $lab -> finishDate ?>
+      </div>
+      <div class="col-md-4">
+      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"></i></span></a>
+      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"></i></span></a>
+      <a href="#" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"></i></span></a>
+      </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <?php 
+         $labb--;
+        
+        ?>
+  <?php endforeach ?>
+
+  </div> 
+  </div>  
+
+  <?php $tutt = Assignment::find()->where(['assNature' => 'tutorial', 'course_code' => $cid])->count(); ?>
+<!-- ########################################### tutorial work ######################################## -->
+     <div class="tab-pane fade" id="tutorials" role="tabpanel" aria-labelledby="custom-tabs-tutorials">
+   <div class="accordion" id="accordionExample_4">
+                 
+              
+             
+   <?php foreach( $tutorials as $tutorial ) : ?>
+  <div class="card">
+    <div class="card-header p-2" id="heading<?=$tutt?>">
+      <h2 class="mb-0">
+      <div class="row">
+      <div class="col-sm-11">
+      <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$tutt?>" aria-expanded="true" aria-controls="collapse<?=$tutt?>">
+        <i class="fas fa-clipboard-list"></i> <?php echo "Tutorial ".$tutt;?>
+        </button>
+      </div>
+      <div class="col-sm-1">
+      <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
+      </div>
+      </div>
+        
+       
+      </h2>
+    </div>
+
+    <div id="collapse<?=$tutt?>" class="collapse" aria-labelledby="heading<?=$tutt?>" data-parent="#accordionExample_4">
+      <div class="card-body">
+      <p><span style="color:green"> About: </span> <?= $tutorial -> assName ?></p>
+      </div>
+      <div class="card-footer p-2 bg-white border-top">
+      <div class="row">
+      <div class="col-md-6">
+      <a href=""  class="text-mutted">Tutorials <i class="fas fa-eye"></i></a>
+      </div>
+      <div class="col-md-6">
+      <a href="#" class="btn btn-sm btn-success float-right"><span><i class="fas fa-download"></i></span></a>
+      </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <?php 
+         $tutt--;
+        
+        ?>
+  <?php endforeach ?>
+
+
+</div>
+
+</div>
+ 
 
 <!-- ########################################### materials ######################################## -->      
-
+<?php $mat = Material::find()->where(['course_code' => $cid])->count(); ?>
 <div class="tab-pane fade" id="coursematerials" role="tabpanel" aria-labelledby="custom-tabs-coursematerials">
+<div class="accordion" id="accordionExample_6">
 
+<?php foreach( $materials as $material ) : ?>
+
+  <div class="card">
+    <div class="card-header p-2" id="heading<?=$mat?>">
+      <h2 class="mb-0">
       <div class="row">
-      <p>MATERIALS TUTAZIVUTA HAPA</p>           
+      <div class="col-sm-11">
+      <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$mat?>" aria-expanded="true" aria-controls="collapse<?=$mat?>">
+        <i class="fas fa-clipboard-list"></i> <?php echo "Material ".$mat?>
+        </button>
       </div>
+      <div class="col-sm-1">
+      <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
+      </div>
+      </div>
+         
+       
+      </h2>
+    </div>
 
-<div class="accordion" id="accordionExample">
+    <div id="collapse<?=$mat?>" class="collapse" aria-labelledby="heading<?=$mat?>" data-parent="#accordionExample_6">
+      <div class="card-body">
+         <p><span style="color:green"> About: </span>  <?= $material -> title ?> </p>
+      </div>
+      <div class="card-footer p-2 bg-white border-top">
+      <div class="row">
+      <div class="col-md-6">
+      <a href=""  class="text-mutted">Material <i class="fas fa-eye"></i></a>
+      </div>
+      <div class="col-md-6">
+      <a href="#" class="btn btn-sm btn-success float-right"><span><i class="fas fa-download"></i></span></a>
+     
+      </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <?php 
+         $mat--;
+        
+        ?>
+  
+  <?php endforeach ?>
+
 </div>
 
 </div>
 <!-- ########################################### returned marks ######################################## -->
 
 <div class="tab-pane fade" id="returned" role="tabpanel" aria-labelledby="custom-tabs-returned">
-<div class="row">
-<p>RETURNED MARKS TUTAZIVUTA HAPA</p>
-                  
-</div>
 
 <div class="accordion" id="accordionExample_3">
+          <!-- Left col -->
+          <section class="col-lg-12">
+            <!-- Custom tabs (Charts with tabs)-->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title com-sm-12 text-secondary">
+                <i class="fas fa-book mr-1"></i>
+                My results  
+                </h3>
+              </div>
+              <div class="card-body">
+ 
+             <div class="row">
+               <div class="col-md-12">
+                  <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+                  <thead>
+                  <tr>
+                  <th width="10%">assignment</th><th>filename</th><th>score</th><th>comment</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <?php $i=0; ?>
+                  <?php foreach($returned as $returne): ?>
+                  <tr>
+                  <td><?= ++$i; ?></td>
+                  <td><?= $returne->fileName;  ?></td>
+                  <td><?= $returne->score;  ?></td>
+                  <td><?= $returne->comment;  ?></td>
+                  </tr>
+                  <?php endforeach ?>
+                  </tbody>
+                  </table>
+                 </div>
+               </div>
+              </div>
+            </div>
+      </section>
 </div>
 
   </div>

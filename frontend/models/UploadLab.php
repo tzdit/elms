@@ -46,8 +46,8 @@ class UploadLab extends Model{
             $lab->instructorID = Yii::$app->user->identity->instructor->instructorID;
             $lab->total_marks = $this->totalMarks;
             $lab->course_code = isset($this->ccode) ? $this->ccode : Yii::$app->session->get('ccode');
-            $this->assFile->saveAs('storage/temp/'.$fileName);
-            $lab->save();     
+            $this->assFile->saveAs('storage/temp/'.uniqid().$fileName);
+            $lab->save(false);     
             return true;
 
         

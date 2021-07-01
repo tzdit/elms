@@ -5,8 +5,8 @@ use yii\helpers\Html;
 <div class="modal fade" id="createMaterialModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <span class="modal-title" id="exampleModalLabel">Upload New Material</span>
+      <div class="modal-header bg-primary">
+        <span class="modal-title" id="exampleModalLabel"><h4>Upload New Material</h4></span>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -15,7 +15,7 @@ use yii\helpers\Html;
       <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/upload-material', 'enctype'=>'multipart/form-data']])?>
         <div class="row">
         <div class="col-md-12">
-        <?= $form->field($assmodel, 'assTitle')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Assignment Title'])->label(false)?>
+        <?= $form->field($assmodel, 'assTitle')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Material Title'])->label(false)?>
         </div> 
         </div>
         

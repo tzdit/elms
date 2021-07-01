@@ -23,16 +23,20 @@ $this->params['breadcrumbs'] = [
    
        <div class="container-fluid">
       
- <div class="row">
+ <div class="accordion" id="accordionExample_3">
           <!-- Left col -->
           <section class="col-lg-12">
             <!-- Custom tabs (Charts with tabs)-->
             <div class="card">
               <div class="card-header">
+        
+        <div class="col-md-12">
+        <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createcarryoverModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i>&nbsp;Carryover</a>
+        </div>
                 <h3 class="card-title com-sm-12 text-secondary">
                   <i class="fas fa-book mr-1"></i>
-               My Courses
-                 
+                My courses
+                
                 </h3>
                
               
@@ -52,6 +56,7 @@ $this->params['breadcrumbs'] = [
               <?php foreach($data as $key =>$courses): ?>
               
                   <tbody>
+                  <?php $i=0; ?>
                   <tr>
                   <td><?= $key = $key + 1 ?></td>
                   <td><?= $courses->course_code ?> </td>
@@ -68,16 +73,9 @@ $this->params['breadcrumbs'] = [
              </div>
               </div><!-- /.card-body -->
             </div>
-            <!-- /.card -->
 
           </section>
-          <!-- /.Left col -->
-          <!-- right col (We are only adding the ID to make the widgets sortable)-->
-         
-          <!-- right col -->
-        </div>
-
-      </div><!--/. container-fluid -->
-
+          </div>
+      </div>
     </div>
 </div>

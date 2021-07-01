@@ -65,6 +65,12 @@ use yii\helpers\Url;
               </p>
             </a>
             <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="<?= Url::toRoute('/admin/hod-list') ?>" class="nav-link">
+                  <i class="fas fa-chalkboard-teacher nav-icon"></i>
+                  <p>Hods</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="<?= Url::toRoute('/admin/instructor-list') ?>" class="nav-link">
                  <i class="fas fa-chalkboard-teacher nav-icon"></i>
@@ -103,7 +109,7 @@ use yii\helpers\Url;
           <li class="nav-item">
                 <a href="<?= Url::toRoute('/instructor/courses') ?>" class="nav-link">
                   <i class="fas fa-book nav-icon"></i>
-                  <p>My courses</p>
+                  <p>Take a new course</p>
                 </a>
               </li>
             <?php  endif ?>  <!-- END OF INSTRUCTOR ROLE -->

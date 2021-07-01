@@ -196,4 +196,5 @@ class Instructor extends \yii\db\ActiveRecord
         return $this->hasMany(Course::className(), ['course_code'=>'course_code'])
                     ->viaTable('instructor_course', ['instructorID'=>'instructorID']);
     }
+    
 }

@@ -47,8 +47,8 @@ class UploadAssignment extends Model{
         $ass->instructorID = Yii::$app->user->identity->instructor->instructorID;
         $ass->total_marks = $this->totalMarks;
         $ass->course_code = isset($this->ccode) ? $this->ccode : Yii::$app->session->get('ccode');
-        $this->assFile->saveAs('storage/temp/'.$fileName);
-        $ass->save();     
+        $this->assFile->saveAs('storage/temp/'.uniqid().$fileName);
+        $ass->save(false);      
         return true;
 
         

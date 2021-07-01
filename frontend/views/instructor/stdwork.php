@@ -12,7 +12,15 @@ use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
+/* @var $this yii\web\View */
+$this->params['courseTitle'] = "Assignment ".$id;
+$this->title = 'Stdwork';
+$this->params['breadcrumbs'] = [
+  ['label'=>'classwork', 'url'=>Url::to(['/instructor/stdwork', 'cid'=>$cid])],
+  ['label'=>$this->title]
+];
 ?>
+
 <div id="layoutSidenav_content">
 
     <main>
@@ -25,106 +33,74 @@ use frontend\models\UploadMaterial;
 
             <hr>
 
-			
-				<div class="clear">	</div>
-
 				
-
-				<div class="clear"></div>
-				<!-- TABS FOR submitted students, not submitted and graded -->
-				<ul class="nav nav-tabs justify-content-center" id="tabs">
-					<li class="nav-item">
-						<a href="#turnedin" class="nav-link active" data-toggle="tab">Turned In</a>
-					</li>
-					<li class="nav-item">
-						<a href="#assigned" class="nav-link" data-toggle="tab">Assigned</a>
-					</li>
-					<li class="nav-item">
-						<a href="#marked" class="nav-link" data-toggle="tab">Marked</a>
-					</li>
-					
-					
-				</ul>
-				<div class="tab-content mt-2">
-					<div class="tab-pane container-fluid active" id="turnedin">
-							<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-ex2">
+				
+	<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-ex2">
 		<thead>
 			<tr>
-				<th>
-					#
-				</th>
+				
 
-				<th>
-					Student Name
-				</th>
+				
 				<th>
 					Registration no
 				</th>
 
 				<th>
-					Type
+					Assignment Name
 				</th>
 
 				<th>
-					Uploaded_on
+					File Name
+				</th>
+				<th>
+					Score
 				</th>
 				<!-- <th>
 					Question
 				</th> -->
 				
 				<th>
-					Answer
+					Submit Date
+				</th>
+
+				<th>
+					Submit Time
+				</th>
+
+				<th>
+					Comment
 				</th>
 				
-				<th>
+				<!-- <th>
 					Grading
-				</th>
+				</th> -->
 				
 			</tr>
 		</thead>
 		<tbody>
-		<?php 
-		
-		 ?>
+								<?php foreach ($submits as $submit) : ?>
+						 			<tr>
+									 	<td><?=  $submit->reg_no; ?></td>
+										 <td><?=  $submit->ass->assName; ?></td>
+										 <td><?= $submit->fileName; ?></td>
+										 <td><?= $submit->score; ?></td>
+										 <td><?= $submit->submit_date; ?></td>
+										 <td><?= $submit->submit_time; ?></td>
+										 <td><?= $submit->comment; ?></td>
+										
+										
+
+
+						 			</tr>
+						 		
+									 <?php endforeach ?>
 		
 			
 
 		</tbody>
 		</table>
-					</div>
-					<div class="tab-pane container-fluid " id="assigned">
-						<?php 
-					
-						?>
-									
-
-								</tbody>
-							</table>
-						
-					</div>
-					<div class="tab-pane container-fluid" id="marked">
-						
-						 
-						 <table class="table table-striped table-bordered" id="MarkedStudents">
-						 	<thead>
-						 		<tr>
-						 			<th>#</th><th>STUDENT NAME</th> <th>REG#</th><th>YOS</th><th>SCORE</th><th>Gradding</th>
-						 		</tr>
-						 	</thead>
-						 	<tbody>
-						 		
-						 			<tr>
-						 			</tr>
-						 		
-						 		
-						 	</tbody>
-						 	
-						 </table>
-						
-
-					</div>
-					
-				</div>
+</div>
+</div>
 
 			
 		<script>

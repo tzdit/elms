@@ -1,7 +1,7 @@
 <footer class="main-footer">
-    <strong>Copyright &copy; 2020 - <?=date('Y')?> <a href="#">CIVE-eCLASSROOM</a>.</strong>
-    All rights reserved.
+Copyright &copy; 2020 - <?=date('Y')?> &nbsp UDOM-CIVE.
+&nbsp&nbsp&nbsp&nbsp All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 2.0
+    <strong><a href="#">E-classroom</a></strong><b>Version</b> 2.0
     </div>
   </footer>
