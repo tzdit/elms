@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2021 at 08:25 PM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.4
+-- Generation Time: Jul 01, 2021 at 08:40 PM
+-- Server version: 10.4.18-MariaDB
+-- PHP Version: 7.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `eclassroom`
+-- Database: `eclassroomdb`
 --
 
 -- --------------------------------------------------------
@@ -71,15 +71,51 @@ CREATE TABLE `assignment` (
   `instructorID` int(11) DEFAULT NULL,
   `course_code` varchar(7) DEFAULT NULL,
   `assName` varchar(10) NOT NULL,
-  `assType` varchar(10) NOT NULL,
+  `assType` varchar(10) DEFAULT NULL,
   `assNature` varchar(10) NOT NULL,
   `ass_desc` varchar(1000) DEFAULT NULL,
-  `submitMode` varchar(10) NOT NULL,
-  `startDate` datetime NOT NULL,
-  `finishDate` datetime NOT NULL,
-  `total_marks` int(11) NOT NULL,
-  `fileName` varchar(20) DEFAULT NULL
+  `submitMode` varchar(10) DEFAULT NULL,
+  `startDate` datetime DEFAULT NULL,
+  `finishDate` datetime DEFAULT NULL,
+  `total_marks` int(11) DEFAULT NULL,
+  `fileName` varchar(70) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `assignment`
+--
+
+INSERT INTO `assignment` (`assID`, `instructorID`, `course_code`, `assName`, `assType`, `assNature`, `ass_desc`, `submitMode`, `startDate`, `finishDate`, `total_marks`, `fileName`) VALUES
+(3, 2, 'CP 111', 'hjwef', 'individual', 'tutorial', 'hiuwrer wfbkbk', 'resubmit', '2021-06-01 00:00:00', '2021-06-03 00:00:00', 10, 'yii2.pdf'),
+(4, 2, 'CP 111', 'Tutorial 1', NULL, 'tutorial', 'tutorial one', NULL, NULL, NULL, NULL, 'asa.pdf'),
+(6, 2, 'CP 111', 'hhhh', 'individual', 'lab', 'ggg', 'resubmit', '2021-06-02 00:00:00', '2021-06-03 00:00:00', 10, 'AGA-OP19-geita.pdf'),
+(9, 2, 'CP 111', 'twit', NULL, 'tutorial', 'twit description', NULL, NULL, NULL, NULL, 'aaa.pdf'),
+(10, 2, 'CP 111', 'lab 11', 'individual', 'lab', 'lab descr', 'resubmit', '2021-06-05 00:00:00', '2021-06-12 00:00:00', 10, 'josure cv.pdf'),
+(11, 2, 'CS 212', 'tut 2', NULL, 'tutorial', 'tut 2 descr', NULL, NULL, NULL, NULL, 'asa.pdf'),
+(12, 2, 'CS 212', 'tut44', NULL, 'tutorial', 'tutu44', NULL, NULL, NULL, NULL, 'josure cv.pdf'),
+(13, 2, 'CP 111', 'njau', 'individual', 'assignment', 'njau descr', 'resubmit', '2021-06-06 00:00:00', '2021-06-09 00:00:00', 10, 'Yii2FrameworkCMS.pdf'),
+(14, 2, 'CP 111', 'two', 'individual', 'assignment', 'two descr', 'resubmit', '2021-06-07 00:00:00', '2021-06-09 00:00:00', 12, 'djangobook.pdf'),
+(15, 2, 'CP 111', 'lab one', 'individual', 'lab', 'dhuj gugui', 'resubmit', '2021-06-03 00:00:00', '2021-06-01 00:00:00', 22, 'MY COVER LETTER.pdf'),
+(16, 2, 'CP 111', 'hhh11', 'individual', 'assignment', 'ggddssaa', 'unresubmit', '2021-06-08 00:00:00', '2021-06-11 00:00:00', 10, 'Marking Scheme.pdf'),
+(17, 2, 'CP 111', 'jsaxj jsj', 'individual', 'assignment', 'jksj jksaj jas', 'resubmit', '2021-06-08 00:00:00', '2021-06-11 00:00:00', 10, 'yii2.pdf'),
+(18, 2, 'CP 111', 'ccc', 'individual', 'assignment', 'ccc ccc cc', 'unresubmit', '2021-06-08 00:00:00', '2021-06-24 00:00:00', 55, 'djangobook.pdf'),
+(19, 2, 'CP 111', 'lab lab', 'individual', 'lab', 'lab lab njaui', 'resubmit', '2021-06-08 00:00:00', '2021-06-24 00:00:00', 12, 'djangobookwzy482.pdf'),
+(20, 2, 'CP 111', 'ttyy', NULL, 'tutorial', 'ttyy ttyy ttyy', NULL, NULL, NULL, NULL, 'Yii2FrameworkCMS.pdf'),
+(21, 2, 'CP 111', 'kiki', 'individual', 'assignment', 'kiki descr', 'resubmit', '2021-06-09 00:00:00', '2021-06-23 00:00:00', 10, 'yii2.pdf'),
+(22, 2, 'CP 111', 'jiji', 'individual', 'lab', 'jiji descr', 'resubmit', '2021-06-09 00:00:00', '2021-06-16 00:00:00', 5, 'yii_tutorial.pdf'),
+(23, 2, 'CP 111', 'tut 11', NULL, 'tutorial', 'tut description', NULL, NULL, NULL, NULL, 'yii_tutorial.pdf'),
+(24, 2, 'CP 111', 'test lab', 'individual', 'lab', 'test lab 111', 'resubmit', '2021-06-02 00:00:00', '2021-06-15 00:00:00', 10, 'yii_tutorial.pdf'),
+(25, 2, 'CP 111', 'chai tut', NULL, 'tutorial', 'chai tut descr', NULL, NULL, NULL, NULL, 'CV UPDATES BOT.pdf'),
+(26, 2, 'CP 111', 'lab chai', 'individual', 'lab', 'lab chai decr', 'resubmit', '2021-06-10 00:00:00', '2021-06-24 00:00:00', 10, 'CV UPDATES BOT.pdf'),
+(27, 2, 'CP 111', 'm at mat', 'individual', 'assignment', 'mat mat mat', 'resubmit', '2021-06-10 00:00:00', '2021-06-30 00:00:00', 5, 'CV UPDATES BOT.pdf'),
+(28, 2, 'CP 111', 'title', 'group', 'assignment', 'title title title', 'resubmit', '2021-06-10 00:00:00', '2021-06-29 00:00:00', 7, 'CV UPDATES BOT.pdf'),
+(29, 2, 'CP 111', 'hh', 'individual', 'assignment', 'jj', 'resubmit', '2021-06-01 00:00:00', '2021-06-14 00:00:00', 10, 'db_final_ER.pdf'),
+(30, 2, 'CP 111', 'kjkj', 'individual', 'assignment', 'kjkjkjk', 'resubmit', '2021-06-01 00:00:00', '2021-06-15 00:00:00', 10, 'db_final_ER.pdf'),
+(31, 2, 'CP 111', 'bvbvbv', 'individual', 'assignment', 'bvvbgf', 'resubmit', '2021-06-10 00:00:00', '2021-06-17 00:00:00', 10, 'db_final_ER.pdf'),
+(32, 2, 'CP 111', 'manufaa', 'individual', 'assignment', 'manufaa descrf', 'resubmit', '2021-06-11 00:00:00', '2021-06-08 00:00:00', 11, 'db_final_ER.pdf'),
+(34, 2, 'CP 111', 'LAB 8', 'individual', 'lab', 'LAB 8 DESC', 'resubmit', '2021-06-10 00:00:00', '2021-06-15 00:00:00', 15, 'db_final_ER.pdf'),
+(35, 2, 'CP 111', 'TUTORIAL 7', NULL, 'tutorial', 'TUTORIAL 7 DESC', NULL, NULL, NULL, NULL, 'db_final_ER.pdf'),
+(36, 2, 'TN 110', 'my assignm', 'group', 'assignment', 'database structuring', 'resubmit', '2021-06-16 00:00:00', '2021-06-17 00:00:00', 10, 'hhhhh.png');
 
 -- --------------------------------------------------------
 
@@ -232,7 +268,7 @@ CREATE TABLE `course` (
 --
 
 INSERT INTO `course` (`course_code`, `course_name`, `course_credit`, `course_semester`, `course_duration`, `course_status`) VALUES
-('CP 111', 'Principle of Porgraaming', 10, 1, 1, 'core'),
+('CP 111', 'Principle of Programming', 10, 1, 1, 'core'),
 ('CP 123', 'Introduction High Level Programming in C++', 9, 2, 1, 'CORE'),
 ('CS 212', 'Data Structure and Algorithms', 10, 1, 2, 'CORE'),
 ('TN 110', 'Introduction to Telecommunication', 10, 1, 1, 'CORE');
@@ -302,10 +338,39 @@ CREATE TABLE `groups` (
   `course_code` varchar(7) DEFAULT NULL,
   `reg_no` varchar(20) DEFAULT NULL,
   `instructorID` int(11) DEFAULT NULL,
+  `generation_type` varchar(100) DEFAULT NULL,
   `creator_type` varchar(10) NOT NULL,
-  `created_date` date NOT NULL,
-  `created_time` time NOT NULL
+  `created_date` date NOT NULL DEFAULT current_timestamp(),
+  `created_time` time NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `groups`
+--
+
+INSERT INTO `groups` (`groupID`, `groupName`, `course_code`, `reg_no`, `instructorID`, `generation_type`, `creator_type`, `created_date`, `created_time`) VALUES
+(1, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:19:00', 'instructor', '2021-07-01', '20:19:00'),
+(2, 'Group 2', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:19:01', 'instructor', '2021-07-01', '20:19:01'),
+(3, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:20:40', 'instructor', '2021-07-01', '20:20:40'),
+(4, 'Group 2', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:20:40', 'instructor', '2021-07-01', '20:20:40'),
+(5, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:22:20', 'instructor', '2021-07-01', '20:22:20'),
+(6, 'Group 2', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:22:20', 'instructor', '2021-07-01', '20:22:20'),
+(7, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:26:36', 'instructor', '2021-07-01', '20:26:36'),
+(8, 'Group 2', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:26:36', 'instructor', '2021-07-01', '20:26:37'),
+(9, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:41:54', 'instructor', '2021-07-01', '20:41:54'),
+(10, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:57:38', 'instructor', '2021-07-01', '20:57:38'),
+(11, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:59:12', 'instructor', '2021-07-01', '20:59:12'),
+(12, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 07:59:18', 'instructor', '2021-07-01', '20:59:18'),
+(13, 'Group 1', 'CP 111', NULL, 2, 'assign groups no2', 'instructor', '2021-07-01', '21:02:41'),
+(14, 'Group 1', 'CP 111', NULL, 2, '', 'instructor', '2021-07-01', '21:03:02'),
+(15, 'Group 1', 'CP 111', NULL, 2, '', 'instructor', '2021-07-01', '21:07:15'),
+(16, 'Group 1', 'CP 111', NULL, 2, 'assign groups no2', 'instructor', '2021-07-01', '21:08:03'),
+(17, 'Group 1', 'CP 111', NULL, 2, '', 'instructor', '2021-07-01', '21:10:36'),
+(18, 'Group 1', 'CP 111', NULL, 2, '', 'instructor', '2021-07-01', '21:11:47'),
+(19, 'Group 1', 'CP 111', NULL, 2, '', 'instructor', '2021-07-01', '21:12:16'),
+(20, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 08:14:22', 'instructor', '2021-07-01', '21:14:22'),
+(21, 'Group 1', 'CP 111', NULL, 2, 'assignment groups for january', 'instructor', '2021-07-01', '21:14:45'),
+(22, 'Group 1', 'CP 111', NULL, 2, 'Generation type 07:01:2021 08:22:37', 'instructor', '2021-07-01', '21:22:37');
 
 -- --------------------------------------------------------
 
@@ -317,6 +382,16 @@ CREATE TABLE `group_assignment` (
   `GA_ID` int(11) NOT NULL,
   `groupID` int(11) DEFAULT NULL,
   `assID` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hod`
+--
+
+CREATE TABLE `hod` (
+  `id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -361,7 +436,8 @@ CREATE TABLE `instructor_course` (
 --
 
 INSERT INTO `instructor_course` (`IC_ID`, `course_code`, `instructorID`) VALUES
-(3, 'CP 111', 2);
+(5, 'CS 212', 2),
+(8, 'CP 111', 2);
 
 -- --------------------------------------------------------
 
@@ -418,12 +494,34 @@ CREATE TABLE `material` (
   `material_ID` int(11) NOT NULL,
   `instructorID` int(11) DEFAULT NULL,
   `course_code` varchar(7) DEFAULT NULL,
-  `title` varchar(100) NOT NULL,
-  `material_type` varchar(15) NOT NULL,
-  `upload_date` date NOT NULL,
-  `upload_time` time NOT NULL,
-  `fileName` varchar(20) NOT NULL
+  `title` varchar(100) DEFAULT NULL,
+  `material_type` varchar(15) DEFAULT NULL,
+  `upload_date` date DEFAULT NULL,
+  `upload_time` time DEFAULT NULL,
+  `fileName` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `material`
+--
+
+INSERT INTO `material` (`material_ID`, `instructorID`, `course_code`, `title`, `material_type`, `upload_date`, `upload_time`, `fileName`) VALUES
+(1, 2, 'CP 111', 'gagag', 'notes', NULL, NULL, 'ASSnotesTN_327.pdf'),
+(2, 2, 'CP 111', 'mama', 'Notes', '0000-00-00', '00:00:02', 'asa.pdf'),
+(3, 2, 'CP 111', 'assign', 'Videos', NULL, NULL, 'CV.mp4'),
+(4, 2, 'CP 111', 'taratara', 'notes', NULL, NULL, 'djangobook.pdf'),
+(5, 2, 'CP 111', 'ffddd', 'Notes', NULL, NULL, 'CV UPDATES BOT.pdf'),
+(6, 2, 'CP 111', 'sasasas', 'notes', NULL, NULL, 'yii2.pdf'),
+(7, 2, 'CP 111', 'test material', 'notes', NULL, NULL, 'yii2.pdf'),
+(8, 2, 'CP 111', 'NEW MATERIAL 8', 'Videos', NULL, NULL, 'db_final_ER.mp4'),
+(9, 2, 'CS 212', 'hhh', 'Notes', NULL, NULL, 'hhhhh.png'),
+(10, 2, 'TN 110', 'video tutorial', 'notes', NULL, NULL, 'Assignment_3.pdf'),
+(11, 2, 'CP 111', 'fasdad', 'Videos', NULL, NULL, 'winner.mp4'),
+(12, 2, 'CP 111', 'programming for all', 'Videos', NULL, NULL, 'y2mate.com - HTML Vi'),
+(13, 2, 'CP 111', 'programming video', 'Videos', NULL, NULL, '60d397c368cd0.mp4'),
+(14, 2, 'CP 111', 'jogging', 'Videos', NULL, NULL, '60d59c2935b2a.mp4'),
+(15, 2, 'CP 111', 'gggg', 'Videos', NULL, NULL, '60d59c77c8858.mp4'),
+(16, 2, 'CP 111', 'fghjkj', 'Videos', NULL, NULL, '60d5b1f17b441.mp4');
 
 -- --------------------------------------------------------
 
@@ -598,6 +696,14 @@ CREATE TABLE `student_course` (
   `course_code` varchar(7) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `student_course`
+--
+
+INSERT INTO `student_course` (`SC_ID`, `reg_no`, `course_code`) VALUES
+(1, 'T/UDOM/2020/00001', 'CP 111'),
+(2, 'T/UDOM/2020/00002', 'CP 111');
+
 -- --------------------------------------------------------
 
 --
@@ -609,6 +715,56 @@ CREATE TABLE `student_group` (
   `reg_no` varchar(20) DEFAULT NULL,
   `groupID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `student_group`
+--
+
+INSERT INTO `student_group` (`SG_ID`, `reg_no`, `groupID`) VALUES
+(1, 'T/UDOM/2020/00001', NULL),
+(2, 'T/UDOM/2020/00002', NULL),
+(3, 'T/UDOM/2020/00002', NULL),
+(4, 'T/UDOM/2020/00001', NULL),
+(5, 'T/UDOM/2020/00001', NULL),
+(6, 'T/UDOM/2020/00002', NULL),
+(7, 'T/UDOM/2020/00001', NULL),
+(8, 'T/UDOM/2020/00002', NULL),
+(9, 'T/UDOM/2020/00001', 1),
+(10, 'T/UDOM/2020/00002', 2),
+(11, 'T/UDOM/2020/00002', 3),
+(12, 'T/UDOM/2020/00001', 4),
+(13, 'T/UDOM/2020/00002', 5),
+(14, 'T/UDOM/2020/00001', 6),
+(15, 'T/UDOM/2020/00001', 7),
+(16, 'T/UDOM/2020/00002', 8),
+(17, 'T/UDOM/2020/00002', 9),
+(18, 'T/UDOM/2020/00001', 9),
+(19, 'T/UDOM/2020/00002', 10),
+(20, 'T/UDOM/2020/00001', 10),
+(21, 'T/UDOM/2020/00002', 11),
+(22, 'T/UDOM/2020/00001', 11),
+(23, 'T/UDOM/2020/00001', 12),
+(24, 'T/UDOM/2020/00002', 12),
+(25, 'T/UDOM/2020/00002', 13),
+(26, 'T/UDOM/2020/00001', 13),
+(27, 'T/UDOM/2020/00001', 14),
+(28, 'T/UDOM/2020/00002', 14),
+(29, 'T/UDOM/2020/00001', 15),
+(30, 'T/UDOM/2020/00002', 15),
+(31, 'T/UDOM/2020/00001', 16),
+(32, 'T/UDOM/2020/00002', 16),
+(33, 'T/UDOM/2020/00002', 17),
+(34, 'T/UDOM/2020/00001', 17),
+(35, 'T/UDOM/2020/00001', 18),
+(36, 'T/UDOM/2020/00002', 18),
+(37, 'T/UDOM/2020/00002', 19),
+(38, 'T/UDOM/2020/00001', 19),
+(39, 'T/UDOM/2020/00001', 20),
+(40, 'T/UDOM/2020/00002', 20),
+(41, 'T/UDOM/2020/00002', 21),
+(42, 'T/UDOM/2020/00001', 21),
+(43, 'T/UDOM/2020/00002', 22),
+(44, 'T/UDOM/2020/00001', 22);
 
 -- --------------------------------------------------------
 
@@ -1032,7 +1188,7 @@ ALTER TABLE `announcement`
 -- AUTO_INCREMENT for table `assignment`
 --
 ALTER TABLE `assignment`
-  MODIFY `assID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `assID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `assq`
@@ -1074,7 +1230,7 @@ ALTER TABLE `fresh_thread`
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `groupID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `groupID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `group_assignment`
@@ -1092,7 +1248,7 @@ ALTER TABLE `instructor`
 -- AUTO_INCREMENT for table `instructor_course`
 --
 ALTER TABLE `instructor_course`
-  MODIFY `IC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `IC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `instructor_notification`
@@ -1116,7 +1272,7 @@ ALTER TABLE `logs`
 -- AUTO_INCREMENT for table `material`
 --
 ALTER TABLE `material`
-  MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `notification`
@@ -1152,13 +1308,13 @@ ALTER TABLE `rep_thread`
 -- AUTO_INCREMENT for table `student_course`
 --
 ALTER TABLE `student_course`
-  MODIFY `SC_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `SC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `student_group`
 --
 ALTER TABLE `student_group`
-  MODIFY `SG_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `SG_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `student_lecture`
