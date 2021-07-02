@@ -39,10 +39,19 @@ class StudentGroups extends Model{
         //spliting the array into groups of members
 
         $groups=array_chunk($students_array,$this->membersNumber);
-   //print_r($groups);
+        $instructorID = Yii::$app->user->identity->instructor->instructorID;
+        $now=date("m:d:Y h:i:s");
+        //$groupmodel->course_code=$ccode;
+        //setting up the generation type
+        $typesmodel=new GroupGenerationTypes();
+        $typesmodel->generation_type=($this->generationType!="" || $this->generationType!=null)?$this->generationType:"Generation type ".$now;
+        $typesmodel->course_code=$ccode;
+        $typesmodel->creator_type="instructor";
+        $typesmodel->instructorID=$instructorID;
+        $typesmodel->save();
 
         //getting all the groups into the database including all the corresponding members
-        $now=date("m:d:Y h:i:s");
+       
         for($g=0;$g<count($groups);$g++)
         {
           
@@ -52,16 +61,15 @@ class StudentGroups extends Model{
            //creating the group name
 
            $groupname="Group ".($g+1);
-           $instructorID = Yii::$app->user->identity->instructor->instructorID;
+        
+
+           //setting up the group
+
            $groupmodel=new Groups();
            $groupmodel->groupName=$groupname;
-           $groupmodel->course_code=$ccode;
-           $typesmodel=new GroupGenerationTypes();
-           $typesmodel->generation_type=($this->generationType!="" || $this->generationType!=null)?$this->generationType:"Generation type ".$now;
-           $typesmodel->save();
            $groupmodel->generation_type=$typesmodel->typeID;
-           $groupmodel->instructorID=$instructorID;
-           $groupmodel->creator_type="instructor";
+
+          
            if($groupmodel->save()){
            $inserted_id=$groupmodel->groupID;
 

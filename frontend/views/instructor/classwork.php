@@ -492,6 +492,7 @@ $assk = "Assignment".$ass;
 
      <!-- ########################################### end tutorial ################################# -->
      <div class="tab-pane fade" id="students" role="tabpanel" aria-labelledby="custom-tabs-Students">
+     <?php $students=StudentCourse::find()->where(['course_code'=>$cid])->all(); if($students!=null){?>
           <div class="row">
           <div class="col-md-6">
           <a href="/instructor/view-groups" class="btn btn-sm btn-primary btn-rounded float-right mb-2"><i class="fas fa-group" ></i>Student Groups</a>
@@ -500,7 +501,6 @@ $assk = "Assignment".$ass;
             <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus" ></i>Assign Students</a>
             </div>
             </div>
-             <?php $students=StudentCourse::find()->where(['course_code'=>$cid])->all(); ?>
             <table width="100%" class="table table-striped table-bordered table-hover" id="studenttable" style="font-size:12px">
 		<thead>
 			<tr>
@@ -556,6 +556,15 @@ $assk = "Assignment".$ass;
 
 		</tbody>
 		</table>
+    <?php
+             }
+             else
+             {
+               ?>
+                <div class="container-fluid p-3 my-3 border text-info jumbotron text-center"><h5>This course has no students</h5></div>
+               <?php
+             }
+    ?>
     </div>
     </div>
 </div>

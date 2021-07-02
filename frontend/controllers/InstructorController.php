@@ -63,6 +63,7 @@ public $defaultAction = 'dashboard';
                             'add-partner',
                             'generate-groups',
                             'view-groups',
+                            'delete-groups',
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -453,11 +454,19 @@ public function actionGenerateGroups()
  {
    $groupsModel=new GroupGenerationTypes();
    $coursecode=Yii::$app->session->get('ccode');
-   $groups=$groupsModel::find()->orderBy(['typeID'=>SORT_DESC])->all();
+   $groups=$groupsModel::find()->where(['course_code'=>$coursecode])->orderBy(['typeID'=>SORT_DESC])->all();
+   if($groups==null){ Yii::$app->session->setFlash('success', 'No groups found');return $this->render('courseGroups', ['groups'=>$groups,'cid'=>$coursecode]);}
+   else{
+   return $this->render('courseGroups', ['groups'=>$groups,'cid'=>$coursecode]);
+   }
 
+ }
 
-  return $this->render('courseGroups', ['groups'=>$groups,'cid'=>$coursecode]);
-
+ public function actionDeleteGroups($groupgenerationid)
+ {
+   $deleted=new GroupGenerationTypes();
+   $deleted::findOne($groupgenerationid)->delete();
+   return $this->redirect(Yii::$app->request->referrer);
 
  }
 }

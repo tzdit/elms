@@ -9,7 +9,17 @@ use Yii;
  *
  * @property int $typeID
  * @property string $generation_type
+ * @property string $course_code
+ * @property string $creator_type
+ * @property int|null $instructorID
+ * @property string|null $reg_no
+ * @property string|null $created_date
+ * @property string|null $created_time
  *
+ * @property Course $courseCode
+ * @property Course $courseCode0
+ * @property Student $regNo
+ * @property Instructor $instructor
  * @property Groups[] $groups
  */
 class GroupGenerationTypes extends \yii\db\ActiveRecord
@@ -28,8 +38,17 @@ class GroupGenerationTypes extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['generation_type'], 'required'],
+            [['generation_type', 'course_code', 'creator_type'], 'required'],
+            [['instructorID'], 'integer'],
+            [['created_date', 'created_time'], 'safe'],
             [['generation_type'], 'string', 'max' => 100],
+            [['course_code'], 'string', 'max' => 10],
+            [['creator_type'], 'string', 'max' => 20],
+            [['reg_no'], 'string', 'max' => 30],
+            [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
+            [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
+            [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],
+            [['instructorID'], 'exist', 'skipOnError' => true, 'targetClass' => Instructor::className(), 'targetAttribute' => ['instructorID' => 'instructorID']],
         ];
     }
 
@@ -41,7 +60,53 @@ class GroupGenerationTypes extends \yii\db\ActiveRecord
         return [
             'typeID' => 'Type ID',
             'generation_type' => 'Generation Type',
+            'course_code' => 'Course Code',
+            'creator_type' => 'Creator Type',
+            'instructorID' => 'Instructor ID',
+            'reg_no' => 'Reg No',
+            'created_date' => 'Created Date',
+            'created_time' => 'Created Time',
         ];
+    }
+
+    /**
+     * Gets query for [[CourseCode]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCourseCode()
+    {
+        return $this->hasOne(Course::className(), ['course_code' => 'course_code']);
+    }
+
+    /**
+     * Gets query for [[CourseCode0]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCourseCode0()
+    {
+        return $this->hasOne(Course::className(), ['course_code' => 'course_code']);
+    }
+
+    /**
+     * Gets query for [[RegNo]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegNo()
+    {
+        return $this->hasOne(Student::className(), ['reg_no' => 'reg_no']);
+    }
+
+    /**
+     * Gets query for [[Instructor]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getInstructor()
+    {
+        return $this->hasOne(Instructor::className(), ['instructorID' => 'instructorID']);
     }
 
     /**
