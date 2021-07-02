@@ -9,8 +9,10 @@ use common\models\Assignment;
 use common\models\Material;
 use common\models\Submit;
 use common\models\InstructorCourse;
+use common\models\Instructor;
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
+use frontend\models\AddPartner;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
 use frontend\models\StudentGroups;
@@ -417,11 +419,35 @@ public function actionUploadMaterial(){
 
 public function actionAddPartner()
 {
-  
-  
+  $instructor=(new Instructor())->findOne(Yii::$app->request->post('AddPartner')['partner']);
+  $instructorcourse=$instructor->instructorCourses;
+  $courseid=array();
+  for($i=0;$i<count($instructorcourse);$i++)
+  {
+    array_push($courseid,$instructorcourse[$i]->course_code);
+  }
+  if(in_array(Yii::$app->request->post('ccode'),$courseid))
+  {
+    Yii::$app->session->setFlash('success', 'this instructor already has this course');
+    return $this->redirect(Yii::$app->request->referrer);    
+  }
+  else
+  {
+  $addpartner=new AddPartner();
+  if($addpartner->load(Yii::$app->request->post())){
+  if($addpartner->addcoursepartner(Yii::$app->request->post('ccode')))
+  {
+    Yii::$app->session->setFlash('success', 'Course partner added');
+    return $this->redirect(Yii::$app->request->referrer);
+  }
+  else
+  {
+    Yii::$app->session->setFlash('success', 'unkown error occured');
+    return $this->redirect(Yii::$app->request->referrer);  
+  }
 
-print "adding partner";
-
+  }
+}
 
 }
 

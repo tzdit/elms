@@ -139,7 +139,7 @@ $script = <<<JS
     )
     setTimeout(function(){
       window.location.reload();
-    }, 1000);
+    }, 1500);
    
 
         
