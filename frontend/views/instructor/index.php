@@ -12,7 +12,7 @@ use common\models\Instructor;
 use frontend\models\AddPartner;
 use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
-
+$this->params['courseTitle'] = "My courses";
 $this->title = 'Instructor Dashboard';
 $instructorid=Yii::$app->user->identity->instructor->instructorID;
  //finding all instructors
@@ -184,4 +184,3 @@ $instructors=ArrayHelper::map(Instructor::find()->asArray()->where(['<>','instru
   </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>

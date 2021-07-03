@@ -12,13 +12,21 @@ class UploadAssignment extends Model{
     public $assFile;
     public $description;
     public $ccode;
+    public $number_of_questions;
+    public $questions_maxima=array();
+    public $generation_type;
+    public $groups=[];
+    public $students=[];
+    public $the_assignment;
     
     
     public $totalMarks;
     public function rules(){
         return [
-           [['assTitle', 'submitMode', 'assType', 'startDate', 'endDate', 'description', 'assFile'], 'required'],
-           [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, jpg, png, doc, pkt, ppt'],
+           [['assTitle', 'submitMode', 'assType', 'startDate', 'endDate', 'assFile'], 'required'],
+           ['description','string','max'=>1000],
+           ['the_assignment','string','max'=>1500],
+           [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, jpg, png, doc, docx,xlsx, pkt, ppt,pptx'],
         //    [['assTitle'], 'string', 'max' => 50],
         //     [['description'], 'string', 'max' => 1000],
         //     [['assFile'], 'string', 'max' => 30],
