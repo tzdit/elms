@@ -100,7 +100,7 @@ class Course extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getGroups()
+    public function getStudentCreatedGroups()
     {
         return $this->hasMany(Groups::className(), ['course_code' => 'course_code']);
     }

@@ -4,10 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\Course;
+use yii\helpers\VarDumper;
 
 use yii\bootstrap4\Breadcrumbs;
 
 ?>
+
+<!-- <?= VarDumper::dump($model) ?> -->
 
 <div class="site-index">
 
@@ -25,10 +28,13 @@ use yii\bootstrap4\Breadcrumbs;
                             <div class="course-form">
 
                                 <?php $form = ActiveForm::begin([
+                                    'enableClientValidation' => false,
+                                    'id' => 'add-carry-form',
+                                    'enableAjaxValidation'=> false,
                                 ]); ?>
 
                                 <?php 
-                                echo $form->field($model, 'course_code')->dropDownList(ArrayHelper::map(Course::find()->select(['course_name','course_code'])->all(),'course_code','course_name'),['class' => 'form-control inline-block']) ?>
+                                echo $form->field($model, 'course_code')->dropDownList(ArrayHelper::map(Course::find()->select(['course_name','course_code'])->all(),'course_code','course_name'),['prompt'=>'--Select--','class' => 'form-control inline-block']) ?>
 
 
                                 <div class="form-group">

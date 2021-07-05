@@ -1,7 +1,11 @@
 <?php
 
-namespace common\models;
+namespace frontend\models;
 
+use common\models\Course;
+use common\models\Groups;
+use common\models\Student;
+use common\models\Instructor;
 use Yii;
 
 /**
@@ -18,11 +22,12 @@ use Yii;
  *
  * @property GroupAssignment[] $groupAssignments
  * @property Course $courseCode
- * @property Instructor $instructor
  * @property Student $regNo
+ * @property Instructor $instructor
+ * @property Student $regNo0
  * @property StudentGroup[] $studentGroups
  */
-class Groups extends \yii\db\ActiveRecord
+class AddGroup extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -38,34 +43,24 @@ class Groups extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['groupName', 'creator_type', 'created_date', 'created_time'], 'required'],
+            [['groupName'], 'required'],
+            [['groupName'], 'unique'],
             [['instructorID'], 'integer'],
             [['created_date', 'created_time'], 'safe'],
-            [['groupName', 'creator_type'], 'string', 'max' => 10],
+            [['created_date',], 'date'],
+            [[ 'created_time'], 'time'],
+            [['groupName'], 'string', 'max' => 225],
             [['course_code'], 'string', 'max' => 7],
-            [['reg_no'], 'string', 'max' => 20],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
             [['instructorID'], 'exist', 'skipOnError' => true, 'targetClass' => Instructor::className(), 'targetAttribute' => ['instructorID' => 'instructorID']],
-            [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],
+            [['reg_no'], 'default','value'=>Yii::$app->user->identity->username],
+            [['creator_type'], 'default','value'=>"STUDENT"],
+            [['created_date'], 'default','value' => date('Y-m-d')],
+            [['created_time'], 'default','value' => date('H:i:s')],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'groupID' => 'Group ID',
-            'groupName' => 'Group Name',
-            'course_code' => 'Course Code',
-            'reg_no' => 'Reg No',
-            'instructorID' => 'Instructor ID',
-            'creator_type' => 'Creator Type',
-            'created_date' => 'Created Date',
-            'created_time' => 'Created Time',
-        ];
-    }
+    
 
     /**
      * Gets query for [[GroupAssignments]].
@@ -88,6 +83,16 @@ class Groups extends \yii\db\ActiveRecord
     }
 
     /**
+     * Gets query for [[RegNo]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegNo()
+    {
+        return $this->hasOne(Student::className(), ['reg_no' => 'reg_no']);
+    }
+
+    /**
      * Gets query for [[Instructor]].
      *
      * @return \yii\db\ActiveQuery
@@ -98,11 +103,11 @@ class Groups extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[RegNo]].
+     * Gets query for [[RegNo0]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getRegNo()
+    public function getRegNo0()
     {
         return $this->hasOne(Student::className(), ['reg_no' => 'reg_no']);
     }
@@ -118,5 +123,40 @@ class Groups extends \yii\db\ActiveRecord
     }
 
 
+
+     /**
+     * Creating a group of student.
+     *
+     * @return bool whether the creating new group was successful
+     */
+    public function add_group()
+    {
+        //get authManager instance
+     $auth = Yii::$app->authManager;
+         if (!$this->validate()) {
+             return false;
+        }
+
+        $group = new Groups();
+
+        
+        
+        try{
+     
+        $group->groupName = $this->groupName;
+        $group->course_code = $this->course_code;
+        $group->reg_no = $this->reg_no;
+        $group->creator_type = $this->creator_type;
+        $group->created_date =  $this->created_date;
+        $group->created_time =   $this->created_time;
+        $group->save();
+        return true;
+        
+        
     
+       }catch(\Throwable $e){
+            return $e->getMessage();
+      }
+    return false;
+}
 }

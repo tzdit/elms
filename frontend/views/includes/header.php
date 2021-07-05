@@ -5,6 +5,7 @@ use yii\helpers\Url;
      <!-- Navbar -->
      <nav class="main-header navbar navbar-expand navbar-primary navbar-dark">
     <!-- Left navbar links -->
+    
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
@@ -41,8 +42,15 @@ use yii\helpers\Url;
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
-      </li>
+      </li  class="navbar-nav">
+    <?php if(Yii::$app->user->can('STUDENT')): ?>
+      <a class="nav-link"  href="<?= Url::to(['student/student_groups'])  ?> ">
+          <i class="nav-item fa fa-users"></i> 
+        </a>
+      <?php endif ?>
+    </li>
       <!-- Notifications Dropdown Menu -->
+     
       <li class="nav-item dropdown">
       <?php if(Yii::$app->user->can('STUDENT')): ?>
         <a class="nav-link" data-toggle="dropdown" href="#" id="username"><span class="fas fa-user"></span>
