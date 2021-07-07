@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $typeID
  * @property string $generation_type
+ * @property int $max_groups_members
  * @property string $course_code
  * @property string $creator_type
  * @property int|null $instructorID
@@ -16,6 +17,7 @@ use Yii;
  * @property string|null $created_date
  * @property string|null $created_time
  *
+ * @property GroupGenerationAssignment[] $groupGenerationAssignments
  * @property Course $courseCode
  * @property Course $courseCode0
  * @property Student $regNo
@@ -38,8 +40,8 @@ class GroupGenerationTypes extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['generation_type', 'course_code', 'creator_type'], 'required'],
-            [['instructorID'], 'integer'],
+            [['generation_type', 'max_groups_members', 'course_code', 'creator_type'], 'required'],
+            [['max_groups_members', 'instructorID'], 'integer'],
             [['created_date', 'created_time'], 'safe'],
             [['generation_type'], 'string', 'max' => 100],
             [['course_code'], 'string', 'max' => 10],
@@ -60,6 +62,7 @@ class GroupGenerationTypes extends \yii\db\ActiveRecord
         return [
             'typeID' => 'Type ID',
             'generation_type' => 'Generation Type',
+            'max_groups_members' => 'Max Groups Members',
             'course_code' => 'Course Code',
             'creator_type' => 'Creator Type',
             'instructorID' => 'Instructor ID',
@@ -67,6 +70,16 @@ class GroupGenerationTypes extends \yii\db\ActiveRecord
             'created_date' => 'Created Date',
             'created_time' => 'Created Time',
         ];
+    }
+
+    /**
+     * Gets query for [[GroupGenerationAssignments]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGroupGenerationAssignments()
+    {
+        return $this->hasMany(GroupGenerationAssignment::className(), ['gentypeID' => 'typeID']);
     }
 
     /**

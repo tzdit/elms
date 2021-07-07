@@ -73,6 +73,7 @@ public $defaultAction = 'dashboard';
                             'get-gentypes',
                             'get-groups',
                             'get-students',
+                            'add-student-gentype'
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -320,12 +321,7 @@ public function actionStdworklab($cid, $id){
 
     $courses = Yii::$app->user->identity->instructor->courses;
 
-        // echo '<pre>';
-        // print_r($cid);
-        // echo '<br>';
-        // print_r($id);
-        // echo '</pre>';
-        // exit;
+   
     return $this->render('stdworklab', ['cid'=>$cid, 'id'=>$id, 'courses'=>$courses, 'submits' => $submits]);
 
 }
@@ -333,35 +329,34 @@ public function actionStdworklab($cid, $id){
 //############################## function to create assignment ######################################
 
 public function actionUploadAssignment(){
-   
+    
     $model = new UploadAssignment();
+   
     if($model->load(Yii::$app->request->post())){
+    
     //loading the external post data into the model
     $model->questions_maxima=Yii::$app->request->post('q_max');
     if($model->assType=="allgroups"){$model->generation_type=Yii::$app->request->post('gentypes');}
     else if($model->assType=="groups"){$model->generation_type=Yii::$app->request->post('gentypes');$model->groups=Yii::$app->request->post('gengroups');}
-    else if($model->assType=="students"){$model->students=Yii::$app->request->post('mystudents');}
-    $model->assFile = UploadedFile::getInstance($model, 'assFile');
-
-    //testing it
-   print("maxima");
-    print_r($model->questions_maxima);
-    print("students");
-    print_r($model->students);
-    print("groups");
-    print_r($model->groups);
-    print("gentypes:".$model->generation_type);
-
-
-     
-        if($model->upload()){
+    else if($model->assType=="students"){$model->students=Yii::$app->request->post('mystudents');}else{}
+    if($model->assFormat=='file')
+    {
+    $model->assFile =UploadedFile::getInstanceByName('assFile');
+    }
+    else
+    {
+        $model->the_assignment=Yii::$app->request->post('the_assignment');
+    }
+ 
+    
+        if($model->create_assignment()){
         Yii::$app->session->setFlash('success', 'Assignment created successfully');
-        //return $this->redirect(Yii::$app->request->referrer);
+        return $this->redirect(Yii::$app->request->referrer);
         }else{
           
         Yii::$app->session->setFlash('error', 'Something went wrong');
        
-        //return $this->redirect(Yii::$app->request->referrer);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 }
 }
@@ -396,19 +391,30 @@ public function actionUploadTutorial(){
 public function actionUploadLab(){
     $model = new UploadLab();
     if($model->load(Yii::$app->request->post())){
-        $model->assFile = UploadedFile::getInstance($model, 'assFile');
-        // echo '<pre>';
-        // print_r($model);
-        // echo '</pre>';
-        // exit;
-        if($model->upload()){
-        Yii::$app->session->setFlash('success', 'Lab created successfully');
-        return $this->redirect(Yii::$app->request->referrer);
+    
+    //loading the external post data into the model
+    $model->questions_maxima=Yii::$app->request->post('q_max');
+    if($model->assType=="allgroups"){$model->generation_type=Yii::$app->request->post('gentypes');}
+    else if($model->assType=="groups"){$model->generation_type=Yii::$app->request->post('gentypes');$model->groups=Yii::$app->request->post('gengroups');}
+    else if($model->assType=="students"){$model->students=Yii::$app->request->post('mystudents');}else{}
+    if($model->assFormat=='file')
+    {
+    $model->assFile =UploadedFile::getInstanceByName('assFile');
+    }
+    else
+    {
+        $model->the_assignment=Yii::$app->request->post('the_assignment');
+    }
+ 
+    
+        if($model->create_assignment()){
+        Yii::$app->session->setFlash('success', 'Lab assignment created successfully');
+       return $this->redirect(Yii::$app->request->referrer);
         }else{
           
         Yii::$app->session->setFlash('error', 'Something went wrong');
        
-        return $this->redirect(Yii::$app->request->referrer);
+       return $this->redirect(Yii::$app->request->referrer);
     }
 }
 }
@@ -490,6 +496,29 @@ public function actionGenerateGroups()
      else{
 
         Yii::$app->session->setFlash('success', 'groups generating failed');
+        return $this->redirect(Yii::$app->request->referrer);
+     }
+ 
+     }
+
+}
+//students group types
+
+public function actionAddStudentGentype()
+{
+ 
+    $model = new StudentGroups();
+    if($model->load(Yii::$app->request->post()) && $model->validate()){
+      
+     if($model->addstudenttype())
+     {
+
+        Yii::$app->session->setFlash('success', 'successful');
+        return $this->redirect(Yii::$app->request->referrer);
+     }
+     else{
+
+        Yii::$app->session->setFlash('success', 'failed');
         return $this->redirect(Yii::$app->request->referrer);
      }
  

@@ -11,6 +11,38 @@ return [
             // uncomment if you want to cache RBAC items hierarchy
             // 'cache' => 'cache',
         ],
+        'cdn' => [
+            'class' => '\yii2cdn\Cdn',
+            'baseUrl' => '/cdn',
+            'basePath' => dirname(dirname(__DIR__)) . '/cdn',
+            'components' => [
+                'jquery' => [
+                        
+                    'js'=>[
+                        [
+                            'js/jquery.min.js',
+                            '@cdn'=>'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
+                        ]
+                    ]
+                        ],
+                'select2' => [
+                    'css' => [
+                        [
+                            'css/select2.css',
+                            '@cdn' => 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.css
+                            ', // online version
+                        ]
+                        ],
+                    'js'=>[
+                        [
+                            'js/select2.min.js',
+                            '@cdn'=>'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.js',
+                        ]
+                    ]
+                        ]
+                      
+            ],
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,

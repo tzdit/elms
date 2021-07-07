@@ -22,8 +22,11 @@ $this->params['breadcrumbs'] = [
 
 
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
         <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#mymodal" data-toggle="modal"><i class="fas fa-group" ></i>Generate New Groups</a>
+        </div>
+        <div class="col-md-6">
+        <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#studentmodal" data-toggle="modal"><i class="fas fa-plus" ></i>Students groups type</a>
         </div>
                   
       </div>
@@ -105,6 +108,11 @@ $this->params['breadcrumbs'] = [
 $studentGroups = new StudentGroups();
 ?>
 <?= $this->render('students/generate_group',['studentGroups'=>$studentGroups]) ?>
+<?php 
+$studentGroups = new StudentGroups();
+?>
+<?= $this->render('students/addStudentGenerationType',['studentGroups'=>$studentGroups]) ?>
+
 
 </div>
 

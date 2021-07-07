@@ -48,6 +48,7 @@ class StudentGroups extends Model{
         $typesmodel->course_code=$ccode;
         $typesmodel->creator_type="instructor";
         $typesmodel->instructorID=$instructorID;
+        $typesmodel->max_groups_members=$this->membersNumber;
         $typesmodel->save();
 
         //getting all the groups into the database including all the corresponding members
@@ -102,5 +103,26 @@ class StudentGroups extends Model{
 
     
 }
+public function addstudenttype()
+{
+
+  $ccode=Yii::$app->session->get('ccode');
+  $instructorID = Yii::$app->user->identity->instructor->instructorID;
+  $now=date("m:d:Y h:i:s");
+  //$groupmodel->course_code=$ccode;
+  //setting up the generation type
+  $typesmodel=new GroupGenerationTypes();
+  $typesmodel->generation_type=($this->generationType!="" || $this->generationType!=null)?$this->generationType:"Student Generation type ".$now;
+  $typesmodel->course_code=$ccode;
+  $typesmodel->creator_type="instructor-student";
+  $typesmodel->instructorID=$instructorID;
+  $typesmodel->max_groups_members=$this->membersNumber;
+  $typesmodel->save();
+
+  return true;
+
+}
+
+
 }
 ?>
