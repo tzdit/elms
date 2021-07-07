@@ -39,7 +39,7 @@ class StudentController extends \yii\web\Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['dashboard','error','classwork','courses','changePassword','carrycourse','add_carry','delete','student_groups','delete_group','add_group','student_in_login_user_course','add_to_group','list_student_in_group','remove_student_from_group'],
+                        'actions' => ['dashboard','error','classwork','courses','changePassword','carrycourse','add_carry','delete','student_groups','delete_group','add_group','student_in_login_user_course','add_to_group','list_student_in_group','remove_student_from_group','submit_assignment'],
                         'allow' => true,
                         'roles'=>['STUDENT']
                     ],
@@ -86,7 +86,7 @@ public function actionClasswork($cid){
         'material_ID' => SORT_DESC ])->all();
 
 
-    $returned= Assignment::find()->select('assignment.assName,assignment.assType,submit.fileName,submit.score,submit.comment')->where('submit.reg_no = :reg_no', [ ':reg_no' => $reg_no ])->andWhere('assignment.course_code = :course_code',[':course_code' => $cid] )->joinWith('submits')->all();
+    $returned= Assignment::find()->where('submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->leftJoin('submit','assignment.assID = submit.assID')->with('submits')->all();
 
 
     $courses = Yii::$app->user->identity->student->program->courses;
@@ -277,9 +277,6 @@ public function actionClasswork($cid){
        
                 
          }
-        else{
-            Yii::$app->session->setFlash('error', 'Somethibg went Wrong!');
-        }
           
         }
         catch(\Exception $e){
@@ -411,12 +408,46 @@ public function actionClasswork($cid){
         $this->findStudentGroupModel($id)->delete();
 
 
-        return $this->refresh();;
+        return $this->refresh();
     }
     
 
 
+    public function actionSubmit_assignment($assID)
+    {
 
+        $model =new Submit; 
+
+        $file = UploadedFile::getInstanceByName('document');
+        $model->document = $file;
+        $model->assinmentId = $assID;
+
+
+        // echo '<pre>';
+        //     var_dump($file);
+        // echo '</pre>';
+        // exit;
+
+        $reg_no = Yii::$app->user->identity->username;
+
+        try{
+            if (Yii::$app->request->isPost && $model->save()) {
+                
+                Yii::$app->session->setFlash('success', 'Your Submit successed');
+             
+                
+                return $this->refresh();
+            }
+            
+            
+        }
+        catch(\Exception $e){
+            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+        }
+
+            return $this->render('submit_assignment', [
+                'model' => $model, 'assID' => $assID],false,true);
+    }
 
 
 

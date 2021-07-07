@@ -7,3 +7,9 @@ $(function(){
               .load($(this).attr('value'));
  });
 });
+
+$(function(){
+  $('#document-file').change(ev => {
+    $(ev.target).closest('form').trigger('submit');
+  })
+});

@@ -9,6 +9,7 @@ use common\helpers\Custom;
 use common\helpers\Security;
 use common\models\Assignment;
 use frontend\models\UploadMaterial;
+use yii\helpers\VarDumper;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] =$cid;
@@ -107,9 +108,9 @@ $assk = "Assignment".$ass;
       <b> Deadline : </b><?= $assign -> finishDate ?>
       </div>
       <div class="col-md-4">
-      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"></i></span></a>
-      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"></i></span></a>
-      <a href="#" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"></i></span></a>
+      <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"></i></span></a>
+      <a href="<?= Url::toRoute(['/student/submit_assignment'])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"></i></span></a>
+      <a href="<?= Url::toRoute(['/student/submit_assignment'])?>" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"></i></span></a>
      
       </div>
       </div>
@@ -164,7 +165,7 @@ $assk = "Assignment".$ass;
       </div>
       <div class="col-md-4">
       <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"></i></span></a>
-      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"></i></span></a>
+      <a href="" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"></i></span></a>
       <a href="#" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"></i></span></a>
       </div>
       </div>
@@ -305,22 +306,27 @@ $assk = "Assignment".$ass;
               <div class="card-body">
  
              <div class="row">
+              <!-- <?= VarDumper::dump($returned) ?> -->
                <div class="col-md-12">
                   <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
                   <thead>
                   <tr>
-                  <th width="10%">assignment</th><th>filename</th><th>score</th><th>comment</th>
+                  <th width="1%">#</th><th>Assignment Name</th><th>Assinment Type</th><th>filename</th><th>Score/Total</th><th>comment</th>
                   </tr>
                   </thead>
                   <tbody>
                   <?php $i=0; ?>
                   <?php foreach($returned as $returne): ?>
-                  <tr>
-                  <td><?= ++$i; ?></td>
-                  <td><?= $returne->fileName;  ?></td>
-                  <td><?= $returne->score;  ?></td>
-                  <td><?= $returne->comment;  ?></td>
-                  </tr>
+                    <?php foreach($returne->submits as $submit_returne): ?>
+                      <tr>
+                      <td><?= ++$i; ?></td>
+                      <td><?= $returne->assName ?> </td>
+                      <td><?= $returne->assType ?> </td>
+                      <td><?= $submit_returne->fileName;  ?></td>
+                      <td><?= $submit_returne->score.'/'.$returne->total_marks  ?></td>
+                      <td><?= $submit_returne->comment;  ?></td>
+                      </tr>
+                    <?php endforeach ?>
                   <?php endforeach ?>
                   </tbody>
                   </table>

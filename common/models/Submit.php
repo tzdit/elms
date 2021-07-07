@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\FileHelper;
 
 /**
  * This is the model class for table "submit".
@@ -22,6 +23,19 @@ use Yii;
  */
 class Submit extends \yii\db\ActiveRecord
 {
+
+    /**
+     * @var UploadedFile
+     */
+    public $document;
+
+
+    /**
+     * @var assinmentID
+     */
+     public $assinmentId;
+
+
     /**
      * {@inheritdoc}
      */
@@ -36,11 +50,11 @@ class Submit extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['assID'], 'integer'],
-            [['fileName', 'score', 'submit_date', 'submit_time'], 'required'],
+            [['fileName'], 'required'],
             [['score'], 'number'],
             [['submit_date', 'submit_time'], 'safe'],
-            [['reg_no', 'fileName'], 'string', 'max' => 20],
+            [['fileName'], 'string', 'max' => 20],
+            [['reg_no', 'fileName'], 'string', 'max' => 225],
             [['comment'], 'string', 'max' => 200],
             [['assID'], 'exist', 'skipOnError' => true, 'targetClass' => Assignment::className(), 'targetAttribute' => ['assID' => 'assID']],
             [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],
@@ -93,4 +107,40 @@ class Submit extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Student::className(), ['reg_no' => 'reg_no']);
     }
+
+    public function save($runValidation = false, $attributeNames = null){
+
+        $isInsert = $this->isNewRecord;
+
+        $this->assID = $this->assinmentId;
+        $this->submit_date = date('Y-m-d');
+        $this->submit_time = date('H:i:s');
+        $this->reg_no = Yii::$app->user->identity->username;
+        $this->fileName = Yii::$app->security->generateRandomString(6).$this->document->name;
+
+        if($isInsert){
+            
+        }
+         $saved =  parent::save($runValidation, $attributeNames);
+
+         if(!$saved)
+         {
+             return false;
+         }
+
+         if($isInsert){
+             $documentPath = Yii::getAlias('@frontend/web/storage/submit/'.$this->fileName );
+
+             if(!is_dir(\dirname($documentPath))) {
+                 FileHelper::createDirectory(\dirname($documentPath));
+             }  
+
+             $this->document->saveAs($documentPath);
+        }
+
+
+        return true;
+    }
+
+    
 }

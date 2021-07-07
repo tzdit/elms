@@ -1,7 +1,7 @@
 <?php
 use yii\bootstrap4\Breadcrumbs;
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
