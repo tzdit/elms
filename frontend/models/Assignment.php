@@ -1,6 +1,6 @@
 <?php
 
-namespace common\models;
+namespace app\models;
 
 use Yii;
 
@@ -19,7 +19,6 @@ use Yii;
  * @property string|null $finishDate
  * @property int|null $total_marks
  * @property string|null $fileName
- * @property float|null $score
  *
  * @property Course $courseCode
  * @property Instructor $instructor
@@ -48,9 +47,10 @@ class Assignment extends \yii\db\ActiveRecord
             [['instructorID', 'total_marks'], 'integer'],
             [['assName', 'assNature'], 'required'],
             [['startDate', 'finishDate'], 'safe'],
-            [['score'], 'number'],
             [['course_code'], 'string', 'max' => 7],
-            [['assName', 'assType', 'assNature', 'submitMode'], 'string', 'max' => 100],
+            [['assName'], 'string', 'max' => 100],
+            [['assType'], 'string', 'max' => 15],
+            [['assNature', 'submitMode'], 'string', 'max' => 10],
             [['ass_desc'], 'string', 'max' => 1000],
             [['fileName'], 'string', 'max' => 70],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
@@ -76,7 +76,6 @@ class Assignment extends \yii\db\ActiveRecord
             'finishDate' => 'Finish Date',
             'total_marks' => 'Total Marks',
             'fileName' => 'File Name',
-            'score' => 'Score',
         ];
     }
 
