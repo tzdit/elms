@@ -37,7 +37,7 @@ $this->params['breadcrumbs'] = [
                     <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true">Forum</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-assessments" data-toggle="tab" href="#assessments" role="tab" aria-controls="assessments" aria-selected="false">Assignments</a>
+                    <a class="nav-link" id="custom-tabs-assessments" data-toggle="tab" href="#assessment" role="tab" aria-controls="assessments" aria-selected="false">Assignments</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-labs" data-toggle="tab" href="#labs" role="tab" aria-controls="labs" aria-selected="false">labs</a>
@@ -72,7 +72,7 @@ $this->params['breadcrumbs'] = [
 
 <!-- ########################################### Assigments and Labs ######################################## --> 
 <?php $ass = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->count(); ?>      
-<div class="tab-pane fade" id="assessments" role="tabpanel" aria-labelledby="custom-tabs-assignment">
+<div class="tab-pane fade" id="assessment" role="tabpanel" aria-labelledby="custom-tabs-assignment">
 <div class="accordion" id="accordionExample">
 <?php $assk = "Assignment".$ass ;
 $assk = "Assignment".$ass;

@@ -79,4 +79,7 @@ class Groups extends \yii\db\ActiveRecord
     {
         return $this->hasMany(StudentGroup::className(), ['groupID' => 'groupID']);
     }
+
+
+    
 }
