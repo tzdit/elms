@@ -292,7 +292,7 @@ $assk = "Assignment".$ass;
 <div class="tab-pane fade" id="labs" role="tabpanel" aria-labelledby="custom-tabs-lab">
 <div class="row">
         <div class="col-md-12">
-              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createLabModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create</a>
+              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createLabModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i>Create</a>
         </div>
                   
       </div>
@@ -678,4 +678,5 @@ $('#custom-tabs-four-tab a[href="' + activeTab + '"]').tab('show');
 });
 JS;
 $this->registerJs($script);
+
 ?>

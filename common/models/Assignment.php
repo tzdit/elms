@@ -11,19 +11,21 @@ use Yii;
  * @property int|null $instructorID
  * @property string|null $course_code
  * @property string $assName
- * @property string $assType
+ * @property string|null $assType
  * @property string $assNature
  * @property string|null $ass_desc
- * @property string $submitMode
- * @property string $startDate
- * @property string $finishDate
- * @property int $total_marks
+ * @property string|null $submitMode
+ * @property string|null $startDate
+ * @property string|null $finishDate
+ * @property int|null $total_marks
  * @property string|null $fileName
  *
  * @property Course $courseCode
  * @property Instructor $instructor
  * @property Assq[] $assqs
  * @property GroupAssignment[] $groupAssignments
+ * @property GroupGenerationAssignment[] $groupGenerationAssignments
+ * @property StudentAssignment[] $studentAssignments
  * @property Submit[] $submits
  */
 class Assignment extends \yii\db\ActiveRecord
@@ -44,11 +46,13 @@ class Assignment extends \yii\db\ActiveRecord
         return [
             [['instructorID', 'total_marks'], 'integer'],
             [['assName', 'assNature'], 'required'],
-            [['submitMode','startDate', 'finishDate', 'total_marks', 'assType' ], 'safe'],
+            [['startDate', 'finishDate'], 'safe'],
             [['course_code'], 'string', 'max' => 7],
-            [['assName', 'assNature'], 'string', 'max' => 10],
+            [['assName'], 'string', 'max' => 100],
+            [['assType'], 'string', 'max' => 15],
+            [['assNature', 'submitMode'], 'string', 'max' => 10],
             [['ass_desc'], 'string', 'max' => 1000],
-            [['fileName'], 'string', 'max' => 30],
+            [['fileName'], 'string', 'max' => 70],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
             [['instructorID'], 'exist', 'skipOnError' => true, 'targetClass' => Instructor::className(), 'targetAttribute' => ['instructorID' => 'instructorID']],
         ];
@@ -62,11 +66,11 @@ class Assignment extends \yii\db\ActiveRecord
         return [
             'assID' => 'Ass ID',
             'instructorID' => 'Instructor ID',
-            'course_code' => 'Course Code', 
-            'assName' => 'Assignment Name',
-            'assType' => 'Assignment Type',
-            'assNature' => 'Assignment Nature',
-            'ass_desc' => 'Description',
+            'course_code' => 'Course Code',
+            'assName' => 'Ass Name',
+            'assType' => 'Ass Type',
+            'assNature' => 'Ass Nature',
+            'ass_desc' => 'Ass Desc',
             'submitMode' => 'Submit Mode',
             'startDate' => 'Start Date',
             'finishDate' => 'Finish Date',
@@ -113,6 +117,26 @@ class Assignment extends \yii\db\ActiveRecord
     public function getGroupAssignments()
     {
         return $this->hasMany(GroupAssignment::className(), ['assID' => 'assID']);
+    }
+
+    /**
+     * Gets query for [[GroupGenerationAssignments]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGroupGenerationAssignments()
+    {
+        return $this->hasMany(GroupGenerationAssignment::className(), ['assID' => 'assID']);
+    }
+
+    /**
+     * Gets query for [[StudentAssignments]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStudentAssignments()
+    {
+        return $this->hasMany(StudentAssignment::className(), ['assID' => 'assID']);
     }
 
     /**
