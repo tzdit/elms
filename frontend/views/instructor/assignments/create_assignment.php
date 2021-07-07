@@ -82,7 +82,6 @@ use yii\helpers\Html;
   </div>
 </div>
 <?php 
-$this->registerCssFile('@web/css/adminlte.min.css');
 $this->registerCssFile('@web/plugins/select2/css/select2.min.css');
 $this->registerJsFile(
   '@web/plugins/select2/js/select2.full.js',
