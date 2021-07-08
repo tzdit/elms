@@ -24,6 +24,7 @@ use Yii;
  * @property Instructor $instructor
  * @property Assq[] $assqs
  * @property GroupAssignment[] $groupAssignments
+ * @property GroupAssignmentSubmit[] $groupAssignmentSubmits
  * @property GroupGenerationAssignment[] $groupGenerationAssignments
  * @property StudentAssignment[] $studentAssignments
  * @property Submit[] $submits
@@ -117,6 +118,16 @@ class Assignment extends \yii\db\ActiveRecord
     public function getGroupAssignments()
     {
         return $this->hasMany(GroupAssignment::className(), ['assID' => 'assID']);
+    }
+
+    /**
+     * Gets query for [[GroupAssignmentSubmits]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGroupAssignmentSubmits()
+    {
+        return $this->hasMany(GroupAssignmentSubmit::className(), ['assID' => 'assID']);
     }
 
     /**

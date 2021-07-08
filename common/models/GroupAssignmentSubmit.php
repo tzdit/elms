@@ -5,10 +5,10 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "submit".
+ * This is the model class for table "group_assignment_submit".
  *
  * @property int $submitID
- * @property string|null $reg_no
+ * @property int|null $groupID
  * @property int|null $assID
  * @property string $fileName
  * @property float|null $score
@@ -16,18 +16,18 @@ use Yii;
  * @property string $submit_time
  * @property string|null $comment
  *
- * @property QMarks[] $qMarks
+ * @property Groups $group
  * @property Assignment $ass
- * @property Student $regNo
+ * @property QMarks[] $qMarks
  */
-class Submit extends \yii\db\ActiveRecord
+class GroupAssignmentSubmit extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'submit';
+        return 'group_assignment_submit';
     }
 
     /**
@@ -36,14 +36,14 @@ class Submit extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['assID'], 'integer'],
+            [['groupID', 'assID'], 'integer'],
             [['fileName'], 'required'],
             [['score'], 'number'],
             [['submit_date', 'submit_time'], 'safe'],
-            [['reg_no', 'fileName'], 'string', 'max' => 20],
+            [['fileName'], 'string', 'max' => 70],
             [['comment'], 'string', 'max' => 200],
+            [['groupID'], 'exist', 'skipOnError' => true, 'targetClass' => Groups::className(), 'targetAttribute' => ['groupID' => 'groupID']],
             [['assID'], 'exist', 'skipOnError' => true, 'targetClass' => Assignment::className(), 'targetAttribute' => ['assID' => 'assID']],
-            [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],
         ];
     }
 
@@ -54,7 +54,7 @@ class Submit extends \yii\db\ActiveRecord
     {
         return [
             'submitID' => 'Submit ID',
-            'reg_no' => 'Reg No',
+            'groupID' => 'Group ID',
             'assID' => 'Ass ID',
             'fileName' => 'File Name',
             'score' => 'Score',
@@ -65,13 +65,13 @@ class Submit extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[QMarks]].
+     * Gets query for [[Group]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getQMarks()
+    public function getGroup()
     {
-        return $this->hasMany(QMarks::className(), ['submitID' => 'submitID']);
+        return $this->hasOne(Groups::className(), ['groupID' => 'groupID']);
     }
 
     /**
@@ -85,12 +85,12 @@ class Submit extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[RegNo]].
+     * Gets query for [[QMarks]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getRegNo()
+    public function getQMarks()
     {
-        return $this->hasOne(Student::className(), ['reg_no' => 'reg_no']);
+        return $this->hasMany(QMarks::className(), ['group_submit_id' => 'submitID']);
     }
 }

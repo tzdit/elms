@@ -19,6 +19,11 @@ use frontend\models\UploadMaterial;
 use frontend\models\StudentGroups;
 use common\models\Groups;
 use common\models\GroupGenerationTypes;
+use common\models\Assq;
+use common\models\GroupAssignmentSubmit;
+use common\models\GroupAssignment;
+use common\models\GroupGenerationAssignment;
+use common\models\QMarks;
 use yii\web\Response;
 use yii\web\BadRequestHttpException;
 use yii\helpers\ArrayHelper;
@@ -73,7 +78,9 @@ public $defaultAction = 'dashboard';
                             'get-gentypes',
                             'get-groups',
                             'get-students',
-                            'add-student-gentype'
+                            'add-student-gentype',
+                            'mark',
+                            'mark-inputing',
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -440,6 +447,74 @@ public function actionUploadMaterial(){
        
         return $this->redirect(Yii::$app->request->referrer);
     }
+}
+}
+public function actionMark($id)
+{
+    //loading the current assignment
+
+    $assignment=new Assignment();
+    $current_assignment=$assignment::findOne($id);
+   
+    return $this->render('marking',['assignment'=>$current_assignment]);  
+}
+public function actionMarkInputing()
+{
+
+    if(Yii::$app->request->post()) {
+    
+    $score=Yii::$app->request->post('score');
+    $fid=Yii::$app->request->post('fid');
+    $qscores=Yii::$app->request->post('qscores');
+    $asstype=Yii::$app->request->post('asstype');
+    $comment=Yii::$app->request->post('comment');
+    $qids=Yii::$app->request->post('qids');
+    $model=null;
+    $submit=null;
+    if($asstype=="group")
+    {
+        $model=GroupAssignmentSubmit();
+        
+        
+    }
+    else
+    {
+        $model=new Submit();
+    }
+  if($model!=null)
+  {
+    $submit=$model->findOne($fid);
+    $submit->score=$score;
+    $submit->comment=$comment;
+  }
+  $submit->save();
+  //preparing the submit
+ 
+
+//inserting questions marks
+  for($sc=0;$sc<count($qscores);$sc++)
+  {
+    $qmark=new Qmarks();
+    $qmark->assq_ID=$qids[$sc];
+    $qmark->q_score=$qscores[$sc];
+
+    //the submitids
+
+    if($submit instanceof GroupAssignmentSubmit)
+    {
+        $qmark->group_submit_id=$submit->submitID; 
+    }
+    else
+    {
+        $qmark->submitID=$submit->submitID;  
+    }
+
+    $qmark->save();
+    
+
+   
+  }
+ // return $this->redirect(Yii::$app->request->referrer);   
 }
 }
 //##################################### add partner ##################################################################

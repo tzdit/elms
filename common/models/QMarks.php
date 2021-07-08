@@ -12,7 +12,9 @@ use Yii;
  * @property int|null $assq_ID
  * @property float|null $q_score
  * @property string|null $comment
+ * @property int|null $group_submit_id
  *
+ * @property GroupAssignmentSubmit $groupSubmit
  * @property Assq $assq
  * @property Submit $submit
  */
@@ -32,9 +34,10 @@ class QMarks extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['submitID', 'assq_ID'], 'integer'],
+            [['submitID', 'assq_ID', 'group_submit_id'], 'integer'],
             [['q_score'], 'number'],
             [['comment'], 'string', 'max' => 200],
+            [['group_submit_id'], 'exist', 'skipOnError' => true, 'targetClass' => GroupAssignmentSubmit::className(), 'targetAttribute' => ['group_submit_id' => 'submitID']],
             [['assq_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Assq::className(), 'targetAttribute' => ['assq_ID' => 'assq_ID']],
             [['submitID'], 'exist', 'skipOnError' => true, 'targetClass' => Submit::className(), 'targetAttribute' => ['submitID' => 'submitID']],
         ];
@@ -51,7 +54,18 @@ class QMarks extends \yii\db\ActiveRecord
             'assq_ID' => 'Assq ID',
             'q_score' => 'Q Score',
             'comment' => 'Comment',
+            'group_submit_id' => 'Group Submit ID',
         ];
+    }
+
+    /**
+     * Gets query for [[GroupSubmit]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGroupSubmit()
+    {
+        return $this->hasOne(GroupAssignmentSubmit::className(), ['submitID' => 'group_submit_id']);
     }
 
     /**
