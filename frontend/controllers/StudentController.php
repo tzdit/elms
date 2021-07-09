@@ -20,7 +20,7 @@ use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
 use frontend\models\CarryCourseSearch;
-use frontend\models\StudentGroup;
+use common\models\StudentGroup;
 use yii\helpers\ArrayHelper;
 use Yii;
 use yii\web\NotFoundHttpException;

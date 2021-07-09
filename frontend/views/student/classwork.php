@@ -294,53 +294,48 @@ $assk = "Assignment".$ass;
 
 <!-- ########################################### materials ######################################## -->      
 <?php $mat = Material::find()->where(['course_code' => $cid])->count(); ?>
+
+<?php $videos = Material::find()->where('course_code = :course_code AND material_type = :material_type', [ ':course_code'=> $cid, ':material_type' => 'Videos'])->count(); ?>
+
+<?php $notesAndBooks = Material::find()->where('course_code = :course_code AND material_type = :material_type', [ ':course_code'=> $cid, ':material_type' => "Notes"])->count(); ?>
+
 <div class="tab-pane fade" id="coursematerials" role="tabpanel" aria-labelledby="custom-tabs-coursematerials">
-<div class="accordion" id="accordionExample_6">
+<div class="accordion" id="accordionExample_3">
 
-<?php foreach( $materials as $material ) : ?>
+<div class="row">
+            <div class="col-lg-3 col-6">
+                <a href="<?=Url::to(['student/classwork/'])  ?>" class="small-box bg-info" >
+                
+                    <div class="inner">
+                      <h3><?= $cid ?></h3>
 
-  <div class="card">
-    <div class="card-header p-2" id="heading<?=$mat?>">
-      <h2 class="mb-0">
-      <div class="row">
-      <div class="col-sm-11">
-      <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$mat?>" aria-expanded="true" aria-controls="collapse<?=$mat?>">
-        <i class="fas fa-clipboard-list"></i> <?php echo "Material ".$mat?>
-        </button>
-      </div>
-      <div class="col-sm-1">
-      <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
-      </div>
-      </div>
-         
-       
-      </h2>
+                      <p >videos <?= $videos ?></p>
+                    </div>
+
+                    <div class="icon">
+                      <i class="fa fa-play"></i>
+                    </div>
+
+                  </a>
+            </div> 
+
+            <div class="col-lg-3 col-6">
+                <a href="<?=Url::to(['student/classwork/'])  ?>" class="small-box bg-info" >
+                
+                    <div class="inner">
+                      <h3><?= $cid ?></h3>
+
+                      <p > Notes & Books <?= $notesAndBooks ?></p>
+                    </div>
+
+                    <div class="icon">
+                      <i class="fa fa-tags"></i>
+                    </div>
+
+                  </a>
+             </div> 
     </div>
-
-    <div id="collapse<?=$mat?>" class="collapse" aria-labelledby="heading<?=$mat?>" data-parent="#accordionExample_6">
-      <div class="card-body">
-         <p><span style="color:green"> About: </span>  <?= $material -> title ?> </p>
-      </div>
-      <div class="card-footer p-2 bg-white border-top">
-      <div class="row">
-      <div class="col-md-6">
-      <a href=""  class="text-mutted">Material <i class="fas fa-eye"></i></a>
-      </div>
-      <div class="col-md-6">
-      <a href="#" class="btn btn-sm btn-success float-right"><span><i class="fas fa-download"></i></span></a>
-     
-      </div>
-      </div>
-      </div>
-    </div>
-  </div>
-
-  <?php 
-         $mat--;
-        
-        ?>
-  
-  <?php endforeach ?>
+    
 
 </div>
 
