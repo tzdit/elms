@@ -33,7 +33,7 @@ else
 for($sub=0;$sub<count($submits);$sub++)
 {
 ?>
-<tr class="d-flex"><td id="<?=$submits[$sub]->submitID;?>"><?=$sub+1?><td id="<?=$submits[$sub]->fileName;?>"><?=$submits[$sub]->reg_no?></td></tr>
+<tr class="d-flex"><td id="<?=$submits[$sub]->submitID;?>"><?=$sub+1?><td id="<?=$submits[$sub]->fileName;?>"><?php if($asstype=="class"){print $submits[$sub]->reg_no;}else{ print $submits[$sub]->group->groupName;}?></td></tr>
 <?php
 }
 ?>

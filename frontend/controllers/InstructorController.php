@@ -249,8 +249,16 @@ public function actionStdwork($cid, $id){
     if(!empty($cid)){
    Yii::$app->session->set('ccode', $cid);
     }
-    
+    $submits=null;
+    $asstype=Assignment::findOne($id)->assType;
+    if($asstype=="allgroups" || $asstype=="groups")
+    {
+     $submits =GroupAssignmentSubmit::find()->where(['assID'=> $id])->all();
+    }
+    else
+    {
     $submits = Submit::find()->where(['assID'=> $id])->all();
+    }
     
 
     $courses = Yii::$app->user->identity->instructor->courses;
@@ -473,7 +481,7 @@ public function actionMarkInputing()
     $submit=null;
     if($asstype=="group")
     {
-        $model=GroupAssignmentSubmit();
+        $model=new GroupAssignmentSubmit();
         
         
     }
