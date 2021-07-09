@@ -3,7 +3,6 @@
 namespace common\models;
 
 use Yii;
-use yii\helpers\FileHelper;
 
 /**
  * This is the model class for table "submit".
@@ -12,7 +11,7 @@ use yii\helpers\FileHelper;
  * @property string|null $reg_no
  * @property int|null $assID
  * @property string $fileName
- * @property float $score
+ * @property float|null $score
  * @property string $submit_date
  * @property string $submit_time
  * @property string|null $comment
@@ -25,15 +24,14 @@ class Submit extends \yii\db\ActiveRecord
 {
 
     /**
-     * @var UploadedFile
+     * document variable
      */
     public $document;
 
-
     /**
-     * @var assinmentID
+     * document variable
      */
-     public $assinmentId;
+    public $assinmentId;
 
 
     /**
@@ -50,6 +48,7 @@ class Submit extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['assID'], 'integer'],
             [['fileName'], 'required'],
             [['score'], 'number'],
             [['submit_date', 'submit_time'], 'safe'],
