@@ -53,11 +53,13 @@ class Submit extends \yii\db\ActiveRecord
             [['fileName'], 'required'],
             [['score'], 'number'],
             [['submit_date', 'submit_time'], 'safe'],
-            [['fileName'], 'string', 'max' => 20],
-            [['reg_no', 'fileName'], 'string', 'max' => 225],
+            [['fileName'], 'string', 'max' => 225],
+            [['reg_no',], 'string', 'max' => 20],
             [['comment'], 'string', 'max' => 200],
             [['assID'], 'exist', 'skipOnError' => true, 'targetClass' => Assignment::className(), 'targetAttribute' => ['assID' => 'assID']],
             [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],
+            [['document'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf,doc,xls,xlsx,docx,pptx,ppt,rtf,odt,txt','message' => 'file type not allowed'],
+            [['document'], 'file','maxSize' => 1024 * 1024 * 10 ,'message' => 'exceed maximum file size'],
         ];
     }
 
@@ -108,7 +110,7 @@ class Submit extends \yii\db\ActiveRecord
         return $this->hasOne(Student::className(), ['reg_no' => 'reg_no']);
     }
 
-    public function save($runValidation = false, $attributeNames = null){
+    public function save($runValidation = true, $attributeNames = null){
 
         $isInsert = $this->isNewRecord;
 

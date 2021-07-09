@@ -39,7 +39,7 @@ class StudentController extends \yii\web\Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['dashboard','error','classwork','courses','changePassword','carrycourse','add_carry','delete','student_groups','delete_group','add_group','student_in_login_user_course','add_to_group','list_student_in_group','remove_student_from_group','submit_assignment'],
+                        'actions' => ['dashboard','error','classwork','courses','changePassword','carrycourse','add_carry','delete','student_groups','delete_group','add_group','student_in_login_user_course','add_to_group','list_student_in_group','remove_student_from_group','submit_assignment','view_assignment','download_assignment','resubmit'],
                         'allow' => true,
                         'roles'=>['STUDENT']
                     ],
@@ -86,13 +86,14 @@ public function actionClasswork($cid){
         'material_ID' => SORT_DESC ])->all();
 
 
-    $returned= Assignment::find()->where('submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->leftJoin('submit','assignment.assID = submit.assID')->with('submits')->all();
+    $returned= Assignment::find()->where('submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->leftJoin('submit','assignment.assID = submit.assID')->with('submits')->orderBy([
+        'submit.submitID' => SORT_DESC ])->all();
 
 
     $courses = Yii::$app->user->identity->student->program->courses;
 
 
-    return $this->render('classwork', ['cid'=>$cid,'returned'=>$returned, 'courses'=>$courses, 'assignments'=>$assignments,'tutorials'=>$tutorials, 'labs'=>$labs, 'materials'=>$materials]);
+    return $this->render('classwork', ['cid'=>$cid,'returned'=>$returned, 'courses'=>$courses, 'assignments'=>$assignments,'tutorials'=>$tutorials, 'labs'=>$labs, 'materials'=>$materials, 'reg_no' => $reg_no, 'cid' => $cid]);
 
 }
 
@@ -141,11 +142,21 @@ public function actionClasswork($cid){
             
             return $this->render('carry_courses/index', ['data'=> $model]);
         }
-        else{
+       elseif (!$model->validate()) {
+        Yii::$app->session->setFlash('error', 'Course already exist');
+        $id = Yii::$app->user->identity->username;
+
+    
+        $model = Course::find()->where('student_course.reg_no = :reg_no', [ 'reg_no' => $id])->joinWith('studentCourses')->all();
+        
+        return $this->render('carry_courses/index', ['data'=> $model]);
+       }
+
+
             return $this->renderAjax('carry_courses/add_carry', [
                 'model' => $model,
             ],false,true);
-        }
+
 
 
         
@@ -413,6 +424,13 @@ public function actionClasswork($cid){
     
 
 
+
+     /**
+     * If save is successful, the browser will be redirected to the 'assignments' page.
+     * @param string $assID
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
     public function actionSubmit_assignment($assID)
     {
 
@@ -445,11 +463,92 @@ public function actionClasswork($cid){
             Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
         }
 
+
             return $this->render('submit_assignment', [
                 'model' => $model, 'assID' => $assID],false,true);
     }
 
 
+    /**
+     * view assignment 
+     */
 
+    public function actionDownload_assignment($assID) {
+        $model = Assignment::findOne($assID);
+    
+        // This will need to be the path relative to the root of your app.
+        $filePath = '/web/storage/temp';
+        // Might need to change '@app' for another alias
+        $completePath = Yii::getAlias('@app'.$filePath.'/'.$model->fileName);
+    
+        return Yii::$app->response->sendFile($completePath, $model->fileName);
+    }
+
+
+
+    /**
+     * View uploaded assinment in the browser
+     */
+    public function actionView_assignment($assID)
+    {
+        $model = Assignment::findOne($assID);
+    
+        // This will need to be the path relative to the root of your app.
+        $filePath = '/web/storage/temp';
+        // Might need to change '@app' for another alias
+        $completePath = Yii::getAlias('@app'.$filePath.'/'.$model->fileName);
+
+        if(file_exists($completePath))
+        {
+            // Set up PDF headers
+            header('Content-type: application/pdf');
+            header('Content-Disposition: inline; filename="' . $completePath . '"');
+            header('Content-Transfer-Encoding: binary');
+            header('Content-Length: ' . filesize($completePath));
+            header('Accept-Ranges: bytes');
+
+            // Render the file
+            readfile($completePath);
+        }
+        else
+        {
+            throw new NotFoundHttpException(Yii::t('app', 'The requested file does not exist.'));
+        }
+    }
+
+    public function actionResubmit($assID){
+        $model =Submit::findOne($assID); 
+
+        $file = UploadedFile::getInstanceByName('document');
+        $model->document = $file;
+        $model->assinmentId = $assID;
+
+
+        // echo '<pre>';
+        //     var_dump($file);
+        // echo '</pre>';
+        // exit;
+
+        $reg_no = Yii::$app->user->identity->username;
+
+        try{
+            if (Yii::$app->request->isPost && $model->save()) {
+                
+                Yii::$app->session->setFlash('success', 'Your Submit successed');
+             
+                
+                return $this->refresh();
+            }
+            
+            
+        }
+        catch(\Exception $e){
+            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+        }
+
+
+            return $this->render('submit_assignment', [
+                'model' => $model, 'assID' => $assID],false,true);
+    }
 
 }

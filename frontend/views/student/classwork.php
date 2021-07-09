@@ -8,6 +8,7 @@ use yii\helpers\Html;
 use common\helpers\Custom;
 use common\helpers\Security;
 use common\models\Assignment;
+use common\models\Submit;
 use frontend\models\UploadMaterial;
 use yii\helpers\VarDumper;
 
@@ -108,9 +109,34 @@ $assk = "Assignment".$ass;
       <b> Deadline : </b><?= $assign -> finishDate ?>
       </div>
       <div class="col-md-4">
-      <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"></i></span></a>
-      <a href="<?= Url::toRoute(['/student/submit_assignment'])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"></i></span></a>
-      <a href="<?= Url::toRoute(['/student/submit_assignment'])?>" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"></i></span></a>
+
+
+        <?php 
+        $submited = Submit::find()->where('reg_no = :reg_no AND assID = :assID', [ ':reg_no' => $reg_no,':assID' => $assign->assID])->all(); 
+        ?>
+
+        <?php  
+                // check if dead line of submit assinemnt is meeted 
+              $deadLineDate = new DateTime($assign->finishDate);
+              $currentDateTime = new DateTime("now");
+
+              $isOutOfDeadline =   $currentDateTime > $deadLineDate;
+              ?>
+
+        <?php if(empty($submited) && $isOutOfDeadline == false):?>
+      <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
+        <?php endif ?>
+
+        <?php if(!empty($submited) && $isOutOfDeadline == false):?>
+          <a href="<?= Url::toRoute(['/student/resubmit','assID'=> $assign->assID])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
+        <?php endif ?>
+
+        <?php if($isOutOfDeadline == true):?>
+          <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
+        <?php endif ?>
+
+      <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
+      <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"> View</i></span></a>
      
       </div>
       </div>
@@ -164,9 +190,38 @@ $assk = "Assignment".$ass;
       <b> Deadline : </b> <?= $lab -> finishDate ?>
       </div>
       <div class="col-md-4">
-      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"></i></span></a>
-      <a href="" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"></i></span></a>
-      <a href="#" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"></i></span></a>
+
+
+              <?php 
+                $submited = Submit::find()->where('reg_no = :reg_no AND assID = :assID', [ ':reg_no' => $reg_no,':assID' => $lab->assID])->all(); 
+                ?>
+
+                <?php  
+                        // check if dead line of submit assinemnt is meeted 
+                      $deadLineDate = new DateTime($lab->finishDate);
+                      $currentDateTime = new DateTime("now");
+
+                      $isOutOfDeadline =   $currentDateTime > $deadLineDate;
+                      ?>
+
+                <?php if(empty($submited) && $isOutOfDeadline == false):?>
+              <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> $lab->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
+                <?php endif ?>
+
+                <?php if(!empty($submited) && $isOutOfDeadline == false):?>
+                  <a href="<?= Url::toRoute(['/student/resubmit','assID'=> $lab->assID])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
+                <?php endif ?>
+
+                <?php if($isOutOfDeadline == true):?>
+                  <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
+                <?php endif ?>
+
+              <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> $lab->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
+
+              <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> $lab->assID])?>" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"> View</i></span></a>
+
+
+
       </div>
       </div>
       </div>
@@ -214,10 +269,12 @@ $assk = "Assignment".$ass;
       <div class="card-footer p-2 bg-white border-top">
       <div class="row">
       <div class="col-md-6">
-      <a href=""  class="text-mutted">Tutorials <i class="fas fa-eye"></i></a>
+     
       </div>
       <div class="col-md-6">
-      <a href="#" class="btn btn-sm btn-success float-right"><span><i class="fas fa-download"></i></span></a>
+              <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> $tutorial->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
+                      
+              <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> $tutorial->assID])?>" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"> View</i></span></a>
       </div>
       </div>
       </div>
