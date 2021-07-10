@@ -28,7 +28,7 @@ use yii\bootstrap4\Breadcrumbs;
                             <div class="course-form">
 
                                 <?php $form = ActiveForm::begin([
-                                    'enableClientValidation' => false,
+                                    'enableClientValidation' => true,
                                     'id' => 'add-carry-form',
                                     'enableAjaxValidation'=> false,
                                 ]); ?>

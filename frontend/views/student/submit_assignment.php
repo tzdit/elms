@@ -30,13 +30,14 @@ $this->params['breadcrumbs'] = [
                 <div class="col-sm-6">
                     <div class="card shadow-lg" style="font-family:'Times New Roman', sans-serif">
                         <div class="card-header text-center bg-primary">
-                            <h2>Submit Assignment</h2>
+                            <h2>Submit</h2>
                             
                         </div>
                         <div class="card-body">
                                 <div class="row ">
                                     <div class="col-sm-12 d-flex flex-column justify-content-center align-items-center">
-                                    <p class='text-muted'>Submit the assignment by uploading the file</p>
+
+                                    <p class='text-muted'>Submit by uploading the file</p>
                                     <br>
                                         <div class="upload-icon">
                                             <i class="fas fa-upload"></i>
@@ -48,6 +49,7 @@ $this->params['breadcrumbs'] = [
                                         <?php $form = ActiveForm::begin([
                                             'options' => ['enctype' => 'multipart/form-data'],
                                         ]); ?>
+                                          <?= $form->errorSummary($model) ?>
 
                                         <button class="btn-primary btn-file">
                                            Select File

@@ -1,7 +1,7 @@
 <?php
 
 namespace common\models;
-use frontend\models\StudentGroup;
+use common\models\StudentGroup;
 
 use Yii;
 
