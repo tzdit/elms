@@ -15,6 +15,7 @@ use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
 use frontend\models\StudentGroups;
+use frontend\models\External_assess;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] = "Course ".$cid;
@@ -742,8 +743,10 @@ $assk = "Assignment".$ass;
 <div class="tab-pane fade" id="externals" role="tabpanel" aria-labelledby="custom-tabs-externals">
           <div class="row">
             <div class="col-md-12">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i>New assessment</a>
+            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#external_assess" data-toggle="modal" style="margin-left:5px"><i class="fas fa-plus"  ></i>New assessment</a>
+            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2"><i class="fas fa-download" ></i>Download template</a>
             </div>
+         
                   
           </div>
    
@@ -875,6 +878,11 @@ $labmodel = new UploadLab();
 $assmodel = new UploadMaterial();
 ?>
 <?= $this->render('materials/create_material', ['assmodel'=>$assmodel, 'ccode'=>$cid]) ?>
+<!--  ###################################new assessment modal ####################################################-->
+<?php 
+$assessmodel = new External_assess();
+?>
+<?= $this->render('assessupload', ['assessmodel'=>$assessmodel, 'ccode'=>$cid]) ?>
 
 
 
