@@ -44,6 +44,10 @@ return [
         //         '<controller:\w+>/<action:\w+>/<id:\w+>' => '<controller>/<action>'
         //     ],
         // ],
+
+        'assetManager' => [
+            'appendTimestamp' => true
+        ]
         
     ],
     'params' => $params,

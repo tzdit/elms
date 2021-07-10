@@ -1,6 +1,7 @@
 <?php
 
 namespace common\models;
+use common\models\StudentGroup;
 
 use Yii;
 
@@ -201,13 +202,22 @@ class Student extends \yii\db\ActiveRecord
     }
     //get student full name
     public function getFullName(){
-        return $this->fname." ".$this->mname." ".$this->lname;
+        return " ".$this->lname." ".$this->fname;
     }
 //student relation na programm
     public function getProgram()
     {
         return $this->hasOne(Program::className(), ['programCode' => 'programCode']);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function findReg_no($reg_no)
+    {
+        return static::findOne(['reg_no' => $reg_no]);
+    }
+
     
 
 }

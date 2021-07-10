@@ -5,7 +5,11 @@ use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use common\models\User;
+use frontend\models\ChangePasswordForm;
+use frontend\models\AddEmailForm;
 use yii\helpers\Url;
+use yii\helpers\VarDumper;
 class HomeController extends \yii\web\Controller
 {
         /**
@@ -19,7 +23,7 @@ class HomeController extends \yii\web\Controller
                 'only'=>['dashboard'],
                 'rules' => [
                     [
-                        'actions' => ['dashboard'],
+                        'actions' => ['dashboard','changePassword','add_email'],
                         'allow' => true,
                         'roles' => ['@']
                     ],
@@ -54,6 +58,63 @@ class HomeController extends \yii\web\Controller
 
    
 }
+
+public function actionChangepassword(){
+    
+    
+    $models = new ChangePasswordForm;
+
+    // VarDumper::dump($models->changePassword());
+
+    try{
+        if($models->load(Yii::$app->request->post())){
+           // VarDumper::dump($models->changePassword());
+            if($models->changePassword()){
+                Yii::$app->session->setFlash('success', 'Password change successfully');
+                Yii::$app->user->logout();
+                $destroySession = true;
+        
+                return $this->redirect(['auth']);
+            }else{
+                Yii::$app->session->setFlash('error', 'Wrong current password');
+            }
+       
+                
+         } 
+        
+    }catch(\Exception $e){
+        Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+    }
+
+    return $this->render('changePassword',['model' => $models]);
+}
+
+public function actionAdd_email(){
+    
+    
+    $models = new AddEmailForm;
+
+    // VarDumper::dump($models->changePassword());
+
+    try{
+        if($models->load(Yii::$app->request->post())){
+           // VarDumper::dump($models->addEmail());
+            if($models->addEmail()){
+                Yii::$app->session->setFlash('success', 'Email added successfully');
+            }else{
+                Yii::$app->session->setFlash('error', 'Something went Wrong!');
+            }
+       
+                
+         } 
+        
+    }catch(\Exception $e){
+        Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+    }
+
+    return $this->render('addEmail',['model' => $models]);
+}
+    
     
    
 

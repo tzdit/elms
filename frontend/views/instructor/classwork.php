@@ -14,6 +14,7 @@ use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
+use frontend\models\StudentGroups;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] = "Course ".$cid;
@@ -87,7 +88,7 @@ $this->params['breadcrumbs'] = [
 
 <?php foreach( $materials as $material ) : ?>
 
-  <div class="card">
+  <div class="card" >
     <div class="card-header p-2" id="heading<?=$mat?>">
       <h2 class="mb-0">
       <div class="row">
@@ -175,7 +176,7 @@ $this->params['breadcrumbs'] = [
 
       <div class="row">
         <div class="col-md-12">
-              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createAssignmentModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create</a>
+              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createAssignmentModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create New</a>
         </div>
                   
       </div>
@@ -186,16 +187,16 @@ $assk = "Assignment".$ass;
 ?>
 <?php foreach( $assignments as $assign ) : ?>
 
-  <div class="card">
-    <div class="card-header p-2" id="heading<?=$ass?>">
+  <div class="card headcard">
+    <div class="card-header p-2 shadow" id="heading<?=$ass?>">
       <h2 class="mb-0">
       <div class="row">
       <div class="col-sm-11">
       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$ass?>" aria-expanded="true" aria-controls="collapse<?=$ass?>">
-        <i class="fas fa-clipboard-list"></i> <?php echo "Assignment ".$ass;?>
+        <i class="fas fa-clipboard-list"></i> <?php echo $assign->assName;?>
         </button>
       </div>
-      <div class="col-sm-1">
+      <div class="col-sm-1" data-toggle="collapse" data-target="#collapse<?=$ass?>" aria-expanded="true" aria-controls="collapse<?=$ass?>">
       <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
       </div>
       </div>
@@ -204,27 +205,70 @@ $assk = "Assignment".$ass;
       </h2>
     </div>
 
-    <div id="collapse<?=$ass?>" class="collapse" aria-labelledby="heading<?=$ass?>" data-parent="#accordionExample">
-      <div class="card-body">
-       <center>  <p><h6><span> Assignment Name: </span> <b> <?= $assign -> assName ?> </b></h6></p></center>
-         
-         <div class="card-footer p-0">
-                <ul class="nav flex-column">
-                  <li class="nav-item">
-                    <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>" class="nav-link">
-                    <span style="color: green">  Submitted Assignments</span> <span class="float-right badge bg-success"><?php echo $assi = Submit::find()->where(['assID' => $assign->assID])->count(); ?> </span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="<?=Url::to(['instructor/stdworkmark/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>" class="nav-link">
-                    <span style="color: red"> Marked Assignments </span> <span class="float-right badge bg-danger"><?php echo  $assi = Submit::find()->where(['assID' => $assign->assID, 'score' => " " or 'Null'])->count(),  " / " ,Submit::find()->where(['assID' => $assign->assID])->count(); ?> </span>
-                    </a>
-                  </li>
-                </ul>
-              </div> 
+    <div id="collapse<?=$ass?>" class="collapse shadow" aria-labelledby="heading<?=$ass?>" data-parent="#accordionExample">
+      <div class="card-body ">
+        <div class="row">
+        
+      <div class="col-md-3 col-sm-6 col-12">
+      <?php 
+      $submits=[];
+      $assigned=0;
+      if($assign->assType=="groups"){$submits=$assign->groupAssignmentSubmits;$assigned=count($assign->groupAssignments);}
+      else if($assign->assType=="allgroups"){
+        $submits=$assign->groupAssignmentSubmits;
+        $gentypes=$assign->groupGenerationAssignments;
+        for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes->ass->groupAssignments);}
+      }
+      else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
+      else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);}
+      $subperc=(count($submits)/$assigned)*100;
+      ?>
+      <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>" >
+            <div class="info-box shadow">
+              <div class="info-box-content">
+                <span class="info-box-text">Submitted</span>
+                <span class="info-box-number"><?=$subperc?>%</span>
+              </div>
+        
+            </div>
+            </a>
+          </div>
+
+          <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box shadow">
+              <div class="info-box-content">
+                <span class="info-box-text">Missing</span>
+                <span class="info-box-number">Regular</span>
+              </div>
+     
+            </div>
+    
+          </div>
+          <div class="col-md-3 col-sm-6 col-12">
+          <a href="<?=Url::to(['instructor/stdworkmark/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>">
+            <div class="info-box shadow">
+              <div class="info-box-content">
+                <span class="info-box-text">Marked</span>
+                <span class="info-box-number">Regular</span>
+              </div>
+      
+            </div>
+            </a>
+          </div>
+          <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box shadow">
+              <div class="info-box-content">
+                <span class="info-box-text">Failed</span>
+                <span class="info-box-number">Regular</span>
+              </div>
+            </div>
+          </div>
+</div>
+          <!--################################################################################################################ -->
+        
       </div>
 
-      <div class="card-footer p-2 bg-white border-top">
+      <div class="card-footer p-2 bg-white border-top ">
       <div class="row">
       <div class="col-md-9">
       <i class="fas fa-clock" aria-hidden="true"></i> <b>Deadline : </b> <?= $assign -> finishDate ?>
@@ -234,8 +278,7 @@ $assk = "Assignment".$ass;
       <a href="#" class="btn btn-sm btn-danger float-right ml-2" data-toggle="modal" data-target="#modal-danger<?= $assign -> assID ?>"><span><i class="fas fa-trash"></i></span></a>
       <?= Html::a('<i class="fas fa-edit"></i>',['update', 'id'=>$assign->assID], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
       <a href="/storage/temp/<?= $assign -> fileName ?>" download target="_blank" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-download"></i></span></a>
-      <a href="#" class="btn btn-sm btn-danger float-right"><span> <i class="fa fa-check-circle"></i></span></a>
-     
+      <?= Html::a('<i class="fa fa-pen"></i>',['mark', 'id'=>$assign->assID], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
       </div>
       </div>
       </div>
@@ -291,15 +334,15 @@ $assk = "Assignment".$ass;
 <div class="tab-pane fade" id="labs" role="tabpanel" aria-labelledby="custom-tabs-lab">
 <div class="row">
         <div class="col-md-12">
-              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createLabModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create</a>
+              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createLabModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i>Create</a>
         </div>
                   
       </div>
 
 <div class="accordion" id="accordionExample_3">
 <?php foreach( $labs as $lab ) : ?>
-  <div class="card">
-    <div class="card-header p-2" id="heading<?=$labb?>">
+  <div class="card headcard">
+    <div class="card-header p-2 shadow" id="heading<?=$labb?>">
       <h2 class="mb-0">
       <div class="row">
       <div class="col-sm-11">
@@ -316,24 +359,65 @@ $assk = "Assignment".$ass;
       </h2>
     </div>
 
-    <div id="collapse<?=$labb?>" class="collapse" aria-labelledby="heading<?=$labb?>" data-parent="#accordionExample_3">
+    <div id="collapse<?=$labb?>" class="collapse shadow" aria-labelledby="heading<?=$labb?>" data-parent="#accordionExample_3">
       <div class="card-body">
-      <center>  <p><h6><span> Lab Name: </span> <b> <?= $lab -> assName ?> </b></h6></p></center>
-         
-         <div class="card-footer p-0">
-                <ul class="nav flex-column">
-                  <li class="nav-item">
-                    <a href="<?=Url::to(['instructor/stdworklab/', 'cid'=>$lab->course_code, 'id' => $lab->assID]) ?>" class="nav-link">
-                    <span style="color: green">  Submitted Labs</span> <span class="float-right badge bg-success"><?php echo $labi = Submit::find()->where(['assID' => $lab->assID])->count(); ?> </span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="<?=Url::to(['instructor/stdlabmark/', 'cid'=>$lab->course_code, 'id' => $lab->assID]) ?>" class="nav-link">
-                    <span style="color: red"> Marked Labs </span> <span class="float-right badge bg-danger"><?php echo  $assi = Submit::find()->where(['assID' => $lab->assID, 'score' => null])->count(),  " / " ,Submit::find()->where(['assID' => $lab->assID])->count(); ?> </span>
-                    </a>
-                  </li>
-                </ul>
-              </div> 
+      <div class="row">
+        
+        <div class="col-md-3 col-sm-6 col-12">
+        <?php 
+        $submits=[];
+        $assigned=0;
+        if($assign->assType=="groups"){$submits=$assign->groupAssignmentSubmits;$assigned=count($assign->groupAssignments);}
+        else if($assign->assType=="allgroups"){
+          $submits=$assign->groupAssignmentSubmits;
+          $gentypes=$assign->groupGenerationAssignments;
+          for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes->ass->groupAssignments);}
+        }
+        else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
+        else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);}
+        $subperc=(count($submits)/$assigned)*100;
+        ?>
+        <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>" >
+              <div class="info-box shadow">
+                <div class="info-box-content">
+                  <span class="info-box-text">Submitted</span>
+                  <span class="info-box-number"><?=$subperc?>%</span>
+                </div>
+          
+              </div>
+              </a>
+            </div>
+  
+            <div class="col-md-3 col-sm-6 col-12">
+              <div class="info-box shadow">
+                <div class="info-box-content">
+                  <span class="info-box-text">Missing</span>
+                  <span class="info-box-number">Regular</span>
+                </div>
+       
+              </div>
+      
+            </div>
+            <div class="col-md-3 col-sm-6 col-12">
+            <a href="<?=Url::to(['instructor/stdworkmark/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>">
+              <div class="info-box shadow">
+                <div class="info-box-content">
+                  <span class="info-box-text">Marked</span>
+                  <span class="info-box-number">Regular</span>
+                </div>
+        
+              </div>
+              </a>
+            </div>
+            <div class="col-md-3 col-sm-6 col-12">
+              <div class="info-box shadow">
+                <div class="info-box-content">
+                  <span class="info-box-text">Failed</span>
+                  <span class="info-box-number">Regular</span>
+                </div>
+              </div>
+            </div>
+  </div>
       </div>
       
       <div class="card-footer p-2 bg-white border-top">
@@ -491,15 +575,15 @@ $assk = "Assignment".$ass;
 
      <!-- ########################################### end tutorial ################################# -->
      <div class="tab-pane fade" id="students" role="tabpanel" aria-labelledby="custom-tabs-Students">
+     <?php $students=StudentCourse::find()->where(['course_code'=>$cid])->all(); if($students!=null){?>
           <div class="row">
           <div class="col-md-6">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-group" ></i>Student Groups</a>
+          <a href="/instructor/view-groups" class="btn btn-sm btn-primary btn-rounded float-right mb-2"><i class="fas fa-group" ></i>Student Groups</a>
             </div>
             <div class="col-md-6">
             <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus" ></i>Assign Students</a>
             </div>
             </div>
-             <?php $students=StudentCourse::find()->where(['course_code'=>$cid])->all(); ?>
             <table width="100%" class="table table-striped table-bordered table-hover" id="studenttable" style="font-size:12px">
 		<thead>
 			<tr>
@@ -540,7 +624,7 @@ $assk = "Assignment".$ass;
                     <td><?=  $student->regNo->fname." ".$student->regNo->mname." ".$student->regNo->lname; ?></td>
                     <td><?=  $student->regNo->gender; ?></td>
                     <td><?=  $student->regNo->YOS; ?></td>
-                    <td><i class="fa fa-edit" style="font-size:18px"></i><i class="fa fa-trash-alt" style="font-size:18px;color:red"></i></td>
+                    <td><i class="fa fa-edit" style="font-size:18px"></i></td>
 							
 									
 										
@@ -555,6 +639,15 @@ $assk = "Assignment".$ass;
 
 		</tbody>
 		</table>
+    <?php
+             }
+             else
+             {
+               ?>
+                <div class="container-fluid p-3 my-3 border text-info jumbotron text-center"><h5>This course has no students</h5></div>
+               <?php
+             }
+    ?>
     </div>
     </div>
 </div>
@@ -596,6 +689,12 @@ $assmodel = new UploadMaterial();
 <?php 
 $script = <<<JS
 $(document).ready(function(){
+  $(".headcard").on('show.bs.collapse','.collapse', function(e) {
+  $(e.target).parent().addClass('shadow');
+  });
+  $(".headcard").on('hidden.bs.collapse','.collapse', function(e) {
+  $(e.target).parent().removeClass('shadow');
+  });
   $("#CoursesTable").DataTable({
     responsive:true,
   });
@@ -668,4 +767,5 @@ $('#custom-tabs-four-tab a[href="' + activeTab + '"]').tab('show');
 });
 JS;
 $this->registerJs($script);
+
 ?>

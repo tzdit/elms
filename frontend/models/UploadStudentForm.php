@@ -19,7 +19,7 @@ class UploadStudentForm extends Model
     public $phone;
     public $gender;
     public $username;
-    public $password = "123456";
+    public $password;
     public $role;
     public $status = 'REGISTERED';
 
@@ -59,7 +59,8 @@ class UploadStudentForm extends Model
         $transaction = Yii::$app->db->beginTransaction();
         try{
         $user->username = $this->username;
-        $user->setPassword($this->password);
+        $user->email = $this->email;
+        $user->setPassword(strtoupper($this->lname));
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
         if($user->save()){

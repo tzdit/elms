@@ -14,12 +14,24 @@ use common\models\Department;
 use common\models\Program;
 use yii\helpers\ArrayHelper;
 use common\models\InstructorCourse;
+use common\models\StudentCourse;
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
+use frontend\models\AddPartner;
 use frontend\models\UploadLab;
 use frontend\models\CreateCourse;
 use frontend\models\CreateProgram;
 use frontend\models\UploadMaterial;
+use frontend\models\StudentGroups;
+use common\models\Groups;
+use common\models\GroupGenerationTypes;
+use common\models\Assq;
+use common\models\GroupAssignmentSubmit;
+use common\models\GroupAssignment;
+use common\models\GroupGenerationAssignment;
+use common\models\QMarks;
+use yii\web\Response;
+use yii\web\BadRequestHttpException;
 use Yii;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
@@ -69,6 +81,15 @@ public $defaultAction = 'dashboard';
                             'updatetut',
                             'updatelab',
                             'add-partner',
+                            'generate-groups',
+                            'view-groups',
+                            'delete-groups',
+                            'get-gentypes',
+                            'get-groups',
+                            'get-students',
+                            'add-student-gentype',
+                            'mark',
+                            'mark-inputing',
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -353,12 +374,7 @@ public function actionStdworklab($cid, $id){
 
     $courses = Yii::$app->user->identity->instructor->courses;
 
-        // echo '<pre>';
-        // print_r($cid);
-        // echo '<br>';
-        // print_r($id);
-        // echo '</pre>';
-        // exit;
+   
     return $this->render('stdworklab', ['cid'=>$cid, 'id'=>$id, 'courses'=>$courses, 'submits' => $submits]);
 
 }
@@ -366,14 +382,27 @@ public function actionStdworklab($cid, $id){
 //############################## function to create assignment ######################################
 
 public function actionUploadAssignment(){
+    
     $model = new UploadAssignment();
+   
     if($model->load(Yii::$app->request->post())){
-        $model->assFile = UploadedFile::getInstance($model, 'assFile');
-        // echo '<pre>';
-        // print_r($model);
-        // echo '</pre>';
-        // exit;
-        if($model->upload()){
+    
+    //loading the external post data into the model
+    $model->questions_maxima=Yii::$app->request->post('q_max');
+    if($model->assType=="allgroups"){$model->generation_type=Yii::$app->request->post('gentypes');}
+    else if($model->assType=="groups"){$model->generation_type=Yii::$app->request->post('gentypes');$model->groups=Yii::$app->request->post('gengroups');}
+    else if($model->assType=="students"){$model->students=Yii::$app->request->post('mystudents');}else{}
+    if($model->assFormat=='file')
+    {
+    $model->assFile =UploadedFile::getInstanceByName('assFile');
+    }
+    else
+    {
+        $model->the_assignment=Yii::$app->request->post('the_assignment');
+    }
+ 
+    
+        if($model->create_assignment()){
         Yii::$app->session->setFlash('success', 'Assignment created successfully');
         return $this->redirect(Yii::$app->request->referrer);
         }else{
@@ -415,19 +444,30 @@ public function actionUploadTutorial(){
 public function actionUploadLab(){
     $model = new UploadLab();
     if($model->load(Yii::$app->request->post())){
-        $model->assFile = UploadedFile::getInstance($model, 'assFile');
-        // echo '<pre>';
-        // print_r($model);
-        // echo '</pre>';
-        // exit;
-        if($model->upload()){
-        Yii::$app->session->setFlash('success', 'Lab created successfully');
-        return $this->redirect(Yii::$app->request->referrer);
+    
+    //loading the external post data into the model
+    $model->questions_maxima=Yii::$app->request->post('q_max');
+    if($model->assType=="allgroups"){$model->generation_type=Yii::$app->request->post('gentypes');}
+    else if($model->assType=="groups"){$model->generation_type=Yii::$app->request->post('gentypes');$model->groups=Yii::$app->request->post('gengroups');}
+    else if($model->assType=="students"){$model->students=Yii::$app->request->post('mystudents');}else{}
+    if($model->assFormat=='file')
+    {
+    $model->assFile =UploadedFile::getInstanceByName('assFile');
+    }
+    else
+    {
+        $model->the_assignment=Yii::$app->request->post('the_assignment');
+    }
+ 
+    
+        if($model->create_assignment()){
+        Yii::$app->session->setFlash('success', 'Lab assignment created successfully');
+       return $this->redirect(Yii::$app->request->referrer);
         }else{
           
         Yii::$app->session->setFlash('error', 'Something went wrong');
        
-        return $this->redirect(Yii::$app->request->referrer);
+       return $this->redirect(Yii::$app->request->referrer);
     }
 }
 }
@@ -455,19 +495,260 @@ public function actionUploadMaterial(){
     }
 }
 }
+public function actionMark($id)
+{
+    //loading the current assignment
+
+    $assignment=new Assignment();
+    $current_assignment=$assignment::findOne($id);
+   
+    return $this->render('marking',['assignment'=>$current_assignment]);  
+}
+public function actionMarkInputing()
+{
+
+    if(Yii::$app->request->post()) {
+    
+    $score=Yii::$app->request->post('score');
+    $fid=Yii::$app->request->post('fid');
+    $qscores=Yii::$app->request->post('qscores');
+    $asstype=Yii::$app->request->post('asstype');
+    $comment=Yii::$app->request->post('comment');
+    $qids=Yii::$app->request->post('qids');
+    $model=null;
+    $submit=null;
+    if($asstype=="group")
+    {
+        $model=GroupAssignmentSubmit();
+        
+        
+    }
+    else
+    {
+        $model=new Submit();
+    }
+  if($model!=null)
+  {
+    $submit=$model->findOne($fid);
+    $submit->score=$score;
+    $submit->comment=$comment;
+  }
+  $submit->save();
+  //preparing the submit
+ 
+
+//inserting questions marks
+  for($sc=0;$sc<count($qscores);$sc++)
+  {
+    $qmark=new Qmarks();
+    $qmark->assq_ID=$qids[$sc];
+    $qmark->q_score=$qscores[$sc];
+
+    //the submitids
+
+    if($submit instanceof GroupAssignmentSubmit)
+    {
+        $qmark->group_submit_id=$submit->submitID; 
+    }
+    else
+    {
+        $qmark->submitID=$submit->submitID;  
+    }
+
+    $qmark->save();
+    
+
+   
+  }
+ // return $this->redirect(Yii::$app->request->referrer);   
+}
+}
 //##################################### add partner ##################################################################
 
 public function actionAddPartner()
 {
-  
-  
+  $instructor=(new Instructor())->findOne(Yii::$app->request->post('AddPartner')['partner']);
+  $instructorcourse=$instructor->instructorCourses;
+  $courseid=array();
+  for($i=0;$i<count($instructorcourse);$i++)
+  {
+    array_push($courseid,$instructorcourse[$i]->course_code);
+  }
+  if(in_array(Yii::$app->request->post('ccode'),$courseid))
+  {
+    Yii::$app->session->setFlash('success', 'this instructor already has this course');
+    return $this->redirect(Yii::$app->request->referrer);    
+  }
+  else
+  {
+  $addpartner=new AddPartner();
+  if($addpartner->load(Yii::$app->request->post())){
+  if($addpartner->addcoursepartner(Yii::$app->request->post('ccode')))
+  {
+    Yii::$app->session->setFlash('success', 'Course partner added');
+    return $this->redirect(Yii::$app->request->referrer);
+  }
+  else
+  {
+    Yii::$app->session->setFlash('success', 'unkown error occured');
+    return $this->redirect(Yii::$app->request->referrer);  
+  }
 
-print "adding partner";
-
+  }
+}
 
 }
 
+//########################### creating student groups ################################
 
+
+public function actionGenerateGroups()
+{
+ 
+    $model = new StudentGroups();
+    if($model->load(Yii::$app->request->post())){
+      
+     if($model->generateRandomGroups())
+     {
+
+        Yii::$app->session->setFlash('success', 'groups generated');
+        return $this->redirect(Yii::$app->request->referrer);
+     }
+     else{
+
+        Yii::$app->session->setFlash('success', 'groups generating failed');
+        return $this->redirect(Yii::$app->request->referrer);
+     }
+ 
+     }
+
+}
+//students group types
+
+public function actionAddStudentGentype()
+{
+ 
+    $model = new StudentGroups();
+    if($model->load(Yii::$app->request->post()) && $model->validate()){
+      
+     if($model->addstudenttype())
+     {
+
+        Yii::$app->session->setFlash('success', 'successful');
+        return $this->redirect(Yii::$app->request->referrer);
+     }
+     else{
+
+        Yii::$app->session->setFlash('success', 'failed');
+        return $this->redirect(Yii::$app->request->referrer);
+     }
+ 
+     }
+
+}
+
+ public function actionViewGroups()
+ {
+   $groupsModel=new GroupGenerationTypes();
+   $coursecode=Yii::$app->session->get('ccode');
+   $groups=$groupsModel::find()->where(['course_code'=>$coursecode])->orderBy(['typeID'=>SORT_DESC])->all();
+   if($groups==null){ Yii::$app->session->setFlash('success', 'No groups found');return $this->render('courseGroups', ['groups'=>$groups,'cid'=>$coursecode]);}
+   else{
+   return $this->render('courseGroups', ['groups'=>$groups,'cid'=>$coursecode]);
+   }
+
+ }
+
+ public function actionDeleteGroups($groupgenerationid)
+ {
+   $deleted=new GroupGenerationTypes();
+   $deleted::findOne($groupgenerationid)->delete();
+   return $this->redirect(Yii::$app->request->referrer);
+
+ }
+
+ public function actionGetGentypes()
+ {
+    if(Yii::$app->request->isAjax) {
+    $gentypes=new GroupGenerationTypes();
+    $coursecode=Yii::$app->session->get('ccode');
+    $generationtypes=$gentypes::find()->where(['course_code'=>$coursecode])->all();
+    $gentypes_array=ArrayHelper::map($generationtypes,'typeID','generation_type');
+
+    $response = Yii::$app->response;
+
+    $response->format =Response::FORMAT_JSON;
+
+    $response->data =json_encode($gentypes_array);
+
+    $response->statusCode = 200;
+
+    return $response;
+
+    }
+    else
+    {
+        throw new BadRequestHttpException();
+    }
+
+
+ }
+
+ //getting groups
+
+ public function actionGetGroups($genid)
+ {
+   
+    if(Yii::$app->request->isAjax){
+    $grp=new Groups();
+    $groupobj=$grp::find()->where(['generation_type'=>$genid])->all();
+    $groups_array=ArrayHelper::map($groupobj,'groupID','groupName');
+
+    $response = Yii::$app->response;
+
+    $response->format =Response::FORMAT_JSON;
+
+    $response->data=json_encode($groups_array);
+
+    $response->statusCode = 200;
+
+    return $response;
+
+    }
+    else
+    {
+        throw new BadRequestHttpException();
+    }
+
+
+ }
+ public function actionGetStudents()
+ {
+   
+    if(Yii::$app->request->isAjax){
+    $std=new StudentCourse();
+    $coursecode=Yii::$app->session->get('ccode');
+    $studentobj=$std::find()->where(['course_code'=>$coursecode])->all();
+    $student_array=ArrayHelper::map($studentobj,'reg_no','reg_no');
+
+    $response = Yii::$app->response;
+
+    $response->format =Response::FORMAT_JSON;
+
+    $response->data=json_encode($student_array);
+
+    $response->statusCode = 200;
+
+    return $response;
+
+    }
+    else
+    {
+        throw new BadRequestHttpException();
+    }
+
+
+ }
 
 //#################################### HOD HERE ########################################################################
 

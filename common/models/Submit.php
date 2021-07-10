@@ -11,7 +11,7 @@ use Yii;
  * @property string|null $reg_no
  * @property int|null $assID
  * @property string $fileName
- * @property float $score
+ * @property float|null $score
  * @property string $submit_date
  * @property string $submit_time
  * @property string|null $comment
@@ -22,6 +22,18 @@ use Yii;
  */
 class Submit extends \yii\db\ActiveRecord
 {
+
+    /**
+     * document variable
+     */
+    public $document;
+
+    /**
+     * document variable
+     */
+    public $assinmentId;
+
+
     /**
      * {@inheritdoc}
      */
@@ -37,13 +49,16 @@ class Submit extends \yii\db\ActiveRecord
     {
         return [
             [['assID'], 'integer'],
-            [['fileName', 'score', 'submit_date', 'submit_time'], 'required'],
+            [['fileName'], 'required'],
             [['score'], 'number'],
             [['submit_date', 'submit_time'], 'safe'],
-            [['reg_no', 'fileName'], 'string', 'max' => 20],
+            [['fileName'], 'string', 'max' => 225],
+            [['reg_no',], 'string', 'max' => 20],
             [['comment'], 'string', 'max' => 200],
             [['assID'], 'exist', 'skipOnError' => true, 'targetClass' => Assignment::className(), 'targetAttribute' => ['assID' => 'assID']],
             [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],
+            [['document'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf,doc,xls,xlsx,docx,pptx,ppt,rtf,odt,txt','message' => 'file type not allowed'],
+            [['document'], 'file','maxSize' => 1024 * 1024 * 10 ,'message' => 'exceed maximum file size'],
         ];
     }
 
@@ -93,4 +108,40 @@ class Submit extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Student::className(), ['reg_no' => 'reg_no']);
     }
+
+    public function save($runValidation = true, $attributeNames = null){
+
+        $isInsert = $this->isNewRecord;
+
+        $this->assID = $this->assinmentId;
+        $this->submit_date = date('Y-m-d');
+        $this->submit_time = date('H:i:s');
+        $this->reg_no = Yii::$app->user->identity->username;
+        $this->fileName = Yii::$app->security->generateRandomString(6).$this->document->name;
+
+        if($isInsert){
+            
+        }
+         $saved =  parent::save($runValidation, $attributeNames);
+
+         if(!$saved)
+         {
+             return false;
+         }
+
+         if($isInsert){
+             $documentPath = Yii::getAlias('@frontend/web/storage/submit/'.$this->fileName );
+
+             if(!is_dir(\dirname($documentPath))) {
+                 FileHelper::createDirectory(\dirname($documentPath));
+             }  
+
+             $this->document->saveAs($documentPath);
+        }
+
+
+        return true;
+    }
+
+    
 }

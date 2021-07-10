@@ -9,12 +9,14 @@ use yii\helpers\Html;
 use common\helpers\Security;
 use common\helpers\Custom;
 use common\models\Instructor;
+use frontend\models\AddPartner;
+use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
-
+$this->params['courseTitle'] = "My courses";
 $this->title = 'Instructor Dashboard';
-
+$instructorid=Yii::$app->user->identity->instructor->instructorID;
  //finding all instructors
-$instructors=Instructor::find()->all();
+$instructors=ArrayHelper::map(Instructor::find()->asArray()->where(['<>','instructorID',$instructorid])->all(),'instructorID','full_name');
 
 ?>
 <div class="site-index">
@@ -45,14 +47,18 @@ $instructors=Instructor::find()->all();
               <a href="#" class=" drop " style="color:white" data-toggle="tooltip" data-title="Drop this course"  ccode="<?= $course->course_code ?>" cname="<?= $course->course_name ?>"><i class="fas fa-times-circle"></i></a>
               </div>
               <div class="col-sm-6">
-              <a href="#" class=" " style="color:white"  data-target="#myModal" data-toggle="modal" data-tooltip="tooltip" data-title="Add partner"  ccode="<?= $course->course_code ?>" cname="<?= $course->course_name ?>"><i class="fas fa-user-plus"></i></a>
+              <a href="#" class=" " style="color:white"  data-target="#myModal<?=str_replace(" ","",$course->course_code)?>" data-toggle="modal" data-tooltip="tooltip" data-title="Add partner"  ccode="<?= $course->course_code ?>" cname="<?= $course->course_name ?>"><i class="fas fa-user-plus"></i></a>
               </div>
               </div>
               </div>
             </div>
             </a>
           </div>
-
+          <?php 
+          
+          $partner = new AddPartner();
+          ?>
+          <?= $this->render('add_partner',['partners'=>$partner,'instructors'=>$instructors,'cid'=>$course->course_code]) ?>
           <?php endforeach ?>
 
         </div>
@@ -63,45 +69,7 @@ $instructors=Instructor::find()->all();
       </div><!-- /.container-fluid -->
        <!-- add partner modal -->
 
-    <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-        <h4 class="modal-title" style="color:blue">Add partner</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          
-        </div>
-        <div class="modal-body">
-        <div class="container">
-        <div class="row" style="background-color:#dde;border-radius:7px; box-shadow:5px 10px 18px #888888">
-        <div class="col-sm-1" style="background-color:#dde;border-radius:7px;">
-        <i class="fa fa-search" style="font-size:28px"></i>
-        </div>
-        <div class="col-sm-11">
-        <form action="/instructor/add-partner" method="post"> 
-        <select multiple="multiple" class="form-control myselect"  style="width:100%;border:none">
-        <?php 
-         foreach($instructors as $instructor)
-         {
-        ?>
-           
-          <option value="<?php echo $instructor->instructorID;?>"><?php echo $instructor->full_name;?></option>
-
-        <?php
-         }
-
-         ?>
-        </select>
-        </div>
-        </div>
-        </div>
-        <div class="modal-footer">
-        <input type="submit" class="btn btn-primary" name="added" value="Add"></input>
-         </form>
-         
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
+        
     </div>
   </div>
 
@@ -216,4 +184,3 @@ $instructors=Instructor::find()->all();
   </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>

@@ -8,7 +8,9 @@ use yii\helpers\Html;
 use common\helpers\Custom;
 use common\helpers\Security;
 use common\models\Assignment;
+use common\models\Submit;
 use frontend\models\UploadMaterial;
+use yii\helpers\VarDumper;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] =$cid;
@@ -37,7 +39,7 @@ $this->params['breadcrumbs'] = [
                     <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true">Forum</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-assessments" data-toggle="tab" href="#assessments" role="tab" aria-controls="assessments" aria-selected="false">Assignments</a>
+                    <a class="nav-link" id="custom-tabs-assessments" data-toggle="tab" href="#assessment" role="tab" aria-controls="assessments" aria-selected="false">Assignments</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-labs" data-toggle="tab" href="#labs" role="tab" aria-controls="labs" aria-selected="false">labs</a>
@@ -72,7 +74,7 @@ $this->params['breadcrumbs'] = [
 
 <!-- ########################################### Assigments and Labs ######################################## --> 
 <?php $ass = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->count(); ?>      
-<div class="tab-pane fade" id="assessments" role="tabpanel" aria-labelledby="custom-tabs-assignment">
+<div class="tab-pane fade" id="assessment" role="tabpanel" aria-labelledby="custom-tabs-assignment">
 <div class="accordion" id="accordionExample">
 <?php $assk = "Assignment".$ass ;
 $assk = "Assignment".$ass;
@@ -107,9 +109,34 @@ $assk = "Assignment".$ass;
       <b> Deadline : </b><?= $assign -> finishDate ?>
       </div>
       <div class="col-md-4">
-      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"></i></span></a>
-      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"></i></span></a>
-      <a href="#" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"></i></span></a>
+
+
+        <?php 
+        $submited = Submit::find()->where('reg_no = :reg_no AND assID = :assID', [ ':reg_no' => $reg_no,':assID' => $assign->assID])->all(); 
+        ?>
+
+        <?php  
+                // check if dead line of submit assinemnt is meeted 
+              $deadLineDate = new DateTime($assign->finishDate);
+              $currentDateTime = new DateTime("now");
+
+              $isOutOfDeadline =   $currentDateTime > $deadLineDate;
+              ?>
+
+        <?php if(empty($submited) && $isOutOfDeadline == false):?>
+      <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
+        <?php endif ?>
+
+        <?php if(!empty($submited) && $isOutOfDeadline == false):?>
+          <a href="<?= Url::toRoute(['/student/resubmit','assID'=> $assign->assID])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
+        <?php endif ?>
+
+        <?php if($isOutOfDeadline == true):?>
+          <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
+        <?php endif ?>
+
+      <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
+      <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"> View</i></span></a>
      
       </div>
       </div>
@@ -163,9 +190,38 @@ $assk = "Assignment".$ass;
       <b> Deadline : </b> <?= $lab -> finishDate ?>
       </div>
       <div class="col-md-4">
-      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"></i></span></a>
-      <a href="#" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"></i></span></a>
-      <a href="#" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"></i></span></a>
+
+
+              <?php 
+                $submited = Submit::find()->where('reg_no = :reg_no AND assID = :assID', [ ':reg_no' => $reg_no,':assID' => $lab->assID])->all(); 
+                ?>
+
+                <?php  
+                        // check if dead line of submit assinemnt is meeted 
+                      $deadLineDate = new DateTime($lab->finishDate);
+                      $currentDateTime = new DateTime("now");
+
+                      $isOutOfDeadline =   $currentDateTime > $deadLineDate;
+                      ?>
+
+                <?php if(empty($submited) && $isOutOfDeadline == false):?>
+              <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> $lab->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
+                <?php endif ?>
+
+                <?php if(!empty($submited) && $isOutOfDeadline == false):?>
+                  <a href="<?= Url::toRoute(['/student/resubmit','assID'=> $lab->assID])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
+                <?php endif ?>
+
+                <?php if($isOutOfDeadline == true):?>
+                  <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
+                <?php endif ?>
+
+              <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> $lab->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
+
+              <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> $lab->assID])?>" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"> View</i></span></a>
+
+
+
       </div>
       </div>
       </div>
@@ -213,10 +269,12 @@ $assk = "Assignment".$ass;
       <div class="card-footer p-2 bg-white border-top">
       <div class="row">
       <div class="col-md-6">
-      <a href=""  class="text-mutted">Tutorials <i class="fas fa-eye"></i></a>
+     
       </div>
       <div class="col-md-6">
-      <a href="#" class="btn btn-sm btn-success float-right"><span><i class="fas fa-download"></i></span></a>
+              <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> $tutorial->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
+                      
+              <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> $tutorial->assID])?>" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"> View</i></span></a>
       </div>
       </div>
       </div>
@@ -236,53 +294,48 @@ $assk = "Assignment".$ass;
 
 <!-- ########################################### materials ######################################## -->      
 <?php $mat = Material::find()->where(['course_code' => $cid])->count(); ?>
+
+<?php $videos = Material::find()->where('course_code = :course_code AND material_type = :material_type', [ ':course_code'=> $cid, ':material_type' => 'Videos'])->count(); ?>
+
+<?php $notesAndBooks = Material::find()->where('course_code = :course_code AND material_type = :material_type', [ ':course_code'=> $cid, ':material_type' => "Notes"])->count(); ?>
+
 <div class="tab-pane fade" id="coursematerials" role="tabpanel" aria-labelledby="custom-tabs-coursematerials">
-<div class="accordion" id="accordionExample_6">
+<div class="accordion" id="accordionExample_3">
 
-<?php foreach( $materials as $material ) : ?>
+<div class="row">
+            <div class="col-lg-3 col-6">
+                <a href="<?=Url::to(['student/classwork/'])  ?>" class="small-box bg-info" >
+                
+                    <div class="inner">
+                      <h3><?= $cid ?></h3>
 
-  <div class="card">
-    <div class="card-header p-2" id="heading<?=$mat?>">
-      <h2 class="mb-0">
-      <div class="row">
-      <div class="col-sm-11">
-      <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$mat?>" aria-expanded="true" aria-controls="collapse<?=$mat?>">
-        <i class="fas fa-clipboard-list"></i> <?php echo "Material ".$mat?>
-        </button>
-      </div>
-      <div class="col-sm-1">
-      <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
-      </div>
-      </div>
-         
-       
-      </h2>
+                      <p >videos <?= $videos ?></p>
+                    </div>
+
+                    <div class="icon">
+                      <i class="fa fa-play"></i>
+                    </div>
+
+                  </a>
+            </div> 
+
+            <div class="col-lg-3 col-6">
+                <a href="<?=Url::to(['student/classwork/'])  ?>" class="small-box bg-info" >
+                
+                    <div class="inner">
+                      <h3><?= $cid ?></h3>
+
+                      <p > Notes & Books <?= $notesAndBooks ?></p>
+                    </div>
+
+                    <div class="icon">
+                      <i class="fa fa-tags"></i>
+                    </div>
+
+                  </a>
+             </div> 
     </div>
-
-    <div id="collapse<?=$mat?>" class="collapse" aria-labelledby="heading<?=$mat?>" data-parent="#accordionExample_6">
-      <div class="card-body">
-         <p><span style="color:green"> About: </span>  <?= $material -> title ?> </p>
-      </div>
-      <div class="card-footer p-2 bg-white border-top">
-      <div class="row">
-      <div class="col-md-6">
-      <a href=""  class="text-mutted">Material <i class="fas fa-eye"></i></a>
-      </div>
-      <div class="col-md-6">
-      <a href="#" class="btn btn-sm btn-success float-right"><span><i class="fas fa-download"></i></span></a>
-     
-      </div>
-      </div>
-      </div>
-    </div>
-  </div>
-
-  <?php 
-         $mat--;
-        
-        ?>
-  
-  <?php endforeach ?>
+    
 
 </div>
 
@@ -305,22 +358,27 @@ $assk = "Assignment".$ass;
               <div class="card-body">
  
              <div class="row">
+              <!-- <?= VarDumper::dump($returned) ?> -->
                <div class="col-md-12">
                   <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
                   <thead>
                   <tr>
-                  <th width="10%">assignment</th><th>filename</th><th>score</th><th>comment</th>
+                  <th width="1%">#</th><th>Assignment Name</th><th>Assinment Type</th><th>filename</th><th>Score/Total</th><th>comment</th>
                   </tr>
                   </thead>
                   <tbody>
                   <?php $i=0; ?>
                   <?php foreach($returned as $returne): ?>
-                  <tr>
-                  <td><?= ++$i; ?></td>
-                  <td><?= $returne->fileName;  ?></td>
-                  <td><?= $returne->score;  ?></td>
-                  <td><?= $returne->comment;  ?></td>
-                  </tr>
+                    <?php foreach($returne->submits as $submit_returne): ?>
+                      <tr>
+                      <td><?= ++$i; ?></td>
+                      <td><?= $returne->assName ?> </td>
+                      <td><?= $returne->assType ?> </td>
+                      <td><?= $submit_returne->fileName;  ?></td>
+                      <td><?= $submit_returne->score.'/'.$returne->total_marks  ?></td>
+                      <td><?= $submit_returne->comment;  ?></td>
+                      </tr>
+                    <?php endforeach ?>
                   <?php endforeach ?>
                   </tbody>
                   </table>

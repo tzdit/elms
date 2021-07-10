@@ -1,6 +1,7 @@
     <?php
     use yii\helpers\Html;
     use yii\bootstrap4\ActiveForm;
+    use yii\helpers\Url;
     ?>
     <div class="container-fluid text-center ">
     <img src="/img/logo.png" class="img-circle"  style="height:70%;width:25%;margin-bottom:1%"></img>
@@ -20,6 +21,12 @@
         <div class="col-md-12">
             
                <?= $form->field($model, 'password')->passwordInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Password'])->label(false) ?>
+           </div>
+
+           <div class='col-md-12' id='forget_password'>
+           <a href="<?= Url::to(['/auth/requestpasswordreset'])  ?>">
+           <span class="small"> Forget password</span>
+          </a>
            </div>
             
            <div class="col-md-4 mr-auto ml-auto">
