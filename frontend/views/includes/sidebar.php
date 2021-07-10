@@ -129,6 +129,37 @@ use yii\helpers\Url;
                 </a>
               </li>
               <?php endif ?> <!-- END OF STUDENT ROLE -->
+
+          <!--START OF HOD ROLE -->
+          <?php if(Yii::$app->user->can('INSTRUCTOR & HOD')): ?>
+            <li class="nav-item">
+                <a href="<?= Url::toRoute('/instructor/courses') ?>" class="nav-link">
+                  <i class="fas fa-book nav-icon"></i>
+                  <p>Take a new course</p>
+                </a>
+              </li>
+          
+            <li class="nav-item">
+                <a href="<?= Url::toRoute('/instructor/student-list') ?>" class="nav-link">
+                  <i class="fas fa-book nav-icon"></i>
+                  <p>Manage Students</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="<?= Url::toRoute('/instructor/create-program') ?>" class="nav-link">
+                  <i class="fas fa-book nav-icon"></i>
+                  <p>Manage Programs</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="<?= Url::toRoute('/instructor/create-course') ?>" class="nav-link">
+                  <i class="fas fa-book nav-icon"></i>
+                  <p>Manage Courses</p>
+                </a>
+              </li>
+              <?php endif ?> <!-- END OF STUDENT ROLE -->
         
         </ul>
       </nav>

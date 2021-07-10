@@ -4,7 +4,8 @@ use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 /* @var $this yii\web\View */
 
-$this->title = 'Create Users';
+$this->title = 'Upload Student(s)';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-index">
 
@@ -21,36 +22,51 @@ $this->title = 'Create Users';
               <div class="card" style="font-family:'Times New Roman', sans-serif">
               <div class="card-header ">
                 
-                  <h3 class="card-title">Instructor Registration</h3>
+                  <h3 class="card-title">Upload Students</h3>
                 
                 </div>
              
               <div class="card-body">
               <div class="row">
               <div class="col-md-5 border-right">
-              <p class="text-secondary mb-1">Add Single Instructor</p>
+              <p class="text-secondary mb-1">Add Single Student</p>
               <?php $form = ActiveForm::begin()?>
                  <div class="col-md-12">
                   <div class="row">
-                  <div class="col-md-12">
-                   <?= $form->field($model, 'full_name')->textInput(['class'=>'form-control form-control-sm'])->label('Full Name') ?>
+                  <div class="col-md-4">
+                   <?= $form->field($model, 'fname')->textInput(['class'=>'form-control form-control-sm'])->label('First Name') ?>
+                  </div> 
+                  <div class="col-md-4">
+                   <?= $form->field($model, 'mname')->textInput(['class'=>'form-control form-control-sm'])->label('Middle Name') ?>
+                  </div> 
+                  <div class="col-md-4">
+                   <?= $form->field($model, 'lname')->textInput(['class'=>'form-control form-control-sm'])->label('Last Name') ?>
                   </div>  
                  </div> 
 
                    <div class="row">
                    <div class="col-md-6">
-                   <?= $form->field($model, 'username')->textInput(['class'=>'form-control form-control-sm'])->label('Email') ?>
+                   <?= $form->field($model, 'username')->textInput(['class'=>'form-control form-control-sm'])->label('Registration Number') ?>
                   </div>
                   <div class="col-md-6">
-                   <?= $form->field($model, 'phone')->textInput(['class'=>'form-control form-control-sm'])->label('Phone Number') ?>
+                  <?= $form->field($model, 'YOS')->dropdownList(['1'=>'First Year', '2'=>'Second Year', '3'=>'Third Year', '4'=>'Fourth year'], ['prompt'=>'--Select--', 'class'=>'form-control form-control-sm'])->label(' Year of Study') ?>
+                  </div>  
+                 </div>
+                 <div class="row">
+                   <div class="col-md-6">
+                   <?= $form->field($model, 'email')->input('email', ['class'=>'form-control form-control-sm', 'placeholder'=>'Optional'])->label('Email') ?>
+                  </div>
+                  <div class="col-md-6">
+                   <?= $form->field($model, 'phone')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'optional'])->label('Phone Number') ?>
                   </div>  
                  </div>
                  <div class="row"> 
                  <div class="col-md-12">
-                   <?= $form->field($model, 'department')->dropdownList($departments, ['prompt'=>'--Select--'], ['class'=>'form-control form-control-sm'])->label(' Department') ?>
+                   <?= $form->field($model, 'program')->dropdownList($programs, ['prompt'=>'--Select--','class'=>'form-control form-control-sm'])->label(' Program') ?>
                   </div>
                  
                  </div>
+                 
                  <div class="row">
                  <div class="col-md-6">
                 
@@ -59,7 +75,7 @@ $this->title = 'Create Users';
                  </div>
                  <div class="col-md-6">
                 
-                   <?= $form->field($model, 'role')->dropdownList($roles, ['prompt'=>'--Select--'], ['class'=>'form-control form-control-sm'])->label('Role') ?>
+                   <?= $form->field($model, 'role')->dropdownList($roles, ['options'=>['INSTRUCTOR'=>['selected'=>true]], 'class'=>['form-control form-control-sm']], )->label('Role') ?>
                 
                  </div>
                  </div>
@@ -82,7 +98,7 @@ $this->title = 'Create Users';
                 <?php ActiveForm::end() ?>
               </div>
               <div class="col-md-7">
-              <p class="text-secondary">Upload instructors using excel sheet</p>
+              <p class="text-secondary">Upload students using excel sheet</p>
              <form action="">
              <input type="file" name="file" id="file-input">
              </form>

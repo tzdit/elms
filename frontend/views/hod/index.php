@@ -52,7 +52,7 @@ $this->title = 'Admin Dashboard';
               <span class="info-box-icon bg-success elevation-1"><i class="fas fa-book"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Porgeams</span>
+                <span class="info-box-text">Programs</span>
                 <span class="info-box-number">2210</span>
               </div>
               <!-- /.info-box-content -->

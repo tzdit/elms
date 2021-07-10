@@ -58,6 +58,11 @@ class College extends \yii\db\ActiveRecord
         return $this->hasMany(Admin::className(), ['collegeID' => 'collegeID']);
     }
 
+    public function getHods()
+    {
+        return $this->hasMany(Hod::className(), ['collegeID' => 'collegeID']);
+    }
+
     /**
      * Gets query for [[Departments]].
      *
