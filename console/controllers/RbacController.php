@@ -10,7 +10,7 @@ class RbacController extends Controller
         $auth = Yii::$app->authManager;
         $auth->removeAll();
         //create SuperAdmin role
-        $roles = ['SUPER_ADMIN', 'SYS_ADMIN','INSTRUCTOR', 'STUDENT'];
+        $roles = ['SUPER_ADMIN', 'SYS_ADMIN','INSTRUCTOR', 'INSTRUCTOR & HOD', 'STUDENT', 'HOD'];
         foreach($roles as $role){
         $user_role = $auth->createRole($role);
         $auth->add($user_role);

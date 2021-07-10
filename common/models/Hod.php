@@ -6,8 +6,8 @@ use Yii;
 
 /**
  * This is the model class for table "instructor".
- *
  * @property int $instructorID
+ * @property int $hodID
  * @property int|null $userID
  * @property int|null $departmentID
  * @property string $full_name
@@ -196,8 +196,16 @@ class Hod extends \yii\db\ActiveRecord
                     ->viaTable('instructor_course', ['instructorID'=>'instructorID']);
     }
     
-    public function getProgram()
+    public function getPrograms()
     {
         return $this->hasMany(Program::className(), ['programCode' => 'programCode']);
     }
+
+    
+    public function getCollege()
+    {
+        return $this->hasOne(College::className(), ['collegeID' => 'collegeID']);
+    }
+
+   
 }

@@ -79,7 +79,7 @@ public $defaultAction = 'dashboard';
     //Create instructor
     public function actionCreateInstructor(){
         $model = new RegisterInstructorForm;
-        $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'INSTRUCTOR'])->all(), 'name', 'name');
+        $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'INSTRUCTOR & HOD'])->orwhere(['name'=>'INSTRUCTOR'])->all(), 'name', 'name');
         try{
         $departments = ArrayHelper::map(Department::find()->where(['collegeID'=>Yii::$app->user->identity->admin->college->collegeID])->all(), 'departmentID', 'department_name');
         if($model->load(Yii::$app->request->post())){
@@ -135,7 +135,6 @@ public $defaultAction = 'dashboard';
         return $this->render('hod_list', ['hods'=>$hods]);
     }
 //create students
- //Create instructor
  public function actionCreateStudent(){
     $model = new UploadStudentForm;
     $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'STUDENT'])->all(), 'name', 'name');

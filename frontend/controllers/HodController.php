@@ -1,22 +1,32 @@
 <?php
 
 namespace frontend\controllers;
-use yii\filters\AccessControl;
+use frontend\models\ResendVerificationEmailForm;
+use frontend\models\VerifyEmailForm;
+use Yii;
+use yii\base\InvalidArgumentException;
+use yii\web\BadRequestHttpException;
+use yii\web\Controller;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
-use common\models\Course;
+use common\models\Admin;
 use common\models\Assignment;
-use common\models\Material;
-use common\models\Submit;
+use common\models\Department;
+use common\models\Course;
+use common\models\Program;
 use common\models\InstructorCourse;
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
-use frontend\models\UploadLab;
-use frontend\models\UploadMaterial;
-use Yii;
+use yii\helpers\ArrayHelper;
+use frontend\models\CreateProgram;
+use frontend\models\CreateCourse;
+use frontend\models\UploadStudentHodForm;
+use common\models\Student;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
 use common\helpers\Security;
+use common\models\AuthItem;
 
 class HodController extends \yii\web\Controller
 {
@@ -37,11 +47,16 @@ public $defaultAction = 'dashboard';
                         'actions' => [
                             'dashboard',
                             'courses',
+                            'programs',
                             'enroll-course',
                             'dropcourse',
                             'classwork',
+                            'create-student',
+                            'student-list',
                             'upload-assignment',
                             'upload-tutorial',
+                            'create-program',
+                            'create-course',
                             'upload-lab',
                             'upload-material',
                             'assignments',
@@ -73,15 +88,99 @@ public $defaultAction = 'dashboard';
             ],
         ];
     }
-
+############################### REAL HOD ###################################
 
     public function actionDashboard()
     {
-   $courses = Yii::$app->user->identity->instructor->courses;
-        return $this->render('index', ['courses'=>$courses]);
+   
+        return $this->render('index');
+    }
+
+    public function actionPrograms(){
+
+        return $this->render('prog_modal', ['programs'=>$programs]);
+        
     }
 
 
+
+     //Create program
+     public function actionCreateProgram(){
+        $model = new CreateProgram;
+        $programs = Program::find()->all();
+        try{
+        $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+        if($model->load(Yii::$app->request->post())){
+            if($model->upload()){
+            Yii::$app->session->setFlash('success', 'Program added successfully');
+            }else{
+                Yii::$app->session->setFlash('error', 'Something went Wrong!');
+            }
+       
+                
+         } 
+        
+    }catch(\Exception $e){
+        Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+    }
+        return $this->render('prog_modal', ['model'=>$model, 'departments'=>$departments, 'programs'=>$programs]);
+    }
+
+
+     //Create Course
+     public function actionCreateCourse(){
+        $model = new CreateCourse;
+        $courses = Course::find()->all();
+        try{
+        // $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+        if($model->load(Yii::$app->request->post())){
+            if($model->create()){
+            Yii::$app->session->setFlash('success', 'Course added successfully');
+            }else{
+                Yii::$app->session->setFlash('error', 'Something went Wrong!');
+            }
+       
+                
+         } 
+        
+    }catch(\Exception $e){
+        Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+    }
+        return $this->render('create-course', ['model'=>$model, 'courses'=>$courses]);
+    }
+
+    //create students
+ public function actionCreateStudent(){
+    $model = new UploadStudentHodForm;
+    $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'STUDENT'])->all(), 'name', 'name');
+    // $departments = Yii::$app->user->identity->hod->department;
+    $departments = ArrayHelper::map(Department::find()->where(['departmentID'=> Yii::$app->user->identity->hod->department->departmentID])->all(), 'depart_abbrev', 'depart_abbrev');
+    try{
+    $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
+    if($model->load(Yii::$app->request->post())){
+       
+        if($model->create()){
+        Yii::$app->session->setFlash('success', 'Student registered successfully');
+        }else{
+            Yii::$app->session->setFlash('error', 'Somethibg went Wrong!');
+        }
+   
+            
+     } 
+    
+}catch(\Exception $e){
+    Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+}
+    return $this->render('create_student', ['model'=>$model, 'programs'=>$programs, 'departments'=>$departments, 'roles'=>$roles]);
+}
+
+//get list of students for particular department
+
+public function actionStudentList(){
+    $students = Student::find()->where(['programCode'=> Yii::$app->user->identity->hod->department->student->programCode])->all();
+    return $this->render('student_list', ['students'=>$students]);
+}
+########################## /REAL HOD ###########################
 
     //#################### function to render instructor courses ##############################
 

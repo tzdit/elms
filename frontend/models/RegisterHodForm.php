@@ -57,7 +57,7 @@ class RegisterHodForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
         if($user->save()){
-        //Now insert data to instructor table
+        //Now insert data to hod table
         $hod->full_name = $this->full_name;
         $hod->email = $this->username;
         $hod->phone = $this->phone;
