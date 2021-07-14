@@ -20,7 +20,8 @@
         "yiisoft/yii2-bootstrap4": "^2.0",
         "fedemotta/yii2-widget-datatables": "*",
         "light/hashids": "2.0",
-        "blacksmoke26/yii2cdn": "*"
+        "blacksmoke26/yii2cdn": "*",
+        "phpoffice/phpspreadsheet": "^1.18"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

@@ -108,6 +108,35 @@ class Submit extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Student::className(), ['reg_no' => 'reg_no']);
     }
+    public function isMarked()
+    {
+        if($this->score!="" || $this->score!=null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public function isFailed()
+    {
+        if($this->score!="" || $this->score!=null)
+        {
+          
+          $passlimit=($this->ass->total_marks*40)/100;
+          if($this->score<$passlimit)
+          {
+              return true;
+          }
+          else
+          {
+              return false;
+          }
+            
+        }
+       
+    }
 
     public function save($runValidation = true, $attributeNames = null){
 

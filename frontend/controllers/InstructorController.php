@@ -24,6 +24,7 @@ use frontend\models\UploadStudentHodForm;
 use frontend\models\CreateCourse;
 use frontend\models\CreateProgram;
 use frontend\models\UploadMaterial;
+use frontend\models\External_assess;
 use frontend\models\StudentGroups;
 use common\models\Groups;
 use common\models\GroupGenerationTypes;
@@ -93,6 +94,7 @@ public $defaultAction = 'dashboard';
                             'add-student-gentype',
                             'mark',
                             'mark-inputing',
+                            'import-external-assessment'
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -299,8 +301,16 @@ public function actionStdwork($cid, $id){
     if(!empty($cid)){
    Yii::$app->session->set('ccode', $cid);
     }
-    
+    $submits=null;
+    $asstype=Assignment::findOne($id)->assType;
+    if($asstype=="allgroups" || $asstype=="groups")
+    {
+     $submits =GroupAssignmentSubmit::find()->where(['assID'=> $id])->all();
+    }
+    else
+    {
     $submits = Submit::find()->where(['assID'=> $id])->all();
+    }
     
 
     $courses = Yii::$app->user->identity->instructor->courses;
@@ -417,7 +427,32 @@ public function actionUploadAssignment(){
     }
 }
 }
+public function actionImportExternalAssessment()
+{
+  $importmodel=new External_assess();
+  if($importmodel->load(Yii::$app->request->post())){
 
+    $importmodel->assFile=UploadedFile::getInstance($importmodel, 'assFile');
+    $importmodel->filetmp=UploadedFile::getInstance($importmodel, 'assFile')->tempName;
+    if($importmodel->excel_importer())
+    {
+        Yii::$app->session->setFlash('success', 'Import successful');
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+    else
+    {
+        Yii::$app->session->setFlash('error', 'Importing failed, you may need to download the standard format or change the assessment title');
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+  }
+  else
+  {
+    Yii::$app->session->setFlash('error', 'unknown error occurred, try again later');
+    return $this->redirect(Yii::$app->request->referrer);
+  }
+
+    
+}
 
 
 //######################## function to create tutorial ###############################################
@@ -523,7 +558,7 @@ public function actionMarkInputing()
     $submit=null;
     if($asstype=="group")
     {
-        $model=GroupAssignmentSubmit();
+        $model=new GroupAssignmentSubmit();
         
         
     }

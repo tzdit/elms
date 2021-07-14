@@ -93,4 +93,33 @@ class GroupAssignmentSubmit extends \yii\db\ActiveRecord
     {
         return $this->hasMany(QMarks::className(), ['group_submit_id' => 'submitID']);
     }
+    public function isMarked()
+    {
+        if($this->score!="" || $this->score!=null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public function isFailed()
+    {
+        if($this->score!="" || $this->score!=null)
+        {
+          
+          $passlimit=($this->ass->total_marks*40)/100;
+          if($this->score<$passlimit)
+          {
+              return true;
+          }
+          else
+          {
+              return false;
+          }
+            
+        }
+       
+    }
 }
