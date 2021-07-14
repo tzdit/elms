@@ -13,12 +13,14 @@ use common\models\Student;
 use common\models\Department;
 use common\models\Program;
 use yii\helpers\ArrayHelper;
+use common\models\AuthItem;
 use common\models\InstructorCourse;
 use common\models\StudentCourse;
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
 use frontend\models\AddPartner;
 use frontend\models\UploadLab;
+use frontend\models\UploadStudentHodForm;
 use frontend\models\CreateCourse;
 use frontend\models\CreateProgram;
 use frontend\models\UploadMaterial;
@@ -83,6 +85,7 @@ public $defaultAction = 'dashboard';
                             'add-partner',
                             'generate-groups',
                             'view-groups',
+                            'instructor-course',
                             'delete-groups',
                             'get-gentypes',
                             'get-groups',
@@ -123,6 +126,7 @@ public $defaultAction = 'dashboard';
                             'stdworklab',
                             'stdlabmark',
                             'update',
+                            'instructor-course',
                             'updatetut',
                             'updatelab',
                             'add-partner',
@@ -757,7 +761,7 @@ public function actionAddStudentGentype()
     $model = new UploadStudentHodForm;
     $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'STUDENT'])->all(), 'name', 'name');
     // $departments = Yii::$app->user->identity->hod->department;
-    $departments = ArrayHelper::map(Department::find()->where(['departmentID'=> Yii::$app->user->identity->hod->department->departmentID])->all(), 'depart_abbrev', 'depart_abbrev');
+    $departments = ArrayHelper::map(Department::find()->where(['departmentID'=> Yii::$app->user->identity->instructor->department->departmentID])->all(), 'depart_abbrev', 'depart_abbrev');
     try{
     $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
     if($model->load(Yii::$app->request->post())){
@@ -780,13 +784,15 @@ public function actionAddStudentGentype()
 //get list of students for particular department
 
 public function actionStudentList(){
-    $myinstructor=Instructor::findOne('instructorID');
+    
+    $instructorid = Yii::$app->user->identity->instructor->instructorID;
+    $myinstructor=Instructor::findOne($instructorid);
     $instructor_department= $myinstructor->department;
     $programs=$instructor_department->programs;
     $students=[];
     for($p=0;$p<count($programs);$p++)
     {
-        $program_students=$program[$p]->students;
+        $program_students=$programs[$p]->students;
         array_push($students,$program_students);
     }
     return $this->render('student_list', ['students'=>$students, 'program_students'=>$program_students]);
@@ -836,5 +842,17 @@ public function actionStudentList(){
         Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
     }
         return $this->render('create-course', ['model'=>$model, 'courses'=>$courses]);
+    }
+
+    public function actionInstructorCourse()
+    {
+         $instructorid = Yii::$app->user->identity->instructor->instructorID;
+         $myinstructor=Instructor::findOne($instructorid);
+         $instructor_department= $myinstructor->department->departmentID;
+  /*     $instructors = ArrayHelper::map(Instructor::find()->where(['departmentID'=>])->all(), 'name', 'name'); */
+         $instructors = Instructor::findAll(array('departmentID'=> $instructor_department));
+      
+
+       return $this->render('instructor-course', [ 'instructors'=>$instructors]);
     }
 }
