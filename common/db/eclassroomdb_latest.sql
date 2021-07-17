@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 07, 2021 at 11:14 AM
+-- Generation Time: Jul 17, 2021 at 10:10 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -87,24 +87,16 @@ CREATE TABLE `assignment` (
 
 INSERT INTO `assignment` (`assID`, `instructorID`, `course_code`, `assName`, `assType`, `assNature`, `ass_desc`, `submitMode`, `startDate`, `finishDate`, `total_marks`, `fileName`) VALUES
 (129, 2, 'CP 111', 'assignment 5', 'groups', 'assignment', 'dghdg', 'unresubmit', '2021-07-15 00:00:00', '2021-07-14 00:00:00', 4, 'cover-merged.pdf'),
-(130, 2, 'CP 111', 'fjfghj', 'allstudents', 'assignment', 'fghjfhgj', 'unresubmit', '2021-07-16 00:00:00', '2021-07-15 00:00:00', 12, '60e4456da1104.txt'),
-(131, 2, 'CP 111', 'fjfghj', 'allstudents', 'assignment', 'fghjfhgj', 'unresubmit', '2021-07-16 00:00:00', '2021-07-15 00:00:00', 12, '60e446e97a831.txt'),
-(132, 2, 'CP 111', 'sdfgsdf', 'allstudents', 'assignment', 'sdfgsdfg', 'resubmit', '2021-07-23 00:00:00', '2021-07-16 00:00:00', 20, '60e4471893b5f.txt'),
-(133, 2, 'CP 111', 'fghdfg', 'allstudents', 'assignment', 'dfghdfgh', 'unresubmit', '2021-07-23 00:00:00', '2021-07-22 00:00:00', 22, '60e4476a20feb'),
-(134, 2, 'CP 111', 'dfgfghfghjg', 'allgroups', 'assignment', 'fghjfghjfghjgf', 'resubmit', '2021-07-22 00:00:00', '2021-07-30 00:00:00', 5, '60e449ac61939.txt'),
-(135, 2, 'CP 111', 'fgroup file', 'allgroups', 'assignment', 'ghghjfghj', 'resubmit', '2021-07-22 00:00:00', '2021-07-30 00:00:00', 88, '60e44a19a8ba3'),
 (136, 2, 'CP 111', 'chosen groups', 'groups', 'assignment', 'fsdfgsdfg', 'resubmit', '2021-07-15 00:00:00', '2021-07-22 00:00:00', 24, '60e44a755536d.txt'),
 (137, 2, 'CP 111', 'chosen groups file', 'groups', 'assignment', 'adfad', 'resubmit', '2021-07-16 00:00:00', '2021-07-22 00:00:00', 225, '60e44b09ae63e'),
 (138, 2, 'CP 111', 'chosen student types', 'students', 'assignment', 'asdfasdfs', 'unresubmit', '2021-07-15 00:00:00', '2021-07-23 00:00:00', 21, '60e44b8618b9f.txt'),
 (139, 2, 'CP 111', 'student chosen file', 'students', 'assignment', 'fgsgsfdgsdf', 'resubmit', '2021-07-23 00:00:00', '2021-07-22 00:00:00', 12, '60e44c37e4b07'),
-(140, 2, 'CP 111', 'sdfgsdfg', 'allgroups', 'assignment', 'sdfgsdfgsdf', 'resubmit', '2021-07-23 00:00:00', '2021-07-23 00:00:00', 8, '60e44d9677668'),
-(141, 2, 'CP 111', 'gfhdfgh', 'allgroups', 'assignment', 'dfghdfg', 'unresubmit', '2021-07-16 00:00:00', '2021-07-23 00:00:00', 22, '60e44e87bc722.pdf'),
-(142, 2, 'CP 111', 'hjfghj', 'allstudents', 'lab', 'fghjfhgj', 'resubmit', '2021-07-16 00:00:00', '2021-07-23 00:00:00', 15, '60e54c1ddd91d.txt'),
-(143, 2, 'CP 111', 'khslkjdfs', 'allstudents', 'assignment', 'sfjkskf', 'unresubmit', '2021-07-15 00:00:00', '2021-07-15 00:00:00', 15, '60e54ca54fe19.txt'),
 (144, 2, 'CP 111', 'lass', 'allgroups', 'lab', 'vsgsdf', 'resubmit', '2021-07-16 00:00:00', '2021-07-15 00:00:00', 16, '60e54cf1ba435.txt'),
 (145, 2, 'CP 111', 'lab for groups', 'groups', 'lab', 'adfasdsd', 'unresubmit', '2021-07-15 00:00:00', '2021-07-23 00:00:00', 10, '60e54d4b13aee.txt'),
 (146, 2, 'CP 111', 'file lab', 'students', 'lab', 'asgfg', 'unresubmit', '2021-07-30 00:00:00', '2021-07-29 00:00:00', 21, '60e54ddc0379e.pdf'),
-(147, 2, 'CP 111', 'rtgwer', 'allgroups', 'lab', 'sdfgsdf', 'unresubmit', '2021-07-30 00:00:00', '2021-07-15 00:00:00', 12, '60e53dd930dd5.txt');
+(152, 2, 'CP 111', 'testing assignment', 'allstudents', 'assignment', 'testing', 'resubmit', '2021-07-22 00:00:00', '2021-07-22 00:00:00', 15, '60e5e79317400.txt'),
+(153, 2, 'CP 111', 'group assignment', 'allgroups', 'assignment', 'khalidi', 'unresubmit', '2021-07-15 00:00:00', '2021-07-29 00:00:00', 15, '60e844da2f2d6.txt'),
+(156, 2, 'CP 111', 'das', NULL, 'tutorial', 'fADSF', NULL, NULL, NULL, NULL, 'cover-merged.pdf');
 
 -- --------------------------------------------------------
 
@@ -140,25 +132,6 @@ INSERT INTO `assq` (`assq_ID`, `assID`, `qno`, `total_marks`) VALUES
 (223, 129, 2, 1),
 (224, 129, 3, 1),
 (225, 129, 4, 1),
-(226, 130, 1, 4),
-(227, 130, 2, 4),
-(228, 130, 3, 4),
-(229, 131, 1, 4),
-(230, 131, 2, 4),
-(231, 131, 3, 4),
-(232, 132, 1, 5),
-(233, 132, 2, 5),
-(234, 132, 3, 5),
-(235, 132, 4, 5),
-(236, 133, 1, 11),
-(237, 133, 2, 11),
-(238, 134, 1, 1),
-(239, 134, 2, 1),
-(240, 134, 3, 1),
-(241, 134, 4, 1),
-(242, 134, 5, 1),
-(243, 135, 1, 44),
-(244, 135, 2, 44),
 (245, 136, 1, 6),
 (246, 136, 2, 6),
 (247, 136, 3, 6),
@@ -175,20 +148,6 @@ INSERT INTO `assq` (`assq_ID`, `assID`, `qno`, `total_marks`) VALUES
 (258, 139, 2, 3),
 (259, 139, 3, 3),
 (260, 139, 4, 3),
-(261, 140, 1, 2),
-(262, 140, 2, 2),
-(263, 140, 3, 2),
-(264, 140, 4, 2),
-(265, 141, 1, 11),
-(266, 141, 2, 11),
-(267, 142, 1, 5),
-(268, 142, 2, 5),
-(269, 142, 3, 5),
-(270, 143, 1, 3),
-(271, 143, 2, 3),
-(272, 143, 3, 3),
-(273, 143, 4, 3),
-(274, 143, 5, 3),
 (275, 144, 1, 4),
 (276, 144, 2, 4),
 (277, 144, 3, 4),
@@ -198,9 +157,12 @@ INSERT INTO `assq` (`assq_ID`, `assID`, `qno`, `total_marks`) VALUES
 (281, 146, 1, 7),
 (282, 146, 2, 7),
 (283, 146, 3, 7),
-(284, 147, 1, 4),
-(285, 147, 2, 4),
-(286, 147, 3, 4);
+(297, 152, 1, 5),
+(298, 152, 2, 5),
+(299, 152, 3, 5),
+(300, 153, 1, 5),
+(301, 153, 2, 5),
+(302, 153, 3, 5);
 
 -- --------------------------------------------------------
 
@@ -225,6 +187,7 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('INSTRUCTOR', '36', 1620317149),
 ('INSTRUCTOR', '38', 1620317380),
 ('INSTRUCTOR', '4', 1620238863),
+('INSTRUCTOR & HOD', '51', 1625899607),
 ('STUDENT', '44', 1620477895),
 ('STUDENT', '45', 1620477973),
 ('STUDENT', '46', 1620478760),
@@ -257,6 +220,7 @@ CREATE TABLE `auth_item` (
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
 ('INSTRUCTOR', 1, NULL, NULL, NULL, 1620154096, 1620154096),
+('INSTRUCTOR & HOD', 1, NULL, NULL, NULL, NULL, NULL),
 ('STUDENT', 1, NULL, NULL, NULL, 1620154096, 1620154096),
 ('SUPER_ADMIN', 1, NULL, NULL, NULL, 1620154096, 1620154096),
 ('SYS_ADMIN', 1, NULL, NULL, NULL, 1620154096, 1620154096);
@@ -376,12 +340,19 @@ INSERT INTO `department` (`departmentID`, `collegeID`, `department_name`, `depar
 CREATE TABLE `ext_assess` (
   `assessID` int(11) NOT NULL,
   `instructorID` int(11) DEFAULT NULL,
-  `reg_no` varchar(20) DEFAULT NULL,
   `course_code` varchar(7) DEFAULT NULL,
   `title` varchar(20) NOT NULL,
   `total_marks` int(11) NOT NULL,
-  `score` decimal(5,2) NOT NULL
+  `date_created` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ext_assess`
+--
+
+INSERT INTO `ext_assess` (`assessID`, `instructorID`, `course_code`, `title`, `total_marks`, `date_created`) VALUES
+(34, 2, 'CP 111', 'my assessment', 40, '2021-07-16'),
+(35, 2, 'CS 212', 'c212 test 2', 20, '2021-07-17');
 
 -- --------------------------------------------------------
 
@@ -422,7 +393,9 @@ INSERT INTO `groups` (`groupID`, `groupName`, `generation_type`) VALUES
 (57, 'Group 1', 21),
 (58, 'Group 2', 21),
 (59, 'Group 1', 22),
-(60, 'Group 2', 22);
+(60, 'Group 2', 22),
+(64, 'Group 1', 28),
+(65, 'Group 2', 28);
 
 -- --------------------------------------------------------
 
@@ -458,6 +431,30 @@ INSERT INTO `group_assignment` (`GA_ID`, `groupID`, `assID`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `group_assignment_submit`
+--
+
+CREATE TABLE `group_assignment_submit` (
+  `submitID` int(11) NOT NULL,
+  `groupID` int(11) DEFAULT NULL,
+  `assID` int(11) DEFAULT NULL,
+  `fileName` varchar(70) NOT NULL,
+  `score` decimal(5,2) DEFAULT NULL,
+  `submit_date` date NOT NULL DEFAULT current_timestamp(),
+  `submit_time` time NOT NULL DEFAULT current_timestamp(),
+  `comment` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `group_assignment_submit`
+--
+
+INSERT INTO `group_assignment_submit` (`submitID`, `groupID`, `assID`, `fileName`, `score`, `submit_date`, `submit_time`, `comment`) VALUES
+(1, 57, 153, 'khalidi.pdf', '12.00', '0000-00-00', '00:00:00', 'heyyyy\n');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `group_generation_assignment`
 --
 
@@ -472,12 +469,8 @@ CREATE TABLE `group_generation_assignment` (
 --
 
 INSERT INTO `group_generation_assignment` (`gga_ID`, `gentypeID`, `assID`) VALUES
-(39, 22, 134),
-(40, 21, 135),
-(41, 22, 140),
-(42, 22, 141),
 (43, 22, 144),
-(44, 22, 147);
+(45, 21, 153);
 
 -- --------------------------------------------------------
 
@@ -506,8 +499,8 @@ INSERT INTO `group_generation_types` (`typeID`, `generation_type`, `max_groups_m
 (19, 'Generation type 07:02:2021 02:22:30', 0, 'CP 111', 'instructor', 2, NULL, '2021-07-02', '15:22:30'),
 (21, 'new group assignment', 0, 'CP 111', 'instructor', 2, NULL, '2021-07-03', '16:13:59'),
 (22, 'Generation type 07:05:2021 04:53:33', 3, 'CP 111', 'instructor', 2, NULL, '2021-07-05', '17:53:33'),
-(24, 'Student Generation type 07:05:2021 05:26:43', 3, 'CP 111', 'instructor-student', 2, NULL, '2021-07-05', '18:26:43'),
-(25, 'assignmet 8 groups', 4, 'CP 111', 'instructor-student', 2, NULL, '2021-07-05', '18:27:19');
+(28, 'my last gen', 3, 'CP 111', 'instructor', 2, NULL, '2021-07-07', '12:47:37'),
+(29, 'my last student', 2, 'CP 111', 'instructor-student', 2, NULL, '2021-07-07', '12:48:04');
 
 -- --------------------------------------------------------
 
@@ -542,7 +535,8 @@ CREATE TABLE `instructor` (
 
 INSERT INTO `instructor` (`instructorID`, `userID`, `departmentID`, `full_name`, `gender`, `PP`, `phone`, `email`) VALUES
 (2, 36, 1, 'Instructor Instructor', 'M', NULL, '0788676767', 'instructor@gmail.com'),
-(4, 38, 1, 'Instructor Instructor', 'M', NULL, '0788676712', 'instructor1@gmail.com');
+(4, 38, 1, 'Instructor Instructor', 'M', NULL, '0788676712', 'instructor1@gmail.com'),
+(5, 51, 2, 'khalidi hassan', 'M', NULL, '07755888', 'hod@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -562,7 +556,9 @@ CREATE TABLE `instructor_course` (
 
 INSERT INTO `instructor_course` (`IC_ID`, `course_code`, `instructorID`) VALUES
 (37, 'CP 111', 2),
-(38, 'CP 111', 4);
+(38, 'CP 111', 4),
+(39, 'CS 212', 2),
+(40, 'TN 110', 5);
 
 -- --------------------------------------------------------
 
@@ -631,22 +627,9 @@ CREATE TABLE `material` (
 --
 
 INSERT INTO `material` (`material_ID`, `instructorID`, `course_code`, `title`, `material_type`, `upload_date`, `upload_time`, `fileName`) VALUES
-(1, 2, 'CP 111', 'gagag', 'notes', NULL, NULL, 'ASSnotesTN_327.pdf'),
-(2, 2, 'CP 111', 'mama', 'Notes', '0000-00-00', '00:00:02', 'asa.pdf'),
-(3, 2, 'CP 111', 'assign', 'Videos', NULL, NULL, 'CV.mp4'),
-(4, 2, 'CP 111', 'taratara', 'notes', NULL, NULL, 'djangobook.pdf'),
-(5, 2, 'CP 111', 'ffddd', 'Notes', NULL, NULL, 'CV UPDATES BOT.pdf'),
-(6, 2, 'CP 111', 'sasasas', 'notes', NULL, NULL, 'yii2.pdf'),
-(7, 2, 'CP 111', 'test material', 'notes', NULL, NULL, 'yii2.pdf'),
-(8, 2, 'CP 111', 'NEW MATERIAL 8', 'Videos', NULL, NULL, 'db_final_ER.mp4'),
-(9, 2, 'CS 212', 'hhh', 'Notes', NULL, NULL, 'hhhhh.png'),
-(10, 2, 'TN 110', 'video tutorial', 'notes', NULL, NULL, 'Assignment_3.pdf'),
-(11, 2, 'CP 111', 'fasdad', 'Videos', NULL, NULL, 'winner.mp4'),
-(12, 2, 'CP 111', 'programming for all', 'Videos', NULL, NULL, 'y2mate.com - HTML Vi'),
-(13, 2, 'CP 111', 'programming video', 'Videos', NULL, NULL, '60d397c368cd0.mp4'),
-(14, 2, 'CP 111', 'jogging', 'Videos', NULL, NULL, '60d59c2935b2a.mp4'),
-(15, 2, 'CP 111', 'gggg', 'Videos', NULL, NULL, '60d59c77c8858.mp4'),
-(16, 2, 'CP 111', 'fghjkj', 'Videos', NULL, NULL, '60d5b1f17b441.mp4');
+(17, 2, 'CP 111', 'programming', 'Notes', NULL, NULL, '60e729f376b25.pdf'),
+(18, 2, 'CP 111', 'my material', 'Notes', NULL, NULL, '60f12a6e43453.pdf'),
+(19, 2, 'CP 111', 'video tutorial', 'Videos', NULL, NULL, '60f12aae3e5b7.mp4');
 
 -- --------------------------------------------------------
 
@@ -757,8 +740,262 @@ CREATE TABLE `q_marks` (
   `submitID` int(11) DEFAULT NULL,
   `assq_ID` int(11) DEFAULT NULL,
   `q_score` decimal(5,2) DEFAULT NULL,
-  `comment` varchar(200) DEFAULT NULL
+  `comment` varchar(200) DEFAULT NULL,
+  `group_submit_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `q_marks`
+--
+
+INSERT INTO `q_marks` (`qmarkID`, `submitID`, `assq_ID`, `q_score`, `comment`, `group_submit_id`) VALUES
+(1, 2, 297, '3.00', NULL, NULL),
+(2, 2, 298, '3.00', NULL, NULL),
+(3, 2, 299, '3.00', NULL, NULL),
+(4, 2, 297, '3.00', NULL, NULL),
+(5, 2, 298, '2.00', NULL, NULL),
+(6, 2, 299, '2.00', NULL, NULL),
+(7, 2, 297, '3.00', NULL, NULL),
+(8, 2, 298, '3.00', NULL, NULL),
+(9, 2, 299, '3.00', NULL, NULL),
+(10, 2, 297, '3.00', NULL, NULL),
+(11, 2, 298, '3.00', NULL, NULL),
+(12, 2, 299, '3.00', NULL, NULL),
+(13, 2, 297, '3.00', NULL, NULL),
+(14, 2, 298, '3.00', NULL, NULL),
+(15, 2, 299, '3.00', NULL, NULL),
+(16, 2, 297, '5.00', NULL, NULL),
+(17, 2, 298, '5.00', NULL, NULL),
+(18, 2, 299, '2.00', NULL, NULL),
+(19, 2, 297, '5.00', NULL, NULL),
+(20, 2, 298, '5.00', NULL, NULL),
+(21, 2, 299, '5.00', NULL, NULL),
+(22, 3, 297, '5.00', NULL, NULL),
+(23, 3, 298, '5.00', NULL, NULL),
+(24, 3, 299, '5.00', NULL, NULL),
+(25, 3, 297, '5.00', NULL, NULL),
+(26, 3, 298, '5.00', NULL, NULL),
+(27, 3, 299, '5.00', NULL, NULL),
+(28, 2, 297, '3.00', NULL, NULL),
+(29, 2, 298, '3.00', NULL, NULL),
+(30, 2, 299, '3.00', NULL, NULL),
+(31, 3, 297, '3.00', NULL, NULL),
+(32, 3, 298, '3.00', NULL, NULL),
+(33, 3, 299, '3.00', NULL, NULL),
+(34, 3, 297, '3.00', NULL, NULL),
+(35, 3, 298, '3.00', NULL, NULL),
+(36, 3, 299, '3.00', NULL, NULL),
+(37, 2, 297, '1.00', NULL, NULL),
+(38, 2, 298, '1.00', NULL, NULL),
+(39, 2, 299, '1.00', NULL, NULL),
+(40, 3, 297, '1.00', NULL, NULL),
+(41, 3, 298, '1.00', NULL, NULL),
+(42, 3, 299, '1.00', NULL, NULL),
+(43, 3, 297, '1.00', NULL, NULL),
+(44, 3, 298, '1.00', NULL, NULL),
+(45, 3, 299, '1.00', NULL, NULL),
+(46, 2, 297, '1.00', NULL, NULL),
+(47, 2, 298, '1.00', NULL, NULL),
+(48, 2, 299, '1.00', NULL, NULL),
+(49, 2, 297, '2.00', NULL, NULL),
+(50, 2, 298, '2.00', NULL, NULL),
+(51, 2, 299, '2.00', NULL, NULL),
+(52, 2, 297, '1.00', NULL, NULL),
+(53, 2, 298, '1.00', NULL, NULL),
+(54, 2, 299, '1.00', NULL, NULL),
+(55, 2, 297, '2.00', NULL, NULL),
+(56, 2, 298, '2.00', NULL, NULL),
+(57, 2, 299, '2.00', NULL, NULL),
+(58, 3, 297, '2.00', NULL, NULL),
+(59, 3, 298, '2.00', NULL, NULL),
+(60, 3, 299, '2.00', NULL, NULL),
+(61, 3, 297, '2.00', NULL, NULL),
+(62, 3, 298, '2.00', NULL, NULL),
+(63, 3, 299, '2.00', NULL, NULL),
+(64, 2, 297, '2.00', NULL, NULL),
+(65, 2, 298, '2.00', NULL, NULL),
+(66, 2, 299, '2.00', NULL, NULL),
+(67, 3, 297, '2.00', NULL, NULL),
+(68, 3, 298, '2.00', NULL, NULL),
+(69, 3, 299, '2.00', NULL, NULL),
+(70, 3, 297, '2.00', NULL, NULL),
+(71, 3, 298, '2.00', NULL, NULL),
+(72, 3, 299, '2.00', NULL, NULL),
+(73, 2, 297, '1.00', NULL, NULL),
+(74, 2, 298, '1.00', NULL, NULL),
+(75, 2, 299, '1.00', NULL, NULL),
+(76, 2, 297, '3.00', NULL, NULL),
+(77, 2, 298, '3.00', NULL, NULL),
+(78, 2, 299, '3.00', NULL, NULL),
+(79, 3, 297, '3.00', NULL, NULL),
+(80, 3, 298, '3.00', NULL, NULL),
+(81, 3, 299, '3.00', NULL, NULL),
+(82, 3, 297, '3.00', NULL, NULL),
+(83, 3, 298, '3.00', NULL, NULL),
+(84, 3, 299, '3.00', NULL, NULL),
+(85, 2, 297, '3.00', NULL, NULL),
+(86, 2, 298, '3.00', NULL, NULL),
+(87, 2, 299, '3.00', NULL, NULL),
+(88, 2, 297, '1.00', NULL, NULL),
+(89, 2, 298, '1.00', NULL, NULL),
+(90, 2, 299, '1.00', NULL, NULL),
+(91, 2, 297, '2.00', NULL, NULL),
+(92, 2, 298, '2.00', NULL, NULL),
+(93, 2, 299, '2.00', NULL, NULL),
+(94, 2, 297, '1.00', NULL, NULL),
+(95, 2, 298, '1.00', NULL, NULL),
+(96, 2, 299, '1.00', NULL, NULL),
+(97, 2, 297, '2.00', NULL, NULL),
+(98, 2, 298, '2.00', NULL, NULL),
+(99, 2, 299, '2.00', NULL, NULL),
+(100, 2, 297, '3.00', NULL, NULL),
+(101, 2, 298, '3.00', NULL, NULL),
+(102, 2, 299, '2.00', NULL, NULL),
+(103, 3, 297, '3.00', NULL, NULL),
+(104, 3, 298, '3.00', NULL, NULL),
+(105, 3, 299, '2.00', NULL, NULL),
+(106, 3, 297, '3.00', NULL, NULL),
+(107, 3, 298, '3.00', NULL, NULL),
+(108, 3, 299, '2.00', NULL, NULL),
+(109, 2, 297, '3.00', NULL, NULL),
+(110, 2, 298, '3.00', NULL, NULL),
+(111, 2, 299, '3.00', NULL, NULL),
+(112, 3, 297, '3.00', NULL, NULL),
+(113, 3, 298, '3.00', NULL, NULL),
+(114, 3, 299, '3.00', NULL, NULL),
+(115, 3, 297, '2.00', NULL, NULL),
+(116, 3, 298, '2.00', NULL, NULL),
+(117, 3, 299, '2.00', NULL, NULL),
+(118, 2, 297, '2.00', NULL, NULL),
+(119, 2, 298, '2.00', NULL, NULL),
+(120, 2, 299, '2.00', NULL, NULL),
+(121, 3, 297, '2.00', NULL, NULL),
+(122, 3, 298, '2.00', NULL, NULL),
+(123, 3, 299, '2.00', NULL, NULL),
+(124, 3, 297, '2.00', NULL, NULL),
+(125, 3, 298, '2.00', NULL, NULL),
+(126, 3, 299, '2.00', NULL, NULL),
+(127, 2, 297, '4.00', NULL, NULL),
+(128, 2, 298, '4.00', NULL, NULL),
+(129, 2, 299, '4.00', NULL, NULL),
+(130, 3, 297, '4.00', NULL, NULL),
+(131, 3, 298, '4.00', NULL, NULL),
+(132, 3, 299, '4.00', NULL, NULL),
+(133, 3, 297, '4.00', NULL, NULL),
+(134, 3, 298, '4.00', NULL, NULL),
+(135, 3, 299, '4.00', NULL, NULL),
+(136, 2, 297, '4.00', NULL, NULL),
+(137, 2, 298, '4.00', NULL, NULL),
+(138, 2, 299, '4.00', NULL, NULL),
+(139, 2, 297, '2.00', NULL, NULL),
+(140, 2, 298, '2.00', NULL, NULL),
+(141, 2, 299, '2.00', NULL, NULL),
+(142, 3, 297, '2.00', NULL, NULL),
+(143, 3, 298, '2.00', NULL, NULL),
+(144, 3, 299, '2.00', NULL, NULL),
+(145, 3, 297, '2.00', NULL, NULL),
+(146, 3, 298, '2.00', NULL, NULL),
+(147, 3, 299, '2.00', NULL, NULL),
+(148, 2, 297, '2.00', NULL, NULL),
+(149, 2, 298, '2.00', NULL, NULL),
+(150, 2, 299, '2.00', NULL, NULL),
+(151, 3, 297, '2.00', NULL, NULL),
+(152, 3, 298, '2.00', NULL, NULL),
+(153, 3, 299, '2.00', NULL, NULL),
+(154, 3, 297, '2.00', NULL, NULL),
+(155, 3, 298, '2.00', NULL, NULL),
+(156, 3, 299, '2.00', NULL, NULL),
+(157, 2, 297, '3.00', NULL, NULL),
+(158, 2, 298, '3.00', NULL, NULL),
+(159, 2, 299, '3.00', NULL, NULL),
+(160, 3, 297, '3.00', NULL, NULL),
+(161, 3, 298, '3.00', NULL, NULL),
+(162, 3, 299, '3.00', NULL, NULL),
+(163, 3, 297, '3.00', NULL, NULL),
+(164, 3, 298, '3.00', NULL, NULL),
+(165, 3, 299, '3.00', NULL, NULL),
+(166, 2, 297, '2.00', NULL, NULL),
+(167, 2, 298, '2.00', NULL, NULL),
+(168, 2, 299, '2.00', NULL, NULL),
+(169, 2, 297, '3.00', NULL, NULL),
+(170, 2, 298, '3.00', NULL, NULL),
+(171, 2, 299, '3.00', NULL, NULL),
+(172, 3, 297, '3.00', NULL, NULL),
+(173, 3, 298, '3.00', NULL, NULL),
+(174, 3, 299, '3.00', NULL, NULL),
+(175, 3, 297, '3.00', NULL, NULL),
+(176, 3, 298, '3.00', NULL, NULL),
+(177, 3, 299, '3.00', NULL, NULL),
+(178, 2, 297, '3.00', NULL, NULL),
+(179, 2, 298, '3.00', NULL, NULL),
+(180, 2, 299, '3.00', NULL, NULL),
+(181, 2, 297, '3.00', NULL, NULL),
+(182, 2, 298, '3.00', NULL, NULL),
+(183, 2, 299, '3.00', NULL, NULL),
+(184, 2, 297, '3.00', NULL, NULL),
+(185, 2, 298, '3.00', NULL, NULL),
+(186, 2, 299, '3.00', NULL, NULL),
+(187, 3, 297, '3.00', NULL, NULL),
+(188, 3, 298, '3.00', NULL, NULL),
+(189, 3, 299, '3.00', NULL, NULL),
+(190, 3, 297, '3.00', NULL, NULL),
+(191, 3, 298, '3.00', NULL, NULL),
+(192, 3, 299, '3.00', NULL, NULL),
+(193, 3, 297, '3.00', NULL, NULL),
+(194, 3, 298, '3.00', NULL, NULL),
+(195, 3, 299, '3.00', NULL, NULL),
+(196, 2, 297, '3.00', NULL, NULL),
+(197, 2, 299, '3.00', NULL, NULL),
+(198, 2, 297, '3.00', NULL, NULL),
+(199, 2, 299, '3.00', NULL, NULL),
+(200, 2, 297, '3.00', NULL, NULL),
+(201, 2, 298, '4.00', NULL, NULL),
+(202, 2, 299, '3.00', NULL, NULL),
+(203, 3, 297, '3.00', NULL, NULL),
+(204, 3, 299, '3.00', NULL, NULL),
+(205, 3, 297, '3.00', NULL, NULL),
+(206, 3, 298, '4.00', NULL, NULL),
+(207, 3, 299, '3.00', NULL, NULL),
+(208, 3, 297, '3.00', NULL, NULL),
+(209, 3, 298, '4.00', NULL, NULL),
+(210, 3, 299, '3.00', NULL, NULL),
+(211, 2, 297, '3.00', NULL, NULL),
+(212, 2, 298, '3.00', NULL, NULL),
+(213, 2, 299, '3.00', NULL, NULL),
+(214, 3, 297, '3.00', NULL, NULL),
+(215, 3, 298, '3.00', NULL, NULL),
+(216, 3, 299, '3.00', NULL, NULL),
+(217, 3, 297, '3.00', NULL, NULL),
+(218, 3, 298, '3.00', NULL, NULL),
+(219, 3, 299, '3.00', NULL, NULL),
+(220, 2, 297, '1.00', NULL, NULL),
+(221, 2, 298, '1.00', NULL, NULL),
+(222, 2, 299, '1.00', NULL, NULL),
+(223, 2, 297, '2.00', NULL, NULL),
+(224, 2, 298, '2.00', NULL, NULL),
+(225, 2, 299, '2.00', NULL, NULL),
+(226, 3, 297, '4.00', NULL, NULL),
+(227, 3, 298, '4.00', NULL, NULL),
+(228, 3, 299, '4.00', NULL, NULL),
+(229, 2, 297, '3.00', NULL, NULL),
+(230, 2, 298, '3.00', NULL, NULL),
+(231, 2, 299, '3.00', NULL, NULL),
+(232, 3, 297, '4.00', NULL, NULL),
+(233, 3, 298, '4.00', NULL, NULL),
+(234, 3, 299, '4.00', NULL, NULL),
+(235, 2, 297, '5.00', NULL, NULL),
+(236, 2, 298, '5.00', NULL, NULL),
+(237, 2, 297, '3.00', NULL, NULL),
+(238, 2, 298, '3.00', NULL, NULL),
+(239, 2, 297, '4.00', NULL, NULL),
+(240, 2, 298, '4.00', NULL, NULL),
+(241, 2, 299, '4.00', NULL, NULL),
+(242, 2, 297, '1.00', NULL, NULL),
+(243, 2, 298, '1.00', NULL, NULL),
+(244, 2, 299, '1.00', NULL, NULL),
+(245, NULL, 300, '4.00', NULL, 1),
+(246, NULL, 301, '4.00', NULL, 1),
+(247, NULL, 302, '4.00', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -859,6 +1096,27 @@ INSERT INTO `student_course` (`SC_ID`, `reg_no`, `course_code`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `student_ext_assess`
+--
+
+CREATE TABLE `student_ext_assess` (
+  `student_assess_id` int(11) NOT NULL,
+  `reg_no` varchar(20) NOT NULL,
+  `score` decimal(5,2) NOT NULL,
+  `assessID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `student_ext_assess`
+--
+
+INSERT INTO `student_ext_assess` (`student_assess_id`, `reg_no`, `score`, `assessID`) VALUES
+(27, 'T/UDOM/2020/00001', '6.00', 35),
+(28, 'T/UDOM/2020/00002', '6.00', 35);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `student_group`
 --
 
@@ -888,7 +1146,11 @@ INSERT INTO `student_group` (`SG_ID`, `reg_no`, `groupID`) VALUES
 (117, 'T/UDOM/2020/00004', 59),
 (118, 'T/UDOM/2020/00003', 59),
 (119, 'T/UDOM/2020/00001', 59),
-(120, 'T/UDOM/2020/00002', 60);
+(120, 'T/UDOM/2020/00002', 60),
+(129, 'T/UDOM/2020/00002', 64),
+(130, 'T/UDOM/2020/00003', 64),
+(131, 'T/UDOM/2020/00001', 64),
+(132, 'T/UDOM/2020/00004', 65);
 
 -- --------------------------------------------------------
 
@@ -939,11 +1201,19 @@ CREATE TABLE `submit` (
   `reg_no` varchar(20) DEFAULT NULL,
   `assID` int(11) DEFAULT NULL,
   `fileName` varchar(20) NOT NULL,
-  `score` decimal(5,2) NOT NULL,
-  `submit_date` date NOT NULL,
-  `submit_time` time NOT NULL,
+  `score` decimal(5,2) DEFAULT NULL,
+  `submit_date` date NOT NULL DEFAULT current_timestamp(),
+  `submit_time` time NOT NULL DEFAULT current_timestamp(),
   `comment` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `submit`
+--
+
+INSERT INTO `submit` (`submitID`, `reg_no`, `assID`, `fileName`, `score`, `submit_date`, `submit_time`, `comment`) VALUES
+(2, 'T/UDOM/2020/00001', 152, 'nafasi.pdf', '3.00', '2021-07-07', '19:44:23', 'failed\n'),
+(3, 'T/UDOM/2020/00001', 152, 'head.pdf', '12.00', '2021-07-07', '19:47:04', 'heeeeeey\n');
 
 -- --------------------------------------------------------
 
@@ -991,7 +1261,8 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 (47, 'T/UDOM/2020/00003', '7YKPavAGjFiazuNaDH2ExZvJeVYz8CMT', '$2y$13$s6nXxl4WQTv85qFUzwxUuOzXy1n41newEoY/XRsKfcQBRdJiFMSbO', NULL, 10, 1620479291, 1620479291, 'b28wb_mxjxxUDKMgj-LwwraUaqt04CST_1620479291'),
 (48, 'T/UDOM/2020/00004', '67FEyg1E-IEGlBJkCJNF__ZL9CQ3mj-Y', '$2y$13$Jp8mQaBe/2.I7BnpPFZrueB1GRrV7CrHp9fcnX7vJFpxFGCHMYRFS', NULL, 10, 1620479378, 1620479378, 'mkBFhUVlS04YoX6T82YgZPKaEPkrN92-_1620479378'),
 (49, 'T/UDOM/2020/00005', 'zR9kdjBWTKsmdZ3pAs4kG9rJZYyVIMmV', '$2y$13$Z4t8uHoXDQ87c8vmoOvYOu.f9TWZPddpFUM/gBazdBXsJS8Y3h/w2', NULL, 10, 1620480151, 1620480151, 'KE2YNyNG8Womx90OLdDyGCVkjBLDsHmT_1620480151'),
-(50, 'T/UDOM/2020/00006', 'U9qu2XUtMVOITbWgYOZhBH4L3OAPsd6y', '$2y$13$AH0OppbJcFbSy/23rXffROh.pNVw8CVxYKjUuyIAoNbai9ZGTMmOG', NULL, 10, 1620480285, 1620480285, 'phAwORTa2r6VWTw6k-Rd0FLyDYGXC_Xd_1620480285');
+(50, 'T/UDOM/2020/00006', 'U9qu2XUtMVOITbWgYOZhBH4L3OAPsd6y', '$2y$13$AH0OppbJcFbSy/23rXffROh.pNVw8CVxYKjUuyIAoNbai9ZGTMmOG', NULL, 10, 1620480285, 1620480285, 'phAwORTa2r6VWTw6k-Rd0FLyDYGXC_Xd_1620480285'),
+(51, 'hod@gmail.com', 'B8WVLnnt-gMF9mF36_gi6eF1fqWwNHfM', '$2y$13$52aE79R/10CNeJOQpqn9cOMJ2KCrvh6xrQ3zDEzLUtFwFq5zlwMgO', NULL, 10, 1625899607, 1625899607, 'hOHSG7SNSEd2AiVDwzUesbCIRgc0N1a4_1625899607');
 
 --
 -- Indexes for dumped tables
@@ -1090,7 +1361,7 @@ ALTER TABLE `department`
 --
 ALTER TABLE `ext_assess`
   ADD PRIMARY KEY (`assessID`),
-  ADD KEY `studk` (`reg_no`),
+  ADD UNIQUE KEY `assess_unique_keys` (`instructorID`,`total_marks`,`course_code`,`title`),
   ADD KEY `instr` (`instructorID`),
   ADD KEY `coursekey8` (`course_code`);
 
@@ -1115,6 +1386,14 @@ ALTER TABLE `group_assignment`
   ADD PRIMARY KEY (`GA_ID`),
   ADD KEY `gasskey` (`assID`),
   ADD KEY `gkey` (`groupID`);
+
+--
+-- Indexes for table `group_assignment_submit`
+--
+ALTER TABLE `group_assignment_submit`
+  ADD PRIMARY KEY (`submitID`),
+  ADD KEY `groupass22` (`groupID`),
+  ADD KEY `grpasskey` (`assID`);
 
 --
 -- Indexes for table `group_generation_assignment`
@@ -1223,7 +1502,8 @@ ALTER TABLE `quiz`
 ALTER TABLE `q_marks`
   ADD PRIMARY KEY (`qmarkID`),
   ADD KEY `submitkey` (`submitID`),
-  ADD KEY `qkey` (`assq_ID`);
+  ADD KEY `qkey` (`assq_ID`),
+  ADD KEY `group_submit_id` (`group_submit_id`);
 
 --
 -- Indexes for table `rep_thread`
@@ -1258,6 +1538,14 @@ ALTER TABLE `student_course`
   ADD PRIMARY KEY (`SC_ID`),
   ADD KEY `cozk3` (`course_code`),
   ADD KEY `studckey2` (`reg_no`);
+
+--
+-- Indexes for table `student_ext_assess`
+--
+ALTER TABLE `student_ext_assess`
+  ADD PRIMARY KEY (`student_assess_id`),
+  ADD UNIQUE KEY `reg_no` (`reg_no`,`assessID`),
+  ADD KEY `assesskey` (`assessID`);
 
 --
 -- Indexes for table `student_group`
@@ -1335,13 +1623,13 @@ ALTER TABLE `announcement`
 -- AUTO_INCREMENT for table `assignment`
 --
 ALTER TABLE `assignment`
-  MODIFY `assID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
+  MODIFY `assID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
 
 --
 -- AUTO_INCREMENT for table `assq`
 --
 ALTER TABLE `assq`
-  MODIFY `assq_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=292;
+  MODIFY `assq_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=312;
 
 --
 -- AUTO_INCREMENT for table `chat`
@@ -1365,7 +1653,7 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `ext_assess`
 --
 ALTER TABLE `ext_assess`
-  MODIFY `assessID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `assessID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `fresh_thread`
@@ -1377,37 +1665,43 @@ ALTER TABLE `fresh_thread`
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `groupID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `groupID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `group_assignment`
 --
 ALTER TABLE `group_assignment`
-  MODIFY `GA_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `GA_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT for table `group_assignment_submit`
+--
+ALTER TABLE `group_assignment_submit`
+  MODIFY `submitID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `group_generation_assignment`
 --
 ALTER TABLE `group_generation_assignment`
-  MODIFY `gga_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `gga_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `group_generation_types`
 --
 ALTER TABLE `group_generation_types`
-  MODIFY `typeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `typeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `instructor`
 --
 ALTER TABLE `instructor`
-  MODIFY `instructorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `instructorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `instructor_course`
 --
 ALTER TABLE `instructor_course`
-  MODIFY `IC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `IC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `instructor_notification`
@@ -1431,7 +1725,7 @@ ALTER TABLE `logs`
 -- AUTO_INCREMENT for table `material`
 --
 ALTER TABLE `material`
-  MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `notification`
@@ -1455,7 +1749,7 @@ ALTER TABLE `quiz`
 -- AUTO_INCREMENT for table `q_marks`
 --
 ALTER TABLE `q_marks`
-  MODIFY `qmarkID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `qmarkID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=248;
 
 --
 -- AUTO_INCREMENT for table `rep_thread`
@@ -1476,10 +1770,16 @@ ALTER TABLE `student_course`
   MODIFY `SC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `student_ext_assess`
+--
+ALTER TABLE `student_ext_assess`
+  MODIFY `student_assess_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
 -- AUTO_INCREMENT for table `student_group`
 --
 ALTER TABLE `student_group`
-  MODIFY `SG_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+  MODIFY `SG_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
 -- AUTO_INCREMENT for table `student_lecture`
@@ -1503,7 +1803,7 @@ ALTER TABLE `student_quiz`
 -- AUTO_INCREMENT for table `submit`
 --
 ALTER TABLE `submit`
-  MODIFY `submitID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `submitID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `thread`
@@ -1515,7 +1815,7 @@ ALTER TABLE `thread`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- Constraints for dumped tables
@@ -1585,8 +1885,7 @@ ALTER TABLE `department`
 --
 ALTER TABLE `ext_assess`
   ADD CONSTRAINT `coursekey8` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `instr` FOREIGN KEY (`instructorID`) REFERENCES `instructor` (`instructorID`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `studk` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `instr` FOREIGN KEY (`instructorID`) REFERENCES `instructor` (`instructorID`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `fresh_thread`
@@ -1606,6 +1905,13 @@ ALTER TABLE `groups`
 ALTER TABLE `group_assignment`
   ADD CONSTRAINT `gasskey` FOREIGN KEY (`assID`) REFERENCES `assignment` (`assID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `gkey` FOREIGN KEY (`groupID`) REFERENCES `groups` (`groupID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `group_assignment_submit`
+--
+ALTER TABLE `group_assignment_submit`
+  ADD CONSTRAINT `groupass22` FOREIGN KEY (`groupID`) REFERENCES `groups` (`groupID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `grpasskey` FOREIGN KEY (`assID`) REFERENCES `assignment` (`assID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `group_generation_assignment`
@@ -1693,6 +1999,7 @@ ALTER TABLE `quiz`
 -- Constraints for table `q_marks`
 --
 ALTER TABLE `q_marks`
+  ADD CONSTRAINT `q_marks_ibfk_1` FOREIGN KEY (`group_submit_id`) REFERENCES `group_assignment_submit` (`submitID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `qkey` FOREIGN KEY (`assq_ID`) REFERENCES `assq` (`assq_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `submitkey` FOREIGN KEY (`submitID`) REFERENCES `submit` (`submitID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -1723,6 +2030,13 @@ ALTER TABLE `student_assignment`
 ALTER TABLE `student_course`
   ADD CONSTRAINT `cozk3` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `studckey2` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `student_ext_assess`
+--
+ALTER TABLE `student_ext_assess`
+  ADD CONSTRAINT `assesskey` FOREIGN KEY (`assessID`) REFERENCES `ext_assess` (`assessID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `regkey` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `student_group`
