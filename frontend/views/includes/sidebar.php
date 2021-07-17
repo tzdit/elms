@@ -141,7 +141,7 @@ use yii\helpers\Url;
           
             <li class="nav-item">
                 <a href="<?= Url::toRoute('/instructor/student-list') ?>" class="nav-link">
-                  <i class="fas fa-book nav-icon"></i>
+                <i class="fas fa-users"></i>
                   <p>Manage Students</p>
                 </a>
               </li>
@@ -157,6 +157,13 @@ use yii\helpers\Url;
                 <a href="<?= Url::toRoute('/instructor/create-course') ?>" class="nav-link">
                   <i class="fas fa-book nav-icon"></i>
                   <p>Manage Courses</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="<?= Url::toRoute('/instructor/instructor-course') ?>" class="nav-link">
+                <i class="fas fa-users"></i>
+                  <p>Instructors </p>
                 </a>
               </li>
               <?php endif ?> <!-- END OF STUDENT ROLE -->
