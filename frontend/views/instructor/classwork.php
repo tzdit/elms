@@ -10,6 +10,7 @@ use common\models\Assignment;
 use common\models\StudentCourse;
 use common\models\Submit;
 use common\models\Material;
+use common\models\ExtAssess;
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
@@ -29,19 +30,19 @@ $this->params['breadcrumbs'] = [
  
 
 <div class="site-index">
-    <div class="body-content">
+    <div class="body-content ">
             <!-- Content Wrapper. Contains page content -->
    
-       <div class="container-fluid">
+       <div class="container-fluid >
       
- <div class="row">
+ <div class="row ">
           <!-- Left col -->
-          <section class="col-lg-12">
+          <section class="col-lg-12 ">
           <div class="card card-primary card-outline card-outline-tabs">
               <div class="card-header p-0 border-bottom-0">
                 <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                   <li class="nav-item">
-                    <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true">Forum</a>
+                    <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true">Announcements</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false">Materials</a>
@@ -61,10 +62,7 @@ $this->params['breadcrumbs'] = [
                     <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-ca" data-toggle="tab" href="#ca" role="tab" aria-controls="ca" aria-selected="false">CA generator</a>
                     </li>
-                    <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-tutorials" data-toggle="tab" href="#students" role="tab" aria-controls="students" aria-selected="false">Students</a>
-                
-                  </li>
+              
                 </ul>
               
               </div>
@@ -75,7 +73,7 @@ $this->params['breadcrumbs'] = [
 
 <!-- ########################################### forum work ######################################## --> 
                   <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">
-                    TO DO FORUM!
+                   Announcements here
                   </div>
 <!-- ########################################### material work ######################################## --> 
 
@@ -751,8 +749,35 @@ $assk = "Assignment".$ass;
           </div>
    
    <div class="container-fluid">
+   <?php
+  
+   $assessments =ExtAssess::find()->where(['course_code'=>$cid])->all();
+   foreach($assessments as $assess)
+   {
+     ?>
+   
+    <div class="card" >
+    <div class="card-header p-2" id="heading<?=$mat?>">
+  <div class="row">
+    <div class="col-md-10">
+    <?= $assess->title ?>
+   </div>
+   <div class="col-md-2">
+  <i class="fa fa-trash float-right"></i>
+  <?= Html::a('<i class="fas fa-eye float-right"></i>', ['view-assessment','assid'=>$assess->assessID]) ?>
+   </div>
+   </div>
+  
+  </div>
 
    </div>
+    
+
+
+   <?php 
+   }
+   ?>
+      </div>
    </div>
    <!--##################### the CA ######################## -->
    <div class="tab-pane fade" id="ca" role="tabpanel" aria-labelledby="custom-tabs-ca">

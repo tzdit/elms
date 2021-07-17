@@ -23,6 +23,7 @@ use frontend\models\CreateCourse;
 use frontend\models\CreateProgram;
 use frontend\models\UploadMaterial;
 use frontend\models\External_assess;
+use frontend\models\AddAssessRecord;
 use frontend\models\StudentGroups;
 use common\models\Groups;
 use common\models\GroupGenerationTypes;
@@ -30,6 +31,7 @@ use common\models\Assq;
 use common\models\GroupAssignmentSubmit;
 use common\models\GroupAssignment;
 use common\models\GroupGenerationAssignment;
+use common\models\StudentExtAssess;
 use common\models\QMarks;
 use yii\web\Response;
 use yii\web\BadRequestHttpException;
@@ -91,7 +93,12 @@ public $defaultAction = 'dashboard';
                             'add-student-gentype',
                             'mark',
                             'mark-inputing',
-                            'import-external-assessment'
+                            'import-external-assessment',
+                            'view-assessment',
+                            'add-assess-record',
+                            'delete-ext-assrecord',
+                            'edit-ext-assrecord-view',
+                            'edit-ext-assrecord'
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -128,6 +135,8 @@ public $defaultAction = 'dashboard';
                             'updatetut',
                             'updatelab',
                             'add-partner',
+                            'view-assessment'
+                           
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR & HOD']
@@ -165,9 +174,99 @@ public $defaultAction = 'dashboard';
     }
  
 
- 
-   
+  public function actionAddAssessRecord($assessid)
+  {
+    $record=new AddAssessRecord();
+    $record->assessid=$assessid;
+    
+    if($record->load(yii::$app->request->post()))
+    {
+       $recres=$record->add_new_record();
+     
+      if($recres===false)
+      {
+        Yii::$app->session->setFlash('error', 'Record adding failed');
+        return $this->redirect(Yii::$app->request->referrer); 
+      }
+      else
+      {
+        if(empty($recres))
+        {
+            Yii::$app->session->setFlash('success', 'New record added successfully');
+            return $this->redirect(Yii::$app->request->referrer);  
+        }
+        else
+        {
+          $resp="New record adding failed ";
+          foreach($recres as $p=>$v)
+          {
+            $resp.=$v;
+          }
+          Yii::$app->session->setFlash('error',$resp);
+          return $this->redirect(Yii::$app->request->referrer);  
 
+        }
+        
+        
+      }
+
+
+
+
+    }
+
+
+
+  }
+   
+public function actionEditExtAssrecordView($recordid)
+{
+  $record=StudentExtAssess::findOne($recordid);
+
+  return $this->render('editassessrecord',['recordid'=>$recordid,'regno'=>$record->reg_no,'score'=>$record->score]);
+}
+public function actionEditExtAssrecord($recordid)
+{
+
+    $record=new AddAssessRecord();
+    $assid=StudentExtAssess::findOne($recordid)->assessID;
+    $record->assessid=$assid;
+    if($record->load(yii::$app->request->post()))
+    {
+       $recres=$record->editrecord($recordid);
+     
+      if($recres===false)
+      {
+        Yii::$app->session->setFlash('error', 'Record updating failed');
+        return $this->redirect(Yii::$app->request->referrer); 
+      }
+      else
+      {
+        if(empty($recres))
+        {
+            Yii::$app->session->setFlash('success', 'Record updated successfully');
+            return $this->redirect(['view-assessment','assid'=>$assid]);  
+        }
+        else
+        {
+          $resp="Record updating failed ";
+          foreach($recres as $p=>$v)
+          {
+            $resp.=$v;
+          }
+          Yii::$app->session->setFlash('error',$resp);
+          return $this->redirect(Yii::$app->request->referrer);  
+
+        }
+        
+        
+      }
+
+
+
+
+    }
+}
 
 //###################function to enroll courses for instructor #############################
 
@@ -430,9 +529,18 @@ public function actionImportExternalAssessment()
 
     $importmodel->assFile=UploadedFile::getInstance($importmodel, 'assFile');
     $importmodel->filetmp=UploadedFile::getInstance($importmodel, 'assFile')->tempName;
-    if($importmodel->excel_importer())
+    $act=$importmodel->excel_importer();
+    if($act!=false)
     {
-        Yii::$app->session->setFlash('success', 'Import successful');
+        $flash="Import successful with ".count($act)." errors";
+        if($act!=null){
+           foreach($act as $reg=>$msg)
+           {
+               $flash=$flash."<br>'".$reg."'=>".$msg;
+           }
+        }
+        Yii::$app->session->setFlash('success', $flash);
+        
         return $this->redirect(Yii::$app->request->referrer);
     }
     else
@@ -444,13 +552,33 @@ public function actionImportExternalAssessment()
   else
   {
     Yii::$app->session->setFlash('error', 'unknown error occurred, try again later');
-    return $this->redirect(Yii::$app->request->referrer);
+   // return $this->redirect(Yii::$app->request->referrer);
   }
 
     
 }
 
+public function actionViewAssessment($assid)
+{
 
+    return $this->render('assessmentview',['assid'=>$assid]);  
+
+}
+public function actionDeleteExtAssrecord($recordid)
+{
+  $record=StudentExtAssess::findOne($recordid);
+  if($record->delete())
+  {
+    Yii::$app->session->setFlash('success', 'deleted successfully');
+    return $this->redirect(Yii::$app->request->referrer);
+  }
+  else
+  {
+    Yii::$app->session->setFlash('error', 'record not deleted');
+    return $this->redirect(Yii::$app->request->referrer);
+  }
+
+}
 //######################## function to create tutorial ###############################################
 
 public function actionUploadTutorial(){

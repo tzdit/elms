@@ -7,6 +7,7 @@ use common\models\GroupGenerationAssignment;
 use common\models\Assq;
 use common\models\GroupAssignment;
 use common\models\ExtAssess;
+use common\models\StudentExtAssess;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 class External_assess extends Model{
     public $assTitle;
@@ -15,7 +16,7 @@ class External_assess extends Model{
     public $totalMarks;
     public function rules(){
         return [
-           ['assTitle','string', 'max'=>20],
+           ['assTitle','string', 'max'=>40],
            [['totalMarks'], 'required'],
            [['assFile'],'file','skipOnEmpty' => false, 'extensions' => 'xlsx, xls']
         ];
@@ -28,29 +29,57 @@ class External_assess extends Model{
      }
      try{
           $data=$this->excel_to_array($this->filetmp);
-          $status=false;
+          //$status=false;
+          $error_rec=[];
+          //saving the assessment first
+
+          $assmodel=new ExtAssess();
+          $assmodel->instructorID=Yii::$app->user->identity->instructor->instructorID;
+          $assmodel->course_code=yii::$app->session->get('ccode');
+          $assmodel->title=$this->assTitle;
+          $assmodel->total_marks=$this->totalMarks;
+
+          if($assmodel->save())
+          {
+            $assid=$assmodel->assessID;
           for($ass=0;$ass<count($data);$ass++)
           {
+            
              if($ass==0){continue;}
              else
              {
              $regno=$data[$ass][0];
              $score=$data[$ass][1];
-             $model=new ExtAssess();
+             $model=new StudentExtAssess();
              $model->reg_no=$regno;
              $model->score=$score;
-             $model->course_code=yii::$app->session->get('ccode');
-             $model->title=$this->assTitle;
-             $model->instructorID=Yii::$app->user->identity->instructor->instructorID;
-             $model->total_marks=$this->totalMarks;
-             $status=$model->save();
+             //does the student take this course
+
+             
+             //the score
+             if($score>$assmodel->total_marks)
+             {
+              $error_rec[$regno]="score greater than the maximum";
+              continue;
+             }
+
+             $model->assessID=$assid;
+             if(!$model->save())
+             {
+              $error_rec[$regno]=$model->getErrors()['reg_no'][0];
+             }
              }
           } 
 
-          if($status){return true;}else{return false;}
+        return $error_rec;
+        }
+        else
+        {
+          return false;
+        }
     }catch(\Exception $e){
-      print $e->getMessage();
-        //return false;
+      print  $e->getMessage();
+        return false;
     }
     }
 private function excel_to_array($tmpfile)
