@@ -6,7 +6,7 @@ use yii\helpers\Html;
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header bg-primary">
-        <span class="modal-title" id="exampleModalLabel"><h4>Upload new external assessment</h4></span>
+        <span class="modal-title" id="exampleModalLabel"><h6>Upload new external assessment</h6></span>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -30,10 +30,12 @@ use yii\helpers\Html;
       </div>
       </div>
         </div>
+        <div class="modal-footer">
         <div class="row">
         <div class="col-md-12">
         <?= Html::submitButton('Upload', ['class'=>'btn btn-primary btn-md float-right ml-2']) ?>
         <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
+        </div>
         </div>
         </div>
         <?php ActiveForm::end()?>

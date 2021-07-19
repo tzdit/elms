@@ -5,10 +5,11 @@
    use yii\helpers\Url;
    use yii\helpers\Html;
    use common\models\StudentExtAssess;
+   use common\models\ExtAssess;
    use frontend\models\AddAssessRecord;
 
 
-   $this->params['courseTitle'] = "Course ";
+   
    $this->title = 'assessment';
    $cid=yii::$app->session->get('ccode');
    $this->params['breadcrumbs'] = [
@@ -17,6 +18,8 @@
    ];
 
    $records=StudentExtAssess::find()->where(['assessID'=>$assid])->all();
+   $assessment=ExtAssess::findOne($assid)->title;
+   $this->params['courseTitle'] = $cid." ".$assessment;
    $no=0;
 ?>
 <div id="container-fluid">
@@ -78,3 +81,14 @@ $recmodel= new AddAssessRecord();
 ?>
 <?= $this->render('addassrecord', ['assessmodel'=>$recmodel,'assessid'=>$assid]) ?>
 
+<?php
+  $script = <<<JS
+  $('document').ready(function(){
+
+  $('#assesstable').dataTable();
+
+
+  })
+  JS;
+  $this->registerJs($script);
+?>

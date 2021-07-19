@@ -16,6 +16,7 @@ use yii\helpers\ArrayHelper;
 use common\models\AuthItem;
 use common\models\InstructorCourse;
 use common\models\StudentCourse;
+use common\models\ProgramCourse;
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
 use frontend\models\AddPartner;
@@ -24,16 +25,20 @@ use frontend\models\UploadStudentHodForm;
 use frontend\models\CreateCourse;
 use frontend\models\CreateProgram;
 use frontend\models\UploadMaterial;
+use frontend\models\PostAnnouncement;
 use frontend\models\External_assess;
 use frontend\models\AddAssessRecord;
 use frontend\models\StudentGroups;
+use frontend\models\TemplateDownloader;
 use common\models\Groups;
 use common\models\GroupGenerationTypes;
+use common\models\Announcement;
 use common\models\Assq;
 use common\models\GroupAssignmentSubmit;
 use common\models\GroupAssignment;
 use common\models\GroupGenerationAssignment;
 use common\models\StudentExtAssess;
+use common\models\ExtAssess;
 use common\models\QMarks;
 use yii\web\Response;
 use yii\web\BadRequestHttpException;
@@ -101,7 +106,11 @@ public $defaultAction = 'dashboard';
                             'add-assess-record',
                             'delete-ext-assrecord',
                             'edit-ext-assrecord-view',
-                            'edit-ext-assrecord'
+                            'edit-ext-assrecord',
+                            'download-extassess-template',
+                            'delete-assessment',
+                            'post-announcement',
+                            'delete-announcement'
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -162,8 +171,8 @@ public $defaultAction = 'dashboard';
 
     public function actionDashboard()
     {
-   $courses = Yii::$app->user->identity->instructor->courses;
-        return $this->render('index', ['courses'=>$courses]);
+    $courses = Yii::$app->user->identity->instructor->courses;
+    return $this->render('index', ['courses'=>$courses]);
     }
 
 
@@ -220,6 +229,34 @@ public $defaultAction = 'dashboard';
     }
 
 
+
+  }
+
+  public function actionDownloadExtassessTemplate($coursecode)
+  {
+    $downloader=new TemplateDownloader();
+    $downloader->courseCode=$coursecode;
+    if($downloader->excelProduce()){ return $this->redirect(Yii::$app->request->referrer); }
+    else{
+        Yii::$app->session->setFlash('error', 'downloading failed');
+        return $this->redirect(Yii::$app->request->referrer); 
+    }
+
+  }
+
+  public function actionDeleteAssessment($assessid)
+  {
+    $assess=ExtAssess::findOne($assessid);
+    if($assess->delete())
+    {
+        return $this->redirect(Yii::$app->request->referrer); 
+
+    }
+    else
+    {
+        Yii::$app->session->setFlash('error', 'deleting failed');
+        return $this->redirect(Yii::$app->request->referrer);   
+    }
 
   }
    
@@ -292,6 +329,46 @@ public function actionEditExtAssrecord($recordid)
 
 
   
+    }
+
+    //announcement
+
+    public function actionPostAnnouncement()
+    {
+      $model=new PostAnnouncement();
+
+      if($model->load(yii::$app->request->post()))
+      {
+
+         if($model->announce()){Yii::$app->session->setFlash('success', 'Announcement posted');return $this->redirect(Yii::$app->request->referrer);}
+         else{Yii::$app->session->setFlash('error', 'Announcement failed');return $this->redirect(Yii::$app->request->referrer);}
+
+
+
+      }
+      else
+      {
+        Yii::$app->session->setFlash('error', 'Announcement failed'); 
+        return $this->redirect(Yii::$app->request->referrer); 
+      }
+
+
+
+    }
+
+    public function actionDeleteAnnouncement($annid)
+    {
+       $ann=Announcement::findOne($annid);
+       if($ann->delete()){
+
+        Yii::$app->session->setFlash('success', 'Announcement deleted'); 
+        return $this->redirect(Yii::$app->request->referrer); 
+       }
+       else{
+        Yii::$app->session->setFlash('error', 'Announcement deleting failed'); 
+        return $this->redirect(Yii::$app->request->referrer);
+
+       }
     }
 
 
@@ -534,9 +611,9 @@ public function actionImportExternalAssessment()
     $importmodel->assFile=UploadedFile::getInstance($importmodel, 'assFile');
     $importmodel->filetmp=UploadedFile::getInstance($importmodel, 'assFile')->tempName;
     $act=$importmodel->excel_importer();
-    if($act!=false)
+    if($act!==false)
     {
-        $flash="Import successful with ".count($act)." errors";
+        $flash="Import successful with ".count($act)." error(s)";
         if($act!=null){
            foreach($act as $reg=>$msg)
            {
@@ -556,7 +633,7 @@ public function actionImportExternalAssessment()
   else
   {
     Yii::$app->session->setFlash('error', 'unknown error occurred, try again later');
-   // return $this->redirect(Yii::$app->request->referrer);
+   return $this->redirect(Yii::$app->request->referrer);
   }
 
     
@@ -895,8 +972,27 @@ public function actionAddStudentGentype()
     if(Yii::$app->request->isAjax){
     $std=new StudentCourse();
     $coursecode=Yii::$app->session->get('ccode');
-    $studentobj=$std::find()->where(['course_code'=>$coursecode])->all();
-    $student_array=ArrayHelper::map($studentobj,'reg_no','reg_no');
+  
+
+    $students=[];
+
+    $coursePrograms=ProgramCourse::find()->where(['course_code'=>$coursecode])->all();
+    foreach($coursePrograms as $program)
+    {
+
+    $programStudents=$program->programCode0->students;
+
+    for($s=0;$s<count($programStudents);$s++){array_push($students,$programStudents[$s]);}
+
+
+    }
+    $carryovers=StudentCourse::find()->where(['course_code'=>$coursecode])->all(); 
+    foreach($carryovers as $carry)
+    {
+    array_push($students,$carry->regNo);
+    }
+
+    $student_array=ArrayHelper::map($students,'reg_no','reg_no');
 
     $response = Yii::$app->response;
 

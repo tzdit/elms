@@ -22,11 +22,10 @@ $this->params['breadcrumbs'] = [
 
 
       <div class="row">
-        <div class="col-md-6">
-        <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#mymodal" data-toggle="modal"><i class="fas fa-group" ></i>Generate New Groups</a>
-        </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
         <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#studentmodal" data-toggle="modal"><i class="fas fa-plus" ></i>Students groups type</a>
+        <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#mymodal" data-toggle="modal" style="margin-right:10px"><i class="fas fa-group" ></i>Generate New Groups</a>
+     
         </div>
                   
       </div>

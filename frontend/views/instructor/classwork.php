@@ -11,8 +11,11 @@ use common\models\StudentCourse;
 use common\models\Submit;
 use common\models\Material;
 use common\models\ExtAssess;
+use common\models\ProgramCourse;
+use common\models\Announcement;
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
+use frontend\models\PostAnnouncement;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
 use frontend\models\StudentGroups;
@@ -62,6 +65,9 @@ $this->params['breadcrumbs'] = [
                     <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-ca" data-toggle="tab" href="#ca" role="tab" aria-controls="ca" aria-selected="false">CA generator</a>
                     </li>
+                    <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-ca" data-toggle="tab" href="#students" role="tab" aria-controls="students" aria-selected="false">Students</a>
+                    </li>
               
                 </ul>
               
@@ -71,9 +77,56 @@ $this->params['breadcrumbs'] = [
              
                 <div class="tab-content" id="custom-tabs-four-tabContent">
 
-<!-- ########################################### forum work ######################################## --> 
+<!-- ########################################### Announcements ######################################## --> 
                   <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">
-                   Announcements here
+                  <div class="row">
+            <div class="col-md-12">
+            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#announce" data-toggle="modal" style="margin-left:5px"><i class="fas fa-plus"  ></i>New annoucement</a>
+            </div>    
+          </div>
+   
+   <div class="container-fluid">
+   <?php
+  
+   $announcements=Announcement::find()->where(['course_code'=>$cid])->all();
+   foreach($announcements as $announcement)
+   {
+     ?>
+  
+    <div class="card shadow" >
+    <div class="card-header p-2" id="heading">
+    <div class="row">
+    <div class="col-md-10">
+    <i class="fa fa-bullhorn"></i><span style="font-size:12px;margin-left:20px;color:#bbb">by <?=$announcement->instructor->full_name;?></span>
+   </div>
+   <div class="col-md-2">
+  <?= Html::a('<i class="fa fa-trash float-right"></i>', ['delete-announcement','annid'=>$announcement->annID]) ?>
+   </div>
+   </div>
+    </div>
+    <div class="card-body">
+  <div class="row">
+    <div class="col-md-12">
+    <?= $announcement->content ?>
+   </div>
+   </div>
+  
+  </div>
+   <div class="card-footer text-center" style="font-size:12px">
+  <i class="fas fa-clock" ></i><?=$announcement->ann_date." ".$announcement->ann_time?>
+  
+   </div>
+
+
+
+     </div>
+    
+ 
+
+   <?php 
+   }
+   ?>
+      </div>
                   </div>
 <!-- ########################################### material work ######################################## --> 
 
@@ -742,7 +795,8 @@ $assk = "Assignment".$ass;
           <div class="row">
             <div class="col-md-12">
             <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#external_assess" data-toggle="modal" style="margin-left:5px"><i class="fas fa-plus"  ></i>New assessment</a>
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2"><i class="fas fa-download" ></i>Download template</a>
+            
+            <?= Html::a('<i class="fas fa-download" ></i>Download template', ['download-extassess-template','coursecode'=>$cid],['class'=>'btn btn-sm btn-primary btn-rounded float-right mb-2']) ?>
             </div>
          
                   
@@ -755,16 +809,16 @@ $assk = "Assignment".$ass;
    foreach($assessments as $assess)
    {
      ?>
-   
+  
     <div class="card" >
     <div class="card-header p-2" id="heading<?=$mat?>">
   <div class="row">
     <div class="col-md-10">
-    <?= $assess->title ?>
+    <i class="fas fa-clipboard-list"></i><?= $assess->title ?>
    </div>
    <div class="col-md-2">
-  <i class="fa fa-trash float-right"></i>
-  <?= Html::a('<i class="fas fa-eye float-right"></i>', ['view-assessment','assid'=>$assess->assessID]) ?>
+  <?= Html::a('<i class="fa fa-trash float-right"></i>', ['delete-assessment','assessid'=>$assess->assessID]) ?>
+  <?= Html::a('<i class="fas fa-eye float-right" style="margin-right:5px"></i>', ['view-assessment','assid'=>$assess->assessID]) ?>
    </div>
    </div>
   
@@ -772,7 +826,7 @@ $assk = "Assignment".$ass;
 
    </div>
     
-
+ 
 
    <?php 
    }
@@ -795,13 +849,36 @@ $assk = "Assignment".$ass;
 
      <!-- ########################################### end tutorial ################################# -->
      <div class="tab-pane fade" id="students" role="tabpanel" aria-labelledby="custom-tabs-Students">
-     <?php $students=StudentCourse::find()->where(['course_code'=>$cid])->all(); if($students!=null){?>
+     <?php 
+     $students=[];
+
+     $coursePrograms=ProgramCourse::find()->where(['course_code'=>$cid])->all();
+     foreach($coursePrograms as $program)
+     {
+
+      $programStudents=$program->programCode0->students;
+
+      for($s=0;$s<count($programStudents);$s++){array_push($students,$programStudents[$s]);}
+
+
+     }
+     $carryovers=StudentCourse::find()->where(['course_code'=>$cid])->all(); 
+
+     foreach($carryovers as $carry)
+     {
+      array_push($students,$carry->regNo);
+     }
+     
+     shuffle($students);
+     if($students!=null){
+       
+       
+       ?>
           <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-12">
+          <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal" style="margin-left:10px"><i class="fas fa-plus" ></i>Assign Students</a>
           <a href="/instructor/view-groups" class="btn btn-sm btn-primary btn-rounded float-right mb-2"><i class="fas fa-group" ></i>Student Groups</a>
-            </div>
-            <div class="col-md-6">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus" ></i>Assign Students</a>
+            
             </div>
             </div>
             <table width="100%" class="table table-striped table-bordered table-hover" id="studenttable" style="font-size:12px">
@@ -837,13 +914,13 @@ $assk = "Assignment".$ass;
 			</tr>
 		</thead>
 		<tbody>
-								<?php foreach ($students as $student) : ?>
+								<?php for($l=0;$l<count($students);$l++){ $student=$students[$l];?>
 						 			<tr>
 									 	<td><?=  $student->reg_no; ?></td>
-                    <td><?=  $student->regNo->programCode; ?></td>
-                    <td><?=  $student->regNo->fname." ".$student->regNo->mname." ".$student->regNo->lname; ?></td>
-                    <td><?=  $student->regNo->gender; ?></td>
-                    <td><?=  $student->regNo->YOS; ?></td>
+                    <td><?=  $student->programCode; ?></td>
+                    <td><?=  $student->fname." ".$student->mname." ".$student->lname; ?></td>
+                    <td><?=  $student->gender; ?></td>
+                    <td><?=  $student->YOS; ?></td>
                     <td><i class="fa fa-edit" style="font-size:18px"></i></td>
 							
 									
@@ -853,7 +930,7 @@ $assk = "Assignment".$ass;
 
 						 			</tr>
 						 		
-									 <?php endforeach ?>
+									 <?php }?>
 		
 			
 
@@ -908,6 +985,11 @@ $assmodel = new UploadMaterial();
 $assessmodel = new External_assess();
 ?>
 <?= $this->render('assessupload', ['assessmodel'=>$assessmodel, 'ccode'=>$cid]) ?>
+<!--  ###################################new announce modal ####################################################-->
+<?php 
+$announcemodel = new PostAnnouncement();
+?>
+<?= $this->render('announcementForm', ['announcemodel'=>$announcemodel]) ?>
 
 
 

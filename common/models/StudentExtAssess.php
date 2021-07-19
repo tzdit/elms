@@ -35,7 +35,7 @@ class StudentExtAssess extends \yii\db\ActiveRecord
             [['score'], 'number'],
             [['assessID'], 'integer'],
             [['reg_no'], 'string', 'max' => 20],
-            [['reg_no', 'assessID'], 'unique', 'targetAttribute' => ['reg_no', 'assessID']],
+            [['reg_no', 'assessID'], 'unique', 'targetAttribute' => ['reg_no', 'assessID'],'message'=>'Record already exists in this assessment'],
             [['assessID'], 'exist', 'skipOnError' => true, 'targetClass' => ExtAssess::className(), 'targetAttribute' => ['assessID' => 'assessID']],
             [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],
         ];
