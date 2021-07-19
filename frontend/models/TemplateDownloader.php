@@ -68,7 +68,8 @@ class TemplateDownloader extends Model{
         ob_clean();
         $writer=IOFactory::createWriter($spreadsheet, 'Xlsx');
         
-        $filename=$this->courseCode."AssessmentTemplate.Xlsx";
+        $filename=$this->courseCode."_AssessmentTemplate.Xlsx";
+        $filename = str_replace(' ', '', $filename);
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="'. urlencode($filename).'"');
 
