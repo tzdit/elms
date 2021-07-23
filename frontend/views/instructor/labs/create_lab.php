@@ -9,7 +9,7 @@ use yii\helpers\Html;
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header bg-primary">
-        <span class="modal-title" id="exampleModalLabel"><h4>Create New Lab Assignment</h4></span>
+        <span class="modal-title" id="exampleModalLabel"><h6>Create New Lab Assignment</h6></span>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

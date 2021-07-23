@@ -58,7 +58,7 @@ use yii\helpers\Url;
         </a>
       <?php endif ?>
 
-      <?php if(Yii::$app->user->can('SYS_ADMIN') || Yii::$app->user->can('INSTRUCTOR') || Yii::$app->user->can('SUPER_ADMIN')): ?>
+      <?php if(Yii::$app->user->can('SYS_ADMIN') || Yii::$app->user->can('INSTRUCTOR') || Yii::$app->user->can('INSTRUCTOR & HOD') || Yii::$app->user->can('SUPER_ADMIN')): ?>
         <a class="nav-link" data-toggle="dropdown" href="#" id="username"><span class="fas fa-user"></span>
           <i><?php echo " ".Yii::$app->user->identity->username ?></i>
         </a>

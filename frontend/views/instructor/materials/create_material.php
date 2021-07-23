@@ -6,7 +6,7 @@ use yii\helpers\Html;
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header bg-primary">
-        <span class="modal-title" id="exampleModalLabel"><h4>Upload New Material</h4></span>
+        <span class="modal-title" id="exampleModalLabel"><h6>Upload New Material</h6></span>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

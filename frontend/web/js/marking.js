@@ -135,7 +135,7 @@ $(document).ready(function(){
  });
  function returnAnswer(answer)
   {
-  
+  //alert(answer);
     
   }
   crow.css("background-color","");
@@ -151,7 +151,7 @@ $(document).ready(function(){
   });
  
  //handling next button;
- $('body').keyup(function(e){
+$('body').keyup(function(e){
 var code=e.keyCode || e.which;
 if(code==39 || code==40)
 {

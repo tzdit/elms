@@ -9,15 +9,15 @@ use Yii;
  *
  * @property int $assessID
  * @property int|null $instructorID
- * @property string|null $reg_no
  * @property string|null $course_code
  * @property string $title
  * @property int $total_marks
- * @property float $score
+ * @property string $date_created
  *
  * @property Course $courseCode
  * @property Instructor $instructor
- * @property Student $regNo
+ * @property StudentExtAssess[] $studentExtAssesses
+ * @property Student[] $regNos
  */
 class ExtAssess extends \yii\db\ActiveRecord
 {
@@ -36,13 +36,13 @@ class ExtAssess extends \yii\db\ActiveRecord
     {
         return [
             [['instructorID', 'total_marks'], 'integer'],
-            [['title', 'total_marks', 'score'], 'required'],
-            [['score'], 'number'],
-            [['reg_no', 'title'], 'string', 'max' => 20],
+            [['title', 'total_marks'], 'required'],
+            [['date_created'], 'safe'],
             [['course_code'], 'string', 'max' => 7],
+            [['title'], 'string', 'max' => 20],
+            [['instructorID', 'course_code', 'title'], 'unique', 'targetAttribute' => ['instructorID', 'course_code', 'title']],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
             [['instructorID'], 'exist', 'skipOnError' => true, 'targetClass' => Instructor::className(), 'targetAttribute' => ['instructorID' => 'instructorID']],
-            [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],
         ];
     }
 
@@ -54,11 +54,10 @@ class ExtAssess extends \yii\db\ActiveRecord
         return [
             'assessID' => 'Assess ID',
             'instructorID' => 'Instructor ID',
-            'reg_no' => 'Reg No',
             'course_code' => 'Course Code',
             'title' => 'Title',
             'total_marks' => 'Total Marks',
-            'score' => 'Score',
+            'date_created' => 'Date Created',
         ];
     }
 
@@ -83,12 +82,22 @@ class ExtAssess extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[RegNo]].
+     * Gets query for [[StudentExtAssesses]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getRegNo()
+    public function getStudentExtAssesses()
     {
-        return $this->hasOne(Student::className(), ['reg_no' => 'reg_no']);
+        return $this->hasMany(StudentExtAssess::className(), ['assessID' => 'assessID']);
+    }
+
+    /**
+     * Gets query for [[RegNos]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegNos()
+    {
+        return $this->hasMany(Student::className(), ['reg_no' => 'reg_no'])->viaTable('student_ext_assess', ['assessID' => 'assessID']);
     }
 }

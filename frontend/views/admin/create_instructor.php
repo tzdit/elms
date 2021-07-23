@@ -59,7 +59,7 @@ $this->title = 'Create Users';
                  </div>
                  <div class="col-md-6">
                 
-                   <?= $form->field($model, 'role')->dropdownList($roles, ['options'=>['INSTRUCTOR'=>['selected'=>true]], 'class'=>['form-control form-control-sm']], )->label('Role') ?>
+                   <?= $form->field($model, 'role')->dropdownList($roles, ['prompt'=>'--Select--'], ['class'=>'form-control form-control-sm'])->label('Role') ?>
                 
                  </div>
                  </div>

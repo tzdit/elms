@@ -1,8 +1,8 @@
 <?php 
 use yii\helpers\Url;
 ?>
-<nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
+<nav class="mt-2" >
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true" style="color:black">
            <li class="nav-item">
             <a href="<?= Url::to(['/home/dashboard']) ?>" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
@@ -126,6 +126,44 @@ use yii\helpers\Url;
                 <a href="<?= Url::toRoute('/student/carrycourse') ?>" class="nav-link">
                   <i class="fas fa-file nav-icon"></i>
                   <p>Carry Courses</p>
+                </a>
+              </li>
+              <?php endif ?> <!-- END OF STUDENT ROLE -->
+
+          <!--START OF HOD ROLE -->
+          <?php if(Yii::$app->user->can('INSTRUCTOR & HOD')): ?>
+            <li class="nav-item">
+                <a href="<?= Url::toRoute('/instructor/courses') ?>" class="nav-link">
+                  <i class="fas fa-book nav-icon"></i>
+                  <p>Take a new course</p>
+                </a>
+              </li>
+          
+            <li class="nav-item">
+                <a href="<?= Url::toRoute('/instructor/student-list') ?>" class="nav-link">
+                <i class="fas fa-users"></i>
+                  <p>Manage Students</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="<?= Url::toRoute('/instructor/create-program') ?>" class="nav-link">
+                  <i class="fas fa-book nav-icon"></i>
+                  <p>Manage Programs</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="<?= Url::toRoute('/instructor/create-course') ?>" class="nav-link">
+                  <i class="fas fa-book nav-icon"></i>
+                  <p>Manage Courses</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="<?= Url::toRoute('/instructor/instructor-course') ?>" class="nav-link">
+                <i class="fas fa-users"></i>
+                  <p>Instructors </p>
                 </a>
               </li>
               <?php endif ?> <!-- END OF STUDENT ROLE -->

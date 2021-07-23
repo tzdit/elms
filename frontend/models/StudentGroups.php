@@ -4,6 +4,7 @@ use Yii;
 use yii\base\Model;
 use common\models\Student;
 use common\models\StudentCourse;
+use common\models\ProgramCourse;
 use common\models\StudentGroup;
 use common\models\GroupGenerationTypes;
 use common\models\Groups;
@@ -23,12 +24,31 @@ class StudentGroups extends Model{
     {
         //getting all student taking this course
         $ccode=Yii::$app->session->get('ccode');
-        $students=StudentCourse::find()->where(['course_code'=>$ccode])->all(); 
         $students_array=array();
         $status=false;
-        foreach($students as $student)
+        
+        $students=[];
+
+        $coursePrograms=ProgramCourse::find()->where(['course_code'=>$ccode])->all();
+        foreach($coursePrograms as $program)
         {
-            array_push($students_array,$student->reg_no);
+
+        $programStudents=$program->programCode0->students;
+
+        for($s=0;$s<count($programStudents);$s++){array_push($students,$programStudents[$s]);}
+
+
+        }
+        $carryovers=StudentCourse::find()->where(['course_code'=>$ccode])->all(); 
+
+        foreach($carryovers as $carry)
+        {
+        array_push($students,$carry->regNo);
+        }
+        
+        for($n=0;$n<count($students);$n++)
+        {
+            array_push($students_array,$students[$n]->reg_no);
 
         }
 

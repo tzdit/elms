@@ -10,11 +10,16 @@ use common\models\Assignment;
 use common\models\StudentCourse;
 use common\models\Submit;
 use common\models\Material;
+use common\models\ExtAssess;
+use common\models\ProgramCourse;
+use common\models\Announcement;
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
+use frontend\models\PostAnnouncement;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
 use frontend\models\StudentGroups;
+use frontend\models\External_assess;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] = "Course ".$cid;
@@ -28,19 +33,19 @@ $this->params['breadcrumbs'] = [
  
 
 <div class="site-index">
-    <div class="body-content">
+    <div class="body-content ">
             <!-- Content Wrapper. Contains page content -->
    
-       <div class="container-fluid">
+       <div class="container-fluid >
       
- <div class="row">
+ <div class="row ">
           <!-- Left col -->
-          <section class="col-lg-12">
+          <section class="col-lg-12 ">
           <div class="card card-primary card-outline card-outline-tabs">
               <div class="card-header p-0 border-bottom-0">
                 <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                   <li class="nav-item">
-                    <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true">Forum</a>
+                    <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true">Announcements</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false">Materials</a>
@@ -53,21 +58,75 @@ $this->params['breadcrumbs'] = [
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-tutorials" data-toggle="tab" href="#tutorials" role="tab" aria-controls="tutorials" aria-selected="false">Tutorials</a>
+                    </li>
                     <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-tutorials" data-toggle="tab" href="#students" role="tab" aria-controls="students" aria-selected="false">Students</a>
-                  </li>
-                  </li>
+                    <a class="nav-link" id="custom-tabs-external-assessment" data-toggle="tab" href="#externals" role="tab" aria-controls="externals" aria-selected="false">External assessments</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-ca" data-toggle="tab" href="#ca" role="tab" aria-controls="ca" aria-selected="false">CA generator</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-ca" data-toggle="tab" href="#students" role="tab" aria-controls="students" aria-selected="false">Students</a>
+                    </li>
+              
                 </ul>
               
               </div>
              
-              <div class="card-body">
+              <div class="card-body" >
              
                 <div class="tab-content" id="custom-tabs-four-tabContent">
 
-<!-- ########################################### forum work ######################################## --> 
+<!-- ########################################### Announcements ######################################## --> 
                   <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">
-                    TO DO FORUM!
+                  <div class="row">
+            <div class="col-md-12">
+            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#announce" data-toggle="modal" style="margin-left:5px"><i class="fas fa-plus"  ></i>New annoucement</a>
+            </div>    
+          </div>
+   
+   <div class="container-fluid">
+   <?php
+  
+   $announcements=Announcement::find()->where(['course_code'=>$cid])->all();
+   foreach($announcements as $announcement)
+   {
+     ?>
+  
+    <div class="card shadow" >
+    <div class="card-header p-2" id="heading">
+    <div class="row">
+    <div class="col-md-10">
+    <i class="fa fa-bullhorn"></i><span style="font-size:12px;margin-left:20px;color:#bbb">by <?=$announcement->instructor->full_name;?></span>
+   </div>
+   <div class="col-md-2">
+  <?= Html::a('<i class="fa fa-trash float-right"></i>', ['delete-announcement','annid'=>$announcement->annID]) ?>
+   </div>
+   </div>
+    </div>
+    <div class="card-body">
+  <div class="row">
+    <div class="col-md-12">
+    <?= $announcement->content ?>
+   </div>
+   </div>
+  
+  </div>
+   <div class="card-footer text-center" style="font-size:12px">
+  <i class="fas fa-clock" ></i><?=$announcement->ann_date." ".$announcement->ann_time?>
+  
+   </div>
+
+
+
+     </div>
+    
+ 
+
+   <?php 
+   }
+   ?>
+      </div>
                   </div>
 <!-- ########################################### material work ######################################## --> 
 
@@ -217,17 +276,21 @@ $assk = "Assignment".$ass;
       else if($assign->assType=="allgroups"){
         $submits=$assign->groupAssignmentSubmits;
         $gentypes=$assign->groupGenerationAssignments;
-        for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes->ass->groupAssignments);}
+        for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
       }
       else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
       else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);}
+      $subperc=0;
+      if($assigned!=0)
+      {
       $subperc=(count($submits)/$assigned)*100;
+      }
       ?>
       <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>" >
             <div class="info-box shadow">
               <div class="info-box-content">
                 <span class="info-box-text">Submitted</span>
-                <span class="info-box-number"><?=$subperc?>%</span>
+                <span class="info-box-number"><?=floor($subperc)?>%</span>
               </div>
         
             </div>
@@ -235,10 +298,30 @@ $assk = "Assignment".$ass;
           </div>
 
           <div class="col-md-3 col-sm-6 col-12">
+          <?php 
+            $submits=[];
+            $assigned=0;
+            if($assign->assType=="groups"){$submits=$assign->groupAssignmentSubmits;$assigned=count($assign->groupAssignments);}
+            else if($assign->assType=="allgroups"){
+              $submits=$assign->groupAssignmentSubmits;
+              $gentypes=$assign->groupGenerationAssignments;
+              for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
+            }
+            else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
+            else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
+            
+            $missing=$assigned-count($submits);
+            $missperc=0;
+            if($assigned!=0)
+            {
+            $missperc=($missing/$assigned)*100;
+            }
+            
+            ?>
             <div class="info-box shadow">
               <div class="info-box-content">
                 <span class="info-box-text">Missing</span>
-                <span class="info-box-number">Regular</span>
+                <span class="info-box-number"><?=floor($missperc)?>%</span>
               </div>
      
             </div>
@@ -248,8 +331,33 @@ $assk = "Assignment".$ass;
           <a href="<?=Url::to(['instructor/stdworkmark/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>">
             <div class="info-box shadow">
               <div class="info-box-content">
+                <?php 
+            $submits=[];
+            $assigned=0;
+            $marked_submits=[];
+            if($assign->assType=="groups"){$submits=$assign->groupAssignmentSubmits;$assigned=count($assign->groupAssignments);}
+            else if($assign->assType=="allgroups"){
+              $submits=$assign->groupAssignmentSubmits;
+              $gentypes=$assign->groupGenerationAssignments;
+              for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
+            }
+            else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
+            else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
+            
+            for($o=0;$o<count($submits);$o++)
+            {
+              if($submits[$o]->isMarked()){array_push($marked_submits,$submits[$o]);}
+            }
+            $marked=count($marked_submits);
+            $allsubmits=count($submits);
+            $markperc=0;
+            if($allsubmits!=0)
+            {
+            $markperc=($marked/$allsubmits)*100;
+            }
+            ?>
                 <span class="info-box-text">Marked</span>
-                <span class="info-box-number">Regular</span>
+                <span class="info-box-number"><?=floor($markperc)?>%</span>
               </div>
       
             </div>
@@ -258,8 +366,38 @@ $assk = "Assignment".$ass;
           <div class="col-md-3 col-sm-6 col-12">
             <div class="info-box shadow">
               <div class="info-box-content">
+              <?php 
+            $submits=[];
+            $failed_submits=[];
+            $marked_submits=[];
+            if($assign->assType=="groups"){$submits=$assign->groupAssignmentSubmits;$assigned=count($assign->groupAssignments);}
+            else if($assign->assType=="allgroups"){
+              $submits=$assign->groupAssignmentSubmits;
+              $gentypes=$assign->groupGenerationAssignments;
+              for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
+            }
+            else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
+            else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
+            
+            for($o=0;$o<count($submits);$o++)
+            {
+              if($submits[$o]->isMarked()){array_push($marked_submits,$submits[$o]);}
+            }
+            for($f=0;$f<count($submits);$f++)
+            {
+              if($submits[$f]->isFailed()){array_push($failed_submits,$submits[$f]);}
+            }
+            $marked=count($marked_submits);
+            $failedsubmits=count($failed_submits);
+            $failedperc=0;
+            if($marked!=0)
+            {
+            $failedperc=($failedsubmits/$marked)*100;
+            }
+            ?>
+
                 <span class="info-box-text">Failed</span>
-                <span class="info-box-number">Regular</span>
+                <span class="info-box-number"><?=floor($failedperc)?>%</span>
               </div>
             </div>
           </div>
@@ -270,7 +408,7 @@ $assk = "Assignment".$ass;
 
       <div class="card-footer p-2 bg-white border-top ">
       <div class="row">
-      <div class="col-md-9">
+      <div class="col-md-9" style="font-size:12px;">
       <i class="fas fa-clock" aria-hidden="true"></i> <b>Deadline : </b> <?= $assign -> finishDate ?>
       </div>
       <div class="col-md-3">
@@ -340,14 +478,14 @@ $assk = "Assignment".$ass;
       </div>
 
 <div class="accordion" id="accordionExample_3">
-<?php foreach( $labs as $lab ) : ?>
+<?php foreach( $labs as $assign ) : ?>
   <div class="card headcard">
     <div class="card-header p-2 shadow" id="heading<?=$labb?>">
       <h2 class="mb-0">
       <div class="row">
       <div class="col-sm-11">
       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$labb?>" aria-expanded="true" aria-controls="collapse<?=$labb?>">
-        <i class="fas fa-clipboard-list"></i> <?php echo "Lab ".$labb;?>
+        <i class="fas fa-clipboard-list"></i> <?php echo $assign->assName;?>
         </button>
       </div>
       <div class="col-sm-1">
@@ -363,74 +501,156 @@ $assk = "Assignment".$ass;
       <div class="card-body">
       <div class="row">
         
-        <div class="col-md-3 col-sm-6 col-12">
-        <?php 
-        $submits=[];
-        $assigned=0;
-        if($assign->assType=="groups"){$submits=$assign->groupAssignmentSubmits;$assigned=count($assign->groupAssignments);}
-        else if($assign->assType=="allgroups"){
-          $submits=$assign->groupAssignmentSubmits;
-          $gentypes=$assign->groupGenerationAssignments;
-          for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes->ass->groupAssignments);}
-        }
-        else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
-        else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);}
-        $subperc=(count($submits)/$assigned)*100;
-        ?>
-        <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>" >
-              <div class="info-box shadow">
-                <div class="info-box-content">
-                  <span class="info-box-text">Submitted</span>
-                  <span class="info-box-number"><?=$subperc?>%</span>
-                </div>
-          
+      <div class="col-md-3 col-sm-6 col-12">
+      <?php 
+      $submits=[];
+      $assigned=0;
+      if($assign->assType=="groups"){$submits=$assign->groupAssignmentSubmits;$assigned=count($assign->groupAssignments);}
+      else if($assign->assType=="allgroups"){
+        $submits=$assign->groupAssignmentSubmits;
+        $gentypes=$assign->groupGenerationAssignments;
+        for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
+      }
+      else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
+      else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);}
+      $subperc=0;
+      if($assigned!=0)
+      {
+      $subperc=(count($submits)/$assigned)*100;
+      }
+      ?>
+      <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>" >
+            <div class="info-box shadow">
+              <div class="info-box-content">
+                <span class="info-box-text">Submitted</span>
+                <span class="info-box-number"><?=floor($subperc)?>%</span>
               </div>
-              </a>
+        
             </div>
-  
-            <div class="col-md-3 col-sm-6 col-12">
-              <div class="info-box shadow">
-                <div class="info-box-content">
-                  <span class="info-box-text">Missing</span>
-                  <span class="info-box-number">Regular</span>
-                </div>
-       
+            </a>
+          </div>
+
+          <div class="col-md-3 col-sm-6 col-12">
+          <?php 
+            $submits=[];
+            $assigned=0;
+            if($assign->assType=="groups"){$submits=$assign->groupAssignmentSubmits;$assigned=count($assign->groupAssignments);}
+            else if($assign->assType=="allgroups"){
+              $submits=$assign->groupAssignmentSubmits;
+              $gentypes=$assign->groupGenerationAssignments;
+              for($gen=0;$gen<count($gentypes);$gen++){
+                $assigned=$assigned+count($gentypes[$gen]->gentype->groups);
+              }
+
+    
+            }
+            else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
+            else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
+            $missing=$assigned-count($submits);
+            $missperc=0;
+            if($assigned!=0)
+            {
+            $missperc=($missing/$assigned)*100;
+            }
+            
+            ?>
+            <div class="info-box shadow">
+              <div class="info-box-content">
+                <span class="info-box-text">Missing</span>
+                <span class="info-box-number"><?=$missperc?>%</span>
+              </div>
+     
+            </div>
+    
+          </div>
+          <div class="col-md-3 col-sm-6 col-12">
+          <a href="<?=Url::to(['instructor/stdworkmark/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>">
+            <div class="info-box shadow">
+              <div class="info-box-content">
+                <?php 
+            $submits=[];
+            $assigned=0;
+            $marked_submits=[];
+            if($assign->assType=="groups"){$submits=$assign->groupAssignmentSubmits;$assigned=count($assign->groupAssignments);}
+            else if($assign->assType=="allgroups"){
+              $submits=$assign->groupAssignmentSubmits;
+              $gentypes=$assign->groupGenerationAssignments;
+              for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
+            }
+            else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
+            else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
+            
+            for($o=0;$o<count($submits);$o++)
+            {
+              if($submits[$o]->isMarked()){array_push($marked_submits,$submits[$o]);}
+            }
+            $marked=count($marked_submits);
+            $allsubmits=count($submits);
+            $markperc=0;
+            if($allsubmits!=0)
+            {
+            $markperc=($marked/$allsubmits)*100;
+            }
+            ?>
+                <span class="info-box-text">Marked</span>
+                <span class="info-box-number"><?=floor($markperc)?>%</span>
               </div>
       
             </div>
-            <div class="col-md-3 col-sm-6 col-12">
-            <a href="<?=Url::to(['instructor/stdworkmark/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>">
-              <div class="info-box shadow">
-                <div class="info-box-content">
-                  <span class="info-box-text">Marked</span>
-                  <span class="info-box-number">Regular</span>
-                </div>
-        
+            </a>
+          </div>
+          <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box shadow">
+              <div class="info-box-content">
+              <?php 
+            $submits=[];
+            $failed_submits=[];
+            $marked_submits=[];
+            if($assign->assType=="groups"){$submits=$assign->groupAssignmentSubmits;$assigned=count($assign->groupAssignments);}
+            else if($assign->assType=="allgroups"){
+              $submits=$assign->groupAssignmentSubmits;
+              $gentypes=$assign->groupGenerationAssignments;
+              for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
+            }
+            else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
+            else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
+            
+            for($o=0;$o<count($submits);$o++)
+            {
+              if($submits[$o]->isMarked()){array_push($marked_submits,$submits[$o]);}
+            }
+            for($f=0;$f<count($submits);$f++)
+            {
+              if($submits[$f]->isFailed()){array_push($failed_submits,$submits[$f]);}
+            }
+            $marked=count($marked_submits);
+            $failedsubmits=count($failed_submits);
+            $failedperc=0;
+            if($marked!=0)
+            {
+            $failedperc=($failedsubmits/$marked)*100;
+            }
+            ?>
+
+                <span class="info-box-text">Failed</span>
+                <span class="info-box-number"><?=floor($failedperc)?>%</span>
               </div>
-              </a>
             </div>
-            <div class="col-md-3 col-sm-6 col-12">
-              <div class="info-box shadow">
-                <div class="info-box-content">
-                  <span class="info-box-text">Failed</span>
-                  <span class="info-box-number">Regular</span>
-                </div>
-              </div>
-            </div>
+          </div>
   </div>
       </div>
       
       <div class="card-footer p-2 bg-white border-top">
       <div class="row">
-      <div class="col-md-9">
-      <i class="fas fa-clock" aria-hidden="true"></i> <b>Deadline : </b> <?= $lab -> finishDate ?>
+      <div class="col-md-9" style="font-size:12px;">
+      <i class="fas fa-clock" aria-hidden="true"></i> <b>Deadline : </b> <?= $assign -> finishDate ?>
       </div>
       <div class="col-md-3">
         
-      <a href="#" class="btn btn-sm btn-danger float-right ml-2" data-toggle="modal" data-target="#modal-danger<?= $lab -> assID ?>"><span><i class="fas fa-trash"></i></span></a>
-      <?= Html::a('<i class="fas fa-edit"></i>',['updatelab', 'id'=>$lab->assID], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
-      <a href="/storage/temp/<?= $lab -> fileName ?>" download target="_blank" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-download"></i></span></a>
-      <a href="#" class="btn btn-sm btn-danger float-right"><span> <i class="fa fa-check-circle"></i></span></a>
+      <a href="#" class="btn btn-sm btn-danger float-right ml-2" data-toggle="modal" data-target="#modal-danger<?=$assign -> assID ?>"><span><i class="fas fa-trash"></i></span></a>
+      <?= Html::a('<i class="fas fa-edit"></i>',['updatelab', 'id'=>$assign->assID], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
+      <a href="/storage/temp/<?=$assign-> fileName ?>" download target="_blank" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-download"></i></span></a>
+      <?= Html::a('<i class="fa fa-pen"></i>',['mark', 'id'=>$assign->assID], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
      
       </div>
       </div>
@@ -441,12 +661,12 @@ $assk = "Assignment".$ass;
          $labb--;
         
         ?>
-  <div class="modal fade" id="modal-danger<?= $lab -> assID ?>">
+  <div class="modal fade" id="modal-danger<?=$assign-> assID ?>">
 
 <div class="modal-dialog">
-  <div class="modal-content bg-danger">
+  <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title">Deleting <b> <?= $lab -> assName ?> </b> Lab</h4>
+      <h4 class="modal-title">Deleting <b> <?= $assign -> assName ?> </b> Lab</h4>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -454,13 +674,13 @@ $assk = "Assignment".$ass;
     
     <div class="modal-body">
     
-      <p>Are you sure, you want to delete <b> <?= $lab -> assName ?> </b> lab&hellip;?</p>
+      <p>Are you sure, you want to delete <b> <?= $assign -> assName ?> </b> lab&hellip;?</p>
       
     </div>
     <div class="modal-footer justify-content-between">
     
       <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
-      <?= Html::a('Delete', ['deletelab', 'cid'=>$lab->course_code, 'id'=>$lab -> assID], ['class'=>'btn btn-sm btn-danger float-right ml-2 btn-outline-light']) ?>
+      <?= Html::a('Delete', ['deletelab', 'cid'=>$assign->course_code, 'id'=>$assign-> assID], ['class'=>'btn btn-sm btn-danger float-right ml-2 btn-outline-light']) ?>
     </div>
     
   </div>
@@ -570,18 +790,95 @@ $assk = "Assignment".$ass;
 </div>
 
 </div>
+<!--######################external assessment ##############-->
+<div class="tab-pane fade" id="externals" role="tabpanel" aria-labelledby="custom-tabs-externals">
+          <div class="row">
+            <div class="col-md-12">
+            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#external_assess" data-toggle="modal" style="margin-left:5px"><i class="fas fa-plus"  ></i>New assessment</a>
+            
+            <?= Html::a('<i class="fas fa-download" ></i>Download template', ['download-extassess-template','coursecode'=>$cid],['class'=>'btn btn-sm btn-primary btn-rounded float-right mb-2']) ?>
+            </div>
+         
+                  
+          </div>
+   
+   <div class="container-fluid">
+   <?php
+  
+   $assessments =ExtAssess::find()->where(['course_code'=>$cid])->all();
+   foreach($assessments as $assess)
+   {
+     ?>
+  
+    <div class="card" >
+    <div class="card-header p-2" id="heading<?=$mat?>">
+  <div class="row">
+    <div class="col-md-10">
+    <i class="fas fa-clipboard-list"></i><?= $assess->title ?>
+   </div>
+   <div class="col-md-2">
+  <?= Html::a('<i class="fa fa-trash float-right"></i>', ['delete-assessment','assessid'=>$assess->assessID]) ?>
+  <?= Html::a('<i class="fas fa-eye float-right" style="margin-right:5px"></i>', ['view-assessment','assid'=>$assess->assessID]) ?>
+   </div>
+   </div>
+  
+  </div>
 
+   </div>
+    
+ 
 
+   <?php 
+   }
+   ?>
+      </div>
+   </div>
+   <!--##################### the CA ######################## -->
+   <div class="tab-pane fade" id="ca" role="tabpanel" aria-labelledby="custom-tabs-ca">
+          <div class="row">
+            <div class="col-md-12">
+            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i>New CA</a>
+            </div>
+                  
+          </div>
+   
+   <div class="container-fluid">
+
+   </div>
+   </div>
 
      <!-- ########################################### end tutorial ################################# -->
      <div class="tab-pane fade" id="students" role="tabpanel" aria-labelledby="custom-tabs-Students">
-     <?php $students=StudentCourse::find()->where(['course_code'=>$cid])->all(); if($students!=null){?>
+     <?php 
+     $students=[];
+
+     $coursePrograms=ProgramCourse::find()->where(['course_code'=>$cid])->all();
+     foreach($coursePrograms as $program)
+     {
+
+      $programStudents=$program->programCode0->students;
+
+      for($s=0;$s<count($programStudents);$s++){array_push($students,$programStudents[$s]);}
+
+
+     }
+     $carryovers=StudentCourse::find()->where(['course_code'=>$cid])->all(); 
+
+     foreach($carryovers as $carry)
+     {
+      array_push($students,$carry->regNo);
+     }
+     
+     shuffle($students);
+     if($students!=null){
+       
+       
+       ?>
           <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-12">
+          <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal" style="margin-left:10px"><i class="fas fa-plus" ></i>Assign Students</a>
           <a href="/instructor/view-groups" class="btn btn-sm btn-primary btn-rounded float-right mb-2"><i class="fas fa-group" ></i>Student Groups</a>
-            </div>
-            <div class="col-md-6">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus" ></i>Assign Students</a>
+            
             </div>
             </div>
             <table width="100%" class="table table-striped table-bordered table-hover" id="studenttable" style="font-size:12px">
@@ -617,13 +914,13 @@ $assk = "Assignment".$ass;
 			</tr>
 		</thead>
 		<tbody>
-								<?php foreach ($students as $student) : ?>
+								<?php for($l=0;$l<count($students);$l++){ $student=$students[$l];?>
 						 			<tr>
 									 	<td><?=  $student->reg_no; ?></td>
-                    <td><?=  $student->regNo->programCode; ?></td>
-                    <td><?=  $student->regNo->fname." ".$student->regNo->mname." ".$student->regNo->lname; ?></td>
-                    <td><?=  $student->regNo->gender; ?></td>
-                    <td><?=  $student->regNo->YOS; ?></td>
+                    <td><?=  $student->programCode; ?></td>
+                    <td><?=  $student->fname." ".$student->mname." ".$student->lname; ?></td>
+                    <td><?=  $student->gender; ?></td>
+                    <td><?=  $student->YOS; ?></td>
                     <td><i class="fa fa-edit" style="font-size:18px"></i></td>
 							
 									
@@ -633,7 +930,7 @@ $assk = "Assignment".$ass;
 
 						 			</tr>
 						 		
-									 <?php endforeach ?>
+									 <?php }?>
 		
 			
 
@@ -683,6 +980,16 @@ $labmodel = new UploadLab();
 $assmodel = new UploadMaterial();
 ?>
 <?= $this->render('materials/create_material', ['assmodel'=>$assmodel, 'ccode'=>$cid]) ?>
+<!--  ###################################new assessment modal ####################################################-->
+<?php 
+$assessmodel = new External_assess();
+?>
+<?= $this->render('assessupload', ['assessmodel'=>$assessmodel, 'ccode'=>$cid]) ?>
+<!--  ###################################new announce modal ####################################################-->
+<?php 
+$announcemodel = new PostAnnouncement();
+?>
+<?= $this->render('announcementForm', ['announcemodel'=>$announcemodel]) ?>
 
 
 

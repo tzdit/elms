@@ -8,25 +8,40 @@ use common\models\Course;
 use common\models\Assignment;
 use common\models\Material;
 use common\models\Submit;
-use common\models\InstructorCourse;
 use common\models\Instructor;
+use common\models\Student;
+use common\models\Department;
+use common\models\Program;
+use yii\helpers\ArrayHelper;
+use common\models\AuthItem;
+use common\models\InstructorCourse;
 use common\models\StudentCourse;
+use common\models\ProgramCourse;
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
 use frontend\models\AddPartner;
 use frontend\models\UploadLab;
+use frontend\models\UploadStudentHodForm;
+use frontend\models\CreateCourse;
+use frontend\models\CreateProgram;
 use frontend\models\UploadMaterial;
+use frontend\models\PostAnnouncement;
+use frontend\models\External_assess;
+use frontend\models\AddAssessRecord;
 use frontend\models\StudentGroups;
+use frontend\models\TemplateDownloader;
 use common\models\Groups;
 use common\models\GroupGenerationTypes;
+use common\models\Announcement;
 use common\models\Assq;
 use common\models\GroupAssignmentSubmit;
 use common\models\GroupAssignment;
 use common\models\GroupGenerationAssignment;
+use common\models\StudentExtAssess;
+use common\models\ExtAssess;
 use common\models\QMarks;
 use yii\web\Response;
 use yii\web\BadRequestHttpException;
-use yii\helpers\ArrayHelper;
 use Yii;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
@@ -54,6 +69,10 @@ public $defaultAction = 'dashboard';
                             'enroll-course',
                             'dropcourse',
                             'classwork',
+                            'create-student',
+                            'create-course',
+                            'create-program',
+                            'student-list',
                             'upload-assignment',
                             'upload-tutorial',
                             'upload-lab',
@@ -74,6 +93,7 @@ public $defaultAction = 'dashboard';
                             'add-partner',
                             'generate-groups',
                             'view-groups',
+                            'instructor-course',
                             'delete-groups',
                             'get-gentypes',
                             'get-groups',
@@ -81,9 +101,59 @@ public $defaultAction = 'dashboard';
                             'add-student-gentype',
                             'mark',
                             'mark-inputing',
+                            'import-external-assessment',
+                            'view-assessment',
+                            'add-assess-record',
+                            'delete-ext-assrecord',
+                            'edit-ext-assrecord-view',
+                            'edit-ext-assrecord',
+                            'download-extassess-template',
+                            'delete-assessment',
+                            'post-announcement',
+                            'delete-announcement'
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
+                        
+
+                    ],
+// ############################### THIS PART FOR 'INSTRUCTOR $ HOD ROLE' ######################################
+                    [
+                        'actions' => [
+                            'dashboard',
+                            'courses',
+                            'enroll-course',
+                            'dropcourse',
+                            'classwork',
+                            'create-student',
+                            'create-course',
+                            'create-program',
+                            'student-list',
+                            'upload-assignment',
+                            'upload-tutorial',
+                            'upload-lab',
+                            'upload-material',
+                            'assignments',
+                            'delete',
+                            'deletelab',
+                            'deletetut',
+                            'materials',
+                            'stdwork',
+                            'stdworkmark',
+                            'labwork',
+                            'stdworklab',
+                            'stdlabmark',
+                            'update',
+                            'instructor-course',
+                            'updatetut',
+                            'updatelab',
+                            'add-partner',
+                            'view-assessment'
+                           
+                        ],
+                        'allow' => true,
+                        'roles' => ['INSTRUCTOR & HOD']
+                        
 
                     ],
                     
@@ -101,8 +171,8 @@ public $defaultAction = 'dashboard';
 
     public function actionDashboard()
     {
-   $courses = Yii::$app->user->identity->instructor->courses;
-        return $this->render('index', ['courses'=>$courses]);
+    $courses = Yii::$app->user->identity->instructor->courses;
+    return $this->render('index', ['courses'=>$courses]);
     }
 
 
@@ -117,9 +187,127 @@ public $defaultAction = 'dashboard';
     }
  
 
- 
-   
+  public function actionAddAssessRecord($assessid)
+  {
+    $record=new AddAssessRecord();
+    $record->assessid=$assessid;
+    
+    if($record->load(yii::$app->request->post()))
+    {
+       $recres=$record->add_new_record();
+     
+      if($recres===false)
+      {
+        Yii::$app->session->setFlash('error', 'Record adding failed');
+        return $this->redirect(Yii::$app->request->referrer); 
+      }
+      else
+      {
+        if(empty($recres))
+        {
+            Yii::$app->session->setFlash('success', 'New record added successfully');
+            return $this->redirect(Yii::$app->request->referrer);  
+        }
+        else
+        {
+          $resp="New record adding failed ";
+          foreach($recres as $p=>$v)
+          {
+            $resp.=$v;
+          }
+          Yii::$app->session->setFlash('error',$resp);
+          return $this->redirect(Yii::$app->request->referrer);  
 
+        }
+        
+        
+      }
+
+
+
+
+    }
+
+
+
+  }
+
+  public function actionDownloadExtassessTemplate($coursecode)
+  {
+    $downloader=new TemplateDownloader();
+    $downloader->courseCode=$coursecode;
+    if($downloader->excelProduce()){ return $this->redirect(Yii::$app->request->referrer); }
+    else{
+        Yii::$app->session->setFlash('error', 'downloading failed');
+        return $this->redirect(Yii::$app->request->referrer); 
+    }
+
+  }
+
+  public function actionDeleteAssessment($assessid)
+  {
+    $assess=ExtAssess::findOne($assessid);
+    if($assess->delete())
+    {
+        return $this->redirect(Yii::$app->request->referrer); 
+
+    }
+    else
+    {
+        Yii::$app->session->setFlash('error', 'deleting failed');
+        return $this->redirect(Yii::$app->request->referrer);   
+    }
+
+  }
+   
+public function actionEditExtAssrecordView($recordid)
+{
+  $record=StudentExtAssess::findOne($recordid);
+
+  return $this->render('editassessrecord',['recordid'=>$recordid,'regno'=>$record->reg_no,'score'=>$record->score]);
+}
+public function actionEditExtAssrecord($recordid)
+{
+
+    $record=new AddAssessRecord();
+    $assid=StudentExtAssess::findOne($recordid)->assessID;
+    $record->assessid=$assid;
+    if($record->load(yii::$app->request->post()))
+    {
+       $recres=$record->editrecord($recordid);
+     
+      if($recres===false)
+      {
+        Yii::$app->session->setFlash('error', 'Record updating failed');
+        return $this->redirect(Yii::$app->request->referrer); 
+      }
+      else
+      {
+        if(empty($recres))
+        {
+            Yii::$app->session->setFlash('success', 'Record updated successfully');
+            return $this->redirect(['view-assessment','assid'=>$assid]);  
+        }
+        else
+        {
+          $resp="Record updating failed ";
+          foreach($recres as $p=>$v)
+          {
+            $resp.=$v;
+          }
+          Yii::$app->session->setFlash('error',$resp);
+          return $this->redirect(Yii::$app->request->referrer);  
+
+        }
+        
+        
+      }
+
+
+
+
+    }
+}
 
 //###################function to enroll courses for instructor #############################
 
@@ -141,6 +329,46 @@ public $defaultAction = 'dashboard';
 
 
   
+    }
+
+    //announcement
+
+    public function actionPostAnnouncement()
+    {
+      $model=new PostAnnouncement();
+
+      if($model->load(yii::$app->request->post()))
+      {
+
+         if($model->announce()){Yii::$app->session->setFlash('success', 'Announcement posted');return $this->redirect(Yii::$app->request->referrer);}
+         else{Yii::$app->session->setFlash('error', 'Announcement failed');return $this->redirect(Yii::$app->request->referrer);}
+
+
+
+      }
+      else
+      {
+        Yii::$app->session->setFlash('error', 'Announcement failed'); 
+        return $this->redirect(Yii::$app->request->referrer); 
+      }
+
+
+
+    }
+
+    public function actionDeleteAnnouncement($annid)
+    {
+       $ann=Announcement::findOne($annid);
+       if($ann->delete()){
+
+        Yii::$app->session->setFlash('success', 'Announcement deleted'); 
+        return $this->redirect(Yii::$app->request->referrer); 
+       }
+       else{
+        Yii::$app->session->setFlash('error', 'Announcement deleting failed'); 
+        return $this->redirect(Yii::$app->request->referrer);
+
+       }
     }
 
 
@@ -249,8 +477,16 @@ public function actionStdwork($cid, $id){
     if(!empty($cid)){
    Yii::$app->session->set('ccode', $cid);
     }
-    
+    $submits=null;
+    $asstype=Assignment::findOne($id)->assType;
+    if($asstype=="allgroups" || $asstype=="groups")
+    {
+     $submits =GroupAssignmentSubmit::find()->where(['assID'=> $id])->all();
+    }
+    else
+    {
     $submits = Submit::find()->where(['assID'=> $id])->all();
+    }
     
 
     $courses = Yii::$app->user->identity->instructor->courses;
@@ -367,9 +603,63 @@ public function actionUploadAssignment(){
     }
 }
 }
+public function actionImportExternalAssessment()
+{
+  $importmodel=new External_assess();
+  if($importmodel->load(Yii::$app->request->post())){
 
+    $importmodel->assFile=UploadedFile::getInstance($importmodel, 'assFile');
+    $importmodel->filetmp=UploadedFile::getInstance($importmodel, 'assFile')->tempName;
+    $act=$importmodel->excel_importer();
+    if($act!==false)
+    {
+        $flash="Import successful with ".count($act)." error(s)";
+        if($act!=null){
+           foreach($act as $reg=>$msg)
+           {
+               $flash=$flash."<br>'".$reg."'=>".$msg;
+           }
+        }
+        Yii::$app->session->setFlash('success', $flash);
+        
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+    else
+    {
+        Yii::$app->session->setFlash('error', 'Importing failed, you may need to download the standard format or change the assessment title');
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+  }
+  else
+  {
+    Yii::$app->session->setFlash('error', 'unknown error occurred, try again later');
+   return $this->redirect(Yii::$app->request->referrer);
+  }
 
+    
+}
 
+public function actionViewAssessment($assid)
+{
+
+    return $this->render('assessmentview',['assid'=>$assid]);  
+
+}
+public function actionDeleteExtAssrecord($recordid)
+{
+  $record=StudentExtAssess::findOne($recordid);
+  if($record->delete())
+  {
+    Yii::$app->session->setFlash('success', 'deleted successfully');
+    return $this->redirect(Yii::$app->request->referrer);
+  }
+  else
+  {
+    Yii::$app->session->setFlash('error', 'record not deleted');
+    return $this->redirect(Yii::$app->request->referrer);
+  }
+
+}
 //######################## function to create tutorial ###############################################
 
 public function actionUploadTutorial(){
@@ -473,7 +763,7 @@ public function actionMarkInputing()
     $submit=null;
     if($asstype=="group")
     {
-        $model=GroupAssignmentSubmit();
+        $model=new GroupAssignmentSubmit();
         
         
     }
@@ -682,8 +972,27 @@ public function actionAddStudentGentype()
     if(Yii::$app->request->isAjax){
     $std=new StudentCourse();
     $coursecode=Yii::$app->session->get('ccode');
-    $studentobj=$std::find()->where(['course_code'=>$coursecode])->all();
-    $student_array=ArrayHelper::map($studentobj,'reg_no','reg_no');
+  
+
+    $students=[];
+
+    $coursePrograms=ProgramCourse::find()->where(['course_code'=>$coursecode])->all();
+    foreach($coursePrograms as $program)
+    {
+
+    $programStudents=$program->programCode0->students;
+
+    for($s=0;$s<count($programStudents);$s++){array_push($students,$programStudents[$s]);}
+
+
+    }
+    $carryovers=StudentCourse::find()->where(['course_code'=>$coursecode])->all(); 
+    foreach($carryovers as $carry)
+    {
+    array_push($students,$carry->regNo);
+    }
+
+    $student_array=ArrayHelper::map($students,'reg_no','reg_no');
 
     $response = Yii::$app->response;
 
@@ -703,4 +1012,106 @@ public function actionAddStudentGentype()
 
 
  }
+
+//#################################### HOD HERE ########################################################################
+
+  //create students
+  public function actionCreateStudent(){
+    $model = new UploadStudentHodForm;
+    $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'STUDENT'])->all(), 'name', 'name');
+    // $departments = Yii::$app->user->identity->hod->department;
+    $departments = ArrayHelper::map(Department::find()->where(['departmentID'=> Yii::$app->user->identity->instructor->department->departmentID])->all(), 'depart_abbrev', 'depart_abbrev');
+    try{
+    $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
+    if($model->load(Yii::$app->request->post())){
+       
+        if($model->create()){
+        Yii::$app->session->setFlash('success', 'Student registered successfully');
+        }else{
+            Yii::$app->session->setFlash('error', 'Somethibg went Wrong!');
+        }
+   
+            
+     } 
+    
+}catch(\Exception $e){
+    Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+}
+    return $this->render('create_student', ['model'=>$model, 'programs'=>$programs, 'departments'=>$departments, 'roles'=>$roles]);
+}
+
+//get list of students for particular department
+
+public function actionStudentList(){
+    
+    $instructorid = Yii::$app->user->identity->instructor->instructorID;
+    $myinstructor=Instructor::findOne($instructorid);
+    $instructor_department= $myinstructor->department;
+    $programs=$instructor_department->programs;
+    $students=[];
+    for($p=0;$p<count($programs);$p++)
+    {
+        $program_students=$programs[$p]->students;
+        array_push($students,$program_students);
+    }
+    return $this->render('student_list', ['students'=>$students, 'program_students'=>$program_students]);
+}
+
+
+     //Create program
+     public function actionCreateProgram(){
+        $model = new CreateProgram;
+        $programs = Program::find()->all();
+        try{
+        $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+        if($model->load(Yii::$app->request->post())){
+            if($model->upload()){
+            Yii::$app->session->setFlash('success', 'Program added successfully');
+            }else{
+                Yii::$app->session->setFlash('error', 'Something went Wrong!');
+            }
+       
+                
+         } 
+        
+    }catch(\Exception $e){
+        Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+    }
+        return $this->render('prog_modal', ['model'=>$model, 'departments'=>$departments, 'programs'=>$programs]);
+    }
+
+
+     //Create Course
+     public function actionCreateCourse(){
+        $model = new CreateCourse;
+        $courses = Course::find()->all();
+        try{
+        // $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+        if($model->load(Yii::$app->request->post())){
+            if($model->create()){
+            Yii::$app->session->setFlash('success', 'Course added successfully');
+            }else{
+                Yii::$app->session->setFlash('error', 'Something went Wrong!');
+            }
+       
+                
+         } 
+        
+    }catch(\Exception $e){
+        Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+    }
+        return $this->render('create-course', ['model'=>$model, 'courses'=>$courses]);
+    }
+
+    public function actionInstructorCourse()
+    {
+         $instructorid = Yii::$app->user->identity->instructor->instructorID;
+         $myinstructor=Instructor::findOne($instructorid);
+         $instructor_department= $myinstructor->department->departmentID;
+  /*     $instructors = ArrayHelper::map(Instructor::find()->where(['departmentID'=>])->all(), 'name', 'name'); */
+         $instructors = Instructor::findAll(array('departmentID'=> $instructor_department));
+      
+
+       return $this->render('instructor-course', [ 'instructors'=>$instructors]);
+    }
 }

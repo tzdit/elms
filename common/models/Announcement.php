@@ -34,10 +34,10 @@ class Announcement extends \yii\db\ActiveRecord
     {
         return [
             [['instructorID'], 'integer'],
-            [['content', 'ann_date', 'ann_time'], 'required'],
+            [['content'], 'required'],
             [['ann_date', 'ann_time'], 'safe'],
             [['course_code'], 'string', 'max' => 7],
-            [['content'], 'string', 'max' => 255],
+            [['content'], 'string', 'max' => 500],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
             [['instructorID'], 'exist', 'skipOnError' => true, 'targetClass' => Instructor::className(), 'targetAttribute' => ['instructorID' => 'instructorID']],
         ];
