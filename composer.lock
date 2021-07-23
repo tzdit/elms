@@ -1122,7 +1122,6 @@
             ]
         },
         {
-<<<<<<< HEAD
             "name": "npm-asset/sweetalert2",
             "version": "7.33.1",
             "dist": {
@@ -1132,8 +1131,7 @@
             "type": "npm-asset",
             "license": [
                 "MIT"
-            ]
-=======
+            ],
             "name": "phpoffice/phpspreadsheet",
             "version": "1.18.0",
             "source": {
@@ -1447,7 +1445,6 @@
                 "source": "https://github.com/php-fig/simple-cache/tree/master"
             },
             "time": "2017-10-23T01:57:42+00:00"
->>>>>>> 3a69e9b9fd45bd47dfb98a5b215a5bd539fb0191
         },
         {
             "name": "swiftmailer/swiftmailer",
