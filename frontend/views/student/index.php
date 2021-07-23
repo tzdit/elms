@@ -6,6 +6,7 @@ use common\helpers\Security;
 use yii\helpers\VarDumper;
 /* @var $this yii\eb\View */
 
+$this->params['courseTitle'] = 'Classes';
 $this->title = 'Student Dashboard';
 ?>
 <!-- <?= VarDumper::dump($courses) ?> -->
@@ -25,7 +26,8 @@ $this->title = 'Student Dashboard';
               <div class="inner">
                 <h3><?= $course->course_code ?></h3>
 
-                <p >Credit <?= $course->course_credit ?></p>
+                <p class="m-0">Credit <?= $course->course_credit ?></p>
+                <h5 class="m-0 p-0 text-muted"> <?= strtoupper($course->course_status) ?></h5>
               </div>
 
               <div class="icon">

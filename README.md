@@ -74,3 +74,7 @@ username :admin@udom.ac.tz
 username: instructor@gmail.com
 
 ========OVER=========
+
+
+Database update 
+->attribute title in announcencent table

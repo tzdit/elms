@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
               <div class="card-header p-2">
                 <h3 class="card-title com-sm-12">
                   <i class="fas fa-list mr-1 text-info"></i>
-                 Courses List
+                 Group List
                  
                 </h3>
                 <a href="<?= Url::toRoute('/student/add_group') ?>" class="btn btn-primary btn-sm float-right m-0 col-xs-12"><i class="fas fa-user-plus"></i> Add Group</a>

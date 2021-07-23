@@ -125,7 +125,7 @@ use yii\helpers\Url;
               <li class="nav-item">
                 <a href="<?= Url::toRoute('/student/carrycourse') ?>" class="nav-link">
                   <i class="fas fa-file nav-icon"></i>
-                  <p>Carried Courses</p>
+                  <p>Carry Courses</p>
                 </a>
               </li>
               <?php endif ?> <!-- END OF STUDENT ROLE -->

@@ -3,6 +3,7 @@ use yii\bootstrap4\Breadcrumbs;
 use yii\grid\GridView;
 use fedemotta\datatables\DataTables;
 use common\models\Material;
+use common\models\Instructor;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use common\helpers\Custom;
@@ -11,12 +12,13 @@ use common\models\Assignment;
 use common\models\Submit;
 use frontend\models\UploadMaterial;
 use yii\helpers\VarDumper;
+use yii\bootstrap4\Modal;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] =$cid;
-$this->title = 'Classwork'; 
+$this->title = 'Class'; 
 $this->params['breadcrumbs'] = [
-  ['label'=>'classwork', 'url'=>Url::to(['/student/classwork', 'cid'=>$cid])],
+  ['label'=>'Class', 'url'=>Url::to(['/student/classwork', 'cid'=>$cid])],
   ['label'=>$this->title]
 ];
 
@@ -304,7 +306,7 @@ $assk = "Assignment".$ass;
 
 <div class="row">
             <div class="col-lg-3 col-6">
-                <a href="<?=Url::to(['student/classwork/'])  ?>" class="small-box bg-info" >
+                <a href="<?= Url::toRoute(['videos-and-notes/videos', 'cid' => $cid])?>" class="small-box bg-success" >
                 
                     <div class="inner">
                       <h3><?= $cid ?></h3>
@@ -320,7 +322,7 @@ $assk = "Assignment".$ass;
             </div> 
 
             <div class="col-lg-3 col-6">
-                <a href="<?=Url::to(['student/classwork/'])  ?>" class="small-box bg-info" >
+                <a href="<?= Url::toRoute(['videos-and-notes/notes', 'cid' => $cid])?>" class="small-box bg-success" >
                 
                     <div class="inner">
                       <h3><?= $cid ?></h3>
@@ -392,12 +394,74 @@ $assk = "Assignment".$ass;
   </div>
   <!-- ########################################### announcements ######################################## --> 
      <div class="tab-pane fade" id="announcements" role="tabpanel" aria-labelledby="custom-tabs-Announcements">
-          <div class="row">
-            <p>ANOUNCEMENTS TUTAZIVUTA HAPA</p>
-                  
-        </div>
 
-   <div class="accordion" id="accordionExample_4"></div>
+         <div class="accordion" id="accordionExample_4">
+         <section class="col-lg-12">
+            <!-- Custom tabs (Charts with tabs)-->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title com-sm-12 text-secondary">
+                <i class="fas fa-book mr-1"></i>
+                My results  
+                </h3>
+              </div>
+              <div class="card-body">
+ 
+             <div class="row">
+              <!-- <?= VarDumper::dump($announcement) ?> -->
+               <div class="col-md-12">
+                  <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+                  <thead>
+                  <tr>
+                  <th width="1%">PostID</th><th>Title</th><th>Posted by</th><th>Date</th><th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <?php $i=0; ?>
+                  <?php foreach($announcement as $announcement): ?>
+                      <tr>
+                      <td><?= ++$i; ?></td>
+                      <td><?= $announcement->title ?> </td>
+                      <td>
+                          <?php 
+                          $instractorName = Instructor::findOne($announcement->instructorID);
+                          echo $instractorName->full_name;
+                          ?> 
+                      </td>
+                      <td><?= $announcement->ann_date. ' '.$announcement->ann_time;  ?></td>
+                      <td>
+                      <div class="model text-center">
+                        <?php
+                        Modal::begin([
+                          'title' =>  Html::tag('h2','Announcement', ['class' => 'float-center']),
+                          'toggleButton' => ['label' => Html::tag('a','', ['class' => 'fa fa-eye fa-lg '])],
+                          'size' => 'modal-lg',
+                          'centerVertical' => true,
+                          'footer' => Html::button('Close', ['class' => 'btn btn-primary float-right', 'data-dismiss' => 'modal']),
+                      ]);
+                      
+                      echo "    <div style='text-align:center'>";
+                      echo "<P class='announcement-model'> $announcement->content </P>".'<br>'.'<br>';
+                      echo "    </div>";
+                      echo "<p 'class' = 'text-muted'  style='  font-style: italic;'>";
+                      echo  Yii::$app->formatter->asRelativeTime($announcement->ann_date." ".$announcement->ann_time).' '.'ago';
+                      echo "    </p>";
+                      
+                      Modal::end();
+                      ?>
+                      </div>
+
+                      </td>
+                      </tr>
+                    <?php endforeach ?>
+                  </tbody>
+                  </table>
+                 </div>
+               </div>
+              </div>
+            </div>
+      </section>
+         </div>
    </div>
    <!-- ########################################### quiz######################################## --> 
    <div class="tab-pane fade" id="quiz" role="tabpanel" aria-labelledby="custom-tabs-quiz">
