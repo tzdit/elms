@@ -5,11 +5,14 @@ use Yii;
 use yii\base\Model;
 use common\models\User;
 use common\models\Student;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 /**
  * Signup form
  */
 class UploadStudentForm extends Model
 {
+    public $assFile;
+    public $filetmp;
     public $fname;
     public $mname;
     public $lname;
@@ -35,7 +38,7 @@ class UploadStudentForm extends Model
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This user has already been taken.'],
             ['email', 'unique', 'targetClass' => '\common\models\Student', 'message' => 'This email has already been taken.'],
-           
+            [['assFile'],'file','skipOnEmpty' => false, 'extensions' => 'xlsx, xls']
 
 
         ];
@@ -95,6 +98,96 @@ class UploadStudentForm extends Model
     return false;
 }
 
+// #########################################################################################
+
+public function excelstd_importer(){
+      
+    if(!$this->validate()){
+       return false;
+   }
+   try{
+        $data=$this->excelstd_to_array($this->filetmp);
+        //$status=false;
+        $error_rec=[];
+        //saving the assessment first
+
+        
+
+        
+        for($std=0;$std<count($data);$std++)
+        {
+          
+           if($std==0){continue;}
+           else
+           {
+           
+           $fname=$data[$std][0];
+           $mname=$data[$std][1];
+           $lname=$data[$std][2];
+           $username=$data[$std][3];
+           $email=$data[$std][4];
+           $phone=$data[$std][5];
+           $gender=$data[$std][6];
+           $program=$data[$std][7];
+           $status=$data[$std][8];
+           $YOS=$data[$std][9];
+           
+           
+
+           
+           $usermodel=new User();
+            
+           $usermodel->username=$username;
+           $usermodel->email=$email;
+           $usermodel->setPassword(strtoupper($this->lname));
+           $usermodel->generateAuthKey();
+           $usermodel->generateEmailVerificationToken();
+
+           if($usermodel->save())
+           {
+           $stdmodel=new Student();
+           $stdmodel->fname=$fname;
+           $stdmodel->mname=$mname;
+           $stdmodel->lname=$lname;
+           $stdmodel->email=$email;
+           $stdmodel->reg_no=$username;
+           $stdmodel->phone=$phone;
+           $stdmodel->programCode=$program;
+           $stdmodel->status=$status;
+           $stdmodel->YOS=$YOS;
+           $stdmodel->DOR=$date('Y-m-d H:i:s');
+           $stdmodel->userID = $user->getId();
+           
+           }
+        
+           if($stdmodel->save()){
+           
+            //now assign role to this newlly created user========>>
+            $userRole = $auth->getRole($this->role);
+            $auth->assign($userRole, $user->getId());
+            $transaction->commit();
+            return true;
+            }
+           }
+        
+
+      return $error_rec;
+      }
+     
+  }catch(\Exception $e){
+    print  "oops".$e->getMessage();
+      return false;
+  }
+  }
+private function excelstd_to_array($tmpfile)
+{
+$file_type=IOFactory::identify($tmpfile);
+$reader=IOFactory::createReader($file_type);
+$data=$reader->load($tmpfile);
+$data_array=$data->getActiveSheet()->toArray();
+return $data_array;
+
+}
   
    
 }

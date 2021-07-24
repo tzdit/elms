@@ -53,7 +53,7 @@ use frontend\models\CreateProgram;
 					Question
 				</th> -->
 				
-				<th>
+				<th width="15%">
 					Action
 				</th>
 				<!-- <th>

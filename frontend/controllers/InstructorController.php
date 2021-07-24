@@ -22,6 +22,7 @@ use frontend\models\UploadTutorial;
 use frontend\models\AddPartner;
 use frontend\models\UploadLab;
 use frontend\models\UploadStudentHodForm;
+use frontend\models\UploadStudentForm;
 use frontend\models\CreateCourse;
 use frontend\models\CreateProgram;
 use frontend\models\UploadMaterial;
@@ -140,6 +141,7 @@ public $defaultAction = 'dashboard';
                             'materials',
                             'stdwork',
                             'stdworkmark',
+                            'import-students',
                             'labwork',
                             'stdworklab',
                             'stdlabmark',
@@ -627,6 +629,43 @@ public function actionImportExternalAssessment()
     else
     {
         Yii::$app->session->setFlash('error', 'Importing failed, you may need to download the standard format or change the assessment title');
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+  }
+  else
+  {
+    Yii::$app->session->setFlash('error', 'unknown error occurred, try again later');
+   return $this->redirect(Yii::$app->request->referrer);
+  }
+
+    
+}
+
+
+public function actionImportStudents()
+{
+  $importmodel=new UploadStudentForm();
+  if($importmodel->load(Yii::$app->request->post())){
+
+    $importmodel->assFile=UploadedFile::getInstance($importmodel, 'assFile');
+    $importmodel->filetmp=UploadedFile::getInstance($importmodel, 'assFile')->tempName;
+    $act=$importmodel->excelstd_importer();
+    if($act!==false)
+    {
+        $flash="Import successful with ".count($act)." error(s)";
+        if($act!=null){
+           foreach($act as $reg=>$msg)
+           {
+               $flash=$flash."<br>'".$reg."'=>".$msg;
+           }
+        }
+        Yii::$app->session->setFlash('success', $flash);
+        
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+    else
+    {
+        Yii::$app->session->setFlash('error', 'Importing failed, you may need to download the standard format');
         return $this->redirect(Yii::$app->request->referrer);
     }
   }

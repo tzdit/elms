@@ -25,7 +25,7 @@
 
            <div class='col-md-12' id='forget_password'>
            <a href="<?= Url::to(['/auth/requestpasswordreset'])  ?>">
-           <span class="small"> Forget password</span>
+           <span class="small"> Forgot password</span>
           </a>
            </div>
             
