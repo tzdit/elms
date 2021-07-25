@@ -101,10 +101,11 @@ class UploadStudentForm extends Model
 // #########################################################################################
 
 public function excelstd_importer(){
-      
-    if(!$this->validate()){
-       return false;
-   }
+    $auth = Yii::$app->authManager;
+    
+//     if(!$this->validate()){
+//        return false;
+//    }
    try{
         $data=$this->excelstd_to_array($this->filetmp);
         //$status=false;
@@ -136,12 +137,13 @@ public function excelstd_importer(){
 
            
            $usermodel=new User();
-            
+           
            $usermodel->username=$username;
            $usermodel->email=$email;
            $usermodel->setPassword(strtoupper($this->lname));
            $usermodel->generateAuthKey();
            $usermodel->generateEmailVerificationToken();
+           
 
            if($usermodel->save())
            {
@@ -150,26 +152,27 @@ public function excelstd_importer(){
            $stdmodel->mname=$mname;
            $stdmodel->lname=$lname;
            $stdmodel->email=$email;
+           $stdmodel->gender=$gender;
            $stdmodel->reg_no=$username;
-           $stdmodel->phone=$phone;
+           $stdmodel->phone=strval($phone);
            $stdmodel->programCode=$program;
            $stdmodel->status=$status;
            $stdmodel->YOS=$YOS;
-           $stdmodel->DOR=$date('Y-m-d H:i:s');
-           $stdmodel->userID = $user->getId();
+           $stdmodel->DOR=date('Y-m-d H:i:s');
+           $stdmodel->userID = $usermodel->getId();
            
-           }
+          
         
            if($stdmodel->save()){
            
             //now assign role to this newlly created user========>>
-            $userRole = $auth->getRole($this->role);
-            $auth->assign($userRole, $user->getId());
-            $transaction->commit();
-            return true;
+            $userRole = $auth->getRole('STUDENT');
+            $auth->assign($userRole, $usermodel->getId());
             }
+           
+
            }
-        
+        }
 
       return $error_rec;
       }

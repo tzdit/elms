@@ -661,18 +661,18 @@ public function actionImportStudents()
         }
         Yii::$app->session->setFlash('success', $flash);
         
-        return $this->redirect(Yii::$app->request->referrer);
+          return $this->redirect(Yii::$app->request->referrer);
     }
     else
     {
         Yii::$app->session->setFlash('error', 'Importing failed, you may need to download the standard format');
-        return $this->redirect(Yii::$app->request->referrer);
+          return $this->redirect(Yii::$app->request->referrer);
     }
   }
   else
   {
     Yii::$app->session->setFlash('error', 'unknown error occurred, try again later');
-   return $this->redirect(Yii::$app->request->referrer);
+    return $this->redirect(Yii::$app->request->referrer);
   }
 
     
