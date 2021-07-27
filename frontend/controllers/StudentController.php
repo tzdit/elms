@@ -12,6 +12,7 @@ use common\models\Material;
 use common\models\User;
 use common\models\Groups;
 use common\models\Student;
+use common\models\Announcement;
 use common\models\StudentCourse;
 use common\models\InstructorCourse;
 use frontend\models\UploadAssignment;
@@ -28,6 +29,7 @@ use yii\helpers\Url;
 use yii\web\UploadedFile;
 use common\helpers\Security;
 use yii\widgets\ActiveForm;
+
 class StudentController extends \yii\web\Controller
 {
 	//public $layout = 'student';
@@ -39,7 +41,7 @@ class StudentController extends \yii\web\Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['dashboard','error','classwork','courses','changePassword','carrycourse','add_carry','delete','student_groups','delete_group','add_group','student_in_login_user_course','add_to_group','list_student_in_group','remove_student_from_group','submit_assignment','view_assignment','download_assignment','resubmit'],
+                        'actions' => ['dashboard','error','classwork','courses','changePassword','carrycourse','add_carry','delete_carry','student_groups','delete_group','add_group','student_in_login_user_course','add_to_group','list_student_in_group','remove_student_from_group','submit_assignment','view_assignment','download_assignment','resubmit','videos','announcement'],
                         'allow' => true,
                         'roles'=>['STUDENT']
                     ],
@@ -52,10 +54,22 @@ class StudentController extends \yii\web\Controller
                 'actions' => [
                     'logout' => ['post'],
                     'changePassword' => ['post'],
+                    'delete_carry' => ['post'],
                 ],
             ],
         ];
     }
+
+
+    public function beforeAction($action) {
+        $this->enableCsrfValidation = ($action->id !== "delete_carry"); // <-- here
+        return parent::beforeAction($action);
+    }
+   
+
+
+
+
     public function actionDashboard()
     {
    $courses = Yii::$app->user->identity->student->program->courses;
@@ -89,13 +103,25 @@ public function actionClasswork($cid){
     $returned= Assignment::find()->where('submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->leftJoin('submit','assignment.assID = submit.assID')->with('submits')->orderBy([
         'submit.submitID' => SORT_DESC ])->all();
 
+    $announcement = Announcement::find()->where(['course_code' => $cid])->orderBy([
+        'annID' => SORT_DESC ])->all();
+
 
     $courses = Yii::$app->user->identity->student->program->courses;
 
 
-    return $this->render('classwork', ['cid'=>$cid,'returned'=>$returned, 'courses'=>$courses, 'assignments'=>$assignments,'tutorials'=>$tutorials, 'labs'=>$labs, 'materials'=>$materials, 'reg_no' => $reg_no, 'cid' => $cid]);
+    return $this->render('classwork', ['cid'=>$cid,'returned'=>$returned, 'courses'=>$courses, 'assignments'=>$assignments,'tutorials'=>$tutorials, 'labs'=>$labs, 'materials'=>$materials, 'reg_no' => $reg_no, 'cid' => $cid, 'announcement' => $announcement]);
 
 }
+
+
+public function actionAnnouncement($announcement)
+{
+    $announcement = Announcement::findOne($announcement);
+    return $this->renderAjax('announcement_content', ['announcement'=>$announcement]);
+}
+
+
 
     public function actionCourses(){
 
@@ -122,6 +148,9 @@ public function actionClasswork($cid){
         return $this->render('carry_courses/index', ['data'=> $model]);
     }
 
+
+
+
      /**
      * Creates a new Course Carry model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -138,18 +167,14 @@ public function actionClasswork($cid){
             $id = Yii::$app->user->identity->username;
 
         
-            $model = Course::find()->where('student_course.reg_no = :reg_no', [ 'reg_no' => $id])->joinWith('studentCourses')->all();
-            
-            return $this->render('carry_courses/index', ['data'=> $model]);
+            return $this->redirect(Yii::$app->request->referrer);
         }
        elseif (!$model->validate()) {
         Yii::$app->session->setFlash('error', 'Course already exist');
         $id = Yii::$app->user->identity->username;
 
     
-        $model = Course::find()->where('student_course.reg_no = :reg_no', [ 'reg_no' => $id])->joinWith('studentCourses')->all();
-        
-        return $this->render('carry_courses/index', ['data'=> $model]);
+        return $this->redirect(Yii::$app->request->referrer);
        }
 
 
@@ -167,6 +192,10 @@ public function actionClasswork($cid){
 
     }
 
+
+
+    
+
     /**
      * Finds the Course model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -176,12 +205,15 @@ public function actionClasswork($cid){
      */
     protected function findModel($id)
     {
+        
         if (($model = StudentCourse::findOne($id)) !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+        throw new NotFoundHttpException(Yii::t('app', 'No such course'));
     }
+
+
 
 
     /**
@@ -191,17 +223,20 @@ public function actionClasswork($cid){
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        $id = Yii::$app->user->identity->username;
-
+    public function actionDelete_carry()
+    { 
+        if(Yii::$app->request->isAjax){
         
-        $model = Course::find()->where('student_course.reg_no = :reg_no', [ ':reg_no' => $id])->joinWith('studentCourses')->all();
-        
-        return $this->render('carry_courses/index', ['data'=> $model]);
-    }
+            $id = Yii::$app->request->post('carry_id');
+           $carry_deleted =  $this->findModel($id)->delete();
+           if($carry_deleted){
+            return $this->asJson(['message'=>'Carry Deleted']);
+          }
+        }
+       
+        }
+
+
 
      /**
      * Lists all groups created by student student.
@@ -252,12 +287,7 @@ public function actionClasswork($cid){
         $id = Yii::$app->user->identity->username;
 
         
-        $model = Course::find()->where('groups.reg_no = :reg_no',[':reg_no' => $id])
-        ->joinWith('studentCreatedGroups')
-        ->all();
-        
-
-        return $this->render('groups/index', ['data'=> $model]);
+        return $this->redirect(Yii::$app->request->referrer);
     }
     
 
@@ -285,6 +315,8 @@ public function actionClasswork($cid){
        
             
             Yii::$app->session->setFlash('success', 'group added successfully');
+
+            return $this->redirect(Yii::$app->request->referrer);
        
                 
          }
@@ -335,12 +367,8 @@ public function actionClasswork($cid){
         try{
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             
-            Yii::$app->session->setFlash('success', 'Carry added successfully');
-            $id = Yii::$app->user->identity->username;
-
-        
-           
-            return $this->render('groups/student_list_in_course_group', ['data'=> $model_student, 'group_name' => $group_name, 'model' => $model]);
+            Yii::$app->session->setFlash('success', 'Student added successfully');
+           return $this->redirect(Yii::$app->request->referrer);
         
         }
         }
@@ -403,7 +431,7 @@ public function actionClasswork($cid){
             return $model;
         }
 
-        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+        throw new NotFoundHttpException(Yii::t('app', 'Group .'));
     }
 
 
@@ -419,7 +447,7 @@ public function actionClasswork($cid){
         $this->findStudentGroupModel($id)->delete();
 
 
-        return $this->refresh();
+        return $this->redirect(Yii::$app->request->referrer);
     }
     
 
@@ -470,7 +498,7 @@ public function actionClasswork($cid){
 
 
     /**
-     * view assignment 
+     * download assignment 
      */
 
     public function actionDownload_assignment($assID) {
@@ -478,7 +506,7 @@ public function actionClasswork($cid){
     
         // This will need to be the path relative to the root of your app.
         $filePath = '/web/storage/temp';
-        // Might need to change '@app' for another alias
+        
         $completePath = Yii::getAlias('@app'.$filePath.'/'.$model->fileName);
     
         return Yii::$app->response->sendFile($completePath, $model->fileName);
@@ -537,7 +565,7 @@ public function actionClasswork($cid){
                 Yii::$app->session->setFlash('success', 'Your Submit successed');
              
                 
-                return $this->refresh();
+                return $this->redirect(Yii::$app->request->referrer);
             }
             
             
@@ -550,5 +578,7 @@ public function actionClasswork($cid){
             return $this->render('submit_assignment', [
                 'model' => $model, 'assID' => $assID],false,true);
     }
+
+
 
 }

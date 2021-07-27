@@ -2,6 +2,8 @@
 use yii\bootstrap4\Breadcrumbs;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
+use frontend\models\UploadStudentForm;
+
 /* @var $this yii\web\View */
 
 $this->title = 'Upload Student(s)';
@@ -15,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <!-- Content Wrapper. Contains page content -->
    
         <div class="container-fluid">
+
        
         <!-- Main row -->
         <div class="row">
@@ -98,12 +101,39 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php ActiveForm::end() ?>
               </div>
               <div class="col-md-7">
-              <p class="text-secondary">Upload students using excel sheet</p>
-             <form action="">
-             <input type="file" name="file" id="file-input">
-             </form>
               
-               </div>
+              <?php $stdmodel = new UploadStudentForm(); ?>
+
+    <?php $form= ActiveForm::begin(['method'=>'post', 'action'=>'/instructor/import-students','options'=>['enctype'=>'multipart/form-data'],'id'=>'assessform','enableClientValidation' => true])?>
+        
+      <div class="row">
+      <div class="col-md-12">
+      <div class="custom-file">
+      <?= $form->field($stdmodel,'assFile')->fileInput(['class'=>'form-control form-control-sm custom-file-input', 'id'=>'myFile'])->label('Select File', ['class'=>'custom-file-label col-form-label-sm', 'for'=>'customFile'])?>
+      </div>
+      </div>
+        </div>
+        <br>
+        
+        <div class="row">
+        <div class="col-md-12">
+        <?= Html::submitButton('Upload', ['class'=>'btn btn-primary btn-md float-right ml-2']) ?>
+        <!-- <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button> -->
+        </div>
+        </div>
+        
+    <?php ActiveForm::end()?>
+
+
+
+
+
+
+
+
+
+
+               
               </div>
               </div>
                  

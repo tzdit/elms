@@ -81,4 +81,18 @@ class Material extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Instructor::className(), ['instructorID' => 'instructorID']);
     }
+
+
+    function getVideoAndNotesLink(){
+
+        $document_path = Yii::getAlias('@frontend/web/storage/temp/'.$this->fileName );
+        $video_path = 'http://localhost:8081/storage/temp/'.$this->fileName;
+        if(file_exists($document_path)){
+            return $video_path;
+        }
+
+        return false;
+
+        
+    }
 }

@@ -99,7 +99,7 @@ use yii\helpers\Html;
               <div class="card-body">
             <table class="table table-bordered table-striped table-hover" id="CourseList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
             <thead>
-            <tr><th width="1%">#</th><th>Course Name</th><th>Course Code</th><th>Course Credit</th><th>Course Semester</th><th>Course Duration</th><th>Course Status</th><th>Action</th></tr>
+            <tr><th width="1%">#</th><th>Course Name</th><th>Course Code</th><th>Course Credit</th><th>Course Semester</th><th>Course Duration</th><th>Course Status</th><th width="15%">Action</th></tr>
             
             </thead>
             <tbody>

@@ -6,13 +6,21 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\helpers\VarDumper;
 use yii\bootstrap4\Modal;
+use \dominus77\sweetalert2\Alert;
 /* @var $this yii\web\View */
 
-$this->title = 'Carried Courses';
+$this->title = Yii::t('app', 'Carry');
+$this->params['courseTitle'] = 'Carry Classes';
+
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-index">
 
- <!-- <?= VarDumper::dump($data) ?> -->
+ <!-- <?php
+ echo '<pre>';
+ VarDumper::dump($data) ;
+ echo '</pre>';
+ ?> -->
 
     
 
@@ -25,16 +33,12 @@ $this->title = 'Carried Courses';
           <!-- Left col -->
           <section class="col-lg-12">
             <!-- Custom tabs (Charts with tabs)-->
+            
             <div class="card">
-              <div class="card-header p-2">
-                <h3 class="card-title com-sm-12">
-                  <i class="fas fa-list mr-1 text-info"></i>
-                 Courses List
-                 
-                </h3>
-                <a value="<?= Url::to('/student/add_carry') ?>" class="btn btn-primary btn-sm float-right m-0 col-xs-12" id = "modal_button"><i class="fas fa-user-plus"></i> Add Carry</a>
-
-                <?php
+            <a value="<?= Url::to('/student/add_carry') ?>" class="btn btn-primary btn-sm float-right m-0 col-xs-12" id = "modal_button">
+              <i class="fas fa-user-plus fa-lg"></i> Add Carry 
+        </a>
+              <?php
                   Modal::begin([
                     'title' => '<h2>Add Carry</h2>',
                     'id' => 'modal',
@@ -44,35 +48,6 @@ $this->title = 'Carried Courses';
                   echo "<div id = 'modal_content'></div>";
                   Modal::end();
                 ?>
-              
-              </div><!-- /.card-header -->
-              <div class="card-body">
-            <table class="table table-bordered table-striped table-hover" id="CarryList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
-            <thead>
-            <tr><th width="1%">#</th><th>Course Code</th><th>Course Name</th><th>Course Credit</th><th>Course Status</th><th>Action</th></tr>
-            
-            </thead>
-            <tbody>
-            <?php $i = 0; ?>
-            <?php foreach($data as $course): ?>
-            <tr>
-            <td><?= ++$i; ?></td>
-            <td><?= $course->course_code ?></td>
-            <td><?= $course->course_name ?></td>
-            <td><?= $course->course_credit ?></td>
-            <td><?= strtoupper($course->course_status) ?></td>
-            <td>
-            <a href="<?= Url::toRoute(['/student/delete', 'id' => $course->studentCourses[0]->SC_ID ])?>" class="btn btn-danger btn-sm m-0">
-            
-            <i class="fas fa-trash" ></i></a>
-            </td>
-            </tr>
-            <?php endforeach ?>
-         
-            </tbody>
-            </table>
-             
-              </div><!-- /.card-body -->
             </div>
             <!-- /.card -->
 
@@ -87,17 +62,72 @@ $this->title = 'Carried Courses';
 
     </div>
 </div>
-<?php 
-$script = <<<JS
-$(document).ready(function(){
-  $("#CarryList").DataTable({
-    responsive:true
-  });
-  // alert("JS IS OKEY")
-});
-JS;
-$this->registerJs($script);
-?>
+
+
+
+<!-- <?= VarDumper::dump($data) ?> -->
+<div class="site-index">
+
+    
+
+    <div class="body-content">
+   
+        <div class="container-fluid">
+     
+        <div class="row">
+        <?php foreach($data as $course): ?>
+          <div class="col-lg-3 col-6">
+          <div class="row">
+            <div class="col-sm-10 m-0 p-1">
+                <a href="<?=Url::to(['student/classwork/', 'cid'=>$course->course_code])  ?>" >
+
+                <div class="small-box bg-info ">
+                    <div class="inner pl-2 pb-2">
+                      <h3><?= $course->course_code ?></h3>
+
+                      <p class="m-0">Credit <?= $course->course_credit ?></p>
+                      <h5 class="m-0 p-0 text-muted"> <?= strtoupper($course->course_status) ?></h5>
+
+                        <div class="icon">
+                          <i class="fa fa-book"></i>
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="small-box-footer container" >
+                      <div class="row" > 
+                        <div class="col-sm-10  ">
+                        </div>
+                        <div class="col-sm-2 m-0 p-0">
+                            <a href="#" class="  btn-delete " id = "btn-delete" carry_id = "<?= $course->studentCourses[0]->SC_ID ?>" ><i class="fas fa-times-circle fa-lg carry-delete"></i></i>
+                             </a>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              
+              
+
+              
+              
+            </div>
+           
+           
+              </a>
+          </div>
+          
+          </div> 
+          <?php endforeach ?>
+        </div>
+      </div>
+
+    </div>
+</div>
+
+
+
+
 
 
 

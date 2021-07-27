@@ -60,9 +60,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <td><?= $student->gender ?></td>
                 <td>
 
-                <a href="<?= Url::toRoute(['/student/remove_student_from_group', 'id' => $student->studentGroups[0]->SG_ID])?>" class=" btn btn-primary btn-sm m-0">
+                <a href="<?= Url::toRoute(['/student/remove_student_from_group', 'id' => $student->studentGroups[0]->SG_ID])?>" class=" btn-sm m-0">
                 
-                <i class="fas fa-minus-square" ></i></a>
+                <i class="fas fa-minus-square fa-2x carry-delete" ></i></a>
 
                 </td>
                 </tr>
