@@ -14,12 +14,15 @@ use common\models\ExtAssess;
 use common\models\ProgramCourse;
 use common\models\Announcement;
 use frontend\models\UploadAssignment;
+use frontend\models\CA;
 use frontend\models\UploadTutorial;
 use frontend\models\PostAnnouncement;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
 use frontend\models\StudentGroups;
 use frontend\models\External_assess;
+use yii\bootstrap4\ActiveForm;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] = "Course ".$cid;
@@ -834,20 +837,164 @@ $assk = "Assignment".$ass;
       </div>
    </div>
    <!--##################### the CA ######################## -->
+  
    <div class="tab-pane fade" id="ca" role="tabpanel" aria-labelledby="custom-tabs-ca">
-          <div class="row">
-            <div class="col-md-12">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i>New CA</a>
-            </div>
-                  
-          </div>
-   
+   <?php 
+      $assignments=Assignment::find()->where(['course_code'=>$cid,'assNature'=>'assignment'])->all();
+      $assArray=ArrayHelper::map($assignments,'assID','assName');
+      $labs=Assignment::find()->where(['course_code'=>$cid,'assNature'=>'lab'])->all();
+      $labarray=ArrayHelper::map($labs,'assID','assName');
+      $others=ExtAssess::find()->where(['course_code'=>$cid])->all();
+      $othersarray=ArrayHelper::map($others,'assessID','title');
+      $camodel=new CA();
+   ?>
    <div class="container-fluid">
+    <div class="card shadow" >
+    <div class="card-header p-2" id="heading">
+    <div class="row">
+    <div class="col-md-10">
+    <span style="margin-left:20px;">Choose assessments to include in the CA</span>
+   </div>
+   </div>
+    </div>
+    <?php     
+$form = ActiveForm::begin([
+    'id' => 'login-form',
+    'action'=>'/instructor/generate-ca',
+    'method'=>'post',
+    'options' => ['class' => 'form-horizontal']
+]) ?>
+    <div class="card-body">
 
+  <div class="row">
+    <div class="col-md-4">
+      <!-- 
+        ######################### the assignments
+      -->
+
+    <div class="card shadow" >
+      <div class="card-header p-2 bg-primary text-sm">
+        Assignments
+      </div>
+    <div class="card-body">
+  <div class="row">
+    <div class="col-md-12">
+    <?= $form->field($camodel, 'Assignments[]')->checkboxList($assArray)->label(false) ?>
+    <?= $form->field($camodel, 'otherassessreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm','placeholder'=>'Max','id'=>'other'])->label(false)?>
+   </div>
+   </div>
+ 
+  
+  </div>
+
+
+
+
+     </div>
+
+      <!--########################################-->
+   </div>
+   <div class="col-md-4">
+      <!-- 
+        ######################### the labs
+      -->
+
+    <div class="card shadow" >
+    <div class="card-header p-2 bg-primary text-sm">
+        Lab assignments
+      </div>
+    <div class="card-body">
+  <div class="row">
+    <div class="col-md-12">
+    <?= $form->field($camodel, 'LabAssignments[]')->checkboxList($labarray)->label(false) ?>
+    <?= $form->field($camodel, 'otherassessreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm','placeholder'=>'Max','id'=>'other'])->label(false)?>
+   </div>
+   </div>
+  
+  </div>
+
+
+
+
+     </div>
+
+      <!--########################################-->
+   </div>
+   <div class="col-md-4">
+      <!-- 
+        ######################### other assessments
+      -->
+
+    <div class="card shadow" >
+    <div class="card-header p-2 bg-primary text-sm">
+       Other assessments
+      </div>
+    <div class="card-body">
+  <div class="row">
+    <div class="col-md-12">
+    <?php if(empty($othersarray)){print "<span class='info'>No assessment found</span>";} ?>
+    <?= $form->field($camodel, 'otherAssessments[]')->checkboxList($othersarray)->label(false)?>
+    <?= $form->field($camodel, 'otherassessreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm','placeholder'=>'Max','id'=>'other'])->label(false)?>
    </div>
    </div>
 
-     <!-- ########################################### end tutorial ################################# -->
+  </div>
+
+
+
+
+     </div>
+
+      <!--########################################-->
+   </div>
+   </div>
+  
+ 
+  <!-- the stats-->
+  <div class="row">
+  <div class="col-md-4">
+  <div class="info-box shadow">
+  <div class="info-box-content">
+    <span class="info-box-text text-primary">Carries</span>
+    <span class="info-box-number" id="carries"></span>
+  </div>
+     
+  </div>
+   </div>
+   <div class="col-md-4">
+   <div class="info-box shadow">
+    <div class="info-box-content">
+      <span class="info-box-text text-primary">Incomplete</span>
+      <span class="info-box-number" id="incomplete"></span>
+    </div>
+     
+    </div>
+</div>
+   <div class="col-md-4">
+
+   <div class="info-box shadow">
+    <div class="info-box-content">
+      <span class="info-box-text text-primary" id="pass">Pass</span>
+      <span class="info-box-number"></span>
+    </div>
+     
+    </div>
+</div>
+  </div> 
+  </div>
+   <div class="card-footer text-center" style="font-size:12px">
+   <?= Html::submitButton('Download as Excel', ['class'=>'btn btn-primary btn-rounded btn-sm']) ?>
+  <?= Html::a('<button class="btn btn-primary btn-rounded btn-sm" style="margin-right:5px">Preview</button>', ['view-assessment']) ?>
+  
+   </div>
+
+
+   <?php ActiveForm::end() ?>
+     </div>
+      </div>
+  </div>
+
+     <!-- ########################################### end CA ################################# -->
      <div class="tab-pane fade" id="students" role="tabpanel" aria-labelledby="custom-tabs-Students">
      <?php 
      $students=[];

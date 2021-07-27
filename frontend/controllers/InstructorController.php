@@ -30,6 +30,7 @@ use frontend\models\External_assess;
 use frontend\models\AddAssessRecord;
 use frontend\models\StudentGroups;
 use frontend\models\TemplateDownloader;
+use frontend\models\CA;
 use common\models\Groups;
 use common\models\GroupGenerationTypes;
 use common\models\Announcement;
@@ -110,7 +111,8 @@ public $defaultAction = 'dashboard';
                             'download-extassess-template',
                             'delete-assessment',
                             'post-announcement',
-                            'delete-announcement'
+                            'delete-announcement',
+                            'generate-ca'
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -1010,6 +1012,22 @@ public function actionAddStudentGentype()
         throw new BadRequestHttpException();
     }
 
+
+ }
+ ////////////////////////// the CA //////////////////////////////
+
+ public function actionGenerateCa()
+ {
+   $model=new CA();
+   $model->Assignments=yii::$app->request->post("CA")["Assignments"];
+   $model->LabAssignments=yii::$app->request->post("CA")["LabAssignments"];
+   $model->otherAssessments=yii::$app->request->post("CA")["otherAssessments"];
+ 
+  
+     $model->generateCA();
+    
+
+ 
 
  }
 
