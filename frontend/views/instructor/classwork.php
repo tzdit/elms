@@ -880,7 +880,7 @@ $form = ActiveForm::begin([
   <div class="row">
     <div class="col-md-12">
     <?= $form->field($camodel, 'Assignments[]')->checkboxList($assArray)->label(false) ?>
-    <?= $form->field($camodel, 'otherassessreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm','placeholder'=>'Max','id'=>'other'])->label(false)?>
+    <?= $form->field($camodel, 'assreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm','placeholder'=>'Max','id'=>'other'])->label(false)?>
    </div>
    </div>
  
@@ -907,7 +907,7 @@ $form = ActiveForm::begin([
   <div class="row">
     <div class="col-md-12">
     <?= $form->field($camodel, 'LabAssignments[]')->checkboxList($labarray)->label(false) ?>
-    <?= $form->field($camodel, 'otherassessreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm','placeholder'=>'Max','id'=>'other'])->label(false)?>
+    <?= $form->field($camodel, 'labreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm','placeholder'=>'Max','id'=>'other'])->label(false)?>
    </div>
    </div>
   
@@ -993,6 +993,7 @@ $form = ActiveForm::begin([
      </div>
       </div>
   </div>
+  
 
      <!-- ########################################### end CA ################################# -->
      <div class="tab-pane fade" id="students" role="tabpanel" aria-labelledby="custom-tabs-Students">

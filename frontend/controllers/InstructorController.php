@@ -1061,7 +1061,9 @@ public function actionAddStudentGentype()
    $model->Assignments=yii::$app->request->post("CA")["Assignments"];
    $model->LabAssignments=yii::$app->request->post("CA")["LabAssignments"];
    $model->otherAssessments=yii::$app->request->post("CA")["otherAssessments"];
- 
+   $model->assreduce=yii::$app->request->post("CA")["assreduce"];
+   $model->labreduce=yii::$app->request->post("CA")["labreduce"];
+   $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
   
      $model->generateCA();
     
