@@ -1,6 +1,4 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <?php
 use yii\bootstrap4\Breadcrumbs;
@@ -75,11 +73,8 @@ $instructors=ArrayHelper::map(Instructor::find()->asArray()->where(['<>','instru
 
     </div>
 </div>
-
-<script>
-   $(".myselect").select2({
-     theme:'classic'
-   });
+<?php
+$script = <<<JS
     $('document').ready(function(){
 
       ///select tag
@@ -171,16 +166,8 @@ $instructors=ArrayHelper::map(Instructor::find()->asArray()->where(['<>','instru
     });
 
   })
-</script>
+JS;
+$this->registerJs($script);
+?>
 
- <style>
-  #myInput {
-    padding: 20px;
-    margin-top: -6px;
-    border: 0;
-    border-radius: 0;
-    background: #f1f1f1;
-  }
-  </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 

@@ -35,7 +35,7 @@ use yii\helpers\Url;
                 
                 </div>
               </div>
-              <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+              
               <script>
               $("document").ready(function() {
                //$("#theplayer").parent().prop('muted',true);

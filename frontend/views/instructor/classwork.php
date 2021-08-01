@@ -39,9 +39,9 @@ $this->params['breadcrumbs'] = [
     <div class="body-content ">
             <!-- Content Wrapper. Contains page content -->
    
-       <div class="container-fluid >
+       <div class="container-fluid">
       
- <div class="row ">
+ <div class="row">
           <!-- Left col -->
           <section class="col-lg-12 ">
           <div class="card card-primary card-outline card-outline-tabs">
@@ -858,8 +858,8 @@ $assk = "Assignment".$ass;
    </div>
     </div>
     <?php     
-$form = ActiveForm::begin([
-    'id' => 'login-form',
+$caform = ActiveForm::begin([
+    'id' => 'ca-form',
     'action'=>'/instructor/generate-ca',
     'method'=>'post',
     'options' => ['class' => 'form-horizontal']
@@ -879,8 +879,8 @@ $form = ActiveForm::begin([
     <div class="card-body">
   <div class="row">
     <div class="col-md-12">
-    <?= $form->field($camodel, 'Assignments[]')->checkboxList($assArray)->label(false) ?>
-    <?= $form->field($camodel, 'assreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm','placeholder'=>'Max','id'=>'other'])->label(false)?>
+    <?= $caform->field($camodel, 'Assignments[]')->checkboxList($assArray)->label(false) ?>
+    <?= $caform->field($camodel, 'assreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm','placeholder'=>'Max','id'=>'other'])->label(false)?>
    </div>
    </div>
  
@@ -906,8 +906,8 @@ $form = ActiveForm::begin([
     <div class="card-body">
   <div class="row">
     <div class="col-md-12">
-    <?= $form->field($camodel, 'LabAssignments[]')->checkboxList($labarray)->label(false) ?>
-    <?= $form->field($camodel, 'labreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm','placeholder'=>'Max','id'=>'other'])->label(false)?>
+    <?= $caform->field($camodel, 'LabAssignments[]')->checkboxList($labarray)->label(false) ?>
+    <?= $caform->field($camodel, 'labreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm','placeholder'=>'Max','id'=>'other'])->label(false)?>
    </div>
    </div>
   
@@ -933,8 +933,8 @@ $form = ActiveForm::begin([
   <div class="row">
     <div class="col-md-12">
     <?php if(empty($othersarray)){print "<span class='info'>No assessment found</span>";} ?>
-    <?= $form->field($camodel, 'otherAssessments[]')->checkboxList($othersarray)->label(false)?>
-    <?= $form->field($camodel, 'otherassessreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm','placeholder'=>'Max','id'=>'other'])->label(false)?>
+    <?= $caform->field($camodel, 'otherAssessments[]')->checkboxList($othersarray)->label(false)?>
+    <?= $caform->field($camodel, 'otherassessreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm','placeholder'=>'Max','id'=>'other'])->label(false)?>
    </div>
    </div>
 
