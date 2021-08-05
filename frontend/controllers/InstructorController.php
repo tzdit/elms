@@ -32,6 +32,7 @@ use frontend\models\AddAssessRecord;
 use frontend\models\StudentGroups;
 use frontend\models\TemplateDownloader;
 use frontend\models\CA;
+use frontend\models\CA_previewer;
 use common\models\Groups;
 use common\models\GroupGenerationTypes;
 use common\models\Announcement;
@@ -113,7 +114,12 @@ public $defaultAction = 'dashboard';
                             'delete-assessment',
                             'post-announcement',
                             'delete-announcement',
-                            'generate-ca'
+                            'generate-ca',
+                            'ca-preview',
+                            'get-incomplete-perc',
+                            'get-student-count',
+                            'get-carries-perc'
+
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -819,6 +825,7 @@ public function actionMarkInputing()
     $submit->comment=$comment;
   }
   $submit->save();
+  //print_r($submit->getErrors());
   //preparing the submit
  
 
@@ -1058,6 +1065,7 @@ public function actionAddStudentGentype()
  public function actionGenerateCa()
  {
    $model=new CA();
+   
    $model->Assignments=yii::$app->request->post("CA")["Assignments"];
    $model->LabAssignments=yii::$app->request->post("CA")["LabAssignments"];
    $model->otherAssessments=yii::$app->request->post("CA")["otherAssessments"];
@@ -1065,11 +1073,76 @@ public function actionAddStudentGentype()
    $model->labreduce=yii::$app->request->post("CA")["labreduce"];
    $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
   
-     $model->generateCA();
+   $model->generateCA();
+   
+
+   return $this->redirect(Yii::$app->request->referrer); 
+  
     
 
  
 
+ }
+ public function actionCaPreview()
+ {
+    $model=new CA_previewer();
+    if(Yii::$app->request->isAjax){
+    $model->Assignments=yii::$app->request->post("CA")["Assignments"];
+    $model->LabAssignments=yii::$app->request->post("CA")["LabAssignments"];
+    $model->otherAssessments=yii::$app->request->post("CA")["otherAssessments"];
+    $model->assreduce=yii::$app->request->post("CA")["assreduce"];
+    $model->labreduce=yii::$app->request->post("CA")["labreduce"];
+    $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
+   
+    $data=$model->previewCA();
+    print $data;
+    }
+ }
+ public function actionGetIncompletePerc()
+ {
+    $model=new CA();
+    if(Yii::$app->request->isAjax){
+    $model->Assignments=yii::$app->request->post("CA")["Assignments"];
+    $model->LabAssignments=yii::$app->request->post("CA")["LabAssignments"];
+    $model->otherAssessments=yii::$app->request->post("CA")["otherAssessments"];
+    $model->assreduce=yii::$app->request->post("CA")["assreduce"];
+    $model->labreduce=yii::$app->request->post("CA")["labreduce"];
+    $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
+   
+    $data=$model->getincompleteperc();
+    print $data;
+    }
+
+ }
+ public function actionGetStudentCount()
+ {
+    $model=new CA();
+    if(Yii::$app->request->isAjax){
+    $model->Assignments=yii::$app->request->post("CA")["Assignments"];
+    $model->LabAssignments=yii::$app->request->post("CA")["LabAssignments"];
+    $model->otherAssessments=yii::$app->request->post("CA")["otherAssessments"];
+    $model->assreduce=yii::$app->request->post("CA")["assreduce"];
+    $model->labreduce=yii::$app->request->post("CA")["labreduce"];
+    $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
+   
+    $data=$model->get_no_of_student();
+    print $data;
+    }  
+ }
+ public function actionGetCarriesPerc()
+ {
+    $model=new CA();
+    if(Yii::$app->request->isAjax){
+    $model->Assignments=yii::$app->request->post("CA")["Assignments"];
+    $model->LabAssignments=yii::$app->request->post("CA")["LabAssignments"];
+    $model->otherAssessments=yii::$app->request->post("CA")["otherAssessments"];
+    $model->assreduce=yii::$app->request->post("CA")["assreduce"];
+    $model->labreduce=yii::$app->request->post("CA")["labreduce"];
+    $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
+   
+    $data=$model->getCarriedPercent();
+    print $data;
+    }  
  }
 
 //#################################### HOD HERE ########################################################################

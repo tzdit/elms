@@ -41,7 +41,7 @@ for($sub=0;$sub<count($submits);$sub++)
 </table>
 </div>
   <div class="col-md-8 shadow">
-    <iframe src="/storage/submit/AFB5xyOReilly.Head.First.PHP.and.MySQL.Dec.2008.pdf" style="width:100%;border:none" height="426" id="fileobj"  type="application/pdf">
+    <iframe src="" style="width:100%;border:none" height="426" id="fileobj"  type="application/pdf">
     the file here
 
     </iframe>

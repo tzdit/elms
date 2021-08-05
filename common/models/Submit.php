@@ -146,7 +146,7 @@ class Submit extends \yii\db\ActiveRecord
         $this->submit_date = date('Y-m-d');
         $this->submit_time = date('H:i:s');
         $this->reg_no = Yii::$app->user->identity->username;
-        $this->fileName = Yii::$app->security->generateRandomString(6).$this->document->name;
+        $this->fileName ="a";
 
         if($isInsert){
             

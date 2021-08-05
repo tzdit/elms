@@ -16,7 +16,7 @@ use PhpOffice\PhpSpreadsheet\Reader\Html;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-class CA extends Model{
+class CA_previewer extends Model{
     public $otherAssessments=[];
     public $Assignments=[];
     public $LabAssignments=[];
@@ -30,18 +30,16 @@ class CA extends Model{
     public $otherGrandMax;
 
     public $GrandMax;
-
-
   
-    public function generateCA()
+    public function previewCA()
     {
      
       $this->setallstudents();
       $student_with_marks=null;
-      $caheader="<tr><td rowspan=2>registration number</td>";
-      $ca_sub_header="<tr>";
+      $caheader="<tr style='background-color:#f0fbff;text-align:center;'><td rowspan=2>registration number</td>";
+      $ca_sub_header="<tr style='background-color:#f0fbff;text-align:center;'>";
       $rows=[];
-      $catable="<table class='table-bordered table-hover' border=1>";
+      $catable="<table class='table-bordered table-hover shadow'>";
       if(!empty($this->Assignments)){
         $student_with_marks=$this->asscumul($this->Assignments);
         $caheader.=$this->catable_header($student_with_marks,"Assignments");
@@ -80,13 +78,8 @@ class CA extends Model{
       
       
       $catable.="</table>";
-      //print  $catable;
-     $this->CAdownloader($catable);
-
-    // print_r($student_with_marks);
-
-   
-      
+      return $catable;
+       
     }
     private function ca_subheader($data,$type)
     {
@@ -235,13 +228,13 @@ class CA extends Model{
           $students[$reg]["Assignments"]["max"]=$maxheader;
          }
          //getting each student score
-        
+         $count=0;
          foreach($assignment_scores as $reg=>$sc)
          {
-           
+           if($count>4){break;}
            $students[$reg]["Assignments"][$assheader]=$sc;
            $students[$reg]["Assignments"]["total"]=!empty($sc)?$students[$reg]["Assignments"]["total"]+$sc:null;
-           
+           $count++;
          }
 
         
@@ -258,10 +251,10 @@ class CA extends Model{
 
          //adding the grand total
 
-         foreach($assignment_scores as $reg=>$sc)
+         foreach($students as $reg=>$sc)
          {
            
-           $students[$reg]["GrandTotal"]=(isset($students[$reg]["Assignments"]["total"]))?$students[$reg]["Assignments"]["total"]:null;
+          $students[$reg]["GrandTotal"]=(isset($students[$reg]["Assignments"]["total"]) && $students[$reg]["Assignments"]["total"]!=null)?$students[$reg]["Assignments"]["total"]:null;
         
           
          }
@@ -315,13 +308,13 @@ class CA extends Model{
             $students[$reg]["Lab Assignments"]["max"]=$maxheader;
            }
            //getting each student score
-          
+           $count=0;
            foreach($assignment_scores as $reg=>$sc)
            {
-             
+            if($count>4){break;}
              $students[$reg]["Lab Assignments"][$assheader]=$sc;
              $students[$reg]["Lab Assignments"]["total"]=!empty($sc)?$students[$reg]["Lab Assignments"]["total"]+$sc:null;
-             
+             $count++;
            }
   
           
@@ -342,8 +335,8 @@ class CA extends Model{
           foreach($students as $regno=>$cont)
           {
             //print($cont['GrandTotal']);
-            $total=$students[$regno]["Lab Assignments"]["total"];
-            $students[$regno]["GrandTotal"]=(isset($students[$regno]["GrandTotal"]))?$students[$regno]["GrandTotal"]+$total:$total;
+            $total=!empty($students[$regno]["Lab Assignments"]["total"])?$students[$regno]["Lab Assignments"]["total"]:null;
+            $students[$regno]["GrandTotal"]=(isset($students[$regno]["GrandTotal"]) && !empty($students[$regno]["GrandTotal"]))?$students[$regno]["GrandTotal"]+$total:$total;
           }
           //adding the assignments grandmax
           $this->labGrandMax=$maxheader;
@@ -395,13 +388,13 @@ class CA extends Model{
             $students[$reg]["Other Assessments"]["max"]=$maxheader;
            }
            //getting each student score
-          
+           $count=0;
            foreach($assessment_scores as $reg=>$sc)
            {
-             
+             if($count>4){break;}
              $students[$reg]["Other Assessments"][$assheader]=$sc;
              $students[$reg]["Other Assessments"]["total"]=!empty($sc)?$students[$reg]["Other Assessments"]["total"]+$sc:null;
-            
+             $count++;
            }
   
         
@@ -419,8 +412,9 @@ class CA extends Model{
           foreach($students as $regno=>$cont)
           {
             //print($cont['GrandTotal']);
+       
             $total=$students[$regno]["Other Assessments"]["total"];
-            $students[$regno]["GrandTotal"]=(isset($students[$regno]["GrandTotal"]))?$students[$regno]["GrandTotal"]+$total:$total;
+            $students[$regno]["GrandTotal"]=(isset($students[$regno]["GrandTotal"]) && !empty($students[$regno]["GrandTotal"]))?$students[$regno]["GrandTotal"]+$total:$total;
           }
           //adding the assignments grandmax
           $this->otherGrandMax=$maxheader;
@@ -593,14 +587,14 @@ class CA extends Model{
     {
       $students_for_assessments=[];
 
-      $coursePrograms=ProgramCourse::find()->where(['course_code'=>yii::$app->session->get('ccode')])->all();
+      $coursePrograms=ProgramCourse::find()->where(['course_code'=>yii::$app->session->get('ccode')])->limit(2)->all();
       foreach($coursePrograms as $program)
       {
  
        $programStudents=$program->programCode0->students;
- 
+       
        for($s=0;$s<count($programStudents);$s++){
-
+        if($s>2){continue;}
         $students_for_assessments[$programStudents[$s]->reg_no]=array();
         if(!empty($this->Assignments)){
           $students_for_assessments[$programStudents[$s]->reg_no]["Assignments"]["total"]=null;
@@ -616,10 +610,10 @@ class CA extends Model{
         }
 
         }
- 
+       
  
       }
-      $carryovers=StudentCourse::find()->where(['course_code'=>yii::$app->session->get('ccode')])->all(); 
+      $carryovers=StudentCourse::find()->where(['course_code'=>yii::$app->session->get('ccode')])->limit(2)->all(); 
  
       foreach($carryovers as $carry)
       {
@@ -642,205 +636,8 @@ class CA extends Model{
         
        
       }
-
-      $this->allstudents=$students_for_assessments;
-    }
-
-    private function CAdownloader($ca)
-    {
-      $content=$ca;
-     
-        $reader = new Html();
-        $spreadsheet=new SpreadSheet();
-        $spreadsheet = $reader->loadFromString($content);
-        $sheet=$spreadsheet->getActiveSheet();
-        
-        //the logo
-
-$drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
-$drawing->setName('UDOM Logo');
-$drawing->setDescription('UDOM Logo');
-$drawing->setPath('img/logo.png');
-$drawing->setHeight(25);
-$drawing->setWorksheet($sheet);
-        //setting autoresize and styles
-        $styleArray = [
-          'font' => [
-              'bold' => true,
-          ],
-          'fill' => [
-              'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-              'color' => [
-                'argb' => 'FFC4ECFF'
-              ]
-             
-            
-      ]];
-      //border styles
-
-      $borderstyleArray = [
-        'borders' => [
-            'allBorders' => [
-                'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                'color' => ['argb' => 'aa000000'],
-            ],
-        ],
-    ];
-
-      //$stylelist= $sheet->rangeToArray('A1:' . $sheet->getHighestColumn().'1','', TRUE, TRUE, TRUE);
-    
-       //the styles
-     
-
-          $sheet->getStyle('A1:' . $sheet->getHighestColumn().'2')->applyFromArray($styleArray);
-          $sheet->getStyle('A1:' . $sheet->getHighestColumn().$sheet->getHighestRow())->applyFromArray($borderstyleArray);
-         
-
-    
-      
-        $list= $sheet->rangeToArray('A1:' . $sheet->getHighestColumn() . $sheet->getHighestRow(), '', TRUE, TRUE, TRUE);
-        
-        //the resizing
-        for($c=1;$c<=count($list);$c++)
-        {
-          $col=$list[$c];
-
-          foreach($col as $header=>$cont)
-          {
-
-            $sheet->getColumnDimension($header)->setAutoSize(true);
-            
-          }
-
-        }
    
-       
-     
-        ob_clean();
-        $writer=IOFactory::createWriter($spreadsheet, 'Xlsx');
-        
-        $filename=yii::$app->session->get('ccode')."_CA.Xlsx";
-        $filename = str_replace(' ', '', $filename);
-       header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-       header('Content-Disposition: attachment; filename="'. urlencode($filename).'"');
-
-       ob_end_clean();
-       $writer->save('php://output'); 
-
-        exit();
-
-        return true;
-    }
-
-    //for previewing stats
-
-    public function get_no_of_student()
-    {
-      $this->setallstudents();
-      return count($this->allstudents);
-    }
-    private function studentwithscores()
-    {
-      $this->setallstudents();
-      $student_with_marks=null;
-      if(!empty($this->Assignments)){
-        $student_with_marks=$this->asscumul($this->Assignments);
-      }
-      else{$student_with_marks=$this->allstudents;}
-      if(!empty($this->LabAssignments)){
-        $student_with_marks=$this->labcumul($this->LabAssignments,$student_with_marks);
-      }
-      if(!empty($this->otherAssessments)){
-        $student_with_marks=$this->otherAssessCumul($this->otherAssessments,$student_with_marks);
-      }
-    
-      $this->GrandMax=$this->labGrandMax+$this->assGrandMax+$this->otherGrandMax;
-    
-      return $student_with_marks;
-       
-    }
-    public function getCarriedPercent()
-    {
-      $total_failed=0;
-      $total_students=$this->get_no_of_student();
-      $studentswithmarks=$this->studentwithscores();
-
-      //looping through students and make required operations
-
-      foreach($studentswithmarks as $reg=>$assess)
-      {
-        $total_score=$studentswithmarks[$reg]['GrandTotal'];
-
-        $scoreoverfourty=round(($total_score*40)/$this->GrandMax,2);
-
-        if($scoreoverfourty<15.5)
-        {
-          $total_failed++;
-        }
-
-
-
-      }
-
-      $carrypercent=round(($total_failed*100)/$total_students,2);
-
-      return $carrypercent." %";
-      
-    }
-
-    public function getincompleteperc()
-    {
-      $studentwithmarks=$this->studentwithscores();
-      $total_students=$this->get_no_of_student();
-      $students_with_incomplete=0;
-      foreach($studentwithmarks as $reg=>$assess)
-      {
-          $status=false;
-          $assignments=isset($studentwithmarks[$reg]['Assignments'])?$studentwithmarks[$reg]['Assignments']:null;
-          $labs=isset($studentwithmarks[$reg]['Lab Assignments'])?$studentwithmarks[$reg]['Lab Assignments']:null;
-          $other=isset($studentwithmarks[$reg]['Other Assessments'])?$studentwithmarks[$reg]['Other Assessments']:null;
-          
-          if($assignments!==null)
-          {
-          foreach($assignments as $title=>$score)
-          {
-            if($assignments[$title]==null || empty($assignments[$title])){$status=true; break;}
-            else{$status=false; continue;}
-
-          }
-        }
-        if($labs!==null)
-        {
-          foreach($labs as $title=>$score)
-          {
-            if($status==true){break;}
-            if($labs[$title]==null || empty($labs[$title])){$status=true; break;}
-            else{$status=false; continue;}
-
-          }
-        }
-
-        if($other!==null)
-        {
-          foreach($other as $title=>$score)
-          {
-            if($status==true){break;}
-            if($other[$title]==null || empty($other[$title])){$status=true; break;}
-            else{$status=false; continue;}
-
-          }
-        }
-
-          if($status===true){$students_with_incomplete++;}
-
-
-      }
-
-      //the percentage
-
-      $perc=round(($students_with_incomplete*100)/$total_students,2);
-
-      return $perc." %";
+      $this->allstudents=$students_for_assessments;
     }
 
     private function addEncompletes($studentswithscores)
@@ -849,21 +646,16 @@ $drawing->setWorksheet($sheet);
       foreach($studentwithmarks as $reg=>$assess)
       {
           $status=false;
-          $assignments=isset($studentwithmarks[$reg]['Assignments'])?$studentwithmarks[$reg]['Assignments']:null;
-          $labs=isset($studentwithmarks[$reg]['Lab Assignments'])?$studentwithmarks[$reg]['Lab Assignments']:null;
-          $other=isset($studentwithmarks[$reg]['Other Assessments'])?$studentwithmarks[$reg]['Other Assessments']:null;
+          $assignments=$studentwithmarks[$reg]['Assignments'];
+          $labs=$studentwithmarks[$reg]['Lab Assignments'];
+          $other=$studentwithmarks[$reg]['Other Assessments'];
 
-          if($assignments!==null)
-          {
           foreach($assignments as $title=>$score)
           {
             if($assignments[$title]==null || empty($assignments[$title])){$status=true; break;}
             else{$status=false; continue;}
 
           }
-        }
-        if($labs!==null)
-        {
           foreach($labs as $title=>$score)
           {
             if($status==true){break;}
@@ -871,18 +663,13 @@ $drawing->setWorksheet($sheet);
             else{$status=false; continue;}
 
           }
-        }
-
-        if($other!==null)
-        {
-          foreach($other as $title=>$score)
+          foreach($labs as $title=>$score)
           {
             if($status==true){break;}
-            if($other[$title]==null || empty($other[$title])){$status=true; break;}
+            if($others[$title]==null || empty($other[$title])){$status=true; break;}
             else{$status=false; continue;}
 
           }
-        }
 
           if($status===true){
             $studentwithmarks[$reg]['GrandTotal']=null;
@@ -893,6 +680,7 @@ $drawing->setWorksheet($sheet);
     }
 
    
+  
     
 }
 ?>
