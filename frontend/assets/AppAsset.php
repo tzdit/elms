@@ -32,7 +32,6 @@ class AppAsset extends AssetBundle
     public $js = [
         'js/student.js',
         'js/sweetalert2.all.min.js',
-        'js/jquery-3.6.0.min.js',
         'plugins/bootstrap/js/bootstrap.min.js',
         'plugins/chart.js/Chart.min.js',
         'plugins/sparklines/sparkline.js',

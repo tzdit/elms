@@ -14,12 +14,15 @@ use common\models\ExtAssess;
 use common\models\ProgramCourse;
 use common\models\Announcement;
 use frontend\models\UploadAssignment;
+use frontend\models\CA;
 use frontend\models\UploadTutorial;
 use frontend\models\PostAnnouncement;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
 use frontend\models\StudentGroups;
 use frontend\models\External_assess;
+use yii\bootstrap4\ActiveForm;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] = "Course ".$cid;
@@ -36,9 +39,9 @@ $this->params['breadcrumbs'] = [
     <div class="body-content ">
             <!-- Content Wrapper. Contains page content -->
    
-       <div class="container-fluid >
+       <div class="container-fluid">
       
- <div class="row ">
+ <div class="row">
           <!-- Left col -->
           <section class="col-lg-12 ">
           <div class="card card-primary card-outline card-outline-tabs">
@@ -834,20 +837,174 @@ $assk = "Assignment".$ass;
       </div>
    </div>
    <!--##################### the CA ######################## -->
+  
    <div class="tab-pane fade" id="ca" role="tabpanel" aria-labelledby="custom-tabs-ca">
-          <div class="row">
-            <div class="col-md-12">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i>New CA</a>
-            </div>
-                  
-          </div>
-   
+   <?php 
+      $assignments=Assignment::find()->where(['course_code'=>$cid,'assNature'=>'assignment'])->all();
+      $assArray=ArrayHelper::map($assignments,'assID','assName');
+      $labs=Assignment::find()->where(['course_code'=>$cid,'assNature'=>'lab'])->all();
+      $labarray=ArrayHelper::map($labs,'assID','assName');
+      $others=ExtAssess::find()->where(['course_code'=>$cid])->all();
+      $othersarray=ArrayHelper::map($others,'assessID','title');
+      $camodel=new CA();
+   ?>
    <div class="container-fluid">
+    <div class="card shadow"  >
+    <div class="card-header p-2" id="heading">
+    <div class="row">
+    <div class="col-md-5" >
+    <span style="margin-left:10px;"><i class="fa fa-hand-o-down" style="font-size:20px"></i>Choose assessments</span>
+   </div>
+   <div class="col-md-7 float-right">
+   <div class="row">
+  <div class="col-md-4 shadow float-right">
+     <span>Carries:</span><span id="carry"></span>
+  </div>
+  
+   <div class="col-md-4 shadow float-right">
+   <span>Incompletes:</span><span id="incnum"></span>
+</div>
+   <div class="col-md-4 shadow float-right">
 
+   <span>Total students:</span><span id="totalstud"></span>
+     
+    </div>
+
+  </div> 
+   </div>
+   <div class="col-md-2" style="font-size:12px">
+  
+  
+   </div>
+   </div>
+    </div>
+    <?php     
+$caform = ActiveForm::begin([
+    'id' => 'ca-form',
+    'action'=>'/instructor/generate-ca',
+    'method'=>'post',
+    'options' => ['class' => 'form-horizontal']
+]) ?>
+    <div class="card-body">
+
+  <div class="row">
+    <div class="col-md-4">
+      <!-- 
+        ######################### the assignments
+      -->
+
+    <div class="card shadow" style="min-height:200px;max-height:400px" >
+      <div class="card-header p-2 bg-primary text-sm">
+        Assignments
+      </div>
+    <div class="card-body">
+  <div class="row">
+    <div class="col-md-12">
+    <?= $caform->field($camodel, 'Assignments[]')->checkboxList($assArray)->label(false) ?>
+    <?= $caform->field($camodel, 'assreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm reduce','placeholder'=>'Max','id'=>'ass'])->label(false)?>
+   </div>
+   </div>
+ 
+  
+  </div>
+
+
+
+
+     </div>
+
+      <!--########################################-->
+   </div>
+   <div class="col-md-4">
+      <!-- 
+        ######################### the labs
+      -->
+
+    <div class="card shadow" style="min-height:200px;max-height:400px" >
+    <div class="card-header p-2 bg-primary text-sm">
+        Lab assignments
+      </div>
+    <div class="card-body">
+  <div class="row">
+    <div class="col-md-12">
+    <?= $caform->field($camodel, 'LabAssignments[]')->checkboxList($labarray)->label(false) ?>
+    <?= $caform->field($camodel, 'labreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm reduce','placeholder'=>'Max','id'=>'lab'])->label(false)?>
+   </div>
+   </div>
+  
+  </div>
+
+
+
+
+     </div>
+
+      <!--########################################-->
+   </div>
+   <div class="col-md-4">
+      <!-- 
+        ######################### other assessments
+      -->
+
+    <div class="card shadow" style="min-height:200px;max-height:400px">
+    <div class="card-header p-2 bg-primary text-sm">
+       Other assessments
+      </div>
+    <div class="card-body">
+  <div class="row">
+    <div class="col-md-12" id="assessments">
+    <?php if(empty($othersarray)){print "<span class='info'>No assessment found</span>";} ?>
+    <?= $caform->field($camodel, 'otherAssessments[]')->checkboxList($othersarray)->label(false)?>
+    <?= $caform->field($camodel, 'otherassessreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm reduce','placeholder'=>'Max','id'=>'other'])->label(false)?>
    </div>
    </div>
 
-     <!-- ########################################### end tutorial ################################# -->
+  </div>
+
+
+
+
+     </div>
+
+      <!--########################################-->
+    
+  </div>
+
+   </div>
+
+
+   <?php ActiveForm::end() ?>
+   <div class="row">
+     <div class="col-md-2"><span class="text-primary"><i class="fa fa-hand-o-down " style="font-size:18px"></i>Preview</span></div>
+     <div class="col-md-10">
+     <?= Html::submitButton('<i class="fa fa-download" style="font-size:18px"></i>Excel', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right','id'=>'cadownloader']) ?>
+  <?= Html::a('<button class="btn btn-primary btn-rounded btn-sm float-right" style="margin-right:5px"><i class="fa fa-download" style="font-size:18px"></i> pdf</button>', ['view-assessment']) ?>
+        </div>
+   </div>
+   </div>
+ 
+   
+  
+  <div class="card-footer">
+  
+  <div class="row">
+      <div class="col-md-12" id="thepreview" >
+       
+      </div>
+
+      </div>
+
+      </div>
+   
+    
+    
+      </div>
+   
+  </div>
+</div>
+  
+
+     <!-- ########################################### end CA ################################# -->
      <div class="tab-pane fade" id="students" role="tabpanel" aria-labelledby="custom-tabs-Students">
      <?php 
      $students=[];
@@ -1069,7 +1226,109 @@ if(activeTab){
 
 $('#custom-tabs-four-tab a[href="' + activeTab + '"]').tab('show');
 
+
+
+
 }
+$('#ca-form input[type=checkbox]').change(function(e){
+  var assessdata=new FormData($('#ca-form')[0]);
+  $.ajax({
+    url: "/instructor/ca-preview", 
+    data:assessdata,
+    dataType:'text',
+    processData: false,
+    contentType:false,
+    type: 'POST',
+    success: function(result){
+    
+    $('#thepreview').html(result);
+    $('#thepreview').css('font-size','12px');
+
+       //the incomplete
+
+       $.ajax({
+    url: "/instructor/get-incomplete-perc", 
+    data:assessdata,
+    dataType:'text',
+    processData: false,
+    contentType:false,
+    type: 'POST',
+    success: function(result){
+    
+    $('#incnum').html(result);
+   
+   
+  }});
+
+  //the students total number
+
+  $.ajax({
+    url: "/instructor/get-student-count", 
+    data:assessdata,
+    dataType:'text',
+    processData: false,
+    contentType:false,
+    type: 'POST',
+    success: function(result){
+    
+    $('#totalstud').html(result);
+   
+   
+  }});
+
+  //the carries
+   
+  $.ajax({
+    url: "/instructor/get-carries-perc", 
+    data:assessdata,
+    dataType:'text',
+    processData: false,
+    contentType:false,
+    type: 'POST',
+    success: function(result){
+    
+    $('#carry').html(result);
+   
+   
+  }});
+  }});
+ 
+})
+$('.reduce').keyup(function(e){
+  e.stopPropagation();
+  var assessdata=new FormData($('#ca-form')[0]);
+  $.ajax({
+    url: "/instructor/ca-preview", 
+    data:assessdata,
+    dataType:'text',
+    processData: false,
+    contentType:false,
+    type: 'POST',
+    success: function(result){
+    
+    $('#thepreview').html(result);
+    $('#thepreview').css('font-size','12px');
+
+     //the carries
+   
+  $.ajax({
+    url: "/instructor/get-carries-perc", 
+    data:assessdata,
+    dataType:'text',
+    processData: false,
+    contentType:false,
+    type: 'POST',
+    success: function(result){
+    
+    $('#carry').html(result);
+   
+   
+  }});
+   
+  }});
+ 
+})
+
   
 });
 JS;
