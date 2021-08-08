@@ -83,17 +83,16 @@ public $defaultAction = 'dashboard';
         try{
         $departments = ArrayHelper::map(Department::find()->where(['collegeID'=>Yii::$app->user->identity->admin->college->collegeID])->all(), 'departmentID', 'department_name');
         if($model->load(Yii::$app->request->post())){
-            if($model->create()){
+            if($model->createi()){
             Yii::$app->session->setFlash('success', 'Instructor registered successfully');
+            return $this->redirect(Yii::$app->request->referrer);
             }else{
-                Yii::$app->session->setFlash('error', 'Somethibg went Wrong!');
-            }
-       
-                
+            Yii::$app->session->setFlash('error', 'Somethibg went Wrong!');
+        }
          } 
         
     }catch(\Exception $e){
-        Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+          Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
     }
         return $this->render('create_instructor', ['model'=>$model, 'departments'=>$departments, 'roles'=>$roles]);
     }
@@ -152,7 +151,7 @@ public $defaultAction = 'dashboard';
      } 
     
 }catch(\Exception $e){
-    Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+    Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
 }
     return $this->render('create_student', ['model'=>$model, 'programs'=>$programs, 'roles'=>$roles]);
 }

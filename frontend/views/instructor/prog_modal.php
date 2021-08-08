@@ -26,7 +26,7 @@ use yii\helpers\Html;
         </button>
       </div>
       <div class="modal-body">
-      <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/hod/create-program', 'enctype'=>'multipart/form-data']])?>
+      <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/create-program', 'enctype'=>'multipart/form-data']])?>
         <div class="row">
         <div class="col-md-12">
         <?= $form->field($model, 'prog_name')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Program Name'])->label(false)?>
@@ -104,7 +104,7 @@ use yii\helpers\Html;
             <td><?= $program->prog_duration ?></td>
             <td><?= $program->capacity ?></td>
             <td>
-            <a href="#" class="btn btn-info btn-sm m-0"><i class="fas fa-edit"></i></a> 
+             <?= Html::a('<i class="fas fa-edit"></i>',['updateprog', 'id'=>$program->programCode], ['class'=>'btn btn-info btn-sm m-0'])?>   
             <a href="#" class="btn btn-success btn-sm m-0"><i class="fas fa-eye"></i></a>
             <a href="#" class="btn btn-danger btn-sm m-0"><i class="fas fa-trash" ></i></a>
             </td>
