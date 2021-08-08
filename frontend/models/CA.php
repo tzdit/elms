@@ -15,6 +15,7 @@ use common\models\StudentCourse;
 use PhpOffice\PhpSpreadsheet\Reader\Html;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Mpdf\Mpdf;
 
 class CA extends Model{
     public $otherAssessments=[];
@@ -32,30 +33,36 @@ class CA extends Model{
     public $GrandMax;
 
 
-  
-    public function generateCA()
+    public function generateExcelCA()
+    {
+      return $this->CA2Exceldownloader($this->CAbuilder());
+    }
+    public function generatePdfCA()
+    {
+      return $this->CA2Pdfdownloader($this->CAbuilder());
+    }
+    private function CAbuilder()
     {
      
       $this->setallstudents();
-      $student_with_marks=null;
-      $caheader="<tr><td rowspan=2>registration number</td>";
-      $ca_sub_header="<tr>";
+      $student_with_marks=$this->allstudents;
+      $caheader="<tr bgcolor='#c4ecff'><td rowspan=2>Registration number</td>";
+      $ca_sub_header="<tr bgcolor='#c4ecff'>";
       $rows=[];
-      $catable="<table class='table-bordered table-hover' border=1>";
-      if(!empty($this->Assignments)){
-        $student_with_marks=$this->asscumul($this->Assignments);
+      $catable="<table class='table-bordered table-hover' cellspacing=0 autosize=2 text-align='center' align='center'>";
+      if(!empty($this->Assignments) && !empty($this->allstudents)){
+        $student_with_marks=$this->asscumul($this->Assignments,$this->allstudents);
         $caheader.=$this->catable_header($student_with_marks,"Assignments");
         $ca_sub_header.=$this->ca_subheader($student_with_marks,"Assignments");
         $rows=$this->carows($student_with_marks,"Assignments",$rows);
       }
-      else{$student_with_marks=$this->allstudents;}
-      if(!empty($this->LabAssignments)){
+      if(!empty($this->LabAssignments) && !empty($student_with_marks)){
         $student_with_marks=$this->labcumul($this->LabAssignments,$student_with_marks);
         $caheader.=$this->catable_header($student_with_marks,"Lab Assignments");
         $ca_sub_header.=$this->ca_subheader($student_with_marks,"Lab Assignments");
         $rows=$this->carows($student_with_marks,"Lab Assignments",$rows);
       }
-      if(!empty($this->otherAssessments)){
+      if(!empty($this->otherAssessments) && !empty($student_with_marks)){
         $student_with_marks=$this->otherAssessCumul($this->otherAssessments,$student_with_marks);
         $caheader.=$this->catable_header($student_with_marks,"Other Assessments");
         $ca_sub_header.=$this->ca_subheader($student_with_marks,"Other Assessments");
@@ -69,8 +76,10 @@ class CA extends Model{
       $catable.=$caheader;
       $catable.=$ca_sub_header;
       //the grandtotals
-      $rows=$this->addGrandTotals($rows,$student_with_marks);
+      $rows=empty($rows)?null:$this->addGrandTotals($rows,$this->addEncompletes($student_with_marks));
       //closing the rows tags and adding them to the table
+      if($rows!=null)
+      {
       for($r=0;$r<count($rows);$r++)
       {
         $rows[$r]=$rows[$r]."</tr>";
@@ -80,10 +89,15 @@ class CA extends Model{
       
       
       $catable.="</table>";
-      //print  $catable;
-     $this->CAdownloader($catable);
+      return $catable;
+    }
+    else
+    {
+      return null;
+    }
+       
 
-    // print_r($student_with_marks);
+    
 
    
       
@@ -197,12 +211,12 @@ class CA extends Model{
    
      return  $prevrows;
     }
-    private function asscumul($assign)
+    private function asscumul($assign,$stud)
     {
        //getting all assignments
 
        $assignments=$assign;
-       $students=$this->allstudents;
+       $students=$stud;
        $reduce=$this->assreduce;
        $max=0;
 
@@ -646,10 +660,12 @@ class CA extends Model{
       $this->allstudents=$students_for_assessments;
     }
 
-    private function CAdownloader($ca)
+    private function CA2Exceldownloader($ca)
     {
-      $content=$ca;
-     
+        $content=$ca;
+        
+        if($ca!=null)
+        {
         $reader = new Html();
         $spreadsheet=new SpreadSheet();
         $spreadsheet = $reader->loadFromString($content);
@@ -657,12 +673,12 @@ class CA extends Model{
         
         //the logo
 
-$drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
-$drawing->setName('UDOM Logo');
-$drawing->setDescription('UDOM Logo');
-$drawing->setPath('img/logo.png');
-$drawing->setHeight(25);
-$drawing->setWorksheet($sheet);
+        $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+        $drawing->setName('UDOM Logo');
+        $drawing->setDescription('UDOM Logo');
+        $drawing->setPath('img/logo.png');
+        $drawing->setHeight(25);
+        $drawing->setWorksheet($sheet);
         //setting autoresize and styles
         $styleArray = [
           'font' => [
@@ -687,8 +703,6 @@ $drawing->setWorksheet($sheet);
         ],
     ];
 
-      //$stylelist= $sheet->rangeToArray('A1:' . $sheet->getHighestColumn().'1','', TRUE, TRUE, TRUE);
-    
        //the styles
      
 
@@ -700,7 +714,7 @@ $drawing->setWorksheet($sheet);
       
         $list= $sheet->rangeToArray('A1:' . $sheet->getHighestColumn() . $sheet->getHighestRow(), '', TRUE, TRUE, TRUE);
         
-        //the resizing
+        //the auto resizing
         for($c=1;$c<=count($list);$c++)
         {
           $col=$list[$c];
@@ -721,42 +735,62 @@ $drawing->setWorksheet($sheet);
         
         $filename=yii::$app->session->get('ccode')."_CA.Xlsx";
         $filename = str_replace(' ', '', $filename);
-       header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-       header('Content-Disposition: attachment; filename="'. urlencode($filename).'"');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="'. urlencode($filename).'"');
 
-       ob_end_clean();
-       $writer->save('php://output'); 
+        ob_end_clean();
+        $writer->save('php://output'); 
 
         exit();
-
         return true;
+      }
+      else
+      {
+        return 'no content';
+      }
+        
     }
 
     //for previewing stats
 
     public function get_no_of_student()
     {
-      $this->setallstudents();
-      return count($this->allstudents);
+      $num_of_stud=0;
+      
+
+      if(!empty($this->Assignments)){
+        $this->setallstudents();
+        $num_of_stud=count($this->allstudents);
+      }
+   
+      if(!empty($this->LabAssignments)){
+        $this->setallstudents();
+        $num_of_stud=count($this->allstudents);
+      }
+      if(!empty($this->otherAssessments)){
+        $this->setallstudents();
+        $num_of_stud=count($this->allstudents);
+      }
+      return $num_of_stud;
     }
     private function studentwithscores()
     {
       $this->setallstudents();
-      $student_with_marks=null;
-      if(!empty($this->Assignments)){
-        $student_with_marks=$this->asscumul($this->Assignments);
+      $student_with_marks=[];
+      if(!empty($this->Assignments) && !empty($this->allstudents)){
+        $student_with_marks=$this->asscumul($this->Assignments,$this->allstudents);
       }
       else{$student_with_marks=$this->allstudents;}
-      if(!empty($this->LabAssignments)){
+      if(!empty($this->LabAssignments) && !empty($student_with_marks)){
         $student_with_marks=$this->labcumul($this->LabAssignments,$student_with_marks);
       }
-      if(!empty($this->otherAssessments)){
+      if(!empty($this->otherAssessments) && !empty($student_with_marks)){
         $student_with_marks=$this->otherAssessCumul($this->otherAssessments,$student_with_marks);
       }
     
       $this->GrandMax=$this->labGrandMax+$this->assGrandMax+$this->otherGrandMax;
     
-      return $student_with_marks;
+      return $this->addEncompletes($student_with_marks);
        
     }
     public function getCarriedPercent()
@@ -766,35 +800,39 @@ $drawing->setWorksheet($sheet);
       $studentswithmarks=$this->studentwithscores();
 
       //looping through students and make required operations
-
+      if(!empty($studentswithmarks))
+      {
       foreach($studentswithmarks as $reg=>$assess)
       {
-        $total_score=$studentswithmarks[$reg]['GrandTotal'];
+        $total_score=(isset($studentswithmarks[$reg]['GrandTotal']) && $studentswithmarks[$reg]['GrandTotal']!="Inc")?$studentswithmarks[$reg]['GrandTotal']:0;
 
-        $scoreoverfourty=round(($total_score*40)/$this->GrandMax,2);
+        $scoreoverfourty=$this->GrandMax!=0?round(($total_score*40)/$this->GrandMax,2):0;
 
         if($scoreoverfourty<15.5)
         {
           $total_failed++;
         }
 
-
+ 
 
       }
-
-      $carrypercent=round(($total_failed*100)/$total_students,2);
-
+    }
+      $carrypercent=$total_students!=0?round(($total_failed*100)/$total_students,2):0;
       return $carrypercent." %";
+
+   
       
     }
 
     public function getincompleteperc()
     {
-      $studentwithmarks=$this->studentwithscores();
-      $total_students=$this->get_no_of_student();
-      $students_with_incomplete=0;
-      foreach($studentwithmarks as $reg=>$assess)
-      {
+          $studentwithmarks=$this->studentwithscores();
+          $total_students=$this->get_no_of_student();
+          $students_with_incomplete=0;
+          if(!empty($studentwithmarks))
+          {
+          foreach($studentwithmarks as $reg=>$assess)
+          {
           $status=false;
           $assignments=isset($studentwithmarks[$reg]['Assignments'])?$studentwithmarks[$reg]['Assignments']:null;
           $labs=isset($studentwithmarks[$reg]['Lab Assignments'])?$studentwithmarks[$reg]['Lab Assignments']:null;
@@ -835,10 +873,10 @@ $drawing->setWorksheet($sheet);
 
 
       }
-
+    }
       //the percentage
 
-      $perc=round(($students_with_incomplete*100)/$total_students,2);
+      $perc=$total_students!=0?round(($students_with_incomplete*100)/$total_students,2):0;
 
       return $perc." %";
     }
@@ -846,9 +884,13 @@ $drawing->setWorksheet($sheet);
     private function addEncompletes($studentswithscores)
     {
       $studentwithmarks=$studentswithscores;
+      $status=false;
+
+      if(!empty($studentwithmarks))
+      {
       foreach($studentwithmarks as $reg=>$assess)
       {
-          $status=false;
+          
           $assignments=isset($studentwithmarks[$reg]['Assignments'])?$studentwithmarks[$reg]['Assignments']:null;
           $labs=isset($studentwithmarks[$reg]['Lab Assignments'])?$studentwithmarks[$reg]['Lab Assignments']:null;
           $other=isset($studentwithmarks[$reg]['Other Assessments'])?$studentwithmarks[$reg]['Other Assessments']:null;
@@ -883,14 +925,49 @@ $drawing->setWorksheet($sheet);
 
           }
         }
-
+           
           if($status===true){
-            $studentwithmarks[$reg]['GrandTotal']=null;
+            $studentwithmarks[$reg]['GrandTotal']="Inc";
           }
 
-         return $studentwithmarks;
+         
       }
     }
+      return $studentwithmarks;
+    }
+
+    public function CA2Pdfdownloader($ca)
+    {
+        $content=$ca;
+        if($ca!=null)
+        {
+        $instructor=Yii::$app->user->identity->instructor;
+        $name=$instructor->full_name;
+        $college=$instructor->department->college->college_name;
+        
+        $mpdf = new Mpdf(['orientation' => 'L']);
+        $mpdf->setFooter('{PAGENO}');
+        $course=yii::$app->session->get('ccode');
+        $stylesheet = file_get_contents('css/capdf.css');
+        $mpdf->WriteHTML($stylesheet,1);
+        $mpdf->SetWatermarkText('classroom.udom.ac.tz',0.09);
+        $mpdf->showWatermarkText = true;
+        $mpdf->WriteHTML('<div align="center"><img src="img/logo.PNG" /></div>',2);
+        $mpdf->WriteHTML('<p align="center"><font size=7>The university of Dodoma</font></p>',3);
+        $mpdf->WriteHTML('<p align="center"><font size=5>'.$college.'</font></p>',3);
+        $mpdf->WriteHTML('<p align="center"><font size=5>'.$course.' final course assessment results</font></p>',3);
+        $mpdf->WriteHTML('<p align="center"><font size=3>By '.$name.'</font></p>',3);
+        $mpdf->WriteHTML('<hr width="80%" align="center" color="#000000">',2);
+        $mpdf->WriteHTML($content,3);
+        $mpdf->Output("ca.pdf","D");
+
+        return null;
+    }
+    else
+    {
+      return 'no content';
+    }
+  }
 
    
     

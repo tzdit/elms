@@ -506,5 +506,7 @@ $('document').ready(function(){
     
     
       })
+
+      $('#assignstudents').select2();
     
     })

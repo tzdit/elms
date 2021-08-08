@@ -1,7 +1,16 @@
 <?php  
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use frontend\models\AddAssessRecord;
+use common\models\StudentExtAssess;
+$this->params['courseTitle'] =StudentExtAssess::findOne($recordid)->assess->title;
+$this->title = 'Edit assessment record';
+$this->params['breadcrumbs'] = [
+  ['label'=>'classwork', 'url'=>Url::to(['/instructor/classwork', 'cid'=>yii::$app->session->get("ccode")])],
+  ['label'=>$this->title]
+];
+
 $assessmodel=new AddAssessRecord();
 ?>
 <div class="row justify-content-center">

@@ -33,6 +33,7 @@ use frontend\models\StudentGroups;
 use frontend\models\TemplateDownloader;
 use frontend\models\CA;
 use frontend\models\CA_previewer;
+use frontend\models\StudentAssign;
 use common\models\Groups;
 use common\models\GroupGenerationTypes;
 use common\models\Announcement;
@@ -118,7 +119,9 @@ public $defaultAction = 'dashboard';
                             'ca-preview',
                             'get-incomplete-perc',
                             'get-student-count',
-                            'get-carries-perc'
+                            'get-carries-perc',
+                            'get-pdf-ca',
+                            'add-students'
 
                         ],
                         'allow' => true,
@@ -223,7 +226,7 @@ public $defaultAction = 'dashboard';
           $resp="New record adding failed ";
           foreach($recres as $p=>$v)
           {
-            $resp.=$v;
+            $resp.=$p." ".$v;
           }
           Yii::$app->session->setFlash('error',$resp);
           return $this->redirect(Yii::$app->request->referrer);  
@@ -259,6 +262,7 @@ public $defaultAction = 'dashboard';
     $assess=ExtAssess::findOne($assessid);
     if($assess->delete())
     {
+        Yii::$app->session->setFlash('success', 'assessment deleted');
         return $this->redirect(Yii::$app->request->referrer); 
 
     }
@@ -272,6 +276,8 @@ public $defaultAction = 'dashboard';
    
 public function actionEditExtAssrecordView($recordid)
 {
+$secretKey=Yii::$app->params['app.dataEncryptionKey'];
+$recordid=Yii::$app->getSecurity()->decryptByPassword($recordid, $secretKey);
   $record=StudentExtAssess::findOne($recordid);
 
   return $this->render('editassessrecord',['recordid'=>$recordid,'regno'=>$record->reg_no,'score'=>$record->score]);
@@ -713,10 +719,6 @@ public function actionUploadTutorial(){
     $model = new UploadTutorial();
     if($model->load(Yii::$app->request->post())){
         $model->assFile = UploadedFile::getInstance($model, 'assFile');
-        // echo '<pre>';
-        // print_r($model);
-        // echo '</pre>';
-        // exit;
         if($model->upload()){
         Yii::$app->session->setFlash('success', 'Tutorial created successfully');
         return $this->redirect(Yii::$app->request->referrer);
@@ -825,7 +827,7 @@ public function actionMarkInputing()
     $submit->comment=$comment;
   }
   $submit->save();
-  //print_r($submit->getErrors());
+  print_r($submit->getErrors());
   //preparing the submit
  
 
@@ -1073,8 +1075,8 @@ public function actionAddStudentGentype()
    $model->labreduce=yii::$app->request->post("CA")["labreduce"];
    $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
   
-   $model->generateCA();
-   
+   $res=$model->generateExcelCA();
+   if($res!==true){Yii::$app->session->setFlash('error',$res);}
 
    return $this->redirect(Yii::$app->request->referrer); 
   
@@ -1082,6 +1084,22 @@ public function actionAddStudentGentype()
 
  
 
+ }
+ public function actionGetPdfCa()
+ {
+    $model=new CA();
+   
+    $model->Assignments=yii::$app->request->post("CA")["Assignments"];
+    $model->LabAssignments=yii::$app->request->post("CA")["LabAssignments"];
+    $model->otherAssessments=yii::$app->request->post("CA")["otherAssessments"];
+    $model->assreduce=yii::$app->request->post("CA")["assreduce"];
+    $model->labreduce=yii::$app->request->post("CA")["labreduce"];
+    $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
+   
+    $res=$model->generatePdfCA();
+    if($res!=null){Yii::$app->session->setFlash('error',$res);}
+    return $this->redirect(Yii::$app->request->referrer); 
+    
  }
  public function actionCaPreview()
  {
@@ -1143,6 +1161,33 @@ public function actionAddStudentGentype()
     $data=$model->getCarriedPercent();
     print $data;
     }  
+ }
+ public function actionAddStudents()
+ {
+   
+    $model = new StudentAssign();
+    if($model->load(Yii::$app->request->post()) && $model->validate()){
+    $returned=$model->assignStudents();
+     if(empty($returned))
+     {
+
+        Yii::$app->session->setFlash('success', 'Program added successfully');
+        return $this->redirect(Yii::$app->request->referrer);
+     }
+     else{
+        
+        $errors="Error(s) detected during assigning:";
+        foreach($returned as $prog=>$error)
+        {
+            $errors.="<br>".$prog.": ".$error;
+        }
+        Yii::$app->session->setFlash('success',$errors);
+        return $this->redirect(Yii::$app->request->referrer);
+     }
+ 
+     }
+
+
  }
 
 //#################################### HOD HERE ########################################################################

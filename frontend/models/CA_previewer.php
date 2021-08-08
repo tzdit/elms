@@ -35,25 +35,25 @@ class CA_previewer extends Model{
     {
      
       $this->setallstudents();
-      $student_with_marks=null;
-      $caheader="<tr style='background-color:#f0fbff;text-align:center;'><td rowspan=2>registration number</td>";
+      $student_with_marks=$this->allstudents;
+      $caheader="<tr style='background-color:#f0fbff;text-align:center;'><td rowspan=2>Registration number</td>";
       $ca_sub_header="<tr style='background-color:#f0fbff;text-align:center;'>";
       $rows=[];
       $catable="<table class='table-bordered table-hover shadow'>";
-      if(!empty($this->Assignments)){
-        $student_with_marks=$this->asscumul($this->Assignments);
+      if(!empty($this->Assignments) && !empty($this->allstudents)){
+        $student_with_marks=$this->asscumul($this->Assignments,$this->allstudents);
         $caheader.=$this->catable_header($student_with_marks,"Assignments");
         $ca_sub_header.=$this->ca_subheader($student_with_marks,"Assignments");
         $rows=$this->carows($student_with_marks,"Assignments",$rows);
       }
-      else{$student_with_marks=$this->allstudents;}
-      if(!empty($this->LabAssignments)){
+     
+      if(!empty($this->LabAssignments) && !empty($student_with_marks)){
         $student_with_marks=$this->labcumul($this->LabAssignments,$student_with_marks);
         $caheader.=$this->catable_header($student_with_marks,"Lab Assignments");
         $ca_sub_header.=$this->ca_subheader($student_with_marks,"Lab Assignments");
         $rows=$this->carows($student_with_marks,"Lab Assignments",$rows);
       }
-      if(!empty($this->otherAssessments)){
+      if(!empty($this->otherAssessments) && !empty($student_with_marks)){
         $student_with_marks=$this->otherAssessCumul($this->otherAssessments,$student_with_marks);
         $caheader.=$this->catable_header($student_with_marks,"Other Assessments");
         $ca_sub_header.=$this->ca_subheader($student_with_marks,"Other Assessments");
@@ -67,10 +67,13 @@ class CA_previewer extends Model{
       $catable.=$caheader;
       $catable.=$ca_sub_header;
       //the grandtotals
-      $rows=$this->addGrandTotals($rows,$student_with_marks);
+      $rows=empty($rows)?null:$this->addGrandTotals($rows,$this->addEncompletes($student_with_marks));
       //closing the rows tags and adding them to the table
+      if($rows!=null)
+      {
       for($r=0;$r<count($rows);$r++)
       {
+        if($r>4){continue;}
         $rows[$r]=$rows[$r]."</tr>";
         
         $catable.=$rows[$r];
@@ -79,6 +82,11 @@ class CA_previewer extends Model{
       
       $catable.="</table>";
       return $catable;
+    }
+    else
+    {
+      return null;
+    }
        
     }
     private function ca_subheader($data,$type)
@@ -177,7 +185,7 @@ class CA_previewer extends Model{
      {
        $rec="";
       
-       $grandma=$data[$reg]["GrandTotal"];
+       $grandma=isset($data[$reg]["GrandTotal"])?$data[$reg]["GrandTotal"]:null;
        $rec.="<td>{$grandma}</td>"; 
        array_push($grandmax,$rec);
      }
@@ -190,12 +198,12 @@ class CA_previewer extends Model{
    
      return  $prevrows;
     }
-    private function asscumul($assign)
+    private function asscumul($assign,$stud)
     {
        //getting all assignments
 
        $assignments=$assign;
-       $students=$this->allstudents;
+       $students=$stud;
        $reduce=$this->assreduce;
        $max=0;
 
@@ -583,18 +591,16 @@ class CA_previewer extends Model{
 
     }
 
-    private function setallstudents()
+    public function setallstudents()
     {
       $students_for_assessments=[];
 
-      $coursePrograms=ProgramCourse::find()->where(['course_code'=>yii::$app->session->get('ccode')])->limit(2)->all();
+      $coursePrograms=ProgramCourse::find()->where(['course_code'=>yii::$app->session->get('ccode')])->all();
       foreach($coursePrograms as $program)
       {
  
        $programStudents=$program->programCode0->students;
-       
        for($s=0;$s<count($programStudents);$s++){
-        if($s>2){continue;}
         $students_for_assessments[$programStudents[$s]->reg_no]=array();
         if(!empty($this->Assignments)){
           $students_for_assessments[$programStudents[$s]->reg_no]["Assignments"]["total"]=null;
@@ -614,7 +620,8 @@ class CA_previewer extends Model{
  
       }
       $carryovers=StudentCourse::find()->where(['course_code'=>yii::$app->session->get('ccode')])->limit(2)->all(); 
- 
+      if($carryovers!==null || !empty($carryovers))
+      {
       foreach($carryovers as $carry)
       {
        
@@ -636,26 +643,35 @@ class CA_previewer extends Model{
         
        
       }
+    }
    
       $this->allstudents=$students_for_assessments;
+
+      
     }
 
     private function addEncompletes($studentswithscores)
     {
       $studentwithmarks=$studentswithscores;
+      
       foreach($studentwithmarks as $reg=>$assess)
       {
           $status=false;
-          $assignments=$studentwithmarks[$reg]['Assignments'];
-          $labs=$studentwithmarks[$reg]['Lab Assignments'];
-          $other=$studentwithmarks[$reg]['Other Assessments'];
+          $assignments=isset($studentwithmarks[$reg]['Assignments'])?$studentwithmarks[$reg]['Assignments']:null;
+          $labs=isset($studentwithmarks[$reg]['Lab Assignments'])?$studentwithmarks[$reg]['Lab Assignments']:null;
+          $other=isset($studentwithmarks[$reg]['Other Assessments'])?$studentwithmarks[$reg]['Other Assessments']:null;
 
+          if($assignments!==null)
+          {
           foreach($assignments as $title=>$score)
           {
             if($assignments[$title]==null || empty($assignments[$title])){$status=true; break;}
             else{$status=false; continue;}
 
           }
+        }
+        if($labs!==null)
+        {
           foreach($labs as $title=>$score)
           {
             if($status==true){break;}
@@ -663,22 +679,27 @@ class CA_previewer extends Model{
             else{$status=false; continue;}
 
           }
-          foreach($labs as $title=>$score)
+        }
+
+        if($other!==null)
+        {
+          foreach($other as $title=>$score)
           {
             if($status==true){break;}
-            if($others[$title]==null || empty($other[$title])){$status=true; break;}
+            if($other[$title]==null || empty($other[$title])){$status=true; break;}
             else{$status=false; continue;}
 
           }
-
+        }
+          
           if($status===true){
-            $studentwithmarks[$reg]['GrandTotal']=null;
+            $studentwithmarks[$reg]['GrandTotal']="Inc";
           }
 
-         return $studentwithmarks;
+         
       }
+      return $studentwithmarks;
     }
-
    
   
     

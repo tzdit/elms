@@ -6,7 +6,7 @@ use yii\helpers\Html;
 <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header bg-primary">
-        <span class="modal-title" id="exampleModalLabel"><h4>Generate new groups</h4></span>
+        <span class="modal-title" id="exampleModalLabel"><h6>Generate new groups</h6></span>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -20,12 +20,12 @@ use yii\helpers\Html;
         </div>
         <div class="row">
         <div class="col-md-12">
-        <?= $form->field($studentGroups, 'membersNumber')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Members Number'])->label(false)?>
+        <?= $form->field($studentGroups, 'membersNumber')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Group Members Number'])->label(false)?>
         </div> 
         </div>
         <div class="row">
         <div class="col-md-12">
-        <?= Html::submitButton('Submit', ['class'=>'btn btn-primary btn-md float-right ml-2']) ?>
+        <?= Html::submitButton('Generate', ['class'=>'btn btn-primary btn-md float-right ml-2']) ?>
         <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
       
         </div>

@@ -32,10 +32,10 @@ class StudentCourse extends \yii\db\ActiveRecord
         return [
             [['reg_no'], 'string', 'max' => 20],
             [['course_code'], 'string', 'max' => 7],
+            [['reg_no', 'course_code'], 'unique', 'targetAttribute' => ['reg_no', 'course_code'],'message'=>'you already have this course'],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
             [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],
             [['reg_no'], 'default','value'=>Yii::$app->user->identity->username],
-            ['course_code', 'unique'],
         ];
     }
 
@@ -47,7 +47,7 @@ class StudentCourse extends \yii\db\ActiveRecord
         return [
             'SC_ID' => 'Sc ID',
             'reg_no' => 'Reg No',
-            'course_code' => 'Course Name',
+            'course_code' => 'Course Code',
         ];
     }
 
@@ -70,7 +70,4 @@ class StudentCourse extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Student::className(), ['reg_no' => 'reg_no']);
     }
-
-
-  
 }

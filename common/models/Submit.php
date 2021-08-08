@@ -57,7 +57,7 @@ class Submit extends \yii\db\ActiveRecord
             [['comment'], 'string', 'max' => 200],
             [['assID'], 'exist', 'skipOnError' => true, 'targetClass' => Assignment::className(), 'targetAttribute' => ['assID' => 'assID']],
             [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],
-            [['document'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf,doc,xls,xlsx,docx,pptx,ppt,rtf,odt,txt','message' => 'file type not allowed'],
+            [['document'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf,doc,xls,xlsx,docx,pptx,ppt,rtf,odt,txt','message' => 'file type not allowed'],
             [['document'], 'file','maxSize' => 1024 * 1024 * 10 ,'message' => 'exceed maximum file size'],
         ];
     }
@@ -124,8 +124,8 @@ class Submit extends \yii\db\ActiveRecord
         if($this->score!="" || $this->score!=null)
         {
           
-          $passlimit=($this->ass->total_marks*40)/100;
-          if($this->score<$passlimit)
+          $scoreoverfourty=($this->score*40)/$this->ass->total_marks;
+          if($scoreoverfourty<15.5)
           {
               return true;
           }
