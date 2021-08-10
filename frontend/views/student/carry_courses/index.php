@@ -76,48 +76,37 @@ $this->params['breadcrumbs'][] = $this->title;
      
         <div class="row">
         <?php foreach($data as $course): ?>
-          <div class="col-lg-3 col-6">
-          <div class="row">
-            <div class="col-sm-10 m-0 p-1">
+          <div class="col-lg-3 col-6 ">
                 <a href="<?=Url::to(['student/classwork/', 'cid'=>$course->course_code])  ?>" >
 
-                <div class="small-box bg-info ">
-                    <div class="inner pl-2 pb-2">
-                      <h3><?= $course->course_code ?></h3>
+                    <div class="small-box bg-info ">
+                          <div class="inner p-2 ">
+                              <h3><?= $course->course_code ?></h3>
 
-                      <p class="m-0">Credit <?= $course->course_credit ?></p>
-                      <h5 class="m-0 p-0 text-muted"> <?= strtoupper($course->course_status) ?></h5>
+                              <p class="m-0">Credit <?= $course->course_credit ?></p>
+                              <h5 class="m-0 p-0 text-muted"> <?= strtoupper($course->course_status) ?></h5>
 
-                        <div class="icon">
-                          <i class="fa fa-book"></i>
+                              <div class="icon ">
+                                <i class="fa fa-book"></i>
+                              </div>
+                          </div>
+
+                          
+
+                        <div class="small-box-footer" >
+                          <div class="row" > 
+                            <div class="col-sm-10  ">
+                            </div>
+                            <div class="col-sm-2 m-0 p-0">
+                                  <a href="#" class="  btn-delete " id = "btn-delete" carry_id = "<?= $course->studentCourses[0]->SC_ID ?>" ><i class="fas fa-times-circle fa-lg carry-delete"></i></i>
+                                    </a>
+                            </div>
+                          </div>
                         </div>
-                    </div>
-
-                    
-
-                    <div class="small-box-footer container" >
-                      <div class="row" > 
-                        <div class="col-sm-10  ">
-                        </div>
-                        <div class="col-sm-2 m-0 p-0">
-                            <a href="#" class="  btn-delete " id = "btn-delete" carry_id = "<?= $course->studentCourses[0]->SC_ID ?>" ><i class="fas fa-times-circle fa-lg carry-delete"></i></i>
-                             </a>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-              
-              
-
-              
-              
-            </div>
+                    </div> 
            
-           
-              </a>
-          </div>
-          
-          </div> 
+                </a>
+              </div>
           <?php endforeach ?>
         </div>
       </div>

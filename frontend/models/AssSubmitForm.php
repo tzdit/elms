@@ -1,8 +1,10 @@
 <?php
 
-namespace common\models;
+namespace frontend\models;
 
 use Yii;
+use common\models\Assignment;
+use common\models\Student;
 
 /**
  * This is the model class for table "submit".
@@ -20,7 +22,7 @@ use Yii;
  * @property Assignment $ass
  * @property Student $regNo
  */
-class Submit extends \yii\db\ActiveRecord
+class AssSubmitForm extends \yii\db\ActiveRecord
 {
 
     /**
@@ -55,6 +57,10 @@ class Submit extends \yii\db\ActiveRecord
             [['fileName'], 'string', 'max' => 225],
             [['reg_no',], 'string', 'max' => 20],
             [['comment'], 'string', 'max' => 200],
+            [['assID'], 'exist', 'skipOnError' => true, 'targetClass' => Assignment::className(), 'targetAttribute' => ['assID' => 'assID']],
+            [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],
+            [['document'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf,doc,xls,xlsx,docx,pptx,ppt,rtf,odt,txt','message' => 'file type not allowed'],
+            [['document'], 'file','maxSize' => 1024 * 1024 * 10 ,'message' => 'exceed maximum file size'],
         ];
     }
 
@@ -104,36 +110,40 @@ class Submit extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Student::className(), ['reg_no' => 'reg_no']);
     }
-    public function isMarked()
-    {
-        if($this->score!="" || $this->score!=null)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    public function isFailed()
-    {
-        if($this->score!="" || $this->score!=null)
-        {
-          
-          $passlimit=($this->ass->total_marks*40)/100;
-          if($this->score<$passlimit)
-          {
-              return true;
-          }
-          else
-          {
-              return false;
-          }
+
+    public function save($runValidation = true, $attributeNames = null){
+
+        $isInsert = $this->isNewRecord;
+
+        $this->assID = $this->assinmentId;
+        $this->submit_date = date('Y-m-d');
+        $this->submit_time = date('H:i:s');
+        $this->reg_no = Yii::$app->user->identity->username;
+        $this->fileName = Yii::$app->security->generateRandomString(6).$this->document->name;
+
+        if($isInsert){
             
         }
-       
+         $saved =  parent::save($runValidation, $attributeNames);
+
+         if(!$saved)
+         {
+             return false;
+         }
+
+         if($isInsert){
+             $documentPath = Yii::getAlias('@frontend/web/storage/submit/'.$this->fileName );
+
+             if(!is_dir(\dirname($documentPath))) {
+                 FileHelper::createDirectory(\dirname($documentPath));
+             }  
+
+             $this->document->saveAs($documentPath);
+        }
+
+
+        return true;
     }
 
-    
     
 }

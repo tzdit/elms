@@ -25,7 +25,7 @@ use common\models\Course;
             <div class="col-sm-8">
                 <div class="card" style="font-family:'Times New Roman', sans-serif">
                 <div class="card-header text-center bg-primary">
-                            <h2>Add Group</h2>
+                            <h2>Create Group</h2>
                         </div>
                     <div class="card-body">
                        

@@ -107,10 +107,10 @@ $assk = "Assignment".$ass;
       </div>
       <div class="card-footer p-2 bg-white border-top">
       <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-6">
       <b> Deadline : </b><?= $assign -> finishDate ?>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-6">
 
 
         <?php 
@@ -125,6 +125,10 @@ $assk = "Assignment".$ass;
               $isOutOfDeadline =   $currentDateTime > $deadLineDate;
               ?>
 
+      <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
+
+      <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-eye"> View</i></span></a>      
+
         <?php if(empty($submited) && $isOutOfDeadline == false):?>
       <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
         <?php endif ?>
@@ -137,8 +141,7 @@ $assk = "Assignment".$ass;
           <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
         <?php endif ?>
 
-      <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
-      <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"> View</i></span></a>
+      
      
       </div>
       </div>
@@ -308,10 +311,10 @@ $assk = "Assignment".$ass;
             <div class="col-lg-3 col-6">
                 <a href="<?= Url::toRoute(['videos-and-notes/videos', 'cid' => $cid])?>" class="small-box bg-success" >
                 
-                    <div class="inner">
-                      <h3><?= $cid ?></h3>
+                    <div class="inner m-2">
+                      <h4 class="mb-0">Videos</h4>
 
-                      <p >videos <?= $videos ?></p>
+                      <h2 class="mb-4"> <?= $videos ?></h2>
                     </div>
 
                     <div class="icon">
@@ -324,10 +327,10 @@ $assk = "Assignment".$ass;
             <div class="col-lg-3 col-6">
                 <a href="<?= Url::toRoute(['videos-and-notes/notes', 'cid' => $cid])?>" class="small-box bg-success" >
                 
-                    <div class="inner">
-                      <h3><?= $cid ?></h3>
+                    <div class="inner m-2">
+                      <h4 class="mb-0">Notes & Books</h4>
 
-                      <p > Notes & Books <?= $notesAndBooks ?></p>
+                      <h2 class="mb-4" >  <?= $notesAndBooks ?></h2>
                     </div>
 
                     <div class="icon">
@@ -376,7 +379,7 @@ $assk = "Assignment".$ass;
                       <td><?= ++$i; ?></td>
                       <td><?= $returne->assName ?> </td>
                       <td><?= $returne->assType ?> </td>
-                      <td><?= $submit_returne->fileName;  ?></td>
+                      <td><?= substr($submit_returne->fileName, -25);  ?></td>
                       <td><?= $submit_returne->score.'/'.$returne->total_marks  ?></td>
                       <td><?= $submit_returne->comment;  ?></td>
                       </tr>
@@ -433,6 +436,7 @@ $assk = "Assignment".$ass;
                       <div class="model text-center">
                         <?php
                         Modal::begin([
+                          
                           'title' =>  Html::tag('h2','Announcement', ['class' => 'float-center']),
                           'toggleButton' => ['label' => Html::tag('a','', ['class' => 'fa fa-eye fa-lg '])],
                           'size' => 'modal-lg',
@@ -444,7 +448,7 @@ $assk = "Assignment".$ass;
                       echo "<P class='announcement-model'> $announcement->content </P>".'<br>'.'<br>';
                       echo "    </div>";
                       echo "<p 'class' = 'text-muted'  style='  font-style: italic;'>";
-                      echo  Yii::$app->formatter->asRelativeTime($announcement->ann_date." ".$announcement->ann_time).' '.'ago';
+                      echo  Yii::$app->formatter->asRelativeTime($announcement->ann_date." ".$announcement->ann_time);
                       echo "    </p>";
                       
                       Modal::end();

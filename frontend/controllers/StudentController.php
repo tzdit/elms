@@ -19,6 +19,7 @@ use frontend\models\UploadAssignment;
 use frontend\models\AddGroup;
 use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
+use frontend\models\AssSubmitForm;
 use frontend\models\UploadMaterial;
 use frontend\models\CarryCourseSearch;
 use common\models\StudentGroup;
@@ -450,7 +451,7 @@ public function actionAnnouncement($announcement)
         return $this->redirect(Yii::$app->request->referrer);
     }
     
-
+           
 
 
      /**
@@ -462,7 +463,7 @@ public function actionAnnouncement($announcement)
     public function actionSubmit_assignment($assID)
     {
 
-        $model =new Submit; 
+        $model =new AssSubmitForm;
 
         $file = UploadedFile::getInstanceByName('document');
         $model->document = $file;
@@ -508,8 +509,16 @@ public function actionAnnouncement($announcement)
         $filePath = '/web/storage/temp';
         
         $completePath = Yii::getAlias('@app'.$filePath.'/'.$model->fileName);
+
+        if(\file_exists($completePath)){
+            return Yii::$app->response->sendFile($completePath, $model->fileName);
+        }
+        else {
+            # code...
+            throw new NotFoundHttpException(Yii::t('app', 'The requested file does not exist.'));
+        }
     
-        return Yii::$app->response->sendFile($completePath, $model->fileName);
+        
     }
 
 
@@ -545,7 +554,7 @@ public function actionAnnouncement($announcement)
     }
 
     public function actionResubmit($assID){
-        $model =Submit::findOne($assID); 
+        $model =AssSubmitForm::findOne($assID); 
 
         $file = UploadedFile::getInstanceByName('document');
         $model->document = $file;
@@ -562,10 +571,10 @@ public function actionAnnouncement($announcement)
         try{
             if (Yii::$app->request->isPost && $model->save()) {
                 
-                Yii::$app->session->setFlash('success', 'Your Submit successed');
+                Yii::$app->session->setFlash('success', 'Your Re-Submit successed');
              
                 
-                return $this->redirect(Yii::$app->request->referrer);
+                return $this->refresh();
             }
             
             
