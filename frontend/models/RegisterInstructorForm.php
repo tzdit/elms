@@ -17,6 +17,7 @@ class RegisterInstructorForm extends Model
     public $username;
     public $password = "123456";
     public $role;
+    public $email;
 
 
     /**
@@ -40,7 +41,7 @@ class RegisterInstructorForm extends Model
      *
      * @return bool whether the creating new account was successful and email was sent
      */
-    public function create()
+    public function createi()
     {
         //get authManager instance
      $auth = Yii::$app->authManager;
@@ -57,7 +58,7 @@ class RegisterInstructorForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
         if($user->save()){
-        //Now insert data to instructor table
+        //Now insert data to hod table
         $instructor->full_name = $this->full_name;
         $instructor->email = $this->username;
         $instructor->phone = $this->phone;
@@ -79,6 +80,7 @@ class RegisterInstructorForm extends Model
       }
     return false;
 }
+
 
     /**
      * Sends confirmation email to user

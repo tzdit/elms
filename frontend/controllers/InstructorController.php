@@ -22,6 +22,7 @@ use frontend\models\UploadTutorial;
 use frontend\models\AddPartner;
 use frontend\models\UploadLab;
 use frontend\models\UploadStudentHodForm;
+use frontend\models\UploadStudentForm;
 use frontend\models\CreateCourse;
 use frontend\models\CreateProgram;
 use frontend\models\UploadMaterial;
@@ -30,6 +31,9 @@ use frontend\models\External_assess;
 use frontend\models\AddAssessRecord;
 use frontend\models\StudentGroups;
 use frontend\models\TemplateDownloader;
+use frontend\models\CA;
+use frontend\models\CA_previewer;
+use frontend\models\StudentAssign;
 use common\models\Groups;
 use common\models\GroupGenerationTypes;
 use common\models\Announcement;
@@ -110,7 +114,15 @@ public $defaultAction = 'dashboard';
                             'download-extassess-template',
                             'delete-assessment',
                             'post-announcement',
-                            'delete-announcement'
+                            'delete-announcement',
+                            'generate-ca',
+                            'ca-preview',
+                            'get-incomplete-perc',
+                            'get-student-count',
+                            'get-carries-perc',
+                            'get-pdf-ca',
+                            'add-students'
+
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -123,6 +135,7 @@ public $defaultAction = 'dashboard';
                             'dashboard',
                             'courses',
                             'enroll-course',
+                            'assign-course',
                             'dropcourse',
                             'classwork',
                             'create-student',
@@ -137,9 +150,11 @@ public $defaultAction = 'dashboard';
                             'delete',
                             'deletelab',
                             'deletetut',
+                            'deletecoz',
                             'materials',
                             'stdwork',
                             'stdworkmark',
+                            'import-students',
                             'labwork',
                             'stdworklab',
                             'stdlabmark',
@@ -147,6 +162,8 @@ public $defaultAction = 'dashboard';
                             'instructor-course',
                             'updatetut',
                             'updatelab',
+                            'updateprog',
+                            'updatecoz',
                             'add-partner',
                             'view-assessment'
                            
@@ -213,23 +230,14 @@ public $defaultAction = 'dashboard';
           $resp="New record adding failed ";
           foreach($recres as $p=>$v)
           {
-            $resp.=$v;
+            $resp.=$p." ".$v;
           }
           Yii::$app->session->setFlash('error',$resp);
           return $this->redirect(Yii::$app->request->referrer);  
 
-        }
-        
-        
+        } 
       }
-
-
-
-
     }
-
-
-
   }
 
   public function actionDownloadExtassessTemplate($coursecode)
@@ -249,6 +257,7 @@ public $defaultAction = 'dashboard';
     $assess=ExtAssess::findOne($assessid);
     if($assess->delete())
     {
+        Yii::$app->session->setFlash('success', 'assessment deleted');
         return $this->redirect(Yii::$app->request->referrer); 
 
     }
@@ -262,6 +271,8 @@ public $defaultAction = 'dashboard';
    
 public function actionEditExtAssrecordView($recordid)
 {
+$secretKey=Yii::$app->params['app.dataEncryptionKey'];
+$recordid=Yii::$app->getSecurity()->decryptByPassword($recordid, $secretKey);
   $record=StudentExtAssess::findOne($recordid);
 
   return $this->render('editassessrecord',['recordid'=>$recordid,'regno'=>$record->reg_no,'score'=>$record->score]);
@@ -325,11 +336,8 @@ public function actionEditExtAssrecord($recordid)
         }
 
         }
-      
-
-
-  
     }
+
 
     //announcement
 
@@ -404,6 +412,15 @@ public function actionEditExtAssrecord($recordid)
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    public function actionDeletecoz($id)
+    {
+        $cozdel = Assignment::findOne($id)->delete(); 
+        if($cozdel){
+           Yii::$app->session->setFlash('success', 'Lab deleted successfully');
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
     public function actionDeletetut($id)
     {
         $tut = Assignment::findOne($id)->delete(); 
@@ -446,6 +463,33 @@ public function actionEditExtAssrecord($recordid)
             return $this->redirect(['classwork', 'cid'=>$tut->course_code]);
         }else{
         return $this->render('updatetut', ['tut'=>$tut]);
+        }
+    }
+
+
+    public function actionUpdateprog($id)
+    {
+        $prog = Program::findOne($id);
+        $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+        if($prog->load(Yii::$app->request->post()) && $prog->save())
+        {
+            Yii::$app->session->setFlash('success', 'Program updated successfully');
+            return $this->redirect(['create-program']);
+        }else{
+        return $this->render('updateprog', ['prog'=>$prog, 'departments'=>$departments]);
+        }
+    }
+
+    public function actionUpdatecoz($id)
+    {
+        $coz = Course::findOne($id);
+        
+        if($coz->load(Yii::$app->request->post()) && $coz->save())
+        {
+            Yii::$app->session->setFlash('success', 'Course updated successfully');
+            return $this->redirect(['create-course']);
+        }else{
+        return $this->render('updatecoz', ['coz'=>$coz]);
         }
     }
 
@@ -639,6 +683,43 @@ public function actionImportExternalAssessment()
     
 }
 
+
+public function actionImportStudents()
+{
+  $importmodel=new UploadStudentForm();
+  if($importmodel->load(Yii::$app->request->post())){
+
+    $importmodel->assFile=UploadedFile::getInstance($importmodel, 'assFile');
+    $importmodel->filetmp=UploadedFile::getInstance($importmodel, 'assFile')->tempName;
+    $act=$importmodel->excelstd_importer();
+    if($act!==false)
+    {
+        $flash="Import successful with ".count($act)." error(s)";
+        if($act!=null){
+           foreach($act as $reg=>$msg)
+           {
+               $flash=$flash."<br>'".$reg."'=>".$msg;
+           }
+        }
+        Yii::$app->session->setFlash('success', $flash);
+        
+          return $this->redirect(Yii::$app->request->referrer);
+    }
+    else
+    {
+        Yii::$app->session->setFlash('error', 'Importing failed, you may need to download the standard format');
+          return $this->redirect(Yii::$app->request->referrer);
+    }
+  }
+  else
+  {
+    Yii::$app->session->setFlash('error', 'unknown error occurred, try again later');
+    return $this->redirect(Yii::$app->request->referrer);
+  }
+
+    
+}
+
 public function actionViewAssessment($assid)
 {
 
@@ -666,10 +747,6 @@ public function actionUploadTutorial(){
     $model = new UploadTutorial();
     if($model->load(Yii::$app->request->post())){
         $model->assFile = UploadedFile::getInstance($model, 'assFile');
-        // echo '<pre>';
-        // print_r($model);
-        // echo '</pre>';
-        // exit;
         if($model->upload()){
         Yii::$app->session->setFlash('success', 'Tutorial created successfully');
         return $this->redirect(Yii::$app->request->referrer);
@@ -778,6 +855,7 @@ public function actionMarkInputing()
     $submit->comment=$comment;
   }
   $submit->save();
+  print_r($submit->getErrors());
   //preparing the submit
  
 
@@ -1012,6 +1090,133 @@ public function actionAddStudentGentype()
 
 
  }
+ ////////////////////////// the CA //////////////////////////////
+
+ public function actionGenerateCa()
+ {
+   $model=new CA();
+   
+   $model->Assignments=yii::$app->request->post("CA")["Assignments"];
+   $model->LabAssignments=yii::$app->request->post("CA")["LabAssignments"];
+   $model->otherAssessments=yii::$app->request->post("CA")["otherAssessments"];
+   $model->assreduce=yii::$app->request->post("CA")["assreduce"];
+   $model->labreduce=yii::$app->request->post("CA")["labreduce"];
+   $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
+  
+   $res=$model->generateExcelCA();
+   if($res!==true){Yii::$app->session->setFlash('error',$res);}
+
+   return $this->redirect(Yii::$app->request->referrer); 
+  
+    
+
+ 
+
+ }
+ public function actionGetPdfCa()
+ {
+    $model=new CA();
+   
+    $model->Assignments=yii::$app->request->post("CA")["Assignments"];
+    $model->LabAssignments=yii::$app->request->post("CA")["LabAssignments"];
+    $model->otherAssessments=yii::$app->request->post("CA")["otherAssessments"];
+    $model->assreduce=yii::$app->request->post("CA")["assreduce"];
+    $model->labreduce=yii::$app->request->post("CA")["labreduce"];
+    $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
+   
+    $res=$model->generatePdfCA();
+    if($res!=null){Yii::$app->session->setFlash('error',$res);}
+    return $this->redirect(Yii::$app->request->referrer); 
+    
+ }
+ public function actionCaPreview()
+ {
+    $model=new CA_previewer();
+    if(Yii::$app->request->isAjax){
+    $model->Assignments=yii::$app->request->post("CA")["Assignments"];
+    $model->LabAssignments=yii::$app->request->post("CA")["LabAssignments"];
+    $model->otherAssessments=yii::$app->request->post("CA")["otherAssessments"];
+    $model->assreduce=yii::$app->request->post("CA")["assreduce"];
+    $model->labreduce=yii::$app->request->post("CA")["labreduce"];
+    $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
+   
+    $data=$model->previewCA();
+    print $data;
+    }
+ }
+ public function actionGetIncompletePerc()
+ {
+    $model=new CA();
+    if(Yii::$app->request->isAjax){
+    $model->Assignments=yii::$app->request->post("CA")["Assignments"];
+    $model->LabAssignments=yii::$app->request->post("CA")["LabAssignments"];
+    $model->otherAssessments=yii::$app->request->post("CA")["otherAssessments"];
+    $model->assreduce=yii::$app->request->post("CA")["assreduce"];
+    $model->labreduce=yii::$app->request->post("CA")["labreduce"];
+    $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
+   
+    $data=$model->getincompleteperc();
+    print $data;
+    }
+
+ }
+ public function actionGetStudentCount()
+ {
+    $model=new CA();
+    if(Yii::$app->request->isAjax){
+    $model->Assignments=yii::$app->request->post("CA")["Assignments"];
+    $model->LabAssignments=yii::$app->request->post("CA")["LabAssignments"];
+    $model->otherAssessments=yii::$app->request->post("CA")["otherAssessments"];
+    $model->assreduce=yii::$app->request->post("CA")["assreduce"];
+    $model->labreduce=yii::$app->request->post("CA")["labreduce"];
+    $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
+   
+    $data=$model->get_no_of_student();
+    print $data;
+    }  
+ }
+ public function actionGetCarriesPerc()
+ {
+    $model=new CA();
+    if(Yii::$app->request->isAjax){
+    $model->Assignments=yii::$app->request->post("CA")["Assignments"];
+    $model->LabAssignments=yii::$app->request->post("CA")["LabAssignments"];
+    $model->otherAssessments=yii::$app->request->post("CA")["otherAssessments"];
+    $model->assreduce=yii::$app->request->post("CA")["assreduce"];
+    $model->labreduce=yii::$app->request->post("CA")["labreduce"];
+    $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
+   
+    $data=$model->getCarriedPercent();
+    print $data;
+    }  
+ }
+ public function actionAddStudents()
+ {
+   
+    $model = new StudentAssign();
+    if($model->load(Yii::$app->request->post()) && $model->validate()){
+    $returned=$model->assignStudents();
+     if(empty($returned))
+     {
+
+        Yii::$app->session->setFlash('success', 'Program added successfully');
+        return $this->redirect(Yii::$app->request->referrer);
+     }
+     else{
+        
+        $errors="Error(s) detected during assigning:";
+        foreach($returned as $prog=>$error)
+        {
+            $errors.="<br>".$prog.": ".$error;
+        }
+        Yii::$app->session->setFlash('success',$errors);
+        return $this->redirect(Yii::$app->request->referrer);
+     }
+ 
+     }
+
+
+ }
 
 //#################################### HOD HERE ########################################################################
 
@@ -1025,8 +1230,9 @@ public function actionAddStudentGentype()
     $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
     if($model->load(Yii::$app->request->post())){
        
-        if($model->create()){
+        if($model->createi()){
         Yii::$app->session->setFlash('success', 'Student registered successfully');
+        return $this->redirect(Yii::$app->request->referrer);
         }else{
             Yii::$app->session->setFlash('error', 'Somethibg went Wrong!');
         }
@@ -1067,6 +1273,7 @@ public function actionStudentList(){
         if($model->load(Yii::$app->request->post())){
             if($model->upload()){
             Yii::$app->session->setFlash('success', 'Program added successfully');
+            return $this->redirect(Yii::$app->request->referrer);
             }else{
                 Yii::$app->session->setFlash('error', 'Something went Wrong!');
             }
@@ -1090,6 +1297,7 @@ public function actionStudentList(){
         if($model->load(Yii::$app->request->post())){
             if($model->create()){
             Yii::$app->session->setFlash('success', 'Course added successfully');
+            return $this->redirect(Yii::$app->request->referrer);
             }else{
                 Yii::$app->session->setFlash('error', 'Something went Wrong!');
             }

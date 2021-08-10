@@ -16,15 +16,7 @@ return [
             'baseUrl' => '/cdn',
             'basePath' => dirname(dirname(__DIR__)) . '/cdn',
             'components' => [
-                'jquery' => [
-                        
-                    'js'=>[
-                        [
-                            'js/jquery.min.js',
-                            '@cdn'=>'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
-                        ]
-                    ]
-                        ],
+             
                 'select2' => [
                     'css' => [
                         [

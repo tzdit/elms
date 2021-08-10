@@ -7,6 +7,7 @@ class PostAnnouncement extends Model{
 
 
     public $content;
+    public $title;
  
     
     public $totalMarks;
@@ -14,6 +15,7 @@ class PostAnnouncement extends Model{
         return [
            ['content','required'],
            ['content','string','max'=>500],
+           [['title'], 'string', 'max' => 150]
         ];
 
     }
@@ -24,6 +26,7 @@ class PostAnnouncement extends Model{
 
         $ann=new Announcement();
         $ann->content=$this->content;
+        $ann->title=$this->title;
         $ann->instructorID=Yii::$app->user->identity->instructor->instructorID;
         $ann->course_code=yii::$app->session->get('ccode');
 

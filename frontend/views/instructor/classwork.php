@@ -14,12 +14,16 @@ use common\models\ExtAssess;
 use common\models\ProgramCourse;
 use common\models\Announcement;
 use frontend\models\UploadAssignment;
+use frontend\models\CA;
 use frontend\models\UploadTutorial;
 use frontend\models\PostAnnouncement;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
 use frontend\models\StudentGroups;
 use frontend\models\External_assess;
+use frontend\models\StudentAssign;
+use yii\bootstrap4\ActiveForm;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] = "Course ".$cid;
@@ -36,9 +40,9 @@ $this->params['breadcrumbs'] = [
     <div class="body-content ">
             <!-- Content Wrapper. Contains page content -->
    
-       <div class="container-fluid >
+       <div class="container-fluid">
       
- <div class="row ">
+ <div class="row">
           <!-- Left col -->
           <section class="col-lg-12 ">
           <div class="card card-primary card-outline card-outline-tabs">
@@ -97,10 +101,10 @@ $this->params['breadcrumbs'] = [
     <div class="card-header p-2" id="heading">
     <div class="row">
     <div class="col-md-10">
-    <i class="fa fa-bullhorn"></i><span style="font-size:12px;margin-left:20px;color:#bbb">by <?=$announcement->instructor->full_name;?></span>
+    <i class="fa fa-bullhorn"></i><span style="font-size:12px;margin-left:20px;color:#111"><?=$announcement->title;?></span>
    </div>
    <div class="col-md-2">
-  <?= Html::a('<i class="fa fa-trash float-right"></i>', ['delete-announcement','annid'=>$announcement->annID]) ?>
+  <a href="#" id="announcedelete" annid=<?=$announcement->annID?>><i class="fa fa-trash float-right"></i></a>
    </div>
    </div>
     </div>
@@ -113,8 +117,14 @@ $this->params['breadcrumbs'] = [
   
   </div>
    <div class="card-footer text-center" style="font-size:12px">
-  <i class="fas fa-clock" ></i><?=$announcement->ann_date." ".$announcement->ann_time?>
-  
+   <div class="row">
+     <div class="col-md-4">
+  <span class="float-left"><i class="fas fa-clock" ></i><?=$announcement->ann_date." ".$announcement->ann_time?></span>
+   </div>
+   <div class="col-md-8">
+   <?=$announcement->instructor->full_name?>
+   </div>
+   </div>
    </div>
 
 
@@ -704,7 +714,7 @@ $assk = "Assignment".$ass;
      <div class="tab-pane fade" id="tutorials" role="tabpanel" aria-labelledby="custom-tabs-tutorials">
           <div class="row">
             <div class="col-md-12">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i> Create</a>
+            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i> Create New</a>
             </div>
                   
         </div>
@@ -720,7 +730,7 @@ $assk = "Assignment".$ass;
       <div class="row">
       <div class="col-sm-11">
       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$tutt?>" aria-expanded="true" aria-controls="collapse<?=$tutt?>">
-        <i class="fas fa-clipboard-list"></i> <?php echo "Tutorial ".$tutt;?>
+        <i class="fas fa-clipboard-list"></i> <?php echo $tutorial->assName;?>
         </button>
       </div>
       <div class="col-sm-1">
@@ -734,15 +744,9 @@ $assk = "Assignment".$ass;
 
     <div id="collapse<?=$tutt?>" class="collapse" aria-labelledby="heading<?=$tutt?>" data-parent="#accordionExample_4">
       <div class="card-body">
-     <center> <p><span style="color:red"> Tutorial Title: </span> <b> <?= $tutorial -> assName ?> </b></p></center>
-      </div>
-      <div class="card-footer p-2 bg-white border-top">
       <div class="row">
-      <div class="col-md-6">
-      
-      </div>
-      <div class="col-md-6">
-      <a href="#" class="btn btn-sm btn-danger float-right ml-2" data-toggle="modal" data-target="#modal-danger<?= $tutorial -> assID ?>"><span><i class="fas fa-trash"></i></span></a>
+      <div class="col-md-12">
+      <a href="#" class="btn btn-sm btn-danger float-right ml-2" id="tutodelete" ccode="<?=$tutorial->assID?>"><span><i class="fas fa-trash"></i></span></a>
       <?= Html::a('<i class="fas fa-edit"></i>',['updatetut', 'id'=>$tutorial->assID], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
       <a href="/storage/temp/<?= $tutorial -> fileName ?>" download target="_blank" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-download"></i></span></a>
       
@@ -760,7 +764,7 @@ $assk = "Assignment".$ass;
 <div class="modal fade" id="modal-danger<?= $tutorial -> assID ?>">
 
 <div class="modal-dialog">
-  <div class="modal-content bg-danger">
+  <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">Deleting <b> <?= $tutorial -> assName ?> </b> Tutorial</h4>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -817,8 +821,13 @@ $assk = "Assignment".$ass;
     <i class="fas fa-clipboard-list"></i><?= $assess->title ?>
    </div>
    <div class="col-md-2">
-  <?= Html::a('<i class="fa fa-trash float-right"></i>', ['delete-assessment','assessid'=>$assess->assessID]) ?>
-  <?= Html::a('<i class="fas fa-eye float-right" style="margin-right:5px"></i>', ['view-assessment','assid'=>$assess->assessID]) ?>
+  
+ <a href="#" assessid=<?=$assess->assessID?> id="assessdelete"><i class="fa fa-trash float-right"></i></a>
+ <?php
+   $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+   $assessid=Yii::$app->getSecurity()->encryptByPassword($assess->assessID, $secretKey);
+ ?>
+  <?= Html::a('<i class="fas fa-eye float-right" style="margin-right:5px"></i>', ['view-assessment','assid'=>$assessid]) ?>
    </div>
    </div>
   
@@ -834,20 +843,174 @@ $assk = "Assignment".$ass;
       </div>
    </div>
    <!--##################### the CA ######################## -->
+  
    <div class="tab-pane fade" id="ca" role="tabpanel" aria-labelledby="custom-tabs-ca">
-          <div class="row">
-            <div class="col-md-12">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i>New CA</a>
-            </div>
-                  
-          </div>
-   
+   <?php 
+      $assignments=Assignment::find()->where(['course_code'=>$cid,'assNature'=>'assignment'])->all();
+      $assArray=ArrayHelper::map($assignments,'assID','assName');
+      $labs=Assignment::find()->where(['course_code'=>$cid,'assNature'=>'lab'])->all();
+      $labarray=ArrayHelper::map($labs,'assID','assName');
+      $others=ExtAssess::find()->where(['course_code'=>$cid])->all();
+      $othersarray=ArrayHelper::map($others,'assessID','title');
+      $camodel=new CA();
+   ?>
    <div class="container-fluid">
+    <div class="card shadow"  >
+    <div class="card-header p-2" id="heading">
+    <div class="row">
+    <div class="col-md-5" >
+    <span style="margin-left:10px;"><i class="fa fa-hand-o-down" style="font-size:20px"></i>Choose assessments</span>
+   </div>
+   <div class="col-md-7 float-right">
+   <div class="row">
+  <div class="col-md-4 shadow float-right">
+     <span>Carries:</span><span id="carry"></span>
+  </div>
+  
+   <div class="col-md-4 shadow float-right">
+   <span>Incompletes:</span><span id="incnum"></span>
+</div>
+   <div class="col-md-4 shadow float-right">
 
+   <span>Total students:</span><span id="totalstud"></span>
+     
+    </div>
+
+  </div> 
+   </div>
+   <div class="col-md-2" style="font-size:12px">
+  
+  
+   </div>
+   </div>
+    </div>
+    <?php     
+$caform = ActiveForm::begin([
+    'id' => 'ca-form',
+    'action'=>'/instructor/generate-ca',
+    'method'=>'post',
+    'options' => ['class' => 'form-horizontal']
+]) ?>
+    <div class="card-body">
+
+  <div class="row">
+    <div class="col-md-4">
+      <!-- 
+        ######################### the assignments
+      -->
+
+    <div class="card shadow" style="min-height:200px;max-height:400px" >
+      <div class="card-header p-2 bg-primary text-sm">
+        Assignments
+      </div>
+    <div class="card-body">
+  <div class="row">
+    <div class="col-md-12">
+    <?= $caform->field($camodel, 'Assignments[]')->checkboxList($assArray)->label(false) ?>
+    <?= $caform->field($camodel, 'assreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm reduce','placeholder'=>'Max','id'=>'ass'])->label(false)?>
+   </div>
+   </div>
+ 
+  
+  </div>
+
+
+
+
+     </div>
+
+      <!--########################################-->
+   </div>
+   <div class="col-md-4">
+      <!-- 
+        ######################### the labs
+      -->
+
+    <div class="card shadow" style="min-height:200px;max-height:400px" >
+    <div class="card-header p-2 bg-primary text-sm">
+        Lab assignments
+      </div>
+    <div class="card-body">
+  <div class="row">
+    <div class="col-md-12">
+    <?= $caform->field($camodel, 'LabAssignments[]')->checkboxList($labarray)->label(false) ?>
+    <?= $caform->field($camodel, 'labreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm reduce','placeholder'=>'Max','id'=>'lab'])->label(false)?>
+   </div>
+   </div>
+  
+  </div>
+
+
+
+
+     </div>
+
+      <!--########################################-->
+   </div>
+   <div class="col-md-4">
+      <!-- 
+        ######################### other assessments
+      -->
+
+    <div class="card shadow" style="min-height:200px;max-height:400px">
+    <div class="card-header p-2 bg-primary text-sm">
+       Other assessments
+      </div>
+    <div class="card-body">
+  <div class="row">
+    <div class="col-md-12" id="assessments">
+    <?php if(empty($othersarray)){print "<span class='info'>No assessment found</span>";} ?>
+    <?= $caform->field($camodel, 'otherAssessments[]')->checkboxList($othersarray)->label(false)?>
+    <?= $caform->field($camodel, 'otherassessreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm reduce','placeholder'=>'Max','id'=>'other'])->label(false)?>
    </div>
    </div>
 
-     <!-- ########################################### end tutorial ################################# -->
+  </div>
+
+
+
+
+     </div>
+
+      <!--########################################-->
+    
+  </div>
+
+   </div>
+
+
+   <?php ActiveForm::end() ?>
+   <div class="row">
+     <div class="col-md-2"><span class="text-primary"><i class="fa fa-hand-o-down " style="font-size:18px"></i>Preview</span></div>
+     <div class="col-md-10">
+     <?= Html::submitButton('<i class="fa fa-download" style="font-size:18px"></i>Excel', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right','style'=>'margin-left:2px','id'=>'cadownloader']) ?>
+  <?=Html::Button('<i class="fa fa-download" style="font-size:18px"></i>PDF', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right','id'=>'cadownloaderpdf'])  ?>
+        </div>
+   </div>
+   </div>
+ 
+   
+  
+  <div class="card-footer">
+  
+  <div class="row">
+      <div class="col-md-12" id="thepreview" >
+       
+      </div>
+
+      </div>
+
+      </div>
+   
+    
+    
+      </div>
+   
+  </div>
+</div>
+  
+
+     <!-- ########################################### end CA ################################# -->
      <div class="tab-pane fade" id="students" role="tabpanel" aria-labelledby="custom-tabs-Students">
      <?php 
      $students=[];
@@ -868,15 +1031,29 @@ $assk = "Assignment".$ass;
      {
       array_push($students,$carry->regNo);
      }
-     
-     shuffle($students);
-     if($students!=null){
+
+     //participating programs
+
        
        
        ?>
           <div class="row">
-          <div class="col-md-12">
-          <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal" style="margin-left:10px"><i class="fas fa-plus" ></i>Assign Students</a>
+          <div class="col-md-6">
+            <span class='bg-primary'>Assigned Programs:
+            <?php
+     
+            for($p=0;$p<count($coursePrograms);$p++)
+            {
+              print "<span style='padding:2px'>".$coursePrograms[$p]->programCode.",</span>";
+            }
+             
+
+          ?>
+
+</span>
+     </div>
+          <div class="col-md-6">
+          <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#Addstudents" data-toggle="modal" style="margin-left:10px"><i class="fas fa-plus" ></i>Assign Students</a>
           <a href="/instructor/view-groups" class="btn btn-sm btn-primary btn-rounded float-right mb-2"><i class="fas fa-group" ></i>Student Groups</a>
             
             </div>
@@ -900,16 +1077,6 @@ $assk = "Assignment".$ass;
 				<th>
 				YOS
 				</th>
-				<!-- <th>
-					Question
-				</th> -->
-				
-				<th>
-					Action
-				</th>
-				<!-- <th>
-					Grading
-				</th> -->
 				
 			</tr>
 		</thead>
@@ -921,7 +1088,7 @@ $assk = "Assignment".$ass;
                     <td><?=  $student->fname." ".$student->mname." ".$student->lname; ?></td>
                     <td><?=  $student->gender; ?></td>
                     <td><?=  $student->YOS; ?></td>
-                    <td><i class="fa fa-edit" style="font-size:18px"></i></td>
+                    
 							
 									
 										
@@ -937,13 +1104,8 @@ $assk = "Assignment".$ass;
 		</tbody>
 		</table>
     <?php
-             }
-             else
-             {
-               ?>
-                <div class="container-fluid p-3 my-3 border text-info jumbotron text-center"><h5>This course has no students</h5></div>
-               <?php
-             }
+             
+          
     ?>
     </div>
     </div>
@@ -975,6 +1137,12 @@ $labmodel = new UploadLab();
 ?>
 <?= $this->render('labs/create_lab', ['labmodel'=>$labmodel, 'ccode'=>$cid]) ?>
 
+<!-- ############################################## the student adding modal ######################################## -->
+<?php 
+$assignstudentsmodel = new StudentAssign();
+?>
+<?= $this->render('assignstudents', ['assignstudentsmodel'=>$assignstudentsmodel, 'ccode'=>$cid]) ?>
+
 <!--  ###################################render model to create_material ####################################################-->
 <?php 
 $assmodel = new UploadMaterial();
@@ -1005,10 +1173,25 @@ $(document).ready(function(){
   $("#CoursesTable").DataTable({
     responsive:true,
   });
-  $("#studenttable").DataTable({
-    responsive:true,
-  });
+  //$("#studenttable").DataTable({
+    //responsive:true,
+  //});
   
+  $('#studenttable').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'csv',
+            {
+                extend: 'pdfHtml5',
+                title: 'Class students list'
+            },
+            {
+                extend: 'excelHtml5',
+                title: 'Class students list'
+            },
+            'print',
+        ]
+    } );
   $(document).on('click', '.enroll', function(){
       $('.course-description').text($(this).attr('ccode')+'=>'+$(this).attr('cname'));
       $("#ccode").val($(this).attr('ccode'));
@@ -1044,7 +1227,128 @@ $(document).ready(function(){
     )
     setTimeout(function(){
       window.location.reload();
-    }, 1500);
+    }, 300);
+   
+
+        }
+      }
+    })
+   
+  }
+})
+
+})
+
+//tutorial deleting
+$(document).on('click', '#tutodelete', function(){
+var ccode = $(this).attr('ccode');
+Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'question',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, Delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+ 
+    $.ajax({
+      url:'/instructor/deletetut',
+      method:'get',
+      async:false,
+      dataType:'JSON',
+      data:{id:ccode},
+      success:function(data){
+        if(data.message){
+          Swal.fire(
+              'Deleted!',
+              data.message,
+              'success'
+    )
+    setTimeout(function(){
+      window.location.reload();
+    }, 300);
+   
+
+        }
+      }
+    })
+   
+  }
+})
+
+})
+//deleting external assessment
+$(document).on('click', '#assessdelete', function(){
+var assessid = $(this).attr('assessid');
+Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'question',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, Delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+ 
+    $.ajax({
+      url:'/instructor/delete-assessment',
+      method:'get',
+      async:false,
+      dataType:'JSON',
+      data:{assessid:assessid },
+      success:function(data){
+        if(data.message){
+          Swal.fire(
+              'Deleted!',
+              data.message,
+              'success'
+    )
+    setTimeout(function(){
+      window.location.reload();
+    },300);
+   
+
+        }
+      }
+    })
+   
+  }
+})
+
+})
+//deleting announcements
+$(document).on('click', '#announcedelete', function(){
+var annid = $(this).attr('annid');
+Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'question',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, Delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+ 
+    $.ajax({
+      url:'/instructor/delete-announcement',
+      method:'get',
+      async:false,
+      dataType:'JSON',
+      data:{annid:annid},
+      success:function(data){
+        if(data.message){
+          Swal.fire(
+              'Deleted!',
+              data.message,
+              'success'
+    )
+    setTimeout(function(){
+      window.location.reload();
+    },300);
    
 
         }
@@ -1069,7 +1373,131 @@ if(activeTab){
 
 $('#custom-tabs-four-tab a[href="' + activeTab + '"]').tab('show');
 
+
+
+
 }
+$('#ca-form input[type=checkbox]').change(function(e){
+  var assessdata=new FormData($('#ca-form')[0]);
+  $.ajax({
+    url: "/instructor/ca-preview", 
+    data:assessdata,
+    dataType:'text',
+    processData: false,
+    contentType:false,
+    type: 'POST',
+    success: function(result){
+    
+    $('#thepreview').html(result);
+    $('#thepreview').css('font-size','12px');
+
+       //the incomplete
+
+       $.ajax({
+    url: "/instructor/get-incomplete-perc", 
+    data:assessdata,
+    dataType:'text',
+    processData: false,
+    contentType:false,
+    type: 'POST',
+    success: function(result){
+    
+    $('#incnum').html(result);
+   
+   
+  }});
+
+  //the students total number
+
+  $.ajax({
+    url: "/instructor/get-student-count", 
+    data:assessdata,
+    dataType:'text',
+    processData: false,
+    contentType:false,
+    type: 'POST',
+    success: function(result){
+    
+    $('#totalstud').html(result);
+   
+   
+  }});
+
+  //the carries
+   
+  $.ajax({
+    url: "/instructor/get-carries-perc", 
+    data:assessdata,
+    dataType:'text',
+    processData: false,
+    contentType:false,
+    type: 'POST',
+    success: function(result){
+    
+    $('#carry').html(result);
+   
+   
+  }});
+  }});
+ 
+})
+$('.reduce').keyup(function(e){
+  e.stopPropagation();
+  var assessdata=new FormData($('#ca-form')[0]);
+  $.ajax({
+    url: "/instructor/ca-preview", 
+    data:assessdata,
+    dataType:'text',
+    processData: false,
+    contentType:false,
+    type: 'POST',
+    success: function(result){
+    
+    $('#thepreview').html(result);
+    $('#thepreview').css('font-size','12px');
+
+     //the carries
+   
+  $.ajax({
+    url: "/instructor/get-carries-perc", 
+    data:assessdata,
+    dataType:'text',
+    processData: false,
+    contentType:false,
+    type: 'POST',
+    success: function(result){
+    
+    $('#carry').html(result);
+   
+   
+  }});
+   
+  }});
+ 
+})
+//the PDF
+
+$('#cadownloaderpdf').click(function(e){
+  e.preventDefault();
+  $('#ca-form').attr('action','/instructor/get-pdf-ca');
+  $('#ca-form').submit();
+    
+  });
+
+  //the excel
+
+  $('#cadownloader').click(function(e){
+  e.preventDefault();
+  $('#ca-form').attr('action','/instructor/generate-ca');
+  $('#ca-form').submit();
+  
+    
+  });
+ 
+
+
+
+
   
 });
 JS;

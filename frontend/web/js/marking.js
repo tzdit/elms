@@ -135,7 +135,7 @@ $(document).ready(function(){
  });
  function returnAnswer(answer)
   {
-  //alert(answer);
+  alert(answer);
     
   }
   crow.css("background-color","");

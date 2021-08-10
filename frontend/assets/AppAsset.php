@@ -26,13 +26,13 @@ class AppAsset extends AssetBundle
         'plugins/datatables-buttons/css/buttons.bootstrap4.min.css',
         'plugins/fileinput/css/fileinput.min.css',
         'plugins/pace-progress/themes/orange/pace-theme-flat-top.css',
-        'plugins/sweetalert2/sweetalert2.min.css'
+        'plugins/sweetalert2/sweetalert2.min.css',
+        'cs/buttons.css'
         
     ];
     public $js = [
         'js/student.js',
         'js/sweetalert2.all.min.js',
-        'js/jquery-3.6.0.min.js',
         'plugins/bootstrap/js/bootstrap.min.js',
         'plugins/chart.js/Chart.min.js',
         'plugins/sparklines/sparkline.js',
@@ -45,9 +45,15 @@ class AppAsset extends AssetBundle
         'js/adminlte.js',
         'plugins/datatables/jquery.dataTables.min.js',
         'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js',
+        'js/tablesbutton.min.js',
         'plugins/datatables-responsive/js/dataTables.responsive.min.js',
         'plugins/datatables-responsive/js/responsive.bootstrap4.min.js',
         'plugins/datatables-buttons/js/dataTables.buttons.min.js',
+        'plugins/jszip/jszip.min.js',
+        'plugins/pdfmake/pdfmake.min.js',
+        'plugins/pdfmake/vfs_fonts.js',
+        'js/buttons.html5.min.js',
+        'js/print.js',
         'plugins/dropzone/dropzone.js',
         'plugins/fileinput/js/fileinput.min.js',
         'plugins/pace-progress/pace.min.js',

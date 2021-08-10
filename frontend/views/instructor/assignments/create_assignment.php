@@ -15,7 +15,7 @@ use yii\helpers\Html;
         </button>
       </div>
       <div class="modal-body">
-      <?php $form= ActiveForm::begin(['method'=>'post', 'action'=>'/instructor/upload-assignment','options'=>['enctype'=>'multipart/form-data'],'id'=>'assform','enableClientValidation' => true])?>
+      <?php $form= ActiveForm::begin(['method'=>'post', 'action'=>'/instructor/upload-assignment','options'=>['enctype'=>'multipart/form-data'],'id'=>'assform'])?>
         <div class="row">
         <div class="col-md-12">
         <?= $form->field($assmodel, 'assTitle')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Assignment Title'])->label(false)?>

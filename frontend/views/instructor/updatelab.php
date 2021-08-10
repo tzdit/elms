@@ -9,7 +9,7 @@ use yii\helpers\Html;
         <span class="modal-title " id="exampleModalLabel"><h3>Update Lab</h3></span>
        
          
-        </button>
+        
       </div>
       <div class="modal-body">
       <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/updatelab/', 'id'=> $lab->assID, 'enctype'=>'multipart/form-data']])?>

@@ -20,7 +20,7 @@ use yii\helpers\Html;
         </div>
         <div class="row">
         <div class="col-md-12">
-        <?= $form->field($tutmodel, 'description')->textarea(['class'=>'form-control form-control-sm', 'placeholder'=>'Description'])->label(false)?>
+        <?= $form->field($tutmodel, 'description')->textarea(['class'=>'form-control form-control-sm', 'placeholder'=>'Hints'])->label(false)?>
         </div>
         </div>
         
@@ -34,7 +34,7 @@ use yii\helpers\Html;
         </div>
         <div class="row">
         <div class="col-md-12">
-        <?= Html::submitButton('Submit', ['class'=>'btn btn-primary btn-md float-right ml-2']) ?>
+        <?= Html::submitButton('Create', ['class'=>'btn btn-primary btn-md float-right ml-2']) ?>
         <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
       
         </div>

@@ -82,7 +82,8 @@ $this->params['breadcrumbs'] = [
 				</div>
 
 			
-		<script>
+	<?php
+	$script=<<<JS
     $(document).ready(function() {
     $('#dataTables-ex2').DataTable();
     // $("#AssignedStudents").DataTable({
@@ -136,31 +137,9 @@ $this->params['breadcrumbs'] = [
     }
 
 } );
-    </script>
-
-<?php 
-	/*if (isset($_POST['ggg'])) {
-		$g = $_POST['grad'];
-		$tt = $_POST['tat'];
-		$idd =$_POST['idd'];
-		if($g > $tt){
-			?>
-			<script type="text/javascript">alert("You Can not Put Marks > Total Marks");</script>
-			<?php
-		}elseif(!isset($g) || empty($g)){
-			?>
-			<script type="text/javascript">alert("Please Enter Marks First");</script>
-			<?php
-		}else{
-			$stm = $conn->prepare("UPDATE `tbl_submit` SET result=:result,status=:status WHERE id=:id ");
-			$stm->execute([':result'=>$g, ':status'=>'marked', ':id'=>$idd]);
-			header('location: manage_my_course.php?id='.$cod);
-		}
-		
-		//header('location: manage_my_course.php?id='.$cod);
-	}
-
-				*/
+ 
+JS;
+$this->registerJs($script);
 
  ?>
 

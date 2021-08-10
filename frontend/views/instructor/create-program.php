@@ -53,7 +53,7 @@ use frontend\models\CreateProgram;
 					Question
 				</th> -->
 				
-				<th>
+				<th width="15%">
 					Action
 				</th>
 				<!-- <th>
@@ -70,8 +70,9 @@ use frontend\models\CreateProgram;
                     <td><?=  $program->prog_name; ?></td>
                     <td><?=  $program->prog_duration; ?></td>
                     <td><?=  $program->capacity; ?></td>
-                    <td><i class="fa fa-edit" style="font-size:18px"></i><i class="fa fa-trash-alt" style="font-size:18px;color:red"></i></td>
-							
+                    <td><?= Html::a('<i class="fas fa-edit" style="font-size:18px"></i>',['updateprog', 'id'=>$program->programCode], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
+                    <i class="fa fa-trash-alt" style="font-size:18px;color:red"></i></td>
+                    
 									
 										
 										

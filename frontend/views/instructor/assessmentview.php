@@ -16,10 +16,12 @@
      ['label'=>'assessments', 'url'=>Url::to(['/instructor/classwork', 'cid'=>$cid])],
      ['label'=>'view']
    ];
-
+   $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+   $assid=Yii::$app->getSecurity()->decryptByPassword($assid, $secretKey);
    $records=StudentExtAssess::find()->where(['assessID'=>$assid])->all();
    $assessment=ExtAssess::findOne($assid)->title;
    $this->params['courseTitle'] = $cid." ".$assessment;
+   $this->title=$cid." ".$assessment;
    $no=0;
 ?>
 <div id="container-fluid">
@@ -58,8 +60,12 @@
                     <td><?=  $record->reg_no; ?></td>
                     <td><?=  $record->score; ?></td>
                     <td>
-                    <?= Html::a('<i class="fa fa-edit float-right" style="font-size:18px"></i>', ['edit-ext-assrecord-view','recordid'=>$record->student_assess_id]) ?>
-                    <?= Html::a('<i class="fa fa-trash float-right" style="font-size:18px"></i>', ['delete-ext-assrecord','recordid'=>$record->student_assess_id]) ?>
+                    <?php 
+                    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+                    $encryptedassess =Yii::$app->getSecurity()->encryptByPassword($record->student_assess_id, $secretKey);
+                    ?>
+                    <?= Html::a('<i class="fa fa-edit float-right" style="font-size:18px"></i>', ['edit-ext-assrecord-view','recordid'=>$encryptedassess]) ?>
+                   <a href="#" id="deleterecord" recordid=<?=$record->student_assess_id?>><i class="fa fa-trash float-right" style="font-size:18px"></i></a>
                     
                   </td>		
 						  </tr>
@@ -84,10 +90,52 @@ $recmodel= new AddAssessRecord();
 <?php
   $script = <<<JS
   $('document').ready(function(){
+  $('#assesstable').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'csv','pdf','excel','print'
+        ]
+    } );
+    //assessment record deleting
+  $(document).on('click', '#deleterecord', function(){
+  var recordid = $(this).attr('recordid');
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, Delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+  
+      $.ajax({
+        url:'/instructor/delete-ext-assrecord',
+        method:'get',
+        async:false,
+        dataType:'JSON',
+        data:{recordid:recordid },
+        success:function(data){
+          if(data){
+            Swal.fire(
+                'Deleted!',
+                data.message,
+                'success'
+      )
+      setTimeout(function(){
+        window.location.reload();
+      }, 300);
+    
 
-  $('#assesstable').dataTable();
+          }
+        }
+      })
+    
+    }
+  })
 
-
+  })
   })
   JS;
   $this->registerJs($script);
