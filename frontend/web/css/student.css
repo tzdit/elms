@@ -65,3 +65,20 @@ color: #007bff;
   font-size: 20px;
   font-weight: 200;
 }
+
+.result-card:hover{
+  background: #007bff3b;
+}
+
+.fa-clipboard-list{
+  color: #007bff !important;
+}
+
+.assignment-header {
+  color: black;
+  font-weight: 350;
+}
+
+.assignment-auto{
+  font-weight: 400;
+}
