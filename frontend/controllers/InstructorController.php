@@ -121,7 +121,9 @@ public $defaultAction = 'dashboard';
                             'get-student-count',
                             'get-carries-perc',
                             'get-pdf-ca',
-                            'add-students'
+                            'add-students',
+                            'failed-assignments',
+                            'missed-workmark'
 
                         ],
                         'allow' => true,
@@ -275,14 +277,20 @@ $secretKey=Yii::$app->params['app.dataEncryptionKey'];
 $recordid=Yii::$app->getSecurity()->decryptByPassword($recordid, $secretKey);
   $record=StudentExtAssess::findOne($recordid);
 
+  $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+  $recordid=Yii::$app->getSecurity()->encryptByPassword($recordid, $secretKey); 
+
   return $this->render('editassessrecord',['recordid'=>$recordid,'regno'=>$record->reg_no,'score'=>$record->score]);
 }
 public function actionEditExtAssrecord($recordid)
 {
-
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    //$recordid=Yii::$app->getSecurity()->decryptByPassword($recordid, $secretKey);
     $record=new AddAssessRecord();
     $assid=StudentExtAssess::findOne($recordid)->assessID;
+    
     $record->assessid=$assid;
+    $assid=Yii::$app->getSecurity()->encryptByPassword($assid, $secretKey);
     if($record->load(yii::$app->request->post()))
     {
        $recres=$record->editrecord($recordid);
@@ -546,22 +554,127 @@ public function actionStdwork($cid, $id){
 }
 
 public function actionStdworkmark($cid, $id){
+
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
     if(!empty($cid)){
-   Yii::$app->session->set('ccode', $cid);
+      Yii::$app->session->set('ccode', $cid);
     }
     
-    $submits = Submit::find()->where(['assID'=> $id])->all();
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $id=Yii::$app->getSecurity()->decryptByPassword($id, $secretKey);
+
+    $model=null;
+    $asstype=Assignment::findOne($id)->assType;
+    if($asstype=="groups" || $asstype=="allgroups"){$model=new GroupAssignmentSubmit();}
+    else{$model=new Submit();}
+    $submits =$model->find()->where(['assID'=> $id])->all();
 
 
     $courses = Yii::$app->user->identity->instructor->courses;
 
-        // echo '<pre>';
-        // print_r($cid);
-        // echo '<br>';
-        // print_r($id);
-        // echo '</pre>';
-        // exit;
     return $this->render('stdworkmark', ['cid'=>$cid, 'id'=>$id, 'courses'=>$courses, 'submits' => $submits]);
+
+}
+public function actionMissedWorkmark($cid, $id){
+
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+    
+    if(!empty($cid)){
+      Yii::$app->session->set('ccode', $cid);
+    }
+    
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $id=Yii::$app->getSecurity()->decryptByPassword($id, $secretKey);
+    $assign=Assignment::findOne($id);
+            $submits=[];
+            $assigned=[];
+
+            $submitted=[];
+            $assignass=[];
+            if($assign->assType=="groups"){
+                $submits=$assign->groupAssignmentSubmits;
+
+                foreach($submits as $single)
+                {
+                    $submitted[$single->group->groupName]=$single->group->groupName;
+                }
+                $assigned=$assign->groupAssignments;
+
+                foreach($assigned as $single)
+                {
+                    $assignass[$single->group->groupName]=$single->group->groupName;
+                }
+            
+            }
+            else if($assign->assType=="allgroups"){
+              $submits=$assign->groupAssignmentSubmits;
+              foreach($submits as $single)
+              {
+                  $submitted[$single->group->groupName]=$single->group->groupName;
+              }
+              $gentypes=$assign->groupGenerationAssignments;
+              for($gen=0;$gen<count($gentypes);$gen++){
+                  $assigned=$gentypes[$gen]->gentype->groups;
+
+                  foreach($assigned as $single)
+                  {
+                    $assignass[$single->groupName]=$single->groupName;  
+                  }
+                }
+            }
+            else if($assign->assType=="allstudents"){
+			  $submits=$assign->submits;
+              $assigned=$assign->courseCode->studentCourses;
+              $assignass=ArrayHelper::map($assigned,'reg_no','reg_no');
+              $submitted=ArrayHelper::map($submits,'reg_no','reg_no');
+              $assignedprog=$assign->courseCode->programCourses;
+              
+      
+              for($p=0;$p<count($assignedprog);$p++)
+              {
+                foreach($assignedprog[$p]->programCode0->students as $stud)
+                {
+                $assignass[$stud->reg_no]=$stud->reg_no;
+                }
+              }}
+            else{
+                $submits=$assign->submits;
+                $submitted=ArrayHelper::map($submits,'reg_no','reg_no');
+                $assigned=$assign->studentAssignments;
+                $assignass=ArrayHelper::map($assigned,'reg_no','reg_no');
+            } 
+            
+            $missing=array_diff_assoc($assignass,$submitted);
+         
+    return $this->render('missingassview', ['cid'=>$cid, 'id'=>$id,'missing' => $missing]);
+
+}
+public function actionFailedAssignments($cid, $id){
+
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
+    if(!empty($cid)){
+      Yii::$app->session->set('ccode', $cid);
+    }
+    
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $id=Yii::$app->getSecurity()->decryptByPassword($id, $secretKey);
+
+
+    $model=null;
+    $asstype=Assignment::findOne($id)->assType;
+    if($asstype=="groups" || $asstype=="allgroups"){$model=new GroupAssignmentSubmit();}
+    else{$model=new Submit();}
+    $submits =$model->find()->where(['assID'=> $id])->all();
+
+
+    $courses = Yii::$app->user->identity->instructor->courses;
+
+    return $this->render('failedassignments', ['cid'=>$cid, 'id'=>$id, 'courses'=>$courses, 'submits' => $submits]);
 
 }
 
@@ -816,14 +929,28 @@ public function actionUploadMaterial(){
     }
 }
 }
-public function actionMark($id)
+public function actionMark($id,$subid=null)
 {
     //loading the current assignment
-
+    $submit=[];
     $assignment=new Assignment();
     $current_assignment=$assignment::findOne($id);
+    $model=null;
+    $asstype=$current_assignment->assType;
+    if($asstype=="group" || $asstype=="allgroups")
+    {
+        $model=new GroupAssignmentSubmit();
+        
+        
+    }
+    else
+    {
+        $model=new Submit();
+    }
+
+    if($model!==null){$submit=$model->find()->where(['submitID'=>$subid])->all();}
    
-    return $this->render('marking',['assignment'=>$current_assignment]);  
+    return $this->render('marking',['assignment'=>$current_assignment,'singlesub'=>$submit]);  
 }
 public function actionMarkInputing()
 {
@@ -838,7 +965,7 @@ public function actionMarkInputing()
     $qids=Yii::$app->request->post('qids');
     $model=null;
     $submit=null;
-    if($asstype=="group")
+    if($asstype=="group" || $asstype=="allgroups")
     {
         $model=new GroupAssignmentSubmit();
         
@@ -851,18 +978,20 @@ public function actionMarkInputing()
   if($model!=null)
   {
     $submit=$model->findOne($fid);
+
     $submit->score=$score;
     $submit->comment=$comment;
   }
   $submit->save();
-  print_r($submit->getErrors());
+
   //preparing the submit
  
 
 //inserting questions marks
   for($sc=0;$sc<count($qscores);$sc++)
   {
-    $qmark=new Qmarks();
+    $qmark=Qmarks::find()->where(['submitID'=>$submit->submitID,'assq_ID'=>$qids[$sc]])->one();
+    if($qmark===null || empty($qmark)){$qmark=new Qmarks();}
     $qmark->assq_ID=$qids[$sc];
     $qmark->q_score=$qscores[$sc];
 
@@ -878,6 +1007,7 @@ public function actionMarkInputing()
     }
 
     $qmark->save();
+   
     
 
    

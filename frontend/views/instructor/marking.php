@@ -4,6 +4,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use common\helpers\Security;
 use common\helpers\Custom;
+use common\models\QMarks;
 use common\models\Instructor;
 use yii\helpers\ArrayHelper;
 
@@ -11,25 +12,48 @@ $this->params['courseTitle'] = "Marking:".yii::$app->session->get('ccode')." ".$
 $this->title = 'Assignment Marking';
 $submits=[];
 $asstype="";
+$quantity="one";
 if($assignment->assType=="allgroups" || $assignment->assType=="groups")
 {
-  $submits=$assignment->groupAssignmentSubmits;
+  if(!empty($singlesub)){
+    $submits=$singlesub;
+    $quantity="one";
+  }
+  else
+  {
+    $submits=$assignment->groupAssignmentSubmits;
+    $quantity="many";
+  }
+    
   $asstype="group";
 }
 else
 {
-  $submits=$assignment->submits;
+  if(!empty($singlesub)){
+    $submits=$singlesub;
+    $quantity="one";
+  }
+  else
+  {
+    $submits=$assignment->submits;
+    $quantity="many";
+  }
   $asstype="class";
 }
 ?>
 <body>
 
 <div class="row shadow">
+  <?php
+if($submits!=null)
+{
+  ?>
 <div class="col-md-2 shadow">  
 <table class="table d-flex mytable" style="font-size:10px;cursor:pointer">
 <tr class="d-flex"><th>s/no</th><th>reg #</th></tr>
 
 <?php 
+
 for($sub=0;$sub<count($submits);$sub++)
 {
 ?>
@@ -58,7 +82,13 @@ for($q=0;$q<count($questions);$q++)
 ?>
 <div id="marks" class="row qmarking">
 <div id="mrow" class="col-md-12">
-<div class="form-group"><input type="text" class="form-control score" id="<?=$questions[$q]->assq_ID?>"placeholder="<?php echo "Q".$questions[$q]->qno;?>"></input><input type="text" class="form-control maxscore" value="<?=$questions[$q]->total_marks ?>" readonly></input></div>
+  <?php
+    $mark=QMarks::find()->where(['assq_ID'=>$questions[$q]->assq_ID])->one();
+    $mark=(!empty($mark) || $mark!==null)?$mark->q_score:null;
+    $value=($quantity==="one")?$mark:null;
+   
+  ?>
+<div class="form-group"><input type="text" class="form-control score" id="<?=$questions[$q]->assq_ID?>"placeholder="<?php print "Q".$questions[$q]->qno;?>" value="<?=$value?>"></input><input type="text" class="form-control maxscore" value="<?=$questions[$q]->total_marks ?>" readonly></input></div>
 </div>
 </div>
 <?php }?>
@@ -83,6 +113,13 @@ for($q=0;$q<count($questions);$q++)
 </div>
 </div>
 </div>
+<?php
+}
+else
+{
+  print '<div class="container-fluid text-primary text-center">No any submits</div>';
+}
+?>
 </div>
 <?php
 $this->registerJsFile(

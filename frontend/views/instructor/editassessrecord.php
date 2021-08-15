@@ -4,6 +4,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use frontend\models\AddAssessRecord;
 use common\models\StudentExtAssess;
+$secretKey=Yii::$app->params['app.dataEncryptionKey'];
+$recordid=Yii::$app->getSecurity()->decryptByPassword($recordid, $secretKey);
 $this->params['courseTitle'] =StudentExtAssess::findOne($recordid)->assess->title;
 $this->title = 'Edit assessment record';
 $this->params['breadcrumbs'] = [
@@ -19,6 +21,10 @@ $assessmodel=new AddAssessRecord();
         <span id="exampleModalLabel"><h6 class="text-white">Edit record</h6></span>
   </div>
       <div class="card-body">
+        <?php
+              //$secretKey=Yii::$app->params['app.dataEncryptionKey'];
+              //$recordid=Yii::$app->getSecurity()->encryptByPassword($recordid, $secretKey);
+        ?>
       <?php $form= ActiveForm::begin(['method'=>'post', 'action'=>'/instructor/edit-ext-assrecord?recordid='.$recordid,'options'=>['enctype'=>'multipart/form-data'],'id'=>'assform','enableClientValidation' => true])?>
         <div class="row">
         <div class="col-md-12">

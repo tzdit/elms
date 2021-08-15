@@ -138,7 +138,7 @@ class Submit extends \yii\db\ActiveRecord
        
     }
 
-    public function save($runValidation = true, $attributeNames = null){
+   /* public function save($runValidation = true, $attributeNames = null){
 
         $isInsert = $this->isNewRecord;
 
@@ -171,6 +171,6 @@ class Submit extends \yii\db\ActiveRecord
 
         return true;
     }
-
+*/
     
 }

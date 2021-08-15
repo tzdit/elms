@@ -109,8 +109,8 @@ class GroupAssignmentSubmit extends \yii\db\ActiveRecord
         if($this->score!="" || $this->score!=null)
         {
           
-          $passlimit=($this->ass->total_marks*40)/100;
-          if($this->score<$passlimit)
+          $scoreoverfourty=($this->score*40)/$this->ass->total_marks;
+          if($scoreoverfourty<15.5)
           {
               return true;
           }

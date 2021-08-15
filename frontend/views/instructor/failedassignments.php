@@ -9,15 +9,15 @@ use common\helpers\Security;
 use common\models\Assignment;
 use common\models\Material;
 use common\models\Submit;
-use common\models\GroupAssignentSubmit;
+use common\models\GroupAssignmentSubmit;
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =!empty($submits)?$submits[0]->ass->assName:"Marked students";
-$this->title = !empty($submits[0]->ass->assName)?'Marked students '.$submits[0]->ass->assName:'Marked students';
+$this->params['courseTitle'] =!empty($submits)?$submits[0]->ass->assName:"Failed students";
+$this->title = !empty($submits[0]->ass->assName)?'Failed students '.$submits[0]->ass->assName:'Failed students';
 $this->params['breadcrumbs'] = [
   ['label'=>'classwork', 'url'=>Url::to(['/instructor/stdworkmark', 'cid'=>$cid])],
   ['label'=>$this->title]
@@ -71,7 +71,7 @@ $this->params['breadcrumbs'] = [
 		</thead>
 	<tbody>
 								<?php foreach ($submits as $submit) : ?>
-                                    <?php if($submit->isMarked()){?>
+                                    <?php if($submit->isFailed()){?>
 						 			<tr>
 									 	<td><?php 
 										 if($submit instanceof Submit)
@@ -85,7 +85,7 @@ $this->params['breadcrumbs'] = [
 										 ?></td> 
 										 <td><?= $submit->score; ?></td>
                                          <td><?= $submit->comment; ?></td>
-                                         <td><?=Html::a('<i class="fa fa-edit" style="font-size:18px"></i>', ['mark','id'=>$submit->ass->assID,'subid'=>$submit->submitID]) ?></td>
+                                         <td><?= Html::a('<i class="fa fa-edit" style="font-size:18px"></i>', ['mark','id'=>$submit->ass->assID,'subid'=>$submit->submitID]) ?></td>
 						 			</tr>
 						 		     <?php } ?>
 									 <?php endforeach ?>
@@ -103,9 +103,22 @@ $this->params['breadcrumbs'] = [
     $(document).ready(function() {
     //$('#dataTables-ex2').DataTable();
     $("#dataTables-ex2").DataTable({
-    dom: 'Bfrtip',
-     buttons: ['csv','pdf','excel','print']
-    })
+    	dom: 'Bfrtip',
+         buttons: ['csv','pdf','excel','print']
+    });
+    // $("#MarkedStudents").DataTable({
+    // 	dom: 'Bfrtip',
+    //      buttons: [
+    //      {extend:  'excel',
+    //  		title: 'Marked students',
+    //  		exportOptions: {columns: ':not(:eq(5))'},
+    //  		text: 'Export to Excel',
+    //  		className: 'btn btn-primary btn-sm'
+    //  		},
+
+    //    ]
+    // });
+       $("#duplicateStudents").DataTable();
     //remember the previous active tab logic
     //get the current active tab
    
