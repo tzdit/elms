@@ -38,9 +38,9 @@ $this->params['breadcrumbs'] = [
           <div class="card card-primary card-outline card-outline-tabs">
               <div class="card-header p-0 border-bottom-0">
                 <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true">Forum</a>
-                  </li>
+                  </li> -->
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-assessments" data-toggle="tab" href="#assessment" role="tab" aria-controls="assessments" aria-selected="false">Assignments</a>
                   </li>
@@ -62,9 +62,9 @@ $this->params['breadcrumbs'] = [
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-Announcements" data-toggle="tab" href="#announcements" role="tab" aria-controls="announcements" aria-selected="false">Announcements</a>
                   </li>
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-quiz" data-toggle="tab" href="#quiz" role="tab" aria-controls="quiz" aria-selected="false">Quiz</a>
-                  </li>
+                  </li> -->
                 </ul>
               
               </div>
