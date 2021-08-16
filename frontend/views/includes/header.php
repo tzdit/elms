@@ -42,13 +42,13 @@ use yii\helpers\Url;
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
-      </li  class="navbar-nav">
+      <!-- </li  class="navbar-nav">
     <?php if(Yii::$app->user->can('STUDENT')): ?>
       <a class="nav-link"  href="<?= Url::to(['student/student_groups'])  ?> ">
           <i class="nav-item fa fa-users"></i> 
         </a>
       <?php endif ?>
-    </li>
+    </li> -->
       <!-- Notifications Dropdown Menu -->
      
       <li class="nav-item dropdown">
