@@ -20,6 +20,7 @@ use frontend\models\AddGroup;
 use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
 use frontend\models\AssSubmitForm;
+use frontend\models\GroupAssSubmit;
 use frontend\models\UploadMaterial;
 use frontend\models\CarryCourseSearch;
 use common\models\StudentGroup;
@@ -42,7 +43,7 @@ class StudentController extends \yii\web\Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['dashboard','error','classwork','courses','changePassword','carrycourse','add_carry','delete_carry','student_groups','delete_group','add_group','student_in_login_user_course','add_to_group','list_student_in_group','remove_student_from_group','submit_assignment','view_assignment','download_assignment','resubmit','videos','announcement'],
+                        'actions' => ['dashboard','error','classwork','courses','changePassword','carrycourse','add_carry','delete_carry','student_groups','delete_group','add_group','student_in_login_user_course','add_to_group','list_student_in_group','remove_student_from_group','submit_assignment','view_assignment','download_assignment','resubmit','videos','announcement','group_assignment_submit','group_resubmit'],
                         'allow' => true,
                         'roles'=>['STUDENT']
                     ],
@@ -85,7 +86,7 @@ public function actionClasswork($cid){
 
     $reg_no = Yii::$app->user->identity->username;
 
-    $assignments = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->orderBy([
+    $assignments = Assignment::find()->where('assNature = :assignment AND course_code = :cid AND assType = :students OR assType = :allstudent ',[':assignment' => 'assignment', ':cid' => $cid, ':students' => 'students', ':allstudent' => 'allstudent'])->orderBy([
     'assID' => SORT_DESC ])->all(); 
 
 
@@ -498,6 +499,55 @@ public function actionAnnouncement($announcement)
     }
 
 
+
+
+ /**
+     * If save is successful, the browser will be redirected to the 'group assignments' page.
+     * @param string $assID
+     * @param string $groupID
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionGroup_assignment_submit($assID,$groupID)
+    {
+
+        $model =new GroupAssSubmit;
+
+        $file = UploadedFile::getInstanceByName('document');
+        $model->document = $file;
+        $model->assinmentId = $assID;
+        $model->groupId = $groupID;
+
+
+        // echo '<pre>';
+        //     var_dump($file);
+        // echo '</pre>';
+        // exit;
+
+        try{
+            if (Yii::$app->request->isPost && $model->save()) {
+                
+                Yii::$app->session->setFlash('success', 'Your Submit successed');
+             
+                
+                return $this->refresh();
+            }
+            
+            
+        }
+        catch(\Exception $e){
+            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+        }
+
+
+            return $this->render('group_ass_submit', [
+                'model' => $model, 'assID' => $assID,'groupId' => $groupID],false,true);
+    }
+
+
+
+
+
     /**
      * download assignment 
      */
@@ -552,7 +602,12 @@ public function actionAnnouncement($announcement)
             throw new NotFoundHttpException(Yii::t('app', 'The requested file does not exist.'));
         }
     }
+    
 
+    /**
+     * Resubmision of an assinment 
+     * return in the same page after sumit
+     */
     public function actionResubmit($assID){
         $model =AssSubmitForm::findOne($assID); 
 
@@ -586,6 +641,49 @@ public function actionAnnouncement($announcement)
 
             return $this->render('submit_assignment', [
                 'model' => $model, 'assID' => $assID],false,true);
+    }
+
+
+
+
+
+    /**
+     * Resubmision of an assinment 
+     * return in the same page after sumit
+     */
+    public function actionGroup_resubmit($assID,$groupID){
+        $model =GroupAssSubmit::findOne($assID); 
+
+        $file = UploadedFile::getInstanceByName('document');
+        $model->document = $file;
+        $model->assinmentId = $assID;
+
+
+        // echo '<pre>';
+        //     var_dump($file);
+        // echo '</pre>';
+        // exit;
+
+     
+
+        try{
+            if (Yii::$app->request->isPost && $model->save()) {
+                
+                Yii::$app->session->setFlash('success', 'Your Re-Submit successed');
+             
+                
+                return $this->refresh();
+            }
+            
+            
+        }
+        catch(\Exception $e){
+            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+        }
+
+
+            return $this->render('group_ass_submit', [
+                'model' => $model, 'assID' => $assID,'groupID' => $groupID],false,true);
     }
 
 
