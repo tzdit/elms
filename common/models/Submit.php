@@ -134,6 +134,40 @@ class Submit extends \yii\db\ActiveRecord
        
     }
 
-    
+   public function save($runValidation = true, $attributeNames = null){
+
+        $isInsert = $this->isNewRecord;
+
+        $this->assID = $this->assinmentId;
+        $this->submit_date = date('Y-m-d');
+        $this->submit_time = date('H:i:s');
+        $this->reg_no = Yii::$app->user->identity->username;
+        $this->fileName ="a";
+
+        if($isInsert){
+            
+        }
+         $saved =  parent::save($runValidation, $attributeNames);
+
+         if(!$saved)
+         {
+             return false;
+         }
+
+         if($isInsert){
+             $documentPath = Yii::getAlias('@frontend/web/storage/submit/'.$this->fileName );
+
+             if(!is_dir(\dirname($documentPath))) {
+                 FileHelper::createDirectory(\dirname($documentPath));
+             }  
+
+             $this->document->saveAs($documentPath);
+        }
+
+
+        return true;
+    }
+
     
 }
+?>

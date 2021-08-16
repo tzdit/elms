@@ -14,8 +14,8 @@ use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =!empty($submits)?$submits[0]->ass->assName." submits":"Submits";
-$this->title = !empty($submits[0]->ass->assName)?$submits[0]->ass->assName." Submits":'Submits';
+$this->params['courseTitle'] =Assignment::findOne($id)->assName." : Missing Assignments";
+$this->title = "Missing Assignments";
 $this->params['breadcrumbs'] = [
   ['label'=>'classwork', 'url'=>Url::to(['/instructor/classwork', 'cid'=>$cid])],
   ['label'=>$this->title]
@@ -35,7 +35,9 @@ $this->params['breadcrumbs'] = [
             <hr>
 
 				
-				
+			<?php 
+           
+            ?>
 	<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-ex2">
 		<thead>
 			<tr>
@@ -43,67 +45,26 @@ $this->params['breadcrumbs'] = [
 
 				
 				<th>
-					<?php if(!empty($submits[0]) &&  $submits[0] instanceof Submit){;?>
-					Registration no
-					<?php }else{ ?>
-						Group name
-						<?php } ?>
+				 Reg No / Group Name
 				</th>
-
-				<th>
-					File Name
-				</th>
-				
-				<!-- <th>
-					Question
-				</th> -->
-				
-				<th>
-					Submit Date
-				</th>
-
-				<th>
-					Submit Time
-				</th>
-				<th>
-					Score
-				</th>
-
-				<th>
-					Comment
-				</th>
-				<th>
-					Mark/Remark
-				</th>
-				
-				<!-- <th>
-					Grading
-				</th> -->
 				
 			</tr>
 		</thead>
 		<tbody>
-								<?php foreach ($submits as $submit) : ?>
+								<?php foreach ($missing as $miss) : ?>
 						 			<tr>
 									 	<td>
 										 <?php 
-										 if($submit instanceof Submit)
-										 { 
-										 print $submit->reg_no; 
-										 }
-										 else
-										 {
-										 print $submit->group->groupName;  
-										 }
+									
+										 print $miss
+										
+								
 										 ?>
 										</td>
-										 <td><?= $submit->fileName; ?></td>
+									
 										
-										 <td><?= $submit->submit_date; ?></td>
-										 <td><?= $submit->submit_time; ?></td>
-										 <td><?= $submit->score; ?></td>
-										 <td><?= $submit->comment; ?></td>
-										 <td><?= Html::a('<i class="fa fa-edit" style="font-size:18px"></i>', ['mark','id'=>$submit->ass->assID,'subid'=>$submit->submitID]) ?></td>
+									
+										
 										
 										
 

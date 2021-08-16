@@ -49,7 +49,7 @@ class CA extends Model{
       $caheader="<tr bgcolor='#c4ecff'><td rowspan=2>Registration number</td>";
       $ca_sub_header="<tr bgcolor='#c4ecff'>";
       $rows=[];
-      $catable="<table class='table-bordered table-hover' cellspacing=0 autosize=2 text-align='center' align='center'>";
+      $catable="<table class='table-bordered table-hover shadow' cellspacing=0 autosize=2 text-align='center' align='center'>";
       if(!empty($this->Assignments) && !empty($this->allstudents)){
         $student_with_marks=$this->asscumul($this->Assignments,$this->allstudents);
         $caheader.=$this->catable_header($student_with_marks,"Assignments");
@@ -884,13 +884,13 @@ class CA extends Model{
     private function addEncompletes($studentswithscores)
     {
       $studentwithmarks=$studentswithscores;
-      $status=false;
+      
 
       if(!empty($studentwithmarks))
       {
       foreach($studentwithmarks as $reg=>$assess)
       {
-          
+         $status=false;
           $assignments=isset($studentwithmarks[$reg]['Assignments'])?$studentwithmarks[$reg]['Assignments']:null;
           $labs=isset($studentwithmarks[$reg]['Lab Assignments'])?$studentwithmarks[$reg]['Lab Assignments']:null;
           $other=isset($studentwithmarks[$reg]['Other Assessments'])?$studentwithmarks[$reg]['Other Assessments']:null;
@@ -959,7 +959,10 @@ class CA extends Model{
         $mpdf->WriteHTML('<p align="center"><font size=3>By '.$name.'</font></p>',3);
         $mpdf->WriteHTML('<hr width="80%" align="center" color="#000000">',2);
         $mpdf->WriteHTML($content,3);
-        $mpdf->Output("ca.pdf","D");
+          
+        $filename=yii::$app->session->get('ccode')."_CA.pdf";
+        $filename = str_replace(' ', '', $filename);
+        $mpdf->Output($filename,"D");
 
         return null;
     }

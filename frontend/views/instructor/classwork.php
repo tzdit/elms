@@ -239,7 +239,7 @@ $this->params['breadcrumbs'] = [
 
 <!-- ########################################### assignment work ######################################## -->
 
-<?php $ass = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->count(); ?>      
+<?php $ass = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid]); ?>      
 
 <div class="tab-pane fade" id="assignments" role="tabpanel" aria-labelledby="custom-tabs-assignment">
 
@@ -251,21 +251,18 @@ $this->params['breadcrumbs'] = [
       </div>
 
 <div class="accordion" id="accordionExample">
-<?php $assk = "Assignment".$ass ;
-$assk = "Assignment".$ass;
-?>
 <?php foreach( $assignments as $assign ) : ?>
 
   <div class="card headcard">
-    <div class="card-header p-2 shadow" id="heading<?=$ass?>">
+    <div class="card-header p-2 shadow" id="heading<?=$assign->assID?>">
       <h2 class="mb-0">
       <div class="row">
       <div class="col-sm-11">
-      <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$ass?>" aria-expanded="true" aria-controls="collapse<?=$ass?>">
+      <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$assign->assID?>" aria-expanded="true" aria-controls="collapse<?=$assign->assID?>">
         <i class="fas fa-clipboard-list"></i> <?php echo $assign->assName;?>
         </button>
       </div>
-      <div class="col-sm-1" data-toggle="collapse" data-target="#collapse<?=$ass?>" aria-expanded="true" aria-controls="collapse<?=$ass?>">
+      <div class="col-sm-1" data-toggle="collapse" data-target="#collapse<?=$assign->assID?>" aria-expanded="true" aria-controls="collapse<?=$assign->assID?>">
       <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
       </div>
       </div>
@@ -274,7 +271,7 @@ $assk = "Assignment".$ass;
       </h2>
     </div>
 
-    <div id="collapse<?=$ass?>" class="collapse shadow" aria-labelledby="heading<?=$ass?>" data-parent="#accordionExample">
+    <div id="collapse<?=$assign->assID?>" class="collapse shadow" aria-labelledby="heading<?=$assign->assID?>" data-parent="#accordionExample">
       <div class="card-body ">
         <div class="row">
         
@@ -288,7 +285,16 @@ $assk = "Assignment".$ass;
         $gentypes=$assign->groupGenerationAssignments;
         for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
       }
-      else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
+      else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);
+        $assignedprog=$assign->courseCode->programCourses;
+
+        for($p=0;$p<count($assignedprog);$p++)
+        {
+          $num=count($assignedprog[$p]->programCode0->students);
+          $assigned=$assigned+$num;
+
+        }
+      }
       else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);}
       $subperc=0;
       if($assigned!=0)
@@ -300,7 +306,7 @@ $assk = "Assignment".$ass;
             <div class="info-box shadow">
               <div class="info-box-content">
                 <span class="info-box-text">Submitted</span>
-                <span class="info-box-number"><?=floor($subperc)?>%</span>
+                <span class="info-box-number"><?=round($subperc,2)?>%</span>
               </div>
         
             </div>
@@ -317,7 +323,15 @@ $assk = "Assignment".$ass;
               $gentypes=$assign->groupGenerationAssignments;
               for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
             }
-            else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
+            else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);
+              $assignedprog=$assign->courseCode->programCourses;
+      
+              for($p=0;$p<count($assignedprog);$p++)
+              {
+                $num=count($assignedprog[$p]->programCode0->students);
+                $assigned=$assigned+$num;
+      
+              }}
             else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
             
             $missing=$assigned-count($submits);
@@ -326,19 +340,28 @@ $assk = "Assignment".$ass;
             {
             $missperc=($missing/$assigned)*100;
             }
-            
+            $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+            $missedcourse=Yii::$app->getSecurity()->encryptByPassword($assign->course_code, $secretKey);
+            $id=Yii::$app->getSecurity()->encryptByPassword($assign->assID, $secretKey);
             ?>
+            <a href="<?=Url::to(['instructor/missed-workmark/', 'cid'=>$missedcourse, 'id' =>$id]) ?>">
             <div class="info-box shadow">
               <div class="info-box-content">
                 <span class="info-box-text">Missing</span>
-                <span class="info-box-number"><?=floor($missperc)?>%</span>
+                <span class="info-box-number"><?=round($missperc,2)?>%</span>
               </div>
      
             </div>
+          </a>
     
           </div>
           <div class="col-md-3 col-sm-6 col-12">
-          <a href="<?=Url::to(['instructor/stdworkmark/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>">
+            <?php   
+            $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+            $markedcourse=Yii::$app->getSecurity()->encryptByPassword($assign->course_code, $secretKey);
+            $id=Yii::$app->getSecurity()->encryptByPassword($assign->assID, $secretKey);
+            ?>
+          <a href="<?=Url::to(['instructor/stdworkmark/', 'cid'=>$markedcourse, 'id' =>$id]) ?>">
             <div class="info-box shadow">
               <div class="info-box-content">
                 <?php 
@@ -351,7 +374,15 @@ $assk = "Assignment".$ass;
               $gentypes=$assign->groupGenerationAssignments;
               for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
             }
-            else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
+            else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);
+              $assignedprog=$assign->courseCode->programCourses;
+      
+              for($p=0;$p<count($assignedprog);$p++)
+              {
+                $num=count($assignedprog[$p]->programCode0->students);
+                $assigned=$assigned+$num;
+      
+              }}
             else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
             
             for($o=0;$o<count($submits);$o++)
@@ -367,13 +398,19 @@ $assk = "Assignment".$ass;
             }
             ?>
                 <span class="info-box-text">Marked</span>
-                <span class="info-box-number"><?=floor($markperc)?>%</span>
+                <span class="info-box-number"><?=round($markperc,2)?>%</span>
               </div>
       
             </div>
             </a>
           </div>
           <div class="col-md-3 col-sm-6 col-12">
+          <?php   
+            $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+            $failedcourse=Yii::$app->getSecurity()->encryptByPassword($assign->course_code, $secretKey);
+            $id=Yii::$app->getSecurity()->encryptByPassword($assign->assID, $secretKey);
+            ?>
+          <a href="<?=Url::to(['instructor/failed-assignments/', 'cid'=>$failedcourse, 'id' =>$id]) ?>">
             <div class="info-box shadow">
               <div class="info-box-content">
               <?php 
@@ -386,7 +423,15 @@ $assk = "Assignment".$ass;
               $gentypes=$assign->groupGenerationAssignments;
               for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
             }
-            else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
+            else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);
+              $assignedprog=$assign->courseCode->programCourses;
+      
+              for($p=0;$p<count($assignedprog);$p++)
+              {
+                $num=count($assignedprog[$p]->programCode0->students);
+                $assigned=$assigned+$num;
+      
+              }}
             else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
             
             for($o=0;$o<count($submits);$o++)
@@ -402,14 +447,16 @@ $assk = "Assignment".$ass;
             $failedperc=0;
             if($marked!=0)
             {
-            $failedperc=($failedsubmits/$marked)*100;
+            $failedperc=$marked!=0?($failedsubmits/$marked)*100:0;
             }
             ?>
 
                 <span class="info-box-text">Failed</span>
-                <span class="info-box-number"><?=floor($failedperc)?>%</span>
+                <span class="info-box-number"><?=round($failedperc,2)?>%</span>
               </div>
+         
             </div>
+            </a>
           </div>
 </div>
           <!--################################################################################################################ -->

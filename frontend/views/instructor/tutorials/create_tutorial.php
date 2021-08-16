@@ -27,7 +27,7 @@ use yii\helpers\Html;
       <div class="row">
       <div class="col-md-12">
       <div class="custom-file">
-      <?= $form->field($tutmodel, 'assFile')->fileInput(['class'=>'form-control form-control-sm custom-file-input', 'id'=>'customFile'])->label('Select File', ['class'=>'custom-file-label col-form-label-sm', 'for'=>'customFile'])?>
+      <?= $form->field($tutmodel, 'assFile')->fileInput(['class'=>'form-control form-control-sm custom-file-input'])->label('Select File', ['class'=>'custom-file-label col-form-label-sm', 'for'=>'customFile'])?>
       </div>
       <?= $form->field($tutmodel, 'ccode')->hiddenInput(['class'=>'form-control form-control-sm'])->label(false)?>
       </div>
