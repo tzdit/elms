@@ -187,13 +187,13 @@ class UploadAssignment extends Model{
       if(!$this->validate()){
          return false;
      }
-        $ass = new Assignment();
+        $ass =Assignment::findOne($assid);
         $ass->assName = $this->assTitle;
         $ass->assType = $this->assType;
         $ass->submitMode = $this->submitMode;
         $ass->startDate = $this->startDate;
         $ass->finishDate = $this->endDate;
-        $ass->fileName = $filefordb;
+       // $ass->fileName = $filefordb;
         $ass->ass_desc = $this->description;
         $ass->assNature = "assignment";
         $ass->instructorID = Yii::$app->user->identity->instructor->instructorID;
@@ -209,12 +209,12 @@ class UploadAssignment extends Model{
 
         if($this->assType=="allgroups")
         {
-           $grpass=new GroupGenerationAssignment();
+           $grpass=GroupGenerationAssignment::findOne($ass->assID);
            //the assignment questions and maxima
-           
-           for($q=0;$q<$this->number_of_questions;$q++)
+           $assqs=$ass->assqs;
+           for($q=0;$q<count($assqs);$q++)
            {
-              $assq=new Assq();
+              $assq=Assq::findOne($assqs[$q]->assq_ID);
               $assq->assID=$ass->assID;
               $assq->qno=$q+1;
               $assq->total_marks=$this->questions_maxima[$q];
@@ -230,9 +230,10 @@ class UploadAssignment extends Model{
         else if($this->assType=="allstudents")
         {
         
-            for($q=0;$q<$this->number_of_questions;$q++)
-            {
-               $assq=new Assq();
+         $assqs=$ass->assqs;
+         for($q=0;$q<count($assqs);$q++)
+         {
+               $assq=Assq::findOne($assqs[$q]->assq_ID);
                $assq->assID=$ass->assID;
                $assq->qno=$q+1;
                $assq->total_marks=$this->questions_maxima[$q];
@@ -247,10 +248,11 @@ class UploadAssignment extends Model{
     
             //the assignment questions and maxima
            
-            for($q=0;$q<$this->number_of_questions;$q++)
+            $assqs=$ass->assqs;
+            for($q=0;$q<count($assqs);$q++)
             {
         
-               $assq=new Assq();
+               $assq=Assq::findOne($assqs[$q]->assq_ID);
                $assq->assID=$ass->assID;
                $assq->qno=$q+1;
                $assq->total_marks=$this->questions_maxima[$q];
@@ -258,7 +260,7 @@ class UploadAssignment extends Model{
             }
             for($g=0;$g<count($this->groups);$g++)
             {
-               $grpass1=new GroupAssignment();
+               $grpass1=GroupAssignment::findOne($ass->assID);
                $grpass1->assID=$ass->assID;
                $grpass1->groupID=intval($this->groups[$g]);
                if(!$grpass1->save()){return false;}
@@ -270,10 +272,11 @@ class UploadAssignment extends Model{
         {
              //the assignment questions and maxima
            
-             for($q=0;$q<$this->number_of_questions;$q++)
+             $assqs=$ass->assqs;
+             for($q=0;$q<count($assqs);$q++)
              {
          
-                $assq=new Assq();
+                $assq=Assq::findOne($assqs[$q]->assq_ID);
                 $assq->assID=$ass->assID;
                 $assq->qno=$q+1;
                 $assq->total_marks=$this->questions_maxima[$q];
@@ -281,7 +284,7 @@ class UploadAssignment extends Model{
              }
              for($g=0;$g<count($this->students);$g++)
              {
-                $stud=new StudentAssignment();
+                $stud=StudentAssignment::findOne($ass->assID);
                 $stud->assID=$ass->assID;
                 $stud->reg_no=$this->students[$g];
                 if(!$stud->save()){return false;}

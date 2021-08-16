@@ -172,7 +172,7 @@ $assk = "Assignment".$ass;
 
 <!-- ########################################### group assignment work ######################################## -->
 
-<?php $groupAssArrey =Assignment::find()->where('course_code = :cid AND assType = :group  OR assType = :allgroup', ['cid' => $cid, 'group' => 'groups', ':allgroup' => 'allgroup'])->joinWith('groupAssignments')->orderBy([
+<?php $groupAssArrey =Assignment::find()->where('course_code = :cid AND assType = :group  OR assType = :allgroup', ['cid' => $cid, 'group' => 'groups', ':allgroup' => 'allgroups'])->joinWith('groupAssignments')->orderBy([
         'assID' => SORT_DESC ])->all() ?>
 
 <?php $groupAssCount =Assignment::find()->where('course_code = :cid AND assType = :group OR assType = :allgroup', ['cid' => $cid, 'group' => 'groups', ':allgroup' => 'allgroup'])->joinWith('groupAssignments')->count()?>

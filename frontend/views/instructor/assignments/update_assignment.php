@@ -1,6 +1,15 @@
 <?php  
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\Url;
+
+$this->params['courseTitle'] ="Update Assignment";
+$this->title ="Update assignment";
+$this->params['breadcrumbs'] = [
+  ['label'=>'classwork', 'url'=>Url::to(['/instructor/classwork', 'cid'=>yii::$app->session->get('ccode')])],
+  ['label'=>$this->title]
+];
+
 ?>
 <link href="/css/select2.min.css" rel="stylesheet" />
 
@@ -12,7 +21,7 @@ use yii\helpers\Html;
         <span class="modal-title" id="exampleModalLabel"><h6>Update Assignment</h6></span>
       </div>
       <div class="modal-body">
-      <?php $form= ActiveForm::begin(['method'=>'post', 'action'=>'/instructor/upload-assignment','options'=>['enctype'=>'multipart/form-data'],'id'=>'assform'])?>
+      <?php $form= ActiveForm::begin(['method'=>'post', 'action'=>'/instructor/update-assignment?assid='.$ass->assID,'options'=>['enctype'=>'multipart/form-data'],'id'=>'assform'])?>
         <div class="row">
         <div class="col-md-12">
         <?= $form->field($assmodel, 'assTitle')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Assignment Title','value'=>$ass->assName])->label(false)?>
@@ -54,7 +63,7 @@ use yii\helpers\Html;
       <div class="row" id="assrow">
       <div class="col-md-12" id="assformatt" style="margin-bottom:10px">
       
-      
+      <?= $form->field($assmodel,'assFormat')->textInput(['class'=>'form-control form-control-sm','id'=>'assFormat','value'=>'N/A','readonly'=>'readonly'])->label('Format')?>
       
       </div>
       <?= $form->field($assmodel, 'ccode')->hiddenInput(['class'=>'form-control form-control-sm'])->label(false)?>

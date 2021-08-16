@@ -124,7 +124,8 @@ public $defaultAction = 'dashboard';
                             'add-students',
                             'failed-assignments',
                             'missed-workmark',
-                            'delete-material'
+                            'delete-material',
+                            'update-assignment'
 
                         ],
                         'allow' => true,
@@ -168,7 +169,26 @@ public $defaultAction = 'dashboard';
                             'updateprog',
                             'updatecoz',
                             'add-partner',
-                            'view-assessment'
+                            'view-assessment',
+                            'add-assess-record',
+                            'delete-ext-assrecord',
+                            'edit-ext-assrecord-view',
+                            'edit-ext-assrecord',
+                            'download-extassess-template',
+                            'delete-assessment',
+                            'post-announcement',
+                            'delete-announcement',
+                            'generate-ca',
+                            'ca-preview',
+                            'get-incomplete-perc',
+                            'get-student-count',
+                            'get-carries-perc',
+                            'get-pdf-ca',
+                            'add-students',
+                            'failed-assignments',
+                            'missed-workmark',
+                            'delete-material',
+                            'update-assignment'
                            
                         ],
                         'allow' => true,
@@ -766,6 +786,35 @@ public function actionUploadAssignment(){
         }else{
           
         Yii::$app->session->setFlash('error', 'Something went wrong');
+       
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+}
+}
+///update assignment
+
+public function actionUpdateAssignment($assid){
+    
+    $model = new UploadAssignment();
+   
+    if($model->load(Yii::$app->request->post())){
+    
+    //loading the external post data into the model
+    $model->questions_maxima=Yii::$app->request->post('q_max');
+    if($model->assType=="allgroups"){$model->generation_type=Yii::$app->request->post('gentypes');}
+    else if($model->assType=="groups"){$model->generation_type=Yii::$app->request->post('gentypes');$model->groups=Yii::$app->request->post('gengroups');}
+    else if($model->assType=="students"){$model->students=Yii::$app->request->post('mystudents');}else{}
+  
+        $model->the_assignment=Yii::$app->request->post('the_assignment');
+       
+ 
+    
+        if($model->update($assid)){
+        Yii::$app->session->setFlash('success', 'Assignment updated successfully');
+        return $this->redirect(Yii::$app->request->referrer);
+        }else{
+            print_r($model->getErrors());
+        Yii::$app->session->setFlash('error', 'Something went wrong during updating');
        
         return $this->redirect(Yii::$app->request->referrer);
     }
