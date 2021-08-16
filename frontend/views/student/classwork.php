@@ -172,10 +172,12 @@ $assk = "Assignment".$ass;
 
 <!-- ########################################### group assignment work ######################################## -->
 
-<?php $groupAssArrey =Assignment::find()->where('course_code = :cid AND assType = :group  OR assType = :allgroup', ['cid' => $cid, 'group' => 'groups', ':allgroup' => 'allgroups'])->joinWith('groupAssignments')->orderBy([
-        'assID' => SORT_DESC ])->all() ?>
+<?php $groupAssArrey =Assignment::find()->where('assignment.course_code = :cid AND assignment.assType = :group  OR assignment.assType = :allgroup', ['cid' => $cid, 'group' => 'groups', ':allgroup' => 'allgroups'])->joinWith('groupAssignments')->orderBy(['assID' => SORT_DESC ])->all() ?>
 
-<?php $groupAssCount =Assignment::find()->where('course_code = :cid AND assType = :group OR assType = :allgroup', ['cid' => $cid, 'group' => 'groups', ':allgroup' => 'allgroup'])->joinWith('groupAssignments')->count()?>
+
+<?php $groupAssCount =Assignment::find()->where('assignment.course_code = :cid AND assignment.assType = :group OR assignment.assType = :allgroup', ['cid' => $cid, 'group' => 'groups', ':allgroup' => 'allgroups'])->joinWith('groupAssignments')->count()?>
+
+
 
 <div class="tab-pane fade" id="group-assingment" role="tabpanel" aria-labelledby="custom-tabs-group">
     <div class="accordion" id="accordionExample_11">
@@ -251,11 +253,12 @@ $assk = "Assignment".$ass;
 
           </div>
 
-          <?php 
+         
+       <?php endforeach ?>    
+        <?php 
             $groupAssCount--;
             
-            ?>
-       <?php endforeach ?>        
+            ?>    
     <?php endforeach ?>  
     </div>
 </div>
