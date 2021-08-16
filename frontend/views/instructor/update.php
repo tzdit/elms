@@ -3,6 +3,10 @@ use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 ?>
 
+
+
+
+
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header bg-primary">

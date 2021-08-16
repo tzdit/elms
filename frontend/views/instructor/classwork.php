@@ -215,7 +215,7 @@ $this->params['breadcrumbs'] = [
       ?>
       </div>
       <div class="col-md-6">
-      <a href="#" class="btn btn-sm btn-danger float-right ml-2"><span><i class="fas fa-trash"></i></span></a>
+      <a href="#" matid=<?=$material->material_ID?> class="btn btn-sm btn-danger float-right ml-2 materialdel"><span><i class="fas fa-trash"></i></span></a>
       <a href="/storage/temp/<?=$material->fileName ?>" class="btn btn-sm btn-success float-right" download><span><i class="fas fa-download"></i></span></a>
      
       </div>
@@ -470,7 +470,7 @@ $this->params['breadcrumbs'] = [
       </div>
       <div class="col-md-3">
         
-      <a href="#" class="btn btn-sm btn-danger float-right ml-2" data-toggle="modal" data-target="#modal-danger<?= $assign -> assID ?>"><span><i class="fas fa-trash"></i></span></a>
+      <a href="#" class="btn btn-sm btn-danger float-right ml-2 assdel" assid=<?=$assign->assID ?>><span><i class="fas fa-trash"></i></span></a>
       <?= Html::a('<i class="fas fa-edit"></i>',['update', 'id'=>$assign->assID], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
       <a href="/storage/temp/<?= $assign -> fileName ?>" download target="_blank" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-download"></i></span></a>
       <?= Html::a('<i class="fa fa-pen"></i>',['mark', 'id'=>$assign->assID], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
@@ -704,7 +704,7 @@ $this->params['breadcrumbs'] = [
       </div>
       <div class="col-md-3">
         
-      <a href="#" class="btn btn-sm btn-danger float-right ml-2" data-toggle="modal" data-target="#modal-danger<?=$assign -> assID ?>"><span><i class="fas fa-trash"></i></span></a>
+      <a href="#" class="btn btn-sm btn-danger float-right ml-2 assdel" assid=<?=$assign->assID ?>><span><i class="fas fa-trash"></i></span></a>
       <?= Html::a('<i class="fas fa-edit"></i>',['updatelab', 'id'=>$assign->assID], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
       <a href="/storage/temp/<?=$assign-> fileName ?>" download target="_blank" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-download"></i></span></a>
       <?= Html::a('<i class="fa fa-pen"></i>',['mark', 'id'=>$assign->assID], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
@@ -1274,7 +1274,7 @@ $(document).ready(function(){
     )
     setTimeout(function(){
       window.location.reload();
-    }, 300);
+    }, 100);
    
 
         }
@@ -1315,7 +1315,7 @@ Swal.fire({
     )
     setTimeout(function(){
       window.location.reload();
-    }, 300);
+    }, 100);
    
 
         }
@@ -1355,7 +1355,7 @@ Swal.fire({
     )
     setTimeout(function(){
       window.location.reload();
-    },300);
+    },100);
    
 
         }
@@ -1395,10 +1395,96 @@ Swal.fire({
     )
     setTimeout(function(){
       window.location.reload();
-    },300);
+    },100);
    
 
         }
+      }
+    })
+   
+  }
+})
+
+})
+
+//deleting material
+$(document).on('click', '.materialdel', function(){
+var matid = $(this).attr('matid');
+Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'question',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, Delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+ 
+    $.ajax({
+      url:'/instructor/delete-material',
+      method:'get',
+      async:false,
+      dataType:'JSON',
+      data:{matid:matid},
+      success:function(data){
+        if(data.message){
+          Swal.fire(
+              'Deleted!',
+              data.message,
+              'success'
+    )
+ 
+    setTimeout(function(){
+      window.location.reload();
+    },100);
+   
+     
+  }
+      }
+    })
+   
+  }
+})
+
+})
+//assignment deleting
+
+
+//deleting material
+$(document).on('click', '.assdel', function(){
+var assid = $(this).attr('assid');
+Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'question',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, Delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+ 
+    $.ajax({
+      url:'/instructor/delete',
+      method:'get',
+      async:false,
+      dataType:'JSON',
+      data:{id:assid},
+      success:function(data){
+        if(data.message){
+          Swal.fire(
+              'Deleted!',
+              data.message,
+              'success'
+    )
+ 
+    setTimeout(function(){
+      window.location.reload();
+    },100);
+   
+     
+  }
       }
     })
    
