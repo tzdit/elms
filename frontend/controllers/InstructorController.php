@@ -123,7 +123,8 @@ public $defaultAction = 'dashboard';
                             'get-pdf-ca',
                             'add-students',
                             'failed-assignments',
-                            'missed-workmark'
+                            'missed-workmark',
+                            'delete-material'
 
                         ],
                         'allow' => true,
@@ -259,14 +260,12 @@ public $defaultAction = 'dashboard';
     $assess=ExtAssess::findOne($assessid);
     if($assess->delete())
     {
-        Yii::$app->session->setFlash('success', 'assessment deleted');
-        return $this->redirect(Yii::$app->request->referrer); 
+        return $this->asJson(['message'=>'Assessment deleted']);
 
     }
     else
     {
-        Yii::$app->session->setFlash('error', 'deleting failed');
-        return $this->redirect(Yii::$app->request->referrer);   
+        return $this->asJson(['message'=>'deleting failed']); 
     }
 
   }
@@ -377,12 +376,10 @@ public function actionEditExtAssrecord($recordid)
        $ann=Announcement::findOne($annid);
        if($ann->delete()){
 
-        Yii::$app->session->setFlash('success', 'Announcement deleted'); 
-        return $this->redirect(Yii::$app->request->referrer); 
+        return $this->asJson(['message'=>'announcement deleted']);
        }
        else{
-        Yii::$app->session->setFlash('error', 'Announcement deleting failed'); 
-        return $this->redirect(Yii::$app->request->referrer);
+        return $this->asJson(['message'=>'deleting failed']);
 
        }
     }
@@ -406,9 +403,13 @@ public function actionEditExtAssrecord($recordid)
     {
         $ass = Assignment::findOne($id)->delete(); 
         if($ass){
-           Yii::$app->session->setFlash('success', 'Assignment deleted successfully');
+            return $this->asJson(['message'=>'Assignment deleted']);
         }
-        return $this->redirect(Yii::$app->request->referrer);
+        else
+        {
+            return $this->asJson(['message'=>'deleting failed']);  
+        }
+       
     }
 
     public function actionDeletelab($id)
@@ -433,21 +434,18 @@ public function actionEditExtAssrecord($recordid)
     {
         $tut = Assignment::findOne($id)->delete(); 
         if($tut){
-           Yii::$app->session->setFlash('success', 'Tutorial deleted successfully');
+            return $this->asJson(['message'=>'tutorial deleted']);
         }
-        return $this->redirect(Yii::$app->request->referrer);
+
     }
 
     public function actionUpdate($id)
     {
         $ass = Assignment::findOne($id);
-        if($ass->load(Yii::$app->request->post()) && $ass->save())
-        {
-            Yii::$app->session->setFlash('success', 'Assignment updated successfully');
-            return $this->redirect(['classwork', 'cid'=>$ass->course_code]);
-        }else{
-        return $this->render('update', ['ass'=>$ass]);
-        }
+        $assmodel = new UploadAssignment();
+     
+        return $this->render('assignments/update_assignment', ['ass'=>$ass,'assmodel'=>$assmodel]);
+       
     }
 
     public function actionUpdatelab($id)
@@ -651,6 +649,19 @@ public function actionMissedWorkmark($cid, $id){
          
     return $this->render('missingassview', ['cid'=>$cid, 'id'=>$id,'missing' => $missing]);
 
+}
+
+public function actionDeleteMaterial($matid)
+{
+    $material=Material::findOne($matid);
+    if($material->delete()){
+       
+            return $this->asJson(['message'=>'Material deleted']);
+         
+    }else{
+        Yii::$app->session->setFlash('error', 'deleting failed');
+        return $this->redirect(Yii::$app->request->referrer);
+    }
 }
 public function actionFailedAssignments($cid, $id){
 
