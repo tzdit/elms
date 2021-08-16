@@ -86,7 +86,7 @@ public function actionClasswork($cid){
 
     $reg_no = Yii::$app->user->identity->username;
 
-    $assignments = Assignment::find()->where('assNature = :assignment AND course_code = :cid AND assType = :students OR assType = :allstudent ',[':assignment' => 'assignment', ':cid' => $cid, ':students' => 'students', ':allstudent' => 'allstudent'])->orderBy([
+    $assignments = Assignment::find()->where('assNature = :assignment AND course_code = :cid AND assType = :students OR assType = :allstudent ',[':assignment' => 'assignment', ':cid' => $cid, ':students' => 'students', ':allstudents' => 'allstudent'])->orderBy([
     'assID' => SORT_DESC ])->all(); 
 
 
