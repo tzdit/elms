@@ -106,6 +106,7 @@ use yii\helpers\Html;
             <td>
              <?= Html::a('<i class="fas fa-edit"></i>',['updateprog', 'id'=>$program->programCode], ['class'=>'btn btn-info btn-sm m-0'])?>   
             <a href="#" class="btn btn-success btn-sm m-0"><i class="fas fa-eye"></i></a>
+<<<<<<< HEAD
             <a href="#" class="btn btn-sm btn-danger float-right ml-2" data-toggle="modal" data-target="#modal-danger<?= $program -> programCode ?>"><span><i class="fas fa-trash"></i></span></a></td>
             </td>
             </tr>
@@ -141,6 +142,11 @@ use yii\helpers\Html;
 </div>
 <!-- /.modal -->
 
+=======
+            <a href="#" class="btn btn-danger btn-sm m-0"><i class="fas fa-trash" ></i></a>
+            </td>
+            </tr>
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
             <?php endforeach ?>
             </tbody>
             </table>

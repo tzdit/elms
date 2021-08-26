@@ -71,7 +71,11 @@ use frontend\models\CreateProgram;
                     <td><?=  $program->prog_duration; ?></td>
                     <td><?=  $program->capacity; ?></td>
                     <td><?= Html::a('<i class="fas fa-edit" style="font-size:18px"></i>',['updateprog', 'id'=>$program->programCode], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
+<<<<<<< HEAD
                     <a href="#" class="btn btn-sm btn-danger float-right ml-2" data-toggle="modal" data-target="#modal-danger<?= $program -> programCode ?>"><span><i class="fas fa-trash"></i></span></a></td>
+=======
+                    <i class="fa fa-trash-alt" style="font-size:18px;color:red"></i></td>
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
                     
 									
 										
@@ -79,6 +83,7 @@ use frontend\models\CreateProgram;
 
 
 						 			</tr>
+<<<<<<< HEAD
 
                    <div class="modal fade" id="modal-danger<?= $program -> programCode ?>">
 
@@ -110,6 +115,8 @@ use frontend\models\CreateProgram;
       </div>
       <!-- /.modal -->
   
+=======
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 						 		
 									 <?php endforeach ?>
 		

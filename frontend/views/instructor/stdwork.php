@@ -14,10 +14,17 @@ use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
 /* @var $this yii\web\View */
+<<<<<<< HEAD
 $this->params['courseTitle'] = "Submits";
 $this->title = 'Submits';
 $this->params['breadcrumbs'] = [
   ['label'=>'classwork', 'url'=>Url::to(['/instructor/stdwork', 'cid'=>$cid])],
+=======
+$this->params['courseTitle'] =!empty($submits)?$submits[0]->ass->assName." submits":"Submits";
+$this->title = !empty($submits[0]->ass->assName)?$submits[0]->ass->assName." Submits":'Submits';
+$this->params['breadcrumbs'] = [
+  ['label'=>'classwork', 'url'=>Url::to(['/instructor/classwork', 'cid'=>$cid])],
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
   ['label'=>$this->title]
 ];
 ?>
@@ -51,6 +58,7 @@ $this->params['breadcrumbs'] = [
 				</th>
 
 				<th>
+<<<<<<< HEAD
 					Assignment Name
 				</th>
 
@@ -60,6 +68,11 @@ $this->params['breadcrumbs'] = [
 				<th>
 					Score
 				</th>
+=======
+					File Name
+				</th>
+				
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 				<!-- <th>
 					Question
 				</th> -->
@@ -71,12 +84,22 @@ $this->params['breadcrumbs'] = [
 				<th>
 					Submit Time
 				</th>
+<<<<<<< HEAD
+=======
+				<th>
+					Score
+				</th>
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
 				<th>
 					Comment
 				</th>
 				<th>
+<<<<<<< HEAD
 					Actions
+=======
+					Mark/Remark
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 				</th>
 				
 				<!-- <th>
@@ -100,6 +123,7 @@ $this->params['breadcrumbs'] = [
 										 }
 										 ?>
 										</td>
+<<<<<<< HEAD
 										 <td><?=  $submit->ass->assName; ?></td>
 										 <td><?= $submit->fileName; ?></td>
 										 <td><?= $submit->score; ?></td>
@@ -107,6 +131,15 @@ $this->params['breadcrumbs'] = [
 										 <td><?= $submit->submit_time; ?></td>
 										 <td><?= $submit->comment; ?></td>
 										 <td><i class="fa fa-pen"></i></td>
+=======
+										 <td><?= $submit->fileName; ?></td>
+										
+										 <td><?= $submit->submit_date; ?></td>
+										 <td><?= $submit->submit_time; ?></td>
+										 <td><?= $submit->score; ?></td>
+										 <td><?= $submit->comment; ?></td>
+										 <td><?= Html::a('<i class="fa fa-edit" style="font-size:18px"></i>', ['mark','id'=>$submit->ass->assID,'subid'=>$submit->submitID]) ?></td>
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 										
 										
 
@@ -123,6 +156,7 @@ $this->params['breadcrumbs'] = [
 </div>
 
 <?php	
+<<<<<<< HEAD
 $this->registerJsFile(
 	'@web/js/jquery.js',
 	['depends' => 'yii\web\JqueryAsset'],
@@ -172,6 +206,8 @@ $this->registerJsFile(
  
   
  
+=======
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
   $this->registerJsFile(
 	'@web/js/stdwork.js',
 	['depends' => 'yii\web\JqueryAsset'],

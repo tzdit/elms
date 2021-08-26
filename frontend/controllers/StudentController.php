@@ -19,6 +19,11 @@ use frontend\models\UploadAssignment;
 use frontend\models\AddGroup;
 use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
+<<<<<<< HEAD
+=======
+use frontend\models\AssSubmitForm;
+use frontend\models\GroupAssSubmit;
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 use frontend\models\UploadMaterial;
 use frontend\models\CarryCourseSearch;
 use common\models\StudentGroup;
@@ -41,7 +46,11 @@ class StudentController extends \yii\web\Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
+<<<<<<< HEAD
                         'actions' => ['dashboard','error','classwork','courses','changePassword','carrycourse','add_carry','delete_carry','student_groups','delete_group','add_group','student_in_login_user_course','add_to_group','list_student_in_group','remove_student_from_group','submit_assignment','view_assignment','download_assignment','resubmit','videos','announcement'],
+=======
+                        'actions' => ['dashboard','error','classwork','courses','changePassword','carrycourse','add_carry','delete_carry','student_groups','delete_group','add_group','student_in_login_user_course','add_to_group','list_student_in_group','remove_student_from_group','submit_assignment','view_assignment','download_assignment','resubmit','videos','announcement','group_assignment_submit','group_resubmit'],
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
                         'allow' => true,
                         'roles'=>['STUDENT']
                     ],
@@ -84,7 +93,11 @@ public function actionClasswork($cid){
 
     $reg_no = Yii::$app->user->identity->username;
 
+<<<<<<< HEAD
     $assignments = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->orderBy([
+=======
+    $assignments = Assignment::find()->where('assNature = :assignment AND course_code = :cid AND assType = :students OR assType = :allstudent ',[':assignment' => 'assignment', ':cid' => $cid, ':students' => 'students', ':allstudent' => 'allstudents'])->orderBy([
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     'assID' => SORT_DESC ])->all(); 
 
 
@@ -450,7 +463,11 @@ public function actionAnnouncement($announcement)
         return $this->redirect(Yii::$app->request->referrer);
     }
     
+<<<<<<< HEAD
 
+=======
+           
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
 
      /**
@@ -462,7 +479,11 @@ public function actionAnnouncement($announcement)
     public function actionSubmit_assignment($assID)
     {
 
+<<<<<<< HEAD
         $model =new Submit; 
+=======
+        $model =new AssSubmitForm;
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
         $file = UploadedFile::getInstanceByName('document');
         $model->document = $file;
@@ -497,6 +518,58 @@ public function actionAnnouncement($announcement)
     }
 
 
+<<<<<<< HEAD
+=======
+
+
+ /**
+     * If save is successful, the browser will be redirected to the 'group assignments' page.
+     * @param string $assID
+     * @param string $groupID
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionGroup_assignment_submit($assID,$groupID)
+    {
+
+        $model =new GroupAssSubmit;
+
+        $file = UploadedFile::getInstanceByName('document');
+        $model->document = $file;
+        $model->assinmentId = $assID;
+        $model->groupId = $groupID;
+
+
+        // echo '<pre>';
+        //     var_dump($file);
+        // echo '</pre>';
+        // exit;
+
+        try{
+            if (Yii::$app->request->isPost && $model->save()) {
+                
+                Yii::$app->session->setFlash('success', 'Your Submit successed');
+             
+                
+                return $this->refresh();
+            }
+            
+            
+        }
+        catch(\Exception $e){
+            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+        }
+
+
+            return $this->render('group_ass_submit', [
+                'model' => $model, 'assID' => $assID,'groupId' => $groupID],false,true);
+    }
+
+
+
+
+
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     /**
      * download assignment 
      */
@@ -508,8 +581,21 @@ public function actionAnnouncement($announcement)
         $filePath = '/web/storage/temp';
         
         $completePath = Yii::getAlias('@app'.$filePath.'/'.$model->fileName);
+<<<<<<< HEAD
     
         return Yii::$app->response->sendFile($completePath, $model->fileName);
+=======
+
+        if(\file_exists($completePath)){
+            return Yii::$app->response->sendFile($completePath, $model->fileName);
+        }
+        else {
+            # code...
+            throw new NotFoundHttpException(Yii::t('app', 'The requested file does not exist.'));
+        }
+    
+        
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     }
 
 
@@ -543,9 +629,20 @@ public function actionAnnouncement($announcement)
             throw new NotFoundHttpException(Yii::t('app', 'The requested file does not exist.'));
         }
     }
+<<<<<<< HEAD
 
     public function actionResubmit($assID){
         $model =Submit::findOne($assID); 
+=======
+    
+
+    /**
+     * Resubmision of an assinment 
+     * return in the same page after sumit
+     */
+    public function actionResubmit($assID){
+        $model =AssSubmitForm::findOne($assID); 
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
         $file = UploadedFile::getInstanceByName('document');
         $model->document = $file;
@@ -562,10 +659,17 @@ public function actionAnnouncement($announcement)
         try{
             if (Yii::$app->request->isPost && $model->save()) {
                 
+<<<<<<< HEAD
                 Yii::$app->session->setFlash('success', 'Your Submit successed');
              
                 
                 return $this->redirect(Yii::$app->request->referrer);
+=======
+                Yii::$app->session->setFlash('success', 'Your Re-Submit successed');
+             
+                
+                return $this->refresh();
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
             }
             
             
@@ -581,4 +685,50 @@ public function actionAnnouncement($announcement)
 
 
 
+<<<<<<< HEAD
+=======
+
+
+    /**
+     * Resubmision of an assinment 
+     * return in the same page after sumit
+     */
+    public function actionGroup_resubmit($assID,$groupID){
+        $model =GroupAssSubmit::findOne($assID); 
+
+        $file = UploadedFile::getInstanceByName('document');
+        $model->document = $file;
+        $model->assinmentId = $assID;
+
+
+        // echo '<pre>';
+        //     var_dump($file);
+        // echo '</pre>';
+        // exit;
+
+     
+
+        try{
+            if (Yii::$app->request->isPost && $model->save()) {
+                
+                Yii::$app->session->setFlash('success', 'Your Re-Submit successed');
+             
+                
+                return $this->refresh();
+            }
+            
+            
+        }
+        catch(\Exception $e){
+            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+        }
+
+
+            return $this->render('group_ass_submit', [
+                'model' => $model, 'assID' => $assID,'groupID' => $groupID],false,true);
+    }
+
+
+
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 }

@@ -1,6 +1,18 @@
 <?php  
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
+<<<<<<< HEAD
+=======
+use common\models\Assignment;
+use yii\helpers\Url;
+
+$this->params['courseTitle'] =Assignment::findOne($_GET['id'])->assName." tutorial";
+$this->title = 'Update tutorial';
+$this->params['breadcrumbs'] = [
+  ['label'=>'classwork', 'url'=>Url::to(['/instructor/classwork', 'cid'=>yii::$app->session->get('ccode')])],
+  ['label'=>$this->title]
+];
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 ?>
 
   <div class="modal-dialog" role="document">

@@ -33,6 +33,10 @@ use frontend\models\StudentGroups;
 use frontend\models\TemplateDownloader;
 use frontend\models\CA;
 use frontend\models\CA_previewer;
+<<<<<<< HEAD
+=======
+use frontend\models\StudentAssign;
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 use common\models\Groups;
 use common\models\GroupGenerationTypes;
 use common\models\Announcement;
@@ -118,7 +122,17 @@ public $defaultAction = 'dashboard';
                             'ca-preview',
                             'get-incomplete-perc',
                             'get-student-count',
+<<<<<<< HEAD
                             'get-carries-perc'
+=======
+                            'get-carries-perc',
+                            'get-pdf-ca',
+                            'add-students',
+                            'failed-assignments',
+                            'missed-workmark',
+                            'delete-material',
+                            'update-assignment'
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
                         ],
                         'allow' => true,
@@ -147,8 +161,11 @@ public $defaultAction = 'dashboard';
                             'delete',
                             'deletelab',
                             'deletetut',
+<<<<<<< HEAD
                             'deleteprog',
                             'delete-student',
+=======
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
                             'deletecoz',
                             'materials',
                             'stdwork',
@@ -164,8 +181,31 @@ public $defaultAction = 'dashboard';
                             'updateprog',
                             'updatecoz',
                             'add-partner',
+<<<<<<< HEAD
                             'delete-cozz',
                             'view-assessment'
+=======
+                            'view-assessment',
+                            'add-assess-record',
+                            'delete-ext-assrecord',
+                            'edit-ext-assrecord-view',
+                            'edit-ext-assrecord',
+                            'download-extassess-template',
+                            'delete-assessment',
+                            'post-announcement',
+                            'delete-announcement',
+                            'generate-ca',
+                            'ca-preview',
+                            'get-incomplete-perc',
+                            'get-student-count',
+                            'get-carries-perc',
+                            'get-pdf-ca',
+                            'add-students',
+                            'failed-assignments',
+                            'missed-workmark',
+                            'delete-material',
+                            'update-assignment'
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
                            
                         ],
                         'allow' => true,
@@ -230,7 +270,11 @@ public $defaultAction = 'dashboard';
           $resp="New record adding failed ";
           foreach($recres as $p=>$v)
           {
+<<<<<<< HEAD
             $resp.=$v;
+=======
+            $resp.=$p." ".$v;
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
           }
           Yii::$app->session->setFlash('error',$resp);
           return $this->redirect(Yii::$app->request->referrer);  
@@ -257,29 +301,57 @@ public $defaultAction = 'dashboard';
     $assess=ExtAssess::findOne($assessid);
     if($assess->delete())
     {
+<<<<<<< HEAD
         return $this->redirect(Yii::$app->request->referrer); 
+=======
+        return $this->asJson(['message'=>'Assessment deleted']);
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
     }
     else
     {
+<<<<<<< HEAD
         Yii::$app->session->setFlash('error', 'deleting failed');
         return $this->redirect(Yii::$app->request->referrer);   
+=======
+        return $this->asJson(['message'=>'deleting failed']); 
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     }
 
   }
    
 public function actionEditExtAssrecordView($recordid)
 {
+<<<<<<< HEAD
   $record=StudentExtAssess::findOne($recordid);
 
+=======
+$secretKey=Yii::$app->params['app.dataEncryptionKey'];
+$recordid=Yii::$app->getSecurity()->decryptByPassword($recordid, $secretKey);
+  $record=StudentExtAssess::findOne($recordid);
+
+  $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+  $recordid=Yii::$app->getSecurity()->encryptByPassword($recordid, $secretKey); 
+
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
   return $this->render('editassessrecord',['recordid'=>$recordid,'regno'=>$record->reg_no,'score'=>$record->score]);
 }
 public function actionEditExtAssrecord($recordid)
 {
+<<<<<<< HEAD
 
     $record=new AddAssessRecord();
     $assid=StudentExtAssess::findOne($recordid)->assessID;
     $record->assessid=$assid;
+=======
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    //$recordid=Yii::$app->getSecurity()->decryptByPassword($recordid, $secretKey);
+    $record=new AddAssessRecord();
+    $assid=StudentExtAssess::findOne($recordid)->assessID;
+    
+    $record->assessid=$assid;
+    $assid=Yii::$app->getSecurity()->encryptByPassword($assid, $secretKey);
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     if($record->load(yii::$app->request->post()))
     {
        $recres=$record->editrecord($recordid);
@@ -366,12 +438,19 @@ public function actionEditExtAssrecord($recordid)
        $ann=Announcement::findOne($annid);
        if($ann->delete()){
 
+<<<<<<< HEAD
         Yii::$app->session->setFlash('success', 'Announcement deleted'); 
         return $this->redirect(Yii::$app->request->referrer); 
        }
        else{
         Yii::$app->session->setFlash('error', 'Announcement deleting failed'); 
         return $this->redirect(Yii::$app->request->referrer);
+=======
+        return $this->asJson(['message'=>'announcement deleted']);
+       }
+       else{
+        return $this->asJson(['message'=>'deleting failed']);
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
        }
     }
@@ -395,6 +474,7 @@ public function actionEditExtAssrecord($recordid)
     {
         $ass = Assignment::findOne($id)->delete(); 
         if($ass){
+<<<<<<< HEAD
            Yii::$app->session->setFlash('success', 'Assignment deleted successfully');
         }
         return $this->redirect(Yii::$app->request->referrer);
@@ -407,6 +487,15 @@ public function actionEditExtAssrecord($recordid)
            Yii::$app->session->setFlash('success', 'Program deleted successfully');
         }
         return $this->redirect(Yii::$app->request->referrer);
+=======
+            return $this->asJson(['message'=>'Assignment deleted']);
+        }
+        else
+        {
+            return $this->asJson(['message'=>'deleting failed']);  
+        }
+       
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     }
 
     public function actionDeletelab($id)
@@ -431,14 +520,21 @@ public function actionEditExtAssrecord($recordid)
     {
         $tut = Assignment::findOne($id)->delete(); 
         if($tut){
+<<<<<<< HEAD
            Yii::$app->session->setFlash('success', 'Tutorial deleted successfully');
         }
         return $this->redirect(Yii::$app->request->referrer);
+=======
+            return $this->asJson(['message'=>'tutorial deleted']);
+        }
+
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     }
 
     public function actionUpdate($id)
     {
         $ass = Assignment::findOne($id);
+<<<<<<< HEAD
         if($ass->load(Yii::$app->request->post()) && $ass->save())
         {
             Yii::$app->session->setFlash('success', 'Assignment updated successfully');
@@ -446,6 +542,12 @@ public function actionEditExtAssrecord($recordid)
         }else{
         return $this->render('update', ['ass'=>$ass]);
         }
+=======
+        $assmodel = new UploadAssignment();
+     
+        return $this->render('assignments/update_assignment', ['ass'=>$ass,'assmodel'=>$assmodel]);
+       
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     }
 
     public function actionUpdatelab($id)
@@ -552,15 +654,35 @@ public function actionStdwork($cid, $id){
 }
 
 public function actionStdworkmark($cid, $id){
+<<<<<<< HEAD
     if(!empty($cid)){
    Yii::$app->session->set('ccode', $cid);
     }
     
     $submits = Submit::find()->where(['assID'=> $id])->all();
+=======
+
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
+    if(!empty($cid)){
+      Yii::$app->session->set('ccode', $cid);
+    }
+    
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $id=Yii::$app->getSecurity()->decryptByPassword($id, $secretKey);
+
+    $model=null;
+    $asstype=Assignment::findOne($id)->assType;
+    if($asstype=="groups" || $asstype=="allgroups"){$model=new GroupAssignmentSubmit();}
+    else{$model=new Submit();}
+    $submits =$model->find()->where(['assID'=> $id])->all();
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
 
     $courses = Yii::$app->user->identity->instructor->courses;
 
+<<<<<<< HEAD
         // echo '<pre>';
         // print_r($cid);
         // echo '<br>';
@@ -570,6 +692,124 @@ public function actionStdworkmark($cid, $id){
     return $this->render('stdworkmark', ['cid'=>$cid, 'id'=>$id, 'courses'=>$courses, 'submits' => $submits]);
 
 }
+=======
+    return $this->render('stdworkmark', ['cid'=>$cid, 'id'=>$id, 'courses'=>$courses, 'submits' => $submits]);
+
+}
+public function actionMissedWorkmark($cid, $id){
+
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+    
+    if(!empty($cid)){
+      Yii::$app->session->set('ccode', $cid);
+    }
+    
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $id=Yii::$app->getSecurity()->decryptByPassword($id, $secretKey);
+    $assign=Assignment::findOne($id);
+            $submits=[];
+            $assigned=[];
+
+            $submitted=[];
+            $assignass=[];
+            if($assign->assType=="groups"){
+                $submits=$assign->groupAssignmentSubmits;
+
+                foreach($submits as $single)
+                {
+                    $submitted[$single->group->groupName]=$single->group->groupName;
+                }
+                $assigned=$assign->groupAssignments;
+
+                foreach($assigned as $single)
+                {
+                    $assignass[$single->group->groupName]=$single->group->groupName;
+                }
+            
+            }
+            else if($assign->assType=="allgroups"){
+              $submits=$assign->groupAssignmentSubmits;
+              foreach($submits as $single)
+              {
+                  $submitted[$single->group->groupName]=$single->group->groupName;
+              }
+              $gentypes=$assign->groupGenerationAssignments;
+              for($gen=0;$gen<count($gentypes);$gen++){
+                  $assigned=$gentypes[$gen]->gentype->groups;
+
+                  foreach($assigned as $single)
+                  {
+                    $assignass[$single->groupName]=$single->groupName;  
+                  }
+                }
+            }
+            else if($assign->assType=="allstudents"){
+			  $submits=$assign->submits;
+              $assigned=$assign->courseCode->studentCourses;
+              $assignass=ArrayHelper::map($assigned,'reg_no','reg_no');
+              $submitted=ArrayHelper::map($submits,'reg_no','reg_no');
+              $assignedprog=$assign->courseCode->programCourses;
+              
+      
+              for($p=0;$p<count($assignedprog);$p++)
+              {
+                foreach($assignedprog[$p]->programCode0->students as $stud)
+                {
+                $assignass[$stud->reg_no]=$stud->reg_no;
+                }
+              }}
+            else{
+                $submits=$assign->submits;
+                $submitted=ArrayHelper::map($submits,'reg_no','reg_no');
+                $assigned=$assign->studentAssignments;
+                $assignass=ArrayHelper::map($assigned,'reg_no','reg_no');
+            } 
+            
+            $missing=array_diff_assoc($assignass,$submitted);
+         
+    return $this->render('missingassview', ['cid'=>$cid, 'id'=>$id,'missing' => $missing]);
+
+}
+
+public function actionDeleteMaterial($matid)
+{
+    $material=Material::findOne($matid);
+    if($material->delete()){
+       
+            return $this->asJson(['message'=>'Material deleted']);
+         
+    }else{
+        Yii::$app->session->setFlash('error', 'deleting failed');
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+}
+public function actionFailedAssignments($cid, $id){
+
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
+    if(!empty($cid)){
+      Yii::$app->session->set('ccode', $cid);
+    }
+    
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $id=Yii::$app->getSecurity()->decryptByPassword($id, $secretKey);
+
+
+    $model=null;
+    $asstype=Assignment::findOne($id)->assType;
+    if($asstype=="groups" || $asstype=="allgroups"){$model=new GroupAssignmentSubmit();}
+    else{$model=new Submit();}
+    $submits =$model->find()->where(['assID'=> $id])->all();
+
+
+    $courses = Yii::$app->user->identity->instructor->courses;
+
+    return $this->render('failedassignments', ['cid'=>$cid, 'id'=>$id, 'courses'=>$courses, 'submits' => $submits]);
+
+}
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
 public function actionStdlabmark($cid, $id){
     if(!empty($cid)){
@@ -653,6 +893,38 @@ public function actionUploadAssignment(){
     }
 }
 }
+<<<<<<< HEAD
+=======
+///update assignment
+
+public function actionUpdateAssignment($assid){
+    
+    $model = new UploadAssignment();
+   
+    if($model->load(Yii::$app->request->post())){
+    
+    //loading the external post data into the model
+    $model->questions_maxima=Yii::$app->request->post('q_max');
+    if($model->assType=="allgroups"){$model->generation_type=Yii::$app->request->post('gentypes');}
+    else if($model->assType=="groups"){$model->generation_type=Yii::$app->request->post('gentypes');$model->groups=Yii::$app->request->post('gengroups');}
+    else if($model->assType=="students"){$model->students=Yii::$app->request->post('mystudents');}else{}
+  
+        $model->the_assignment=Yii::$app->request->post('the_assignment');
+       
+ 
+    
+        if($model->update($assid)){
+        Yii::$app->session->setFlash('success', 'Assignment updated successfully');
+        return $this->redirect(Yii::$app->request->referrer);
+        }else{
+            print_r($model->getErrors());
+        Yii::$app->session->setFlash('error', 'Something went wrong during updating');
+       
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+}
+}
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 public function actionImportExternalAssessment()
 {
   $importmodel=new External_assess();
@@ -747,6 +1019,7 @@ public function actionDeleteExtAssrecord($recordid)
   }
 
 }
+<<<<<<< HEAD
 
 public function actionDeleteStudent($id)
 {
@@ -779,16 +1052,21 @@ public function actionDeleteCozz($id)
   }
 
 }
+=======
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 //######################## function to create tutorial ###############################################
 
 public function actionUploadTutorial(){
     $model = new UploadTutorial();
     if($model->load(Yii::$app->request->post())){
         $model->assFile = UploadedFile::getInstance($model, 'assFile');
+<<<<<<< HEAD
         // echo '<pre>';
         // print_r($model);
         // echo '</pre>';
         // exit;
+=======
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         if($model->upload()){
         Yii::$app->session->setFlash('success', 'Tutorial created successfully');
         return $this->redirect(Yii::$app->request->referrer);
@@ -858,6 +1136,7 @@ public function actionUploadMaterial(){
     }
 }
 }
+<<<<<<< HEAD
 public function actionMark($id)
 {
     //loading the current assignment
@@ -866,6 +1145,30 @@ public function actionMark($id)
     $current_assignment=$assignment::findOne($id);
    
     return $this->render('marking',['assignment'=>$current_assignment]);  
+=======
+public function actionMark($id,$subid=null)
+{
+    //loading the current assignment
+    $submit=[];
+    $assignment=new Assignment();
+    $current_assignment=$assignment::findOne($id);
+    $model=null;
+    $asstype=$current_assignment->assType;
+    if($asstype=="group" || $asstype=="allgroups")
+    {
+        $model=new GroupAssignmentSubmit();
+        
+        
+    }
+    else
+    {
+        $model=new Submit();
+    }
+
+    if($model!==null){$submit=$model->find()->where(['submitID'=>$subid])->all();}
+   
+    return $this->render('marking',['assignment'=>$current_assignment,'singlesub'=>$submit]);  
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 }
 public function actionMarkInputing()
 {
@@ -880,7 +1183,11 @@ public function actionMarkInputing()
     $qids=Yii::$app->request->post('qids');
     $model=null;
     $submit=null;
+<<<<<<< HEAD
     if($asstype=="group")
+=======
+    if($asstype=="group" || $asstype=="allgroups")
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     {
         $model=new GroupAssignmentSubmit();
         
@@ -893,18 +1200,31 @@ public function actionMarkInputing()
   if($model!=null)
   {
     $submit=$model->findOne($fid);
+<<<<<<< HEAD
+=======
+
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     $submit->score=$score;
     $submit->comment=$comment;
   }
   $submit->save();
+<<<<<<< HEAD
   //print_r($submit->getErrors());
+=======
+
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
   //preparing the submit
  
 
 //inserting questions marks
   for($sc=0;$sc<count($qscores);$sc++)
   {
+<<<<<<< HEAD
     $qmark=new Qmarks();
+=======
+    $qmark=Qmarks::find()->where(['submitID'=>$submit->submitID,'assq_ID'=>$qids[$sc]])->one();
+    if($qmark===null || empty($qmark)){$qmark=new Qmarks();}
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     $qmark->assq_ID=$qids[$sc];
     $qmark->q_score=$qscores[$sc];
 
@@ -920,6 +1240,10 @@ public function actionMarkInputing()
     }
 
     $qmark->save();
+<<<<<<< HEAD
+=======
+   
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     
 
    
@@ -1145,8 +1469,13 @@ public function actionAddStudentGentype()
    $model->labreduce=yii::$app->request->post("CA")["labreduce"];
    $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
   
+<<<<<<< HEAD
    $model->generateCA();
    
+=======
+   $res=$model->generateExcelCA();
+   if($res!==true){Yii::$app->session->setFlash('error',$res);}
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
    return $this->redirect(Yii::$app->request->referrer); 
   
@@ -1155,6 +1484,25 @@ public function actionAddStudentGentype()
  
 
  }
+<<<<<<< HEAD
+=======
+ public function actionGetPdfCa()
+ {
+    $model=new CA();
+   
+    $model->Assignments=yii::$app->request->post("CA")["Assignments"];
+    $model->LabAssignments=yii::$app->request->post("CA")["LabAssignments"];
+    $model->otherAssessments=yii::$app->request->post("CA")["otherAssessments"];
+    $model->assreduce=yii::$app->request->post("CA")["assreduce"];
+    $model->labreduce=yii::$app->request->post("CA")["labreduce"];
+    $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
+   
+    $res=$model->generatePdfCA();
+    if($res!=null){Yii::$app->session->setFlash('error',$res);}
+    return $this->redirect(Yii::$app->request->referrer); 
+    
+ }
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
  public function actionCaPreview()
  {
     $model=new CA_previewer();
@@ -1216,6 +1564,36 @@ public function actionAddStudentGentype()
     print $data;
     }  
  }
+<<<<<<< HEAD
+=======
+ public function actionAddStudents()
+ {
+   
+    $model = new StudentAssign();
+    if($model->load(Yii::$app->request->post()) && $model->validate()){
+    $returned=$model->assignStudents();
+     if(empty($returned))
+     {
+
+        Yii::$app->session->setFlash('success', 'Program added successfully');
+        return $this->redirect(Yii::$app->request->referrer);
+     }
+     else{
+        
+        $errors="Error(s) detected during assigning:";
+        foreach($returned as $prog=>$error)
+        {
+            $errors.="<br>".$prog.": ".$error;
+        }
+        Yii::$app->session->setFlash('success',$errors);
+        return $this->redirect(Yii::$app->request->referrer);
+     }
+ 
+     }
+
+
+ }
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
 //#################################### HOD HERE ########################################################################
 

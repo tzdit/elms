@@ -13,6 +13,10 @@ use Yii;
  * @property string $content
  * @property string $ann_date
  * @property string $ann_time
+<<<<<<< HEAD
+=======
+ * @property string $title
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
  *
  * @property Course $courseCode
  * @property Instructor $instructor
@@ -34,10 +38,18 @@ class Announcement extends \yii\db\ActiveRecord
     {
         return [
             [['instructorID'], 'integer'],
+<<<<<<< HEAD
             [['content'], 'required'],
             [['ann_date', 'ann_time'], 'safe'],
             [['course_code'], 'string', 'max' => 7],
             [['content'], 'string', 'max' => 500],
+=======
+            [['content', 'title'], 'required'],
+            [['ann_date', 'ann_time'], 'safe'],
+            [['course_code'], 'string', 'max' => 7],
+            [['content'], 'string', 'max' => 500],
+            [['title'], 'string', 'max' => 150],
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
             [['instructorID'], 'exist', 'skipOnError' => true, 'targetClass' => Instructor::className(), 'targetAttribute' => ['instructorID' => 'instructorID']],
         ];
@@ -55,6 +67,10 @@ class Announcement extends \yii\db\ActiveRecord
             'content' => 'Content',
             'ann_date' => 'Ann Date',
             'ann_time' => 'Ann Time',
+<<<<<<< HEAD
+=======
+            'title' => 'Title',
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         ];
     }
 

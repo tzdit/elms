@@ -6,6 +6,23 @@ $('document').ready(function(){
     
     $('label').css('fontSize','11px');
       //handling assignment questions
+<<<<<<< HEAD
+=======
+
+      //initially
+      $('#questions').html("");
+      var noq=parseInt($('#qnumber').val());
+      //alert(noq);
+      
+      for(var n=1; n<=noq; n++){
+      var d="q"+n;
+      var qobj='<input id="q'+n+'" class="form-control" type="text" placeholder="Q'+n+'" name="q_max[]" style="width:50px;height:50px;border-color:#ccc; border-radius:7px;float:left;margin:1px;font-size:12px" />';
+      $('#questions').append(qobj);
+      
+    
+   
+      }
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
       $('#qnumber').keyup(function(){
         //$('#totm').val(0);
        $('#questions').html("");
@@ -506,5 +523,10 @@ $('document').ready(function(){
     
     
       })
+<<<<<<< HEAD
+=======
+
+      $('#assignstudents').select2();
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     
     })

@@ -5,6 +5,12 @@ use yii\base\Model;
 use common\models\Assignment;
 use common\models\StudentExtAssess;
 use common\models\ExtAssess;
+<<<<<<< HEAD
+=======
+use common\models\Student;
+use common\models\ProgramCourse;
+use common\models\StudentCourse;
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 class AddAssessRecord extends Model{
 
     public $regno;
@@ -30,6 +36,24 @@ class AddAssessRecord extends Model{
      if($this->score>$assmark){$error_rec[$this->regno]="score greater than the maximum"; return $error_rec;}
 
      $assessmodel=new StudentExtAssess();
+<<<<<<< HEAD
+=======
+     $student=Student::findOne($this->regno);
+     if($student==null)
+     {
+      $error_rec[$this->regno]="is Invalid reg. no, might have not registered";
+      return $error_rec;
+     }
+     $studentProgram=$student->programCode;
+     $programcourse=ProgramCourse::findOne(['programCode'=>$studentProgram,'course_code'=>yii::$app->session->get('ccode')]); //for regular courses;
+     $studentcourse=StudentCourse::find()->where(['reg_no'=>$this->regno,'course_code'=>yii::$app->session->get('ccode')])->one(); //may be a carry over course
+     
+     if($programcourse==null && $studentcourse==null)
+     {
+      $error_rec[$this->regno]="Does not take this course";
+      return $error_rec;
+     }
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
      $assessmodel->reg_no=$this->regno;
      $assessmodel->score=$this->score;
      $assessmodel->assessID=$this->assessid;

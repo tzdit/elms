@@ -35,7 +35,11 @@ $this->params['breadcrumbs'][] = $this->title;
                  Group List
                  
                 </h3>
+<<<<<<< HEAD
                 <a href="<?= Url::toRoute('/student/add_group') ?>" class="btn btn-primary btn-sm float-right m-0 col-xs-12"><i class="fas fa-user-plus"></i> Add Group</a>
+=======
+                <a href="<?= Url::toRoute('/student/add_group') ?>" class="btn btn-primary btn-sm float-right m-0 col-xs-12"><i class="fas fa-user-plus"></i> Create Group</a>
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
               
               </div><!-- /.card-header -->
               <div class="card-body">
