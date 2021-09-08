@@ -62,9 +62,9 @@ $this->params['breadcrumbs'] = [
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-Announcements" data-toggle="tab" href="#announcements" role="tab" aria-controls="announcements" aria-selected="false">Announcements</a>
                   </li>
-                  <!-- <li class="nav-item">
+                  <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-quiz" data-toggle="tab" href="#quiz" role="tab" aria-controls="quiz" aria-selected="false">Quiz</a>
-                  </li> -->
+                  </li> 
                 </ul>
               
               </div>
@@ -75,7 +75,7 @@ $this->params['breadcrumbs'] = [
 
 <!-- ########################################### forum work ######################################## --> 
                   <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">
-                    WASHA KAZI KAMA MOTO
+                    
                   </div>  
 
 
@@ -290,14 +290,12 @@ $assk = "Assignment".$ass;
       <div class="col-sm-11">
       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$labb?>" aria-expanded="true" aria-controls="collapse<?=$labb?>">
         <h5><i class="fas fa-clipboard-list"></i> <span class="assignment-header"><?php echo "Lab ".$labb;?></span></h5>
-        </button>
+      </button>
       </div>
       <div class="col-sm-1">
       <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
       </div>
-      </div>
-        
-       
+      </div>   
       </h2>
     </div>
 
@@ -628,13 +626,53 @@ $assk = "Assignment".$ass;
 
    <!-- ########################################### quiz######################################## --> 
    <div class="tab-pane fade" id="quiz" role="tabpanel" aria-labelledby="custom-tabs-quiz">
-          <div class="row">
-            <p>QUIZ TUTAZIVUTA HAPA</p>
-                  
-        </div>
-
    <div class="accordion" id="accordionExample_4">
-   
+   <div class="row">
+        
+	
+	<div class="container-fluid admin">
+		<div class="col-md-12 alert alert-primary">My Quiz List</div>
+		<br>
+		<div class="card">
+			<div class="card-body">
+				<table class="table table-bordered" id='table'>
+					<colgroup>
+						<col width="10%">
+						<col width="30%">
+						<col width="20%">
+						<col width="20%">
+						<col width="20%">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Quiz</th>
+							<th>Score</th>
+							<th>Status</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td>MMMMMM</td>
+						<td>NNNNNNN</td>
+						<td>YYYYYYY</td>
+						<td>MMMMMMM</td>
+						<td>
+							<center>
+							 	<a class="btn btn-sm btn-outline-primary" href="<?= Url::toRoute(['student/quiz_answer'])?>"><i class="fa fa-pencil"></i> Take Quiz</a>
+								
+								<a class="btn btn-sm btn-outline-primary" href="<?= Url::toRoute(['student/quiz_view'])?>"><i class="fa fa-eye"></i>Results</a>
+			
+							</center>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+  </div>
 </div>
      <!-- ########################################### end ################################# -->
     </div>

@@ -125,8 +125,9 @@ public $defaultAction = 'dashboard';
                             'failed-assignments',
                             'missed-workmark',
                             'delete-material',
-                            'update-assignment'
-
+                            'update-assignment',
+                            'quiz_history',
+                            'quiz_edit'
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -215,7 +216,21 @@ public $defaultAction = 'dashboard';
     return $this->render('index', ['courses'=>$courses]);
     }
 
+############################## quiz things #######################################################
 
+public function actionQuiz_history()
+{
+
+    return $this->render('quiz/history');
+}
+
+public function actionQuiz_edit()
+{
+
+    return $this->render('quiz/quiz_view');
+}
+
+############################## end quiz things #######################################################
 
     //#################### function to render instructor courses ##############################
 
