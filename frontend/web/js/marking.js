@@ -75,11 +75,14 @@ $(document).ready(function(){
   marks=parseFloat($('#scoremark').val());
   var comment=$('.comment').val();
   var asstype=$('.comment').attr('id');
+<<<<<<< HEAD
+=======
   if(comment=="")
   {
     var scoreoverfourty=(marks*40)/tot_marks;
     if(scoreoverfourty<15.5){comment="failed";}else{comment="passed";}
   }
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
   $.post("/instructor/mark-inputing",{ score:marks, fid:file_id, qscores:qscores,qids:qids, asstype:asstype, comment:comment,_csrf: yii.getCsrfToken()},returnAnswer)
  
  //done sending the current user, we point to the next one
@@ -140,7 +143,11 @@ $(document).ready(function(){
  });
  function returnAnswer(answer)
   {
+<<<<<<< HEAD
+ // alert(answer);
+=======
   //alert(answer);
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     
   }
   crow.css("background-color","");

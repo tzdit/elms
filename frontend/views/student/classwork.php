@@ -65,6 +65,12 @@ $this->params['breadcrumbs'] = [
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-quiz" data-toggle="tab" href="#quiz" role="tab" aria-controls="quiz" aria-selected="false">Quiz</a>
                   </li> 
+
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-quiz" data-toggle="tab" href="#quiz" role="tab" aria-controls="quiz" aria-selected="false">Quiz</a>
+                  </li>
+                  
+
                 </ul>
               
               </div>
@@ -150,6 +156,10 @@ $assk = "Assignment".$ass;
         <?php if($isOutOfDeadline == true):?>
           <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
         <?php endif ?>
+
+      <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
+      <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"> View</i></span></a>
+     
       </div>
       </div>
       </div>
@@ -162,6 +172,14 @@ $assk = "Assignment".$ass;
         ?>
   
   <?php endforeach ?>
+
+
+</div>
+
+</div>
+
+<?php $labb = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->count(); ?>
+<!-- ########################################### lab work ######################################## -->
   
 </div>
 </div>
@@ -283,14 +301,23 @@ $assk = "Assignment".$ass;
 <div class="tab-pane fade" id="labs" role="tabpanel" aria-labelledby="custom-tabs-lab">
 <div class="accordion" id="accordionExample_3">
 <?php foreach( $labs as $lab ) : ?>
+  <div class="card">
   <div class="card shadow-lg">
     <div class="card-header p-2" id="heading<?=$labb?>">
       <h2 class="mb-0">
       <div class="row">
       <div class="col-sm-11">
       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$labb?>" aria-expanded="true" aria-controls="collapse<?=$labb?>">
+<<<<<<< HEAD
+        <i class="fas fa-clipboard-list"></i> <?php echo "Lab ".$labb;?>
+=======
         <h5><i class="fas fa-clipboard-list"></i> <span class="assignment-header"><?php echo "Lab ".$labb;?></span></h5>
+<<<<<<< HEAD
       </button>
+=======
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
+        </button>
+>>>>>>> ce230a2845219101484186b3cc8bb533c5d2dc11
       </div>
       <div class="col-sm-1">
       <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
@@ -305,10 +332,17 @@ $assk = "Assignment".$ass;
       </div>
       <div class="card-footer p-2 bg-white border-top">
       <div class="row">
+<<<<<<< HEAD
+      <div class="col-md-8 float-left">
+      <b> Deadline : </b> <?= $lab -> finishDate ?>
+      </div>
+      <div class="col-md-4">
+=======
       <div class="col-md-6 float-left">
       <b> Deadline : </b> <?= $lab -> finishDate ?>
       </div>
       <div class="col-md-6">
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
 
               <?php 
@@ -355,6 +389,17 @@ $assk = "Assignment".$ass;
   </div> 
   </div>  
 
+<<<<<<< HEAD
+  <?php $tutt = Assignment::find()->where(['assNature' => 'tutorial', 'course_code' => $cid])->count(); ?>
+<!-- ########################################### tutorial work ######################################## -->
+     <div class="tab-pane fade" id="tutorials" role="tabpanel" aria-labelledby="custom-tabs-tutorials">
+   <div class="accordion" id="accordionExample_4">
+                 
+              
+             
+   <?php foreach( $tutorials as $tutorial ) : ?>
+  <div class="card">
+=======
 
 
 
@@ -367,12 +412,17 @@ $assk = "Assignment".$ass;
              
    <?php foreach( $tutorials as $tutorial ) : ?>
   <div class="card shadow-lg">
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     <div class="card-header p-2" id="heading<?=$tutt?>">
       <h2 class="mb-0">
       <div class="row">
       <div class="col-sm-11">
       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$tutt?>" aria-expanded="true" aria-controls="collapse<?=$tutt?>">
+<<<<<<< HEAD
+        <i class="fas fa-clipboard-list"></i> <?php echo "Tutorial ".$tutt;?>
+=======
        <h5> <i class="fas fa-clipboard-list"></i> <span class="assignment-header"><?php echo "Tutorial ".$tutt;?></span></h5>
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         </button>
       </div>
       <div class="col-sm-1">
@@ -414,9 +464,12 @@ $assk = "Assignment".$ass;
 </div>
  
 
+<<<<<<< HEAD
+=======
 
 
 
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 <!-- ########################################### materials ######################################## -->      
 <?php $mat = Material::find()->where(['course_code' => $cid])->count(); ?>
 
@@ -431,10 +484,17 @@ $assk = "Assignment".$ass;
             <div class="col-lg-3 col-6">
                 <a href="<?= Url::toRoute(['videos-and-notes/videos', 'cid' => $cid])?>" class="small-box bg-success" >
                 
+<<<<<<< HEAD
+                    <div class="inner">
+                      <h3><?= $cid ?></h3>
+
+                      <p >videos <?= $videos ?></p>
+=======
                     <div class="inner m-2">
                       <h4 class="mb-0">Videos</h4>
 
                       <h2 class="mb-4"> <?= $videos ?></h2>
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
                     </div>
 
                     <div class="icon">
@@ -447,10 +507,16 @@ $assk = "Assignment".$ass;
             <div class="col-lg-3 col-6">
                 <a href="<?= Url::toRoute(['videos-and-notes/notes', 'cid' => $cid])?>" class="small-box bg-success" >
                 
+                    <div class="inner">
+                      <h3><?= $cid ?></h3>
+
+                      <p > Notes & Books <?= $notesAndBooks ?></p>
+
                     <div class="inner m-2">
                       <h4 class="mb-0">Notes & Books</h4>
 
                       <h2 class="mb-4" >  <?= $notesAndBooks ?></h2>
+
                     </div>
 
                     <div class="icon">
@@ -472,6 +538,8 @@ $assk = "Assignment".$ass;
 
 
 
+
+
 <!-- ########################################### returned marks ######################################## -->
 
 <div class="tab-pane fade" id="returned" role="tabpanel" aria-labelledby="custom-tabs-returned">
@@ -480,17 +548,51 @@ $assk = "Assignment".$ass;
           <!-- Left col -->
           <section class="col-lg-12">
             <!-- Custom tabs (Charts with tabs)-->
+
+            <div class="card">
+              <div class="card-header">
+
               <div class="card-header border-0 m-0">
+
                 <h3 class="card-title com-sm-12 text-secondary">
                 <i class="fas fa-book mr-1"></i>
                 My results  
                 </h3>
               </div>
- 
+
+              <div class="card-body">
+
              <div class="row">
               <!-- <?= VarDumper::dump($returned) ?> -->
                <div class="col-md-12">
-               
+
+                  <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+                  <thead>
+                  <tr>
+                  <th width="1%">#</th><th>Assignment Name</th><th>Assinment Type</th><th>filename</th><th>Score/Total</th><th>comment</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <?php $i=0; ?>
+                  <?php foreach($returned as $returne): ?>
+                    <?php foreach($returne->submits as $submit_returne): ?>
+                      <tr>
+                      <td><?= ++$i; ?></td>
+                      <td><?= $returne->assName ?> </td>
+                      <td><?= $returne->assType ?> </td>
+                      <td><?= $submit_returne->fileName;  ?></td>
+                      <td><?= $submit_returne->score.'/'.$returne->total_marks  ?></td>
+                      <td><?= $submit_returne->comment;  ?></td>
+                      </tr>
+                    <?php endforeach ?>
+                  <?php endforeach ?>
+                  </tbody>
+                  </table>
+                 </div>
+               </div>
+              </div>
+            </div>
+
 
                    <?php foreach($returned as $returne): ?>
                        <?php foreach($returne->submits as $submit_returne): ?>
@@ -533,10 +635,13 @@ $assk = "Assignment".$ass;
                         
                  </div>
                </div>
+
       </section>
 </div>
 
   </div>
+
+
 
 
 
@@ -555,7 +660,10 @@ $assk = "Assignment".$ass;
               <div class="card-header">
                 <h3 class="card-title com-sm-12 text-secondary">
                 <i class="fas fa-book mr-1"></i>
+                My results  
+
                 Announcements
+
                 </h3>
               </div>
               <div class="card-body">
@@ -586,7 +694,6 @@ $assk = "Assignment".$ass;
                       <div class="model text-center">
                         <?php
                         Modal::begin([
-                          
                           'title' =>  Html::tag('h2','Announcement', ['class' => 'float-center']),
                           'toggleButton' => ['label' => Html::tag('a','', ['class' => 'fa fa-eye fa-lg '])],
                           'size' => 'modal-lg',
@@ -598,6 +705,7 @@ $assk = "Assignment".$ass;
                       echo "<P class='announcement-model'> $announcement->content </P>".'<br>'.'<br>';
                       echo "    </div>";
                       echo "<p 'class' = 'text-muted'  style='  font-style: italic;'>";
+                      echo  Yii::$app->formatter->asRelativeTime($announcement->ann_date." ".$announcement->ann_time).' '.'ago';
                       echo  Yii::$app->formatter->asRelativeTime($announcement->ann_date." ".$announcement->ann_time);
                       echo "    </p>";
                       
@@ -624,9 +732,11 @@ $assk = "Assignment".$ass;
 
 
 
+
    <!-- ########################################### quiz######################################## --> 
    <div class="tab-pane fade" id="quiz" role="tabpanel" aria-labelledby="custom-tabs-quiz">
    <div class="accordion" id="accordionExample_4">
+
    <div class="row">
         
 	
@@ -673,7 +783,14 @@ $assk = "Assignment".$ass;
 		</div>
 	</div>
   </div>
+
+
 </div>
+
+
+
+</div>
+
      <!-- ########################################### end ################################# -->
     </div>
     </div>
@@ -687,6 +804,8 @@ $assk = "Assignment".$ass;
 
     </div>
 </div>
+
+
 <?php 
 $script = <<<JS
 $(document).ready(function(){

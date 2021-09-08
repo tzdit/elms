@@ -8,16 +8,24 @@ use common\helpers\Custom;
 use common\helpers\Security;
 use common\models\Assignment;
 use common\models\Material;
+<<<<<<< HEAD
+=======
 use common\models\Submit;
 use common\models\GroupAssignentSubmit;
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
 
 /* @var $this yii\web\View */
+<<<<<<< HEAD
+$this->params['courseTitle'] = "Assignment ".$id;
+$this->title = 'stdworkmark';
+=======
 $this->params['courseTitle'] =!empty($submits)?$submits[0]->ass->assName:"Marked students";
 $this->title = !empty($submits[0]->ass->assName)?'Marked students '.$submits[0]->ass->assName:'Marked students';
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 $this->params['breadcrumbs'] = [
   ['label'=>'classwork', 'url'=>Url::to(['/instructor/stdworkmark', 'cid'=>$cid])],
   ['label'=>$this->title]
@@ -50,27 +58,48 @@ $this->params['breadcrumbs'] = [
 
 				
 				<th>
+<<<<<<< HEAD
+					Registration no
+=======
                 <?php if(!empty($submits[0]) &&  $submits[0] instanceof Submit){;?>
 					Registration no
 					<?php }else{ ?>
 						Group name
 						<?php } ?>
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 				</th>
 
 				<th>
 					Score
 				</th>
+<<<<<<< HEAD
+				<!-- <th>
+					Question
+				</th> -->
+				
+				<!-- <th>
+					Grading
+				</th> -->
+=======
                 <th>
 					Comment
 				</th>
 				<th>
 					Remark
 				</th> 
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 				
 			</tr>
 		</thead>
 	<tbody>
 								<?php foreach ($submits as $submit) : ?>
+<<<<<<< HEAD
+						 			<tr>
+									 	<td><?=  $submit->reg_no; ?></td> 
+										 <td><?= $submit->score; ?></td>
+						 			</tr>
+						 		
+=======
                                     <?php if($submit->isMarked()){?>
 						 			<tr>
 									 	<td><?php 
@@ -88,6 +117,7 @@ $this->params['breadcrumbs'] = [
                                          <td><?=Html::a('<i class="fa fa-edit" style="font-size:18px"></i>', ['mark','id'=>$submit->ass->assID,'subid'=>$submit->submitID]) ?></td>
 						 			</tr>
 						 		     <?php } ?>
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 									 <?php endforeach ?>
 		
 			
@@ -101,11 +131,48 @@ $this->params['breadcrumbs'] = [
 	<?php 	
 	$script=<<<JS
     $(document).ready(function() {
+<<<<<<< HEAD
+    $('#dataTables-ex2').DataTable();
+    // $("#AssignedStudents").DataTable({
+    // 	dom: 'Bfrtip',
+    //      buttons: [
+    //      {
+    //      	extend: 'excel',
+    //      	message: 'Export To EXCEL',
+    //      	title: 'Assigned Students'
+
+    //      },
+    //       {
+    //      	extend: 'pdf',
+    //      	title: 'Assigned Students in PDF'
+
+    //      },
+    //       {
+    //             extend: 'csv',
+    //             title: 'Assigned Students'
+    //         },
+    //      ]
+    // });
+    // $("#MarkedStudents").DataTable({
+    // 	dom: 'Bfrtip',
+    //      buttons: [
+    //      {extend:  'excel',
+    //  		title: 'Marked students',
+    //  		exportOptions: {columns: ':not(:eq(5))'},
+    //  		text: 'Export to Excel',
+    //  		className: 'btn btn-primary btn-sm'
+    //  		},
+
+    //    ]
+    // });
+       $("#duplicateStudents").DataTable();
+=======
     //$('#dataTables-ex2').DataTable();
     $("#dataTables-ex2").DataTable({
     dom: 'Bfrtip',
      buttons: ['csv','pdf','excel','print']
     })
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     //remember the previous active tab logic
     //get the current active tab
    

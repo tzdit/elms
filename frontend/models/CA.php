@@ -15,7 +15,10 @@ use common\models\StudentCourse;
 use PhpOffice\PhpSpreadsheet\Reader\Html;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+<<<<<<< HEAD
+=======
 use Mpdf\Mpdf;
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
 class CA extends Model{
     public $otherAssessments=[];
@@ -33,6 +36,20 @@ class CA extends Model{
     public $GrandMax;
 
 
+<<<<<<< HEAD
+  
+    public function generateCA()
+    {
+     
+      $this->setallstudents();
+      $student_with_marks=null;
+      $caheader="<tr><td rowspan=2>registration number</td>";
+      $ca_sub_header="<tr>";
+      $rows=[];
+      $catable="<table class='table-bordered table-hover' border=1>";
+      if(!empty($this->Assignments)){
+        $student_with_marks=$this->asscumul($this->Assignments);
+=======
     public function generateExcelCA()
     {
       return $this->CA2Exceldownloader($this->CAbuilder());
@@ -52,17 +69,27 @@ class CA extends Model{
       $catable="<table class='table-bordered table-hover shadow' cellspacing=0 autosize=2 text-align='center' align='center'>";
       if(!empty($this->Assignments) && !empty($this->allstudents)){
         $student_with_marks=$this->asscumul($this->Assignments,$this->allstudents);
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         $caheader.=$this->catable_header($student_with_marks,"Assignments");
         $ca_sub_header.=$this->ca_subheader($student_with_marks,"Assignments");
         $rows=$this->carows($student_with_marks,"Assignments",$rows);
       }
+<<<<<<< HEAD
+      else{$student_with_marks=$this->allstudents;}
+      if(!empty($this->LabAssignments)){
+=======
       if(!empty($this->LabAssignments) && !empty($student_with_marks)){
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         $student_with_marks=$this->labcumul($this->LabAssignments,$student_with_marks);
         $caheader.=$this->catable_header($student_with_marks,"Lab Assignments");
         $ca_sub_header.=$this->ca_subheader($student_with_marks,"Lab Assignments");
         $rows=$this->carows($student_with_marks,"Lab Assignments",$rows);
       }
+<<<<<<< HEAD
+      if(!empty($this->otherAssessments)){
+=======
       if(!empty($this->otherAssessments) && !empty($student_with_marks)){
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         $student_with_marks=$this->otherAssessCumul($this->otherAssessments,$student_with_marks);
         $caheader.=$this->catable_header($student_with_marks,"Other Assessments");
         $ca_sub_header.=$this->ca_subheader($student_with_marks,"Other Assessments");
@@ -76,10 +103,15 @@ class CA extends Model{
       $catable.=$caheader;
       $catable.=$ca_sub_header;
       //the grandtotals
+<<<<<<< HEAD
+      $rows=$this->addGrandTotals($rows,$student_with_marks);
+      //closing the rows tags and adding them to the table
+=======
       $rows=empty($rows)?null:$this->addGrandTotals($rows,$this->addEncompletes($student_with_marks));
       //closing the rows tags and adding them to the table
       if($rows!=null)
       {
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
       for($r=0;$r<count($rows);$r++)
       {
         $rows[$r]=$rows[$r]."</tr>";
@@ -89,6 +121,12 @@ class CA extends Model{
       
       
       $catable.="</table>";
+<<<<<<< HEAD
+      //print  $catable;
+     $this->CAdownloader($catable);
+
+    // print_r($student_with_marks);
+=======
       return $catable;
     }
     else
@@ -98,6 +136,7 @@ class CA extends Model{
        
 
     
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
    
       
@@ -211,12 +250,20 @@ class CA extends Model{
    
      return  $prevrows;
     }
+<<<<<<< HEAD
+    private function asscumul($assign)
+=======
     private function asscumul($assign,$stud)
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     {
        //getting all assignments
 
        $assignments=$assign;
+<<<<<<< HEAD
+       $students=$this->allstudents;
+=======
        $students=$stud;
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
        $reduce=$this->assreduce;
        $max=0;
 
@@ -660,12 +707,19 @@ class CA extends Model{
       $this->allstudents=$students_for_assessments;
     }
 
+<<<<<<< HEAD
+    private function CAdownloader($ca)
+    {
+      $content=$ca;
+     
+=======
     private function CA2Exceldownloader($ca)
     {
         $content=$ca;
         
         if($ca!=null)
         {
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         $reader = new Html();
         $spreadsheet=new SpreadSheet();
         $spreadsheet = $reader->loadFromString($content);
@@ -673,12 +727,21 @@ class CA extends Model{
         
         //the logo
 
+<<<<<<< HEAD
+$drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+$drawing->setName('UDOM Logo');
+$drawing->setDescription('UDOM Logo');
+$drawing->setPath('img/logo.png');
+$drawing->setHeight(25);
+$drawing->setWorksheet($sheet);
+=======
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('UDOM Logo');
         $drawing->setDescription('UDOM Logo');
         $drawing->setPath('img/logo.png');
         $drawing->setHeight(25);
         $drawing->setWorksheet($sheet);
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         //setting autoresize and styles
         $styleArray = [
           'font' => [
@@ -703,6 +766,11 @@ class CA extends Model{
         ],
     ];
 
+<<<<<<< HEAD
+      //$stylelist= $sheet->rangeToArray('A1:' . $sheet->getHighestColumn().'1','', TRUE, TRUE, TRUE);
+    
+=======
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
        //the styles
      
 
@@ -714,7 +782,11 @@ class CA extends Model{
       
         $list= $sheet->rangeToArray('A1:' . $sheet->getHighestColumn() . $sheet->getHighestRow(), '', TRUE, TRUE, TRUE);
         
+<<<<<<< HEAD
+        //the resizing
+=======
         //the auto resizing
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         for($c=1;$c<=count($list);$c++)
         {
           $col=$list[$c];
@@ -735,6 +807,17 @@ class CA extends Model{
         
         $filename=yii::$app->session->get('ccode')."_CA.Xlsx";
         $filename = str_replace(' ', '', $filename);
+<<<<<<< HEAD
+       header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+       header('Content-Disposition: attachment; filename="'. urlencode($filename).'"');
+
+       ob_end_clean();
+       $writer->save('php://output'); 
+
+        exit();
+
+        return true;
+=======
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="'. urlencode($filename).'"');
 
@@ -749,12 +832,17 @@ class CA extends Model{
         return 'no content';
       }
         
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     }
 
     //for previewing stats
 
     public function get_no_of_student()
     {
+<<<<<<< HEAD
+      $this->setallstudents();
+      return count($this->allstudents);
+=======
       $num_of_stud=0;
       
 
@@ -772,10 +860,22 @@ class CA extends Model{
         $num_of_stud=count($this->allstudents);
       }
       return $num_of_stud;
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     }
     private function studentwithscores()
     {
       $this->setallstudents();
+<<<<<<< HEAD
+      $student_with_marks=null;
+      if(!empty($this->Assignments)){
+        $student_with_marks=$this->asscumul($this->Assignments);
+      }
+      else{$student_with_marks=$this->allstudents;}
+      if(!empty($this->LabAssignments)){
+        $student_with_marks=$this->labcumul($this->LabAssignments,$student_with_marks);
+      }
+      if(!empty($this->otherAssessments)){
+=======
       $student_with_marks=[];
       if(!empty($this->Assignments) && !empty($this->allstudents)){
         $student_with_marks=$this->asscumul($this->Assignments,$this->allstudents);
@@ -785,12 +885,17 @@ class CA extends Model{
         $student_with_marks=$this->labcumul($this->LabAssignments,$student_with_marks);
       }
       if(!empty($this->otherAssessments) && !empty($student_with_marks)){
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         $student_with_marks=$this->otherAssessCumul($this->otherAssessments,$student_with_marks);
       }
     
       $this->GrandMax=$this->labGrandMax+$this->assGrandMax+$this->otherGrandMax;
     
+<<<<<<< HEAD
+      return $student_with_marks;
+=======
       return $this->addEncompletes($student_with_marks);
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
        
     }
     public function getCarriedPercent()
@@ -800,6 +905,14 @@ class CA extends Model{
       $studentswithmarks=$this->studentwithscores();
 
       //looping through students and make required operations
+<<<<<<< HEAD
+
+      foreach($studentswithmarks as $reg=>$assess)
+      {
+        $total_score=$studentswithmarks[$reg]['GrandTotal'];
+
+        $scoreoverfourty=round(($total_score*40)/$this->GrandMax,2);
+=======
       if(!empty($studentswithmarks))
       {
       foreach($studentswithmarks as $reg=>$assess)
@@ -807,12 +920,22 @@ class CA extends Model{
         $total_score=(isset($studentswithmarks[$reg]['GrandTotal']) && $studentswithmarks[$reg]['GrandTotal']!="Inc")?$studentswithmarks[$reg]['GrandTotal']:0;
 
         $scoreoverfourty=$this->GrandMax!=0?round(($total_score*40)/$this->GrandMax,2):0;
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
         if($scoreoverfourty<15.5)
         {
           $total_failed++;
         }
 
+<<<<<<< HEAD
+
+
+      }
+
+      $carrypercent=round(($total_failed*100)/$total_students,2);
+
+      return $carrypercent." %";
+=======
  
 
       }
@@ -821,11 +944,19 @@ class CA extends Model{
       return $carrypercent." %";
 
    
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
       
     }
 
     public function getincompleteperc()
     {
+<<<<<<< HEAD
+      $studentwithmarks=$this->studentwithscores();
+      $total_students=$this->get_no_of_student();
+      $students_with_incomplete=0;
+      foreach($studentwithmarks as $reg=>$assess)
+      {
+=======
           $studentwithmarks=$this->studentwithscores();
           $total_students=$this->get_no_of_student();
           $students_with_incomplete=0;
@@ -833,6 +964,7 @@ class CA extends Model{
           {
           foreach($studentwithmarks as $reg=>$assess)
           {
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
           $status=false;
           $assignments=isset($studentwithmarks[$reg]['Assignments'])?$studentwithmarks[$reg]['Assignments']:null;
           $labs=isset($studentwithmarks[$reg]['Lab Assignments'])?$studentwithmarks[$reg]['Lab Assignments']:null;
@@ -873,10 +1005,17 @@ class CA extends Model{
 
 
       }
+<<<<<<< HEAD
+
+      //the percentage
+
+      $perc=round(($students_with_incomplete*100)/$total_students,2);
+=======
     }
       //the percentage
 
       $perc=$total_students!=0?round(($students_with_incomplete*100)/$total_students,2):0;
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
       return $perc." %";
     }
@@ -884,6 +1023,11 @@ class CA extends Model{
     private function addEncompletes($studentswithscores)
     {
       $studentwithmarks=$studentswithscores;
+<<<<<<< HEAD
+      foreach($studentwithmarks as $reg=>$assess)
+      {
+          $status=false;
+=======
       
 
       if(!empty($studentwithmarks))
@@ -891,6 +1035,7 @@ class CA extends Model{
       foreach($studentwithmarks as $reg=>$assess)
       {
          $status=false;
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
           $assignments=isset($studentwithmarks[$reg]['Assignments'])?$studentwithmarks[$reg]['Assignments']:null;
           $labs=isset($studentwithmarks[$reg]['Lab Assignments'])?$studentwithmarks[$reg]['Lab Assignments']:null;
           $other=isset($studentwithmarks[$reg]['Other Assessments'])?$studentwithmarks[$reg]['Other Assessments']:null;
@@ -925,6 +1070,16 @@ class CA extends Model{
 
           }
         }
+<<<<<<< HEAD
+
+          if($status===true){
+            $studentwithmarks[$reg]['GrandTotal']=null;
+          }
+
+         return $studentwithmarks;
+      }
+    }
+=======
            
           if($status===true){
             $studentwithmarks[$reg]['GrandTotal']="Inc";
@@ -971,6 +1126,7 @@ class CA extends Model{
       return 'no content';
     }
   }
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
    
     

@@ -120,6 +120,7 @@ public $defaultAction = 'dashboard';
                             'get-incomplete-perc',
                             'get-student-count',
                             'get-carries-perc',
+                            'get-carries-perc',
                             'get-pdf-ca',
                             'add-students',
                             'failed-assignments',
@@ -127,7 +128,9 @@ public $defaultAction = 'dashboard';
                             'delete-material',
                             'update-assignment',
                             'quiz_history',
-                            'quiz_edit'
+                            'quiz_edit',
+                            'update-assignment'
+
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR']
@@ -155,6 +158,8 @@ public $defaultAction = 'dashboard';
                             'delete',
                             'deletelab',
                             'deletetut',
+                            'deleteprog',
+                            'delete-student',
                             'deletecoz',
                             'materials',
                             'stdwork',
@@ -1053,12 +1058,10 @@ public function actionMarkInputing()
   if($model!=null)
   {
     $submit=$model->findOne($fid);
-
     $submit->score=$score;
     $submit->comment=$comment;
   }
   $submit->save();
-
   //preparing the submit
  
 

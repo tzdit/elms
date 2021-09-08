@@ -55,18 +55,29 @@ $this->title = 'Students List';
                 echo   '<td> 
             <a href="#" class="btn btn-info btn-sm m-0"><i class="fas fa-edit"></i></a> 
             <a href="#" class="btn btn-success btn-sm m-0"><i class="fas fa-eye"></i></a>
+<<<<<<< HEAD
+            '. Html::a('<i class="fa fa-trash float-right" style="font-size:18px"></i>', ['delete-student','id'=>$current_students[$b]->reg_no]).' 
+            </td>';
+            
+                '</tr>';
+                
+=======
             <a href="#" class="btn btn-danger btn-sm m-0"><i class="fas fa-trash" ></i></a>
             </td>';
             
                 '</tr>';
                  
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
               }
               
             }
             
             ?>
             
+<<<<<<< HEAD
+=======
            
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
             </tbody>
             </table>
              

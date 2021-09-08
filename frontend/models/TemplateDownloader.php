@@ -38,7 +38,11 @@ class TemplateDownloader extends Model{
       array_push($students,$carry->regNo);
      }
      
+<<<<<<< HEAD
+     shuffle($students);
+=======
      //shuffle($students); //shuffling closed for a while
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
      for($i=0;$i<count($students);$i++)
      {
        array_push($regno,$students[$i]->reg_no);
@@ -65,6 +69,8 @@ class TemplateDownloader extends Model{
 
         $reader = new Html();
         $spreadsheet = $reader->loadFromString($content);
+<<<<<<< HEAD
+=======
         $sheet=$spreadsheet->getActiveSheet();
          //setting autoresize and styles
          $styleArray = [
@@ -115,6 +121,7 @@ class TemplateDownloader extends Model{
 
         }
    
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         ob_clean();
         $writer=IOFactory::createWriter($spreadsheet, 'Xlsx');
         

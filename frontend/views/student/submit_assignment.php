@@ -16,7 +16,11 @@ AppAsset::register($this);
 /* @var $form ActiveForm */
 
 $this->params['breadcrumbs'] = [
+<<<<<<< HEAD
+    ['label'=>'assignmet Submission', 'url'=>Url::to(['/student/submit_assignment','assID'=> $assID])],
+=======
     ['label'=>'Group assignmet Submission', 'url'=>Url::to(['/student/submit_assignment','assID'=> $assID])],
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     ['label'=>$this->title]
   ];
 ?>

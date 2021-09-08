@@ -106,9 +106,47 @@ use yii\helpers\Html;
             <td>
              <?= Html::a('<i class="fas fa-edit"></i>',['updateprog', 'id'=>$program->programCode], ['class'=>'btn btn-info btn-sm m-0'])?>   
             <a href="#" class="btn btn-success btn-sm m-0"><i class="fas fa-eye"></i></a>
+<<<<<<< HEAD
+            <a href="#" class="btn btn-sm btn-danger float-right ml-2" data-toggle="modal" data-target="#modal-danger<?= $program -> programCode ?>"><span><i class="fas fa-trash"></i></span></a></td>
+            </td>
+            </tr>
+
+            
+            <div class="modal fade" id="modal-danger<?= $program -> programCode ?>">
+
+<div class="modal-dialog">
+  <div class="modal-content bg-danger">
+    <div class="modal-header">
+      <h4 class="modal-title">Deleting <b> <?= $program -> programCode ?> </b> Program</h4>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+    
+      <p>Are you sure, you want to delete <b> <?= $program -> programCode ?> </b> Program&hellip;?</p>
+      
+    </div>
+    <div class="modal-footer justify-content-between">
+    
+      <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+      <?= Html::a('Delete', ['deleteprog', 'id'=>$program -> programCode], ['class'=>'btn btn-sm btn-danger float-right ml-2 btn-outline-light']) ?>
+    </div>
+    
+  </div>
+  <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+
+</div>
+<!-- /.modal -->
+
+=======
             <a href="#" class="btn btn-danger btn-sm m-0"><i class="fas fa-trash" ></i></a>
             </td>
             </tr>
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
             <?php endforeach ?>
             </tbody>
             </table>
