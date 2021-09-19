@@ -55,13 +55,6 @@ class Submit extends \yii\db\ActiveRecord
             [['fileName'], 'string', 'max' => 225],
             [['reg_no',], 'string', 'max' => 20],
             [['comment'], 'string', 'max' => 200],
-<<<<<<< HEAD
-            [['assID'], 'exist', 'skipOnError' => true, 'targetClass' => Assignment::className(), 'targetAttribute' => ['assID' => 'assID']],
-            [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],
-            [['document'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf,doc,xls,xlsx,docx,pptx,ppt,rtf,odt,txt','message' => 'file type not allowed'],
-            [['document'], 'file','maxSize' => 1024 * 1024 * 10 ,'message' => 'exceed maximum file size'],
-=======
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         ];
     }
 
@@ -141,11 +134,7 @@ class Submit extends \yii\db\ActiveRecord
        
     }
 
-<<<<<<< HEAD
-    public function save($runValidation = true, $attributeNames = null){
-=======
    /*public function save($runValidation = true, $attributeNames = null){
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
         $isInsert = $this->isNewRecord;
 
@@ -178,14 +167,8 @@ class Submit extends \yii\db\ActiveRecord
 
         return true;
     }
-<<<<<<< HEAD
-
-    
-}
-=======
     */
 
     
 }
 ?>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd

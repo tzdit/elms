@@ -65,12 +65,6 @@ $this->params['breadcrumbs'] = [
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-quiz" data-toggle="tab" href="#quiz" role="tab" aria-controls="quiz" aria-selected="false">Quiz</a>
                   </li> 
-
-                  <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-quiz" data-toggle="tab" href="#quiz" role="tab" aria-controls="quiz" aria-selected="false">Quiz</a>
-                  </li>
-                  
-
                 </ul>
               
               </div>
@@ -308,16 +302,10 @@ $assk = "Assignment".$ass;
       <div class="row">
       <div class="col-sm-11">
       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$labb?>" aria-expanded="true" aria-controls="collapse<?=$labb?>">
-<<<<<<< HEAD
-        <i class="fas fa-clipboard-list"></i> <?php echo "Lab ".$labb;?>
-=======
         <h5><i class="fas fa-clipboard-list"></i> <span class="assignment-header"><?php echo "Lab ".$labb;?></span></h5>
-<<<<<<< HEAD
+
       </button>
-=======
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         </button>
->>>>>>> ce230a2845219101484186b3cc8bb533c5d2dc11
       </div>
       <div class="col-sm-1">
       <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
@@ -332,17 +320,14 @@ $assk = "Assignment".$ass;
       </div>
       <div class="card-footer p-2 bg-white border-top">
       <div class="row">
-<<<<<<< HEAD
       <div class="col-md-8 float-left">
       <b> Deadline : </b> <?= $lab -> finishDate ?>
       </div>
       <div class="col-md-4">
-=======
       <div class="col-md-6 float-left">
       <b> Deadline : </b> <?= $lab -> finishDate ?>
       </div>
       <div class="col-md-6">
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
 
               <?php 
@@ -388,23 +373,6 @@ $assk = "Assignment".$ass;
 
   </div> 
   </div>  
-
-<<<<<<< HEAD
-  <?php $tutt = Assignment::find()->where(['assNature' => 'tutorial', 'course_code' => $cid])->count(); ?>
-<!-- ########################################### tutorial work ######################################## -->
-     <div class="tab-pane fade" id="tutorials" role="tabpanel" aria-labelledby="custom-tabs-tutorials">
-   <div class="accordion" id="accordionExample_4">
-                 
-              
-             
-   <?php foreach( $tutorials as $tutorial ) : ?>
-  <div class="card">
-=======
-
-
-
-
-
 <!-- ########################################### tutorial work ######################################## -->
   <?php $tutt = Assignment::find()->where(['assNature' => 'tutorial', 'course_code' => $cid])->count(); ?>
      <div class="tab-pane fade" id="tutorials" role="tabpanel" aria-labelledby="custom-tabs-tutorials">
@@ -412,17 +380,12 @@ $assk = "Assignment".$ass;
              
    <?php foreach( $tutorials as $tutorial ) : ?>
   <div class="card shadow-lg">
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     <div class="card-header p-2" id="heading<?=$tutt?>">
       <h2 class="mb-0">
       <div class="row">
       <div class="col-sm-11">
       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$tutt?>" aria-expanded="true" aria-controls="collapse<?=$tutt?>">
-<<<<<<< HEAD
-        <i class="fas fa-clipboard-list"></i> <?php echo "Tutorial ".$tutt;?>
-=======
        <h5> <i class="fas fa-clipboard-list"></i> <span class="assignment-header"><?php echo "Tutorial ".$tutt;?></span></h5>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         </button>
       </div>
       <div class="col-sm-1">
@@ -464,12 +427,9 @@ $assk = "Assignment".$ass;
 </div>
  
 
-<<<<<<< HEAD
-=======
 
 
 
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 <!-- ########################################### materials ######################################## -->      
 <?php $mat = Material::find()->where(['course_code' => $cid])->count(); ?>
 
@@ -484,17 +444,10 @@ $assk = "Assignment".$ass;
             <div class="col-lg-3 col-6">
                 <a href="<?= Url::toRoute(['videos-and-notes/videos', 'cid' => $cid])?>" class="small-box bg-success" >
                 
-<<<<<<< HEAD
-                    <div class="inner">
-                      <h3><?= $cid ?></h3>
-
-                      <p >videos <?= $videos ?></p>
-=======
                     <div class="inner m-2">
                       <h4 class="mb-0">Videos</h4>
 
                       <h2 class="mb-4"> <?= $videos ?></h2>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
                     </div>
 
                     <div class="icon">
@@ -791,7 +744,10 @@ $assk = "Assignment".$ass;
 
 </div>
 
-     <!-- ########################################### end ################################# -->
+     <!-- ########################################### end ################################# --> 
+
+    
+
     </div>
     </div>
 </div>

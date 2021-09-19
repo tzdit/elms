@@ -21,10 +21,7 @@ use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
 use frontend\models\StudentGroups;
 use frontend\models\External_assess;
-<<<<<<< HEAD
-=======
 use frontend\models\StudentAssign;
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
 
@@ -107,17 +104,10 @@ $this->params['breadcrumbs'] = [
     <div class="card-header p-2" id="heading">
     <div class="row">
     <div class="col-md-10">
-<<<<<<< HEAD
-    <i class="fa fa-bullhorn"></i><span style="font-size:12px;margin-left:20px;color:#bbb">by <?=$announcement->instructor->full_name;?></span>
-   </div>
-   <div class="col-md-2">
-  <?= Html::a('<i class="fa fa-trash float-right"></i>', ['delete-announcement','annid'=>$announcement->annID]) ?>
-=======
     <i class="fa fa-bullhorn"></i><span style="font-size:12px;margin-left:20px;color:#111"><?=$announcement->title;?></span>
    </div>
    <div class="col-md-2">
   <a href="#" id="announcedelete" annid=<?=$announcement->annID?>><i class="fa fa-trash float-right"></i></a>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
    </div>
    </div>
     </div>
@@ -130,10 +120,6 @@ $this->params['breadcrumbs'] = [
   
   </div>
    <div class="card-footer text-center" style="font-size:12px">
-<<<<<<< HEAD
-  <i class="fas fa-clock" ></i><?=$announcement->ann_date." ".$announcement->ann_time?>
-  
-=======
    <div class="row">
      <div class="col-md-4">
   <span class="float-left"><i class="fas fa-clock" ></i><?=$announcement->ann_date." ".$announcement->ann_time?></span>
@@ -142,7 +128,6 @@ $this->params['breadcrumbs'] = [
    <?=$announcement->instructor->full_name?>
    </div>
    </div>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
    </div>
 
 
@@ -398,11 +383,7 @@ $this->params['breadcrumbs'] = [
       ?>
       </div>
       <div class="col-md-6">
-<<<<<<< HEAD
-      <a href="#" class="btn btn-sm btn-danger float-right ml-2"><span><i class="fas fa-trash"></i></span></a>
-=======
       <a href="#" matid=<?=$material->material_ID?> class="btn btn-sm btn-danger float-right ml-2 materialdel"><span><i class="fas fa-trash"></i></span></a>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
       <a href="/storage/temp/<?=$material->fileName ?>" class="btn btn-sm btn-success float-right" download><span><i class="fas fa-download"></i></span></a>
      
       </div>
@@ -426,11 +407,7 @@ $this->params['breadcrumbs'] = [
 
 <!-- ########################################### assignment work ######################################## -->
 
-<<<<<<< HEAD
-<?php $ass = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->count(); ?>      
-=======
 <?php $ass = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid]); ?>      
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
 <div class="tab-pane fade" id="assignments" role="tabpanel" aria-labelledby="custom-tabs-assignment">
 
@@ -442,23 +419,6 @@ $this->params['breadcrumbs'] = [
       </div>
 
 <div class="accordion" id="accordionExample">
-<<<<<<< HEAD
-<?php $assk = "Assignment".$ass ;
-$assk = "Assignment".$ass;
-?>
-<?php foreach( $assignments as $assign ) : ?>
-
-  <div class="card headcard">
-    <div class="card-header p-2 shadow" id="heading<?=$ass?>">
-      <h2 class="mb-0">
-      <div class="row">
-      <div class="col-sm-11">
-      <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$ass?>" aria-expanded="true" aria-controls="collapse<?=$ass?>">
-        <i class="fas fa-clipboard-list"></i> <?php echo $assign->assName;?>
-        </button>
-      </div>
-      <div class="col-sm-1" data-toggle="collapse" data-target="#collapse<?=$ass?>" aria-expanded="true" aria-controls="collapse<?=$ass?>">
-=======
 <?php foreach( $assignments as $assign ) : ?>
 
   <div class="card headcard">
@@ -471,7 +431,6 @@ $assk = "Assignment".$ass;
         </button>
       </div>
       <div class="col-sm-1" data-toggle="collapse" data-target="#collapse<?=$assign->assID?>" aria-expanded="true" aria-controls="collapse<?=$assign->assID?>">
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
       <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
       </div>
       </div>
@@ -480,11 +439,7 @@ $assk = "Assignment".$ass;
       </h2>
     </div>
 
-<<<<<<< HEAD
-    <div id="collapse<?=$ass?>" class="collapse shadow" aria-labelledby="heading<?=$ass?>" data-parent="#accordionExample">
-=======
     <div id="collapse<?=$assign->assID?>" class="collapse shadow" aria-labelledby="heading<?=$assign->assID?>" data-parent="#accordionExample">
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
       <div class="card-body ">
         <div class="row">
         
@@ -498,9 +453,6 @@ $assk = "Assignment".$ass;
         $gentypes=$assign->groupGenerationAssignments;
         for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
       }
-<<<<<<< HEAD
-      else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
-=======
       else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);
         $assignedprog=$assign->courseCode->programCourses;
 
@@ -511,7 +463,6 @@ $assk = "Assignment".$ass;
 
         }
       }
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
       else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);}
       $subperc=0;
       if($assigned!=0)
@@ -523,11 +474,7 @@ $assk = "Assignment".$ass;
             <div class="info-box shadow">
               <div class="info-box-content">
                 <span class="info-box-text">Submitted</span>
-<<<<<<< HEAD
-                <span class="info-box-number"><?=floor($subperc)?>%</span>
-=======
                 <span class="info-box-number"><?=round($subperc,2)?>%</span>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
               </div>
         
             </div>
@@ -544,9 +491,6 @@ $assk = "Assignment".$ass;
               $gentypes=$assign->groupGenerationAssignments;
               for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
             }
-<<<<<<< HEAD
-            else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
-=======
             else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);
               $assignedprog=$assign->courseCode->programCourses;
       
@@ -556,7 +500,6 @@ $assk = "Assignment".$ass;
                 $assigned=$assigned+$num;
       
               }}
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
             else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
             
             $missing=$assigned-count($submits);
@@ -565,21 +508,6 @@ $assk = "Assignment".$ass;
             {
             $missperc=($missing/$assigned)*100;
             }
-<<<<<<< HEAD
-            
-            ?>
-            <div class="info-box shadow">
-              <div class="info-box-content">
-                <span class="info-box-text">Missing</span>
-                <span class="info-box-number"><?=floor($missperc)?>%</span>
-              </div>
-     
-            </div>
-    
-          </div>
-          <div class="col-md-3 col-sm-6 col-12">
-          <a href="<?=Url::to(['instructor/stdworkmark/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>">
-=======
             $secretKey=Yii::$app->params['app.dataEncryptionKey'];
             $missedcourse=Yii::$app->getSecurity()->encryptByPassword($assign->course_code, $secretKey);
             $id=Yii::$app->getSecurity()->encryptByPassword($assign->assID, $secretKey);
@@ -602,7 +530,6 @@ $assk = "Assignment".$ass;
             $id=Yii::$app->getSecurity()->encryptByPassword($assign->assID, $secretKey);
             ?>
           <a href="<?=Url::to(['instructor/stdworkmark/', 'cid'=>$markedcourse, 'id' =>$id]) ?>">
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
             <div class="info-box shadow">
               <div class="info-box-content">
                 <?php 
@@ -615,9 +542,6 @@ $assk = "Assignment".$ass;
               $gentypes=$assign->groupGenerationAssignments;
               for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
             }
-<<<<<<< HEAD
-            else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
-=======
             else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);
               $assignedprog=$assign->courseCode->programCourses;
       
@@ -627,7 +551,6 @@ $assk = "Assignment".$ass;
                 $assigned=$assigned+$num;
       
               }}
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
             else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
             
             for($o=0;$o<count($submits);$o++)
@@ -643,26 +566,19 @@ $assk = "Assignment".$ass;
             }
             ?>
                 <span class="info-box-text">Marked</span>
-<<<<<<< HEAD
-                <span class="info-box-number"><?=floor($markperc)?>%</span>
-=======
                 <span class="info-box-number"><?=round($markperc,2)?>%</span>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
               </div>
       
             </div>
             </a>
           </div>
           <div class="col-md-3 col-sm-6 col-12">
-<<<<<<< HEAD
-=======
           <?php   
             $secretKey=Yii::$app->params['app.dataEncryptionKey'];
             $failedcourse=Yii::$app->getSecurity()->encryptByPassword($assign->course_code, $secretKey);
             $id=Yii::$app->getSecurity()->encryptByPassword($assign->assID, $secretKey);
             ?>
           <a href="<?=Url::to(['instructor/failed-assignments/', 'cid'=>$failedcourse, 'id' =>$id]) ?>">
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
             <div class="info-box shadow">
               <div class="info-box-content">
               <?php 
@@ -675,9 +591,6 @@ $assk = "Assignment".$ass;
               $gentypes=$assign->groupGenerationAssignments;
               for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
             }
-<<<<<<< HEAD
-            else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);}
-=======
             else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);
               $assignedprog=$assign->courseCode->programCourses;
       
@@ -687,7 +600,6 @@ $assk = "Assignment".$ass;
                 $assigned=$assigned+$num;
       
               }}
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
             else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
             
             for($o=0;$o<count($submits);$o++)
@@ -703,26 +615,16 @@ $assk = "Assignment".$ass;
             $failedperc=0;
             if($marked!=0)
             {
-<<<<<<< HEAD
-            $failedperc=($failedsubmits/$marked)*100;
-=======
             $failedperc=$marked!=0?($failedsubmits/$marked)*100:0;
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
             }
             ?>
 
                 <span class="info-box-text">Failed</span>
-<<<<<<< HEAD
-                <span class="info-box-number"><?=floor($failedperc)?>%</span>
-              </div>
-            </div>
-=======
                 <span class="info-box-number"><?=round($failedperc,2)?>%</span>
               </div>
          
             </div>
             </a>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
           </div>
 </div>
           <!--################################################################################################################ -->
@@ -736,11 +638,7 @@ $assk = "Assignment".$ass;
       </div>
       <div class="col-md-3">
         
-<<<<<<< HEAD
-      <a href="#" class="btn btn-sm btn-danger float-right ml-2" data-toggle="modal" data-target="#modal-danger<?= $assign -> assID ?>"><span><i class="fas fa-trash"></i></span></a>
-=======
       <a href="#" class="btn btn-sm btn-danger float-right ml-2 assdel" assid=<?=$assign->assID ?>><span><i class="fas fa-trash"></i></span></a>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
       <?= Html::a('<i class="fas fa-edit"></i>',['update', 'id'=>$assign->assID], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
       <a href="/storage/temp/<?= $assign -> fileName ?>" download target="_blank" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-download"></i></span></a>
       <?= Html::a('<i class="fa fa-pen"></i>',['mark', 'id'=>$assign->assID], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
@@ -974,11 +872,7 @@ $assk = "Assignment".$ass;
       </div>
       <div class="col-md-3">
         
-<<<<<<< HEAD
-      <a href="#" class="btn btn-sm btn-danger float-right ml-2" data-toggle="modal" data-target="#modal-danger<?=$assign -> assID ?>"><span><i class="fas fa-trash"></i></span></a>
-=======
       <a href="#" class="btn btn-sm btn-danger float-right ml-2 assdel" assid=<?=$assign->assID ?>><span><i class="fas fa-trash"></i></span></a>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
       <?= Html::a('<i class="fas fa-edit"></i>',['updatelab', 'id'=>$assign->assID], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
       <a href="/storage/temp/<?=$assign-> fileName ?>" download target="_blank" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-download"></i></span></a>
       <?= Html::a('<i class="fa fa-pen"></i>',['mark', 'id'=>$assign->assID], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
@@ -1035,11 +929,7 @@ $assk = "Assignment".$ass;
      <div class="tab-pane fade" id="tutorials" role="tabpanel" aria-labelledby="custom-tabs-tutorials">
           <div class="row">
             <div class="col-md-12">
-<<<<<<< HEAD
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i> Create</a>
-=======
             <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i> Create New</a>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
             </div>
                   
         </div>
@@ -1055,11 +945,7 @@ $assk = "Assignment".$ass;
       <div class="row">
       <div class="col-sm-11">
       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$tutt?>" aria-expanded="true" aria-controls="collapse<?=$tutt?>">
-<<<<<<< HEAD
-        <i class="fas fa-clipboard-list"></i> <?php echo "Tutorial ".$tutt;?>
-=======
         <i class="fas fa-clipboard-list"></i> <?php echo $tutorial->assName;?>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         </button>
       </div>
       <div class="col-sm-1">
@@ -1073,21 +959,9 @@ $assk = "Assignment".$ass;
 
     <div id="collapse<?=$tutt?>" class="collapse" aria-labelledby="heading<?=$tutt?>" data-parent="#accordionExample_4">
       <div class="card-body">
-<<<<<<< HEAD
-     <center> <p><span style="color:red"> Tutorial Title: </span> <b> <?= $tutorial -> assName ?> </b></p></center>
-      </div>
-      <div class="card-footer p-2 bg-white border-top">
-      <div class="row">
-      <div class="col-md-6">
-      
-      </div>
-      <div class="col-md-6">
-      <a href="#" class="btn btn-sm btn-danger float-right ml-2" data-toggle="modal" data-target="#modal-danger<?= $tutorial -> assID ?>"><span><i class="fas fa-trash"></i></span></a>
-=======
       <div class="row">
       <div class="col-md-12">
       <a href="#" class="btn btn-sm btn-danger float-right ml-2" id="tutodelete" ccode="<?=$tutorial->assID?>"><span><i class="fas fa-trash"></i></span></a>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
       <?= Html::a('<i class="fas fa-edit"></i>',['updatetut', 'id'=>$tutorial->assID], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
       <a href="/storage/temp/<?= $tutorial -> fileName ?>" download target="_blank" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-download"></i></span></a>
       
@@ -1105,11 +979,7 @@ $assk = "Assignment".$ass;
 <div class="modal fade" id="modal-danger<?= $tutorial -> assID ?>">
 
 <div class="modal-dialog">
-<<<<<<< HEAD
-  <div class="modal-content bg-danger">
-=======
   <div class="modal-content">
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     <div class="modal-header">
       <h4 class="modal-title">Deleting <b> <?= $tutorial -> assName ?> </b> Tutorial</h4>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -1166,10 +1036,6 @@ $assk = "Assignment".$ass;
     <i class="fas fa-clipboard-list"></i><?= $assess->title ?>
    </div>
    <div class="col-md-2">
-<<<<<<< HEAD
-  <?= Html::a('<i class="fa fa-trash float-right"></i>', ['delete-assessment','assessid'=>$assess->assessID]) ?>
-  <?= Html::a('<i class="fas fa-eye float-right" style="margin-right:5px"></i>', ['view-assessment','assid'=>$assess->assessID]) ?>
-=======
   
  <a href="#" assessid=<?=$assess->assessID?> id="assessdelete"><i class="fa fa-trash float-right"></i></a>
  <?php
@@ -1177,7 +1043,6 @@ $assk = "Assignment".$ass;
    $assessid=Yii::$app->getSecurity()->encryptByPassword($assess->assessID, $secretKey);
  ?>
   <?= Html::a('<i class="fas fa-eye float-right" style="margin-right:5px"></i>', ['view-assessment','assid'=>$assessid]) ?>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
    </div>
    </div>
   
@@ -1333,13 +1198,8 @@ $caform = ActiveForm::begin([
    <div class="row">
      <div class="col-md-2"><span class="text-primary"><i class="fa fa-hand-o-down " style="font-size:18px"></i>Preview</span></div>
      <div class="col-md-10">
-<<<<<<< HEAD
-     <?= Html::submitButton('<i class="fa fa-download" style="font-size:18px"></i>Excel', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right','id'=>'cadownloader']) ?>
-  <?= Html::a('<button class="btn btn-primary btn-rounded btn-sm float-right" style="margin-right:5px"><i class="fa fa-download" style="font-size:18px"></i> pdf</button>', ['view-assessment']) ?>
-=======
      <?= Html::submitButton('<i class="fa fa-download" style="font-size:18px"></i>Excel', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right','style'=>'margin-left:2px','id'=>'cadownloader']) ?>
   <?=Html::Button('<i class="fa fa-download" style="font-size:18px"></i>PDF', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right','id'=>'cadownloaderpdf'])  ?>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         </div>
    </div>
    </div>
@@ -1386,23 +1246,13 @@ $caform = ActiveForm::begin([
      {
       array_push($students,$carry->regNo);
      }
-<<<<<<< HEAD
-     
-     shuffle($students);
-     if($students!=null){
-=======
 
      //participating programs
 
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
        
        
        ?>
           <div class="row">
-<<<<<<< HEAD
-          <div class="col-md-12">
-          <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal" style="margin-left:10px"><i class="fas fa-plus" ></i>Assign Students</a>
-=======
           <div class="col-md-6">
             <span class='bg-primary'>Assigned Programs:
             <?php
@@ -1419,7 +1269,6 @@ $caform = ActiveForm::begin([
      </div>
           <div class="col-md-6">
           <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#Addstudents" data-toggle="modal" style="margin-left:10px"><i class="fas fa-plus" ></i>Assign Students</a>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
           <a href="/instructor/view-groups" class="btn btn-sm btn-primary btn-rounded float-right mb-2"><i class="fas fa-group" ></i>Student Groups</a>
             
             </div>
@@ -1443,19 +1292,6 @@ $caform = ActiveForm::begin([
 				<th>
 				YOS
 				</th>
-<<<<<<< HEAD
-				<!-- <th>
-					Question
-				</th> -->
-				
-				<th>
-					Action
-				</th>
-				<!-- <th>
-					Grading
-				</th> -->
-=======
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 				
 			</tr>
 		</thead>
@@ -1467,11 +1303,7 @@ $caform = ActiveForm::begin([
                     <td><?=  $student->fname." ".$student->mname." ".$student->lname; ?></td>
                     <td><?=  $student->gender; ?></td>
                     <td><?=  $student->YOS; ?></td>
-<<<<<<< HEAD
-                    <td><i class="fa fa-edit" style="font-size:18px"></i></td>
-=======
                     
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 							
 									
 										
@@ -1487,18 +1319,8 @@ $caform = ActiveForm::begin([
 		</tbody>
 		</table>
     <?php
-<<<<<<< HEAD
-             }
-             else
-             {
-               ?>
-                <div class="container-fluid p-3 my-3 border text-info jumbotron text-center"><h5>This course has no students</h5></div>
-               <?php
-             }
-=======
              
           
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     ?>
     </div>
     </div>
@@ -1531,15 +1353,12 @@ $labmodel = new UploadLab();
 ?>
 <?= $this->render('labs/create_lab', ['labmodel'=>$labmodel, 'ccode'=>$cid]) ?>
 
-<<<<<<< HEAD
-=======
 <!-- ############################################## the student adding modal ######################################## -->
 <?php 
 $assignstudentsmodel = new StudentAssign();
 ?>
 <?= $this->render('assignstudents', ['assignstudentsmodel'=>$assignstudentsmodel, 'ccode'=>$cid]) ?>
 
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 <!--  ###################################render model to create_material ####################################################-->
 <?php 
 $assmodel = new UploadMaterial();
@@ -1570,12 +1389,6 @@ $(document).ready(function(){
   $("#CoursesTable").DataTable({
     responsive:true,
   });
-<<<<<<< HEAD
-  $("#studenttable").DataTable({
-    responsive:true,
-  });
-  
-=======
   //$("#studenttable").DataTable({
     //responsive:true,
   //});
@@ -1595,7 +1408,6 @@ $(document).ready(function(){
             'print',
         ]
     } );
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
   $(document).on('click', '.enroll', function(){
       $('.course-description').text($(this).attr('ccode')+'=>'+$(this).attr('cname'));
       $("#ccode").val($(this).attr('ccode'));
@@ -1631,9 +1443,6 @@ $(document).ready(function(){
     )
     setTimeout(function(){
       window.location.reload();
-<<<<<<< HEAD
-    }, 1500);
-=======
     }, 100);
    
 
@@ -1716,7 +1525,6 @@ Swal.fire({
     setTimeout(function(){
       window.location.reload();
     },100);
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
    
 
         }
@@ -1727,8 +1535,6 @@ Swal.fire({
 })
 
 })
-<<<<<<< HEAD
-=======
 //deleting announcements
 $(document).on('click', '#announcedelete', function(){
 var annid = $(this).attr('annid');
@@ -1855,7 +1661,6 @@ Swal.fire({
 })
 
 })
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
 //Remember active tab
 $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
@@ -1972,8 +1777,6 @@ $('.reduce').keyup(function(e){
   }});
  
 })
-<<<<<<< HEAD
-=======
 //the PDF
 
 $('#cadownloaderpdf').click(function(e){
@@ -1996,7 +1799,6 @@ $('#cadownloaderpdf').click(function(e){
 
 
 
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 
   
 });
