@@ -181,8 +181,6 @@ class UploadAssignment extends Model{
 
       return $file;
     }
-<<<<<<< HEAD
-=======
 
     public function update($assid)
     {
@@ -305,7 +303,6 @@ class UploadAssignment extends Model{
      
     
     
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     
 }
 ?>

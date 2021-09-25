@@ -119,12 +119,19 @@ public $defaultAction = 'dashboard';
                             'ca-preview',
                             'get-incomplete-perc',
                             'get-student-count',
+<<<<<<< HEAD
+=======
+                            'get-carries-perc',
+>>>>>>> a3dfb6bf7e6dd647e7bc9054007ebdfefaf15605
                             'get-carries-perc',
                             'get-pdf-ca',
                             'add-students',
                             'failed-assignments',
                             'missed-workmark',
                             'delete-material',
+                            'update-assignment',
+                            'quiz_history',
+                            'quiz_edit',
                             'update-assignment'
 
                         ],
@@ -154,6 +161,11 @@ public $defaultAction = 'dashboard';
                             'delete',
                             'deletelab',
                             'deletetut',
+<<<<<<< HEAD
+=======
+                            'deleteprog',
+                            'delete-student',
+>>>>>>> a3dfb6bf7e6dd647e7bc9054007ebdfefaf15605
                             'deletecoz',
                             'materials',
                             'stdwork',
@@ -215,7 +227,21 @@ public $defaultAction = 'dashboard';
     return $this->render('index', ['courses'=>$courses]);
     }
 
+############################## quiz things #######################################################
 
+public function actionQuiz_history()
+{
+
+    return $this->render('quiz/history');
+}
+
+public function actionQuiz_edit()
+{
+
+    return $this->render('quiz/quiz_view');
+}
+
+############################## end quiz things #######################################################
 
     //#################### function to render instructor courses ##############################
 
