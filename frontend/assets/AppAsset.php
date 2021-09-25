@@ -26,12 +26,8 @@ class AppAsset extends AssetBundle
         'plugins/datatables-buttons/css/buttons.bootstrap4.min.css',
         'plugins/fileinput/css/fileinput.min.css',
         'plugins/pace-progress/themes/orange/pace-theme-flat-top.css',
-<<<<<<< HEAD
-        'plugins/sweetalert2/sweetalert2.min.css'
-=======
         'plugins/sweetalert2/sweetalert2.min.css',
         'cs/buttons.css'
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         
     ];
     public $js = [
@@ -49,11 +45,6 @@ class AppAsset extends AssetBundle
         'js/adminlte.js',
         'plugins/datatables/jquery.dataTables.min.js',
         'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js',
-<<<<<<< HEAD
-        'plugins/datatables-responsive/js/dataTables.responsive.min.js',
-        'plugins/datatables-responsive/js/responsive.bootstrap4.min.js',
-        'plugins/datatables-buttons/js/dataTables.buttons.min.js',
-=======
         'js/tablesbutton.min.js',
         'plugins/datatables-responsive/js/dataTables.responsive.min.js',
         'plugins/datatables-responsive/js/responsive.bootstrap4.min.js',
@@ -63,7 +54,6 @@ class AppAsset extends AssetBundle
         'plugins/pdfmake/vfs_fonts.js',
         'js/buttons.html5.min.js',
         'js/print.js',
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         'plugins/dropzone/dropzone.js',
         'plugins/fileinput/js/fileinput.min.js',
         'plugins/pace-progress/pace.min.js',
