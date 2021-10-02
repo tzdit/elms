@@ -93,11 +93,7 @@ use yii\helpers\Html;
                  
                 </h3>
                 
-<<<<<<< HEAD
-                <a href="#" class="btn btn-sm btn-primary btn-rounded float-right m-0 col-xs-12" data-target="#createCourseModal" data-toggle="modal"><i class="fas fa-plus" ></i>Create Course</a>
-=======
                 <a href="#" class="btn btn-sm btn-primary btn-rounded float-right m-0 col-xs-12" data-target="#createCourseModal" data-toggle="modal"><i class="fas fa-plus" ></i>Create Program</a>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
               
               </div><!-- /.card-header -->
               <div class="card-body">
@@ -119,15 +115,7 @@ use yii\helpers\Html;
             <td><?= $course->course_status ?></td>
             <td>
             <?= Html::a('<i class="fas fa-edit"></i>',['updatecoz', 'id'=>$course->course_code], ['class'=>'btn btn-info btn-sm m-0'])?> 
-            <a href="#" class="btn btn-success btn-sm m-0"><i class="fas fa-eye"></i></a>
-<<<<<<< HEAD
-            <?= Html::a('<i class="fas fa-trash"></i>', ['delete-cozz', 'id'=>$course -> course_code], ['class'=>'btn btn-sm btn-danger float-right ml-2 btn-outline-light']) ?>
-            
-            </td>
-            </tr>
- 
-=======
-            <a href="#" class="btn btn-danger btn-sm m-0" data-toggle="modal" data-target="#modal-danger<?php $course->course_code ?>"><span><i class="fas fa-trash"></i></span></a>
+            <?= Html::a('<i class="fas fa-trash"></i>',['deletecozz', 'id'=>$course->course_code], ['class'=>'btn btn-danger btn-sm m-0'])?> 
             
             </td>
             <div class="modal fade" id="modal-danger<?php $course->course_code ?>">
@@ -185,7 +173,6 @@ use yii\helpers\Html;
 </div>
 <!-- /.modal-dialog -->
    </div>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
             <?php endforeach ?>
             </tbody>
             </table>
