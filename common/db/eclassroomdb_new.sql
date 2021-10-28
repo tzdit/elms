@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 08, 2021 at 11:08 PM
+-- Generation Time: Oct 28, 2021 at 09:32 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -20,6 +20,20 @@ SET time_zone = "+00:00";
 --
 -- Database: `eclassroomdb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `academicyear`
+--
+
+CREATE TABLE `academicyear` (
+  `yearID` int(11) NOT NULL,
+  `starts_in` smallint(4) NOT NULL,
+  `ends_in` smallint(4) NOT NULL,
+  `date_launched` datetime NOT NULL,
+  `status` varchar(10) NOT NULL COMMENT 'ex: ongoing or finished'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -58,7 +72,8 @@ CREATE TABLE `announcement` (
   `content` varchar(500) NOT NULL,
   `ann_date` date NOT NULL DEFAULT current_timestamp(),
   `ann_time` time NOT NULL DEFAULT current_timestamp(),
-  `title` varchar(150) NOT NULL
+  `title` varchar(150) NOT NULL,
+  `yearID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -79,22 +94,23 @@ CREATE TABLE `assignment` (
   `startDate` datetime DEFAULT NULL,
   `finishDate` datetime DEFAULT NULL,
   `total_marks` int(11) DEFAULT NULL,
-  `fileName` varchar(70) DEFAULT NULL
+  `fileName` varchar(70) DEFAULT NULL,
+  `yearID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `assignment`
 --
 
-INSERT INTO `assignment` (`assID`, `instructorID`, `course_code`, `assName`, `assType`, `assNature`, `ass_desc`, `submitMode`, `startDate`, `finishDate`, `total_marks`, `fileName`) VALUES
-(138, 2, 'CP 111', 'chosen student types', 'students', 'assignment', 'asdfasdfs', 'unresubmit', '2021-07-15 00:00:00', '2021-07-23 00:00:00', 21, '60e44b8618b9f.txt'),
-(139, 2, 'CP 111', 'student chosen file', 'students', 'assignment', 'fgsgsfdgsdf', 'resubmit', '2021-07-23 00:00:00', '2021-07-22 00:00:00', 12, '60e44c37e4b07'),
-(144, 2, 'CP 111', 'lass', 'allgroups', 'lab', 'vsgsdf', 'resubmit', '2021-07-16 00:00:00', '2021-07-15 00:00:00', 16, '60e54cf1ba435.txt'),
-(145, 2, 'CP 111', 'lab for groups', 'groups', 'lab', 'adfasdsd', 'unresubmit', '2021-07-15 00:00:00', '2021-07-23 00:00:00', 10, '60e54d4b13aee.txt'),
-(146, 2, 'CP 111', 'file lab', 'students', 'lab', 'asgfg', 'unresubmit', '2021-07-30 00:00:00', '2021-07-29 00:00:00', 21, '60e54ddc0379e.pdf'),
-(152, 2, 'CP 111', 'testing assignment', 'allstudents', 'assignment', 'testing', 'resubmit', '2021-07-22 00:00:00', '2021-07-22 00:00:00', 15, '60e5e79317400.txt'),
-(157, 2, 'CP 111', 'group assignment', 'allgroups', 'assignment', 'sdfsdf', 'resubmit', '2021-07-16 00:00:00', '2021-07-22 00:00:00', 15, '60f3e098a0a0a.txt'),
-(163, 2, 'CS 212', 'tutorial for you', NULL, 'tutorial', NULL, NULL, NULL, NULL, NULL, '610fd5c87eab5.png');
+INSERT INTO `assignment` (`assID`, `instructorID`, `course_code`, `assName`, `assType`, `assNature`, `ass_desc`, `submitMode`, `startDate`, `finishDate`, `total_marks`, `fileName`, `yearID`) VALUES
+(138, 2, 'CP 111', 'chosen student types', 'students', 'assignment', 'asdfasdfs', 'unresubmit', '2021-07-15 00:00:00', '2021-07-23 00:00:00', 21, '60e44b8618b9f.txt', 0),
+(139, 2, 'CP 111', 'student chosen file', 'students', 'assignment', 'fgsgsfdgsdf', 'resubmit', '2021-07-23 00:00:00', '2021-07-22 00:00:00', 12, '60e44c37e4b07', 0),
+(144, 2, 'CP 111', 'lass', 'allgroups', 'lab', 'vsgsdf', 'resubmit', '2021-07-16 00:00:00', '2021-07-15 00:00:00', 16, '60e54cf1ba435.txt', 0),
+(145, 2, 'CP 111', 'lab for groups', 'groups', 'lab', 'adfasdsd', 'unresubmit', '2021-07-15 00:00:00', '2021-07-23 00:00:00', 10, '60e54d4b13aee.txt', 0),
+(146, 2, 'CP 111', 'file lab', 'students', 'lab', 'asgfg', 'unresubmit', '2021-07-30 00:00:00', '2021-07-29 00:00:00', 21, '60e54ddc0379e.pdf', 0),
+(152, 2, 'CP 111', 'testing assignment', 'allstudents', 'assignment', 'testing', 'resubmit', '2021-07-22 00:00:00', '2021-07-22 00:00:00', 15, '60e5e79317400.txt', 0),
+(157, 2, 'CP 111', 'group assignment', 'allgroups', 'assignment', 'sdfsdf', 'resubmit', '2021-07-16 00:00:00', '2021-07-22 00:00:00', 15, '60f3e098a0a0a.txt', 0),
+(163, 2, 'CS 212', 'tutorial for you', NULL, 'tutorial', NULL, NULL, NULL, NULL, NULL, '610fd5c87eab5.png', 0);
 
 -- --------------------------------------------------------
 
@@ -173,6 +189,7 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('INSTRUCTOR', '38', 1620317380),
 ('INSTRUCTOR', '4', 1620238863),
 ('INSTRUCTOR & HOD', '51', 1625899607),
+('INSTRUCTOR & HOD', '53', 1632896999),
 ('STUDENT', '44', 1620477895),
 ('STUDENT', '45', 1620477973),
 ('STUDENT', '46', 1620478760),
@@ -180,10 +197,15 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('STUDENT', '48', 1620479378),
 ('STUDENT', '49', 1620480151),
 ('STUDENT', '50', 1620480285),
+('STUDENT', '52', 1632854018),
 ('SUPER_ADMIN', '2', 1620221794),
 ('SYS_ADMIN', '3', 1620230542);
 
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `auth_item`
+--
 
 CREATE TABLE `auth_item` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
@@ -324,17 +346,18 @@ CREATE TABLE `ext_assess` (
   `course_code` varchar(7) DEFAULT NULL,
   `title` varchar(20) NOT NULL,
   `total_marks` int(11) NOT NULL,
-  `date_created` date NOT NULL DEFAULT current_timestamp()
+  `date_created` date NOT NULL DEFAULT current_timestamp(),
+  `yearID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `ext_assess`
 --
 
-INSERT INTO `ext_assess` (`assessID`, `instructorID`, `course_code`, `title`, `total_marks`, `date_created`) VALUES
-(63, 2, 'CP 111', 'my assess', 30, '2021-07-26'),
-(64, 2, 'CP 111', 'my first test', 30, '2021-07-26'),
-(70, 2, 'CS 212', 'my assess', 69, '2021-08-08');
+INSERT INTO `ext_assess` (`assessID`, `instructorID`, `course_code`, `title`, `total_marks`, `date_created`, `yearID`) VALUES
+(63, 2, 'CP 111', 'my assess', 30, '2021-07-26', 0),
+(64, 2, 'CP 111', 'my first test', 30, '2021-07-26', 0),
+(70, 2, 'CS 212', 'my assess', 69, '2021-08-08', 0);
 
 -- --------------------------------------------------------
 
@@ -470,22 +493,23 @@ CREATE TABLE `group_generation_types` (
   `instructorID` int(11) DEFAULT NULL,
   `reg_no` varchar(30) DEFAULT NULL,
   `created_date` date DEFAULT current_timestamp(),
-  `created_time` time DEFAULT current_timestamp()
+  `created_time` time DEFAULT current_timestamp(),
+  `yearID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `group_generation_types`
 --
 
-INSERT INTO `group_generation_types` (`typeID`, `generation_type`, `max_groups_members`, `course_code`, `creator_type`, `instructorID`, `reg_no`, `created_date`, `created_time`) VALUES
-(18, 'Generation type 07:02:2021 02:22:23', 0, 'CP 111', 'instructor', 2, NULL, '2021-07-02', '15:22:23'),
-(19, 'Generation type 07:02:2021 02:22:30', 0, 'CP 111', 'instructor', 2, NULL, '2021-07-02', '15:22:30'),
-(21, 'new group assignment', 0, 'CP 111', 'instructor', 2, NULL, '2021-07-03', '16:13:59'),
-(22, 'Generation type 07:05:2021 04:53:33', 3, 'CP 111', 'instructor', 2, NULL, '2021-07-05', '17:53:33'),
-(29, 'my last student', 2, 'CP 111', 'instructor-student', 2, NULL, '2021-07-07', '12:48:04'),
-(32, 'new group assignment', 2, 'CP 111', 'instructor', 2, NULL, '2021-08-01', '10:28:03'),
-(33, 'groups for assignment 1', 3, 'CP 111', 'instructor', 2, NULL, '2021-08-01', '13:44:54'),
-(34, 'groups for assignment 2', 4, 'CP 111', 'instructor-student', 2, NULL, '2021-08-01', '13:46:11');
+INSERT INTO `group_generation_types` (`typeID`, `generation_type`, `max_groups_members`, `course_code`, `creator_type`, `instructorID`, `reg_no`, `created_date`, `created_time`, `yearID`) VALUES
+(18, 'Generation type 07:02:2021 02:22:23', 0, 'CP 111', 'instructor', 2, NULL, '2021-07-02', '15:22:23', 0),
+(19, 'Generation type 07:02:2021 02:22:30', 0, 'CP 111', 'instructor', 2, NULL, '2021-07-02', '15:22:30', 0),
+(21, 'new group assignment', 0, 'CP 111', 'instructor', 2, NULL, '2021-07-03', '16:13:59', 0),
+(22, 'Generation type 07:05:2021 04:53:33', 3, 'CP 111', 'instructor', 2, NULL, '2021-07-05', '17:53:33', 0),
+(29, 'my last student', 2, 'CP 111', 'instructor-student', 2, NULL, '2021-07-07', '12:48:04', 0),
+(32, 'new group assignment', 2, 'CP 111', 'instructor', 2, NULL, '2021-08-01', '10:28:03', 0),
+(33, 'groups for assignment 1', 3, 'CP 111', 'instructor', 2, NULL, '2021-08-01', '13:44:54', 0),
+(34, 'groups for assignment 2', 4, 'CP 111', 'instructor-student', 2, NULL, '2021-08-01', '13:46:11', 0);
 
 -- --------------------------------------------------------
 
@@ -521,7 +545,8 @@ CREATE TABLE `instructor` (
 INSERT INTO `instructor` (`instructorID`, `userID`, `departmentID`, `full_name`, `gender`, `PP`, `phone`, `email`) VALUES
 (2, 36, 1, 'Instructor Instructor', 'M', NULL, '0788676767', 'instructor@gmail.com'),
 (4, 38, 1, 'Instructor Instructor', 'M', NULL, '0788676712', 'instructor1@gmail.com'),
-(5, 51, 2, 'khalidi hassan', 'M', NULL, '07755888', 'hod@gmail.com');
+(5, 51, 2, 'khalidi hassan', 'M', NULL, '07755888', 'hod@gmail.com'),
+(6, 53, 2, 'noel kinabo', 'M', NULL, '0755189736', 'kinabo@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -573,7 +598,8 @@ CREATE TABLE `live_lecture` (
   `startTime` time NOT NULL,
   `endTime` time NOT NULL,
   `lateEntryMaxTime` int(11) DEFAULT NULL,
-  `status` varchar(10) NOT NULL
+  `status` varchar(10) NOT NULL,
+  `yearID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -588,7 +614,10 @@ CREATE TABLE `logs` (
   `object` varchar(10) NOT NULL,
   `activity` varchar(15) NOT NULL,
   `logdate` date NOT NULL,
-  `logtime` time NOT NULL
+  `logtime` time NOT NULL,
+  `username` varchar(30) DEFAULT NULL,
+  `role` varchar(20) DEFAULT NULL,
+  `yearID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -605,18 +634,20 @@ CREATE TABLE `material` (
   `material_type` varchar(15) DEFAULT NULL,
   `upload_date` date DEFAULT NULL,
   `upload_time` time DEFAULT NULL,
-  `fileName` varchar(20) DEFAULT NULL
+  `fileName` varchar(20) DEFAULT NULL,
+  `yearID` int(11) NOT NULL,
+  `moduleID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `material`
 --
 
-INSERT INTO `material` (`material_ID`, `instructorID`, `course_code`, `title`, `material_type`, `upload_date`, `upload_time`, `fileName`) VALUES
-(17, 2, 'CP 111', 'programming', 'Notes', NULL, NULL, '60e729f376b25.pdf'),
-(18, 2, 'CP 111', 'my material', 'Notes', NULL, NULL, '60f12a6e43453.pdf'),
-(19, 2, 'CP 111', 'video tutorial', 'Videos', NULL, NULL, '60f12aae3e5b7.mp4'),
-(20, 2, 'CP 111', 'video tutorial', 'Videos', NULL, NULL, '61104224d0647.mp4');
+INSERT INTO `material` (`material_ID`, `instructorID`, `course_code`, `title`, `material_type`, `upload_date`, `upload_time`, `fileName`, `yearID`, `moduleID`) VALUES
+(17, 2, 'CP 111', 'programming', 'Notes', NULL, NULL, '60e729f376b25.pdf', 0, NULL),
+(18, 2, 'CP 111', 'my material', 'Notes', NULL, NULL, '60f12a6e43453.pdf', 0, NULL),
+(19, 2, 'CP 111', 'video tutorial', 'Videos', NULL, NULL, '60f12aae3e5b7.mp4', 0, NULL),
+(20, 2, 'CP 111', 'video tutorial', 'Videos', NULL, NULL, '61104224d0647.mp4', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -645,6 +676,18 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `module`
+--
+
+CREATE TABLE `module` (
+  `moduleID` int(11) NOT NULL,
+  `moduleName` varchar(200) NOT NULL,
+  `module_description` varchar(400) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `notification`
 --
 
@@ -654,7 +697,8 @@ CREATE TABLE `notification` (
   `title` varchar(20) NOT NULL,
   `content` varchar(100) NOT NULL,
   `notif_date` date NOT NULL,
-  `notif_time` time NOT NULL
+  `notif_time` time NOT NULL,
+  `yearID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -716,7 +760,8 @@ CREATE TABLE `quiz` (
   `total_marks` int(11) NOT NULL,
   `duration` int(11) NOT NULL,
   `quiz_file` varchar(15) NOT NULL,
-  `status` varchar(10) NOT NULL
+  `status` varchar(10) NOT NULL,
+  `yearID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -1053,7 +1098,8 @@ INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lna
 ('T/UDOM/2020/00003', 47, 'TE3', 'Hmiasa', 'rashidi', 'Shabani', 'student@gmail3.com', 'F', NULL, 1, '2021-05-08', NULL, 'REGISTERED'),
 ('T/UDOM/2020/00004', 48, 'TE3', 'Mwambashi', 'mwambashi', 'Shabani', 'student@gmail4.com', 'F', NULL, 2, '2021-05-08', NULL, 'REGISTERED'),
 ('T/UDOM/2020/00005', 49, 'TE3', 'sutdent20', 'mwambashi', 'Shabani', 'student@gmail5.com', 'F', NULL, 1, '2021-05-08', NULL, 'REGISTERED'),
-('T/UDOM/2020/00006', 50, 'TE3', 'Zuwena', 'Rashidi', 'Mwendachik', 'student@gmail56.com', 'F', NULL, 2, '2021-05-08', NULL, 'REGISTERED');
+('T/UDOM/2020/00006', 50, 'TE3', 'Zuwena', 'Rashidi', 'Mwendachik', 'student@gmail56.com', 'F', NULL, 2, '2021-05-08', NULL, 'REGISTERED'),
+('T/UDOM/2020/00798', 52, 'SE1', 'thewinner', 'm.', 'hassan', 'thewinner@gmail.com', 'M', NULL, 2, '2021-09-28', NULL, 'REGISTERED');
 
 -- --------------------------------------------------------
 
@@ -1091,6 +1137,14 @@ CREATE TABLE `student_course` (
   `reg_no` varchar(20) DEFAULT NULL,
   `course_code` varchar(7) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `student_course`
+--
+
+INSERT INTO `student_course` (`SC_ID`, `reg_no`, `course_code`) VALUES
+(8, 'T/UDOM/2020/00798', 'CP 111'),
+(7, 'T/UDOM/2020/00798', 'CP 123');
 
 -- --------------------------------------------------------
 
@@ -1245,7 +1299,8 @@ CREATE TABLE `thread` (
   `threadID` int(11) NOT NULL,
   `reg_no` varchar(20) DEFAULT NULL,
   `instructorID` int(11) DEFAULT NULL,
-  `starter_type` varchar(10) NOT NULL
+  `starter_type` varchar(10) NOT NULL,
+  `yearID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -1282,11 +1337,19 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 (48, 'T/UDOM/2020/00004', '67FEyg1E-IEGlBJkCJNF__ZL9CQ3mj-Y', '$2y$13$Jp8mQaBe/2.I7BnpPFZrueB1GRrV7CrHp9fcnX7vJFpxFGCHMYRFS', NULL, 10, 1620479378, 1620479378, 'mkBFhUVlS04YoX6T82YgZPKaEPkrN92-_1620479378'),
 (49, 'T/UDOM/2020/00005', 'zR9kdjBWTKsmdZ3pAs4kG9rJZYyVIMmV', '$2y$13$Z4t8uHoXDQ87c8vmoOvYOu.f9TWZPddpFUM/gBazdBXsJS8Y3h/w2', NULL, 10, 1620480151, 1620480151, 'KE2YNyNG8Womx90OLdDyGCVkjBLDsHmT_1620480151'),
 (50, 'T/UDOM/2020/00006', 'U9qu2XUtMVOITbWgYOZhBH4L3OAPsd6y', '$2y$13$AH0OppbJcFbSy/23rXffROh.pNVw8CVxYKjUuyIAoNbai9ZGTMmOG', NULL, 10, 1620480285, 1620480285, 'phAwORTa2r6VWTw6k-Rd0FLyDYGXC_Xd_1620480285'),
-(51, 'hod@gmail.com', 'B8WVLnnt-gMF9mF36_gi6eF1fqWwNHfM', '$2y$13$52aE79R/10CNeJOQpqn9cOMJ2KCrvh6xrQ3zDEzLUtFwFq5zlwMgO', NULL, 10, 1625899607, 1625899607, 'hOHSG7SNSEd2AiVDwzUesbCIRgc0N1a4_1625899607');
+(51, 'hod@gmail.com', 'B8WVLnnt-gMF9mF36_gi6eF1fqWwNHfM', '$2y$13$52aE79R/10CNeJOQpqn9cOMJ2KCrvh6xrQ3zDEzLUtFwFq5zlwMgO', NULL, 10, 1625899607, 1625899607, 'hOHSG7SNSEd2AiVDwzUesbCIRgc0N1a4_1625899607'),
+(52, 'T/UDOM/2020/00798', 'TOA9IqdPxS4HKMUm9Jf-ySff8KcMV0_R', '$2y$13$ofUh7XUdadwfvyGwOjxn/.9Xb8pFBXf1TSV7.mJoyNEoxSbmpt1WO', NULL, 10, 1632854018, 1632854018, 'cG6Y_Ag9fQxi80s_p39OtaoNVBDtzEiS_1632854018'),
+(53, 'kinabo@gmail.com', 'zQ0OZdtz1cgrQnVCXh--ZewCK4P2WXl8', '$2y$13$8ZybMDtlDfoLmH4hcFjz5OpRLvgaRCG6hllVGjI.xSk1hpercJvMS', NULL, 10, 1632896999, 1632896999, 'eDa4lc1zE_y24mUUWPqCxK30a-Xkxzho_1632896998');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `academicyear`
+--
+ALTER TABLE `academicyear`
+  ADD PRIMARY KEY (`yearID`);
 
 --
 -- Indexes for table `admin`
@@ -1471,7 +1534,8 @@ ALTER TABLE `live_lecture`
 --
 ALTER TABLE `logs`
   ADD PRIMARY KEY (`logID`),
-  ADD KEY `userlogkey` (`userID`);
+  ADD KEY `userlogkey` (`userID`),
+  ADD KEY `yearID` (`yearID`);
 
 --
 -- Indexes for table `material`
@@ -1479,7 +1543,8 @@ ALTER TABLE `logs`
 ALTER TABLE `material`
   ADD PRIMARY KEY (`material_ID`),
   ADD KEY `instructorkey5` (`instructorID`),
-  ADD KEY `coursekey4` (`course_code`);
+  ADD KEY `coursekey4` (`course_code`),
+  ADD KEY `moduleID` (`moduleID`);
 
 --
 -- Indexes for table `migration`
@@ -1488,11 +1553,18 @@ ALTER TABLE `migration`
   ADD PRIMARY KEY (`version`);
 
 --
+-- Indexes for table `module`
+--
+ALTER TABLE `module`
+  ADD PRIMARY KEY (`moduleID`);
+
+--
 -- Indexes for table `notification`
 --
 ALTER TABLE `notification`
   ADD PRIMARY KEY (`notif_ID`),
-  ADD KEY `coursekey6` (`course_code`);
+  ADD KEY `coursekey6` (`course_code`),
+  ADD KEY `yearID` (`yearID`);
 
 --
 -- Indexes for table `program`
@@ -1630,6 +1702,12 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `academicyear`
+--
+ALTER TABLE `academicyear`
+  MODIFY `yearID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
@@ -1717,13 +1795,17 @@ ALTER TABLE `group_generation_types`
 -- AUTO_INCREMENT for table `instructor`
 --
 ALTER TABLE `instructor`
-  MODIFY `instructorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `instructorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `instructor_course`
 --
 ALTER TABLE `instructor_course`
+  MODIFY `IC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+
+--
 -- AUTO_INCREMENT for table `instructor_notification`
+--
 ALTER TABLE `instructor_notification`
   MODIFY `IN_ID` int(11) NOT NULL AUTO_INCREMENT;
 
@@ -1744,6 +1826,12 @@ ALTER TABLE `logs`
 --
 ALTER TABLE `material`
   MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `module`
+--
+ALTER TABLE `module`
+  MODIFY `moduleID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `notification`
@@ -1785,7 +1873,7 @@ ALTER TABLE `student_assignment`
 -- AUTO_INCREMENT for table `student_course`
 --
 ALTER TABLE `student_course`
-  MODIFY `SC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `SC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `student_ext_assess`
@@ -1833,7 +1921,7 @@ ALTER TABLE `thread`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- Constraints for dumped tables
@@ -1979,6 +2067,7 @@ ALTER TABLE `live_lecture`
 -- Constraints for table `logs`
 --
 ALTER TABLE `logs`
+  ADD CONSTRAINT `logs_ibfk_1` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`),
   ADD CONSTRAINT `userlogkey` FOREIGN KEY (`userID`) REFERENCES `user` (`id`) ON UPDATE CASCADE;
 
 --
@@ -1986,13 +2075,24 @@ ALTER TABLE `logs`
 --
 ALTER TABLE `material`
   ADD CONSTRAINT `coursekey4` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `instructorkey5` FOREIGN KEY (`instructorID`) REFERENCES `instructor` (`instructorID`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `instructorkey5` FOREIGN KEY (`instructorID`) REFERENCES `instructor` (`instructorID`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `material_ibfk_1` FOREIGN KEY (`moduleID`) REFERENCES `module` (`moduleID`),
+  ADD CONSTRAINT `material_ibfk_2` FOREIGN KEY (`moduleID`) REFERENCES `module` (`moduleID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `notification`
 --
 ALTER TABLE `notification`
-  ADD CONSTRAINT `coursekey6` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `coursekey6` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`),
+  ADD CONSTRAINT `notification_ibfk_2` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`),
+  ADD CONSTRAINT `notification_ibfk_3` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`),
+  ADD CONSTRAINT `notification_ibfk_4` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`),
+  ADD CONSTRAINT `notification_ibfk_5` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`),
+  ADD CONSTRAINT `notification_ibfk_6` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`),
+  ADD CONSTRAINT `notification_ibfk_7` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`),
+  ADD CONSTRAINT `notification_ibfk_8` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`),
+  ADD CONSTRAINT `notification_ibfk_9` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`);
 
 --
 -- Constraints for table `program`
