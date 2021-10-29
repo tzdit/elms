@@ -80,19 +80,6 @@ use yii\helpers\Url;
              
             </ul>
           </li>
-           <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="fas fa-book nav-icon"></i>
-                  <p>Courses</p>
-                </a>
-              </li>
-               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="fas fa-book nav-icon"></i>
-                  <p>Programs</p>
-                </a>
-              </li>
-
             <?php endif ?> <!-- END OF SYS_ADMIN ROLE-->
             <!-- ======================================================= -->
 
