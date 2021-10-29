@@ -21,6 +21,11 @@ use common\models\Program;
 use yii\helpers\ArrayHelper;
 use common\models\AuthItem;
 use yii\helpers\URL;
+use common\models\Logs;
+use yii\data\ActiveDataProvider;
+//use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+//use yii\filters\VerbFilter;
 
 /**
  * Site controller
@@ -74,7 +79,13 @@ public $defaultAction = 'dashboard';
      */
     public function actionDashboard()
     {
-        return $this->render('index');
+        $dataProvider = new ActiveDataProvider([
+            'query' => Logs::find(),
+        ]);
+
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
     }
     //Create instructor
     public function actionCreateInstructor(){
