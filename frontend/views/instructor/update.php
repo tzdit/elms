@@ -3,10 +3,13 @@ use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 ?>
 
+<<<<<<< HEAD
+=======
 
 
 
 
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header bg-primary">

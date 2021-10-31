@@ -9,8 +9,13 @@ use common\models\StudentCourse;
 use frontend\models\StudentGroups;
 
 /* @var $this yii\web\View */
+<<<<<<< HEAD
+$this->params['courseTitle'] = "Course ".$cid;
+$this->title = 'student groups';
+=======
 $this->params['courseTitle'] =$cid." Groups";
 $this->title = 'Student groups';
+>>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 $this->params['breadcrumbs'] = [
   ['label'=>'classwork', 'url'=>Url::to(['/instructor/classwork', 'cid'=>$cid])],
   ['label'=>$this->title]

@@ -19,7 +19,6 @@ class UploadTutorial extends Model{
     public function upload(){
         if(!$this->validate()){
             return false;
-
         }
         try{
         

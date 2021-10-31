@@ -119,12 +119,16 @@ public $defaultAction = 'dashboard';
                             'ca-preview',
                             'get-incomplete-perc',
                             'get-student-count',
+
                             'get-carries-perc',
                             'get-pdf-ca',
                             'add-students',
                             'failed-assignments',
                             'missed-workmark',
                             'delete-material',
+                            'update-assignment',
+                            'quiz_history',
+                            'quiz_edit',
                             'update-assignment'
 
                         ],
@@ -154,7 +158,12 @@ public $defaultAction = 'dashboard';
                             'delete',
                             'deletelab',
                             'deletetut',
+
+                            'deleteprog',
+                            'delete-student',
+
                             'deletecoz',
+
                             'materials',
                             'stdwork',
                             'stdworkmark',
@@ -188,6 +197,7 @@ public $defaultAction = 'dashboard';
                             'failed-assignments',
                             'missed-workmark',
                             'delete-material',
+                            'deleteprogg',
                             'update-assignment'
                            
                         ],
@@ -215,7 +225,21 @@ public $defaultAction = 'dashboard';
     return $this->render('index', ['courses'=>$courses]);
     }
 
+############################## quiz things #######################################################
 
+public function actionQuiz_history()
+{
+
+    return $this->render('quiz/history');
+}
+
+public function actionQuiz_edit()
+{
+
+    return $this->render('quiz/quiz_view');
+}
+
+############################## end quiz things #######################################################
 
     //#################### function to render instructor courses ##############################
 
@@ -441,11 +465,20 @@ public function actionEditExtAssrecord($recordid)
         return $this->redirect(Yii::$app->request->referrer);
     }
 
-    public function actionDeletecoz($id)
+    public function actionDeletecozz($id)
     {
-        $cozdel = Assignment::findOne($id)->delete(); 
-        if($cozdel){
-           Yii::$app->session->setFlash('success', 'Lab deleted successfully');
+        $cozz = Course::findOne($id)->delete(); 
+        if($cozz){
+           Yii::$app->session->setFlash('success', 'Course deleted successfully');
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionDeleteprogg($id)
+    {
+        $progg = Program::findOne($id)->delete(); 
+        if($progg){
+           Yii::$app->session->setFlash('success', 'Program deleted successfully');
         }
         return $this->redirect(Yii::$app->request->referrer);
     }
@@ -683,6 +716,7 @@ public function actionDeleteMaterial($matid)
         return $this->redirect(Yii::$app->request->referrer);
     }
 }
+
 public function actionFailedAssignments($cid, $id){
 
     $secretKey=Yii::$app->params['app.dataEncryptionKey'];
@@ -1038,12 +1072,10 @@ public function actionMarkInputing()
   if($model!=null)
   {
     $submit=$model->findOne($fid);
-
     $submit->score=$score;
     $submit->comment=$comment;
   }
   $submit->save();
-
   //preparing the submit
  
 

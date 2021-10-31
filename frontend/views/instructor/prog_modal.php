@@ -106,7 +106,7 @@ use yii\helpers\Html;
             <td>
              <?= Html::a('<i class="fas fa-edit"></i>',['updateprog', 'id'=>$program->programCode], ['class'=>'btn btn-info btn-sm m-0'])?>   
             <a href="#" class="btn btn-success btn-sm m-0"><i class="fas fa-eye"></i></a>
-            <a href="#" class="btn btn-danger btn-sm m-0"><i class="fas fa-trash" ></i></a>
+            <?= Html::a('<i class="fas fa-trash"></i>',['deleteprogg', 'id'=>$program->programCode], ['class'=>'btn btn-danger btn-sm m-0'])?> 
             </td>
             </tr>
             <?php endforeach ?>
