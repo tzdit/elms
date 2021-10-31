@@ -171,25 +171,14 @@ public function actionAnnouncement($announcement)
         
             return $this->redirect(Yii::$app->request->referrer);
         }
-       elseif (!$model->validate()) {
-        Yii::$app->session->setFlash('error', 'Course already exist');
-        $id = Yii::$app->user->identity->username;
-
-    
-        return $this->redirect(Yii::$app->request->referrer);
-       }
-
 
             return $this->renderAjax('carry_courses/add_carry', [
                 'model' => $model,
             ],false,true);
-
-
-
-        
     }
     catch(\Exception $e){
-        Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+        Yii::$app->session->setFlash('error', 'You have already add this course');
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     }
