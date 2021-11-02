@@ -79,7 +79,7 @@ $this->params['breadcrumbs'] = [
     <i class="fa fa-bullhorn"></i><span style="font-size:12px;margin-left:20px"><?=Html::encode($announcement->title);?></span>
    </div>
    <div class="col-md-2 text-white" >
-  <a href="#" id="announcedelete" annid=<?=$announcement->annID?>><i class="fa fa-trash float-right" style="color:white"></i></a>
+  <a href="#" id="announcedelete" annid=<?=Html::encode($announcement->annID)?>><i class="fa fa-trash float-right" style="color:white"></i></a>
    </div>
    </div>
     </div>
@@ -94,7 +94,7 @@ $this->params['breadcrumbs'] = [
    <div class="card-footer text-center" style="font-size:12px">
    <div class="row">
      <div class="col-md-4">
-  <span class="float-left"><i class="fas fa-clock" ></i><?=$announcement->ann_date." ".$announcement->ann_time?></span>
+  <span class="float-left"><i class="fas fa-clock" ></i><?=Html::encode($announcement->ann_date)." ".Html::encode($announcement->ann_time)?></span>
    </div>
    <div class="col-md-8">
    <?=Html::encode($announcement->instructor->full_name)?>

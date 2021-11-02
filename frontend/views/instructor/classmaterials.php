@@ -9,6 +9,7 @@ use common\helpers\Security;
 use common\models\Assignment;
 use common\models\StudentCourse;
 use common\models\Submit;
+use common\models\Module;
 use common\models\Material;
 use common\models\ExtAssess;
 use common\models\ProgramCourse;
@@ -54,27 +55,48 @@ $this->params['breadcrumbs'] = [
       
 <!-- ########################################### material work ######################################## --> 
 
-<?php $mat = Material::find()->where(['course_code' => $cid])->count(); ?>
+<?php $mat = Module::find()->where(['course_code' => $cid])->count(); ?>
 
 <!-- ########################################### material work ######################################## -->      
 
       <div class="row">
         <div class="col-md-12">
               <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createMaterialModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create</a>
+              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createModule" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i>New Module</a>
         </div>
                   
       </div>
 
 <div class="accordion" id="accordionExample_6">
 
-<?php foreach( $materials as $material ) : ?>
+<?php 
+foreach( $modules as $module ) : 
+
+$materials=$module->materials;
+
+?>
 
   <div class="card" >
     <div class="card-header p-2" id="heading<?=$mat?>">
       <h2 class="mb-0">
       <div class="row">
       <div class="col-sm-11">
-      <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$mat?>" aria-expanded="true" aria-controls="collapse<?=$mat?>">
+      <?=$module->moduleName?>
+      </div>
+      <div class="col-sm-1">
+      <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
+      </div>
+      </div>
+         
+       
+      </h2>
+    </div>
+
+    <div id="collapse<?=$mat?>" class="collapse" aria-labelledby="heading<?=$mat?>" data-parent="#accordionExample_6">
+      <div class="card-body">
+
+      <?php foreach( $materials as $material ) : ?>
+        <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$mat?>" aria-expanded="true" aria-controls="collapse<?=$mat?>">
       <?php if(in_array(pathinfo($material->fileName,PATHINFO_EXTENSION),['MP4','mp4']))
           {
       ?>
@@ -95,18 +117,6 @@ $this->params['breadcrumbs'] = [
           }
       ?>
         </button>
-      </div>
-      <div class="col-sm-1">
-      <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
-      </div>
-      </div>
-         
-       
-      </h2>
-    </div>
-
-    <div id="collapse<?=$mat?>" class="collapse" aria-labelledby="heading<?=$mat?>" data-parent="#accordionExample_6">
-      <div class="card-body">
          <p><span style="color:red"> Material Title: </span> <b> <?= $material -> title ?> </b></p>
       </div>
       <div class="card-footer p-2 bg-white border-top">
@@ -143,7 +153,7 @@ $this->params['breadcrumbs'] = [
   
   <?php endforeach ?>
 
-
+  <?php endforeach ?>
 </div>
 
 </div>
@@ -151,6 +161,7 @@ $this->params['breadcrumbs'] = [
     </div>
 
 </div>
+    </div>
     </div>
     </div>
  
@@ -159,6 +170,12 @@ $this->params['breadcrumbs'] = [
 $assmodel = new UploadMaterial();
 ?>
 <?= $this->render('materials/create_material', ['assmodel'=>$assmodel, 'ccode'=>$cid]) ?>
+
+<?php
+//the module creating
+$modulemodel = new Module();
+?>
+<?= $this->render('module/_form', ['modulemodel'=>$modulemodel, 'ccode'=>$cid]) ?>
 
 <?php 
 $script = <<<JS

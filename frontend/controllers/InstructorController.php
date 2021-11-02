@@ -9,6 +9,7 @@ use common\models\Assignment;
 use common\models\Material;
 use common\models\Submit;
 use common\models\Instructor;
+use common\models\Module;
 use common\models\Student;
 use common\models\Department;
 use common\models\Program;
@@ -134,7 +135,8 @@ public $defaultAction = 'dashboard';
                             'class-tutorials',
                             'class-ext-assessments',
                             'class-ca-generator',
-                            'class-students'
+                            'class-students',
+                            'create-module'
 
                         ],
                         'allow' => true,
@@ -206,7 +208,8 @@ public $defaultAction = 'dashboard';
                             'class-tutorials',
                             'class-ext-assessments',
                             'class-ca-generator',
-                            'class-students'
+                            'class-students',
+                            'create-module'
                            
                         ],
                         'allow' => true,
@@ -558,11 +561,22 @@ public function actionClassAnnouncements($cid)
 
 public function actionClassMaterials($cid)
 {
-    $materials = Material::find()->where(['course_code' => $cid])->orderBy([
-        'material_ID' => SORT_DESC ])->all();
-    return $this->render('classmaterials', ['cid'=>$cid,'materials'=>$materials]);
+    $materials = Module::find()->where(['course_code' => $cid])->orderBy([
+        'moduleID' => SORT_DESC ])->all();
+    return $this->render('classmaterials', ['cid'=>$cid,'modules'=>$materials]);
 
 }
+//create module
+
+public function actionCreateModule()
+    {
+        $model = new Module();
+        $model->course_code=yii::$app->session->get('ccode');
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'module created successfully');
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+    }
 //assignments page
 public function actionClassAssignments($cid)
 {
