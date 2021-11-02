@@ -1,0 +1,84 @@
+#forget_password{
+  margin-top: 0px;
+  padding-bottom: 5px;
+}
+
+#forget_password a {
+  font-style: italic;
+  color: red;
+  padding-left: 0%;
+  padding-bottom: 5px;
+}
+
+#forget_password a:hover {
+  color: rgb(108, 110, 221);
+}
+
+#username i {
+  font-style: italic;
+}
+
+#group_name{
+color: #007bff;
+  font-style: italic;
+}
+
+.upload-icon {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: beige;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 70px;
+  color: #454545;
+}
+
+.btn-file{
+  border-radius: 5px;
+  position: relative;
+}
+
+.btn-file input {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.document-icon:hover {
+  transform: scale(1.2); /* (150% zoom)*/
+}
+
+.carry-delete{
+  color: rgb(255, 0, 0);
+}
+
+
+.announcement-model{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 20px;
+  font-weight: 200;
+}
+
+.result-card:hover{
+  background: #007bff3b;
+}
+
+.fa-clipboard-list{
+  color: #007bff !important;
+}
+
+.assignment-header {
+  color: black;
+  font-weight: 350;
+}
+
+.assignment-auto{
+  font-weight: 400;
+}
