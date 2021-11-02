@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 28, 2021 at 09:32 PM
+-- Generation Time: Nov 02, 2021 at 06:42 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -76,6 +76,16 @@ CREATE TABLE `announcement` (
   `yearID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `announcement`
+--
+
+INSERT INTO `announcement` (`annID`, `instructorID`, `course_code`, `content`, `ann_date`, `ann_time`, `title`, `yearID`) VALUES
+(15, 2, 'CP 111', 'we are there', '2021-11-01', '21:45:12', 'my assignment', 0),
+(16, 2, 'CP 111', 'hello', '2021-11-01', '21:46:52', 'let us announce', 0),
+(18, 2, 'CS 212', 'hey', '2021-11-01', '21:57:03', 'hey', 0),
+(19, 2, 'CP 111', 'khalalslsl', '2021-11-02', '12:28:17', 'my announce', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -110,7 +120,9 @@ INSERT INTO `assignment` (`assID`, `instructorID`, `course_code`, `assName`, `as
 (146, 2, 'CP 111', 'file lab', 'students', 'lab', 'asgfg', 'unresubmit', '2021-07-30 00:00:00', '2021-07-29 00:00:00', 21, '60e54ddc0379e.pdf', 0),
 (152, 2, 'CP 111', 'testing assignment', 'allstudents', 'assignment', 'testing', 'resubmit', '2021-07-22 00:00:00', '2021-07-22 00:00:00', 15, '60e5e79317400.txt', 0),
 (157, 2, 'CP 111', 'group assignment', 'allgroups', 'assignment', 'sdfsdf', 'resubmit', '2021-07-16 00:00:00', '2021-07-22 00:00:00', 15, '60f3e098a0a0a.txt', 0),
-(163, 2, 'CS 212', 'tutorial for you', NULL, 'tutorial', NULL, NULL, NULL, NULL, NULL, '610fd5c87eab5.png', 0);
+(163, 2, 'CS 212', 'tutorial for you', NULL, 'tutorial', NULL, NULL, NULL, NULL, NULL, '610fd5c87eab5.png', 0),
+(164, 2, 'CP 111', 'sdfgsdf', 'allstudents', 'assignment', 'sdfgsdf', 'resubmit', '2021-11-12 00:00:00', '2021-11-12 00:00:00', 6, '6180dcd2535d0.txt', 0),
+(165, 2, 'CP 111', 'my tutorial', NULL, 'tutorial', NULL, NULL, NULL, NULL, NULL, '6180dcf2646d1.xlsx', 0);
 
 -- --------------------------------------------------------
 
@@ -163,7 +175,9 @@ INSERT INTO `assq` (`assq_ID`, `assID`, `qno`, `total_marks`) VALUES
 (299, 152, 3, 5),
 (312, 157, 1, 5),
 (313, 157, 2, 5),
-(314, 157, 3, 5);
+(314, 157, 3, 5),
+(320, 164, 1, 3),
+(321, 164, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -357,7 +371,8 @@ CREATE TABLE `ext_assess` (
 INSERT INTO `ext_assess` (`assessID`, `instructorID`, `course_code`, `title`, `total_marks`, `date_created`, `yearID`) VALUES
 (63, 2, 'CP 111', 'my assess', 30, '2021-07-26', 0),
 (64, 2, 'CP 111', 'my first test', 30, '2021-07-26', 0),
-(70, 2, 'CS 212', 'my assess', 69, '2021-08-08', 0);
+(70, 2, 'CS 212', 'my assess', 69, '2021-08-08', 0),
+(71, 2, 'CS 212', 'my testing', 40, '2021-11-02', 0);
 
 -- --------------------------------------------------------
 
@@ -682,8 +697,17 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 CREATE TABLE `module` (
   `moduleID` int(11) NOT NULL,
   `moduleName` varchar(200) NOT NULL,
-  `module_description` varchar(400) DEFAULT NULL
+  `module_description` varchar(400) DEFAULT NULL,
+  `course_code` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `module`
+--
+
+INSERT INTO `module` (`moduleID`, `moduleName`, `module_description`, `course_code`) VALUES
+(4, 'chapter 3', 'embedded apps programming', 'CP 111'),
+(5, 'chapter 6', 'world business', 'CP 111');
 
 -- --------------------------------------------------------
 
@@ -1556,7 +1580,8 @@ ALTER TABLE `migration`
 -- Indexes for table `module`
 --
 ALTER TABLE `module`
-  ADD PRIMARY KEY (`moduleID`);
+  ADD PRIMARY KEY (`moduleID`),
+  ADD KEY `course_code` (`course_code`);
 
 --
 -- Indexes for table `notification`
@@ -1717,19 +1742,19 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `announcement`
 --
 ALTER TABLE `announcement`
-  MODIFY `annID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `annID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `assignment`
 --
 ALTER TABLE `assignment`
-  MODIFY `assID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
+  MODIFY `assID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
 
 --
 -- AUTO_INCREMENT for table `assq`
 --
 ALTER TABLE `assq`
-  MODIFY `assq_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=320;
+  MODIFY `assq_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=322;
 
 --
 -- AUTO_INCREMENT for table `chat`
@@ -1753,7 +1778,7 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `ext_assess`
 --
 ALTER TABLE `ext_assess`
-  MODIFY `assessID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `assessID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `fresh_thread`
@@ -1831,7 +1856,7 @@ ALTER TABLE `material`
 -- AUTO_INCREMENT for table `module`
 --
 ALTER TABLE `module`
-  MODIFY `moduleID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `moduleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `notification`
@@ -2078,6 +2103,12 @@ ALTER TABLE `material`
   ADD CONSTRAINT `instructorkey5` FOREIGN KEY (`instructorID`) REFERENCES `instructor` (`instructorID`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `material_ibfk_1` FOREIGN KEY (`moduleID`) REFERENCES `module` (`moduleID`),
   ADD CONSTRAINT `material_ibfk_2` FOREIGN KEY (`moduleID`) REFERENCES `module` (`moduleID`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `module`
+--
+ALTER TABLE `module`
+  ADD CONSTRAINT `module_ibfk_1` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `notification`

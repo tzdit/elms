@@ -18,6 +18,7 @@ use common\models\College;
 use common\models\Department;
 use common\models\Hod;
 use common\models\Program;
+use common\models\Course;
 use yii\helpers\ArrayHelper;
 use common\models\AuthItem;
 use yii\helpers\URL;
@@ -83,8 +84,22 @@ public $defaultAction = 'dashboard';
             'query' => Logs::find(),
         ]);
 
+         //passing the numbers of users to the admin dashboard
+         $instructors = Instructor::find()->all();
+         $instructorsnumber=count($instructors);
+ 
+         $students = Student::find()->all();
+         $studentsnumber=count($students);
+ 
+         $programs = Program::find()->all();
+         $programsnumber=count($programs);
+ 
+         $courses = Course::find()->all();
+         $coursesnumber=count($courses);
+
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $dataProvider,'instructorsnumber'=> $instructorsnumber,'studentsnumber'=>$studentsnumber,
+            'programsnumber'=> $programsnumber,'coursesnumber'=> $coursesnumber,
         ]);
     }
     //Create instructor
@@ -98,7 +113,7 @@ public $defaultAction = 'dashboard';
             Yii::$app->session->setFlash('success', 'Instructor registered successfully');
             return $this->redirect(Yii::$app->request->referrer);
             }else{
-            Yii::$app->session->setFlash('error', 'Somethibg went Wrong!');
+            Yii::$app->session->setFlash('error', 'Something went Wrong!');
         }
          } 
         
@@ -119,7 +134,7 @@ public $defaultAction = 'dashboard';
                 if($model->create()){
                 Yii::$app->session->setFlash('success', 'Hod registered successfully');
                 }else{
-                    Yii::$app->session->setFlash('error', 'Somethibg went Wrong!');
+                    Yii::$app->session->setFlash('error', 'Something went Wrong!');
                 }
            
                     
@@ -155,7 +170,7 @@ public $defaultAction = 'dashboard';
         if($model->create()){
         Yii::$app->session->setFlash('success', 'Student registered successfully');
         }else{
-            Yii::$app->session->setFlash('error', 'Somethibg went Wrong!');
+            Yii::$app->session->setFlash('error', 'Something went Wrong!');
         }
    
             

@@ -21,10 +21,9 @@ $this->title = 'Admin Dashboard';
               <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Instructors</span>
+              <span class="info-box-text">Instructors</span>
                 <span class="info-box-number">
-                  2300
-                
+               <?= $instructorsnumber?>
                 </span>
               </div>
               <!-- /.info-box-content -->
@@ -37,8 +36,8 @@ $this->title = 'Admin Dashboard';
               <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-user-graduate"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Students</span>
-                <span class="info-box-number">90</span>
+              <span class="info-box-text">Students</span>
+                <span class="info-box-number"><?= $studentsnumber?></span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -54,8 +53,8 @@ $this->title = 'Admin Dashboard';
               <span class="info-box-icon bg-success elevation-1"><i class="fas fa-book"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Porgeams</span>
-                <span class="info-box-number">2210</span>
+              <span class="info-box-text">Programs</span>
+                <span class="info-box-number"><?= $programsnumber?></span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -67,8 +66,8 @@ $this->title = 'Admin Dashboard';
               <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-book"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Courses</span>
-                <span class="info-box-number">22</span>
+              <span class="info-box-text">Courses</span>
+                <span class="info-box-number"><?= $coursesnumber?></span>
               </div>
               <!-- /.info-box-content -->
             </div>
