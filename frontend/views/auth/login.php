@@ -8,7 +8,7 @@
     </div>
     <div class="card card-default shadow-lg bg-white rounded" style="font-family:'Lucida Bright'">
     <div class="card-header text-center bg-primary">
-      <span><b>CIVE-eCLASSROOM</b></span>
+      <span><b>UDOM-CLASSROOM</b></span>
     </div>
     <div class="card-body">
     <?php $form = ActiveForm::begin() ?>
@@ -22,12 +22,14 @@
             
                <?= $form->field($model, 'password')->passwordInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Password'])->label(false) ?>
            </div>
-
+    <!--
            <div class='col-md-12' id='forget_password'>
-           <a href="<?= Url::to(['/auth/requestpasswordreset'])  ?>">
+         
+           <a href="<?="" //Url::to(['/auth/requestpasswordreset'])  ?>">
            <span class="small"> Forgot password</span>
           </a>
            </div>
+  -->
             
            <div class="col-md-4 mr-auto ml-auto">
              <?= Html::submitButton('Login', ['class'=>'btn btn-primary btn-block'])?>

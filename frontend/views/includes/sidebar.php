@@ -2,7 +2,7 @@
 use yii\helpers\Url;
 ?>
 <nav class="mt-2" >
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true" style="color:black">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true" >
            <li class="nav-item">
             <a href="<?= Url::to(['/home/dashboard']) ?>" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
@@ -65,6 +65,12 @@ use yii\helpers\Url;
               </p>
             </a>
             <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="<?= Url::toRoute('/admin/hod-list') ?>" class="nav-link">
+                  <i class="fas fa-chalkboard-teacher nav-icon"></i>
+                  <p>Hods</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="<?= Url::toRoute('/admin/instructor-list') ?>" class="nav-link">
                  <i class="fas fa-chalkboard-teacher nav-icon"></i>
@@ -80,6 +86,19 @@ use yii\helpers\Url;
              
             </ul>
           </li>
+           <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="fas fa-book nav-icon"></i>
+                  <p>Courses</p>
+                </a>
+              </li>
+               <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="fas fa-book nav-icon"></i>
+                  <p>Programs</p>
+                </a>
+              </li>
+
             <?php endif ?> <!-- END OF SYS_ADMIN ROLE-->
             <!-- ======================================================= -->
 

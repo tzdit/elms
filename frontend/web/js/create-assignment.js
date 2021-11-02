@@ -6,8 +6,6 @@ $('document').ready(function(){
     
     $('label').css('fontSize','11px');
       //handling assignment questions
-<<<<<<< HEAD
-=======
 
       //initially
       $('#questions').html("");
@@ -22,7 +20,6 @@ $('document').ready(function(){
     
    
       }
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
       $('#qnumber').keyup(function(){
         //$('#totm').val(0);
        $('#questions').html("");
@@ -523,10 +520,7 @@ $('document').ready(function(){
     
     
       })
-<<<<<<< HEAD
-=======
 
       $('#assignstudents').select2();
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     
     })

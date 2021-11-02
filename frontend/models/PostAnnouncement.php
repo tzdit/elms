@@ -29,6 +29,7 @@ class PostAnnouncement extends Model{
         $ann->title=$this->title;
         $ann->instructorID=Yii::$app->user->identity->instructor->instructorID;
         $ann->course_code=yii::$app->session->get('ccode');
+       // $ann->course_code=$cid;
 
         if($ann->save()){return true;}
         else{return false;}
