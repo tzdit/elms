@@ -41,7 +41,7 @@ class UploadMaterial extends Model{
         $this->assFile->saveAs('storage/temp/'.$fileName);
         $ass->save(false);
         
-        print_r($ass->getErrors());
+        
         return true;
 
         
