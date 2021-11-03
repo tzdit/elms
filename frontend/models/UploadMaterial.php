@@ -24,7 +24,7 @@ class UploadMaterial extends Model{
     }
     public function upload(){
         if(!$this->validate()){
-            print_r($ass->errors);
+            print_r($ass->getErrors());
             return false;
         }
         try{
@@ -46,7 +46,7 @@ class UploadMaterial extends Model{
         else
         {
             return false;
-            print_r($ass->errors);
+            print_r($ass->getErrors());
         }
         
        
