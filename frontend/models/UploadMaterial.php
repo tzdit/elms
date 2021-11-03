@@ -41,8 +41,9 @@ class UploadMaterial extends Model{
         }
         else
         {
-            return false;
             print_r($ass->getErrors());
+            return false;
+            
         }
         
        
