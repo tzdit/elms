@@ -1142,7 +1142,7 @@ public function actionUploadMaterial(){
     $model = new UploadMaterial();
     $model->ccode=yii::$app->session->get('ccode');
     //print_r(Yii::$app->request->post());
-    if($model->load(Yii::$app->request->post())){
+    if($model->load(Yii::$app->request->post()) && $model->validate()){
         $model->assFile = UploadedFile::getInstance($model, 'assFile');
        
         // echo '<pre>';
@@ -1151,8 +1151,8 @@ public function actionUploadMaterial(){
         // exit;
         if($model->upload()){
          
-       // Yii::$app->session->setFlash('success', 'Material uploaded successfully');
-        //return $this->redirect(['class-materials','cid'=>yii::$app->session->get('ccode')]);
+       Yii::$app->session->setFlash('success', 'Material uploaded successfully');
+        return $this->redirect(['class-materials','cid'=>yii::$app->session->get('ccode')]);
         }else{
           
         Yii::$app->session->setFlash('error', 'Something went wrong');
