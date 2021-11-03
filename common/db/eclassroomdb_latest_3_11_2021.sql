@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 28, 2021 at 09:32 PM
+-- Generation Time: Nov 03, 2021 at 01:31 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -76,6 +76,16 @@ CREATE TABLE `announcement` (
   `yearID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `announcement`
+--
+
+INSERT INTO `announcement` (`annID`, `instructorID`, `course_code`, `content`, `ann_date`, `ann_time`, `title`, `yearID`) VALUES
+(15, 2, 'CP 111', 'we are there', '2021-11-01', '21:45:12', 'my assignment', 0),
+(16, 2, 'CP 111', 'hello', '2021-11-01', '21:46:52', 'let us announce', 0),
+(18, 2, 'CS 212', 'hey', '2021-11-01', '21:57:03', 'hey', 0),
+(19, 2, 'CP 111', 'khalalslsl', '2021-11-02', '12:28:17', 'my announce', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -104,13 +114,13 @@ CREATE TABLE `assignment` (
 
 INSERT INTO `assignment` (`assID`, `instructorID`, `course_code`, `assName`, `assType`, `assNature`, `ass_desc`, `submitMode`, `startDate`, `finishDate`, `total_marks`, `fileName`, `yearID`) VALUES
 (138, 2, 'CP 111', 'chosen student types', 'students', 'assignment', 'asdfasdfs', 'unresubmit', '2021-07-15 00:00:00', '2021-07-23 00:00:00', 21, '60e44b8618b9f.txt', 0),
-(139, 2, 'CP 111', 'student chosen file', 'students', 'assignment', 'fgsgsfdgsdf', 'resubmit', '2021-07-23 00:00:00', '2021-07-22 00:00:00', 12, '60e44c37e4b07', 0),
 (144, 2, 'CP 111', 'lass', 'allgroups', 'lab', 'vsgsdf', 'resubmit', '2021-07-16 00:00:00', '2021-07-15 00:00:00', 16, '60e54cf1ba435.txt', 0),
-(145, 2, 'CP 111', 'lab for groups', 'groups', 'lab', 'adfasdsd', 'unresubmit', '2021-07-15 00:00:00', '2021-07-23 00:00:00', 10, '60e54d4b13aee.txt', 0),
 (146, 2, 'CP 111', 'file lab', 'students', 'lab', 'asgfg', 'unresubmit', '2021-07-30 00:00:00', '2021-07-29 00:00:00', 21, '60e54ddc0379e.pdf', 0),
 (152, 2, 'CP 111', 'testing assignment', 'allstudents', 'assignment', 'testing', 'resubmit', '2021-07-22 00:00:00', '2021-07-22 00:00:00', 15, '60e5e79317400.txt', 0),
-(157, 2, 'CP 111', 'group assignment', 'allgroups', 'assignment', 'sdfsdf', 'resubmit', '2021-07-16 00:00:00', '2021-07-22 00:00:00', 15, '60f3e098a0a0a.txt', 0),
-(163, 2, 'CS 212', 'tutorial for you', NULL, 'tutorial', NULL, NULL, NULL, NULL, NULL, '610fd5c87eab5.png', 0);
+(163, 2, 'CS 212', 'tutorial for you', NULL, 'tutorial', NULL, NULL, NULL, NULL, NULL, '610fd5c87eab5.png', 0),
+(165, 2, 'CP 111', 'my tutorial', NULL, 'tutorial', NULL, NULL, NULL, NULL, NULL, '6180dcf2646d1.xlsx', 0),
+(166, 2, 'CP 111', 'testing assignment 2', 'allstudents', 'assignment', '', 'resubmit', '2021-11-12 00:00:00', '2021-11-19 00:00:00', 27, '618220b910c27.txt', 0),
+(167, 2, 'CP 111', 'test lab assignment', 'allgroups', 'assignment', 'do in groups of 5', 'unresubmit', '2021-11-11 00:00:00', '2021-11-12 00:00:00', 9, '6182374da0b46.txt', 0);
 
 -- --------------------------------------------------------
 
@@ -145,25 +155,22 @@ INSERT INTO `assq` (`assq_ID`, `assID`, `qno`, `total_marks`) VALUES
 (254, 138, 1, 7),
 (255, 138, 2, 7),
 (256, 138, 3, 7),
-(257, 139, 1, 3),
-(258, 139, 2, 3),
-(259, 139, 3, 3),
-(260, 139, 4, 3),
 (275, 144, 1, 4),
 (276, 144, 2, 4),
 (277, 144, 3, 4),
 (278, 144, 4, 4),
-(279, 145, 1, 5),
-(280, 145, 2, 5),
 (281, 146, 1, 7),
 (282, 146, 2, 7),
 (283, 146, 3, 7),
 (297, 152, 1, 5),
 (298, 152, 2, 5),
 (299, 152, 3, 5),
-(312, 157, 1, 5),
-(313, 157, 2, 5),
-(314, 157, 3, 5);
+(322, 166, 1, 9),
+(323, 166, 2, 9),
+(324, 166, 3, 9),
+(325, 167, 1, 3),
+(326, 167, 2, 3),
+(327, 167, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -357,7 +364,8 @@ CREATE TABLE `ext_assess` (
 INSERT INTO `ext_assess` (`assessID`, `instructorID`, `course_code`, `title`, `total_marks`, `date_created`, `yearID`) VALUES
 (63, 2, 'CP 111', 'my assess', 30, '2021-07-26', 0),
 (64, 2, 'CP 111', 'my first test', 30, '2021-07-26', 0),
-(70, 2, 'CS 212', 'my assess', 69, '2021-08-08', 0);
+(70, 2, 'CS 212', 'my assess', 69, '2021-08-08', 0),
+(71, 2, 'CS 212', 'my testing', 40, '2021-11-02', 0);
 
 -- --------------------------------------------------------
 
@@ -430,9 +438,7 @@ INSERT INTO `group_assignment` (`GA_ID`, `groupID`, `assID`) VALUES
 (16, 60, NULL),
 (17, 60, NULL),
 (18, 60, NULL),
-(19, 60, NULL),
-(25, 59, 145),
-(26, 60, 145);
+(19, 60, NULL);
 
 -- --------------------------------------------------------
 
@@ -476,7 +482,8 @@ CREATE TABLE `group_generation_assignment` (
 --
 
 INSERT INTO `group_generation_assignment` (`gga_ID`, `gentypeID`, `assID`) VALUES
-(43, 22, 144);
+(43, 22, 144),
+(49, 34, 167);
 
 -- --------------------------------------------------------
 
@@ -644,10 +651,8 @@ CREATE TABLE `material` (
 --
 
 INSERT INTO `material` (`material_ID`, `instructorID`, `course_code`, `title`, `material_type`, `upload_date`, `upload_time`, `fileName`, `yearID`, `moduleID`) VALUES
-(17, 2, 'CP 111', 'programming', 'Notes', NULL, NULL, '60e729f376b25.pdf', 0, NULL),
-(18, 2, 'CP 111', 'my material', 'Notes', NULL, NULL, '60f12a6e43453.pdf', 0, NULL),
-(19, 2, 'CP 111', 'video tutorial', 'Videos', NULL, NULL, '60f12aae3e5b7.mp4', 0, NULL),
-(20, 2, 'CP 111', 'video tutorial', 'Videos', NULL, NULL, '61104224d0647.mp4', 0, NULL);
+(38, 2, 'CP 111', 'my material me', 'Videos', NULL, NULL, '6182224cb467c.mp4', 0, 8),
+(40, 2, 'CP 111', 'material one', 'Videos', NULL, NULL, '61822dfb4cb4a.mp4', 0, 8);
 
 -- --------------------------------------------------------
 
@@ -682,8 +687,17 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 CREATE TABLE `module` (
   `moduleID` int(11) NOT NULL,
   `moduleName` varchar(200) NOT NULL,
-  `module_description` varchar(400) DEFAULT NULL
+  `module_description` varchar(400) DEFAULT NULL,
+  `course_code` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `module`
+--
+
+INSERT INTO `module` (`moduleID`, `moduleName`, `module_description`, `course_code`) VALUES
+(7, 'chapter 3', 'cooking', 'CS 212'),
+(8, 'my module', 'testing', 'CP 111');
 
 -- --------------------------------------------------------
 
@@ -785,7 +799,7 @@ CREATE TABLE `q_marks` (
 
 INSERT INTO `q_marks` (`qmarkID`, `submitID`, `assq_ID`, `q_score`, `comment`, `group_submit_id`) VALUES
 (1, 2, 297, '3.00', NULL, NULL),
-(2, 2, 298, '3.00', NULL, NULL),
+(2, 2, 298, '5.00', NULL, NULL),
 (3, 2, 299, '3.00', NULL, NULL),
 (4, 2, 297, '3.00', NULL, NULL),
 (5, 2, 298, '2.00', NULL, NULL),
@@ -805,9 +819,9 @@ INSERT INTO `q_marks` (`qmarkID`, `submitID`, `assq_ID`, `q_score`, `comment`, `
 (19, 2, 297, '5.00', NULL, NULL),
 (20, 2, 298, '5.00', NULL, NULL),
 (21, 2, 299, '5.00', NULL, NULL),
-(22, 3, 297, '5.00', NULL, NULL),
+(22, 3, 297, '0.00', NULL, NULL),
 (23, 3, 298, '5.00', NULL, NULL),
-(24, 3, 299, '5.00', NULL, NULL),
+(24, 3, 299, '3.00', NULL, NULL),
 (25, 3, 297, '5.00', NULL, NULL),
 (26, 3, 298, '5.00', NULL, NULL),
 (27, 3, 299, '5.00', NULL, NULL),
@@ -1037,7 +1051,7 @@ INSERT INTO `q_marks` (`qmarkID`, `submitID`, `assq_ID`, `q_score`, `comment`, `
 (269, 2, 297, '4.00', NULL, NULL),
 (270, 2, 298, '3.00', NULL, NULL),
 (271, 2, 299, '3.00', NULL, NULL),
-(272, 4, 254, '4.00', NULL, NULL),
+(272, 4, 254, '2.00', NULL, NULL),
 (273, 4, 255, '3.00', NULL, NULL),
 (274, 4, 256, '2.00', NULL, NULL),
 (275, 4, 254, '3.00', NULL, NULL),
@@ -1048,7 +1062,15 @@ INSERT INTO `q_marks` (`qmarkID`, `submitID`, `assq_ID`, `q_score`, `comment`, `
 (280, 4, 256, '2.00', NULL, NULL),
 (281, 4, 254, '2.00', NULL, NULL),
 (282, 4, 255, '2.00', NULL, NULL),
-(283, 4, 256, '2.00', NULL, NULL);
+(283, 4, 256, '2.00', NULL, NULL),
+(284, NULL, 275, '2.00', NULL, 2),
+(285, NULL, 276, '2.00', NULL, 2),
+(286, NULL, 277, '2.00', NULL, 2),
+(287, NULL, 278, '2.00', NULL, 2),
+(288, NULL, 275, '2.00', NULL, 2),
+(289, NULL, 276, '2.00', NULL, 2),
+(290, NULL, 277, '2.00', NULL, 2),
+(291, NULL, 278, '4.00', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -1120,8 +1142,6 @@ CREATE TABLE `student_assignment` (
 INSERT INTO `student_assignment` (`std_assID`, `assID`, `reg_no`) VALUES
 (9, 138, 'T/UDOM/2020/00001'),
 (10, 138, 'T/UDOM/2020/00002'),
-(11, 139, 'T/UDOM/2020/00003'),
-(12, 139, 'T/UDOM/2020/00004'),
 (13, 146, 'T/UDOM/2020/00001'),
 (14, 146, 'T/UDOM/2020/00002'),
 (15, 146, 'T/UDOM/2020/00003');
@@ -1143,6 +1163,7 @@ CREATE TABLE `student_course` (
 --
 
 INSERT INTO `student_course` (`SC_ID`, `reg_no`, `course_code`) VALUES
+(9, 'T/UDOM/2020/00001', 'CP 111'),
 (8, 'T/UDOM/2020/00798', 'CP 111'),
 (7, 'T/UDOM/2020/00798', 'CP 123');
 
@@ -1283,10 +1304,9 @@ CREATE TABLE `submit` (
 --
 
 INSERT INTO `submit` (`submitID`, `reg_no`, `assID`, `fileName`, `score`, `submit_date`, `submit_time`, `comment`) VALUES
-(2, 'T/UDOM/2020/00001', 152, 'nafasi.pdf', '3.00', '2021-07-07', '19:44:23', 'failed\n'),
-(3, 'T/UDOM/2020/00002', 152, 'head.pdf', '12.00', '2021-07-07', '19:47:04', 'heeeeeey\n'),
-(4, 'T/UDOM/2020/00001', 138, 'db_final_ER.mp4', '3.50', '0000-00-00', '00:00:00', NULL),
-(5, 'T/UDOM/2020/00001', 145, 'db_final_ER.mp4', '15.00', '0000-00-00', '00:00:00', NULL),
+(2, 'T/UDOM/2020/00001', 152, 'nafasi.pdf', '11.00', '2021-07-07', '19:44:23', 'passed'),
+(3, 'T/UDOM/2020/00002', 152, 'head.pdf', '8.00', '2021-07-07', '19:47:04', 'passed'),
+(4, 'T/UDOM/2020/00001', 138, 'db_final_ER.mp4', '7.00', '0000-00-00', '00:00:00', 'okay \n'),
 (6, 'T/UDOM/2020/00001', 146, '', '17.00', '0000-00-00', '00:00:00', NULL);
 
 -- --------------------------------------------------------
@@ -1556,7 +1576,8 @@ ALTER TABLE `migration`
 -- Indexes for table `module`
 --
 ALTER TABLE `module`
-  ADD PRIMARY KEY (`moduleID`);
+  ADD PRIMARY KEY (`moduleID`),
+  ADD KEY `course_code` (`course_code`);
 
 --
 -- Indexes for table `notification`
@@ -1717,19 +1738,19 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `announcement`
 --
 ALTER TABLE `announcement`
-  MODIFY `annID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `annID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `assignment`
 --
 ALTER TABLE `assignment`
-  MODIFY `assID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
+  MODIFY `assID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
 
 --
 -- AUTO_INCREMENT for table `assq`
 --
 ALTER TABLE `assq`
-  MODIFY `assq_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=320;
+  MODIFY `assq_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=331;
 
 --
 -- AUTO_INCREMENT for table `chat`
@@ -1753,7 +1774,7 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `ext_assess`
 --
 ALTER TABLE `ext_assess`
-  MODIFY `assessID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `assessID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `fresh_thread`
@@ -1783,7 +1804,7 @@ ALTER TABLE `group_assignment_submit`
 -- AUTO_INCREMENT for table `group_generation_assignment`
 --
 ALTER TABLE `group_generation_assignment`
-  MODIFY `gga_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `gga_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `group_generation_types`
@@ -1825,13 +1846,13 @@ ALTER TABLE `logs`
 -- AUTO_INCREMENT for table `material`
 --
 ALTER TABLE `material`
-  MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `module`
 --
 ALTER TABLE `module`
-  MODIFY `moduleID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `moduleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `notification`
@@ -1855,7 +1876,7 @@ ALTER TABLE `quiz`
 -- AUTO_INCREMENT for table `q_marks`
 --
 ALTER TABLE `q_marks`
-  MODIFY `qmarkID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=284;
+  MODIFY `qmarkID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=292;
 
 --
 -- AUTO_INCREMENT for table `rep_thread`
@@ -1873,7 +1894,7 @@ ALTER TABLE `student_assignment`
 -- AUTO_INCREMENT for table `student_course`
 --
 ALTER TABLE `student_course`
-  MODIFY `SC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `SC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `student_ext_assess`
@@ -2076,8 +2097,13 @@ ALTER TABLE `logs`
 ALTER TABLE `material`
   ADD CONSTRAINT `coursekey4` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `instructorkey5` FOREIGN KEY (`instructorID`) REFERENCES `instructor` (`instructorID`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `material_ibfk_1` FOREIGN KEY (`moduleID`) REFERENCES `module` (`moduleID`),
-  ADD CONSTRAINT `material_ibfk_2` FOREIGN KEY (`moduleID`) REFERENCES `module` (`moduleID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `material_ibfk_2` FOREIGN KEY (`moduleID`) REFERENCES `module` (`moduleID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `module`
+--
+ALTER TABLE `module`
+  ADD CONSTRAINT `module_ibfk_1` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `notification`
