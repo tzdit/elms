@@ -234,7 +234,7 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasOne(Student::class, ['userID'=>'id']);
     }
 
-      //establishing relationship between HOD Table and Student Table
+      //establishing relationship between HOD Table and User Table
       public function getHod(){
         return $this->hasOne(Hod::class, ['userID'=>'id']);
     }

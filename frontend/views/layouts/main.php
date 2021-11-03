@@ -52,7 +52,7 @@ AppAsset::register($this);
   <!-- /.navbar -->
     <!-- Main Sidebar Container -->
     <!-- also this you may trie these 082B45  # #0062CC-->
-  <aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4 pace-primary" style="background:#001832">
+  <aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4 pace-primary " style="background:#001832">
     <!-- Brand Logo -->
     <a href="#" class="brand-link bg-primary">
       <img src="<?= Yii::getAlias('@web/img/logo.png') ?>" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">

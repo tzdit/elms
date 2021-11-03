@@ -31,7 +31,8 @@ $this->title = 'Student Dashboard';
               </div>
 
               <div class="icon">
-                <i class="fa fa-book"></i>
+                <i class="mt-n4"><img src="<?= Yii::getAlias('@web/img/course.png') ?>"></i>
+
               </div>
     
             </a>
