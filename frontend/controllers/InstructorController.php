@@ -136,7 +136,9 @@ public $defaultAction = 'dashboard';
                             'class-ext-assessments',
                             'class-ca-generator',
                             'class-students',
-                            'create-module'
+                            'create-module',
+                            'material-upload-form',
+                            'module-delete'
 
                         ],
                         'allow' => true,
@@ -209,7 +211,9 @@ public $defaultAction = 'dashboard';
                             'class-ext-assessments',
                             'class-ca-generator',
                             'class-students',
-                            'create-module'
+                            'create-module',
+                            'material-upload-form',
+                            'module-delete'
                            
                         ],
                         'allow' => true,
@@ -566,6 +570,16 @@ public function actionClassMaterials($cid)
     return $this->render('classmaterials', ['cid'=>$cid,'modules'=>$materials]);
 
 }
+//material upload form
+
+public function actionMaterialUploadForm($moduleID)
+{
+ 
+    return $this->render('materials/create_material',['moduleID'=>$moduleID]);
+
+
+}
+
 //create module
 
 public function actionCreateModule()
@@ -577,6 +591,18 @@ public function actionCreateModule()
             return $this->redirect(Yii::$app->request->referrer);
         }
     }
+    //deleting a module
+
+    public function actionModuleDelete($moduleid)
+    {
+        $module=Module::findOne($moduleid);
+
+        if($module->delete()){ return $this->asJson(['message'=>'Module deleted']); }
+        else{
+            Yii::$app->session->setFlash('serror', 'module deleting failed');
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+    }
 //assignments page
 public function actionClassAssignments($cid)
 {
@@ -585,6 +611,7 @@ public function actionClassAssignments($cid)
     return $this->render('classAssignments', ['cid'=>$cid,'assignments'=>$assignments]);
 
 }
+
 //lab assignments page
 
 public function actionClassLabs($cid)
@@ -1113,15 +1140,17 @@ public function actionUploadLab(){
 
 public function actionUploadMaterial(){
     $model = new UploadMaterial();
+    $model->ccode=yii::$app->session->get('ccode');
     if($model->load(Yii::$app->request->post())){
         $model->assFile = UploadedFile::getInstance($model, 'assFile');
+       
         // echo '<pre>';
         // print_r($model);
         // echo '</pre>';
         // exit;
         if($model->upload()){
         Yii::$app->session->setFlash('success', 'Material uploaded successfully');
-        return $this->redirect(Yii::$app->request->referrer);
+        return $this->redirect(['class-materials','cid'=>yii::$app->session->get('ccode')]);
         }else{
           
         Yii::$app->session->setFlash('error', 'Something went wrong');

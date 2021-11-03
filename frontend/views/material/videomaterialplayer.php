@@ -1,5 +1,12 @@
 <?php
 use yii\helpers\Url;
+
+$this->params['courseTitle'] ="Video Player";
+$this->title ="Video Player";
+$this->params['breadcrumbs'] = [
+  ['label'=>'class Materials', 'url'=>Url::to(['/instructor/class-materials', 'cid'=>yii::$app->session->get('ccode')])],
+  ['label'=>'video player']
+];
 ?>
      
             <div class="row" style="height:400px">
@@ -17,10 +24,10 @@ use yii\helpers\Url;
                   <div class="col-md-12 col-sm-12 col-lg-12 mb-2" style="height: 150px;">
                   <?php foreach($videoz as $vid){ ?>
             
-                    <a href="#"  style="color:#030303; opacity: 0.7; ">
+                    <div   style="color:#030303; opacity: 0.7; " >
                       <div class="vide-encloseure col-md-12 col-sm-12 col-xs-12">
                          <div class="thumbnail">
-                    <video id="/storage/temp/<?php echo $vid->fileName;?>" width="200" height="100%" onclick="getnewvid(this)" preload="metadata">
+                    <video id="/storage/temp/<?php echo $vid->fileName;?>" width="200" height="100%"  preload="metadata" onclick="getnewvid(this)">
                     <source src="/storage/temp/<?php echo $vid->fileName; ?>#t=0.5" type="video/mp4">
                     </video>
                     </div>
@@ -29,7 +36,7 @@ use yii\helpers\Url;
                     </div>
                       </div>
                    
-                  </a>
+                  </div>
                   <?php } ?>
                   </div>
                 
@@ -52,19 +59,20 @@ use yii\helpers\Url;
 
         function getnewvid(z)
         {
+        
           z.parentElement.addEventListener('click', function(event){
           event.preventDefault();
+
+  
           });
            
-
-            var ul=z.getAttribute('id');
-
-            var player=document.getElementById("theplayer");
-
-            player.setAttribute("src",ul);
-
-            player.parentElement.load();
-            player.parentElement.play();
+          var ul=z.getAttribute('class');
+         
+         var player=document.getElementById("theplayer");
+         player.setAttribute("src",ul);
+         player.parentElement.load();
+         player.parentElement.play();
+          
         }
       
 

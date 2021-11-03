@@ -10,11 +10,13 @@ class UploadMaterial extends Model{
     public $ccode;
     public $uploadDate;
     public $uploadTime;
+    public $moduleID;
     
     public $totalMarks;
     public function rules(){
         return [
            [['assTitle', 'assType', 'assFile'], 'required'],
+           ['moduleID','required'],
            [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, mp4, MP4, jpg, png, doc, docx, xlsx, xls, pkt, ppt'],
 
 
@@ -29,6 +31,7 @@ class UploadMaterial extends Model{
         
         $fileName =uniqid().'.'.$this->assFile->extension;
         $ass = new Material();
+        $ass->moduleID=$this->moduleID;
         $ass->title = $this->assTitle;
         $ass->material_type = $this->assType;
         $ass->fileName =  $fileName;
