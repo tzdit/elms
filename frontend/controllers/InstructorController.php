@@ -1482,8 +1482,9 @@ public function actionAddStudentGentype()
     $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
    
     $res=$model->generatePdfCA();
+    print_r($model->getErrors());
     if($res!=null){Yii::$app->session->setFlash('error',$res);}
-    return $this->redirect(Yii::$app->request->referrer); 
+    //return $this->redirect(Yii::$app->request->referrer); 
     
  }
  public function actionCaPreview()
