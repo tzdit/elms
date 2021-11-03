@@ -32,7 +32,7 @@ $this->params['breadcrumbs'] = [
                                      <a href="<?=Url::to(['student/assignment/', 'cid'=>$cid])  ?>" class="card p-2 row result-card mx-1 my-2 ">
                                          <img src="<?=  Yii::getAlias('@web/img/assignment.png')?>" height="34px" width="33px"/>
                                          <h5>
-                                             Assignment
+                                             Individual Assignment
                                          </h5>
                                      </a>
 
