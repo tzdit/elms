@@ -1149,8 +1149,8 @@ public function actionUploadMaterial(){
         // echo '</pre>';
         // exit;
         if($model->upload()){
-        Yii::$app->session->setFlash('success', 'Material uploaded successfully');
-        return $this->redirect(['class-materials','cid'=>yii::$app->session->get('ccode')]);
+       // Yii::$app->session->setFlash('success', 'Material uploaded successfully');
+        //return $this->redirect(['class-materials','cid'=>yii::$app->session->get('ccode')]);
         }else{
           
         Yii::$app->session->setFlash('error', 'Something went wrong');
