@@ -21,12 +21,12 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(['action'=>'create-module']); ?>
 
-    <?= $form->field($modulemodel, 'moduleName')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($modulemodel, 'moduleName')->textInput(['maxlength' => true,'placeholder'=>'Ex: chapter One, lecture One...']) ?>
 
-    <?= $form->field($modulemodel, 'module_description')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($modulemodel, 'module_description')->textInput(['maxlength' => true,'placeholder'=>'Ex: introduction to cooking']) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('create', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('create', ['class' => 'btn btn-primary float-right']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

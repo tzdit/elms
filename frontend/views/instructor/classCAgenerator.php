@@ -26,10 +26,10 @@ use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] = "Course ".$cid;
-$this->title = 'Classwork';
+$this->params['courseTitle'] =$cid." CA Generator";
+$this->title =$cid." CA Generator";
 $this->params['breadcrumbs'] = [
-  ['label'=>'classwork', 'url'=>Url::to(['/instructor/classwork', 'cid'=>$cid])],
+  ['label'=>'class-dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>$cid])],
   ['label'=>$this->title]
 ];
 
@@ -252,10 +252,7 @@ $assignstudentsmodel = new StudentAssign();
 <?= $this->render('assignstudents', ['assignstudentsmodel'=>$assignstudentsmodel, 'ccode'=>$cid]) ?>
 
 <!--  ###################################render model to create_material ####################################################-->
-<?php 
-$assmodel = new UploadMaterial();
-?>
-<?= $this->render('materials/create_material', ['assmodel'=>$assmodel, 'ccode'=>$cid]) ?>
+
 <!--  ###################################new assessment modal ####################################################-->
 <?php 
 $assessmodel = new External_assess();

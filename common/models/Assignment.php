@@ -19,6 +19,7 @@ use Yii;
  * @property string|null $finishDate
  * @property int|null $total_marks
  * @property string|null $fileName
+ * @property int $yearID
  *
  * @property Course $courseCode
  * @property Instructor $instructor
@@ -45,8 +46,8 @@ class Assignment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['instructorID', 'total_marks'], 'integer'],
-            [['assName', 'assNature'], 'required'],
+            [['instructorID', 'total_marks', 'yearID'], 'integer'],
+            [['assName', 'assNature', 'yearID'], 'required'],
             [['startDate', 'finishDate'], 'safe'],
             [['course_code'], 'string', 'max' => 7],
             [['assName'], 'string', 'max' => 100],
@@ -77,6 +78,7 @@ class Assignment extends \yii\db\ActiveRecord
             'finishDate' => 'Finish Date',
             'total_marks' => 'Total Marks',
             'fileName' => 'File Name',
+            'yearID' => 'Year ID',
         ];
     }
 

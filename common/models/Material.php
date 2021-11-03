@@ -10,14 +10,18 @@ use Yii;
  * @property int $material_ID
  * @property int|null $instructorID
  * @property string|null $course_code
- * @property string $title
- * @property string $material_type
- * @property string $upload_date
- * @property string $upload_time
- * @property string $fileName
+ * @property string|null $title
+ * @property string|null $material_type
+ * @property string|null $upload_date
+ * @property string|null $upload_time
+ * @property string|null $fileName
+ * @property int $yearID
+ * @property int|null $moduleID
  *
  * @property Course $courseCode
  * @property Instructor $instructor
+ * @property Module $module
+ * @property Module $module0
  */
 class Material extends \yii\db\ActiveRecord
 {
@@ -35,15 +39,17 @@ class Material extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['instructorID'], 'integer'],
-            [['title', 'material_type'], 'required'],
-            
+            [['instructorID', 'yearID', 'moduleID'], 'integer'],
+            [['upload_date', 'upload_time'], 'safe'],
+            [['yearID'], 'required'],
             [['course_code'], 'string', 'max' => 7],
             [['title'], 'string', 'max' => 100],
             [['material_type'], 'string', 'max' => 15],
             [['fileName'], 'string', 'max' => 20],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
             [['instructorID'], 'exist', 'skipOnError' => true, 'targetClass' => Instructor::className(), 'targetAttribute' => ['instructorID' => 'instructorID']],
+            [['moduleID'], 'exist', 'skipOnError' => true, 'targetClass' => Module::className(), 'targetAttribute' => ['moduleID' => 'moduleID']],
+
         ];
     }
 
@@ -58,7 +64,11 @@ class Material extends \yii\db\ActiveRecord
             'course_code' => 'Course Code',
             'title' => 'Title',
             'material_type' => 'Material Type',
+            'upload_date' => 'Upload Date',
+            'upload_time' => 'Upload Time',
             'fileName' => 'File Name',
+            'yearID' => 'Year ID',
+            'moduleID' => 'Module ID',
         ];
     }
 
@@ -82,7 +92,25 @@ class Material extends \yii\db\ActiveRecord
         return $this->hasOne(Instructor::className(), ['instructorID' => 'instructorID']);
     }
 
+    /**
+     * Gets query for [[Module]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getModule()
+    {
+        return $this->hasOne(Module::className(), ['moduleID' => 'moduleID']);
+    }
 
+    /**
+     * Gets query for [[Module0]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getModule0()
+    {
+        return $this->hasOne(Module::className(), ['moduleID' => 'moduleID']);
+    }
     function getVideoAndNotesLink(){
 
         $document_path = Yii::getAlias('@frontend/web/storage/temp/'.$this->fileName );

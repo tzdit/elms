@@ -61,6 +61,7 @@ class UploadAssignment extends Model{
         $ass->assType = $this->assType;
         $ass->submitMode = $this->submitMode;
         $ass->startDate = $this->startDate;
+        $ass->yearID=1;
         $ass->finishDate = $this->endDate;
         $ass->fileName = $filefordb;
         $ass->ass_desc = $this->description;
@@ -166,7 +167,7 @@ class UploadAssignment extends Model{
         
     }catch(\Exception $e){
     
-        return false;
+        return $e;
     }
     }
 

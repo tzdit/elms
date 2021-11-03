@@ -63,6 +63,7 @@ class UploadLab extends Model{
         $ass->submitMode = $this->submitMode;
         $ass->startDate = $this->startDate;
         $ass->finishDate = $this->endDate;
+        $ass->yearID=1;
         $ass->fileName = $filefordb;
         $ass->ass_desc = $this->description;
         $ass->assNature = "lab";
