@@ -1140,20 +1140,20 @@ public function actionUploadLab(){
 
 public function actionUploadMaterial(){
     $model = new UploadMaterial();
-    //print_r(Yii::$app->request->post());
+   
     if($model->load(Yii::$app->request->post())){
         $model->assFile = UploadedFile::getInstance($model, 'assFile');
        
         if($model->upload()){
          
-       //Yii::$app->session->setFlash('success', 'Material uploaded successfully');
-       // return $this->redirect(['class-materials','cid'=>yii::$app->session->get('ccode')]);
+       Yii::$app->session->setFlash('success', 'Material uploaded successfully');
+        return $this->redirect(['class-materials','cid'=>yii::$app->session->get('ccode')]);
         }else{
           
-           print $model->upload();
-        //Yii::$app->session->setFlash('error',"an error occured");
+           
+        Yii::$app->session->setFlash('error',"An error occured");
        
-        //return $this->redirect(Yii::$app->request->referrer);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 }
 }

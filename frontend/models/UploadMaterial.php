@@ -41,7 +41,7 @@ class UploadMaterial extends Model{
         }
         else
         {
-            print_r($ass->getErrors());
+            
             return false;
             
         }
@@ -51,7 +51,7 @@ class UploadMaterial extends Model{
         
     }catch(\Exception $e){
     
-        print $e->getMessage();
+        return $e->getMessage();
     }
     }
     
