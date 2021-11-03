@@ -7,11 +7,7 @@ class UploadMaterial extends Model{
     public $assTitle;
     public $assType;
     public $assFile;
-    public $uploadDate;
-    public $uploadTime;
     public $moduleID;
-    
-    public $totalMarks;
     public function rules(){
         return [
            [['assTitle', 'assType', 'assFile'], 'required'],
