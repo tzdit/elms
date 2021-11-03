@@ -50,7 +50,7 @@ class UploadMaterial extends Model{
         
     }catch(\Exception $e){
     
-        return $e->getMessage();
+        print $e->getMessage();
     }
     }
     
