@@ -13,8 +13,8 @@
    $this->title = 'assessment';
    $cid=yii::$app->session->get('ccode');
    $this->params['breadcrumbs'] = [
-     ['label'=>'assessments', 'url'=>Url::to(['/instructor/classwork', 'cid'=>$cid])],
-     ['label'=>'view']
+     ['label'=>'External Assessments', 'url'=>Url::to(['/instructor/class-ext-assessments', 'cid'=>$cid])],
+     ['label'=>'Assessment view']
    ];
    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
    $assid=Yii::$app->getSecurity()->decryptByPassword($assid, $secretKey);
