@@ -1,0 +1,96 @@
+<?php
+
+use yii\bootstrap4\ActiveForm;
+use yii\helpers\Html;
+
+
+ 
+
+?>
+<!-- <div class="col-md-6">
+        </div>
+            <div class="col-md-6">
+            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createProgramModal" data-toggle="modal"><i class="fas fa-plus" ></i>Create Program</a>
+            </div>
+      </div>
+              -->
+
+
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <span class="modal-title" id="exampleModalLabel"><h4>Update Course</h4></span>
+        
+      </div>
+      <div class="modal-body">
+      <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/updatecoz/', 'id'=> $coz->course_code, 'enctype'=>'multipart/form-data']])?>
+        <div class="row">
+        <div class="col-md-12">
+        <?= $form->field($coz, 'course_name')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Course Name'])->label(false)?>
+        </div> 
+        </div>
+
+        <div class="row">
+        <div class="col-md-6">
+        <?= $form->field($coz, 'course_code')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Course Code'])->label(false)?>
+        </div>
+
+        <div class="col-md-6">
+        <?= $form->field($coz, 'course_credit')->textInput(['type'=>'number', 'min'=>0, 'max'=>20, 'class'=>'form-control form-control-sm', 'placeholder'=>'Course Credit'])->label(false)?>
+        </div>
+
+       
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+        <?= $form->field($coz, 'course_semester')->textInput(['type'=>'number', 'min'=>1, 'max'=>2, 'class'=>'form-control form-control-sm', 'placeholder'=>'Course Semister'])->label(false)?>
+        </div>
+
+        <div class="col-md-6">
+        <?= $form->field($coz, 'course_duration')->textInput(['type'=>'number', 'min'=>1, 'max'=>5, 'class'=>'form-control form-control-sm', 'placeholder'=>'Course Duration'])->label(false)?>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+        <?= $form->field($coz, 'course_status')->dropdownList(['CORE'=>'CORE', 'ELECTIVE'=>'ELECTIVE'], ['class'=>'form-control form-control-sm', 'prompt'=>'--select course status--'])->label(false)?>
+        </div> 
+        </div>
+
+        <div class="row">
+      <div class="col-md-12">
+      <?= $form->field($coz, 'course_code')->hiddenInput(['class'=>'form-control form-control-sm'])->label(false)?>
+      <br>
+      <br/>
+      </div>
+        </div>
+
+              
+        <div class="row">
+        <div class="col-md-12">
+        <?= Html::submitButton('Update', ['class'=>'btn btn-primary float-right ml-2']) ?>
+        
+      
+        </div>
+        </div>
+        <?php ActiveForm::end()?>
+    </div>
+    </div>
+  </div>
+
+
+<!-- table for program -->
+
+<?php 
+$script = <<<JS
+$(document).ready(function(){
+  $("#CourseList").DataTable({
+    responsive:true
+  });
+  // alert("JS IS OKAY")
+});
+JS;
+$this->registerJs($script);
+?>
