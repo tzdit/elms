@@ -1144,14 +1144,11 @@ public function actionUploadMaterial(){
     if($model->load(Yii::$app->request->post())){
         $model->assFile = UploadedFile::getInstance($model, 'assFile');
        
-        // echo '<pre>';
-        // print_r($model);
-        // echo '</pre>';
-        // exit;
+      print_r($model);
         if($model->upload()){
          
-       Yii::$app->session->setFlash('success', 'Material uploaded successfully');
-        return $this->redirect(['class-materials','cid'=>yii::$app->session->get('ccode')]);
+       //Yii::$app->session->setFlash('success', 'Material uploaded successfully');
+       // return $this->redirect(['class-materials','cid'=>yii::$app->session->get('ccode')]);
         }else{
           
         Yii::$app->session->setFlash('error', 'Something went wrong');
