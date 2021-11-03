@@ -14,6 +14,7 @@ use Yii;
  * @property string $ann_date
  * @property string $ann_time
  * @property string $title
+ * @property int $yearID
  *
  * @property Course $courseCode
  * @property Instructor $instructor
@@ -34,8 +35,8 @@ class Announcement extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['instructorID'], 'integer'],
-            [['content', 'title'], 'required'],
+            [['instructorID', 'yearID'], 'integer'],
+            [['content', 'title', 'yearID'], 'required'],
             [['ann_date', 'ann_time'], 'safe'],
             [['course_code'], 'string', 'max' => 7],
             [['content'], 'string', 'max' => 500],
@@ -58,6 +59,7 @@ class Announcement extends \yii\db\ActiveRecord
             'ann_date' => 'Ann Date',
             'ann_time' => 'Ann Time',
             'title' => 'Title',
+            'yearID' => 'Year ID',
         ];
     }
 

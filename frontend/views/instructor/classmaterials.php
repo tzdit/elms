@@ -27,10 +27,10 @@ use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] = "Course ".$cid;
-$this->title = 'Classwork';
+$this->params['courseTitle'] =$cid." Materials";
+$this->title =$cid." Materials";
 $this->params['breadcrumbs'] = [
-  ['label'=>'classwork', 'url'=>Url::to(['/instructor/classwork', 'cid'=>$cid])],
+  ['label'=>'class dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>$cid])],
   ['label'=>$this->title]
 ];
 
@@ -61,7 +61,6 @@ $this->params['breadcrumbs'] = [
 
       <div class="row">
         <div class="col-md-12">
-              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createMaterialModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create</a>
               <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createModule" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i>New Module</a>
         </div>
                   
@@ -79,12 +78,13 @@ $materials=$module->materials;
   <div class="card" >
     <div class="card-header p-2" id="heading<?=$mat?>">
       <h2 class="mb-0">
-      <div class="row">
-      <div class="col-sm-11">
-      <?=$module->moduleName?>
+      <div class="row" >
+      <div class="col-md-11 pointer" data-toggle="collapse" data-target="#collapse<?=$mat?>" aria-expanded="true" aria-controls="collapse<?=$mat?>" >
+      <span style="font-size:22px"><i class="fas fa-book-open"></i><?=$module->moduleName?>:</span><span class="text-md"><?=$module->module_description?></span>
       </div>
-      <div class="col-sm-1">
-      <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
+      <div class="col-md-1">
+      <a href="#" modid=<?=$module->moduleID?> class="btn btn-sm btn-danger float-right ml-2 moduledel"><span><i class="fas fa-trash"></i></span></a>
+      <a href="<?=Url::to(['/instructor/material-upload-form', 'moduleID'=>$module->moduleID])?>" class="btn btn-sm btn-primary btn-rounded float-right mb-2"><span><i class="fas fa-upload"></span></i></a>
       </div>
       </div>
          
@@ -93,14 +93,15 @@ $materials=$module->materials;
     </div>
 
     <div id="collapse<?=$mat?>" class="collapse" aria-labelledby="heading<?=$mat?>" data-parent="#accordionExample_6">
-      <div class="card-body">
+      <div class="card-body" style="background-color:#def">
 
       <?php foreach( $materials as $material ) : ?>
-        <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$mat?>" aria-expanded="true" aria-controls="collapse<?=$mat?>">
+        <div class="row" >
+        <div class="col-md-9">
       <?php if(in_array(pathinfo($material->fileName,PATHINFO_EXTENSION),['MP4','mp4']))
           {
       ?>
-      <img src="/img/video thumb.png" style="width:4%;height:20px;margin-right:3px"/><?= $material -> title ?>
+      <a href="<?=Url::to(['material/player','currentvid'=>$material->fileName,'currenttitle'=>$material->title])?>"><img src="/img/video thumb.png" style="width:4%;height:20px;margin-right:3px"/><?= $material -> title ?></a>
        <?php 
           }
           else if(in_array(pathinfo($material->fileName,PATHINFO_EXTENSION),['pdf','PDF']))
@@ -112,49 +113,55 @@ $materials=$module->materials;
           else
           {
       ?>
-      <i class="fa fa-files-o" style="font-size:25px;margin-right:4px"></i><?= $material -> title ?>
+      <a href="/storage/temp/<?=$material->fileName ?>"  class=" ml-2"><span><i class="fa fa-files-o" style="font-size:25px;margin-right:4px"></i><?= $material -> title ?></span></a>
       <?php
           }
       ?>
-        </button>
-         <p><span style="color:red"> Material Title: </span> <b> <?= $material -> title ?> </b></p>
+         
+      
+    
       </div>
-      <div class="card-footer p-2 bg-white border-top">
-      <div class="row">
-      <div class="col-md-6">
-       <?php if(in_array(pathinfo($material->fileName,PATHINFO_EXTENSION),['MP4','mp4']))
-       {
-         ?>
-      <a href="<?=Url::to(['material/player','currentvid'=>$material->fileName,'currenttitle'=>$material->title])?>"  class="text-mutted">Material <i class="fas fa-eye"></i></a>
-      <?php
-       }
-      else{
-
-      ?>
-      <a href="/storage/temp/<?=$material->fileName ?>"  class="text-mutted">Material <i class="fas fa-eye"></i></a>
-      <?php
-      }
-      ?>
-      </div>
-      <div class="col-md-6">
-      <a href="#" matid=<?=$material->material_ID?> class="btn btn-sm btn-danger float-right ml-2 materialdel"><span><i class="fas fa-trash"></i></span></a>
-      <a href="/storage/temp/<?=$material->fileName ?>" class="btn btn-sm btn-success float-right" download><span><i class="fas fa-download"></i></span></a>
+      <div class="col-md-3">
      
+      <a href="#" matid=<?=$material->material_ID?> class="float-right ml-2 materialdel"><span><i class="fas fa-trash"></i></span></a>
+      <a href="/storage/temp/<?=$material->fileName ?>" class=" ml-2 float-right" download><span><i class="fas fa-download"></i></span></a>
+      <?php
+     
+     if(in_array(pathinfo($material->fileName,PATHINFO_EXTENSION),['MP4','mp4']))
+     {
+      ?>
+        <a href="<?=Url::to(['material/player','currentvid'=>$material->fileName,'currenttitle'=>$material->title])?>"  class=" ml-2 float-right"><span><i class="fas fa-eye"></i></span></a>
+      <?php
+     }
+     else
+     {
+     ?>
+      <a href="/storage/temp/<?=$material->fileName ?>"  class=" ml-2 float-right"><span><i class="fas fa-eye"></i></span></a>
+     <?php
+     }
+     ?>
       </div>
       </div>
+      <hr>
+         <?php endforeach ?>
       </div>
-    </div>
-  </div>
+       
+     
+     
 
+ 
+  
+ 
+  </div>
   <?php 
          $mat--;
         
         ?>
+  </div>
   
   <?php endforeach ?>
+  
 
-  <?php endforeach ?>
-</div>
 
 </div>
     </div>
@@ -166,10 +173,7 @@ $materials=$module->materials;
     </div>
  
 
-<?php 
-$assmodel = new UploadMaterial();
-?>
-<?= $this->render('materials/create_material', ['assmodel'=>$assmodel, 'ccode'=>$cid]) ?>
+
 
 <?php
 //the module creating
@@ -254,50 +258,9 @@ $(document).ready(function(){
 })
 
 })
-
-//tutorial deleting
-$(document).on('click', '#tutodelete', function(){
-var ccode = $(this).attr('ccode');
-Swal.fire({
-  title: 'Are you sure?',
-  text: "You won't be able to revert this!",
-  icon: 'question',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes, Delete it!'
-}).then((result) => {
-  if (result.isConfirmed) {
- 
-    $.ajax({
-      url:'/instructor/deletetut',
-      method:'get',
-      async:false,
-      dataType:'JSON',
-      data:{id:ccode},
-      success:function(data){
-        if(data.message){
-          Swal.fire(
-              'Deleted!',
-              data.message,
-              'success'
-    )
-    setTimeout(function(){
-      window.location.reload();
-    }, 100);
-   
-
-        }
-      }
-    })
-   
-  }
-})
-
-})
 //deleting external assessment
-$(document).on('click', '#assessdelete', function(){
-var assessid = $(this).attr('assessid');
+$(document).on('click', '.moduledel', function(){
+var moduleid = $(this).attr('modid');
 Swal.fire({
   title: 'Are you sure?',
   text: "You won't be able to revert this!",
@@ -310,51 +273,11 @@ Swal.fire({
   if (result.isConfirmed) {
  
     $.ajax({
-      url:'/instructor/delete-assessment',
+      url:'/instructor/module-delete',
       method:'get',
       async:false,
       dataType:'JSON',
-      data:{assessid:assessid },
-      success:function(data){
-        if(data.message){
-          Swal.fire(
-              'Deleted!',
-              data.message,
-              'success'
-    )
-    setTimeout(function(){
-      window.location.reload();
-    },100);
-   
-
-        }
-      }
-    })
-   
-  }
-})
-
-})
-//deleting announcements
-$(document).on('click', '#announcedelete', function(){
-var annid = $(this).attr('annid');
-Swal.fire({
-  title: 'Are you sure?',
-  text: "You won't be able to revert this!",
-  icon: 'question',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes, Delete it!'
-}).then((result) => {
-  if (result.isConfirmed) {
- 
-    $.ajax({
-      url:'/instructor/delete-announcement',
-      method:'get',
-      async:false,
-      dataType:'JSON',
-      data:{annid:annid},
+      data:{moduleid:moduleid },
       success:function(data){
         if(data.message){
           Swal.fire(

@@ -17,7 +17,7 @@ use frontend\models\UploadMaterial;
 $this->params['courseTitle'] =Assignment::findOne($id)->assName." : Missing Assignments";
 $this->title = "Missing Assignments";
 $this->params['breadcrumbs'] = [
-  ['label'=>'classwork', 'url'=>Url::to(['/instructor/classwork', 'cid'=>$cid])],
+  ['label'=>'class Assignments', 'url'=>Url::to(['/instructor/class-assignments', 'cid'=>$cid])],
   ['label'=>$this->title]
 ];
 ?>

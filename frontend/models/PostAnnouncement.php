@@ -27,6 +27,7 @@ class PostAnnouncement extends Model{
         $ann=new Announcement();
         $ann->content=$this->content;
         $ann->title=$this->title;
+        $ann->yearID=1;
         $ann->instructorID=Yii::$app->user->identity->instructor->instructorID;
         $ann->course_code=yii::$app->session->get('ccode');
        // $ann->course_code=$cid;
