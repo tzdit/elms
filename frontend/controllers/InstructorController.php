@@ -952,8 +952,8 @@ public function actionUploadAssignment(){
         return $this->redirect(Yii::$app->request->referrer);
         }else{
           
-        Yii::$app->session->setFlash('error', 'Something went wrong');
-        //print_r($model->getErrors());
+        Yii::$app->session->setFlash('error', print_r($model->getErrors()));
+        
         return $this->redirect(Yii::$app->request->referrer);
     }
 }
