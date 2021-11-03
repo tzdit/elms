@@ -49,7 +49,7 @@ class Material extends \yii\db\ActiveRecord
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
             [['instructorID'], 'exist', 'skipOnError' => true, 'targetClass' => Instructor::className(), 'targetAttribute' => ['instructorID' => 'instructorID']],
             [['moduleID'], 'exist', 'skipOnError' => true, 'targetClass' => Module::className(), 'targetAttribute' => ['moduleID' => 'moduleID']],
-            [['moduleID'], 'exist', 'skipOnError' => true, 'targetClass' => Module::className(), 'targetAttribute' => ['moduleID' => 'moduleID']],
+
         ];
     }
 
