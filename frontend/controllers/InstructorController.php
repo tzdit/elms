@@ -1141,6 +1141,7 @@ public function actionUploadLab(){
 public function actionUploadMaterial(){
     $model = new UploadMaterial();
     $model->ccode=yii::$app->session->get('ccode');
+    print_r(Yii::$app->request->post());
     if($model->load(Yii::$app->request->post())){
         $model->assFile = UploadedFile::getInstance($model, 'assFile');
        
