@@ -40,6 +40,7 @@ class External_assess extends Model{
           $assmodel->instructorID=Yii::$app->user->identity->instructor->instructorID;
           $assmodel->course_code=yii::$app->session->get('ccode');
           $assmodel->title=$this->assTitle;
+          $assmodel->yearID=1;
           $assmodel->total_marks=$this->totalMarks;
 
           if($assmodel->save())
