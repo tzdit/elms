@@ -1150,7 +1150,7 @@ public function actionUploadMaterial(){
         // echo '</pre>';
         // exit;
         if($model->upload()){
-            print_r($this->getErrors());
+         
        // Yii::$app->session->setFlash('success', 'Material uploaded successfully');
         //return $this->redirect(['class-materials','cid'=>yii::$app->session->get('ccode')]);
         }else{
