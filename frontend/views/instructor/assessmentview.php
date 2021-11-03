@@ -16,19 +16,12 @@
      ['label'=>'assessments', 'url'=>Url::to(['/instructor/classwork', 'cid'=>$cid])],
      ['label'=>'view']
    ];
-<<<<<<< HEAD
-
-   $records=StudentExtAssess::find()->where(['assessID'=>$assid])->all();
-   $assessment=ExtAssess::findOne($assid)->title;
-   $this->params['courseTitle'] = $cid." ".$assessment;
-=======
    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
    $assid=Yii::$app->getSecurity()->decryptByPassword($assid, $secretKey);
    $records=StudentExtAssess::find()->where(['assessID'=>$assid])->all();
    $assessment=ExtAssess::findOne($assid)->title;
    $this->params['courseTitle'] = $cid." ".$assessment;
    $this->title=$cid." ".$assessment;
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
    $no=0;
 ?>
 <div id="container-fluid">
@@ -67,17 +60,12 @@
                     <td><?=  $record->reg_no; ?></td>
                     <td><?=  $record->score; ?></td>
                     <td>
-<<<<<<< HEAD
-                    <?= Html::a('<i class="fa fa-edit float-right" style="font-size:18px"></i>', ['edit-ext-assrecord-view','recordid'=>$record->student_assess_id]) ?>
-                    <?= Html::a('<i class="fa fa-trash float-right" style="font-size:18px"></i>', ['delete-ext-assrecord','recordid'=>$record->student_assess_id]) ?>
-=======
                     <?php 
                     $secretKey=Yii::$app->params['app.dataEncryptionKey'];
                     $encryptedassess =Yii::$app->getSecurity()->encryptByPassword($record->student_assess_id, $secretKey);
                     ?>
                     <?= Html::a('<i class="fa fa-edit float-right" style="font-size:18px"></i>', ['edit-ext-assrecord-view','recordid'=>$encryptedassess]) ?>
                    <a href="#" id="deleterecord" recordid=<?=$record->student_assess_id?>><i class="fa fa-trash float-right" style="font-size:18px"></i></a>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
                     
                   </td>		
 						  </tr>
@@ -102,13 +90,6 @@ $recmodel= new AddAssessRecord();
 <?php
   $script = <<<JS
   $('document').ready(function(){
-<<<<<<< HEAD
-
-  $('#assesstable').dataTable();
-
-
-  })
-=======
   $('#assesstable').DataTable( {
         dom: 'Bfrtip',
         buttons: [
@@ -156,7 +137,6 @@ $recmodel= new AddAssessRecord();
 
   })
   })
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
   JS;
   $this->registerJs($script);
 ?>

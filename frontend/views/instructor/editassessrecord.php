@@ -1,9 +1,6 @@
 <?php  
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
-<<<<<<< HEAD
-use frontend\models\AddAssessRecord;
-=======
 use yii\helpers\Url;
 use frontend\models\AddAssessRecord;
 use common\models\StudentExtAssess;
@@ -16,7 +13,6 @@ $this->params['breadcrumbs'] = [
   ['label'=>$this->title]
 ];
 
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
 $assessmodel=new AddAssessRecord();
 ?>
 <div class="row justify-content-center">
@@ -25,13 +21,10 @@ $assessmodel=new AddAssessRecord();
         <span id="exampleModalLabel"><h6 class="text-white">Edit record</h6></span>
   </div>
       <div class="card-body">
-<<<<<<< HEAD
-=======
         <?php
               //$secretKey=Yii::$app->params['app.dataEncryptionKey'];
               //$recordid=Yii::$app->getSecurity()->encryptByPassword($recordid, $secretKey);
         ?>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
       <?php $form= ActiveForm::begin(['method'=>'post', 'action'=>'/instructor/edit-ext-assrecord?recordid='.$recordid,'options'=>['enctype'=>'multipart/form-data'],'id'=>'assform','enableClientValidation' => true])?>
         <div class="row">
         <div class="col-md-12">

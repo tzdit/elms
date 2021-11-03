@@ -34,7 +34,7 @@ class UploadStudentHodForm extends Model
             [['fname', 'mname', 'lname','program', 'YOS', 'role', 'gender'], 'required'],
             ['username', 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This user has already been taken.'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'User already exixts.'],
             ['email', 'unique', 'targetClass' => '\common\models\Student', 'message' => 'This email has already been taken.'],
            
 

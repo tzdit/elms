@@ -9,6 +9,7 @@ use common\models\Assignment;
 use common\models\Material;
 use common\models\Submit;
 use common\models\Instructor;
+use common\models\Module;
 use common\models\Student;
 use common\models\Department;
 use common\models\Program;
@@ -119,7 +120,6 @@ public $defaultAction = 'dashboard';
                             'ca-preview',
                             'get-incomplete-perc',
                             'get-student-count',
-
                             'get-carries-perc',
                             'get-pdf-ca',
                             'add-students',
@@ -127,9 +127,16 @@ public $defaultAction = 'dashboard';
                             'missed-workmark',
                             'delete-material',
                             'update-assignment',
-                            'quiz_history',
-                            'quiz_edit',
-                            'update-assignment'
+                            'class-dashboard',
+                            'class-announcements',
+                            'class-materials',
+                            'class-assignments',
+                            'class-labs',
+                            'class-tutorials',
+                            'class-ext-assessments',
+                            'class-ca-generator',
+                            'class-students',
+                            'create-module'
 
                         ],
                         'allow' => true,
@@ -158,12 +165,7 @@ public $defaultAction = 'dashboard';
                             'delete',
                             'deletelab',
                             'deletetut',
-
-                            'deleteprog',
-                            'delete-student',
-
                             'deletecoz',
-
                             'materials',
                             'stdwork',
                             'stdworkmark',
@@ -197,8 +199,17 @@ public $defaultAction = 'dashboard';
                             'failed-assignments',
                             'missed-workmark',
                             'delete-material',
-                            'deleteprogg',
-                            'update-assignment'
+                            'update-assignment',
+                            'class-dashboard',
+                            'class-announcements',
+                            'class-materials',
+                            'class-assignments',
+                            'class-labs',
+                            'class-tutorials',
+                            'class-ext-assessments',
+                            'class-ca-generator',
+                            'class-students',
+                            'create-module'
                            
                         ],
                         'allow' => true,
@@ -225,21 +236,7 @@ public $defaultAction = 'dashboard';
     return $this->render('index', ['courses'=>$courses]);
     }
 
-############################## quiz things #######################################################
 
-public function actionQuiz_history()
-{
-
-    return $this->render('quiz/history');
-}
-
-public function actionQuiz_edit()
-{
-
-    return $this->render('quiz/quiz_view');
-}
-
-############################## end quiz things #######################################################
 
     //#################### function to render instructor courses ##############################
 
@@ -465,20 +462,11 @@ public function actionEditExtAssrecord($recordid)
         return $this->redirect(Yii::$app->request->referrer);
     }
 
-    public function actionDeletecozz($id)
+    public function actionDeletecoz($id)
     {
-        $cozz = Course::findOne($id)->delete(); 
-        if($cozz){
-           Yii::$app->session->setFlash('success', 'Course deleted successfully');
-        }
-        return $this->redirect(Yii::$app->request->referrer);
-    }
-
-    public function actionDeleteprogg($id)
-    {
-        $progg = Program::findOne($id)->delete(); 
-        if($progg){
-           Yii::$app->session->setFlash('success', 'Program deleted successfully');
+        $cozdel = Assignment::findOne($id)->delete(); 
+        if($cozdel){
+           Yii::$app->session->setFlash('success', 'Lab deleted successfully');
         }
         return $this->redirect(Yii::$app->request->referrer);
     }
@@ -555,6 +543,125 @@ public function actionEditExtAssrecord($recordid)
 
 
 //############################### classwork  #######################################################
+public function actionClassDashboard($cid)
+{
+    Yii::$app->session->set('ccode', $cid);
+    return $this->render('classdashboard', ['cid'=>$cid]);
+
+}
+//announcement page
+
+public function actionClassAnnouncements($cid)
+{
+
+    return $this->render('announcements', ['cid'=>$cid]);
+
+}
+//material page
+
+public function actionClassMaterials($cid)
+{
+    $materials = Module::find()->where(['course_code' => $cid])->orderBy([
+        'moduleID' => SORT_DESC ])->all();
+    return $this->render('classmaterials', ['cid'=>$cid,'modules'=>$materials]);
+
+}
+//create module
+
+public function actionCreateModule()
+    {
+        $model = new Module();
+        $model->course_code=yii::$app->session->get('ccode');
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'module created successfully');
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+    }
+//assignments page
+public function actionClassAssignments($cid)
+{
+    $assignments = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->orderBy([
+        'assID' => SORT_DESC ])->all();
+    return $this->render('classAssignments', ['cid'=>$cid,'assignments'=>$assignments]);
+
+}
+//lab assignments page
+
+public function actionClassLabs($cid)
+{
+    $assignments = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->orderBy([
+        'assID' => SORT_DESC ])->all();
+    return $this->render('classLabAssignments', ['cid'=>$cid,'assignments'=>$assignments]);
+
+}
+
+//tutorial page
+
+public function actionClassTutorials($cid)
+{
+    $tutorials = Assignment::find()->where(['assNature' => 'tutorial', 'course_code' => $cid])->orderBy([
+        'assID' => SORT_DESC])->all();
+    return $this->render('tutorials', ['cid'=>$cid,'tutorials'=>$tutorials]);
+
+}
+
+//external assessments page
+
+public function actionClassExtAssessments($cid)
+{
+    
+    return $this->render('classExtAssessments',['cid'=>$cid]);
+
+}
+
+//CA generator page
+
+public function actionClassCaGenerator($cid)
+{
+    
+        return $this->render('classCAgenerator',['cid'=>$cid]);
+
+}
+
+//students page
+
+public function actionClassStudents($cid)
+{
+    return $this->render('class_students',['cid'=>$cid]);
+
+}
+
+//Quizes page
+
+public function actionClassQuizes($cid)
+{
+    $materials = Material::find()->where(['course_code' => $cid])->orderBy([
+        'material_ID' => SORT_DESC ])->all();
+    return $this->render('classmaterials', ['cid'=>$cid,'materials'=>$materials]);
+
+}
+
+//live lecturing page
+
+public function actionClassLecturing($cid)
+{
+    $materials = Material::find()->where(['course_code' => $cid])->orderBy([
+        'material_ID' => SORT_DESC ])->all();
+    return $this->render('classmaterials', ['cid'=>$cid,'materials'=>$materials]);
+
+}
+
+//class forum page
+
+public function actionClassForum($cid)
+{
+    $materials = Material::find()->where(['course_code' => $cid])->orderBy([
+        'material_ID' => SORT_DESC ])->all();
+    return $this->render('classmaterials', ['cid'=>$cid,'materials'=>$materials]);
+
+}
+
+////////////////////////////////////////////////////
 
 public function actionClasswork($cid){
     if(!empty($cid)){
@@ -716,7 +823,6 @@ public function actionDeleteMaterial($matid)
         return $this->redirect(Yii::$app->request->referrer);
     }
 }
-
 public function actionFailedAssignments($cid, $id){
 
     $secretKey=Yii::$app->params['app.dataEncryptionKey'];
@@ -820,7 +926,7 @@ public function actionUploadAssignment(){
         }else{
           
         Yii::$app->session->setFlash('error', 'Something went wrong');
-       
+        //print_r($model->getErrors());
         return $this->redirect(Yii::$app->request->referrer);
     }
 }
@@ -956,9 +1062,10 @@ public function actionUploadTutorial(){
         $model->assFile = UploadedFile::getInstance($model, 'assFile');
         if($model->upload()){
         Yii::$app->session->setFlash('success', 'Tutorial created successfully');
+        //print_r($model->getErrors());
         return $this->redirect(Yii::$app->request->referrer);
         }else{
-          
+            print_r($model->getErrors());
         Yii::$app->session->setFlash('error', 'Something went wrong');
        
         return $this->redirect(Yii::$app->request->referrer);
@@ -1072,10 +1179,12 @@ public function actionMarkInputing()
   if($model!=null)
   {
     $submit=$model->findOne($fid);
+
     $submit->score=$score;
     $submit->comment=$comment;
   }
   $submit->save();
+
   //preparing the submit
  
 
@@ -1452,18 +1561,18 @@ public function actionAddStudentGentype()
     $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
     if($model->load(Yii::$app->request->post())){
        
-        if($model->createi()){
+        if($model->create()){
         Yii::$app->session->setFlash('success', 'Student registered successfully');
         return $this->redirect(Yii::$app->request->referrer);
         }else{
-            Yii::$app->session->setFlash('error', 'Somethibg went Wrong!');
+            Yii::$app->session->setFlash('error', 'Something went Wrong!');
         }
    
             
      } 
     
 }catch(\Exception $e){
-    Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+    Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
 }
     return $this->render('create_student', ['model'=>$model, 'programs'=>$programs, 'departments'=>$departments, 'roles'=>$roles]);
 }

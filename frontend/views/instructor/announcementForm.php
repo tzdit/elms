@@ -15,10 +15,7 @@ use yii\helpers\Html;
       <?php $form= ActiveForm::begin(['method'=>'post', 'action'=>'/instructor/post-announcement','options'=>['enctype'=>'multipart/form-data'],'id'=>'announceform','enableClientValidation' => true])?>
         <div class="row">
         <div class="col-md-12">
-<<<<<<< HEAD
-=======
         <?= $form->field($announcemodel, 'title')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Title'])->label(false)?>
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         <?= $form->field($announcemodel, 'content')->textarea(['class'=>'form-control form-control-sm', 'placeholder'=>'Your announcement'])->label(false)?>
         </div> 
         </div>

@@ -115,7 +115,8 @@ use yii\helpers\Html;
             <td><?= $course->course_status ?></td>
             <td>
             <?= Html::a('<i class="fas fa-edit"></i>',['updatecoz', 'id'=>$course->course_code], ['class'=>'btn btn-info btn-sm m-0'])?> 
-            <?= Html::a('<i class="fas fa-trash"></i>',['deletecozz', 'id'=>$course->course_code], ['class'=>'btn btn-danger btn-sm m-0'])?> 
+            <a href="#" class="btn btn-success btn-sm m-0"><i class="fas fa-eye"></i></a>
+            <a href="#" class="btn btn-danger btn-sm m-0" data-toggle="modal" data-target="#modal-danger<?php $course->course_code ?>"><span><i class="fas fa-trash"></i></span></a>
             
             </td>
             <div class="modal fade" id="modal-danger<?php $course->course_code ?>">

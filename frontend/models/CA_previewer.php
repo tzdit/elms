@@ -35,15 +35,6 @@ class CA_previewer extends Model{
     {
      
       $this->setallstudents();
-<<<<<<< HEAD
-      $student_with_marks=null;
-      $caheader="<tr style='background-color:#f0fbff;text-align:center;'><td rowspan=2>registration number</td>";
-      $ca_sub_header="<tr style='background-color:#f0fbff;text-align:center;'>";
-      $rows=[];
-      $catable="<table class='table-bordered table-hover shadow'>";
-      if(!empty($this->Assignments)){
-        $student_with_marks=$this->asscumul($this->Assignments);
-=======
       $student_with_marks=$this->allstudents;
       $caheader="<tr style='background-color:#f0fbff;text-align:center;'><td rowspan=2>Registration number</td>";
       $ca_sub_header="<tr style='background-color:#f0fbff;text-align:center;'>";
@@ -51,28 +42,18 @@ class CA_previewer extends Model{
       $catable="<table class='table-bordered table-hover shadow'>";
       if(!empty($this->Assignments) && !empty($this->allstudents)){
         $student_with_marks=$this->asscumul($this->Assignments,$this->allstudents);
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         $caheader.=$this->catable_header($student_with_marks,"Assignments");
         $ca_sub_header.=$this->ca_subheader($student_with_marks,"Assignments");
         $rows=$this->carows($student_with_marks,"Assignments",$rows);
       }
-<<<<<<< HEAD
-      else{$student_with_marks=$this->allstudents;}
-      if(!empty($this->LabAssignments)){
-=======
      
       if(!empty($this->LabAssignments) && !empty($student_with_marks)){
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         $student_with_marks=$this->labcumul($this->LabAssignments,$student_with_marks);
         $caheader.=$this->catable_header($student_with_marks,"Lab Assignments");
         $ca_sub_header.=$this->ca_subheader($student_with_marks,"Lab Assignments");
         $rows=$this->carows($student_with_marks,"Lab Assignments",$rows);
       }
-<<<<<<< HEAD
-      if(!empty($this->otherAssessments)){
-=======
       if(!empty($this->otherAssessments) && !empty($student_with_marks)){
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         $student_with_marks=$this->otherAssessCumul($this->otherAssessments,$student_with_marks);
         $caheader.=$this->catable_header($student_with_marks,"Other Assessments");
         $ca_sub_header.=$this->ca_subheader($student_with_marks,"Other Assessments");
@@ -86,12 +67,6 @@ class CA_previewer extends Model{
       $catable.=$caheader;
       $catable.=$ca_sub_header;
       //the grandtotals
-<<<<<<< HEAD
-      $rows=$this->addGrandTotals($rows,$student_with_marks);
-      //closing the rows tags and adding them to the table
-      for($r=0;$r<count($rows);$r++)
-      {
-=======
       $rows=empty($rows)?null:$this->addGrandTotals($rows,$this->addEncompletes($student_with_marks));
       //closing the rows tags and adding them to the table
       if($rows!=null)
@@ -99,7 +74,6 @@ class CA_previewer extends Model{
       for($r=0;$r<count($rows);$r++)
       {
         if($r>4){continue;}
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         $rows[$r]=$rows[$r]."</tr>";
         
         $catable.=$rows[$r];
@@ -108,14 +82,11 @@ class CA_previewer extends Model{
       
       $catable.="</table>";
       return $catable;
-<<<<<<< HEAD
-=======
     }
     else
     {
       return null;
     }
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
        
     }
     private function ca_subheader($data,$type)
@@ -214,11 +185,7 @@ class CA_previewer extends Model{
      {
        $rec="";
       
-<<<<<<< HEAD
-       $grandma=$data[$reg]["GrandTotal"];
-=======
        $grandma=isset($data[$reg]["GrandTotal"])?$data[$reg]["GrandTotal"]:null;
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
        $rec.="<td>{$grandma}</td>"; 
        array_push($grandmax,$rec);
      }
@@ -231,20 +198,12 @@ class CA_previewer extends Model{
    
      return  $prevrows;
     }
-<<<<<<< HEAD
-    private function asscumul($assign)
-=======
     private function asscumul($assign,$stud)
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     {
        //getting all assignments
 
        $assignments=$assign;
-<<<<<<< HEAD
-       $students=$this->allstudents;
-=======
        $students=$stud;
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
        $reduce=$this->assreduce;
        $max=0;
 
@@ -632,30 +591,16 @@ class CA_previewer extends Model{
 
     }
 
-<<<<<<< HEAD
-    private function setallstudents()
-    {
-      $students_for_assessments=[];
-
-      $coursePrograms=ProgramCourse::find()->where(['course_code'=>yii::$app->session->get('ccode')])->limit(2)->all();
-=======
     public function setallstudents()
     {
       $students_for_assessments=[];
 
       $coursePrograms=ProgramCourse::find()->where(['course_code'=>yii::$app->session->get('ccode')])->all();
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
       foreach($coursePrograms as $program)
       {
  
        $programStudents=$program->programCode0->students;
-<<<<<<< HEAD
-       
        for($s=0;$s<count($programStudents);$s++){
-        if($s>2){continue;}
-=======
-       for($s=0;$s<count($programStudents);$s++){
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
         $students_for_assessments[$programStudents[$s]->reg_no]=array();
         if(!empty($this->Assignments)){
           $students_for_assessments[$programStudents[$s]->reg_no]["Assignments"]["total"]=null;
@@ -675,12 +620,8 @@ class CA_previewer extends Model{
  
       }
       $carryovers=StudentCourse::find()->where(['course_code'=>yii::$app->session->get('ccode')])->limit(2)->all(); 
-<<<<<<< HEAD
- 
-=======
       if($carryovers!==null || !empty($carryovers))
       {
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
       foreach($carryovers as $carry)
       {
        
@@ -702,30 +643,16 @@ class CA_previewer extends Model{
         
        
       }
-<<<<<<< HEAD
-   
-      $this->allstudents=$students_for_assessments;
-=======
     }
    
       $this->allstudents=$students_for_assessments;
 
       
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
     }
 
     private function addEncompletes($studentswithscores)
     {
       $studentwithmarks=$studentswithscores;
-<<<<<<< HEAD
-      foreach($studentwithmarks as $reg=>$assess)
-      {
-          $status=false;
-          $assignments=$studentwithmarks[$reg]['Assignments'];
-          $labs=$studentwithmarks[$reg]['Lab Assignments'];
-          $other=$studentwithmarks[$reg]['Other Assessments'];
-
-=======
       
       foreach($studentwithmarks as $reg=>$assess)
       {
@@ -736,19 +663,15 @@ class CA_previewer extends Model{
 
           if($assignments!==null)
           {
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
           foreach($assignments as $title=>$score)
           {
             if($assignments[$title]==null || empty($assignments[$title])){$status=true; break;}
             else{$status=false; continue;}
 
           }
-<<<<<<< HEAD
-=======
         }
         if($labs!==null)
         {
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
           foreach($labs as $title=>$score)
           {
             if($status==true){break;}
@@ -756,24 +679,6 @@ class CA_previewer extends Model{
             else{$status=false; continue;}
 
           }
-<<<<<<< HEAD
-          foreach($labs as $title=>$score)
-          {
-            if($status==true){break;}
-            if($others[$title]==null || empty($other[$title])){$status=true; break;}
-            else{$status=false; continue;}
-
-          }
-
-          if($status===true){
-            $studentwithmarks[$reg]['GrandTotal']=null;
-          }
-
-         return $studentwithmarks;
-      }
-    }
-
-=======
         }
 
         if($other!==null)
@@ -795,7 +700,6 @@ class CA_previewer extends Model{
       }
       return $studentwithmarks;
     }
->>>>>>> f59bbc439c3ad3342a28ca1a445f1173eb3fdadd
    
   
     

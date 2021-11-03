@@ -29,7 +29,7 @@ $instructors=ArrayHelper::map(Instructor::find()->asArray()->where(['<>','instru
         <div class="row">
         <?php foreach($courses as $course): ?>
           <div class="col-lg-3 col-6">
-          <a href="<?=Url::to(['instructor/classwork/', 'cid'=>$course->course_code])  ?>" style="color:white">
+          <a href="<?=Url::to(['instructor/class-dashboard/', 'cid'=>$course->course_code])  ?>" style="color:white">
             <div class="small-box bg-info"  >
               <div class="inner" style="padding:10px" data-toggle="tooltip" data-title="Enter this course">
                 <h4 ><?= $course->course_code ?></h4>

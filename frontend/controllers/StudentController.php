@@ -43,7 +43,6 @@ class StudentController extends \yii\web\Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-
                         'actions' => ['dashboard','error','classwork','courses','changePassword','carrycourse','add_carry','delete_carry','student_groups','delete_group','add_group','student_in_login_user_course','add_to_group','list_student_in_group','remove_student_from_group','submit_assignment','view_assignment','download_assignment','resubmit','videos','announcement','group_assignment_submit','quiz_answer','quiz_view','group_resubmit','assignment','group-assignment','labs','tutorial','course-materials','returned','course-announcement','quiz'],
                        'allow' => true,
                         'roles'=>['STUDENT']
@@ -70,21 +69,9 @@ class StudentController extends \yii\web\Controller
     }
    
 
-    ############################## quiz things #######################################################
 
-    public function actionQuiz_answer()
-    {
 
-        return $this->render('quiz/answer_sheet');
-    }
 
-    public function actionQuiz_view()
-    {
-
-        return $this->render('quiz/view_answer');
-    }
-
-############################## end quiz things #######################################################
     public function actionDashboard()
     {
    $courses = Yii::$app->user->identity->student->program->courses;
