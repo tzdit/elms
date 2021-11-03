@@ -62,7 +62,7 @@ $this->params['breadcrumbs'] = [
 
       <div class="row">
         <div class="col-md-12">
-              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createLabModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create New</a>
+              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createAssignmentModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create New</a>
         </div>
                   
       </div>
@@ -368,9 +368,6 @@ $labmodel = new UploadLab();
 $assignstudentsmodel = new StudentAssign();
 ?>
 <?= $this->render('assignstudents', ['assignstudentsmodel'=>$assignstudentsmodel, 'ccode'=>$cid]) ?>
-
-<!--  ###################################render model to create_material ####################################################-->
-
 <!--  ###################################new assessment modal ####################################################-->
 <?php 
 $assessmodel = new External_assess();
