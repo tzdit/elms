@@ -67,4 +67,6 @@ class GroupGenerationAssignment extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Assignment::className(), ['assID' => 'assID']);
     }
+
+
 }

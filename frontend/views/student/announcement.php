@@ -1,23 +1,13 @@
 <?php
-use yii\bootstrap4\Breadcrumbs;
-use yii\grid\GridView;
-use fedemotta\datatables\DataTables;
-use common\models\Material;
 use common\models\Instructor;
 use yii\helpers\Url;
 use yii\helpers\Html;
-use common\helpers\Custom;
-use common\helpers\Security;
-use common\models\Assignment;
-use common\models\Submit;
-use common\models\GroupAssignmentSubmit;
-use frontend\models\UploadMaterial;
 use yii\helpers\VarDumper;
 use yii\bootstrap4\Modal;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] =$cid;
-$this->title = 'Class';
+$this->title = 'Announcement';
 $this->params['breadcrumbs'] = [
     ['label'=>'Class', 'url'=>Url::to(['/student/classwork', 'cid'=>$cid])],
     ['label'=>$this->title]
