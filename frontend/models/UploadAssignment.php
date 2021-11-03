@@ -161,7 +161,7 @@ class UploadAssignment extends Model{
         else{
             return false;
         }
-        return true;
+        //return true;
 
         
     }catch(\Exception $e){
