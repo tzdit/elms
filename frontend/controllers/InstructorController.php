@@ -1150,10 +1150,10 @@ public function actionUploadMaterial(){
        // return $this->redirect(['class-materials','cid'=>yii::$app->session->get('ccode')]);
         }else{
           
-           
-        Yii::$app->session->setFlash('error',"an error occured");
+           print $model->upload();
+        //Yii::$app->session->setFlash('error',"an error occured");
        
-        return $this->redirect(Yii::$app->request->referrer);
+        //return $this->redirect(Yii::$app->request->referrer);
     }
 }
 }
