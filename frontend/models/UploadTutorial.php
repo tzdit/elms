@@ -27,6 +27,7 @@ class UploadTutorial extends Model{
         $tut = new Assignment();
         $tut->assName =$this->assTitle;
         $tut->ass_desc = $this->description;
+        $tut->yearID=1;
         $tut->assNature = "tutorial";
         $tut->instructorID = Yii::$app->user->identity->instructor->instructorID;
         $tut->course_code = isset($this->ccode) ? $this->ccode : Yii::$app->session->get('ccode');

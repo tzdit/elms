@@ -6,7 +6,7 @@ use yii\helpers\Url;
 $this->params['courseTitle'] ="Update Assignment";
 $this->title ="Update assignment";
 $this->params['breadcrumbs'] = [
-  ['label'=>'classwork', 'url'=>Url::to(['/instructor/classwork', 'cid'=>yii::$app->session->get('ccode')])],
+  ['label'=>'class assignments', 'url'=>Url::to(['/instructor/class-assignments', 'cid'=>yii::$app->session->get('ccode')])],
   ['label'=>$this->title]
 ];
 

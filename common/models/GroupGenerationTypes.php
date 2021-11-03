@@ -16,6 +16,7 @@ use Yii;
  * @property string|null $reg_no
  * @property string|null $created_date
  * @property string|null $created_time
+ * @property int $yearID
  *
  * @property GroupGenerationAssignment[] $groupGenerationAssignments
  * @property Course $courseCode
@@ -40,8 +41,8 @@ class GroupGenerationTypes extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['generation_type', 'max_groups_members', 'course_code', 'creator_type'], 'required'],
-            [['max_groups_members', 'instructorID'], 'integer'],
+            [['generation_type', 'max_groups_members', 'course_code', 'creator_type', 'yearID'], 'required'],
+            [['max_groups_members', 'instructorID', 'yearID'], 'integer'],
             [['created_date', 'created_time'], 'safe'],
             [['generation_type'], 'string', 'max' => 100],
             [['course_code'], 'string', 'max' => 10],
@@ -69,6 +70,7 @@ class GroupGenerationTypes extends \yii\db\ActiveRecord
             'reg_no' => 'Reg No',
             'created_date' => 'Created Date',
             'created_time' => 'Created Time',
+            'yearID' => 'Year ID',
         ];
     }
 

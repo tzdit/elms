@@ -17,7 +17,7 @@ use frontend\models\UploadMaterial;
 $this->params['courseTitle'] =!empty($submits)?$submits[0]->ass->assName." submits":"Submits";
 $this->title = !empty($submits[0]->ass->assName)?$submits[0]->ass->assName." Submits":'Submits';
 $this->params['breadcrumbs'] = [
-  ['label'=>'classwork', 'url'=>Url::to(['/instructor/classwork', 'cid'=>$cid])],
+  ['label'=>'class Assignments', 'url'=>Url::to(['/instructor/class-assignments', 'cid'=>$cid])],
   ['label'=>$this->title]
 ];
 ?>

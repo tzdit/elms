@@ -13,6 +13,7 @@ use Yii;
  * @property string $title
  * @property int $total_marks
  * @property string $date_created
+ * @property int $yearID
  *
  * @property Course $courseCode
  * @property Instructor $instructor
@@ -35,12 +36,12 @@ class ExtAssess extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['instructorID', 'total_marks'], 'integer'],
-            [['title', 'total_marks'], 'required'],
+            [['instructorID', 'total_marks', 'yearID'], 'integer'],
+            [['title', 'total_marks', 'yearID'], 'required'],
             [['date_created'], 'safe'],
             [['course_code'], 'string', 'max' => 7],
             [['title'], 'string', 'max' => 20],
-            [['instructorID', 'course_code', 'title'], 'unique', 'targetAttribute' => ['instructorID', 'course_code', 'title']],
+            [['instructorID', 'total_marks', 'course_code', 'title'], 'unique', 'targetAttribute' => ['instructorID', 'total_marks', 'course_code', 'title']],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
             [['instructorID'], 'exist', 'skipOnError' => true, 'targetClass' => Instructor::className(), 'targetAttribute' => ['instructorID' => 'instructorID']],
         ];
@@ -58,6 +59,7 @@ class ExtAssess extends \yii\db\ActiveRecord
             'title' => 'Title',
             'total_marks' => 'Total Marks',
             'date_created' => 'Date Created',
+            'yearID' => 'Year ID',
         ];
     }
 

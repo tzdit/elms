@@ -68,6 +68,7 @@ class StudentGroups extends Model{
         $typesmodel->course_code=$ccode;
         $typesmodel->creator_type="instructor";
         $typesmodel->instructorID=$instructorID;
+        $typesmodel->yearID=1;
         $typesmodel->max_groups_members=$this->membersNumber;
         $typesmodel->save();
 
@@ -136,6 +137,7 @@ public function addstudenttype()
   $typesmodel->course_code=$ccode;
   $typesmodel->creator_type="instructor-student";
   $typesmodel->instructorID=$instructorID;
+  $typesmodel->yearID=1;
   $typesmodel->max_groups_members=$this->membersNumber;
   $typesmodel->save();
 
