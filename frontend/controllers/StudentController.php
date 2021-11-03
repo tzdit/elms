@@ -44,9 +44,8 @@ class StudentController extends \yii\web\Controller
                 'rules' => [
                     [
 
-                        'actions' => ['dashboard','error','classwork','courses','changePassword','carrycourse','add_carry','delete_carry','student_groups','delete_group','add_group','student_in_login_user_course','add_to_group','list_student_in_group','remove_student_from_group','submit_assignment','view_assignment','download_assignment','resubmit','videos','announcement','group_assignment_submit','quiz_answer','quiz_view','group_resubmit'],
-                        'actions' => ['dashboard','error','classwork','courses','changePassword','carrycourse','add_carry','delete_carry','student_groups','delete_group','add_group','student_in_login_user_course','add_to_group','list_student_in_group','remove_student_from_group','submit_assignment','view_assignment','download_assignment','resubmit','videos','announcement','group_assignment_submit','group_resubmit'],
-                        'allow' => true,
+                        'actions' => ['dashboard','error','classwork','courses','changePassword','carrycourse','add_carry','delete_carry','student_groups','delete_group','add_group','student_in_login_user_course','add_to_group','list_student_in_group','remove_student_from_group','submit_assignment','view_assignment','download_assignment','resubmit','videos','announcement','group_assignment_submit','quiz_answer','quiz_view','group_resubmit','assignment','group-assignment','labs','tutorial','course-materials','returned','course-announcement','quiz'],
+                       'allow' => true,
                         'roles'=>['STUDENT']
                     ],
                     
@@ -100,35 +99,133 @@ public function actionClasswork($cid){
 
     $reg_no = Yii::$app->user->identity->username;
 
+    $courses = Yii::$app->user->identity->student->program->courses;
+
+
+    return $this->render('classwork', ['cid'=>$cid,'courses'=>$courses,  'reg_no' => $reg_no, 'cid' => $cid]);
+
+}
+
+
+
+
+
+public function actionAssignment($cid){
+    if(!empty($cid)){
+        Yii::$app->session->set('ccode', $cid);
+    }
+
+    $reg_no = Yii::$app->user->identity->username;
     $assignments = Assignment::find()->where('assNature = :assignment AND course_code = :cid AND assType = :students OR assType = :allstudent ',[':assignment' => 'assignment', ':cid' => $cid, ':students' => 'students', ':allstudent' => 'allstudents'])->orderBy([
-    'assID' => SORT_DESC ])->all(); 
+        'assID' => SORT_DESC ])->all();
+
+	     return $this->render('assignment', ['cid'=>$cid, 'assignments' => $assignments,  'reg_no' => $reg_no] );
+}
 
 
-    $tutorials = Assignment::find()->where(['assNature' => 'tutorial', 'course_code' => $cid])->orderBy([
-        'assID' => SORT_DESC])->all();
 
+
+
+public function actionGroupAssignment($cid){
+        if(!empty($cid)){
+            Yii::$app->session->set('ccode', $cid);
+        }
+
+        $reg_no = Yii::$app->user->identity->username;
+        return $this->render('group_assignment', ['cid'=>$cid, 'reg_no' => $reg_no] );
+    }
+
+
+
+
+
+public function actionLabs($cid){
+    if(!empty($cid)){
+        Yii::$app->session->set('ccode', $cid);
+    }
 
     $labs = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->orderBy([
         'assID' => SORT_DESC ])->all();
 
+    $reg_no = Yii::$app->user->identity->username;
+    return $this->render('group_assignment', ['cid'=>$cid, 'reg_no' => $reg_no, 'labs'=>$labs] );
+}
+
+
+
+
+
+public function actionTutorial($cid){
+    if(!empty($cid)){
+        Yii::$app->session->set('ccode', $cid);
+    }
+
+    $tutorials = Assignment::find()->where(['assNature' => 'tutorial', 'course_code' => $cid])->orderBy([
+        'assID' => SORT_DESC])->all();
+
+    $reg_no = Yii::$app->user->identity->username;
+    return $this->render('tutorials', ['cid'=>$cid, 'reg_no' => $reg_no, 'tutorials'=>$tutorials] );
+}
+
+
+
+
+
+public function actionCourseMaterials($cid){
+    if(!empty($cid)){
+        Yii::$app->session->set('ccode', $cid);
+    }
 
     $materials = Material::find()->where(['course_code' => $cid])->orderBy([
         'material_ID' => SORT_DESC ])->all();
 
+    $reg_no = Yii::$app->user->identity->username;
+    return $this->render('course_materials', ['cid'=>$cid, 'reg_no' => $reg_no, 'materials'=>$materials] );
+}
 
+
+
+
+
+public function actionReturned($cid){
+    if(!empty($cid)){
+        Yii::$app->session->set('ccode', $cid);
+    }
+
+    $reg_no = Yii::$app->user->identity->username;
     $returned= Assignment::find()->where('submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->leftJoin('submit','assignment.assID = submit.assID')->with('submits')->orderBy([
         'submit.submitID' => SORT_DESC ])->all();
+    return $this->render('returned', ['cid'=>$cid, 'reg_no' => $reg_no, 'returned'=>$returned] );
+}
 
+
+
+
+
+public function actionCourseAnnouncement($cid){
+    if(!empty($cid)){
+        Yii::$app->session->set('ccode', $cid);
+    }
+
+    $reg_no = Yii::$app->user->identity->username;
     $announcement = Announcement::find()->where(['course_code' => $cid])->orderBy([
         'annID' => SORT_DESC ])->all();
 
-
-    $courses = Yii::$app->user->identity->student->program->courses;
-
-
-    return $this->render('classwork', ['cid'=>$cid,'returned'=>$returned, 'courses'=>$courses, 'assignments'=>$assignments,'tutorials'=>$tutorials, 'labs'=>$labs, 'materials'=>$materials, 'reg_no' => $reg_no, 'cid' => $cid, 'announcement' => $announcement]);
-
+    return $this->render('announcement', ['cid'=>$cid, 'reg_no' => $reg_no, 'announcement' => $announcement] );
 }
+
+
+
+
+
+public function actionQuiz($cid){
+
+    $reg_no = Yii::$app->user->identity->username;
+	     return $this->render('quiz', ['cid'=>$cid, 'reg_no' => $reg_no]);
+}
+
+
+
 
 
 public function actionAnnouncement($announcement)
@@ -136,6 +233,8 @@ public function actionAnnouncement($announcement)
     $announcement = Announcement::findOne($announcement);
     return $this->renderAjax('announcement_content', ['announcement'=>$announcement]);
 }
+
+
 
 
 
@@ -148,6 +247,9 @@ public function actionAnnouncement($announcement)
         return $this->render('courses',['data'=>$courses]);
     }
    
+
+
+
 
      /**
      * Lists all Course models.
@@ -163,6 +265,7 @@ public function actionAnnouncement($announcement)
 
         return $this->render('carry_courses/index', ['data'=> $model]);
     }
+
 
 
 
@@ -221,6 +324,7 @@ public function actionAnnouncement($announcement)
 
 
 
+
     /**
      * Deletes an existing Carry Course.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -243,6 +347,8 @@ public function actionAnnouncement($announcement)
 
 
 
+
+
      /**
      * Lists all groups created by student student.
      * @return mixed
@@ -259,6 +365,9 @@ public function actionAnnouncement($announcement)
 
         return $this->render('groups/index', ['data'=> $model]);
     }
+
+
+
 
 
     /**
@@ -278,6 +387,8 @@ public function actionAnnouncement($announcement)
     }
 
 
+
+
      /**
      * Deletes an existing Group.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -295,6 +406,9 @@ public function actionAnnouncement($announcement)
         return $this->redirect(Yii::$app->request->referrer);
     }
     
+
+
+
 
      /**
      * Creates a new Groups model.
@@ -337,6 +451,10 @@ public function actionAnnouncement($announcement)
             'model' => $model,'student_programme' => $student_programme
         ]);
     }
+
+
+
+
 
 
      /**
@@ -387,6 +505,9 @@ public function actionAnnouncement($announcement)
     }
 
 
+
+
+
        /**
      * Lists all students in a group.
      * @return mixed
@@ -423,6 +544,7 @@ public function actionAnnouncement($announcement)
 
 
 
+
     /**
      * Finds the Group model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -438,6 +560,10 @@ public function actionAnnouncement($announcement)
 
         throw new NotFoundHttpException(Yii::t('app', 'Group .'));
     }
+
+
+
+
 
 
      /**
@@ -456,6 +582,7 @@ public function actionAnnouncement($announcement)
     }
     
            
+
 
 
      /**
@@ -500,6 +627,7 @@ public function actionAnnouncement($announcement)
             return $this->render('submit_assignment', [
                 'model' => $model, 'assID' => $assID],false,true);
     }
+
 
 
 
@@ -576,6 +704,8 @@ public function actionAnnouncement($announcement)
 
 
 
+
+
     /**
      * View uploaded assinment in the browser
      */
@@ -606,6 +736,9 @@ public function actionAnnouncement($announcement)
         }
     }
     
+
+
+
 
     /**
      * Resubmision of an assinment 
@@ -645,6 +778,7 @@ public function actionAnnouncement($announcement)
             return $this->render('submit_assignment', [
                 'model' => $model, 'assID' => $assID],false,true);
     }
+
 
 
 

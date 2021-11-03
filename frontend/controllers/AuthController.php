@@ -89,7 +89,7 @@ class AuthController extends \yii\web\Controller
         Yii::$app->user->logout();
         $destroySession = true;
 
-        return $this->redirect(['auth']);
+        return $this->redirect(['auth/login']);
     }
 
 
