@@ -3,34 +3,22 @@
 namespace frontend\controllers;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\data\ActiveDataProvider;
 use common\models\Course;
 use common\models\Assignment;
-use common\models\Program;
-use common\models\Submit;
 use common\models\Material;
-use common\models\User;
 use common\models\Groups;
 use common\models\Student;
 use common\models\Announcement;
 use common\models\StudentCourse;
-use common\models\InstructorCourse;
-use frontend\models\UploadAssignment;
 use frontend\models\AddGroup;
-use frontend\models\UploadTutorial;
-use frontend\models\UploadLab;
 use frontend\models\AssSubmitForm;
 use frontend\models\GroupAssSubmit;
-use frontend\models\UploadMaterial;
 use frontend\models\CarryCourseSearch;
 use common\models\StudentGroup;
 use yii\helpers\ArrayHelper;
 use Yii;
 use yii\web\NotFoundHttpException;
-use yii\helpers\Url;
 use yii\web\UploadedFile;
-use common\helpers\Security;
-use yii\widgets\ActiveForm;
 
 class StudentController extends \yii\web\Controller
 {
@@ -43,7 +31,16 @@ class StudentController extends \yii\web\Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['dashboard','error','classwork','courses','changePassword','carrycourse','add_carry','delete_carry','student_groups','delete_group','add_group','student_in_login_user_course','add_to_group','list_student_in_group','remove_student_from_group','submit_assignment','view_assignment','download_assignment','resubmit','videos','announcement','group_assignment_submit','quiz_answer','quiz_view','group_resubmit','assignment','group-assignment','labs','tutorial','course-materials','returned','course-announcement','quiz'],
+                        'actions' => ['dashboard','error','classwork','courses',
+                            'changePassword','carrycourse','add_carry','delete_carry',
+                            'student_groups','delete_group','add_group',
+                            'student_in_login_user_course','add_to_group','list_student_in_group',
+                            'remove_student_from_group','submit_assignment','view_assignment','download_assignment',
+                            'resubmit','videos','announcement','group_assignment_submit',
+                            'quiz_answer','quiz_view','group_resubmit','assignment',
+                            'group-assignment','labs','tutorial','course-materials','returned',
+                            'course-announcement','quiz','student-group'
+                        ],
                        'allow' => true,
                         'roles'=>['STUDENT']
                     ],
@@ -70,13 +67,15 @@ class StudentController extends \yii\web\Controller
    
 
 
-
-
     public function actionDashboard()
     {
    $courses = Yii::$app->user->identity->student->program->courses;
         return $this->render('index', ['courses'=>$courses]);
     }
+
+
+
+
  ############################## assignments in each course  #######################################################
 
 public function actionClasswork($cid){
@@ -97,129 +96,326 @@ public function actionClasswork($cid){
 
 
 
-public function actionAssignment($cid){
-    if(!empty($cid)){
-        Yii::$app->session->set('ccode', $cid);
-    }
-
-    $reg_no = Yii::$app->user->identity->username;
-    $assignments = Assignment::find()->where('assNature = :assignment AND course_code = :cid AND assType = :students OR assType = :allstudent ',[':assignment' => 'assignment', ':cid' => $cid, ':students' => 'students', ':allstudent' => 'allstudents'])->orderBy([
-        'assID' => SORT_DESC ])->all();
-
-	     return $this->render('assignment', ['cid'=>$cid, 'assignments' => $assignments,  'reg_no' => $reg_no] );
-}
-
-
-
-
-
-public function actionGroupAssignment($cid){
+    public function actionAssignment($cid){
         if(!empty($cid)){
             Yii::$app->session->set('ccode', $cid);
         }
 
         $reg_no = Yii::$app->user->identity->username;
-        return $this->render('group_assignment', ['cid'=>$cid, 'reg_no' => $reg_no] );
+        $assignments = Assignment::find()->where('assNature = :assignment AND course_code = :cid AND assType = :students OR assType = :allstudent ',[':assignment' => 'assignment', ':cid' => $cid, ':students' => 'students', ':allstudent' => 'allstudents'])->orderBy([
+            'assID' => SORT_DESC ])->all();
+
+             return $this->render('assignment', ['cid'=>$cid, 'assignments' => $assignments,  'reg_no' => $reg_no] );
     }
 
 
 
 
 
-public function actionLabs($cid){
-    if(!empty($cid)){
-        Yii::$app->session->set('ccode', $cid);
+    /**
+     * If save is successful, the browser will be redirected to the 'assignments' page.
+     * @param string $assID
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionSubmit_assignment($assID)
+    {
+
+        $model =new AssSubmitForm;
+
+        $file = UploadedFile::getInstanceByName('document');
+        $model->document = $file;
+        $model->assinmentId = $assID;
+
+
+        // echo '<pre>';
+        //     var_dump($file);
+        // echo '</pre>';
+        // exit;
+
+        $reg_no = Yii::$app->user->identity->username;
+
+        try{
+            if (Yii::$app->request->isPost && $model->save()) {
+
+                Yii::$app->session->setFlash('success', 'Your Submit successed');
+
+
+                return $this->refresh();
+            }
+
+
+        }
+        catch(\Exception $e){
+            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+        }
+
+
+        return $this->render('submit_assignment', [
+            'model' => $model, 'assID' => $assID],false,true);
     }
 
-    $labs = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->orderBy([
-        'assID' => SORT_DESC ])->all();
-
-    $reg_no = Yii::$app->user->identity->username;
-    return $this->render('group_assignment', ['cid'=>$cid, 'reg_no' => $reg_no, 'labs'=>$labs] );
-}
 
 
 
 
 
-public function actionTutorial($cid){
-    if(!empty($cid)){
-        Yii::$app->session->set('ccode', $cid);
+    /**
+     * Resubmision of an assinment
+     * return in the same page after sumit
+     */
+    public function actionResubmit($assID){
+        $model =new AssSubmitForm;
+
+        $file = UploadedFile::getInstanceByName('document');
+        $model->document = $file;
+        $model->assinmentId = $assID;
+
+
+        // echo '<pre>';
+        //     var_dump($file);
+        // echo '</pre>';
+        // exit;
+
+        $reg_no = Yii::$app->user->identity->username;
+
+        try{
+            if (Yii::$app->request->isPost && $model->save()) {
+
+                Yii::$app->session->setFlash('success', 'Your Re-Submit successed');
+
+
+                return $this->refresh();
+            }
+
+
+        }
+        catch(\Exception $e){
+            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+        }
+
+
+        return $this->render('submit_assignment', [
+            'model' => $model, 'assID' => $assID],false,true);
     }
 
-    $tutorials = Assignment::find()->where(['assNature' => 'tutorial', 'course_code' => $cid])->orderBy([
-        'assID' => SORT_DESC])->all();
-
-    $reg_no = Yii::$app->user->identity->username;
-    return $this->render('tutorials', ['cid'=>$cid, 'reg_no' => $reg_no, 'tutorials'=>$tutorials] );
-}
 
 
 
 
 
-public function actionCourseMaterials($cid){
-    if(!empty($cid)){
-        Yii::$app->session->set('ccode', $cid);
+
+
+    public function actionStudentGroup($cid){
+        if(!empty($cid)){
+            Yii::$app->session->set('ccode', $cid);
+        }
+
+        $reg_no = Yii::$app->user->identity->username;
+        $studentGroups = Groups::find()->joinWith('studentGroups')->where('student_group.reg_no = :reg_no', [':reg_no' => $reg_no])->orderBy(['SG_ID' => SORT_DESC ])->all();
+        return $this->render('student_groups', ['cid'=>$cid, 'reg_no' => $reg_no, 'studentGroupsList' => $studentGroups] );
     }
 
-    $materials = Material::find()->where(['course_code' => $cid])->orderBy([
-        'material_ID' => SORT_DESC ])->all();
-
-    $reg_no = Yii::$app->user->identity->username;
-    return $this->render('course_materials', ['cid'=>$cid, 'reg_no' => $reg_no, 'materials'=>$materials] );
-}
 
 
 
+    public function actionGroupAssignment($cid , $generationType, $groupID){
+        if(!empty($cid)){
+            Yii::$app->session->set('ccode', $cid);
+        }
 
-
-public function actionReturned($cid){
-    if(!empty($cid)){
-        Yii::$app->session->set('ccode', $cid);
+        $reg_no = Yii::$app->user->identity->username;
+       return $this->render('group_assignment', ['cid'=>$cid, 'reg_no' => $reg_no, 'generationType' => $generationType, 'groupID' => $groupID] );
     }
 
-    $reg_no = Yii::$app->user->identity->username;
-    $returned= Assignment::find()->where('submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->leftJoin('submit','assignment.assID = submit.assID')->with('submits')->orderBy([
-        'submit.submitID' => SORT_DESC ])->all();
-    return $this->render('returned', ['cid'=>$cid, 'reg_no' => $reg_no, 'returned'=>$returned] );
-}
 
 
 
+    /**
+     * If save is successful, the browser will be redirected to the 'group assignments' page.
+     * @param string $assID
+     * @param string $groupID
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionGroup_assignment_submit($assID,$groupID)
+    {
+
+        $model =new GroupAssSubmit;
+
+        $file = UploadedFile::getInstanceByName('document');
+        $model->document = $file;
+        $model->assinmentId = $assID;
+        $model->groupId = $groupID;
 
 
-public function actionCourseAnnouncement($cid){
-    if(!empty($cid)){
-        Yii::$app->session->set('ccode', $cid);
+        // echo '<pre>';
+        //     var_dump($file);
+        // echo '</pre>';
+        // exit;
+
+        try{
+            if (Yii::$app->request->isPost && $model->save()) {
+
+                Yii::$app->session->setFlash('success', 'Your Submit successed');
+
+
+                return $this->refresh();
+            }
+
+
+        }
+        catch(\Exception $e){
+            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+        }
+
+
+        return $this->render('group_ass_submit', [
+            'model' => $model, 'assID' => $assID,'groupId' => $groupID],false,true);
     }
 
-    $reg_no = Yii::$app->user->identity->username;
-    $announcement = Announcement::find()->where(['course_code' => $cid])->orderBy([
-        'annID' => SORT_DESC ])->all();
-
-    return $this->render('announcement', ['cid'=>$cid, 'reg_no' => $reg_no, 'announcement' => $announcement] );
-}
 
 
 
 
+    /**
+     * Resubmision of an assinment
+     * return in the same page after sumit
+     */
+    public function actionGroup_resubmit($assID,$groupID){
+        $model =new AssSubmitForm;
 
-public function actionQuiz($cid){
-
-    $reg_no = Yii::$app->user->identity->username;
-	     return $this->render('quiz', ['cid'=>$cid, 'reg_no' => $reg_no]);
-}
+        $file = UploadedFile::getInstanceByName('document');
+        $model->document = $file;
+        $model->assinmentId = $assID;
 
 
+        // echo '<pre>';
+        //     var_dump($file);
+        // echo '</pre>';
+        // exit;
 
 
 
-public function actionAnnouncement($announcement)
-{
-    $announcement = Announcement::findOne($announcement);
-    return $this->renderAjax('announcement_content', ['announcement'=>$announcement]);
-}
+        try{
+            if (Yii::$app->request->isPost && $model->save()) {
+
+                Yii::$app->session->setFlash('success', 'Your Re-Submit successed');
+
+
+                return $this->refresh();
+            }
+
+
+        }
+        catch(\Exception $e){
+            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+        }
+
+
+        return $this->render('group_ass_submit', [
+            'model' => $model, 'assID' => $assID,'groupID' => $groupID],false,true);
+    }
+
+
+
+
+
+
+    public function actionLabs($cid){
+        if(!empty($cid)){
+            Yii::$app->session->set('ccode', $cid);
+        }
+
+        $labs = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->orderBy([
+            'assID' => SORT_DESC ])->all();
+
+        $reg_no = Yii::$app->user->identity->username;
+        return $this->render('labs', ['cid'=>$cid, 'reg_no' => $reg_no, 'labs'=>$labs] );
+    }
+
+
+
+
+
+    public function actionTutorial($cid){
+        if(!empty($cid)){
+            Yii::$app->session->set('ccode', $cid);
+        }
+
+        $tutorials = Assignment::find()->where(['assNature' => 'tutorial', 'course_code' => $cid])->orderBy([
+            'assID' => SORT_DESC])->all();
+
+        $reg_no = Yii::$app->user->identity->username;
+        return $this->render('tutorials', ['cid'=>$cid, 'reg_no' => $reg_no, 'tutorials'=>$tutorials] );
+    }
+
+
+
+
+
+    public function actionCourseMaterials($cid){
+        if(!empty($cid)){
+            Yii::$app->session->set('ccode', $cid);
+        }
+
+        $materials = Material::find()->where(['course_code' => $cid])->orderBy([
+            'material_ID' => SORT_DESC ])->all();
+
+        $reg_no = Yii::$app->user->identity->username;
+        return $this->render('course_materials', ['cid'=>$cid, 'reg_no' => $reg_no, 'materials'=>$materials] );
+    }
+
+
+
+
+
+    public function actionReturned($cid){
+        if(!empty($cid)){
+            Yii::$app->session->set('ccode', $cid);
+        }
+
+        $reg_no = Yii::$app->user->identity->username;
+        $returned= Assignment::find()->where('submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->leftJoin('submit','assignment.assID = submit.assID')->with('submits')->orderBy([
+            'submit.submitID' => SORT_DESC ])->all();
+        return $this->render('returned', ['cid'=>$cid, 'reg_no' => $reg_no, 'returned'=>$returned] );
+    }
+
+
+
+
+
+    public function actionCourseAnnouncement($cid){
+        if(!empty($cid)){
+            Yii::$app->session->set('ccode', $cid);
+        }
+
+        $reg_no = Yii::$app->user->identity->username;
+        $announcement = Announcement::find()->where(['course_code' => $cid])->orderBy([
+            'annID' => SORT_DESC ])->all();
+
+        return $this->render('announcement', ['cid'=>$cid, 'reg_no' => $reg_no, 'announcement' => $announcement] );
+    }
+
+
+
+
+
+    public function actionQuiz($cid){
+
+        $reg_no = Yii::$app->user->identity->username;
+             return $this->render('quiz', ['cid'=>$cid, 'reg_no' => $reg_no]);
+    }
+
+
+
+
+
+    public function actionAnnouncement($announcement)
+    {
+        $announcement = Announcement::findOne($announcement);
+        return $this->renderAjax('announcement_content', ['announcement'=>$announcement]);
+    }
 
 
 
@@ -567,100 +763,6 @@ public function actionAnnouncement($announcement)
 
         return $this->redirect(Yii::$app->request->referrer);
     }
-    
-           
-
-
-
-     /**
-     * If save is successful, the browser will be redirected to the 'assignments' page.
-     * @param string $assID
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionSubmit_assignment($assID)
-    {
-
-        $model =new AssSubmitForm;
-
-        $file = UploadedFile::getInstanceByName('document');
-        $model->document = $file;
-        $model->assinmentId = $assID;
-
-
-        // echo '<pre>';
-        //     var_dump($file);
-        // echo '</pre>';
-        // exit;
-
-        $reg_no = Yii::$app->user->identity->username;
-
-        try{
-            if (Yii::$app->request->isPost && $model->save()) {
-                
-                Yii::$app->session->setFlash('success', 'Your Submit successed');
-             
-                
-                return $this->refresh();
-            }
-            
-            
-        }
-        catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
-        }
-
-
-            return $this->render('submit_assignment', [
-                'model' => $model, 'assID' => $assID],false,true);
-    }
-
-
-
-
-
- /**
-     * If save is successful, the browser will be redirected to the 'group assignments' page.
-     * @param string $assID
-     * @param string $groupID
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionGroup_assignment_submit($assID,$groupID)
-    {
-
-        $model =new GroupAssSubmit;
-
-        $file = UploadedFile::getInstanceByName('document');
-        $model->document = $file;
-        $model->assinmentId = $assID;
-        $model->groupId = $groupID;
-
-
-        // echo '<pre>';
-        //     var_dump($file);
-        // echo '</pre>';
-        // exit;
-
-        try{
-            if (Yii::$app->request->isPost && $model->save()) {
-                
-                Yii::$app->session->setFlash('success', 'Your Submit successed');
-             
-                
-                return $this->refresh();
-            }
-            
-            
-        }
-        catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
-        }
-
-
-            return $this->render('group_ass_submit', [
-                'model' => $model, 'assID' => $assID,'groupId' => $groupID],false,true);
-    }
 
 
 
@@ -725,90 +827,6 @@ public function actionAnnouncement($announcement)
     
 
 
-
-
-    /**
-     * Resubmision of an assinment 
-     * return in the same page after sumit
-     */
-    public function actionResubmit($assID){
-        $model =AssSubmitForm::findOne($assID); 
-
-        $file = UploadedFile::getInstanceByName('document');
-        $model->document = $file;
-        $model->assinmentId = $assID;
-
-
-        // echo '<pre>';
-        //     var_dump($file);
-        // echo '</pre>';
-        // exit;
-
-        $reg_no = Yii::$app->user->identity->username;
-
-        try{
-            if (Yii::$app->request->isPost && $model->save()) {
-                
-                Yii::$app->session->setFlash('success', 'Your Re-Submit successed');
-             
-                
-                return $this->refresh();
-            }
-            
-            
-        }
-        catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
-        }
-
-
-            return $this->render('submit_assignment', [
-                'model' => $model, 'assID' => $assID],false,true);
-    }
-
-
-
-
-
-
-    /**
-     * Resubmision of an assinment 
-     * return in the same page after sumit
-     */
-    public function actionGroup_resubmit($assID,$groupID){
-        $model =GroupAssSubmit::findOne($assID); 
-
-        $file = UploadedFile::getInstanceByName('document');
-        $model->document = $file;
-        $model->assinmentId = $assID;
-
-
-        // echo '<pre>';
-        //     var_dump($file);
-        // echo '</pre>';
-        // exit;
-
-     
-
-        try{
-            if (Yii::$app->request->isPost && $model->save()) {
-                
-                Yii::$app->session->setFlash('success', 'Your Re-Submit successed');
-             
-                
-                return $this->refresh();
-            }
-            
-            
-        }
-        catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
-        }
-
-
-            return $this->render('group_ass_submit', [
-                'model' => $model, 'assID' => $assID,'groupID' => $groupID],false,true);
-    }
 
 
 
