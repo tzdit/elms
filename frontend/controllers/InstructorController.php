@@ -1144,7 +1144,6 @@ public function actionUploadMaterial(){
     if($model->load(Yii::$app->request->post())){
         $model->assFile = UploadedFile::getInstance($model, 'assFile');
        
-      print_r($model);
         if($model->upload()){
          
        //Yii::$app->session->setFlash('success', 'Material uploaded successfully');
