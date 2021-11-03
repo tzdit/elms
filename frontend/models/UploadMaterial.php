@@ -20,7 +20,6 @@ class UploadMaterial extends Model{
     }
     public function upload(){
         if(!$this->validate()){
-            print_r($ass->getErrors());
             return false;
         }
         try{
