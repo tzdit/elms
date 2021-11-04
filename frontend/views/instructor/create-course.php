@@ -93,7 +93,7 @@ use yii\helpers\Html;
                  
                 </h3>
                 
-                <a href="#" class="btn btn-sm btn-primary btn-rounded float-right m-0 col-xs-12" data-target="#createCourseModal" data-toggle="modal"><i class="fas fa-plus" ></i>Create Program</a>
+                <a href="#" class="btn btn-sm btn-primary btn-rounded float-right m-0 col-xs-12" data-target="#createCourseModal" data-toggle="modal"><i class="fas fa-plus" ></i>Create Course</a>
               
               </div><!-- /.card-header -->
               <div class="card-body">
