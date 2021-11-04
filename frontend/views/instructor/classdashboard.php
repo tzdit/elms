@@ -153,7 +153,7 @@ $this->params['breadcrumbs'] = [
             <!-- /.info-box -->
 </a>
           </div>
-          <!-- /.col -->
+          <!-- /.col 
           <div class="col-12 col-sm-6 col-md-3">
           <a href="#">
             <div class="info-box mb-3">
@@ -162,15 +162,15 @@ $this->params['breadcrumbs'] = [
               <div class="info-box-content">
                 <span class="info-box-text">Quizes</span>
               </div>
-              <!-- /.info-box-content -->
+             
             </div>
-            <!-- /.info-box -->
+            
 </a>
           </div>
-          <!-- /.col -->
+           /.col -->
 
         
-          <!-- /.col -->
+          <!-- /.col 
           <div class="col-12 col-sm-6 col-md-3">
           <a href="#">
             <div class="info-box mb-2">
@@ -179,13 +179,13 @@ $this->params['breadcrumbs'] = [
               <div class="info-box-content">
                 <span class="info-box-text">Live lecturing</span>
               </div>
-              <!-- /.info-box-content -->
+            
             </div>
             </a>
-            <!-- /.info-box -->
+           
           </div>
-          <!-- /.col -->
-
+          /.col -->
+<!--
           <div class="col-12 col-sm-6 col-md-3">
           <a href="#">
             <div class="info-box mb-2">
@@ -194,13 +194,13 @@ $this->params['breadcrumbs'] = [
               <div class="info-box-content">
                 <span class="info-box-text">Class forum</span>
               </div>
-              <!-- /.info-box-content -->
+            
             </div>
             </a>
-            <!-- /.info-box -->
+        
           </div>
-          <!-- /.col -->
-
+        
+-->
         </div>
       </div><!--/. container-fluid -->
 

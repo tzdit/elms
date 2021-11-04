@@ -245,7 +245,7 @@ public $defaultAction = 'dashboard';
     //#################### function to render instructor courses ##############################
 
     public function actionCourses(){
-        $courses = Course::find()->where(['course_semester'=>1])->all();
+        $courses = Course::find()->all();
 
         return $this->render('courses', ['courses'=>$courses]);
         
