@@ -106,13 +106,12 @@ public function excelstd_importer(){
 //     if(!$this->validate()){
 //        return false;
 //    }
+        
    try{
         $data=$this->excelstd_to_array($this->filetmp);
         //$status=false;
         $error_rec=[];
         //saving the assessment first
-
-        
 
         
         for($std=0;$std<count($data);$std++)
@@ -139,7 +138,7 @@ public function excelstd_importer(){
            $usermodel=new User();
            
            $usermodel->username=$username;
-           $usermodel->email=$email;
+           //$usermodel->email=$email;
            $usermodel->setPassword(strtoupper($this->lname));
            $usermodel->generateAuthKey();
            $usermodel->generateEmailVerificationToken();
@@ -169,13 +168,18 @@ public function excelstd_importer(){
             $userRole = $auth->getRole('STUDENT');
             $auth->assign($userRole, $usermodel->getId());
             }
+            else
+            {
+                //print_r($stdmodel->getErrors());
+            }
            
 
            }
         }
 
-      return $error_rec;
+     
       }
+      return $error_rec;
      
   }catch(\Exception $e){
     print  "oops".$e->getMessage();
