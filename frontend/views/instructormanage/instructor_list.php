@@ -25,30 +25,29 @@ $this->title = 'Super Administrator Dashboard';
               <div class="card-header p-2">
                 <h3 class="card-title com-sm-12">
                   <i class="fas fa-list mr-1 text-info"></i>
-                 List of Students
+                 List of Instructors
                  
                 </h3>
-                <a href="<?= Url::toRoute('/admin/create-student') ?>" class="btn btn-primary btn-sm float-right m-0 col-xs-12"><i class="fas fa-user-plus"></i> Create User</a>
+                <a href="<?= Url::toRoute('/instructormanage/create-instructor') ?>" class="btn btn-primary btn-sm float-right m-0 col-xs-12"><i class="fas fa-user-plus"></i> Create Instructor</a>
               
               </div><!-- /.card-header -->
               <div class="card-body">
-            <table class="table table-bordered table-striped table-hover" id="StudentList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
+            <table class="table table-bordered table-striped table-hover" id="InstructorTable" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
             <thead>
-            <tr><th width="1%">#</th><th>Full Name</th><th>Reg#</th><th>YOS</th><th>Department</th><th>College</th><th width="5%">Manage</th></tr>
+            <tr><th width="1%">#</th><th>Full Name</th><th>Email</th><th>Phone Number</th><th>College</th><th width="5%">Manage</th></tr>
             
             </thead>
             <tbody>
             <?php $i = 0; ?>
-            <?php foreach($students as $std): ?>
+            <?php foreach($instructors as $inst): ?>
             <tr>
             <td><?= ++$i; ?></td>
-            <td><?= $std->fullName ?></td>
-            <td><?= $std->reg_no ?></td>
-            <td><?= $std->YOS ?></td>
-            <td><?= $std->program->department->depart_abbrev ?></td>
-            <td><?= $std->program->department->college->college_abbrev ?></td>
+            <td><?= $inst->full_name?></td>
+            <td><?= $inst->email?></td>
+            <td><?= $inst->phone?></td>
+            <td><?= $inst->department->college->college_abbrev ?></td>
             <td>
-            <a href="../studentmanage/view?id=<?= $std->reg_no ?>" class="btn btn-info btn-sm m-0"><i class="fas fa-edit"></i></a> 
+            <a href="../instructormanage/view?id=<?= $inst->instructorID?>"  class="btn btn-info btn-sm m-0"><i class="fas fa-edit"></i></a> 
             </td>
             </tr>
             <?php endforeach ?>
@@ -73,7 +72,7 @@ $this->title = 'Super Administrator Dashboard';
 <?php 
 $script = <<<JS
 $(document).ready(function(){
-  $("#StudentList").DataTable({
+  $("#InstructorTable").DataTable({
     responsive:true
   });
   // alert("JS IS OKEY")

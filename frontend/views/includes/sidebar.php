@@ -66,13 +66,13 @@ use yii\helpers\Url;
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?= Url::toRoute('/admin/instructor-list') ?>" class="nav-link">
+                <a href="<?= Url::toRoute('/instructormanage/instructor-list') ?>" class="nav-link">
                  <i class="fas fa-chalkboard-teacher nav-icon"></i>
                   <p>Instructors</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?= Url::toRoute('/admin/student-list') ?>" class="nav-link">
+                <a href="<?= Url::toRoute('/studentmanage/student-list') ?>" class="nav-link">
                   <i class="fas fa-user-graduate nav-icon"></i>
                   <p>Students</p>
                 </a>

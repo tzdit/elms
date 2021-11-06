@@ -5,7 +5,7 @@ use fedemotta\datatables\DataTables;
 use yii\helpers\Url;
 use yii\helpers\Html;
 /* @var $this yii\web\View */
-
+$this->params['breadcrumbs'][] = ['label' => 'Students', 'url' => ['student-list']];
 $this->title = 'Super Administrator Dashboard';
 ?>
 <div class="site-index">
@@ -28,7 +28,7 @@ $this->title = 'Super Administrator Dashboard';
                  List of Students
                  
                 </h3>
-                <a href="<?= Url::toRoute('/admin/create-student') ?>" class="btn btn-primary btn-sm float-right m-0 col-xs-12"><i class="fas fa-user-plus"></i> Create User</a>
+                <a href="<?= Url::toRoute('/studentmanage/create-student') ?>" class="btn btn-primary btn-sm float-right m-0 col-xs-12"><i class="fas fa-user-plus"></i> Create Student</a>
               
               </div><!-- /.card-header -->
               <div class="card-body">

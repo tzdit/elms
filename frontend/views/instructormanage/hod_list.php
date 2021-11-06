@@ -25,30 +25,31 @@ $this->title = 'Super Administrator Dashboard';
               <div class="card-header p-2">
                 <h3 class="card-title com-sm-12">
                   <i class="fas fa-list mr-1 text-info"></i>
-                 List of Students
+                 List of Hods
                  
                 </h3>
-                <a href="<?= Url::toRoute('/admin/create-student') ?>" class="btn btn-primary btn-sm float-right m-0 col-xs-12"><i class="fas fa-user-plus"></i> Create User</a>
+                <a href="<?= Url::toRoute('/admin/create-hod') ?>" class="btn btn-primary btn-sm float-right m-0 col-xs-12"><i class="fas fa-user-plus"></i> Create User</a>
               
               </div><!-- /.card-header -->
               <div class="card-body">
-            <table class="table table-bordered table-striped table-hover" id="StudentList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
+            <table class="table table-bordered table-striped table-hover" id="HodTable" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
             <thead>
-            <tr><th width="1%">#</th><th>Full Name</th><th>Reg#</th><th>YOS</th><th>Department</th><th>College</th><th width="5%">Manage</th></tr>
+            <tr><th width="1%">#</th><th>Full Name</th><th>Email</th><th>Phone Number</th><th>College</th><th width="15%">Action</th></tr>
             
             </thead>
             <tbody>
             <?php $i = 0; ?>
-            <?php foreach($students as $std): ?>
+            <?php foreach($hods as $hod): ?>
             <tr>
             <td><?= ++$i; ?></td>
-            <td><?= $std->fullName ?></td>
-            <td><?= $std->reg_no ?></td>
-            <td><?= $std->YOS ?></td>
-            <td><?= $std->program->department->depart_abbrev ?></td>
-            <td><?= $std->program->department->college->college_abbrev ?></td>
+            <td><?= $hod->full_name?></td>
+            <td><?= $hod->email?></td>
+            <td><?= $hod->phone?></td>
+            <td><?= $hod->department->college->college_abbrev ?></td>
             <td>
-            <a href="../studentmanage/view?id=<?= $std->reg_no ?>" class="btn btn-info btn-sm m-0"><i class="fas fa-edit"></i></a> 
+            <a href="#" class="btn btn-info btn-sm m-0"><i class="fas fa-edit"></i></a> 
+            <a href="#" class="btn btn-success btn-sm m-0"><i class="fas fa-eye"></i></a>
+            <a href="#" class="btn btn-danger btn-sm m-0"><i class="fas fa-trash" ></i></a>
             </td>
             </tr>
             <?php endforeach ?>
@@ -73,7 +74,7 @@ $this->title = 'Super Administrator Dashboard';
 <?php 
 $script = <<<JS
 $(document).ready(function(){
-  $("#StudentList").DataTable({
+  $("#HodTable").DataTable({
     responsive:true
   });
   // alert("JS IS OKEY")

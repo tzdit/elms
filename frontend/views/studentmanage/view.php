@@ -7,16 +7,14 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Student */
 
 $this->title = $model->reg_no;
-$this->params['breadcrumbs'][] = ['label' => 'Students', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Students', 'url' => ['student-list']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="student-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->reg_no], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Reset Password', ['update', 'id' => $model->reg_no], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->reg_no], [
             'class' => 'btn btn-danger',
             'data' => [

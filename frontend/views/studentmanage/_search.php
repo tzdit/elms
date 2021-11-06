@@ -11,19 +11,11 @@ use yii\widgets\ActiveForm;
 <div class="student-search">
 
     <?php $form = ActiveForm::begin([
-        'action' => ['index'],
+        'action' => ['student-list'],
         'method' => 'get',
     ]); ?>
 
     <?= $form->field($model, 'reg_no') ?>
-
-    <?= $form->field($model, 'userID') ?>
-
-    <?= $form->field($model, 'programCode') ?>
-
-    <?= $form->field($model, 'fname') ?>
-
-    <?= $form->field($model, 'mname') ?>
 
     <?php // echo $form->field($model, 'lname') ?>
 
