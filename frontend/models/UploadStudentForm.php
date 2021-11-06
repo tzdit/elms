@@ -106,6 +106,7 @@ public function excelstd_importer(){
 //     if(!$this->validate()){
 //        return false;
 //    }
+        
    try{
         $data=$this->excelstd_to_array($this->filetmp);
         //$status=false;
@@ -139,7 +140,7 @@ public function excelstd_importer(){
            $usermodel=new User();
            
            $usermodel->username=$username;
-           $usermodel->email=$email;
+           //$usermodel->email=$email;
            $usermodel->setPassword(strtoupper($this->lname));
            $usermodel->generateAuthKey();
            $usermodel->generateEmailVerificationToken();

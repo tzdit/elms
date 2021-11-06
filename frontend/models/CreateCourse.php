@@ -4,8 +4,12 @@ use Yii;
 use yii\base\Model;
 use common\models\Course;
 use common\models\Department;
+use common\models\ProgramCourse;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
 class CreateCourse extends Model{
     public $course_code;
+    public $programs;
     public $course_name;
     public $course_credit;
     public $course_semester;
@@ -37,8 +41,20 @@ class CreateCourse extends Model{
         $coz->course_semester = $this->course_semester;
         $coz->course_duration = $this->course_duration;
         $coz->course_status = $this->course_status;
+        $programs = $this->programs;
 
-        $coz->save(false);     
+        $coz->save();   
+        if ($coz ->save())
+        {
+            foreach($programs as $prog)
+            {
+            $progcoz = $coz->course_code;
+            $progcourse = ProgramCourse::find()->where(['course_code'=> $progcoz]);
+            $progcourse->course_code = $this->course_code;
+            $progcourse->programCode = $prog;
+            $progcourse ->save();
+            }
+        }  
         return true;
 
         

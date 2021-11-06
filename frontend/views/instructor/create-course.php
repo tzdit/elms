@@ -2,7 +2,9 @@
 
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
-
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
+use common\models\Program;
 
 
 
@@ -55,9 +57,17 @@ use yii\helpers\Html;
         </div>
       </div>
 
+
       <div class="row">
         <div class="col-md-12">
         <?= $form->field($model, 'course_status')->dropdownList(['CORE'=>'CORE', 'ELECTIVE'=>'ELECTIVE'], ['class'=>'form-control form-control-sm', 'prompt'=>'--select course status--'])->label(false)?>
+        </div> 
+        </div>
+        
+
+        <div class="row">
+        <div class="col-md-12">
+        <?= $form->field($model,'programs[]')->dropdownList($programs,['class'=>'form-control form-control-sm','id'=>'assignstudents','data-placeholder'=>'Select degree Programs','multiple'=>'multiple','style'=>'width:100%'])->label('Degree Programs')?>
         </div> 
         </div>
 
@@ -193,6 +203,21 @@ use yii\helpers\Html;
 
     </div>
 </div>
+<?php 
+$this->registerCssFile('@web/plugins/select2/css/select2.min.css');
+$this->registerJsFile(
+  '@web/plugins/select2/js/select2.full.js',
+  ['depends' => 'yii\web\JqueryAsset']
+);
+$this->registerJsFile(
+  '@web/js/create-assignment.js',
+  ['depends' => 'yii\web\JqueryAsset'],
+
+);
+
+
+
+?>
 <?php 
 $script = <<<JS
 $(document).ready(function(){

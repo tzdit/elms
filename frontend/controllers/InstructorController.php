@@ -1649,6 +1649,7 @@ public function actionStudentList(){
      public function actionCreateCourse(){
         $model = new CreateCourse;
         $courses = Course::find()->all();
+        $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
         try{
         // $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
         if($model->load(Yii::$app->request->post())){
@@ -1665,7 +1666,7 @@ public function actionStudentList(){
     }catch(\Exception $e){
         Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
     }
-        return $this->render('create-course', ['model'=>$model, 'courses'=>$courses]);
+        return $this->render('create-course', ['model'=>$model, 'courses'=>$courses, 'programs'=>$programs]);
     }
 
     public function actionInstructorCourse()
