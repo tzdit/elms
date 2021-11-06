@@ -48,9 +48,9 @@ class CreateCourse extends Model{
         {
             foreach($programs as $prog)
             {
-            $progcoz = $coz->course_code;
-            $progcourse = ProgramCourse::find()->where(['course_code'=> $progcoz]);
-            $progcourse->course_code = $this->course_code;
+            
+            $progcourse = new ProgramCourse();
+            $progcourse->course_code = $coz->course_code;
             $progcourse->programCode = $prog;
             $progcourse ->save();
             }
