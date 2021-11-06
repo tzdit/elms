@@ -1647,24 +1647,33 @@ public function actionStudentList(){
 
      //Create Course
      public function actionCreateCourse(){
+        print_r(Yii::$app->request->post());
         $model = new CreateCourse;
         $courses = Course::find()->all();
+        
         $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
         try{
-        // $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+        //$departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
         if($model->load(Yii::$app->request->post())){
             if($model->create()){
             Yii::$app->session->setFlash('success', 'Course added successfully');
             return $this->redirect(Yii::$app->request->referrer);
             }else{
-                Yii::$app->session->setFlash('error', 'Something went Wrong!');
+                Yii::$app->session->setFlash('error',$model->create());
+                return $this->redirect(Yii::$app->request->referrer);
             }
        
                 
          } 
+         else
+         {
+             print_r($model->getErrors());
+             print "no validation";
+         }
         
     }catch(\Exception $e){
         Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+        return $this->redirect(Yii::$app->request->referrer);
     }
         return $this->render('create-course', ['model'=>$model, 'courses'=>$courses, 'programs'=>$programs]);
     }

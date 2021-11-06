@@ -22,6 +22,7 @@ class CreateCourse extends Model{
             [['course_code'], 'string', 'max' => 7],
             [['course_name'], 'string', 'max' => 150],
             [['course_status'], 'string', 'max' => 10],
+            ['programs','required']
             // [['course_code'], 'unique'],
         ];
 
@@ -54,6 +55,10 @@ class CreateCourse extends Model{
             $progcourse->programCode = $prog;
             $progcourse ->save();
             }
+        }
+        else
+        {
+            return false;
         }  
         return true;
 

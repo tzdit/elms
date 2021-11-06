@@ -114,8 +114,6 @@ public function excelstd_importer(){
         //saving the assessment first
 
         
-
-        
         for($std=0;$std<count($data);$std++)
         {
           
@@ -170,13 +168,18 @@ public function excelstd_importer(){
             $userRole = $auth->getRole('STUDENT');
             $auth->assign($userRole, $usermodel->getId());
             }
+            else
+            {
+                //print_r($stdmodel->getErrors());
+            }
            
 
            }
         }
 
-      return $error_rec;
+     
       }
+      return $error_rec;
      
   }catch(\Exception $e){
     print  "oops".$e->getMessage();
