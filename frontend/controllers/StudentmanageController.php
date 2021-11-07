@@ -122,55 +122,6 @@ class StudentmanageController extends Controller
         ]);
     }
 
-    public function actionCreateStudent(){
-        $model = new UploadStudentForm;
-        $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'STUDENT'])->all(), 'name', 'name');
-        // $departments = Yii::$app->user->identity->hod->department;
-       // $departments = ArrayHelper::map(Department::find()->where(['departmentID'=> Yii::$app->user->identity->instructor->department->departmentID])->all(), 'depart_abbrev', 'depart_abbrev');
-        try{
-        $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
-        if($model->load(Yii::$app->request->post())){
-           
-            if($model->create()){
-            Yii::$app->session->setFlash('success', 'Student registered successfully');
-            return $this->redirect(Yii::$app->request->referrer);
-            }else{
-                //print_r(Yii::$app->request->post());
-                Yii::$app->session->setFlash('error', 'Something went Wrong!');
-            }
-       
-                
-         } 
-        
-    }catch(\Exception $e){
-        Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
-    }
-        return $this->render('create_student', ['model'=>$model, 'programs'=>$programs, 'roles'=>$roles]);
-    }
-
-    //create students
-//  public function actionCreateStudent(){
-//     $modeli = new UploadStudentForm;
-//     $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'STUDENT'])->all(), 'name', 'name');
-//     try{
-//     $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
-//     if($modeli->load(Yii::$app->request->post())){
-       
-//         if($modeli->create()){
-            
-//        Yii::$app->session->setFlash('success', 'Student registered successfully');
-//         }else{
-//             Yii::$app->session->setFlash('error', 'Something went Wrong!');
-//         }
-   
-            
-//      } 
-    
-// }catch(\Exception $e){
-//     Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
-// }
-//     return $this->render('create_student', ['modeli'=>$modeli, 'programs'=>$programs, 'roles'=>$roles]);
-// }
     /**
      * Deletes an existing Student model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
