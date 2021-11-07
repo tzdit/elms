@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
               <div class="card-header ">
                 
                   <h3 class="card-title">Upload Students</h3>
-                
+                  <?= Html::a('<i class="fas fa-download" ></i>Download Student Excel template', ['download-stdexcell-template'],['class'=>'btn btn-sm btn-primary btn-rounded float-right mb-2']) ?>
                 </div>
              
               <div class="card-body">
@@ -108,6 +108,7 @@ $this->params['breadcrumbs'][] = $this->title;
         
       <div class="row">
       <div class="col-md-12">
+        <label>Add Students Using Excel</label>
       <div class="custom-file">
       <?= $form->field($stdmodel,'assFile')->fileInput(['class'=>'form-control form-control-sm custom-file-input', 'id'=>'myFile'])->label('Select File', ['class'=>'custom-file-label col-form-label-sm', 'for'=>'customFile'])?>
       </div>

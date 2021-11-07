@@ -42,7 +42,7 @@ class Course extends \yii\db\ActiveRecord
     {
         return [
             [['course_code', 'course_credit', 'course_semester'], 'required'],
-            [['course_credit', 'course_semester', 'course_duration'], 'integer'],
+            [['course_credit', 'course_semester', 'course_duration'], 'double'],
             [['course_code'], 'string', 'max' => 7],
             [['course_name'], 'string', 'max' => 150],
             [['course_status'], 'string', 'max' => 10],

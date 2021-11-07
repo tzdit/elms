@@ -32,8 +32,10 @@ use frontend\models\External_assess;
 use frontend\models\AddAssessRecord;
 use frontend\models\StudentGroups;
 use frontend\models\TemplateDownloader;
+use frontend\models\StudentTemplateDownload;
 use frontend\models\CA;
 use frontend\models\CA_previewer;
+use frontend\models\UpdateCourse;
 use frontend\models\StudentAssign;
 use common\models\Groups;
 use common\models\GroupGenerationTypes;
@@ -113,6 +115,7 @@ public $defaultAction = 'dashboard';
                             'edit-ext-assrecord-view',
                             'edit-ext-assrecord',
                             'download-extassess-template',
+                            'download-stdexcell-template',
                             'delete-assessment',
                             'post-announcement',
                             'delete-announcement',
@@ -188,6 +191,7 @@ public $defaultAction = 'dashboard';
                             'edit-ext-assrecord-view',
                             'edit-ext-assrecord',
                             'download-extassess-template',
+                            'download-stdexcell-template',
                             'delete-assessment',
                             'post-announcement',
                             'delete-announcement',
@@ -292,6 +296,19 @@ public $defaultAction = 'dashboard';
   {
     $downloader=new TemplateDownloader();
     $downloader->courseCode=$coursecode;
+    if($downloader->excelProduce()){ return $this->redirect(Yii::$app->request->referrer); }
+    else{
+        Yii::$app->session->setFlash('error', 'downloading failed');
+        return $this->redirect(Yii::$app->request->referrer); 
+    }
+
+  }
+
+
+  public function actionDownloadStdexcellTemplate()
+  {
+    $downloader=new StudentTemplateDownload();
+    
     if($downloader->excelProduce()){ return $this->redirect(Yii::$app->request->referrer); }
     else{
         Yii::$app->session->setFlash('error', 'downloading failed');
@@ -533,14 +550,16 @@ public function actionEditExtAssrecord($recordid)
 
     public function actionUpdatecoz($id)
     {
-        $coz = Course::findOne($id);
         
+        $coz = Course::findOne($id);
+       // $coz = new UpdateCourse;
+        $programs =ArrayHelper::map(ProgramCourse::find()->where(['course_code'=>$id])->all(), 'programCode', 'programCode');
         if($coz->load(Yii::$app->request->post()) && $coz->save())
         {
             Yii::$app->session->setFlash('success', 'Course updated successfully');
             return $this->redirect(['create-course']);
         }else{
-        return $this->render('updatecoz', ['coz'=>$coz]);
+        return $this->render('updatecoz', ['coz'=>$coz, 'programs'=>$programs]);
         }
     }
 
