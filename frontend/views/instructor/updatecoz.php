@@ -2,6 +2,8 @@
 
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
+use common\models\Program;
 
 
  
@@ -14,7 +16,6 @@ use yii\helpers\Html;
             </div>
       </div>
               -->
-
 
 
 <div class="modal-dialog" role="document">
@@ -82,6 +83,8 @@ use yii\helpers\Html;
 
 
 <!-- table for program -->
+
+
 
 <?php 
 $script = <<<JS

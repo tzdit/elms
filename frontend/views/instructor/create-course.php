@@ -109,7 +109,7 @@ use common\models\Program;
               <div class="card-body">
             <table class="table table-bordered table-striped table-hover" id="CourseList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
             <thead>
-            <tr><th width="1%">#</th><th>Course Name</th><th>Course Code</th><th>Course Credit</th><th>Course Semester</th><th>Course Duration</th><th>Course Status</th><th width="15%">Action</th></tr>
+            <tr><th width="1%">#</th><th>Course Name</th><th>Course Code</th><th>Course Credit</th><th>Course Semester</th><th>Course Duration</th><th>Course Status</th><th>Programs</th><th width="15%">Action</th></tr>
             
             </thead>
             <tbody>
@@ -124,67 +124,56 @@ use common\models\Program;
             <td><?= $course->course_duration ?></td>
             <td><?= $course->course_status ?></td>
             <td>
+            <?php foreach($course -> programCourses as $progcoz): ?>
+             <li><?= $progcoz->programCode ?></li>
+            <?php endforeach; ?>
+            </td>
+            <td>
             <?= Html::a('<i class="fas fa-edit"></i>',['updatecoz', 'id'=>$course->course_code], ['class'=>'btn btn-info btn-sm m-0'])?> 
             <a href="#" class="btn btn-success btn-sm m-0"><i class="fas fa-eye"></i></a>
             <a href="#" class="btn btn-danger btn-sm m-0" data-toggle="modal" data-target="#modal-danger<?php $course->course_code ?>"><span><i class="fas fa-trash"></i></span></a>
-            
+            <a href="#" class="btn btn-warning btn-sm m-0" data-toggle="modal" data-target="#AssignCourseModal<?php $course -> course_code ?>"><span><i class="fas fa-plus">Program</i></span></a>
             </td>
-            <div class="modal fade" id="modal-danger<?php $course->course_code ?>">
-
-<div class="modal-dialog">
-  <div class="modal-content bg-danger">
-    <div class="modal-header">
-      <h4 class="modal-title">Deleting <b> <?= $course -> course_code ?> </b> Course</h4>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    
-    <div class="modal-body">
-    
-      <p>Are you sure, you want to delete <b> <?= $course -> course_code ?> </b> Course&hellip;?</p>
-      
-    </div>
-    <div class="modal-footer justify-content-between">
-    
-      <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
-      <?= Html::a('Delete', ['deletecoz', 'id'=>$course -> course_code], ['class'=>'btn btn-sm btn-danger float-right ml-2 btn-outline-light']) ?>
-    </div>
-    
-  </div>
-  <!-- /.modal-content -->
-</div>
-<!-- /.modal-dialog -->
+            
    
             </tr>
-      <div class="modal fade" id="modal-danger<?php $course->course_code ?>">
+ 
+<!-- ################################################# -->
+<div class="modal fade" id="AssignCourseModal<?php $course -> course_code ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <span class="modal-title" id="exampleModalLabel"><h4>Assign Programs To a <?= $course -> course_code ?></h4></span>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/create-course', 'enctype'=>'multipart/form-data']])?>
 
-<div class="modal-dialog">
-  <div class="modal-content bg-danger">
-    <div class="modal-header">
-      <h4 class="modal-title">Deleting <b> <?= $course -> course_name ?> </b> Course</h4>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    
-    <div class="modal-body">
-    
-      <p>Are you sure, you want to delete <b> <?= $course -> course_name ?> </b> Course&hellip;?</p>
+        <div class="row">
+        <div class="col-md-12">
+        <?= $form->field($model,'programs[]')->dropdownList($programs,['class'=>'form-control form-control-sm','id'=>'assignstudents1','data-placeholder'=>'Select degree Programs','multiple'=>'multiple','style'=>'width:100%'])->label('Degree Programs')?>
+        </div> 
+        </div>
+
+              
+        <div class="row">
+        <div class="col-md-12">
+        <?= Html::submitButton('Submit', ['class'=>'btn btn-primary btn-md float-right ml-2']) ?>
+        <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
       
+        </div>
+        </div>
+        <?php ActiveForm::end()?>
     </div>
-    <div class="modal-footer justify-content-between">
-    
-      <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
-      <?= Html::a('Delete', ['deletecoz', 'id'=>$course -> course_code], ['class'=>'btn btn-sm btn-danger float-right ml-2 btn-outline-light']) ?>
     </div>
-    
   </div>
-  <!-- /.modal-content -->
 </div>
-<!-- /.modal-dialog -->
-   </div>
-            <?php endforeach ?>
+
+
+<!-- ################################################## -->
+            <?php endforeach; ?>
             </tbody>
             </table>
              
@@ -218,6 +207,23 @@ $this->registerJsFile(
 
 
 ?>
+
+<?php 
+$this->registerCssFile('@web/plugins/select2/css/select2.min.css');
+$this->registerJsFile(
+  '@web/plugins/select2/js/select2.full.js',
+  ['depends' => 'yii\web\JqueryAsset']
+);
+$this->registerJsFile(
+  '@web/js/create-assignment.js',
+  ['depends' => 'yii\web\JqueryAsset'],
+
+);
+
+
+
+?>
+
 <?php 
 $script = <<<JS
 $(document).ready(function(){

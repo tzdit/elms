@@ -522,5 +522,6 @@ $('document').ready(function(){
       })
 
       $('#assignstudents').select2();
+      $('#assignstudents1').select2();
     
     })
