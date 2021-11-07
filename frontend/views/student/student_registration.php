@@ -86,9 +86,12 @@ $this->params['breadcrumbs'][] = $this->title;
                  </div>
                
                    <div class="row">
-                    <div class="col-md-12">
-                        
-                     <?= Html::submitButton('Submit', ['class'=>'btn btn-primary btn-md float-right mr-0']) ?>
+                     <div class="col-md-4">
+                     <span class="float-right text-danger"><marquee>Deadline: 02/12/2021</marquee></span>
+</div>
+                    <div class="col-md-8">
+                     
+                     <?= Html::submitButton('Submit', ['class'=>'btn btn-primary btn-lg float-right mr-0','style'=>'width:80%']) ?>
                 
                     </div>
                

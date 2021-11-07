@@ -1171,8 +1171,8 @@ public function actionUploadMaterial(){
            
         Yii::$app->session->setFlash('error',"An error occured");
         
-         print_r($model->upload());
-        //return $this->redirect(Yii::$app->request->referrer);
+         
+        return $this->redirect(Yii::$app->request->referrer);
     }
 }
 }
