@@ -10,7 +10,7 @@
     <div class="card-header text-center bg-primary">
       <span><b>UDOM-CLASSROOM</b></span>
     </div>
-    <div class="card-body">
+    <div class="card-body text-center">
     <?php $form = ActiveForm::begin() ?>
        <div class="container-fluid" >
          <div class="row">
@@ -34,13 +34,32 @@
            <div class="col-md-4 mr-auto ml-auto">
              <?= Html::submitButton('Login', ['class'=>'btn btn-primary btn-block'])?>
            </div>
+
            </div>
          </div>
+        
        </div>
     <?php ActiveForm::end() ?>
  
     </div>
     <!-- /.card-body -->
+   <span>Students' Registration <a href="/student/register">here</a>&nbsp <i class="blinking text-danger">Deadline: 02/12/2021</i></span>
   </div>
   <!-- /.card -->
-      
+  <?php
+$script = <<<JS
+ // Dropzone.autoDiscover = false;
+$(document).ready(function(){
+  //alert("Heloo JQQUERY");
+
+function blinker() {
+ $('.blinking').fadeOut(500);
+ $('.blinking').fadeIn(500);
+}
+setInterval(blinker, 1500);
+
+ 
+})
+JS;
+$this->registerJs($script);
+?>
