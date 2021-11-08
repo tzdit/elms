@@ -26,7 +26,7 @@ use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =$cid. "Students";
+$this->params['courseTitle'] =$cid. " Students";
 $this->title = $cid. "Students";
 $this->params['breadcrumbs'] = [
   ['label'=>'class-dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>$cid])],
