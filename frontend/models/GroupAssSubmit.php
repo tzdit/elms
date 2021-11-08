@@ -111,7 +111,7 @@ class GroupAssSubmit extends \yii\db\ActiveRecord
         $this->groupID = $this->groupId;
         $this->submit_date = date('Y-m-d');
         $this->submit_time = date('H:i:s');
-        $this->fileName = Yii::$app->security->generateRandomString(6).$this->document->name;
+        $this->fileName = Yii::$app->security->generateRandomString(6);
 
         if($isInsert){
             

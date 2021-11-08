@@ -26,7 +26,7 @@ $this->params['breadcrumbs'] = [
                 <section class="col-lg-12">
 
                     <div class="card-header p-0 border-bottom-0 ml-3">
-                        <h2>Assignments</h2>
+                        <h2>Individual Assignments</h2>
 
                     </div>
 
@@ -51,7 +51,7 @@ $this->params['breadcrumbs'] = [
                                                             <div class="row">
                                                                 <div class="col-sm-11">
                                                                     <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$ass?>" aria-expanded="true" aria-controls="collapse<?=$ass?>">
-                                                                        <h5><i class="fas fa-clipboard-list"></i><span class="assignment-auto"><?php echo " "."Assinment"." ".$ass.":"." "; ?></span> <span class="assignment-header"><?php  echo ucwords($assign -> assName)?></span></h5>
+                                                                        <h5><i class="fas fa-clipboard-list"></i><span class="assignment-auto"><?php echo " "."Assignment"." ".$ass.":"." "; ?></span> <span class="assignment-header"><?php  echo ucwords($assign -> assName)?></span></h5>
                                                                     </button>
                                                                 </div>
                                                                 <div class="col-sm-1">
