@@ -6,7 +6,7 @@ use frontend\models\UploadStudentForm;
 
 /* @var $this yii\web\View */
 
-$this->title = 'Upload Student(s)';
+$this->title = 'Student Registration';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-index">
@@ -21,20 +21,22 @@ $this->params['breadcrumbs'][] = $this->title;
        
         <!-- Main row -->
         <div class="row">
-        <section class="col-md-12">
-              <div class="card" style="font-family:'Times New Roman', sans-serif">
-              <div class="card-header ">
+
+        <section class="col-md-12 login-box" style="width:120%">
+        <div class="container-fluid text-center ">
+   
+    </div>
+              <div class="card" style="font-family:'Times New Roman', sans-serif;width:100%">
+              <div class="card-header bg-primary text-center">
                 
-                  <h3 class="card-title">Upload Students</h3>
-                  <?= Html::a('<i class="fas fa-download" ></i>Download Student Excel template', ['download-stdexcell-template'],['class'=>'btn btn-sm btn-primary btn-rounded float-right mb-2']) ?>
+                 <h3><span><i class="fa fa-graduation-cap"></i></span><span>Student Registration</span></h3>
                 </div>
              
               <div class="card-body">
               <div class="row">
-              <div class="col-md-5 border-right">
-              <p class="text-secondary mb-1">Add Single Student</p>
+              <div class="col-md-12">
               <?php $form = ActiveForm::begin()?>
-                 <div class="col-md-12">
+             
                   <div class="row">
                   <div class="col-md-4">
                    <?= $form->field($model, 'fname')->textInput(['class'=>'form-control form-control-sm'])->label('First Name') ?>
@@ -78,64 +80,34 @@ $this->params['breadcrumbs'][] = $this->title;
                  </div>
                  <div class="col-md-6">
                 
-                   <?= $form->field($model, 'role')->dropdownList($roles, ['options'=>['INSTRUCTOR'=>['selected'=>true]], 'class'=>['form-control form-control-sm']], )->label('Role') ?>
+                   <?= $form->field($model, 'role')->dropdownList($roles, ['options'=>['STUDENT'=>['selected'=>true]], 'class'=>['form-control form-control-sm']])->label('Register as') ?>
                 
                  </div>
                  </div>
                
                    <div class="row">
-                    <div class="col-md-12">
-                        
-                     <?= Html::submitButton('Save', ['class'=>'btn btn-primary btn-md float-right mr-0']) ?>
+                     <div class="col-md-4">
+                     <span class="float-right text-danger"><marquee>Deadline: 02/12/2021</marquee></span>
+</div>
+                    <div class="col-md-8">
+                     
+                     <?= Html::submitButton('Submit', ['class'=>'btn btn-primary btn-lg float-right mr-0','style'=>'width:80%']) ?>
                 
                     </div>
                
                   
                  </div>
              
-                 </div>
+             
                
                 
                 
              
                 <?php ActiveForm::end() ?>
               </div>
-              <div class="col-md-7">
-              
-              <?php $stdmodel = new UploadStudentForm(); ?>
-
-    <?php $form= ActiveForm::begin(['method'=>'post', 'action'=>'/instructor/import-students','options'=>['enctype'=>'multipart/form-data'],'id'=>'assessform','enableClientValidation' => true])?>
-        
-      <div class="row">
-      <div class="col-md-12">
-        <label>Add Students Using Excel</label>
-      <div class="custom-file">
-      <?= $form->field($stdmodel,'assFile')->fileInput(['class'=>'form-control form-control-sm custom-file-input', 'id'=>'myFile'])->label('Select File', ['class'=>'custom-file-label col-form-label-sm', 'for'=>'customFile'])?>
-      </div>
-      </div>
-        </div>
-        <br>
-        
-        <div class="row">
-        <div class="col-md-12">
-        <?= Html::submitButton('Upload', ['class'=>'btn btn-primary btn-md float-right ml-2']) ?>
-        <!-- <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button> -->
-        </div>
-        </div>
-        
-    <?php ActiveForm::end()?>
 
 
-
-
-
-
-
-
-
-
-               
-              </div>
+          
               </div>
                  
               </div>

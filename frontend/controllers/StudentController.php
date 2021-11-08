@@ -8,7 +8,12 @@ use common\models\Assignment;
 use common\models\Material;
 use common\models\Groups;
 use common\models\Student;
+use common\models\Department;
+use common\models\AuthItem;
+
+use common\models\Program;
 use common\models\Announcement;
+use frontend\models\UploadStudentHodForm;
 use common\models\StudentCourse;
 use frontend\models\AddGroup;
 use frontend\models\AssSubmitForm;
@@ -41,13 +46,26 @@ class StudentController extends \yii\web\Controller
                             'group-assignment','labs','tutorial','course-materials','returned',
                             'course-announcement','quiz','student-group'
                         ],
+                        
+
                        'allow' => true,
                         'roles'=>['STUDENT']
                     ],
+                     //for students registration
+                    [
+                        'actions' => ['register'],
+                        
+
+                       'allow' => true,
+                        'roles'=>['?']
+                    ],
+
                     
-                    
-                ],
+
+            
             ],
+        ],
+            
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -56,7 +74,9 @@ class StudentController extends \yii\web\Controller
                     'delete_carry' => ['post'],
                 ],
             ],
+       
         ];
+    
     }
 
 
@@ -65,7 +85,32 @@ class StudentController extends \yii\web\Controller
         return parent::beforeAction($action);
     }
    
-
+    //create students
+  public function actionRegister(){
+    $model = new UploadStudentHodForm;
+    $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'STUDENT'])->all(), 'name', 'name');
+    // $departments = Yii::$app->user->identity->hod->department;
+   
+    try{
+    $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
+    if($model->load(Yii::$app->request->post())){
+       
+        if($model->create()){
+        Yii::$app->session->setFlash('success', 'Registration Successfull&nbsp&nbsp<a class="btn btn-primary" href="/auth/login">Login</a>');
+        return $this->redirect(Yii::$app->request->referrer);
+        }else{
+            Yii::$app->session->setFlash('error', 'Registration failed! try again later or contact administrator');
+        }
+   
+            
+     } 
+    
+}catch(\Exception $e){
+    Yii::$app->session->setFlash('error', 'Registration failed! try again later or contact administrator');
+}
+    $this->layout = 'register';
+    return $this->render('student_registration', ['model'=>$model, 'programs'=>$programs, 'roles'=>$roles]);
+}
 
     public function actionDashboard()
     {

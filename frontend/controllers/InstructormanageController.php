@@ -1,18 +1,21 @@
 <?php
+
 namespace frontend\controllers;
 
+use Yii;
+use common\models\Instructor;
+use common\models\InsructorSearch;
+use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
-use Yii;
 use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
-use yii\web\Controller;
-use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use frontend\models\RegisterInstructorForm;
 use frontend\models\RegisterHodForm;
 use frontend\models\UploadStudentForm;
-use common\models\Instructor;
 use common\models\Student;
 use common\models\College;
 use common\models\Department;
@@ -25,84 +28,52 @@ use yii\helpers\URL;
 use common\models\Logs;
 use yii\data\ActiveDataProvider;
 //use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 //use yii\filters\VerbFilter;
-
 /**
- * Site controller
+ * InstructormanageController implements the CRUD actions for Instructor model.
  */
-class AdminController extends Controller
+class InstructormanageController extends Controller
 {
     /**
      * {@inheritdoc}
      */
-    //apply admin layout to this controller
-//public $layout = 'admin';
-public $defaultAction = 'dashboard';
-      public function behaviors()
+    public function behaviors()
     {
         return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
                   
                     [
                         'actions' => [
-                            'dashboard',
                             'instructor-list',
                             'hod-list',
                             'create-instructor',
                             'create-hod',
-                            'create-student',
-                            'student-list',
-                            'delete' => ['POST'],
+                            'view',
+                            'update',
+                            'delete',
+                            'create',
                         ],
                         'allow' => true,
                         'roles' => ['SYS_ADMIN'],
                     ],
                 ],
             ],
-            // 'verbs' => [
-            //     'class' => VerbFilter::className(),
-            //     'actions' => [
-            //         'logout' => ['post'],
-            //     ],
-            // ],
         ];
     }
-    /**
-     * {@inheritdoc}
-     */
 
     /**
-     * Displays homepage.
-     *
+     * Lists all Instructor models.
      * @return mixed
      */
-    public function actionDashboard()
-    {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Logs::find(),
-        ]);
-
-         //passing the numbers of users to the admin dashboard
-         $instructors = Instructor::find()->all();
-         $instructorsnumber=count($instructors);
- 
-         $students = Student::find()->all();
-         $studentsnumber=count($students);
- 
-         $programs = Program::find()->all();
-         $programsnumber=count($programs);
- 
-         $courses = Course::find()->all();
-         $coursesnumber=count($courses);
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,'instructorsnumber'=> $instructorsnumber,'studentsnumber'=>$studentsnumber,
-            'programsnumber'=> $programsnumber,'coursesnumber'=> $coursesnumber,
-        ]);
-    }
     //Create instructor
     public function actionCreateInstructor(){
         $model = new RegisterInstructorForm;
@@ -160,12 +131,84 @@ public $defaultAction = 'dashboard';
         $hods = Hod::find()->all();
         return $this->render('hod_list', ['hods'=>$hods]);
     }
+    /**
+     * Displays a single Instructor model.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
 
-//get list of students
+    /**
+     * Creates a new Instructor model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreate()
+    {
+        $model = new Instructor();
 
-  public function actionStudentList(){
-    $students = Student::find()->all();
-    return $this->render('student_list', ['students'=>$students]);
-}
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->instructorID]);
+        }
 
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Updates an existing Instructor model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->instructorID]);
+        }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Deletes an existing Instructor model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+
+        return $this->redirect(['instructor-list']);
+    }
+
+    /**
+     * Finds the Instructor model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Instructor the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = Instructor::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
 }

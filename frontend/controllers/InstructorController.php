@@ -32,8 +32,10 @@ use frontend\models\External_assess;
 use frontend\models\AddAssessRecord;
 use frontend\models\StudentGroups;
 use frontend\models\TemplateDownloader;
+use frontend\models\StudentTemplateDownload;
 use frontend\models\CA;
 use frontend\models\CA_previewer;
+use frontend\models\UpdateCourse;
 use frontend\models\StudentAssign;
 use common\models\Groups;
 use common\models\GroupGenerationTypes;
@@ -113,6 +115,7 @@ public $defaultAction = 'dashboard';
                             'edit-ext-assrecord-view',
                             'edit-ext-assrecord',
                             'download-extassess-template',
+                            'download-stdexcell-template',
                             'delete-assessment',
                             'post-announcement',
                             'delete-announcement',
@@ -159,9 +162,11 @@ public $defaultAction = 'dashboard';
                             'create-course',
                             'create-program',
                             'student-list',
+                            'view-groups',
                             'upload-assignment',
                             'upload-tutorial',
                             'upload-lab',
+                            'generate-groups',
                             'upload-material',
                             'assignments',
                             'delete',
@@ -188,6 +193,7 @@ public $defaultAction = 'dashboard';
                             'edit-ext-assrecord-view',
                             'edit-ext-assrecord',
                             'download-extassess-template',
+                            'download-stdexcell-template',
                             'delete-assessment',
                             'post-announcement',
                             'delete-announcement',
@@ -197,6 +203,7 @@ public $defaultAction = 'dashboard';
                             'get-student-count',
                             'get-carries-perc',
                             'get-pdf-ca',
+                            'delete-groups',
                             'add-students',
                             'failed-assignments',
                             'missed-workmark',
@@ -292,6 +299,19 @@ public $defaultAction = 'dashboard';
   {
     $downloader=new TemplateDownloader();
     $downloader->courseCode=$coursecode;
+    if($downloader->excelProduce()){ return $this->redirect(Yii::$app->request->referrer); }
+    else{
+        Yii::$app->session->setFlash('error', 'downloading failed');
+        return $this->redirect(Yii::$app->request->referrer); 
+    }
+
+  }
+
+
+  public function actionDownloadStdexcellTemplate()
+  {
+    $downloader=new StudentTemplateDownload();
+    
     if($downloader->excelProduce()){ return $this->redirect(Yii::$app->request->referrer); }
     else{
         Yii::$app->session->setFlash('error', 'downloading failed');
@@ -533,14 +553,16 @@ public function actionEditExtAssrecord($recordid)
 
     public function actionUpdatecoz($id)
     {
-        $coz = Course::findOne($id);
         
+        $coz = Course::findOne($id);
+       // $coz = new UpdateCourse;
+        $programs =ArrayHelper::map(ProgramCourse::find()->where(['course_code'=>$id])->all(), 'programCode', 'programCode');
         if($coz->load(Yii::$app->request->post()) && $coz->save())
         {
             Yii::$app->session->setFlash('success', 'Course updated successfully');
             return $this->redirect(['create-course']);
         }else{
-        return $this->render('updatecoz', ['coz'=>$coz]);
+        return $this->render('updatecoz', ['coz'=>$coz, 'programs'=>$programs]);
         }
     }
 
@@ -1151,7 +1173,8 @@ public function actionUploadMaterial(){
           
            
         Yii::$app->session->setFlash('error',"An error occured");
-       
+        
+         
         return $this->redirect(Yii::$app->request->referrer);
     }
 }
@@ -1647,25 +1670,35 @@ public function actionStudentList(){
 
      //Create Course
      public function actionCreateCourse(){
+        //print_r(Yii::$app->request->post());
         $model = new CreateCourse;
         $courses = Course::find()->all();
+        
+        $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
         try{
-        // $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+        //$departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
         if($model->load(Yii::$app->request->post())){
             if($model->create()){
             Yii::$app->session->setFlash('success', 'Course added successfully');
             return $this->redirect(Yii::$app->request->referrer);
             }else{
-                Yii::$app->session->setFlash('error', 'Something went Wrong!');
+                Yii::$app->session->setFlash('error',$model->create());
+                return $this->redirect(Yii::$app->request->referrer);
             }
        
                 
          } 
+         else
+         {
+             print_r($model->getErrors());
+             print "no validation";
+         }
         
     }catch(\Exception $e){
         Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+        return $this->redirect(Yii::$app->request->referrer);
     }
-        return $this->render('create-course', ['model'=>$model, 'courses'=>$courses]);
+        return $this->render('create-course', ['model'=>$model, 'courses'=>$courses, 'programs'=>$programs]);
     }
 
     public function actionInstructorCourse()
