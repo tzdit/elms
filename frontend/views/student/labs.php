@@ -26,7 +26,7 @@ $this->params['breadcrumbs'] = [
                 <section class="col-lg-12">
 
                     <div class="card-header p-0 border-bottom-0 ml-3">
-                        <h2>Group Assignments</h2>
+                        <h2>Lab's</h2>
 
                     </div>
 

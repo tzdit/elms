@@ -28,7 +28,7 @@ $this->params['breadcrumbs'] = [
 
                                  <div class="col-sm-3 col-12 ">
 
-                                     <a href="<?=Url::to(['student/assignment/', 'cid'=>$cid])  ?>" class="card px-4 py-2 row result-card mx-1 my-2 ">
+                                     <a href="<?=Url::to(['student/assignment/', 'cid'=>$cid])  ?>" class="card pl-2 pr-1  py-2 row result-card mx-1 my-2 ">
                                          <img src="<?=  Yii::getAlias('@web/img/assignment.png')?>" height="34px" width="33px"/>
                                          <h5>
                                              Individual Assignment
@@ -39,7 +39,7 @@ $this->params['breadcrumbs'] = [
 
                                   <div class="col-sm-3 col-12">
 
-                                      <a href="<?=Url::to(['student/student-group/', 'cid'=>$cid])  ?>" class="card px-4 py-2 result-card mx-1 my-2">
+                                      <a href="<?=Url::to(['student/student-group/', 'cid'=>$cid])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
                                           <img src="<?=  Yii::getAlias('@web/img/group.png')?>" height="35px" width="35px"/>
                                           <h5>
                                               Group Assignment
@@ -50,7 +50,7 @@ $this->params['breadcrumbs'] = [
 
                                   <div class="col-sm-3 col-12">
 
-                                      <a href="<?=Url::to(['student/labs/', 'cid'=>$cid])  ?>" class="card px-4 py-2 result-card mx-1 my-2">
+                                      <a href="<?=Url::to(['student/labs/', 'cid'=>$cid])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
                                           <img src="<?=  Yii::getAlias('@web/img/computer_lab.png')?>" height="35px" width="35px"/>
                                           <h5>
                                               Lab Work's
@@ -61,7 +61,7 @@ $this->params['breadcrumbs'] = [
 
                                   <div class="col-sm-3 col-12">
 
-                                      <a href="<?=Url::to(['student/tutorial/', 'cid'=>$cid])  ?>" class="card px-4 py-2 result-card mx-1 my-2">
+                                      <a href="<?=Url::to(['student/tutorial/', 'cid'=>$cid])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
                                           <img src="<?=  Yii::getAlias('@web/img/tutorials.png')?>" height="35px" width="35px"/>
                                           <h5>
                                                 Tutorials
@@ -73,7 +73,7 @@ $this->params['breadcrumbs'] = [
                                   <div class="col-sm-3 col-12">
 
 
-                                      <a href="<?=Url::to(['student/course-materials/', 'cid'=>$cid])  ?>" class="card px-4 py-2 result-card mx-1 my-2">
+                                      <a href="<?=Url::to(['student/course-materials/', 'cid'=>$cid])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
                                           <img src="<?=  Yii::getAlias('@web/img/classmaterial.png')?>" height="35px" width="35px"/>
                                           <h5>
                                               Course Material
@@ -84,7 +84,7 @@ $this->params['breadcrumbs'] = [
 
                                   <div class="col-sm-3 col-12">
 
-                                      <a href="<?=Url::to(['student/returned/', 'cid'=>$cid])  ?>" class="card px-4 py-2 result-card mx-1 my-2">
+                                      <a href="<?=Url::to(['student/returned/', 'cid'=>$cid])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
                                           <img src="<?=  Yii::getAlias('@web/img/exam-results.png')?>" height="35px" width="35px"/>
                                           <h5>
                                               Returned
@@ -95,7 +95,7 @@ $this->params['breadcrumbs'] = [
 
                                   <div class="col-sm-3 col-12">
 
-                                      <a href="<?=Url::to(['student/course-announcement/', 'cid'=>$cid])  ?>" class="card px-4 py-2 result-card mx-1 my-2">
+                                      <a href="<?=Url::to(['student/course-announcement/', 'cid'=>$cid])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
                                           <img src="<?=  Yii::getAlias('@web/img/announcement.png')?>" height="35px" width="35px"/>
                                           <h5>
                                               Announcement
@@ -106,7 +106,7 @@ $this->params['breadcrumbs'] = [
 
                                   <div class="col-sm-3 col-12">
 
-                                      <a href="<?= Url::toRoute(['/student/quiz','cid' => $cid])  ?>" class="card px-4 py-2 result-card mx-1 my-2">
+                                      <a href="<?= Url::toRoute(['/student/quiz','cid' => $cid])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
                                           <img src="<?=  Yii::getAlias('@web/img/quiz.png')?>" height="35px" width="35px"/>
                                           <h5>
                                               Quiz

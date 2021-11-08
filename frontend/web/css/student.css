@@ -82,3 +82,23 @@ color: #007bff;
 .assignment-auto{
   font-weight: 400;
 }
+
+a h5{
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+@media (max-width: 780px) {
+  a h5{
+    font-weight: 500;
+    font-size: .75rem;
+  }
+}
+
+@media (max-width: 1000px) {
+  a h5{
+    font-weight: 600;
+    font-size: .95rem;
+  }
+}
+
