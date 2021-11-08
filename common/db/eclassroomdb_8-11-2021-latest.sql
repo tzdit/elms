@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 07, 2021 at 09:55 AM
+-- Generation Time: Nov 08, 2021 at 08:24 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -212,6 +212,9 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('STUDENT', '70', 1636186926),
 ('STUDENT', '74', 1636187441),
 ('STUDENT', '75', 1636187442),
+('STUDENT', '76', 1636292482),
+('STUDENT', '77', 1636293783),
+('STUDENT', '78', 1636295556),
 ('SUPER_ADMIN', '2', 1620221794),
 ('SYS_ADMIN', '3', 1620230542);
 
@@ -313,22 +316,23 @@ CREATE TABLE `course` (
   `course_credit` int(11) NOT NULL,
   `course_semester` int(11) NOT NULL,
   `course_duration` int(11) DEFAULT NULL,
-  `course_status` varchar(10) DEFAULT NULL
+  `course_status` varchar(10) DEFAULT NULL,
+  `departmentID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `course`
 --
 
-INSERT INTO `course` (`course_code`, `course_name`, `course_credit`, `course_semester`, `course_duration`, `course_status`) VALUES
-('CD455', 'introduction to programming', 9, 2, 4, 'CORE'),
-('CD459', 'java', 9, 2, 2, 'CORE'),
-('CD4591', 'introduction to programming in python', 9, 2, 2, 'CORE'),
-('CH111', 'java', 9, 2, 3, 'CORE'),
-('CP 111', 'Principle of Programming', 10, 1, 1, 'core'),
-('CP 123', 'Introduction High Level Programming in C++', 9, 2, 1, 'CORE'),
-('CS 212', 'Data Structure and Algorithms', 10, 1, 2, 'CORE'),
-('TN 110', 'Introduction to Telecommunication', 10, 1, 1, 'CORE');
+INSERT INTO `course` (`course_code`, `course_name`, `course_credit`, `course_semester`, `course_duration`, `course_status`, `departmentID`) VALUES
+('CD455', 'introduction to programming', 9, 2, 4, 'CORE', 1),
+('CD459', 'java', 9, 2, 2, 'CORE', 1),
+('CD4591', 'introduction to programming in python', 9, 2, 2, 'CORE', 1),
+('CH111', 'java', 9, 2, 3, 'CORE', 1),
+('CP 111', 'Principle of Programming', 10, 1, 1, 'core', 1),
+('CP 123', 'Introduction High Level Programming in C++', 9, 2, 1, 'CORE', 1),
+('CS 212', 'Data Structure and Algorithms', 10, 1, 2, 'CORE', 1),
+('TN 110', 'Introduction to Telecommunication', 10, 1, 1, 'CORE', 1);
 
 -- --------------------------------------------------------
 
@@ -1114,7 +1118,7 @@ CREATE TABLE `student` (
   `userID` int(11) DEFAULT NULL,
   `programCode` varchar(10) DEFAULT NULL,
   `fname` varchar(10) NOT NULL,
-  `mname` varchar(100) NOT NULL,
+  `mname` varchar(100) DEFAULT NULL,
   `lname` varchar(10) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
   `gender` varchar(7) NOT NULL,
@@ -1130,6 +1134,9 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lname`, `email`, `gender`, `f4_index_no`, `YOS`, `DOR`, `phone`, `status`) VALUES
+('T/UDOM/2017/00091', 77, 'SE2', 'joshua', 'A', 'njau', 'joshua@gmail.com', 'M', NULL, 2, '2021-11-07', NULL, 'REGISTERED'),
+('T/UDOM/2017/20154', 76, 'SE2', 'khalidi', 'hassan', 'thewinner', 'thewinnerog@gmail.com', 'M', NULL, 4, '2021-11-07', NULL, 'REGISTERED'),
+('T/UDOM/2017/90000', 78, 'SE1', 'kinabo', 'q', 'juma', 'juma@gmail.com', 'M', NULL, 2, '2021-11-07', NULL, 'REGISTERED'),
 ('T/UDOM/2019/00900', 3, 'CS1', 'winner', '', 'OG', NULL, 'M', NULL, 2, '0000-00-00', NULL, ''),
 ('T/UDOM/2020/00001', 45, 'CS1', 'STUDENT', 'STUDENT', 'STUDENT', 'student@gmail.com', 'M', NULL, 1, '2021-05-08', NULL, 'REGISTERED'),
 ('T/UDOM/2020/00002', 46, 'SE1', 'Hmiasa', 'rashidi', 'Shabani', 'student@gmail2.com', 'F', NULL, 2, '2021-05-08', NULL, 'REGISTERED'),
@@ -1184,6 +1191,7 @@ CREATE TABLE `student_course` (
 --
 
 INSERT INTO `student_course` (`SC_ID`, `reg_no`, `course_code`) VALUES
+(10, 'T/UDOM/2017/20154', 'CP 123'),
 (9, 'T/UDOM/2020/00001', 'CP 111'),
 (8, 'T/UDOM/2020/00798', 'CP 111'),
 (7, 'T/UDOM/2020/00798', 'CP 123');
@@ -1411,7 +1419,10 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 (72, 'T/UDOM/2020/55555', 'zYWaqr0QxH_NxVhdM30HzyyDat3Ur9o4', '$2y$13$1f.Jpz1K3gENljIEVvSMKuv/Cnd3ZnnEr1VcbbzYcnREB7H5InFA6', NULL, 10, 1636187327, 1636187327, 'ABkwdr-ANqNEnE5ctWFK4G3D0iks96cS_1636187327'),
 (73, 'T/UDOM/2020/44442', 'Duh5CnHtFpJ1TEB5uoI5_2Vu9v-8bLmv', '$2y$13$mJeQARYyHyBXD3NM3k0e4eDjjcLPWAHikHyfRiNn4C34zZWppY.Am', NULL, 10, 1636187327, 1636187327, 'NuhWSFb9dUr_vpw9HWlZE8U0Dv0kee3u_1636187327'),
 (74, 'T/UDOM/2020/55553', 'nvgJlyEvS61vBv3vw-8ykCpaGk0WO5LT', '$2y$13$qtK6VqIR2uHWCUU3oIQmROgGds9Zy6.jLFfUT33W/4lR29zKBDGGC', NULL, 10, 1636187441, 1636187441, 'S_rtUQ53-RRFlkOyNfGF7zE6tQEy2sqO_1636187441'),
-(75, 'T/UDOM/2020/44452', 'XYaRWGFVW4YVCZSWMu6jpsCzNydWkJfM', '$2y$13$7SLBnT5Cjo4bboggi0KDEuzoOqyXa.tjYyh7XBounO9iotZGaSrW.', NULL, 10, 1636187442, 1636187442, 'F3PkXv8ZtT_PKSTTsP-r6uK9975MMpXy_1636187442');
+(75, 'T/UDOM/2020/44452', 'XYaRWGFVW4YVCZSWMu6jpsCzNydWkJfM', '$2y$13$7SLBnT5Cjo4bboggi0KDEuzoOqyXa.tjYyh7XBounO9iotZGaSrW.', NULL, 10, 1636187442, 1636187442, 'F3PkXv8ZtT_PKSTTsP-r6uK9975MMpXy_1636187442'),
+(76, 'T/UDOM/2017/20154', 'mFVErJfqarssP68g-tC4oeTZo5zglyKr', '$2y$13$OqJiwmNOxf3V1/qXq6JtX.uzbvMYHp1PcFKJvXUrm2BmfAXFwxIIy', NULL, 10, 1636292482, 1636292482, 'AP_Q0VODCVo8v_e8tXRcb3Cxf5jpdHVx_1636292482'),
+(77, 'T/UDOM/2017/00091', 'AYqSjREbbxivviGcquQ_-pTATpmGbYrl', '$2y$13$bWZ7YF0hCycjynsAQaKLiOYVTA06thnyw72yksPMsxh7PVbIQKTtm', NULL, 10, 1636293783, 1636293783, '-j6KaUbDy4lgDx8-VbFiZbA25t11XUbF_1636293783'),
+(78, 'T/UDOM/2017/90000', 'uJ4ia5UiJuTD3tZ0d6YpJCbYSEOc6jq6', '$2y$13$ZhPwwRBRSLADGxMBIeSQIeW.Aabhsr1vxPK.2U/04fU9zIdzf.ZHi', NULL, 10, 1636295556, 1636295556, '_8V0mofCu4c6-P_5uQ7crp8twJMxnl3i_1636295556');
 
 --
 -- Indexes for dumped tables
@@ -1502,7 +1513,8 @@ ALTER TABLE `college`
 -- Indexes for table `course`
 --
 ALTER TABLE `course`
-  ADD PRIMARY KEY (`course_code`);
+  ADD PRIMARY KEY (`course_code`),
+  ADD KEY `departmentID` (`departmentID`);
 
 --
 -- Indexes for table `department`
@@ -1946,7 +1958,7 @@ ALTER TABLE `student_assignment`
 -- AUTO_INCREMENT for table `student_course`
 --
 ALTER TABLE `student_course`
-  MODIFY `SC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `SC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `student_ext_assess`
@@ -1994,7 +2006,7 @@ ALTER TABLE `thread`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- Constraints for dumped tables
@@ -2052,6 +2064,12 @@ ALTER TABLE `auth_item_child`
 ALTER TABLE `chat`
   ADD CONSTRAINT `chatstudkey` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON UPDATE CASCADE,
   ADD CONSTRAINT `instrchatkey` FOREIGN KEY (`instructorID`) REFERENCES `instructor` (`instructorID`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `course`
+--
+ALTER TABLE `course`
+  ADD CONSTRAINT `course_ibfk_1` FOREIGN KEY (`departmentID`) REFERENCES `department` (`departmentID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `department`
