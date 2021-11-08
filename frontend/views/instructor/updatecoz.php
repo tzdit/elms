@@ -61,6 +61,12 @@ use common\models\Program;
         </div>
 
         <div class="row">
+        <div class="col-md-12">
+        <?= $form->field($coz,'departmentID')->dropdownList($departments,['class'=>'form-control form-control-sm','id'=>'assignstudents2','data-placeholder'=>'Select course Department','style'=>'width:100%'])->label('Department')?>
+        </div> 
+        </div>
+
+        <div class="row">
       <div class="col-md-12">
       <?= $form->field($coz, 'course_code')->hiddenInput(['class'=>'form-control form-control-sm'])->label(false)?>
       <br>

@@ -41,7 +41,7 @@ class Course extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['course_code', 'course_credit', 'course_semester'], 'required'],
+            [['course_code', 'course_credit', 'course_semester', 'departmentID'], 'required'],
             [['course_credit', 'course_semester', 'course_duration'], 'double'],
             [['course_code'], 'string', 'max' => 7],
             [['course_name'], 'string', 'max' => 150],
@@ -62,6 +62,7 @@ class Course extends \yii\db\ActiveRecord
             'course_semester' => 'Course Semester',
             'course_duration' => 'Course Duration',
             'course_status' => 'Course Status',
+            'departmentID' => 'departmentID',
         ];
     }
 
@@ -113,6 +114,11 @@ class Course extends \yii\db\ActiveRecord
     public function getInstructorCourses()
     {
         return $this->hasMany(InstructorCourse::className(), ['course_code' => 'course_code']);
+    }
+
+    public function getDepartment()
+    {
+        return $this->hasOne(Department::className(), ['course_code' => 'course_code']);
     }
 
     /**

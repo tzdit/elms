@@ -557,14 +557,18 @@ public function actionEditExtAssrecord($recordid)
     {
         
         $coz = Course::findOne($id);
+        $dep= $coz ->departmentID;
        // $coz = new UpdateCourse;
+       $depts = Department::find()->all();
+       $departments = ArrayHelper::map(Course::find()->all(), 'departmentID', 'departmentID');
         $programs =ArrayHelper::map(ProgramCourse::find()->where(['course_code'=>$id])->all(), 'programCode', 'programCode');
         if($coz->load(Yii::$app->request->post()) && $coz->save())
         {
             Yii::$app->session->setFlash('success', 'Course updated successfully');
             return $this->redirect(['create-course']);
         }else{
-        return $this->render('updatecoz', ['coz'=>$coz, 'programs'=>$programs]);
+        return $this->render('updatecoz', ['coz'=>$coz, 'programs'=>$programs, 
+        'depts'=>$depts, 'departments'=>$departments]);
         }
     }
 
@@ -1675,7 +1679,7 @@ public function actionStudentList(){
         //print_r(Yii::$app->request->post());
         $model = new CreateCourse;
         $courses = Course::find()->all();
-        
+        $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
         $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
         try{
         //$departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
@@ -1700,7 +1704,7 @@ public function actionStudentList(){
         Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
         return $this->redirect(Yii::$app->request->referrer);
     }
-        return $this->render('create-course', ['model'=>$model, 'courses'=>$courses, 'programs'=>$programs]);
+        return $this->render('create-course', ['model'=>$model, 'courses'=>$courses, 'programs'=>$programs, 'departments'=>$departments]);
     }
 
     public function actionAssignCourse(){
