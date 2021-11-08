@@ -1670,7 +1670,7 @@ public function actionStudentList(){
 
      //Create Course
      public function actionCreateCourse(){
-        print_r(Yii::$app->request->post());
+        //print_r(Yii::$app->request->post());
         $model = new CreateCourse;
         $courses = Course::find()->all();
         
