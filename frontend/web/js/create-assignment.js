@@ -520,8 +520,8 @@ $('document').ready(function(){
     
     
       })
-
+      $('#select2').select2();
       $('#assignstudents').select2();
-      $('#assignstudents1').select2();
+      
     
     })
