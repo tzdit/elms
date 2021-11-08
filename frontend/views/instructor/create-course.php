@@ -136,7 +136,7 @@ use common\models\Program;
             </td>
             <td>
             <?= Html::a('<i class="fas fa-edit"></i>',['updatecoz', 'id'=>$course->course_code], ['class'=>'btn btn-info btn-sm m-0'])?> 
-            <a href="#" class="btn btn-danger btn-sm m-0" data-toggle="modal" data-target="#modal-danger<?php $course->course_code ?>"><span><i class="fas fa-trash"></i></span></a>
+            <?= Html::a('<i class="fas fa-trash"></i>',['deletecoz', 'id'=>$course->course_code], ['class'=>'btn btn-danger btn-sm m-0'])?> 
             
             </td>
             

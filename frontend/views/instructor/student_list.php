@@ -51,12 +51,11 @@ $this->title = 'Students List';
                 echo '<td>' .$current_students[$b]->reg_no.'</td>';
                 echo '<td>' .$current_students[$b]->YOS. '</td>';
                 echo '<td>' .$current_students[$b]->program->department->depart_abbrev.'</td>';
-                
-                echo   '<td> 
-            <a href="#" class="btn btn-info btn-sm m-0"><i class="fas fa-edit"></i></a> 
-            <a href="#" class="btn btn-success btn-sm m-0"><i class="fas fa-eye"></i></a>
-            <a href="#" class="btn btn-danger btn-sm m-0"><i class="fas fa-trash" ></i></a>
-            </td>';
+                echo   '<td>' .
+                Html::a('<i class="fas fa-edit"> </i>',['updatestudent', 'id'=>$current_students[$b]->reg_no], ['class'=>'btn btn-info btn-sm m-0']) ,
+                Html::a('<i class="fas fa-trash"> </i>',['deletestudent', 'id'=>$current_students[$b]->reg_no], ['class'=>'btn btn-danger btn-sm m-0'])
+
+                       .'</td>';
             
                 '</tr>';
                  

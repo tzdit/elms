@@ -150,7 +150,7 @@ use yii\helpers\Url;
 
               <li class="nav-item">
                 <a href="<?= Url::toRoute('/instructor/assign-course') ?>" class="nav-link">
-                <i class="fas fa-users"></i>
+                <i class="fas fa-tasks"></i>
                   <p>Assign Course </p>
                 </a>
               </li>

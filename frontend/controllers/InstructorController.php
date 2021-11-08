@@ -175,6 +175,7 @@ public $defaultAction = 'dashboard';
                             'deletelab',
                             'deletetut',
                             'deletecoz',
+                            'deleteprog',
                             'materials',
                             'stdwork',
                             'stdworkmark',
@@ -222,7 +223,8 @@ public $defaultAction = 'dashboard';
                             'class-students',
                             'create-module',
                             'material-upload-form',
-                            'module-delete'
+                            'module-delete',
+                            'updatestudent'
                            
                         ],
                         'allow' => true,
@@ -490,9 +492,18 @@ public function actionEditExtAssrecord($recordid)
 
     public function actionDeletecoz($id)
     {
-        $cozdel = Assignment::findOne($id)->delete(); 
+        $cozdel = Course::findOne($id)->delete(); 
         if($cozdel){
-           Yii::$app->session->setFlash('success', 'Lab deleted successfully');
+           Yii::$app->session->setFlash('success', 'Course deleted successfully');
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionDeleteprog($id)
+    {
+        $progdel = Program::findOne($id)->delete(); 
+        if($progdel){
+           Yii::$app->session->setFlash('success', 'Program deleted successfully');
         }
         return $this->redirect(Yii::$app->request->referrer);
     }
@@ -569,6 +580,24 @@ public function actionEditExtAssrecord($recordid)
         }else{
         return $this->render('updatecoz', ['coz'=>$coz, 'programs'=>$programs, 
         'depts'=>$depts, 'departments'=>$departments]);
+        }
+    }
+
+    public function actionUpdatestudent($id)
+    {
+        
+        $model = Student::findOne($id);
+        $user = User::find($id);
+        $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'STUDENT'])->all(), 'name', 'name');
+        // $departments = Yii::$app->user->identity->hod->department;
+        $departments = ArrayHelper::map(Department::find()->where(['departmentID'=> Yii::$app->user->identity->instructor->department->departmentID])->all(), 'depart_abbrev', 'depart_abbrev');
+        $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
+        if($model->load(Yii::$app->request->post()) && $model->save())
+        {
+            Yii::$app->session->setFlash('success', 'Student updated successfully');
+            return $this->redirect(['create-student']);
+        }else{
+        return $this->render('updatestudent', ['model'=>$model, 'programs'=>$programs, 'departments'=>$departments, 'roles'=>$roles ]);
         }
     }
 
@@ -1696,8 +1725,8 @@ public function actionStudentList(){
          } 
          else
          {
-             print_r($model->getErrors());
-             print "no validation";
+            //  print_r($model->getErrors());
+            //  print "no validation";
          }
         
     }catch(\Exception $e){
