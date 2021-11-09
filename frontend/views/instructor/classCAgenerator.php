@@ -45,12 +45,7 @@ $this->params['breadcrumbs'] = [
  <div class="row">
           <!-- Left col -->
           <section class="col-lg-12 ">
-          <div class="card card-primary card-outline card-outline-tabs">
-              <div class="card-header p-0 border-bottom-0">
-              
-              </div>
-             
-              <div class="card-body" >
+     
        
 
 
@@ -217,9 +212,9 @@ $caform = ActiveForm::begin([
    
     
     
-      </div>
    
-  </div>
+   
+ 
 </div>
 </div>
 </div>
