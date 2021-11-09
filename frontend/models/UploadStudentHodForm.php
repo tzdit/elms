@@ -54,7 +54,8 @@ class UploadStudentHodForm extends Model
          if (!$this->validate()) {
              return false;
         }
-        
+        $patt="/^(T|HD)[\/](UDOM)[\/][0-9]{4}[\/]([0-9]{5}|(T\.[0-9]{4}))$/";
+        if(!preg_match($patt,$this->username)){return false;}
         $user = new User();
         $student = new Student();
         $transaction = Yii::$app->db->beginTransaction();
@@ -86,13 +87,21 @@ class UploadStudentHodForm extends Model
         $transaction->commit();
         return true;
         }
+        else
+        {
+            return false;
+        }
+        }
+        else
+        {
+            return false;
         }
     
        }catch(\Throwable $e){
             $transaction->rollBack();
             return $e->getMessage();
       }
-    return false;
+    //return false;
 }
 
   
