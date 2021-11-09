@@ -143,12 +143,20 @@ $(document).ready(function(){
   });
 $('#regno').blur(function(){
 
-var regexp=/^(T|HD)[/](UDOM)[/][0-9]{4}[/][0-9]{5}$/;
+var regexp=/^(T|HD)[/](UDOM)[/][0-9]{4}[/]([0-9]{5}|(T\.[0-9]{4}))$/;
 var regno=$(this).val();
 if(!regexp.test(regno))
 {
   $(this).val("");
-  Swal.fire('Invalid registration number','follow this format: T/UDOM/2000/00001');
+
+  Swal.fire({
+  title: 'Invalid registration number',
+  text: "follow this format: T/UDOM/2000/00001 or HD/UDOM/0001/T.2010 (for masters)",
+  icon: 'error',
+  confirmButtonColor: '#3085d6',
+  confirmButtonText: 'Ok'
+})
+  //Swal.fire('Invalid registration number','follow this format: T/UDOM/2000/00001 or HD/UDOM/0001/T.2010 (for masters) <br><br><b>If you still don\'t have a registration number find it as soon as possible.<b>');
 }
 
 
