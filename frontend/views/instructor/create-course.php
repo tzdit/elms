@@ -128,7 +128,7 @@ use common\models\Program;
             <?= Html::a('<i class="fas fa-edit"></i>',['updatecoz', 'id'=>$course->course_code], ['class'=>'btn btn-info btn-sm m-0'])?> 
             <a href="#" class="btn btn-success btn-sm m-0"><i class="fas fa-eye"></i></a>
             <a href="#" class="btn btn-danger btn-sm m-0" data-toggle="modal" data-target="#modal-danger<?php $course->course_code ?>"><span><i class="fas fa-trash"></i></span></a>
-            <a href="#" class="btn btn-warning btn-sm m-0" data-toggle="modal" data-target="#AssignCourseModal-<?=$course -> id;?>"><span><i class="fas fa-plus">Program</i></span></a>
+            <a href="#" class="btn btn-warning btn-sm m-0" data-toggle="modal" data-target="#AssignCourseModal-<?=$course -> course_code;?>"><span><i class="fas fa-plus">Program</i></span></a>
             </td>
             
    

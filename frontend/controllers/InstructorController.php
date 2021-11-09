@@ -205,6 +205,7 @@ public $defaultAction = 'dashboard';
                             'get-student-count',
                             'get-carries-perc',
                             'get-pdf-ca',
+                            'delete-groups',
                             'add-students',
                             'failed-assignments',
                             'missed-workmark',
