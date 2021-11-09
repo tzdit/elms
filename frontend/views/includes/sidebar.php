@@ -147,6 +147,13 @@ use yii\helpers\Url;
                   <p>Instructors </p>
                 </a>
               </li>
+
+              <li class="nav-item">
+                <a href="<?= Url::toRoute('/instructor/assign-course') ?>" class="nav-link">
+                <i class="fas fa-users"></i>
+                  <p>Assign Course </p>
+                </a>
+              </li>
               <?php endif ?> <!-- END OF STUDENT ROLE -->
         
         </ul>

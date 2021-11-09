@@ -19,6 +19,7 @@ use common\models\InstructorCourse;
 use common\models\StudentCourse;
 use common\models\ProgramCourse;
 use frontend\models\UploadAssignment;
+use frontend\models\AssignCourse;
 use frontend\models\UploadTutorial;
 use frontend\models\AddPartner;
 use frontend\models\UploadLab;
@@ -72,6 +73,7 @@ public $defaultAction = 'dashboard';
                     [
                         'actions' => [
                             'dashboard',
+                            'assign-course',
                             'courses',
                             'enroll-course',
                             'dropcourse',
@@ -1669,7 +1671,7 @@ public function actionStudentList(){
 
      //Create Course
      public function actionCreateCourse(){
-        print_r(Yii::$app->request->post());
+        //print_r(Yii::$app->request->post());
         $model = new CreateCourse;
         $courses = Course::find()->all();
         
@@ -1698,6 +1700,40 @@ public function actionStudentList(){
         return $this->redirect(Yii::$app->request->referrer);
     }
         return $this->render('create-course', ['model'=>$model, 'courses'=>$courses, 'programs'=>$programs]);
+    }
+
+    public function actionAssignCourse(){
+        //print_r(Yii::$app->request->post());
+        $model = new AssignCourse;
+        $cozz = Course::find()->all();
+        $courses = ArrayHelper::map(Course::find()->all(), 'course_code', 'course_code');
+        
+        $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
+        try{
+        //$departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+        if($model->load(Yii::$app->request->post())){
+            if($model->create()){
+            Yii::$app->session->setFlash('success', 'Course assigned successfully');
+            return $this->redirect(Yii::$app->request->referrer);
+            }else{
+               print_r($model->getErrors());
+            // Yii::$app->session->setFlash('error', 'no no no');
+                // return $this->redirect(Yii::$app->request->referrer);
+            }
+       
+                
+         } 
+         else
+         {
+             
+             
+         }
+        
+    }catch(\Exception $e){
+        Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+         return $this->redirect(Yii::$app->request->referrer);
+    }
+        return $this->render('assign-course', ['model'=>$model, 'courses'=>$courses, 'programs'=>$programs, 'cozz'=>$cozz]);
     }
 
     public function actionInstructorCourse()
