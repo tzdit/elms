@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                    <div class="row">
                    <div class="col-md-6">
-                   <?= $form->field($model, 'username')->textInput(['class'=>'form-control form-control-sm'])->label('Registration Number') ?>
+                   <?= $form->field($model, 'username')->textInput(['class'=>'form-control form-control-sm','id'=>'regno'])->label('Registration Number') ?>
                   </div>
                   <div class="col-md-6">
                   <?= $form->field($model, 'YOS')->dropdownList(['1'=>'First Year', '2'=>'Second Year', '3'=>'Third Year', '4'=>'Fourth year'], ['prompt'=>'--Select--', 'class'=>'form-control form-control-sm'])->label(' Year of Study') ?>
@@ -141,7 +141,18 @@ $(document).ready(function(){
     uploadIcon: '<i class="fa fa-upload"></i>'
     
   });
+$('#regno').blur(function(){
 
+var regexp=/^(T|HD)[/](UDOM)[/][0-9]{4}[/][0-9]{5}$/;
+var regno=$(this).val();
+if(!regexp.test(regno))
+{
+  $(this).val("");
+  Swal.fire('Invalid registration number','follow this format: T/UDOM/2000/00001');
+}
+
+
+})
  
 })
 JS;
