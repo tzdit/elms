@@ -43,7 +43,8 @@
  
     </div>
     <!-- /.card-body -->
-   <span>Students' Registration <a href="/student/register">here</a>&nbsp <i class="blinking text-danger">Deadline: 02/12/2021</i></span>
+   <span>Students' Registration <a href="/student/register">here</a><br>
+   &nbsp;<img src="/img/announcement.gif" class="img-circle"  style="height:10%;width:10%;margin-bottom:1%"></img><i class="blinking text-danger">Deadline: 02/12/2021</i></span>
   </div>
   <!-- /.card -->
   <?php

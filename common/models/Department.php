@@ -78,6 +78,11 @@ class Department extends \yii\db\ActiveRecord
         return $this->hasOne(Hod::className(), ['departmentID' => 'departmentID']);
     }
 
+    public function getCourses()
+    {
+        return $this->hasMany(Course::className(), ['departmentID' => 'departmentID']);
+    }
+
     /**
      * Gets query for [[Programs]].
      *

@@ -19,6 +19,7 @@ use common\models\InstructorCourse;
 use common\models\StudentCourse;
 use common\models\ProgramCourse;
 use frontend\models\UploadAssignment;
+use frontend\models\AssignCourse;
 use frontend\models\UploadTutorial;
 use frontend\models\AddPartner;
 use frontend\models\UploadLab;
@@ -72,6 +73,7 @@ public $defaultAction = 'dashboard';
                     [
                         'actions' => [
                             'dashboard',
+                            'assign-course',
                             'courses',
                             'enroll-course',
                             'dropcourse',
@@ -173,6 +175,7 @@ public $defaultAction = 'dashboard';
                             'deletelab',
                             'deletetut',
                             'deletecoz',
+                            'deleteprog',
                             'materials',
                             'stdwork',
                             'stdworkmark',
@@ -220,7 +223,8 @@ public $defaultAction = 'dashboard';
                             'class-students',
                             'create-module',
                             'material-upload-form',
-                            'module-delete'
+                            'module-delete',
+                            'updatestudent'
                            
                         ],
                         'allow' => true,
@@ -488,9 +492,18 @@ public function actionEditExtAssrecord($recordid)
 
     public function actionDeletecoz($id)
     {
-        $cozdel = Assignment::findOne($id)->delete(); 
+        $cozdel = Course::findOne($id)->delete(); 
         if($cozdel){
-           Yii::$app->session->setFlash('success', 'Lab deleted successfully');
+           Yii::$app->session->setFlash('success', 'Course deleted successfully');
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionDeleteprog($id)
+    {
+        $progdel = Program::findOne($id)->delete(); 
+        if($progdel){
+           Yii::$app->session->setFlash('success', 'Program deleted successfully');
         }
         return $this->redirect(Yii::$app->request->referrer);
     }
@@ -555,14 +568,36 @@ public function actionEditExtAssrecord($recordid)
     {
         
         $coz = Course::findOne($id);
+        $dep= $coz ->departmentID;
        // $coz = new UpdateCourse;
+       $depts = Department::find()->all();
+       $departments = ArrayHelper::map(Course::find()->all(), 'departmentID', 'departmentID');
         $programs =ArrayHelper::map(ProgramCourse::find()->where(['course_code'=>$id])->all(), 'programCode', 'programCode');
         if($coz->load(Yii::$app->request->post()) && $coz->save())
         {
             Yii::$app->session->setFlash('success', 'Course updated successfully');
             return $this->redirect(['create-course']);
         }else{
-        return $this->render('updatecoz', ['coz'=>$coz, 'programs'=>$programs]);
+        return $this->render('updatecoz', ['coz'=>$coz, 'programs'=>$programs, 
+        'depts'=>$depts, 'departments'=>$departments]);
+        }
+    }
+
+    public function actionUpdatestudent($id)
+    {
+        
+        $model = Student::findOne($id);
+        $user = User::find($id);
+        $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'STUDENT'])->all(), 'name', 'name');
+        // $departments = Yii::$app->user->identity->hod->department;
+        $departments = ArrayHelper::map(Department::find()->where(['departmentID'=> Yii::$app->user->identity->instructor->department->departmentID])->all(), 'depart_abbrev', 'depart_abbrev');
+        $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
+        if($model->load(Yii::$app->request->post()) && $model->save())
+        {
+            Yii::$app->session->setFlash('success', 'Student updated successfully');
+            return $this->redirect(['create-student']);
+        }else{
+        return $this->render('updatestudent', ['model'=>$model, 'programs'=>$programs, 'departments'=>$departments, 'roles'=>$roles ]);
         }
     }
 
@@ -1673,7 +1708,7 @@ public function actionStudentList(){
         //print_r(Yii::$app->request->post());
         $model = new CreateCourse;
         $courses = Course::find()->all();
-        
+        $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
         $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
         try{
         //$departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
@@ -1690,15 +1725,49 @@ public function actionStudentList(){
          } 
          else
          {
-             print_r($model->getErrors());
-             print "no validation";
+            //  print_r($model->getErrors());
+            //  print "no validation";
          }
         
     }catch(\Exception $e){
         Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
         return $this->redirect(Yii::$app->request->referrer);
     }
-        return $this->render('create-course', ['model'=>$model, 'courses'=>$courses, 'programs'=>$programs]);
+        return $this->render('create-course', ['model'=>$model, 'courses'=>$courses, 'programs'=>$programs, 'departments'=>$departments]);
+    }
+
+    public function actionAssignCourse(){
+        //print_r(Yii::$app->request->post());
+        $model = new AssignCourse;
+        $cozz = Course::find()->all();
+        $courses = ArrayHelper::map(Course::find()->all(), 'course_code', 'course_code');
+        
+        $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
+        try{
+        //$departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+        if($model->load(Yii::$app->request->post())){
+            if($model->create()){
+            Yii::$app->session->setFlash('success', 'Course assigned successfully');
+            return $this->redirect(Yii::$app->request->referrer);
+            }else{
+               print_r($model->getErrors());
+            // Yii::$app->session->setFlash('error', 'no no no');
+                // return $this->redirect(Yii::$app->request->referrer);
+            }
+       
+                
+         } 
+         else
+         {
+             
+             
+         }
+        
+    }catch(\Exception $e){
+        Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+         return $this->redirect(Yii::$app->request->referrer);
+    }
+        return $this->render('assign-course', ['model'=>$model, 'courses'=>$courses, 'programs'=>$programs, 'cozz'=>$cozz]);
     }
 
     public function actionInstructorCourse()
