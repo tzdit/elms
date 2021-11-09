@@ -151,7 +151,7 @@ if(!regexp.test(regno))
 
   Swal.fire({
   title: 'Invalid registration number',
-  text: "follow this format: T/UDOM/2000/00001 or HD/UDOM/0001/T.2010 (for masters)",
+  text: "follow this format: T/UDOM/2000/00001 or HD/UDOM/0001/T.2010 (for masters)...Usiingize namba ambayo hujapewa, namba unayoingiza itaonekana kwenye mitihani yako yote...",
   icon: 'error',
   confirmButtonColor: '#3085d6',
   confirmButtonText: 'Ok'
