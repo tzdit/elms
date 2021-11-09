@@ -34,6 +34,7 @@ class UploadStudentHodForm extends Model
             [['fname', 'mname', 'lname','program', 'YOS', 'role', 'gender'], 'required'],
             ['username', 'trim'],
             ['username', 'required'],
+            ['email','required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'User already exixts.'],
             ['email', 'unique', 'targetClass' => '\common\models\Student', 'message' => 'This email has already been taken.'],
            
@@ -82,9 +83,12 @@ class UploadStudentHodForm extends Model
         if($student->save()){
            
         //now assign role to this newlly created user========>>
+        
         $userRole = $auth->getRole($this->role);
         $auth->assign($userRole, $user->getId());
+
         $transaction->commit();
+        
         return true;
         }
         else

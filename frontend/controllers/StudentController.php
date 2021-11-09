@@ -98,7 +98,7 @@ class StudentController extends \yii\web\Controller
     $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
     if($model->load(Yii::$app->request->post())){
        
-        if($model->create()){
+        if($model->create()==true){
         Yii::$app->session->setFlash('success', 'Registration Successfull&nbsp&nbsp<a class="btn btn-primary" href="/auth/login">Login</a>');
         return $this->redirect(Yii::$app->request->referrer);
         }else{
@@ -109,7 +109,7 @@ class StudentController extends \yii\web\Controller
      } 
     
 }catch(\Exception $e){
-    Yii::$app->session->setFlash('error', 'Registration failed! try again later or contact administrator'.$e->getMessage());
+    Yii::$app->session->setFlash('error', 'Registration failed! try again later or contact administrator');
 }
     $this->layout = 'register';
     return $this->render('student_registration', ['model'=>$model, 'programs'=>$programs, 'roles'=>$roles]);
