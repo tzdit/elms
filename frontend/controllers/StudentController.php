@@ -1,6 +1,8 @@
 <?php
 
 namespace frontend\controllers;
+use common\models\ProgramCourse;
+use common\models\Submit;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use common\models\Course;
@@ -22,6 +24,7 @@ use frontend\models\CarryCourseSearch;
 use common\models\StudentGroup;
 use yii\helpers\ArrayHelper;
 use Yii;
+use yii\helpers\Console;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
@@ -114,7 +117,10 @@ class StudentController extends \yii\web\Controller
 
     public function actionDashboard()
     {
-   $courses = Yii::$app->user->identity->student->program->courses;
+   $student_regno = Yii::$app->user->identity->student->program;
+
+   $courses = Course::find()->select('course.course_code, course.course_credit, course.course_status ')->rightJoin('program_course','program_course.course_code = course.course_code')->where('program_course.programCode = :program_code',[':program_code' => $student_regno->programCode])->orderBy(['program_course.PC_ID' => SORT_ASC])->all();
+
         return $this->render('index', ['courses'=>$courses]);
     }
 
@@ -163,7 +169,7 @@ public function actionClasswork($cid){
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionSubmit_assignment($assID)
+    public function actionSubmit_assignment($assID,$cid)
     {
 
         $model =new AssSubmitForm;
@@ -186,7 +192,7 @@ public function actionClasswork($cid){
                 Yii::$app->session->setFlash('success', 'Your Submit successed');
 
 
-                return $this->refresh();
+                return $this->redirect(['assignment','cid' => $cid]);
             }
 
 
@@ -209,34 +215,43 @@ public function actionClasswork($cid){
      * Resubmision of an assinment
      * return in the same page after sumit
      */
-    public function actionResubmit($assID){
-        $model =new AssSubmitForm;
+    public function actionResubmit($assID, $cid, $submit_id){
+        $model = AssSubmitForm::find()->where('submitID = :submitID AND assID = :assID ', [':submitID' => $submit_id, ':assID' => $assID])->one();
+        $submit_model = Submit::find()->where('assID = :assID', [':assID' => $assID])->one();
+        $file_path = $submit_model->fileName;
+        $documentPath = Yii::getAlias('@frontend/web/storage/submit/'.$file_path );
 
-        $file = UploadedFile::getInstanceByName('document');
-        $model->document = $file;
-        $model->assinmentId = $assID;
 
 
-        // echo '<pre>';
-        //     var_dump($file);
-        // echo '</pre>';
-        // exit;
+// echo '<pre>';
+//                     var_dump($documentPath);
+//                 echo '</pre>';
+//                 exit;
 
-        $reg_no = Yii::$app->user->identity->username;
 
         try{
-            if (Yii::$app->request->isPost && $model->save()) {
+            if (Yii::$app->request->isPost ) {
 
-                Yii::$app->session->setFlash('success', 'Your Re-Submit successed');
+                if (file_exists($documentPath)){
+                    unlink($documentPath);
+                }
+
+                $file = UploadedFile::getInstanceByName('document');
+
+                $model->document = $file;
+                $model->assinmentId = $assID;
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('success', 'Your Re-Submit successed');
 
 
-                return $this->refresh();
+                    return $this->redirect(['assignment', 'cid' => $cid]);
+                }
             }
 
 
         }
         catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+            Yii::$app->session->setFlash('error', 'Fail to Resubmit');
         }
 
 

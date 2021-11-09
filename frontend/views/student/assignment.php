@@ -74,7 +74,7 @@ $this->params['breadcrumbs'] = [
 
                                                                     <?php
                                                                     //variable to check if there is any submission
-                                                                    $submited = Submit::find()->where('reg_no = :reg_no AND assID = :assID', [ ':reg_no' => $reg_no,':assID' => $assign->assID])->all();
+                                                                    $submited = Submit::find()->where('reg_no = :reg_no AND assID = :assID', [ ':reg_no' => $reg_no,':assID' => $assign->assID])->one();
                                                                     ?>
 
                                                                     <?php
@@ -90,11 +90,11 @@ $this->params['breadcrumbs'] = [
                                                                     <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-eye"> View</i></span></a>
 
                                                                     <?php if(empty($submited) && $isOutOfDeadline == false):?>
-                                                                        <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
+                                                                        <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> $assign->assID, 'cid' => $cid])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
                                                                     <?php endif ?>
 
                                                                     <?php if(!empty($submited) && $isOutOfDeadline == false):?>
-                                                                        <a href="<?= Url::toRoute(['/student/resubmit','assID'=> $assign->assID])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
+                                                                        <a href="<?= Url::toRoute(['/student/resubmit','assID'=> $assign->assID, 'cid' => $cid, 'submit_id' => $submited->submitID])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
                                                                     <?php endif ?>
 
                                                                     <?php if($isOutOfDeadline == true):?>
