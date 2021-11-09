@@ -77,7 +77,18 @@ use yii\helpers\Url;
                   <p>Students</p>
                 </a>
               </li>
-             
+              <li class="nav-item">
+                <a href="<?= Url::toRoute('/departmentmanage/index') ?>" class="nav-link">
+                  <i class="fas fa-book nav-icon"></i>
+                  <p>Departments</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?= Url::toRoute('/collegemanage/index') ?>" class="nav-link">
+                  <i class="fas fa-home nav-icon"></i>
+                  <p>Colleges</p>
+                </a>
+              </li>
             </ul>
           </li>
             <?php endif ?> <!-- END OF SYS_ADMIN ROLE-->
