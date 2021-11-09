@@ -98,7 +98,7 @@ $materials=$module->materials;
       <?php foreach( $materials as $material ) : ?>
         <div class="row" >
         <div class="col-md-9">
-      <?php if(in_array(pathinfo($material->fileName,PATHINFO_EXTENSION),['MP4','mp4']))
+      <?php if(in_array(pathinfo($material->fileName,PATHINFO_EXTENSION),['MP4','mp4','mkv','MKV','AVI','avi']))
           {
       ?>
       <a href="<?=Url::to(['material/player','currentvid'=>$material->fileName,'currenttitle'=>$material->title])?>"><img src="/img/video thumb.png" style="width:4%;height:20px;margin-right:3px"/><?= $material -> title ?></a>
@@ -127,7 +127,7 @@ $materials=$module->materials;
       <a href="/storage/temp/<?=$material->fileName ?>" class=" ml-2 float-right" download><span><i class="fas fa-download"></i></span></a>
       <?php
      
-     if(in_array(pathinfo($material->fileName,PATHINFO_EXTENSION),['MP4','mp4']))
+     if(in_array(pathinfo($material->fileName,PATHINFO_EXTENSION),['MP4','mp4','mkv','MKV','AVI','avi']))
      {
       ?>
         <a href="<?=Url::to(['material/player','currentvid'=>$material->fileName,'currenttitle'=>$material->title])?>"  class=" ml-2 float-right"><span><i class="fas fa-eye"></i></span></a>

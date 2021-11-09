@@ -25,8 +25,8 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="hold-transition login-page">
-<div class="login-box">
+<body class="hold-transition login-page ">
+<div class="login-box text-center">
   <!-- /.login-logo -->
 <?= $content ?>
 </div>
@@ -34,4 +34,5 @@ AppAsset::register($this);
 <?php $this->endBody() ?>
 </body>
 </html>
+
 <?php $this->endPage() ?>

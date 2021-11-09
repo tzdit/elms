@@ -60,7 +60,7 @@ AppAsset::register($this);
     </a>
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" >
   
       <!-- Sidebar Menu -->
       <?= $this->render('/includes/sidebar') ?>

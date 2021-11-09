@@ -1,8 +1,8 @@
 <?php 
 use yii\helpers\Url;
 ?>
-<nav class="mt-2" >
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true" style="color:black">
+<nav class="mt-2" style="height:57%;">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
            <li class="nav-item">
             <a href="<?= Url::to(['/home/dashboard']) ?>" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
@@ -158,14 +158,39 @@ use yii\helpers\Url;
                   <p>Instructors </p>
                 </a>
               </li>
+
+              <li class="nav-item">
+                <a href="<?= Url::toRoute('/instructor/assign-course') ?>" class="nav-link">
+                <i class="fas fa-tasks"></i>
+                  <p>Assign Course </p>
+                </a>
+              </li>
               <?php endif ?> <!-- END OF STUDENT ROLE -->
         
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
+
+      <div class="card">
+    <div class="card-header">
+      Have a feedback or need support?<span style="font-size:24px;margin-left:5px" class="text-success"><i class="fab fa-whatsapp"></i></span><span style="font-size:24px;margin-left:5px" class="text-success"><i class="fa fa-phone"></i></span><span style="font-size:24px; margin-left:5px" class="text-success"><i class="fas fa-sms"></i></span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">(+255) 755189736</div>
+          </div>
+          <div class="row">
+              <div class="col-md-12">(+255) 784085190</div>
+          </div>
+          <div class="row">
+              <div class="col-md-12">(+255) 746185067</div>
+          </div>
+          </div>
+
+          </div>
     </div>
     <!-- /.sidebar -->
-
+  
     <div class="sidebar-custom">
       <a href="#" class="btn btn-link"><i class="fas fa-cogs"></i></a>
       <a href="#" class="btn btn-secondary hide-on-collapse pos-right">Help</a>

@@ -9,7 +9,7 @@ use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 class CreateCourse extends Model{
     public $course_code;
-    public $programs;
+    public $departments;
     public $course_name;
     public $course_credit;
     public $course_semester;
@@ -17,12 +17,11 @@ class CreateCourse extends Model{
     public $course_status;
     public function rules(){
         return [
-            [['course_code', 'course_name', 'course_credit', 'course_semester'], 'required'],
+            [['course_code', 'course_name', 'course_credit', 'course_semester', 'departments'], 'required'],
             [[ 'course_semester', 'course_duration'], 'integer'],
-            [['course_code'], 'string', 'max' => 7],
+            [['course_code'], 'string', 'max' => 25],
             [['course_name'], 'string', 'max' => 150],
-            [['course_status'], 'string', 'max' => 10],
-            ['programs','required']
+            [['course_status'], 'string', 'max' => 15],
             // [['course_code'], 'unique'],
         ];
 
@@ -42,24 +41,10 @@ class CreateCourse extends Model{
         $coz->course_semester = $this->course_semester;
         $coz->course_duration = $this->course_duration;
         $coz->course_status = $this->course_status;
-        $programs = $this->programs;
+        $coz->departmentID = $this->departments;
 
         $coz->save();   
-        if ($coz ->save())
-        {
-            foreach($programs as $prog)
-            {
-            
-            $progcourse = new ProgramCourse();
-            $progcourse->course_code = $coz->course_code;
-            $progcourse->programCode = $prog;
-            $progcourse ->save();
-            }
-        }
-        else
-        {
-            return false;
-        }  
+        
         return true;
 
         

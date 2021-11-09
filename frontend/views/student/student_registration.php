@@ -6,7 +6,7 @@ use frontend\models\UploadStudentForm;
 
 /* @var $this yii\web\View */
 
-$this->title = 'Upload Student(s)';
+$this->title = 'Student Registration';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-index">
@@ -21,20 +21,22 @@ $this->params['breadcrumbs'][] = $this->title;
        
         <!-- Main row -->
         <div class="row">
-        <section class="col-md-12">
-              <div class="card" style="font-family:'Times New Roman', sans-serif">
-              <div class="card-header ">
+
+        <section class="col-md-12 login-box" style="width:120%">
+        <div class="container-fluid text-center ">
+   
+    </div>
+              <div class="card" style="font-family:'Times New Roman', sans-serif;width:100%">
+              <div class="card-header bg-primary text-center">
                 
-                  <h3 class="card-title">Update Students</h3>
-                
+                 <h3><span><i class="fa fa-graduation-cap"></i></span><span>Student Registration</span></h3>
                 </div>
              
               <div class="card-body">
               <div class="row">
               <div class="col-md-12">
-              <p class="text-secondary mb-1">Add Single Student</p>
               <?php $form = ActiveForm::begin()?>
-                 <div class="col-md-12">
+             
                   <div class="row">
                   <div class="col-md-4">
                    <?= $form->field($model, 'fname')->textInput(['class'=>'form-control form-control-sm'])->label('First Name') ?>
@@ -49,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                    <div class="row">
                    <div class="col-md-6">
-                   <?= $form->field($model, 'username')->textInput(['class'=>'form-control form-control-sm'])->label('Registration Number') ?>
+                   <?= $form->field($model, 'username')->textInput(['class'=>'form-control form-control-sm','id'=>'regno'])->label('Registration Number') ?>
                   </div>
                   <div class="col-md-6">
                   <?= $form->field($model, 'YOS')->dropdownList(['1'=>'First Year', '2'=>'Second Year', '3'=>'Third Year', '4'=>'Fourth year'], ['prompt'=>'--Select--', 'class'=>'form-control form-control-sm'])->label(' Year of Study') ?>
@@ -78,21 +80,34 @@ $this->params['breadcrumbs'][] = $this->title;
                  </div>
                  <div class="col-md-6">
                 
-                   <?= $form->field($model, 'role')->dropdownList($roles, ['options'=>['INSTRUCTOR'=>['selected'=>true]], 'class'=>['form-control form-control-sm']], )->label('Role') ?>
+                   <?= $form->field($model, 'role')->dropdownList($roles, ['options'=>['STUDENT'=>['selected'=>true]], 'class'=>['form-control form-control-sm']])->label('Register as') ?>
                 
                  </div>
                  </div>
                
                    <div class="row">
-                    <div class="col-md-12">
-                        
-                     <?= Html::submitButton('Save', ['class'=>'btn btn-primary btn-md float-right mr-0']) ?>
+                     <div class="col-md-4">
+                     <span class="float-right text-danger"><marquee>Deadline: 02/12/2021</marquee></span>
+</div>
+                    <div class="col-md-8">
+                     
+                     <?= Html::submitButton('Submit', ['class'=>'btn btn-primary btn-lg float-right mr-0','style'=>'width:80%']) ?>
                 
                     </div>
+               
+                  
                  </div>
-                 </div>
+             
+             
+               
+                
+                
+             
                 <?php ActiveForm::end() ?>
               </div>
+
+
+          
               </div>
                  
               </div>
@@ -126,7 +141,26 @@ $(document).ready(function(){
     uploadIcon: '<i class="fa fa-upload"></i>'
     
   });
+$('#regno').blur(function(){
 
+var regexp=/^(T|HD)[/](UDOM)[/][0-9]{4}[/]([0-9]{5}|(T\.[0-9]{4}))$/;
+var regno=$(this).val();
+if(!regexp.test(regno))
+{
+  $(this).val("");
+
+  Swal.fire({
+  title: 'Invalid registration number',
+  text: "follow this format: T/UDOM/2000/00001 or HD/UDOM/0001/T.2010 (for masters)",
+  icon: 'error',
+  confirmButtonColor: '#3085d6',
+  confirmButtonText: 'Ok'
+})
+  //Swal.fire('Invalid registration number','follow this format: T/UDOM/2000/00001 or HD/UDOM/0001/T.2010 (for masters) <br><br><b>If you still don\'t have a registration number find it as soon as possible.<b>');
+}
+
+
+})
  
 })
 JS;

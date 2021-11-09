@@ -27,6 +27,18 @@ $instructors=ArrayHelper::map(Instructor::find()->asArray()->where(['<>','instru
         <div class="container-fluid">
      
         <div class="row">
+          <?php
+            if($courses==null)
+            {
+              ?>
+              <div class="container-fluid ">
+               <div class="card d-flex justify-content-center">
+                 <div class="card-body text-center"><i class="fa fa-info-circle" style="font-size:36px"></i><h5>You Currently Have no any course</h5><a class="btn btn-sm btn-primary" href="/instructor/courses">Take Your Course</a></div>
+                </div>
+            </div>
+              <?php
+            }
+          ?>
         <?php foreach($courses as $course): ?>
           <div class="col-lg-3 col-6">
           <a href="<?=Url::to(['instructor/class-dashboard/', 'cid'=>$course->course_code])  ?>" style="color:white">

@@ -8,6 +8,7 @@ use common\helpers\Custom;
 /* @var $this yii\web\View */
 
 $this->title = 'Enroll Courses';
+$this->params['courseTitle'] =$this->title;
 $this->params['breadcrumbs'] = [
   ['label'=>'Courses', 'url'=>Url::to(['/instructor/courses'])],
   ['label'=>$this->title]

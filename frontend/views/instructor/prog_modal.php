@@ -90,7 +90,7 @@ use yii\helpers\Html;
               <div class="card-body">
             <table class="table table-bordered table-striped table-hover" id="ProgramList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
             <thead>
-            <tr><th width="1%">#</th><th>Program Code</th><th>Department</th><th>Program Name</th><th>Program Duration</th><th>Program Capacity</th><th width="15%">Action</th></tr>
+            <tr><th width="1%">#</th><th>Program Code</th><th>Department</th><th>Program Name</th><th>Program Duration</th><th>Program Capacity</th><th width="10%">Action</th></tr>
             
             </thead>
             <tbody>
@@ -105,8 +105,7 @@ use yii\helpers\Html;
             <td><?= $program->capacity ?></td>
             <td>
              <?= Html::a('<i class="fas fa-edit"></i>',['updateprog', 'id'=>$program->programCode], ['class'=>'btn btn-info btn-sm m-0'])?>   
-            <a href="#" class="btn btn-success btn-sm m-0"><i class="fas fa-eye"></i></a>
-            <a href="#" class="btn btn-danger btn-sm m-0"><i class="fas fa-trash" ></i></a>
+             <?= Html::a('<i class="fas fa-trash"></i>',['deleteprog', 'id'=>$program->programCode], ['class'=>'btn btn-danger btn-sm m-0'])?>   
             </td>
             </tr>
             <?php endforeach ?>
