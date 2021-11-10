@@ -98,7 +98,7 @@ class StudentController extends \yii\web\Controller
     $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
     if($model->load(Yii::$app->request->post())){
        
-        if($model->create()){
+        if($model->create()==true){
         Yii::$app->session->setFlash('success', 'Registration Successfull&nbsp&nbsp<a class="btn btn-primary" href="/auth/login">Login</a>');
         return $this->redirect(Yii::$app->request->referrer);
         }else{
