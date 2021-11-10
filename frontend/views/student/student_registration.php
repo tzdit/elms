@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                  </div>
                  <div class="row">
                    <div class="col-md-6">
-                   <?= $form->field($model, 'email')->input('email', ['class'=>'form-control form-control-sm', 'placeholder'=>'Optional'])->label('Email') ?>
+                   <?= $form->field($model, 'email')->input('email', ['class'=>'form-control form-control-sm'])->label('Email') ?>
                   </div>
                   <div class="col-md-6">
                    <?= $form->field($model, 'phone')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'optional'])->label('Phone Number') ?>
@@ -141,7 +141,7 @@ $(document).ready(function(){
     uploadIcon: '<i class="fa fa-upload"></i>'
     
   });
-  
+
   /*
 $('#regno').blur(function(){
 
