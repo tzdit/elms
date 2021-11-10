@@ -47,8 +47,8 @@ class Course extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['course_code', 'course_name', 'course_credit', 'course_semester', 'departmentID'], 'required'],
-            [['course_credit', 'course_semester', 'course_duration', 'departmentID'], 'integer'],
+            [['course_code', 'course_credit', 'course_name', 'course_semester', 'departmentID', 'course_status'], 'required'],
+            [['course_credit', 'course_semester', 'course_duration'], 'double'],
             [['course_code'], 'string', 'max' => 7],
             [['course_name'], 'string', 'max' => 150],
             [['course_status'], 'string', 'max' => 10],

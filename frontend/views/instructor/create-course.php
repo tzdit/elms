@@ -127,7 +127,7 @@ use common\models\Program;
             <td><?= $course->course_status ?></td>
             <td>
             <?php if($course -> programCourses == NULL):  ?>
-              <center><i style="color:blue;"> No Course Assigned!!! </i></center>
+              <center><i style="color:blue;"> No Program Assigned!!! </i></center>
             <?php else: ?> 
             <?php foreach($course -> programCourses as $progcoz): ?>
              <b><?= $progcoz->programCode ?></b>,

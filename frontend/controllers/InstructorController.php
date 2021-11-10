@@ -47,6 +47,7 @@ use common\models\GroupAssignment;
 use common\models\GroupGenerationAssignment;
 use common\models\StudentExtAssess;
 use common\models\ExtAssess;
+use common\models\User;
 use common\models\QMarks;
 use yii\web\Response;
 use yii\web\BadRequestHttpException;
@@ -571,7 +572,7 @@ public function actionEditExtAssrecord($recordid)
         $dep= $coz ->departmentID;
        // $coz = new UpdateCourse;
        $depts = Department::find()->all();
-       $departments = ArrayHelper::map(Course::find()->all(), 'departmentID', 'departmentID');
+       $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
         $programs =ArrayHelper::map(ProgramCourse::find()->where(['course_code'=>$id])->all(), 'programCode', 'programCode');
         if($coz->load(Yii::$app->request->post()) && $coz->save())
         {
