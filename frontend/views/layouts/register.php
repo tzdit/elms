@@ -28,11 +28,12 @@ AppAsset::register($this);
 <body class="hold-transition login-page">
 
   <!-- /.login-logo -->
-  <div class="row">
-      <div class="col-md-12">
+
+  <div class="container">
+     <div class="row">
       <?php if(Yii::$app->session->hasFlash('success')): ?>
 
-          <div class="col-md-12">
+          <div class="col-md-12 text-center">
             <div class="alert alert-success alert-dismissible">
               <button class="close" data-dismiss="alert">
                 <span>&times;</span>
@@ -43,7 +44,7 @@ AppAsset::register($this);
       
       <?php endif ?>
        <?php if(Yii::$app->session->hasFlash('error')): ?>
-          <div class="col-md-12">
+          <div class="col-md-12 text-center">
             <div class="alert alert-danger alert-dismissible">
               <button class="close" data-dismiss="alert">
                 <span>&times;</span>
@@ -53,6 +54,8 @@ AppAsset::register($this);
           </div>
         
       <?php endif ?>
+       </div>
+       </div>
 <?= $content ?>
 
 <!-- /.login-box -->
