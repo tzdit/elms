@@ -78,7 +78,7 @@ use yii\helpers\Html;
             <td><?= $course->course_code ?></td>
             <td>
             <?php if($course -> programCourses == NULL):  ?>
-              <center><i style="color:blue;"> No Course Assigned!!! </i></center>
+              <center><i style="color:blue;"> No Program Assigned Yet!!! </i></center>
             <?php else: ?>  
             <?php foreach($course -> programCourses as $progcoz): ?>
              <b> <?= $progcoz->programCode; ?> </b>,
