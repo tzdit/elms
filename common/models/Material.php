@@ -114,7 +114,7 @@ class Material extends \yii\db\ActiveRecord
     function getVideoAndNotesLink(){
 
         $document_path = Yii::getAlias('@frontend/web/storage/temp/'.$this->fileName );
-        $video_path = 'http://localhost:8081/storage/temp/'.$this->fileName;
+        $video_path = 'http://classroom.udom.ac.tz/storage/temp/'.$this->fileName;
         if(file_exists($document_path)){
             return $video_path;
         }

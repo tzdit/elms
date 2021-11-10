@@ -1,7 +1,6 @@
 <?php
 
 namespace frontend\controllers;
-use common\models\ProgramCourse;
 use common\models\Submit;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -10,7 +9,6 @@ use common\models\Assignment;
 use common\models\Material;
 use common\models\Groups;
 use common\models\Student;
-use common\models\Department;
 use common\models\AuthItem;
 
 use common\models\Program;
@@ -24,7 +22,6 @@ use frontend\models\CarryCourseSearch;
 use common\models\StudentGroup;
 use yii\helpers\ArrayHelper;
 use Yii;
-use yii\helpers\Console;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
