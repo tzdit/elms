@@ -51,8 +51,8 @@ class UploadAssignment extends Model{
          else
          {
             $fileName = uniqid();
-            $filefordb=uniqid().'.'.$this->assFile->extension;
-            $this->assFile->saveAs('storage/temp/'.$fileName.'.'.$this->assFile->extension);
+            $filefordb=$fileName.'.'.$this->assFile->extension;
+            $this->assFile->saveAs('storage/temp/'.$filefordb);
            
          }
         

@@ -10,7 +10,7 @@ class UploadTutorial extends Model{
     public $ccode;
     public function rules(){
         return [
-           [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, jpg, png, doc, pkt, ppt,xls,xlsx'],
+           [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, jpg, png, doc, pkt, ppt, pptx, xls,xlsx'],
           ['assTitle','required']
 
         ];
