@@ -63,6 +63,12 @@ use common\models\Program;
         <?= $form->field($model, 'course_status')->dropdownList(['CORE'=>'CORE', 'ELECTIVE'=>'ELECTIVE'], ['class'=>'form-control form-control-sm', 'prompt'=>'--select course status--'])->label(false)?>
         </div> 
         </div>
+
+        <div class="row">
+        <div class="col-md-12">
+        <?= $form->field($model,'departments')->dropdownList($departments,['class'=>'form-control form-control-sm','id'=>'assignstudents2','data-placeholder'=>'Select course Department','style'=>'width:100%'])->label('Department')?>
+        </div> 
+        </div>
         
 
         
@@ -105,7 +111,7 @@ use common\models\Program;
               <div class="card-body">
             <table class="table table-bordered table-striped table-hover" id="CourseList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
             <thead>
-            <tr><th width="1%">#</th><th>Course Name</th><th>Course Code</th><th>Course Credit</th><th>Course Semester</th><th>Course Duration</th><th>Course Status</th><th>Programs</th><th width="15%">Action</th></tr>
+            <tr><th width="1%">#</th><th>Course Name</th><th>Course Code</th><th>Course Credit</th><th>Course Semester</th><th>Course Status</th><th>Programs</th><th width="10%">Action</th></tr>
             
             </thead>
             <tbody>
@@ -117,18 +123,21 @@ use common\models\Program;
             <td><?= $course->course_code ?></td>
             <td><?= $course->course_credit ?></td>
             <td><?= $course->course_semester ?></td>
-            <td><?= $course->course_duration ?></td>
+            
             <td><?= $course->course_status ?></td>
             <td>
+            <?php if($course -> programCourses == NULL):  ?>
+              <center><i style="color:blue;"> No Program Assigned!!! </i></center>
+            <?php else: ?> 
             <?php foreach($course -> programCourses as $progcoz): ?>
-             <li><?= $progcoz->programCode ?></li>
+             <b><?= $progcoz->programCode ?></b>,
             <?php endforeach; ?>
+            <?php endif; ?>
             </td>
             <td>
             <?= Html::a('<i class="fas fa-edit"></i>',['updatecoz', 'id'=>$course->course_code], ['class'=>'btn btn-info btn-sm m-0'])?> 
-            <a href="#" class="btn btn-success btn-sm m-0"><i class="fas fa-eye"></i></a>
-            <a href="#" class="btn btn-danger btn-sm m-0" data-toggle="modal" data-target="#modal-danger<?php $course->course_code ?>"><span><i class="fas fa-trash"></i></span></a>
-            <a href="#" class="btn btn-warning btn-sm m-0" data-toggle="modal" data-target="#AssignCourseModal-<?=$course -> course_code;?>"><span><i class="fas fa-plus">Program</i></span></a>
+            <?= Html::a('<i class="fas fa-trash"></i>',['deletecoz', 'id'=>$course->course_code], ['class'=>'btn btn-danger btn-sm m-0'])?> 
+            
             </td>
             
    

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2021 at 11:15 AM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.10
+-- Generation Time: Nov 09, 2021 at 12:41 AM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 8.0.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `eclassroomdb`
+-- Database: `eclassroom_db`
 --
 
 -- --------------------------------------------------------
@@ -205,6 +205,8 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('STUDENT', '49', 1620480151),
 ('STUDENT', '50', 1620480285),
 ('STUDENT', '52', 1632854018),
+('STUDENT', '55', 1636097847),
+('STUDENT', '59', 1636187913),
 ('SUPER_ADMIN', '2', 1620221794),
 ('SYS_ADMIN', '3', 1620230542);
 
@@ -301,23 +303,37 @@ INSERT INTO `college` (`collegeID`, `college_name`, `college_abbrev`) VALUES
 --
 
 CREATE TABLE `course` (
+  `id` int(11) NOT NULL,
   `course_code` varchar(7) NOT NULL,
   `course_name` varchar(150) NOT NULL,
   `course_credit` int(11) NOT NULL,
   `course_semester` int(11) NOT NULL,
   `course_duration` int(11) DEFAULT NULL,
-  `course_status` varchar(10) DEFAULT NULL
+  `course_status` varchar(10) DEFAULT NULL,
+  `departmentID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `course`
 --
 
-INSERT INTO `course` (`course_code`, `course_name`, `course_credit`, `course_semester`, `course_duration`, `course_status`) VALUES
-('CP 111', 'Principle of Programming', 10, 1, 1, 'core'),
-('CP 123', 'Introduction High Level Programming in C++', 9, 2, 1, 'CORE'),
-('CS 212', 'Data Structure and Algorithms', 10, 1, 2, 'CORE'),
-('TN 110', 'Introduction to Telecommunication', 10, 1, 1, 'CORE');
+INSERT INTO `course` (`id`, `course_code`, `course_name`, `course_credit`, `course_semester`, `course_duration`, `course_status`, `departmentID`) VALUES
+(1, 'CP 111', 'Principle of Programming', 10, 1, 1, 'core', NULL),
+(2, 'CP 123', 'Introduction High Level Programming in C++', 10, 2, 1, 'CORE', 1),
+(3, 'CS 110', 'Clouding Computing', 11, 1, 2, 'CORE', 2),
+(4, 'CS 212', 'Data Structure and Algorithms', 10, 1, 2, 'CORE', 1),
+(5, 'CS 213', 'Linux Introduction', 10, 1, 3, 'CORE', NULL),
+(6, 'CS 585', 'Journal Computing', 12, 1, 2, 'CORE', NULL),
+(7, 'DD 333', 'HHCompu tin', 10, 2, 1, 'CORE', NULL),
+(8, 'ES 110', 'excel Computing', 10, 1, 1, 'CORE', NULL),
+(16, 'ha 222', 'haha', 10, 1, 2, 'CORE', NULL),
+(9, 'hh 111', 'hhhhhhhhhhhh', 10, 2, 4, 'CORE', NULL),
+(17, 'la 233', 'lulu', 10, 1, 1, 'CORE', 2),
+(10, 'ST 123', 'intro to saturday', 10, 1, 2, 'CORE', NULL),
+(11, 'TN 012', 'intro to net', 10, 1, 2, 'CORE', NULL),
+(12, 'TN 110', 'Introduction to Telecommunication', 10, 1, 1, 'CORE', NULL),
+(13, 'UB 213', 'intro to urber', 10, 1, 2, 'CORE', NULL),
+(14, 'ye 333', 'Clouding yes', 10, 1, 2, 'CORE', NULL);
 
 -- --------------------------------------------------------
 
@@ -366,50 +382,6 @@ INSERT INTO `ext_assess` (`assessID`, `instructorID`, `course_code`, `title`, `t
 (64, 2, 'CP 111', 'my first test', 30, '2021-07-26', 0),
 (70, 2, 'CS 212', 'my assess', 69, '2021-08-08', 0),
 (71, 2, 'CS 212', 'my testing', 40, '2021-11-02', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `forum_answer`
---
-
-CREATE TABLE `forum_answer` (
-  `id` int(11) NOT NULL,
-  `answer_content` text NOT NULL,
-  `answer_time` date NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `question_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `forum_comment`
---
-
-CREATE TABLE `forum_comment` (
-  `comment_id` int(11) NOT NULL,
-  `comment_content` varchar(500) NOT NULL,
-  `comment_type` int(1) NOT NULL COMMENT '1-QUESTION_COMMENT, 2-ANSWER_COMMENT',
-  `comment_time` date NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `question_id` int(11) NOT NULL,
-  `answer_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `forum_question`
---
-
-CREATE TABLE `forum_question` (
-  `question_id` int(11) NOT NULL,
-  `question_tittle` varchar(225) NOT NULL,
-  `question_desc` text NOT NULL,
-  `post_date` date NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -778,8 +750,7 @@ CREATE TABLE `program` (
 --
 
 INSERT INTO `program` (`programCode`, `departmentID`, `prog_name`, `prog_duration`, `capacity`) VALUES
-('CS1', 2, 'Bachelor of Scince in Computer Scince', 1, NULL),
-('SE1', 1, 'Bachelor of Science in software Enginering Engineering', 1, NULL),
+('CS1', 2, 'Bachelor of Scince in Computer Scince', 1, 1),
 ('SE2', 1, 'Bachelor of Scince in Telecommunication Engineering', 2, NULL),
 ('TE3', 2, 'Bachelor of Science in Telecommunication Engineering', 3, NULL);
 
@@ -801,22 +772,11 @@ CREATE TABLE `program_course` (
 
 INSERT INTO `program_course` (`PC_ID`, `course_code`, `programCode`) VALUES
 (6, 'CP 111', 'CS1'),
-(4, 'CP 111', 'SE1'),
+(9, 'hh 111', 'CS1'),
 (7, 'CP 111', 'SE2'),
+(18, 'CP 123', 'SE2'),
 (5, 'CP 111', 'TE3'),
 (8, 'CS 212', 'TE3');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `qn_tag`
---
-
-CREATE TABLE `qn_tag` (
-  `id` int(11) NOT NULL,
-  `course_id` varchar(7) NOT NULL,
-  `question_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -875,30 +835,12 @@ INSERT INTO `q_marks` (`qmarkID`, `submitID`, `assq_ID`, `q_score`, `comment`, `
 (19, 2, 297, '5.00', NULL, NULL),
 (20, 2, 298, '5.00', NULL, NULL),
 (21, 2, 299, '5.00', NULL, NULL),
-(22, 3, 297, '0.00', NULL, NULL),
-(23, 3, 298, '5.00', NULL, NULL),
-(24, 3, 299, '3.00', NULL, NULL),
-(25, 3, 297, '5.00', NULL, NULL),
-(26, 3, 298, '5.00', NULL, NULL),
-(27, 3, 299, '5.00', NULL, NULL),
 (28, 2, 297, '3.00', NULL, NULL),
 (29, 2, 298, '3.00', NULL, NULL),
 (30, 2, 299, '3.00', NULL, NULL),
-(31, 3, 297, '3.00', NULL, NULL),
-(32, 3, 298, '3.00', NULL, NULL),
-(33, 3, 299, '3.00', NULL, NULL),
-(34, 3, 297, '3.00', NULL, NULL),
-(35, 3, 298, '3.00', NULL, NULL),
-(36, 3, 299, '3.00', NULL, NULL),
 (37, 2, 297, '1.00', NULL, NULL),
 (38, 2, 298, '1.00', NULL, NULL),
 (39, 2, 299, '1.00', NULL, NULL),
-(40, 3, 297, '1.00', NULL, NULL),
-(41, 3, 298, '1.00', NULL, NULL),
-(42, 3, 299, '1.00', NULL, NULL),
-(43, 3, 297, '1.00', NULL, NULL),
-(44, 3, 298, '1.00', NULL, NULL),
-(45, 3, 299, '1.00', NULL, NULL),
 (46, 2, 297, '1.00', NULL, NULL),
 (47, 2, 298, '1.00', NULL, NULL),
 (48, 2, 299, '1.00', NULL, NULL),
@@ -911,33 +853,15 @@ INSERT INTO `q_marks` (`qmarkID`, `submitID`, `assq_ID`, `q_score`, `comment`, `
 (55, 2, 297, '2.00', NULL, NULL),
 (56, 2, 298, '2.00', NULL, NULL),
 (57, 2, 299, '2.00', NULL, NULL),
-(58, 3, 297, '2.00', NULL, NULL),
-(59, 3, 298, '2.00', NULL, NULL),
-(60, 3, 299, '2.00', NULL, NULL),
-(61, 3, 297, '2.00', NULL, NULL),
-(62, 3, 298, '2.00', NULL, NULL),
-(63, 3, 299, '2.00', NULL, NULL),
 (64, 2, 297, '2.00', NULL, NULL),
 (65, 2, 298, '2.00', NULL, NULL),
 (66, 2, 299, '2.00', NULL, NULL),
-(67, 3, 297, '2.00', NULL, NULL),
-(68, 3, 298, '2.00', NULL, NULL),
-(69, 3, 299, '2.00', NULL, NULL),
-(70, 3, 297, '2.00', NULL, NULL),
-(71, 3, 298, '2.00', NULL, NULL),
-(72, 3, 299, '2.00', NULL, NULL),
 (73, 2, 297, '1.00', NULL, NULL),
 (74, 2, 298, '1.00', NULL, NULL),
 (75, 2, 299, '1.00', NULL, NULL),
 (76, 2, 297, '3.00', NULL, NULL),
 (77, 2, 298, '3.00', NULL, NULL),
 (78, 2, 299, '3.00', NULL, NULL),
-(79, 3, 297, '3.00', NULL, NULL),
-(80, 3, 298, '3.00', NULL, NULL),
-(81, 3, 299, '3.00', NULL, NULL),
-(82, 3, 297, '3.00', NULL, NULL),
-(83, 3, 298, '3.00', NULL, NULL),
-(84, 3, 299, '3.00', NULL, NULL),
 (85, 2, 297, '3.00', NULL, NULL),
 (86, 2, 298, '3.00', NULL, NULL),
 (87, 2, 299, '3.00', NULL, NULL),
@@ -956,81 +880,33 @@ INSERT INTO `q_marks` (`qmarkID`, `submitID`, `assq_ID`, `q_score`, `comment`, `
 (100, 2, 297, '3.00', NULL, NULL),
 (101, 2, 298, '3.00', NULL, NULL),
 (102, 2, 299, '2.00', NULL, NULL),
-(103, 3, 297, '3.00', NULL, NULL),
-(104, 3, 298, '3.00', NULL, NULL),
-(105, 3, 299, '2.00', NULL, NULL),
-(106, 3, 297, '3.00', NULL, NULL),
-(107, 3, 298, '3.00', NULL, NULL),
-(108, 3, 299, '2.00', NULL, NULL),
 (109, 2, 297, '3.00', NULL, NULL),
 (110, 2, 298, '3.00', NULL, NULL),
 (111, 2, 299, '3.00', NULL, NULL),
-(112, 3, 297, '3.00', NULL, NULL),
-(113, 3, 298, '3.00', NULL, NULL),
-(114, 3, 299, '3.00', NULL, NULL),
-(115, 3, 297, '2.00', NULL, NULL),
-(116, 3, 298, '2.00', NULL, NULL),
-(117, 3, 299, '2.00', NULL, NULL),
 (118, 2, 297, '2.00', NULL, NULL),
 (119, 2, 298, '2.00', NULL, NULL),
 (120, 2, 299, '2.00', NULL, NULL),
-(121, 3, 297, '2.00', NULL, NULL),
-(122, 3, 298, '2.00', NULL, NULL),
-(123, 3, 299, '2.00', NULL, NULL),
-(124, 3, 297, '2.00', NULL, NULL),
-(125, 3, 298, '2.00', NULL, NULL),
-(126, 3, 299, '2.00', NULL, NULL),
 (127, 2, 297, '4.00', NULL, NULL),
 (128, 2, 298, '4.00', NULL, NULL),
 (129, 2, 299, '4.00', NULL, NULL),
-(130, 3, 297, '4.00', NULL, NULL),
-(131, 3, 298, '4.00', NULL, NULL),
-(132, 3, 299, '4.00', NULL, NULL),
-(133, 3, 297, '4.00', NULL, NULL),
-(134, 3, 298, '4.00', NULL, NULL),
-(135, 3, 299, '4.00', NULL, NULL),
 (136, 2, 297, '4.00', NULL, NULL),
 (137, 2, 298, '4.00', NULL, NULL),
 (138, 2, 299, '4.00', NULL, NULL),
 (139, 2, 297, '2.00', NULL, NULL),
 (140, 2, 298, '2.00', NULL, NULL),
 (141, 2, 299, '2.00', NULL, NULL),
-(142, 3, 297, '2.00', NULL, NULL),
-(143, 3, 298, '2.00', NULL, NULL),
-(144, 3, 299, '2.00', NULL, NULL),
-(145, 3, 297, '2.00', NULL, NULL),
-(146, 3, 298, '2.00', NULL, NULL),
-(147, 3, 299, '2.00', NULL, NULL),
 (148, 2, 297, '2.00', NULL, NULL),
 (149, 2, 298, '2.00', NULL, NULL),
 (150, 2, 299, '2.00', NULL, NULL),
-(151, 3, 297, '2.00', NULL, NULL),
-(152, 3, 298, '2.00', NULL, NULL),
-(153, 3, 299, '2.00', NULL, NULL),
-(154, 3, 297, '2.00', NULL, NULL),
-(155, 3, 298, '2.00', NULL, NULL),
-(156, 3, 299, '2.00', NULL, NULL),
 (157, 2, 297, '3.00', NULL, NULL),
 (158, 2, 298, '3.00', NULL, NULL),
 (159, 2, 299, '3.00', NULL, NULL),
-(160, 3, 297, '3.00', NULL, NULL),
-(161, 3, 298, '3.00', NULL, NULL),
-(162, 3, 299, '3.00', NULL, NULL),
-(163, 3, 297, '3.00', NULL, NULL),
-(164, 3, 298, '3.00', NULL, NULL),
-(165, 3, 299, '3.00', NULL, NULL),
 (166, 2, 297, '2.00', NULL, NULL),
 (167, 2, 298, '2.00', NULL, NULL),
 (168, 2, 299, '2.00', NULL, NULL),
 (169, 2, 297, '3.00', NULL, NULL),
 (170, 2, 298, '3.00', NULL, NULL),
 (171, 2, 299, '3.00', NULL, NULL),
-(172, 3, 297, '3.00', NULL, NULL),
-(173, 3, 298, '3.00', NULL, NULL),
-(174, 3, 299, '3.00', NULL, NULL),
-(175, 3, 297, '3.00', NULL, NULL),
-(176, 3, 298, '3.00', NULL, NULL),
-(177, 3, 299, '3.00', NULL, NULL),
 (178, 2, 297, '3.00', NULL, NULL),
 (179, 2, 298, '3.00', NULL, NULL),
 (180, 2, 299, '3.00', NULL, NULL),
@@ -1040,15 +916,6 @@ INSERT INTO `q_marks` (`qmarkID`, `submitID`, `assq_ID`, `q_score`, `comment`, `
 (184, 2, 297, '3.00', NULL, NULL),
 (185, 2, 298, '3.00', NULL, NULL),
 (186, 2, 299, '3.00', NULL, NULL),
-(187, 3, 297, '3.00', NULL, NULL),
-(188, 3, 298, '3.00', NULL, NULL),
-(189, 3, 299, '3.00', NULL, NULL),
-(190, 3, 297, '3.00', NULL, NULL),
-(191, 3, 298, '3.00', NULL, NULL),
-(192, 3, 299, '3.00', NULL, NULL),
-(193, 3, 297, '3.00', NULL, NULL),
-(194, 3, 298, '3.00', NULL, NULL),
-(195, 3, 299, '3.00', NULL, NULL),
 (196, 2, 297, '3.00', NULL, NULL),
 (197, 2, 299, '3.00', NULL, NULL),
 (198, 2, 297, '3.00', NULL, NULL),
@@ -1056,38 +923,18 @@ INSERT INTO `q_marks` (`qmarkID`, `submitID`, `assq_ID`, `q_score`, `comment`, `
 (200, 2, 297, '3.00', NULL, NULL),
 (201, 2, 298, '4.00', NULL, NULL),
 (202, 2, 299, '3.00', NULL, NULL),
-(203, 3, 297, '3.00', NULL, NULL),
-(204, 3, 299, '3.00', NULL, NULL),
-(205, 3, 297, '3.00', NULL, NULL),
-(206, 3, 298, '4.00', NULL, NULL),
-(207, 3, 299, '3.00', NULL, NULL),
-(208, 3, 297, '3.00', NULL, NULL),
-(209, 3, 298, '4.00', NULL, NULL),
-(210, 3, 299, '3.00', NULL, NULL),
 (211, 2, 297, '3.00', NULL, NULL),
 (212, 2, 298, '3.00', NULL, NULL),
 (213, 2, 299, '3.00', NULL, NULL),
-(214, 3, 297, '3.00', NULL, NULL),
-(215, 3, 298, '3.00', NULL, NULL),
-(216, 3, 299, '3.00', NULL, NULL),
-(217, 3, 297, '3.00', NULL, NULL),
-(218, 3, 298, '3.00', NULL, NULL),
-(219, 3, 299, '3.00', NULL, NULL),
 (220, 2, 297, '1.00', NULL, NULL),
 (221, 2, 298, '1.00', NULL, NULL),
 (222, 2, 299, '1.00', NULL, NULL),
 (223, 2, 297, '2.00', NULL, NULL),
 (224, 2, 298, '2.00', NULL, NULL),
 (225, 2, 299, '2.00', NULL, NULL),
-(226, 3, 297, '4.00', NULL, NULL),
-(227, 3, 298, '4.00', NULL, NULL),
-(228, 3, 299, '4.00', NULL, NULL),
 (229, 2, 297, '3.00', NULL, NULL),
 (230, 2, 298, '3.00', NULL, NULL),
 (231, 2, 299, '3.00', NULL, NULL),
-(232, 3, 297, '4.00', NULL, NULL),
-(233, 3, 298, '4.00', NULL, NULL),
-(234, 3, 299, '4.00', NULL, NULL),
 (235, 2, 297, '5.00', NULL, NULL),
 (236, 2, 298, '5.00', NULL, NULL),
 (237, 2, 297, '3.00', NULL, NULL),
@@ -1172,12 +1019,12 @@ CREATE TABLE `student` (
 INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lname`, `email`, `gender`, `f4_index_no`, `YOS`, `DOR`, `phone`, `status`) VALUES
 ('T/UDOM/2019/00900', 3, 'CS1', 'winner', '', 'OG', NULL, 'M', NULL, 2, '0000-00-00', NULL, ''),
 ('T/UDOM/2020/00001', 45, 'CS1', 'STUDENT', 'STUDENT', 'STUDENT', 'student@gmail.com', 'M', NULL, 1, '2021-05-08', NULL, 'REGISTERED'),
-('T/UDOM/2020/00002', 46, 'SE1', 'Hmiasa', 'rashidi', 'Shabani', 'student@gmail2.com', 'F', NULL, 2, '2021-05-08', NULL, 'REGISTERED'),
 ('T/UDOM/2020/00003', 47, 'TE3', 'Hmiasa', 'rashidi', 'Shabani', 'student@gmail3.com', 'F', NULL, 1, '2021-05-08', NULL, 'REGISTERED'),
 ('T/UDOM/2020/00004', 48, 'TE3', 'Mwambashi', 'mwambashi', 'Shabani', 'student@gmail4.com', 'F', NULL, 2, '2021-05-08', NULL, 'REGISTERED'),
 ('T/UDOM/2020/00005', 49, 'TE3', 'sutdent20', 'mwambashi', 'Shabani', 'student@gmail5.com', 'F', NULL, 1, '2021-05-08', NULL, 'REGISTERED'),
 ('T/UDOM/2020/00006', 50, 'TE3', 'Zuwena', 'Rashidi', 'Mwendachik', 'student@gmail56.com', 'F', NULL, 2, '2021-05-08', NULL, 'REGISTERED'),
-('T/UDOM/2020/00798', 52, 'SE1', 'thewinner', 'm.', 'hassan', 'thewinner@gmail.com', 'M', NULL, 2, '2021-09-28', NULL, 'REGISTERED');
+('T/UDOM/2020/11241', 55, 'CS1', 'Joshu', 'Franky', 'Njau', 'njaufrank@gmail.com', 'M', NULL, 2, '2021-11-05', '705434434', 'Registered'),
+('T/UDOM/2029/123', 59, 'CS1', 'Onaeli', 'm', 'Nickson', 'ona123@gmail.com', 'M', NULL, 1, '2021-11-06', NULL, 'REGISTERED');
 
 -- --------------------------------------------------------
 
@@ -1197,9 +1044,7 @@ CREATE TABLE `student_assignment` (
 
 INSERT INTO `student_assignment` (`std_assID`, `assID`, `reg_no`) VALUES
 (9, 138, 'T/UDOM/2020/00001'),
-(10, 138, 'T/UDOM/2020/00002'),
 (13, 146, 'T/UDOM/2020/00001'),
-(14, 146, 'T/UDOM/2020/00002'),
 (15, 146, 'T/UDOM/2020/00003');
 
 -- --------------------------------------------------------
@@ -1219,9 +1064,7 @@ CREATE TABLE `student_course` (
 --
 
 INSERT INTO `student_course` (`SC_ID`, `reg_no`, `course_code`) VALUES
-(9, 'T/UDOM/2020/00001', 'CP 111'),
-(8, 'T/UDOM/2020/00798', 'CP 111'),
-(7, 'T/UDOM/2020/00798', 'CP 123');
+(9, 'T/UDOM/2020/00001', 'CP 111');
 
 -- --------------------------------------------------------
 
@@ -1242,7 +1085,6 @@ CREATE TABLE `student_ext_assess` (
 
 INSERT INTO `student_ext_assess` (`student_assess_id`, `reg_no`, `score`, `assessID`) VALUES
 (48, 'T/UDOM/2020/00001', '12.00', 64),
-(49, 'T/UDOM/2020/00002', '12.00', 64),
 (51, 'T/UDOM/2020/00001', '10.00', 63),
 (55, 'T/UDOM/2020/00005', '10.00', 70),
 (58, 'T/UDOM/2020/00003', '4.00', 70),
@@ -1267,21 +1109,16 @@ CREATE TABLE `student_group` (
 INSERT INTO `student_group` (`SG_ID`, `reg_no`, `groupID`) VALUES
 (101, 'T/UDOM/2020/00004', 51),
 (102, 'T/UDOM/2020/00003', 51),
-(103, 'T/UDOM/2020/00002', 52),
 (104, 'T/UDOM/2020/00001', 52),
 (105, 'T/UDOM/2020/00004', 53),
 (106, 'T/UDOM/2020/00001', 53),
 (107, 'T/UDOM/2020/00003', 54),
-(108, 'T/UDOM/2020/00002', 54),
-(113, 'T/UDOM/2020/00002', 57),
 (114, 'T/UDOM/2020/00001', 57),
 (115, 'T/UDOM/2020/00004', 58),
 (116, 'T/UDOM/2020/00003', 58),
 (117, 'T/UDOM/2020/00004', 59),
 (118, 'T/UDOM/2020/00003', 59),
 (119, 'T/UDOM/2020/00001', 59),
-(120, 'T/UDOM/2020/00002', 60),
-(151, 'T/UDOM/2020/00002', 72),
 (152, 'T/UDOM/2020/00003', 72),
 (153, 'T/UDOM/2020/00001', 73),
 (154, 'T/UDOM/2020/00004', 73),
@@ -1297,7 +1134,6 @@ INSERT INTO `student_group` (`SG_ID`, `reg_no`, `groupID`) VALUES
 (164, 'T/UDOM/2020/00001', 78),
 (165, 'T/UDOM/2020/00001', 78),
 (166, 'T/UDOM/2020/00004', 79),
-(167, 'T/UDOM/2020/00002', 79),
 (168, 'T/UDOM/2020/00006', 79);
 
 -- --------------------------------------------------------
@@ -1361,7 +1197,6 @@ CREATE TABLE `submit` (
 
 INSERT INTO `submit` (`submitID`, `reg_no`, `assID`, `fileName`, `score`, `submit_date`, `submit_time`, `comment`) VALUES
 (2, 'T/UDOM/2020/00001', 152, 'nafasi.pdf', '11.00', '2021-07-07', '19:44:23', 'passed'),
-(3, 'T/UDOM/2020/00002', 152, 'head.pdf', '8.00', '2021-07-07', '19:47:04', 'passed'),
 (4, 'T/UDOM/2020/00001', 138, 'db_final_ER.mp4', '7.00', '0000-00-00', '00:00:00', 'okay \n'),
 (6, 'T/UDOM/2020/00001', 146, '', '17.00', '0000-00-00', '00:00:00', NULL);
 
@@ -1415,7 +1250,13 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 (50, 'T/UDOM/2020/00006', 'U9qu2XUtMVOITbWgYOZhBH4L3OAPsd6y', '$2y$13$AH0OppbJcFbSy/23rXffROh.pNVw8CVxYKjUuyIAoNbai9ZGTMmOG', NULL, 10, 1620480285, 1620480285, 'phAwORTa2r6VWTw6k-Rd0FLyDYGXC_Xd_1620480285'),
 (51, 'hod@gmail.com', 'B8WVLnnt-gMF9mF36_gi6eF1fqWwNHfM', '$2y$13$52aE79R/10CNeJOQpqn9cOMJ2KCrvh6xrQ3zDEzLUtFwFq5zlwMgO', NULL, 10, 1625899607, 1625899607, 'hOHSG7SNSEd2AiVDwzUesbCIRgc0N1a4_1625899607'),
 (52, 'T/UDOM/2020/00798', 'TOA9IqdPxS4HKMUm9Jf-ySff8KcMV0_R', '$2y$13$ofUh7XUdadwfvyGwOjxn/.9Xb8pFBXf1TSV7.mJoyNEoxSbmpt1WO', NULL, 10, 1632854018, 1632854018, 'cG6Y_Ag9fQxi80s_p39OtaoNVBDtzEiS_1632854018'),
-(53, 'kinabo@gmail.com', 'zQ0OZdtz1cgrQnVCXh--ZewCK4P2WXl8', '$2y$13$8ZybMDtlDfoLmH4hcFjz5OpRLvgaRCG6hllVGjI.xSk1hpercJvMS', NULL, 10, 1632896999, 1632896999, 'eDa4lc1zE_y24mUUWPqCxK30a-Xkxzho_1632896998');
+(53, 'kinabo@gmail.com', 'zQ0OZdtz1cgrQnVCXh--ZewCK4P2WXl8', '$2y$13$8ZybMDtlDfoLmH4hcFjz5OpRLvgaRCG6hllVGjI.xSk1hpercJvMS', NULL, 10, 1632896999, 1632896999, 'eDa4lc1zE_y24mUUWPqCxK30a-Xkxzho_1632896998'),
+(54, 'M', 'WdP5f6UBB6XG7vsH7Zu7w0Qv0_7UTIO-', '$2y$13$kHw2ft/vk2aoPvrSPMmwruEIywGF2Nph6zSI8LA5wP0ow6HvgfBXO', NULL, 10, 1636097028, 1636097028, 'oXeReO6MprtW_wN7ESUcQJJBK_ev82NA_1636097028'),
+(55, 'T/UDOM/2020/11241', 'QpGKOMBJ-gv1iKA-NNriX19Eq29rBPna', '$2y$13$F4FX8R9ouCjgnrXRMgYsku4WQitGrwrJ.ufEPYc9BDksNdviNBTSW', NULL, 10, 1636097847, 1636097847, 'Cl13H0mHUwzCciPcaIlTAkqsq0kmWVRO_1636097847'),
+(56, 'T/UDOM/2020/11333', '0TZVWs3X6MEopK7ztWmJaANH1VosjFgP', '$2y$13$40RQgT1CtykhHfdwCBwgU.KrN85I0a2nB2l8lUrNfgd5Xv7Zx2jJ6', NULL, 10, 1636098101, 1636098101, 'KFjAoR3Nz_EWCTwGlQ_nsDr5fGM3Qbr0_1636098101'),
+(57, 'T/UDOM/2020/09090', 'ZkOXC8eUdaGGHuMHsyahdAi8jlRv0hEJ', '$2y$13$Y4PXDr1iUCkbYPKP.VD1M.7.bHvrnhAcdYs0Chvl2QDE7gOHscr8y', NULL, 10, 1636098726, 1636098726, 'UAQNFgXIFP-pZnshMB_oAWFZMFKpiWkw_1636098726'),
+(58, 'T/UDOM/2020/09111', 'p38BEZ1MHWVRwjqHeLhTM5aDaoA9Z0LR', '$2y$13$pc6AdJ6h01KRPwYg4Yp5zeuIflnsx.IfZgk4N.IJTNgu40ocz.o32', NULL, 10, 1636099063, 1636099063, 'djA_yxuKbypaigrEihFOfgimFks1dKFj_1636099063'),
+(59, 'T/UDOM/2029/123', '-hXp_pvyYfbx901n4u8osj7AEnL_mWnp', '$2y$13$sos7Vsmm/I18HGyExwIYGOfwnyTzJ2NwS6Tkv6OTeZUwALlODNRRq', NULL, 10, 1636187913, 1636187913, 'z-GfF311bEN18PYtDpQ2-J-OArpmxkZL_1636187913');
 
 --
 -- Indexes for dumped tables
@@ -1506,7 +1347,9 @@ ALTER TABLE `college`
 -- Indexes for table `course`
 --
 ALTER TABLE `course`
-  ADD PRIMARY KEY (`course_code`);
+  ADD PRIMARY KEY (`course_code`),
+  ADD UNIQUE KEY `id` (`id`),
+  ADD KEY `departmentID` (`departmentID`);
 
 --
 -- Indexes for table `department`
@@ -1523,30 +1366,6 @@ ALTER TABLE `ext_assess`
   ADD UNIQUE KEY `assess_unique_keys` (`instructorID`,`total_marks`,`course_code`,`title`),
   ADD KEY `instr` (`instructorID`),
   ADD KEY `coursekey8` (`course_code`);
-
---
--- Indexes for table `forum_answer`
---
-ALTER TABLE `forum_answer`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_user_answer` (`user_id`),
-  ADD KEY `fk_question_answer` (`question_id`);
-
---
--- Indexes for table `forum_comment`
---
-ALTER TABLE `forum_comment`
-  ADD PRIMARY KEY (`comment_id`),
-  ADD KEY `fk_user_id` (`user_id`),
-  ADD KEY `fk_question_comment` (`question_id`),
-  ADD KEY `fk_answer_comment` (`answer_id`);
-
---
--- Indexes for table `forum_question`
---
-ALTER TABLE `forum_question`
-  ADD PRIMARY KEY (`question_id`),
-  ADD KEY `fk_tbl_user_id` (`user_id`);
 
 --
 -- Indexes for table `fresh_thread`
@@ -1682,14 +1501,6 @@ ALTER TABLE `program_course`
   ADD UNIQUE KEY `programCode` (`programCode`,`course_code`),
   ADD KEY `pcd` (`programCode`),
   ADD KEY `cozk2` (`course_code`);
-
---
--- Indexes for table `qn_tag`
---
-ALTER TABLE `qn_tag`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fr_course_table` (`course_id`),
-  ADD KEY `fk_question_table` (`question_id`);
 
 --
 -- Indexes for table `quiz`
@@ -1853,6 +1664,12 @@ ALTER TABLE `college`
   MODIFY `collegeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `course`
+--
+ALTER TABLE `course`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
 -- AUTO_INCREMENT for table `department`
 --
 ALTER TABLE `department`
@@ -1863,24 +1680,6 @@ ALTER TABLE `department`
 --
 ALTER TABLE `ext_assess`
   MODIFY `assessID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
-
---
--- AUTO_INCREMENT for table `forum_answer`
---
-ALTER TABLE `forum_answer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `forum_comment`
---
-ALTER TABLE `forum_comment`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `forum_question`
---
-ALTER TABLE `forum_question`
-  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `fresh_thread`
@@ -1970,13 +1769,7 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT for table `program_course`
 --
 ALTER TABLE `program_course`
-  MODIFY `PC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `qn_tag`
---
-ALTER TABLE `qn_tag`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `PC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `quiz`
@@ -2054,7 +1847,7 @@ ALTER TABLE `thread`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- Constraints for dumped tables
@@ -2114,6 +1907,12 @@ ALTER TABLE `chat`
   ADD CONSTRAINT `instrchatkey` FOREIGN KEY (`instructorID`) REFERENCES `instructor` (`instructorID`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
+-- Constraints for table `course`
+--
+ALTER TABLE `course`
+  ADD CONSTRAINT `departmentID` FOREIGN KEY (`departmentID`) REFERENCES `department` (`departmentID`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `department`
 --
 ALTER TABLE `department`
@@ -2125,27 +1924,6 @@ ALTER TABLE `department`
 ALTER TABLE `ext_assess`
   ADD CONSTRAINT `coursekey8` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `instr` FOREIGN KEY (`instructorID`) REFERENCES `instructor` (`instructorID`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `forum_answer`
---
-ALTER TABLE `forum_answer`
-  ADD CONSTRAINT `fk_question_answer` FOREIGN KEY (`question_id`) REFERENCES `forum_question` (`question_id`),
-  ADD CONSTRAINT `fk_user_answer` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
-
---
--- Constraints for table `forum_comment`
---
-ALTER TABLE `forum_comment`
-  ADD CONSTRAINT `fk_answer_comment` FOREIGN KEY (`answer_id`) REFERENCES `forum_answer` (`id`),
-  ADD CONSTRAINT `fk_question_comment` FOREIGN KEY (`question_id`) REFERENCES `forum_question` (`question_id`),
-  ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
-
---
--- Constraints for table `forum_question`
---
-ALTER TABLE `forum_question`
-  ADD CONSTRAINT `fk_tbl_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints for table `fresh_thread`
@@ -2265,13 +2043,6 @@ ALTER TABLE `program`
 ALTER TABLE `program_course`
   ADD CONSTRAINT `cozk2` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `pcd` FOREIGN KEY (`programCode`) REFERENCES `program` (`programCode`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `qn_tag`
---
-ALTER TABLE `qn_tag`
-  ADD CONSTRAINT `fk_question_table` FOREIGN KEY (`question_id`) REFERENCES `forum_question` (`question_id`),
-  ADD CONSTRAINT `fr_course_table` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_code`);
 
 --
 -- Constraints for table `quiz`

@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
               <div class="card" style="font-family:'Times New Roman', sans-serif">
               <div class="card-header ">
                 
-                  <h3 class="card-title">Upload Students</h3>
+                  <h3 class="card-title">Update Students</h3>
                 
                 </div>
              
