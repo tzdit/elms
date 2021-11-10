@@ -141,6 +141,8 @@ $(document).ready(function(){
     uploadIcon: '<i class="fa fa-upload"></i>'
     
   });
+  
+  /*
 $('#regno').blur(function(){
 
 var regexp=/^(T|HD)[/](UDOM)[/][0-9]{4}[/]([0-9]{5}|(T\.[0-9]{4}))$/;
@@ -160,7 +162,7 @@ if(!regexp.test(regno))
 }
 
 
-})
+}) */
  
 })
 JS;
