@@ -16,6 +16,7 @@ use common\models\Program;
 use yii\helpers\ArrayHelper;
 use common\models\AuthItem;
 use common\models\InstructorCourse;
+use common\models\Academicyear;
 use common\models\StudentCourse;
 use common\models\ProgramCourse;
 use frontend\models\UploadAssignment;
@@ -572,6 +573,7 @@ public function actionEditExtAssrecord($recordid)
         $dep= $coz ->departmentID;
        // $coz = new UpdateCourse;
        $depts = Department::find()->all();
+       $academic_yrs = ArrayHelper::map(Academicyear::find()->all(), 'yearID', 'yearID');
        $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
         $programs =ArrayHelper::map(ProgramCourse::find()->where(['course_code'=>$id])->all(), 'programCode', 'programCode');
         if($coz->load(Yii::$app->request->post()) && $coz->save())
@@ -580,7 +582,7 @@ public function actionEditExtAssrecord($recordid)
             return $this->redirect(['create-course']);
         }else{
         return $this->render('updatecoz', ['coz'=>$coz, 'programs'=>$programs, 
-        'depts'=>$depts, 'departments'=>$departments]);
+        'depts'=>$depts, 'departments'=>$departments, 'academic_yrs'=>$academic_yrs]);
         }
     }
 
@@ -1734,7 +1736,8 @@ public function actionStudentList(){
         Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
         return $this->redirect(Yii::$app->request->referrer);
     }
-        return $this->render('create-course', ['model'=>$model, 'courses'=>$courses, 'programs'=>$programs, 'departments'=>$departments]);
+        return $this->render('create-course', ['model'=>$model, 'courses'=>$courses, 'programs'=>$programs,
+         'departments'=>$departments]);
     }
 
     public function actionAssignCourse(){
