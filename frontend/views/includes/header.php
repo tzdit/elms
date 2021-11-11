@@ -10,8 +10,8 @@ use yii\helpers\Url;
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-      
-      
+
+
     </ul>
 
     <!-- Right navbar links -->
@@ -51,7 +51,7 @@ use yii\helpers\Url;
     </li> -->
       <!-- Notifications Dropdown Menu -->
      
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown mr-3">
       <?php if(Yii::$app->user->can('STUDENT')): ?>
         <a class="nav-link" data-toggle="dropdown" href="#" id="username"><span class="fas fa-user"></span>
           <i ><?php echo ucwords(Yii::$app->user->identity->student->fullName) ?></i>

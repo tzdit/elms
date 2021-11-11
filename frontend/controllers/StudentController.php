@@ -29,6 +29,7 @@ class StudentController extends \yii\web\Controller
 {
 	//public $layout = 'student';
 	public $defaultAction = 'dashboard';
+
 	 public function behaviors()
     {
         return [
@@ -44,7 +45,7 @@ class StudentController extends \yii\web\Controller
                             'resubmit','videos','announcement','group_assignment_submit',
                             'quiz_answer','quiz_view','group_resubmit','assignment',
                             'group-assignment','labs','tutorial','course-materials','returned',
-                            'course-announcement','quiz','student-group'
+                            'course-announcement','quiz','student-group','forum'
                         ],
                         
 
@@ -114,11 +115,26 @@ class StudentController extends \yii\web\Controller
 
     public function actionDashboard()
     {
-   $student_regno = Yii::$app->user->identity->student->program;
 
-   $courses = Course::find()->select('course.course_code, course.course_credit, course.course_status ')->rightJoin('program_course','program_course.course_code = course.course_code')->where('program_course.programCode = :program_code',[':program_code' => $student_regno->programCode])->orderBy(['program_course.PC_ID' => SORT_ASC])->all();
+        $yearOfStudy = Student::find()->select('YOS')->where('reg_no = :reg_no', [':reg_no' =>  Yii::$app->user->identity->username])->one();
 
-        return $this->render('index', ['courses'=>$courses]);
+        if (isset($yearOfStudy->YOS)){
+            $session = Yii::$app->session;
+
+            $session->set('yos',$yearOfStudy->YOS);
+            $yos = $session->get('yos');
+        }
+
+        else{
+            Yii::$app->user->logout();
+            throw new NotFoundHttpException('Year of study not found');
+        }
+
+       $student_regno = Yii::$app->user->identity->student->program;
+
+       $courses = Course::find()->select('course.course_code, course.course_credit, course.course_status ')->rightJoin('program_course','program_course.course_code = course.course_code')->where('program_course.programCode = :program_code AND program_course.level = :YOS',[':program_code' => $student_regno->programCode, ':YOS' => $yos])->orderBy(['program_course.PC_ID' => SORT_ASC])->all();
+
+            return $this->render('index', ['courses'=>$courses]);
     }
 
 
@@ -471,6 +487,15 @@ public function actionClasswork($cid){
 
 
 
+    public function actionForum($cid){
+
+        $reg_no = Yii::$app->user->identity->username;
+        return $this->render('forum', ['cid'=>$cid, 'reg_no' => $reg_no]);
+    }
+
+
+
+
 
     public function actionAnnouncement($announcement)
     {
@@ -486,9 +511,21 @@ public function actionClasswork($cid){
 
          #################### Student courses lists ##############################
 
-        $courses = Yii::$app->user->identity->student->program->courses;
-    
-        return $this->render('courses',['data'=>$courses]);
+             $session = Yii::$app->session;
+
+        if ($session->isActive)
+        {
+            $yos = $session->get('yos');
+        }
+        else{
+            throw new NotFoundHttpException('Year of study not found');
+        }
+
+       $student_regno = Yii::$app->user->identity->student->program;
+
+       $courses = Course::find()->select('course.course_code, course.course_credit, course.course_status ')->rightJoin('program_course','program_course.course_code = course.course_code')->where('program_course.programCode = :program_code AND program_course.level = :YOS',[':program_code' => $student_regno->programCode, ':YOS' => $yos])->orderBy(['program_course.PC_ID' => SORT_ASC])->all();
+
+            return $this->render('courses', ['data'=>$courses]);
     }
    
 
@@ -866,7 +903,7 @@ public function actionClasswork($cid){
         // This will need to be the path relative to the root of your app.
         $filePath = '/web/storage/temp';
         // Might need to change '@app' for another alias
-        $completePath = Yii::getAlias('@app'.$filePath.'/'.$model->fileName);
+        $completePath = Yii::getAlias('@app/web/storage/temp/'.$model->fileName);
 
         if(file_exists($completePath))
         {

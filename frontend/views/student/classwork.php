@@ -104,6 +104,7 @@ $this->params['breadcrumbs'] = [
 
                                   </div>
 
+
                                   <div class="col-sm-3 col-12">
 
                                       <a href="<?= Url::toRoute(['/student/quiz','cid' => $cid])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
@@ -115,15 +116,20 @@ $this->params['breadcrumbs'] = [
 
                                   </div>
 
+
+                                  <div class="col-sm-3 col-12">
+
+                                      <a href="<?=Url::to(['student/forum/', 'cid'=>$cid])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
+                                          <img src="<?=  Yii::getAlias('@web/img/forum1.png')?>" height="35px" width="35px"/>
+                                          <h5>
+                                              Forum
+                                          </h5>
+                                      </a>
+
+                                  </div>
+
                              </div>
           <!--  ################################### classwork dashboard end ######################################################### -->
-
-        <!-- ########################################### forum work ######################################## -->
-                          <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">
-
-                          </div>
-        <!-- ########################################### forum work end ######################################## -->
-
 
 
          <!-- ########################################### quiz ######################################## -->

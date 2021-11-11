@@ -1,6 +1,7 @@
 <?php
 
 namespace frontend\controllers;
+use common\models\Student;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -72,6 +73,7 @@ class AuthController extends \yii\web\Controller
      $this->layout = 'login';
       $model = new LoginForm();
       if ($model->load(Yii::$app->request->post()) && $model->login()) {
+
            return $this->redirect(['/home/dashboard']);
           
      }
@@ -86,8 +88,12 @@ class AuthController extends \yii\web\Controller
      */
     public function actionLogout()
     {
+
+     $session = Yii::$app->session;
+         if ($session->isActive){
+             $session->destroy();
+         }
         Yii::$app->user->logout();
-        $destroySession = true;
 
         return $this->redirect(['auth/login']);
     }
