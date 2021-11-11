@@ -44,7 +44,7 @@ class StudentController extends \yii\web\Controller
                             'resubmit','videos','announcement','group_assignment_submit',
                             'quiz_answer','quiz_view','group_resubmit','assignment',
                             'group-assignment','labs','tutorial','course-materials','returned',
-                            'course-announcement','quiz','student-group'
+                            'course-announcement','quiz','student-group','forum'
                         ],
                         
 
@@ -471,6 +471,15 @@ public function actionClasswork($cid){
 
 
 
+    public function actionForum($cid){
+
+        $reg_no = Yii::$app->user->identity->username;
+        return $this->render('forum', ['cid'=>$cid, 'reg_no' => $reg_no]);
+    }
+
+
+
+
 
     public function actionAnnouncement($announcement)
     {
@@ -866,7 +875,7 @@ public function actionClasswork($cid){
         // This will need to be the path relative to the root of your app.
         $filePath = '/web/storage/temp';
         // Might need to change '@app' for another alias
-        $completePath = Yii::getAlias('@app'.$filePath.'/'.$model->fileName);
+        $completePath = Yii::getAlias('@app/web/storage/temp/'.$model->fileName);
 
         if(file_exists($completePath))
         {
