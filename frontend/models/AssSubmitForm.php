@@ -5,6 +5,8 @@ namespace frontend\models;
 use Yii;
 use common\models\Assignment;
 use common\models\Student;
+use yii\db\Exception;
+use yii\web\NotFoundHttpException;
 
 /**
  * This is the model class for table "submit".
@@ -136,9 +138,14 @@ class AssSubmitForm extends \yii\db\ActiveRecord
 
              if(!is_dir(\dirname($documentPath))) {
                  FileHelper::createDirectory(\dirname($documentPath));
-             }  
+             }
 
-             $this->document->saveAs($documentPath);
+             try {
+                 $this->document->saveAs($documentPath);
+             }
+             catch (\Exception $e){
+                 throw new NotFoundHttpException("fail to upload, Try to use another browser");
+             }
         }
 
 

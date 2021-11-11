@@ -1,6 +1,7 @@
 <?php
 
 namespace frontend\controllers;
+use common\models\Student;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -72,6 +73,14 @@ class AuthController extends \yii\web\Controller
      $this->layout = 'login';
       $model = new LoginForm();
       if ($model->load(Yii::$app->request->post()) && $model->login()) {
+
+
+          $yearOfStudy = Student::find()->select('YOS')->where('reg_no = :reg_no', [':reg_no' =>  Yii::$app->user->identity->username])->one();
+
+          $session = Yii::$app->session;
+
+          $session->set('yos',$yearOfStudy->YOS);
+
            return $this->redirect(['/home/dashboard']);
           
      }
