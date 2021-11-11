@@ -34,7 +34,7 @@ class ProgramCourse extends \yii\db\ActiveRecord
             [['level'], 'required'],
             [['level'], 'integer'],
             [['course_code'], 'string', 'max' => 7],
-            [['programCode'], 'string', 'max' => 10],
+            [['programCode'], 'string', 'max' => 20],
             [['programCode', 'course_code', 'level'], 'unique', 'targetAttribute' => ['programCode', 'course_code', 'level'],'message'=>'Program already assigned to this course'],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
             [['programCode'], 'exist', 'skipOnError' => true, 'targetClass' => Program::className(), 'targetAttribute' => ['programCode' => 'programCode']],
