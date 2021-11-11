@@ -25,7 +25,7 @@ $programs=ArrayHelper::map($programs,'programCode','prog_name');
       <div class="col-md-12">
      
       <?= $form->field($assignstudentsmodel,'programs[]')->dropdownList($programs,['class'=>'form-control form-control-sm','id'=>'assignstudents','data-placeholder'=>'Select degree Programs','multiple'=>'multiple','style'=>'width:100%'])->label('Degree Programs')?>
-  
+      
      </div>
       </div>
     
@@ -54,7 +54,6 @@ $this->registerJsFile(
 
 );
 
-
-
 ?>
+
 

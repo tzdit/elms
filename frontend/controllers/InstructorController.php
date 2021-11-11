@@ -588,7 +588,7 @@ public function actionEditExtAssrecord($recordid)
     {
         
         $model = Student::findOne($id);
-        $user = User::find($id);
+        $user = User::findOne($id);
         $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'STUDENT'])->all(), 'name', 'name');
         // $departments = Yii::$app->user->identity->hod->department;
         $departments = ArrayHelper::map(Department::find()->where(['departmentID'=> Yii::$app->user->identity->instructor->department->departmentID])->all(), 'depart_abbrev', 'depart_abbrev');
@@ -598,7 +598,7 @@ public function actionEditExtAssrecord($recordid)
             Yii::$app->session->setFlash('success', 'Student updated successfully');
             return $this->redirect(['create-student']);
         }else{
-        return $this->render('updatestudent', ['model'=>$model, 'programs'=>$programs, 'departments'=>$departments, 'roles'=>$roles ]);
+        return $this->render('updatestudent', ['model'=>$model, 'programs'=>$programs, 'departments'=>$departments, 'roles'=>$roles, 'user'=>$user ]);
         }
     }
 
