@@ -116,13 +116,17 @@ class StudentController extends \yii\web\Controller
     public function actionDashboard()
     {
 
-        $session = Yii::$app->session;
+        $yearOfStudy = Student::find()->select('YOS')->where('reg_no = :reg_no', [':reg_no' =>  Yii::$app->user->identity->username])->one();
 
-        if ($session->isActive)
-        {
+        if (isset($yearOfStudy->YOS)){
+            $session = Yii::$app->session;
+
+            $session->set('yos',$yearOfStudy->YOS);
             $yos = $session->get('yos');
         }
+
         else{
+            Yii::$app->user->logout();
             throw new NotFoundHttpException('Year of study not found');
         }
 

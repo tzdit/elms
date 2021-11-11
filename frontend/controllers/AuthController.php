@@ -74,15 +74,6 @@ class AuthController extends \yii\web\Controller
       $model = new LoginForm();
       if ($model->load(Yii::$app->request->post()) && $model->login()) {
 
-
-          $yearOfStudy = Student::find()->select('YOS')->where('reg_no = :reg_no', [':reg_no' =>  Yii::$app->user->identity->username])->one();
-
-          if (isset($yearOfStudy->YOS)){
-              $session = Yii::$app->session;
-
-              $session->set('yos',$yearOfStudy->YOS);
-          }
-
            return $this->redirect(['/home/dashboard']);
           
      }
