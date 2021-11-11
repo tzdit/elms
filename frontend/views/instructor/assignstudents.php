@@ -26,12 +26,9 @@ $levels=[1=>'First Year',2=>'Second Year',3=>'Third Year',4=>'Fourth Year',5=>'F
       <div class="col-md-12">
      
       <?= $form->field($assignstudentsmodel,'programs[]')->dropdownList($programs,['class'=>'form-control form-control-sm','id'=>'assignstudents','data-placeholder'=>'Select degree Programs','multiple'=>'multiple','style'=>'width:100%'])->label('Degree Programs')?>
-<<<<<<< HEAD
       
-=======
       <?= $form->field($assignstudentsmodel,'level')->dropdownList($levels,['class'=>'form-control form-control-sm','id'=>'levels','placeholder'=>'--select level--','style'=>'width:100%'])->label('Level')?>
   
->>>>>>> f5978bbc1a68aa5d27abacf6a74578c40900c9de
      </div>
       </div>
     
