@@ -77,9 +77,11 @@ class AuthController extends \yii\web\Controller
 
           $yearOfStudy = Student::find()->select('YOS')->where('reg_no = :reg_no', [':reg_no' =>  Yii::$app->user->identity->username])->one();
 
-          $session = Yii::$app->session;
+          if (isset($yearOfStudy->YOS)){
+              $session = Yii::$app->session;
 
-          $session->set('yos',$yearOfStudy->YOS);
+              $session->set('yos',$yearOfStudy->YOS);
+          }
 
            return $this->redirect(['/home/dashboard']);
           
