@@ -15,13 +15,15 @@ class CreateCourse extends Model{
     public $course_semester;
     public $course_duration;
     public $course_status;
+    public $YOS;
     public function rules(){
         return [
-            [['course_code', 'course_name', 'course_credit', 'course_semester', 'departments'], 'required'],
+            [['course_code', 'course_name', 'course_status', 'course_credit', 'YOS', 'course_semester', 'departments'], 'required'],
             [[ 'course_semester', 'course_duration'], 'integer'],
             [['course_code'], 'string', 'max' => 25],
             [['course_name'], 'string', 'max' => 150],
             [['course_status'], 'string', 'max' => 15],
+            [['YOS'], 'integer', 'max' => 5, 'min'=> 1],
             // [['course_code'], 'unique'],
         ];
 
@@ -42,7 +44,7 @@ class CreateCourse extends Model{
         $coz->course_duration = $this->course_duration;
         $coz->course_status = $this->course_status;
         $coz->departmentID = $this->departments;
-
+        $coz->YOS = $this->YOS;
         $coz->save();   
         
         return true;

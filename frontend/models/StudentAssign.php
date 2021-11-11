@@ -6,11 +6,13 @@ use common\models\ProgramCourse;
 class StudentAssign extends Model{
     
     public $programs;
+    public $level;
    
     public function rules(){
         return [
            
-           [['programs'], 'required'],
+           [['programs','level'], 'required'],
+           
            
         ];
 
@@ -25,6 +27,7 @@ class StudentAssign extends Model{
      $progcourse=new ProgramCourse();
      $progcourse->programCode=$programs[$p];
      $progcourse->course_code=yii::$app->session->get('ccode');
+     $progcourse->level=$this->level;
 
      if(!$progcourse->save()){
 

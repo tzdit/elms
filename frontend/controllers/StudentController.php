@@ -1,7 +1,6 @@
 <?php
 
 namespace frontend\controllers;
-use common\models\ProgramCourse;
 use common\models\Submit;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -10,7 +9,6 @@ use common\models\Assignment;
 use common\models\Material;
 use common\models\Groups;
 use common\models\Student;
-use common\models\Department;
 use common\models\AuthItem;
 
 use common\models\Program;
@@ -24,7 +22,6 @@ use frontend\models\CarryCourseSearch;
 use common\models\StudentGroup;
 use yii\helpers\ArrayHelper;
 use Yii;
-use yii\helpers\Console;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
@@ -99,7 +96,7 @@ class StudentController extends \yii\web\Controller
     if($model->load(Yii::$app->request->post())){
        
         if($model->create()){
-        Yii::$app->session->setFlash('success', 'Registration Successfull&nbsp&nbsp<a class="btn btn-primary" href="/auth/login">Login</a>');
+        Yii::$app->session->setFlash('success', '<br>Registration Successfull&nbsp&nbsp<a class="btn btn-primary" href="/auth/login">Login</a><br>username: your registration number & password: 123456<br><i class="fa fa-info-circle"></i>make sure you change your password');
         return $this->redirect(Yii::$app->request->referrer);
         }else{
             Yii::$app->session->setFlash('error', 'Registration failed! try again later or contact administrator');

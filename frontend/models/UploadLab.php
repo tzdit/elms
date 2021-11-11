@@ -41,7 +41,7 @@ class UploadLab extends Model{
       if(!$this->validate()){
          return false;
      }
-     print $this->assType;
+     //print $this->assType;
         try{
          $filefordb="";
          if($this->assFormat=='typed')
@@ -52,8 +52,8 @@ class UploadLab extends Model{
          else
          {
             $fileName = uniqid();
-            $filefordb=uniqid().'.'.$this->assFile->extension;
-            $this->assFile->saveAs('storage/temp/'.$fileName.'.'.$this->assFile->extension);
+            $filefordb=$fileName.'.'.$this->assFile->extension;
+            $this->assFile->saveAs('storage/temp/'.$filefordb);
            
          }
         

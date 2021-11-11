@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 09, 2021 at 12:41 AM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.11
+-- Generation Time: Nov 11, 2021 at 06:07 AM
+-- Server version: 10.4.18-MariaDB
+-- PHP Version: 7.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `eclassroom_db`
+-- Database: `eclassroomdb`
 --
 
 -- --------------------------------------------------------
@@ -81,10 +81,7 @@ CREATE TABLE `announcement` (
 --
 
 INSERT INTO `announcement` (`annID`, `instructorID`, `course_code`, `content`, `ann_date`, `ann_time`, `title`, `yearID`) VALUES
-(15, 2, 'CP 111', 'we are there', '2021-11-01', '21:45:12', 'my assignment', 0),
-(16, 2, 'CP 111', 'hello', '2021-11-01', '21:46:52', 'let us announce', 0),
-(18, 2, 'CS 212', 'hey', '2021-11-01', '21:57:03', 'hey', 0),
-(19, 2, 'CP 111', 'khalalslsl', '2021-11-02', '12:28:17', 'my announce', 0);
+(18, 2, 'CS 212', 'hey', '2021-11-01', '21:57:03', 'hey', 0);
 
 -- --------------------------------------------------------
 
@@ -114,13 +111,13 @@ CREATE TABLE `assignment` (
 
 INSERT INTO `assignment` (`assID`, `instructorID`, `course_code`, `assName`, `assType`, `assNature`, `ass_desc`, `submitMode`, `startDate`, `finishDate`, `total_marks`, `fileName`, `yearID`) VALUES
 (138, 2, 'CP 111', 'chosen student types', 'students', 'assignment', 'asdfasdfs', 'unresubmit', '2021-07-15 00:00:00', '2021-07-23 00:00:00', 21, '60e44b8618b9f.txt', 0),
-(144, 2, 'CP 111', 'lass', 'allgroups', 'lab', 'vsgsdf', 'resubmit', '2021-07-16 00:00:00', '2021-07-15 00:00:00', 16, '60e54cf1ba435.txt', 0),
-(146, 2, 'CP 111', 'file lab', 'students', 'lab', 'asgfg', 'unresubmit', '2021-07-30 00:00:00', '2021-07-29 00:00:00', 21, '60e54ddc0379e.pdf', 0),
 (152, 2, 'CP 111', 'testing assignment', 'allstudents', 'assignment', 'testing', 'resubmit', '2021-07-22 00:00:00', '2021-07-22 00:00:00', 15, '60e5e79317400.txt', 0),
 (163, 2, 'CS 212', 'tutorial for you', NULL, 'tutorial', NULL, NULL, NULL, NULL, NULL, '610fd5c87eab5.png', 0),
 (165, 2, 'CP 111', 'my tutorial', NULL, 'tutorial', NULL, NULL, NULL, NULL, NULL, '6180dcf2646d1.xlsx', 0),
 (166, 2, 'CP 111', 'testing assignment 2', 'allstudents', 'assignment', '', 'resubmit', '2021-11-12 00:00:00', '2021-11-19 00:00:00', 27, '618220b910c27.txt', 0),
-(167, 2, 'CP 111', 'test lab assignment', 'allgroups', 'assignment', 'do in groups of 5', 'unresubmit', '2021-11-11 00:00:00', '2021-11-12 00:00:00', 9, '6182374da0b46.txt', 0);
+(167, 2, 'CP 111', 'test lab assignment', 'allgroups', 'assignment', 'do in groups of 5', 'unresubmit', '2021-11-11 00:00:00', '2021-11-12 00:00:00', 9, '6182374da0b46.txt', 0),
+(169, 2, 'CP 111', 'tryetr', 'allstudents', 'assignment', 'ertyert', 'unresubmit', '2021-11-11 00:00:00', '2021-11-18 00:00:00', 20, '6182a7019074e.txt', 0),
+(171, 2, 'CP 111', 'Our assignment', 'allstudents', 'lab', 'mfkjadf', 'unresubmit', '2021-11-18 00:00:00', '2021-11-18 00:00:00', 10, '6182c0460c386.txt', 1);
 
 -- --------------------------------------------------------
 
@@ -155,13 +152,6 @@ INSERT INTO `assq` (`assq_ID`, `assID`, `qno`, `total_marks`) VALUES
 (254, 138, 1, 7),
 (255, 138, 2, 7),
 (256, 138, 3, 7),
-(275, 144, 1, 4),
-(276, 144, 2, 4),
-(277, 144, 3, 4),
-(278, 144, 4, 4),
-(281, 146, 1, 7),
-(282, 146, 2, 7),
-(283, 146, 3, 7),
 (297, 152, 1, 5),
 (298, 152, 2, 5),
 (299, 152, 3, 5),
@@ -170,7 +160,13 @@ INSERT INTO `assq` (`assq_ID`, `assID`, `qno`, `total_marks`) VALUES
 (324, 166, 3, 9),
 (325, 167, 1, 3),
 (326, 167, 2, 3),
-(327, 167, 3, 3);
+(327, 167, 3, 3),
+(331, 169, 1, 10),
+(332, 169, 2, 10),
+(336, 171, 1, 1),
+(337, 171, 2, 2),
+(338, 171, 3, 3),
+(339, 171, 4, 4);
 
 -- --------------------------------------------------------
 
@@ -205,8 +201,32 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('STUDENT', '49', 1620480151),
 ('STUDENT', '50', 1620480285),
 ('STUDENT', '52', 1632854018),
-('STUDENT', '55', 1636097847),
-('STUDENT', '59', 1636187913),
+('STUDENT', '61', 1636185703),
+('STUDENT', '62', 1636185703),
+('STUDENT', '64', 1636185774),
+('STUDENT', '66', 1636185940),
+('STUDENT', '67', 1636185941),
+('STUDENT', '70', 1636186926),
+('STUDENT', '74', 1636187441),
+('STUDENT', '75', 1636187442),
+('STUDENT', '76', 1636292482),
+('STUDENT', '77', 1636293783),
+('STUDENT', '78', 1636295556),
+('STUDENT', '79', 1636483079),
+('STUDENT', '83', 1636484167),
+('STUDENT', '84', 1636484300),
+('STUDENT', '85', 1636484424),
+('STUDENT', '86', 1636485587),
+('STUDENT', '87', 1636485685),
+('STUDENT', '88', 1636530872),
+('STUDENT', '89', 1636531996),
+('STUDENT', '90', 1636532404),
+('STUDENT', '91', 1636532620),
+('STUDENT', '92', 1636532725),
+('STUDENT', '93', 1636532795),
+('STUDENT', '94', 1636532920),
+('STUDENT', '95', 1636533023),
+('STUDENT', '96', 1636533144),
 ('SUPER_ADMIN', '2', 1620221794),
 ('SYS_ADMIN', '3', 1620230542);
 
@@ -303,37 +323,29 @@ INSERT INTO `college` (`collegeID`, `college_name`, `college_abbrev`) VALUES
 --
 
 CREATE TABLE `course` (
-  `id` int(11) NOT NULL,
   `course_code` varchar(7) NOT NULL,
   `course_name` varchar(150) NOT NULL,
   `course_credit` int(11) NOT NULL,
   `course_semester` int(11) NOT NULL,
   `course_duration` int(11) DEFAULT NULL,
   `course_status` varchar(10) DEFAULT NULL,
-  `departmentID` int(11) DEFAULT NULL
+  `departmentID` int(11) NOT NULL,
+  `YOS` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `course`
 --
 
-INSERT INTO `course` (`id`, `course_code`, `course_name`, `course_credit`, `course_semester`, `course_duration`, `course_status`, `departmentID`) VALUES
-(1, 'CP 111', 'Principle of Programming', 10, 1, 1, 'core', NULL),
-(2, 'CP 123', 'Introduction High Level Programming in C++', 10, 2, 1, 'CORE', 1),
-(3, 'CS 110', 'Clouding Computing', 11, 1, 2, 'CORE', 2),
-(4, 'CS 212', 'Data Structure and Algorithms', 10, 1, 2, 'CORE', 1),
-(5, 'CS 213', 'Linux Introduction', 10, 1, 3, 'CORE', NULL),
-(6, 'CS 585', 'Journal Computing', 12, 1, 2, 'CORE', NULL),
-(7, 'DD 333', 'HHCompu tin', 10, 2, 1, 'CORE', NULL),
-(8, 'ES 110', 'excel Computing', 10, 1, 1, 'CORE', NULL),
-(16, 'ha 222', 'haha', 10, 1, 2, 'CORE', NULL),
-(9, 'hh 111', 'hhhhhhhhhhhh', 10, 2, 4, 'CORE', NULL),
-(17, 'la 233', 'lulu', 10, 1, 1, 'CORE', 2),
-(10, 'ST 123', 'intro to saturday', 10, 1, 2, 'CORE', NULL),
-(11, 'TN 012', 'intro to net', 10, 1, 2, 'CORE', NULL),
-(12, 'TN 110', 'Introduction to Telecommunication', 10, 1, 1, 'CORE', NULL),
-(13, 'UB 213', 'intro to urber', 10, 1, 2, 'CORE', NULL),
-(14, 'ye 333', 'Clouding yes', 10, 1, 2, 'CORE', NULL);
+INSERT INTO `course` (`course_code`, `course_name`, `course_credit`, `course_semester`, `course_duration`, `course_status`, `departmentID`, `YOS`) VALUES
+('CD455', 'introduction to programming', 9, 2, 4, 'CORE', 1, 0),
+('CD459', 'java', 9, 2, 2, 'CORE', 1, 0),
+('CD4591', 'introduction to programming in python', 9, 2, 2, 'CORE', 1, 0),
+('CH111', 'java', 9, 2, 3, 'CORE', 1, 0),
+('CP 111', 'Principle of Programming', 10, 1, 1, 'core', 1, 0),
+('CP 123', 'Introduction High Level Programming in C++', 9, 2, 1, 'CORE', 1, 0),
+('CS 212', 'Data Structure and Algorithms', 10, 1, 2, 'CORE', 1, 0),
+('TN 110', 'Introduction to Telecommunication', 10, 1, 1, 'CORE', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -381,7 +393,9 @@ INSERT INTO `ext_assess` (`assessID`, `instructorID`, `course_code`, `title`, `t
 (63, 2, 'CP 111', 'my assess', 30, '2021-07-26', 0),
 (64, 2, 'CP 111', 'my first test', 30, '2021-07-26', 0),
 (70, 2, 'CS 212', 'my assess', 69, '2021-08-08', 0),
-(71, 2, 'CS 212', 'my testing', 40, '2021-11-02', 0);
+(71, 2, 'CS 212', 'my testing', 40, '2021-11-02', 0),
+(72, 2, 'CP 111', 'kjhsfd', 30, '2021-11-03', 1),
+(73, 2, 'CS 212', 'my testing', 50, '2021-11-04', 1);
 
 -- --------------------------------------------------------
 
@@ -473,14 +487,6 @@ CREATE TABLE `group_assignment_submit` (
   `comment` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `group_assignment_submit`
---
-
-INSERT INTO `group_assignment_submit` (`submitID`, `groupID`, `assID`, `fileName`, `score`, `submit_date`, `submit_time`, `comment`) VALUES
-(2, 51, 144, '', '15.00', '0000-00-00', '00:00:00', NULL),
-(3, 59, 144, '', '15.00', '0000-00-00', '00:00:00', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -498,7 +504,6 @@ CREATE TABLE `group_generation_assignment` (
 --
 
 INSERT INTO `group_generation_assignment` (`gga_ID`, `gentypeID`, `assID`) VALUES
-(43, 22, 144),
 (49, 34, 167);
 
 -- --------------------------------------------------------
@@ -590,9 +595,7 @@ CREATE TABLE `instructor_course` (
 INSERT INTO `instructor_course` (`IC_ID`, `course_code`, `instructorID`) VALUES
 (37, 'CP 111', 2),
 (38, 'CP 111', 4),
-(39, 'CS 212', 2),
-(40, 'TN 110', 5),
-(41, 'CS 212', 5);
+(39, 'CS 212', 2);
 
 -- --------------------------------------------------------
 
@@ -662,14 +665,6 @@ CREATE TABLE `material` (
   `moduleID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `material`
---
-
-INSERT INTO `material` (`material_ID`, `instructorID`, `course_code`, `title`, `material_type`, `upload_date`, `upload_time`, `fileName`, `yearID`, `moduleID`) VALUES
-(38, 2, 'CP 111', 'my material me', 'Videos', NULL, NULL, '6182224cb467c.mp4', 0, 8),
-(40, 2, 'CP 111', 'material one', 'Videos', NULL, NULL, '61822dfb4cb4a.mp4', 0, 8);
-
 -- --------------------------------------------------------
 
 --
@@ -712,8 +707,7 @@ CREATE TABLE `module` (
 --
 
 INSERT INTO `module` (`moduleID`, `moduleName`, `module_description`, `course_code`) VALUES
-(7, 'chapter 3', 'cooking', 'CS 212'),
-(8, 'my module', 'testing', 'CP 111');
+(7, 'chapter 3', 'cooking', 'CS 212');
 
 -- --------------------------------------------------------
 
@@ -750,7 +744,8 @@ CREATE TABLE `program` (
 --
 
 INSERT INTO `program` (`programCode`, `departmentID`, `prog_name`, `prog_duration`, `capacity`) VALUES
-('CS1', 2, 'Bachelor of Scince in Computer Scince', 1, 1),
+('CS1', 2, 'Bachelor of Scince in Computer Scince', 1, NULL),
+('SE1', 1, 'Bachelor of Science in software Enginering Engineering', 1, NULL),
 ('SE2', 1, 'Bachelor of Scince in Telecommunication Engineering', 2, NULL),
 ('TE3', 2, 'Bachelor of Science in Telecommunication Engineering', 3, NULL);
 
@@ -763,20 +758,22 @@ INSERT INTO `program` (`programCode`, `departmentID`, `prog_name`, `prog_duratio
 CREATE TABLE `program_course` (
   `PC_ID` int(11) NOT NULL,
   `course_code` varchar(7) DEFAULT NULL,
-  `programCode` varchar(10) DEFAULT NULL
+  `programCode` varchar(20) DEFAULT NULL,
+  `level` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `program_course`
 --
 
-INSERT INTO `program_course` (`PC_ID`, `course_code`, `programCode`) VALUES
-(6, 'CP 111', 'CS1'),
-(9, 'hh 111', 'CS1'),
-(7, 'CP 111', 'SE2'),
-(18, 'CP 123', 'SE2'),
-(5, 'CP 111', 'TE3'),
-(8, 'CS 212', 'TE3');
+INSERT INTO `program_course` (`PC_ID`, `course_code`, `programCode`, `level`) VALUES
+(15, 'CP 111', 'CS1', 2),
+(14, 'CP 111', 'SE1', 1),
+(17, 'CP 111', 'SE1', 2),
+(16, 'CP 111', 'SE2', 1),
+(18, 'CP 111', 'SE2', 2),
+(19, 'CP 111', 'TE3', 1),
+(20, 'CP 111', 'TE3', 2);
 
 -- --------------------------------------------------------
 
@@ -835,12 +832,30 @@ INSERT INTO `q_marks` (`qmarkID`, `submitID`, `assq_ID`, `q_score`, `comment`, `
 (19, 2, 297, '5.00', NULL, NULL),
 (20, 2, 298, '5.00', NULL, NULL),
 (21, 2, 299, '5.00', NULL, NULL),
+(22, 3, 297, '0.00', NULL, NULL),
+(23, 3, 298, '5.00', NULL, NULL),
+(24, 3, 299, '3.00', NULL, NULL),
+(25, 3, 297, '5.00', NULL, NULL),
+(26, 3, 298, '5.00', NULL, NULL),
+(27, 3, 299, '5.00', NULL, NULL),
 (28, 2, 297, '3.00', NULL, NULL),
 (29, 2, 298, '3.00', NULL, NULL),
 (30, 2, 299, '3.00', NULL, NULL),
+(31, 3, 297, '3.00', NULL, NULL),
+(32, 3, 298, '3.00', NULL, NULL),
+(33, 3, 299, '3.00', NULL, NULL),
+(34, 3, 297, '3.00', NULL, NULL),
+(35, 3, 298, '3.00', NULL, NULL),
+(36, 3, 299, '3.00', NULL, NULL),
 (37, 2, 297, '1.00', NULL, NULL),
 (38, 2, 298, '1.00', NULL, NULL),
 (39, 2, 299, '1.00', NULL, NULL),
+(40, 3, 297, '1.00', NULL, NULL),
+(41, 3, 298, '1.00', NULL, NULL),
+(42, 3, 299, '1.00', NULL, NULL),
+(43, 3, 297, '1.00', NULL, NULL),
+(44, 3, 298, '1.00', NULL, NULL),
+(45, 3, 299, '1.00', NULL, NULL),
 (46, 2, 297, '1.00', NULL, NULL),
 (47, 2, 298, '1.00', NULL, NULL),
 (48, 2, 299, '1.00', NULL, NULL),
@@ -853,15 +868,33 @@ INSERT INTO `q_marks` (`qmarkID`, `submitID`, `assq_ID`, `q_score`, `comment`, `
 (55, 2, 297, '2.00', NULL, NULL),
 (56, 2, 298, '2.00', NULL, NULL),
 (57, 2, 299, '2.00', NULL, NULL),
+(58, 3, 297, '2.00', NULL, NULL),
+(59, 3, 298, '2.00', NULL, NULL),
+(60, 3, 299, '2.00', NULL, NULL),
+(61, 3, 297, '2.00', NULL, NULL),
+(62, 3, 298, '2.00', NULL, NULL),
+(63, 3, 299, '2.00', NULL, NULL),
 (64, 2, 297, '2.00', NULL, NULL),
 (65, 2, 298, '2.00', NULL, NULL),
 (66, 2, 299, '2.00', NULL, NULL),
+(67, 3, 297, '2.00', NULL, NULL),
+(68, 3, 298, '2.00', NULL, NULL),
+(69, 3, 299, '2.00', NULL, NULL),
+(70, 3, 297, '2.00', NULL, NULL),
+(71, 3, 298, '2.00', NULL, NULL),
+(72, 3, 299, '2.00', NULL, NULL),
 (73, 2, 297, '1.00', NULL, NULL),
 (74, 2, 298, '1.00', NULL, NULL),
 (75, 2, 299, '1.00', NULL, NULL),
 (76, 2, 297, '3.00', NULL, NULL),
 (77, 2, 298, '3.00', NULL, NULL),
 (78, 2, 299, '3.00', NULL, NULL),
+(79, 3, 297, '3.00', NULL, NULL),
+(80, 3, 298, '3.00', NULL, NULL),
+(81, 3, 299, '3.00', NULL, NULL),
+(82, 3, 297, '3.00', NULL, NULL),
+(83, 3, 298, '3.00', NULL, NULL),
+(84, 3, 299, '3.00', NULL, NULL),
 (85, 2, 297, '3.00', NULL, NULL),
 (86, 2, 298, '3.00', NULL, NULL),
 (87, 2, 299, '3.00', NULL, NULL),
@@ -880,33 +913,81 @@ INSERT INTO `q_marks` (`qmarkID`, `submitID`, `assq_ID`, `q_score`, `comment`, `
 (100, 2, 297, '3.00', NULL, NULL),
 (101, 2, 298, '3.00', NULL, NULL),
 (102, 2, 299, '2.00', NULL, NULL),
+(103, 3, 297, '3.00', NULL, NULL),
+(104, 3, 298, '3.00', NULL, NULL),
+(105, 3, 299, '2.00', NULL, NULL),
+(106, 3, 297, '3.00', NULL, NULL),
+(107, 3, 298, '3.00', NULL, NULL),
+(108, 3, 299, '2.00', NULL, NULL),
 (109, 2, 297, '3.00', NULL, NULL),
 (110, 2, 298, '3.00', NULL, NULL),
 (111, 2, 299, '3.00', NULL, NULL),
+(112, 3, 297, '3.00', NULL, NULL),
+(113, 3, 298, '3.00', NULL, NULL),
+(114, 3, 299, '3.00', NULL, NULL),
+(115, 3, 297, '2.00', NULL, NULL),
+(116, 3, 298, '2.00', NULL, NULL),
+(117, 3, 299, '2.00', NULL, NULL),
 (118, 2, 297, '2.00', NULL, NULL),
 (119, 2, 298, '2.00', NULL, NULL),
 (120, 2, 299, '2.00', NULL, NULL),
+(121, 3, 297, '2.00', NULL, NULL),
+(122, 3, 298, '2.00', NULL, NULL),
+(123, 3, 299, '2.00', NULL, NULL),
+(124, 3, 297, '2.00', NULL, NULL),
+(125, 3, 298, '2.00', NULL, NULL),
+(126, 3, 299, '2.00', NULL, NULL),
 (127, 2, 297, '4.00', NULL, NULL),
 (128, 2, 298, '4.00', NULL, NULL),
 (129, 2, 299, '4.00', NULL, NULL),
+(130, 3, 297, '4.00', NULL, NULL),
+(131, 3, 298, '4.00', NULL, NULL),
+(132, 3, 299, '4.00', NULL, NULL),
+(133, 3, 297, '4.00', NULL, NULL),
+(134, 3, 298, '4.00', NULL, NULL),
+(135, 3, 299, '4.00', NULL, NULL),
 (136, 2, 297, '4.00', NULL, NULL),
 (137, 2, 298, '4.00', NULL, NULL),
 (138, 2, 299, '4.00', NULL, NULL),
 (139, 2, 297, '2.00', NULL, NULL),
 (140, 2, 298, '2.00', NULL, NULL),
 (141, 2, 299, '2.00', NULL, NULL),
+(142, 3, 297, '2.00', NULL, NULL),
+(143, 3, 298, '2.00', NULL, NULL),
+(144, 3, 299, '2.00', NULL, NULL),
+(145, 3, 297, '2.00', NULL, NULL),
+(146, 3, 298, '2.00', NULL, NULL),
+(147, 3, 299, '2.00', NULL, NULL),
 (148, 2, 297, '2.00', NULL, NULL),
 (149, 2, 298, '2.00', NULL, NULL),
 (150, 2, 299, '2.00', NULL, NULL),
+(151, 3, 297, '2.00', NULL, NULL),
+(152, 3, 298, '2.00', NULL, NULL),
+(153, 3, 299, '2.00', NULL, NULL),
+(154, 3, 297, '2.00', NULL, NULL),
+(155, 3, 298, '2.00', NULL, NULL),
+(156, 3, 299, '2.00', NULL, NULL),
 (157, 2, 297, '3.00', NULL, NULL),
 (158, 2, 298, '3.00', NULL, NULL),
 (159, 2, 299, '3.00', NULL, NULL),
+(160, 3, 297, '3.00', NULL, NULL),
+(161, 3, 298, '3.00', NULL, NULL),
+(162, 3, 299, '3.00', NULL, NULL),
+(163, 3, 297, '3.00', NULL, NULL),
+(164, 3, 298, '3.00', NULL, NULL),
+(165, 3, 299, '3.00', NULL, NULL),
 (166, 2, 297, '2.00', NULL, NULL),
 (167, 2, 298, '2.00', NULL, NULL),
 (168, 2, 299, '2.00', NULL, NULL),
 (169, 2, 297, '3.00', NULL, NULL),
 (170, 2, 298, '3.00', NULL, NULL),
 (171, 2, 299, '3.00', NULL, NULL),
+(172, 3, 297, '3.00', NULL, NULL),
+(173, 3, 298, '3.00', NULL, NULL),
+(174, 3, 299, '3.00', NULL, NULL),
+(175, 3, 297, '3.00', NULL, NULL),
+(176, 3, 298, '3.00', NULL, NULL),
+(177, 3, 299, '3.00', NULL, NULL),
 (178, 2, 297, '3.00', NULL, NULL),
 (179, 2, 298, '3.00', NULL, NULL),
 (180, 2, 299, '3.00', NULL, NULL),
@@ -916,6 +997,15 @@ INSERT INTO `q_marks` (`qmarkID`, `submitID`, `assq_ID`, `q_score`, `comment`, `
 (184, 2, 297, '3.00', NULL, NULL),
 (185, 2, 298, '3.00', NULL, NULL),
 (186, 2, 299, '3.00', NULL, NULL),
+(187, 3, 297, '3.00', NULL, NULL),
+(188, 3, 298, '3.00', NULL, NULL),
+(189, 3, 299, '3.00', NULL, NULL),
+(190, 3, 297, '3.00', NULL, NULL),
+(191, 3, 298, '3.00', NULL, NULL),
+(192, 3, 299, '3.00', NULL, NULL),
+(193, 3, 297, '3.00', NULL, NULL),
+(194, 3, 298, '3.00', NULL, NULL),
+(195, 3, 299, '3.00', NULL, NULL),
 (196, 2, 297, '3.00', NULL, NULL),
 (197, 2, 299, '3.00', NULL, NULL),
 (198, 2, 297, '3.00', NULL, NULL),
@@ -923,18 +1013,38 @@ INSERT INTO `q_marks` (`qmarkID`, `submitID`, `assq_ID`, `q_score`, `comment`, `
 (200, 2, 297, '3.00', NULL, NULL),
 (201, 2, 298, '4.00', NULL, NULL),
 (202, 2, 299, '3.00', NULL, NULL),
+(203, 3, 297, '3.00', NULL, NULL),
+(204, 3, 299, '3.00', NULL, NULL),
+(205, 3, 297, '3.00', NULL, NULL),
+(206, 3, 298, '4.00', NULL, NULL),
+(207, 3, 299, '3.00', NULL, NULL),
+(208, 3, 297, '3.00', NULL, NULL),
+(209, 3, 298, '4.00', NULL, NULL),
+(210, 3, 299, '3.00', NULL, NULL),
 (211, 2, 297, '3.00', NULL, NULL),
 (212, 2, 298, '3.00', NULL, NULL),
 (213, 2, 299, '3.00', NULL, NULL),
+(214, 3, 297, '3.00', NULL, NULL),
+(215, 3, 298, '3.00', NULL, NULL),
+(216, 3, 299, '3.00', NULL, NULL),
+(217, 3, 297, '3.00', NULL, NULL),
+(218, 3, 298, '3.00', NULL, NULL),
+(219, 3, 299, '3.00', NULL, NULL),
 (220, 2, 297, '1.00', NULL, NULL),
 (221, 2, 298, '1.00', NULL, NULL),
 (222, 2, 299, '1.00', NULL, NULL),
 (223, 2, 297, '2.00', NULL, NULL),
 (224, 2, 298, '2.00', NULL, NULL),
 (225, 2, 299, '2.00', NULL, NULL),
+(226, 3, 297, '4.00', NULL, NULL),
+(227, 3, 298, '4.00', NULL, NULL),
+(228, 3, 299, '4.00', NULL, NULL),
 (229, 2, 297, '3.00', NULL, NULL),
 (230, 2, 298, '3.00', NULL, NULL),
 (231, 2, 299, '3.00', NULL, NULL),
+(232, 3, 297, '4.00', NULL, NULL),
+(233, 3, 298, '4.00', NULL, NULL),
+(234, 3, 299, '4.00', NULL, NULL),
 (235, 2, 297, '5.00', NULL, NULL),
 (236, 2, 298, '5.00', NULL, NULL),
 (237, 2, 297, '3.00', NULL, NULL),
@@ -966,14 +1076,18 @@ INSERT INTO `q_marks` (`qmarkID`, `submitID`, `assq_ID`, `q_score`, `comment`, `
 (281, 4, 254, '2.00', NULL, NULL),
 (282, 4, 255, '2.00', NULL, NULL),
 (283, 4, 256, '2.00', NULL, NULL),
-(284, NULL, 275, '2.00', NULL, 2),
-(285, NULL, 276, '2.00', NULL, 2),
-(286, NULL, 277, '2.00', NULL, 2),
-(287, NULL, 278, '2.00', NULL, 2),
-(288, NULL, 275, '2.00', NULL, 2),
-(289, NULL, 276, '2.00', NULL, 2),
-(290, NULL, 277, '2.00', NULL, 2),
-(291, NULL, 278, '4.00', NULL, 2);
+(295, 8, 336, '1.00', NULL, NULL),
+(296, 8, 337, '1.00', NULL, NULL),
+(297, 8, 338, '1.00', NULL, NULL),
+(298, 8, 339, '1.00', NULL, NULL),
+(299, 9, 336, '1.00', NULL, NULL),
+(300, 9, 337, '1.00', NULL, NULL),
+(301, 9, 338, '1.00', NULL, NULL),
+(302, 9, 339, '1.00', NULL, NULL),
+(303, 10, 336, '1.00', NULL, NULL),
+(304, 10, 337, '1.00', NULL, NULL),
+(305, 10, 338, '1.00', NULL, NULL),
+(306, 10, 339, '1.00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -999,9 +1113,9 @@ CREATE TABLE `rep_thread` (
 CREATE TABLE `student` (
   `reg_no` varchar(20) NOT NULL,
   `userID` int(11) DEFAULT NULL,
-  `programCode` varchar(10) DEFAULT NULL,
+  `programCode` varchar(20) DEFAULT NULL,
   `fname` varchar(10) NOT NULL,
-  `mname` varchar(100) NOT NULL,
+  `mname` varchar(100) DEFAULT NULL,
   `lname` varchar(10) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
   `gender` varchar(7) NOT NULL,
@@ -1017,14 +1131,40 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lname`, `email`, `gender`, `f4_index_no`, `YOS`, `DOR`, `phone`, `status`) VALUES
+('T/UDOM/2017/00091', 77, 'SE2', 'joshua', 'A', 'njau', 'joshua@gmail.com', 'M', NULL, 2, '2021-11-07', NULL, 'REGISTERED'),
+('T/UDOM/2017/20154', 76, 'SE2', 'khalidi', 'hassan', 'thewinner', 'thewinnerog@gmail.com', 'M', NULL, 4, '2021-11-07', NULL, 'REGISTERED'),
+('T/UDOM/2017/90000', 78, 'SE1', 'kinabo', 'q', 'juma', 'juma@gmail.com', 'M', NULL, 2, '2021-11-07', NULL, 'REGISTERED'),
 ('T/UDOM/2019/00900', 3, 'CS1', 'winner', '', 'OG', NULL, 'M', NULL, 2, '0000-00-00', NULL, ''),
 ('T/UDOM/2020/00001', 45, 'CS1', 'STUDENT', 'STUDENT', 'STUDENT', 'student@gmail.com', 'M', NULL, 1, '2021-05-08', NULL, 'REGISTERED'),
+('T/UDOM/2020/00002', 46, 'SE1', 'Hmiasa', 'rashidi', 'Shabani', 'student@gmail2.com', 'F', NULL, 2, '2021-05-08', NULL, 'REGISTERED'),
 ('T/UDOM/2020/00003', 47, 'TE3', 'Hmiasa', 'rashidi', 'Shabani', 'student@gmail3.com', 'F', NULL, 1, '2021-05-08', NULL, 'REGISTERED'),
 ('T/UDOM/2020/00004', 48, 'TE3', 'Mwambashi', 'mwambashi', 'Shabani', 'student@gmail4.com', 'F', NULL, 2, '2021-05-08', NULL, 'REGISTERED'),
 ('T/UDOM/2020/00005', 49, 'TE3', 'sutdent20', 'mwambashi', 'Shabani', 'student@gmail5.com', 'F', NULL, 1, '2021-05-08', NULL, 'REGISTERED'),
 ('T/UDOM/2020/00006', 50, 'TE3', 'Zuwena', 'Rashidi', 'Mwendachik', 'student@gmail56.com', 'F', NULL, 2, '2021-05-08', NULL, 'REGISTERED'),
-('T/UDOM/2020/11241', 55, 'CS1', 'Joshu', 'Franky', 'Njau', 'njaufrank@gmail.com', 'M', NULL, 2, '2021-11-05', '705434434', 'Registered'),
-('T/UDOM/2029/123', 59, 'CS1', 'Onaeli', 'm', 'Nickson', 'ona123@gmail.com', 'M', NULL, 1, '2021-11-06', NULL, 'REGISTERED');
+('T/UDOM/2020/00798', 52, 'SE1', 'thewinner', 'm.', 'hassan', 'thewinner@gmail.com', 'M', NULL, 2, '2021-09-28', NULL, 'REGISTERED'),
+('T/UDOM/2020/05510', 61, 'TE3', 'khalidi ', 'r', 'hassan', 'khalid@gmail.com', 'M', NULL, 3, '2021-11-06', '8999', 'ok'),
+('T/UDOM/2020/15510', 62, 'SE2', 'joshua', 'f', 'njau', 'winner1@gmail.com12', 'M', NULL, 2, '2021-11-06', '77495099299', 'okay'),
+('T/UDOM/2020/155100', 64, 'SE2', 'joshua', 'f', 'njau', 'winner1@gmail.com120', 'M', NULL, 2, '2021-11-06', '7995099299', 'okay'),
+('T/UDOM/2020/33332', 70, 'sE2', 'khalidi ', 'r', 'hassan', 'musa@udom.com', 'M', NULL, 3, '2021-11-06', '333555', 'ok'),
+('T/UDOM/2020/44452', 75, 'SE2', 'cosmas', 'r', 'yadunia', 'musa@udom.com5', 'M', NULL, 3, '2021-11-06', '33135355', 'ok'),
+('T/UDOM/2020/55553', 74, 'TE3', 'ona', 'r', 'kowero', 'khalidi@yahoo.com5', 'M', NULL, 3, '2021-11-06', '1213110', 'ok'),
+('T/UDOM/2020/8800', 66, 'TE3', 'khalidi ', 'r', 'hassan', 'khalid@gmail.com32', 'M', NULL, 3, '2021-11-06', '18999', 'ok'),
+('T/UDOM/2020/9990', 67, 'SE2', 'joshua', 'f', 'njau', 'winner1@gmail.com1202', 'M', NULL, 2, '2021-11-06', '17995099299', 'okay'),
+('T/UDOM/2021/04300', 94, 'SE1', 'MATATA', 'A', 'hassan', 'juma10@gmail.com', 'M', NULL, 1, '2021-11-10', NULL, 'REGISTERED'),
+('T/UDOM/2021/04301', 95, 'CS1', 'MATATA', 'q', 'thewinner', 'juma00@gmail.com', 'M', NULL, 1, '2021-11-10', NULL, 'REGISTERED'),
+('T/UDOM/2021/04309', 96, 'SE1', 'khalidi', 'm.', 'SELEMANI', 'juma09@gmail.com', 'M', NULL, 1, '2021-11-10', NULL, 'REGISTERED'),
+('T/UDOM/2021/04311', 88, 'SE2', 'MATATA', 'm.', 'juma', 'thewinnerog1@gmail.com', 'M', NULL, 1, '2021-11-10', NULL, 'REGISTERED'),
+('T/UDOM/2021/04342', 89, 'SE1', 'MATATA', 'q', 'njau', 'joshua2@gmail.com', 'M', NULL, 1, '2021-11-10', NULL, 'REGISTERED'),
+('T/UDOM/2021/04344', 86, 'TE3', 'MATATA', 'R', 'thewinner', 'juma4@gmail.com', 'M', NULL, 1, '2021-11-09', NULL, 'REGISTERED'),
+('T/UDOM/2021/04345', 87, 'TE3', 'khalidi', 'R', 'SELEMANI', 'juma6@gmail.com', 'M', NULL, 1, '2021-11-09', NULL, 'REGISTERED'),
+('T/UDOM/2021/04348', 79, 'SE2', 'MATATA', 'R', 'SELEMANI', '', 'M', NULL, 1, '2021-11-09', NULL, 'REGISTERED'),
+('T/UDOM/2021/04350', 83, 'SE2', 'MATATA', 'R', 'thewinner', 'thewinnerog2@gmail.com', 'M', NULL, 1, '2021-11-09', NULL, 'REGISTERED'),
+('T/UDOM/2021/04351', 84, 'SE1', 'MATATA', 'R', 'testing', 'juma2@gmail.com', 'M', NULL, 1, '2021-11-09', NULL, 'REGISTERED'),
+('T/UDOM/2021/04352', 85, 'TE3', 'MATATA', 'hassan', 'testing', 'juma3@gmail.com', 'M', NULL, 1, '2021-11-09', NULL, 'REGISTERED'),
+('T/UDOM/2021/04353', 93, 'SE1', 'MATATA', 'A', 'thewinner', 'matatabrangr2@gmail.com', 'M', NULL, 1, '2021-11-10', NULL, 'REGISTERED'),
+('T/UDOM/2021/04354', 92, 'SE1', 'khalidi', 'hassan', 'SELEMANI', 'juma9@gmail.com', 'M', NULL, 1, '2021-11-10', NULL, 'REGISTERED'),
+('T/UDOM/2021/04355', 90, 'SE1', 'khalidi', 'q', 'njau', 'jumah@gmail.com', 'M', NULL, 1, '2021-11-10', NULL, 'REGISTERED'),
+('T/UDOM/2021/04356', 91, 'SE1', 'MATATA', 'A', 'testing', 'juma7@gmail.com', 'M', NULL, 1, '2021-11-10', NULL, 'REGISTERED');
 
 -- --------------------------------------------------------
 
@@ -1044,8 +1184,7 @@ CREATE TABLE `student_assignment` (
 
 INSERT INTO `student_assignment` (`std_assID`, `assID`, `reg_no`) VALUES
 (9, 138, 'T/UDOM/2020/00001'),
-(13, 146, 'T/UDOM/2020/00001'),
-(15, 146, 'T/UDOM/2020/00003');
+(10, 138, 'T/UDOM/2020/00002');
 
 -- --------------------------------------------------------
 
@@ -1064,7 +1203,10 @@ CREATE TABLE `student_course` (
 --
 
 INSERT INTO `student_course` (`SC_ID`, `reg_no`, `course_code`) VALUES
-(9, 'T/UDOM/2020/00001', 'CP 111');
+(10, 'T/UDOM/2017/20154', 'CP 123'),
+(9, 'T/UDOM/2020/00001', 'CP 111'),
+(8, 'T/UDOM/2020/00798', 'CP 111'),
+(7, 'T/UDOM/2020/00798', 'CP 123');
 
 -- --------------------------------------------------------
 
@@ -1085,10 +1227,23 @@ CREATE TABLE `student_ext_assess` (
 
 INSERT INTO `student_ext_assess` (`student_assess_id`, `reg_no`, `score`, `assessID`) VALUES
 (48, 'T/UDOM/2020/00001', '12.00', 64),
+(49, 'T/UDOM/2020/00002', '12.00', 64),
 (51, 'T/UDOM/2020/00001', '10.00', 63),
 (55, 'T/UDOM/2020/00005', '10.00', 70),
 (58, 'T/UDOM/2020/00003', '4.00', 70),
-(59, 'T/UDOM/2020/00006', '7.00', 70);
+(59, 'T/UDOM/2020/00006', '7.00', 70),
+(60, 'T/UDOM/2020/00002', '3.00', 72),
+(61, 'T/UDOM/2020/00798', '3.00', 72),
+(62, 'T/UDOM/2020/00003', '3.00', 72),
+(63, 'T/UDOM/2020/00004', '3.00', 72),
+(64, 'T/UDOM/2020/00005', '3.00', 72),
+(65, 'T/UDOM/2020/00006', '3.00', 72),
+(66, 'T/UDOM/2019/00900', '3.00', 72),
+(67, 'T/UDOM/2020/00001', '3.00', 72),
+(68, 'T/UDOM/2020/00003', '3.00', 73),
+(69, 'T/UDOM/2020/00004', '3.00', 73),
+(70, 'T/UDOM/2020/00005', '3.00', 73),
+(71, 'T/UDOM/2020/00006', '3.00', 73);
 
 -- --------------------------------------------------------
 
@@ -1109,16 +1264,21 @@ CREATE TABLE `student_group` (
 INSERT INTO `student_group` (`SG_ID`, `reg_no`, `groupID`) VALUES
 (101, 'T/UDOM/2020/00004', 51),
 (102, 'T/UDOM/2020/00003', 51),
+(103, 'T/UDOM/2020/00002', 52),
 (104, 'T/UDOM/2020/00001', 52),
 (105, 'T/UDOM/2020/00004', 53),
 (106, 'T/UDOM/2020/00001', 53),
 (107, 'T/UDOM/2020/00003', 54),
+(108, 'T/UDOM/2020/00002', 54),
+(113, 'T/UDOM/2020/00002', 57),
 (114, 'T/UDOM/2020/00001', 57),
 (115, 'T/UDOM/2020/00004', 58),
 (116, 'T/UDOM/2020/00003', 58),
 (117, 'T/UDOM/2020/00004', 59),
 (118, 'T/UDOM/2020/00003', 59),
 (119, 'T/UDOM/2020/00001', 59),
+(120, 'T/UDOM/2020/00002', 60),
+(151, 'T/UDOM/2020/00002', 72),
 (152, 'T/UDOM/2020/00003', 72),
 (153, 'T/UDOM/2020/00001', 73),
 (154, 'T/UDOM/2020/00004', 73),
@@ -1134,6 +1294,7 @@ INSERT INTO `student_group` (`SG_ID`, `reg_no`, `groupID`) VALUES
 (164, 'T/UDOM/2020/00001', 78),
 (165, 'T/UDOM/2020/00001', 78),
 (166, 'T/UDOM/2020/00004', 79),
+(167, 'T/UDOM/2020/00002', 79),
 (168, 'T/UDOM/2020/00006', 79);
 
 -- --------------------------------------------------------
@@ -1197,8 +1358,11 @@ CREATE TABLE `submit` (
 
 INSERT INTO `submit` (`submitID`, `reg_no`, `assID`, `fileName`, `score`, `submit_date`, `submit_time`, `comment`) VALUES
 (2, 'T/UDOM/2020/00001', 152, 'nafasi.pdf', '11.00', '2021-07-07', '19:44:23', 'passed'),
+(3, 'T/UDOM/2020/00002', 152, 'head.pdf', '8.00', '2021-07-07', '19:47:04', 'passed'),
 (4, 'T/UDOM/2020/00001', 138, 'db_final_ER.mp4', '7.00', '0000-00-00', '00:00:00', 'okay \n'),
-(6, 'T/UDOM/2020/00001', 146, '', '17.00', '0000-00-00', '00:00:00', NULL);
+(8, 'T/UDOM/2020/00001', 171, 'UuCMwGclassroomtesti', '4.00', '2021-11-03', '19:19:20', 'passed'),
+(9, 'T/UDOM/2020/00001', 171, 'f_irqkPlease keep th', '4.00', '2021-11-03', '19:20:00', 'passed'),
+(10, 'T/UDOM/2020/00001', 171, '-vWgk0Please keep th', '4.00', '2021-11-03', '19:21:45', 'passed');
 
 -- --------------------------------------------------------
 
@@ -1251,12 +1415,41 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 (51, 'hod@gmail.com', 'B8WVLnnt-gMF9mF36_gi6eF1fqWwNHfM', '$2y$13$52aE79R/10CNeJOQpqn9cOMJ2KCrvh6xrQ3zDEzLUtFwFq5zlwMgO', NULL, 10, 1625899607, 1625899607, 'hOHSG7SNSEd2AiVDwzUesbCIRgc0N1a4_1625899607'),
 (52, 'T/UDOM/2020/00798', 'TOA9IqdPxS4HKMUm9Jf-ySff8KcMV0_R', '$2y$13$ofUh7XUdadwfvyGwOjxn/.9Xb8pFBXf1TSV7.mJoyNEoxSbmpt1WO', NULL, 10, 1632854018, 1632854018, 'cG6Y_Ag9fQxi80s_p39OtaoNVBDtzEiS_1632854018'),
 (53, 'kinabo@gmail.com', 'zQ0OZdtz1cgrQnVCXh--ZewCK4P2WXl8', '$2y$13$8ZybMDtlDfoLmH4hcFjz5OpRLvgaRCG6hllVGjI.xSk1hpercJvMS', NULL, 10, 1632896999, 1632896999, 'eDa4lc1zE_y24mUUWPqCxK30a-Xkxzho_1632896998'),
-(54, 'M', 'WdP5f6UBB6XG7vsH7Zu7w0Qv0_7UTIO-', '$2y$13$kHw2ft/vk2aoPvrSPMmwruEIywGF2Nph6zSI8LA5wP0ow6HvgfBXO', NULL, 10, 1636097028, 1636097028, 'oXeReO6MprtW_wN7ESUcQJJBK_ev82NA_1636097028'),
-(55, 'T/UDOM/2020/11241', 'QpGKOMBJ-gv1iKA-NNriX19Eq29rBPna', '$2y$13$F4FX8R9ouCjgnrXRMgYsku4WQitGrwrJ.ufEPYc9BDksNdviNBTSW', NULL, 10, 1636097847, 1636097847, 'Cl13H0mHUwzCciPcaIlTAkqsq0kmWVRO_1636097847'),
-(56, 'T/UDOM/2020/11333', '0TZVWs3X6MEopK7ztWmJaANH1VosjFgP', '$2y$13$40RQgT1CtykhHfdwCBwgU.KrN85I0a2nB2l8lUrNfgd5Xv7Zx2jJ6', NULL, 10, 1636098101, 1636098101, 'KFjAoR3Nz_EWCTwGlQ_nsDr5fGM3Qbr0_1636098101'),
-(57, 'T/UDOM/2020/09090', 'ZkOXC8eUdaGGHuMHsyahdAi8jlRv0hEJ', '$2y$13$Y4PXDr1iUCkbYPKP.VD1M.7.bHvrnhAcdYs0Chvl2QDE7gOHscr8y', NULL, 10, 1636098726, 1636098726, 'UAQNFgXIFP-pZnshMB_oAWFZMFKpiWkw_1636098726'),
-(58, 'T/UDOM/2020/09111', 'p38BEZ1MHWVRwjqHeLhTM5aDaoA9Z0LR', '$2y$13$pc6AdJ6h01KRPwYg4Yp5zeuIflnsx.IfZgk4N.IJTNgu40ocz.o32', NULL, 10, 1636099063, 1636099063, 'djA_yxuKbypaigrEihFOfgimFks1dKFj_1636099063'),
-(59, 'T/UDOM/2029/123', '-hXp_pvyYfbx901n4u8osj7AEnL_mWnp', '$2y$13$sos7Vsmm/I18HGyExwIYGOfwnyTzJ2NwS6Tkv6OTeZUwALlODNRRq', NULL, 10, 1636187913, 1636187913, 'z-GfF311bEN18PYtDpQ2-J-OArpmxkZL_1636187913');
+(54, 'T/UDOM/2020/05555', 'Wx_6P612vh69WGkO_FZv0QYXyKpezF58', '$2y$13$k9S/1Wnl5iy8kLiw7EjqEeFzJ3mPkXZ7uGSqALlwPl1Pnv9Ez20w.', NULL, 10, 1636184521, 1636184521, 'FBeYRt670llbZzcRfcHcf6RwabdfTIPZ_1636184521'),
+(55, 'T/UDOM/2020/055551', 'sR4JvV16MinnFD-MSGTKi6tAwSB4FrXx', '$2y$13$8RSK2C0VycHN1ROQhixxX.Fh6OTyV5jga3awQLEhJfub8pYftF7wK', NULL, 10, 1636185027, 1636185027, 'Z2TeLBLUKCFO-x2RZQ1_IKyuIxtJFAQu_1636185027'),
+(56, 'T/UDOM/2020/000111', 'cZKOgc_7NxjE6NP_lWD8_SDa0GWfgEoP', '$2y$13$LRDS4zy5ZX45MdmaXwebReZgL38MYPxUcS9Xl2vW4iC1Ruq8cUcCO', NULL, 10, 1636185027, 1636185027, 'Bgn8rqtse1oYOry8I54CVWTpGmy_iHFD_1636185027'),
+(58, 'T/UDOM/2020/0551', '85Rp2Vaisqjxmturaz4RMCL14Jx8XEjG', '$2y$13$LdjRLXXy/SM1lQixpukAuOLzfMe4qM8NEweA7Xr2gOjACI6dQTImC', NULL, 10, 1636185446, 1636185446, 'TviqqD-ekWT0yZ5IUmopHXnr49TQICUs_1636185446'),
+(59, 'T/UDOM/2020/15511', 'VRzL41CRlBVVgq4wfG3U6Ak0piRqyb1_', '$2y$13$7n.AccvAGm2UuCEKcEl5eu9KU0rnT732a8W3hYQXbS6dITiiUSCtq', NULL, 10, 1636185446, 1636185446, '9GWPO69PML2ob-A44HvqwoONjY0fSPbL_1636185446'),
+(61, 'T/UDOM/2020/05510', 'KYmQATYQ55uTk3az9WYGA98TH8TBAOaY', '$2y$13$UZeHidACtgo4mhsO5R/3j.J4kS6eJXD4B/9UCWHQAFKLthFsKxecG', NULL, 10, 1636185703, 1636185703, 'T2Y4haBLccLqfJUcuYzqZSYXJ_J4X1uB_1636185703'),
+(62, 'T/UDOM/2020/15510', 'sf26GM6ydRFQuISSHcnsgxNQdYeom7DD', '$2y$13$r5tddGRWM.F10Ea0MEsgZueKN/BkuEGzDjLh0p.21Lfrk15Xx03EG', NULL, 10, 1636185703, 1636185703, 'kvixFxH5QeA-4i2-7qXyOGFCQv6GZiKT_1636185703'),
+(63, 'T/UDOM/2020/055100', 'vWv11ypaAinCo70gZnfHTSpKMZqiaLBw', '$2y$13$uf.MF3jJ/xPgpTYWim/L5OM6ZoTwAT8z3epPfSRhiZ9Dypza4U8nu', NULL, 10, 1636185774, 1636185774, 'WJsz7rg5X_Sw8-By-s28lp0jgvsrSAyB_1636185774'),
+(64, 'T/UDOM/2020/155100', 'zSOoJbT1rlKnUHK7GYIELdbSogaG4OXX', '$2y$13$0.IU/RPokDFNvncmU0K5vuLSL8nGqp6189G1k5DlTMmr.FpFTubaq', NULL, 10, 1636185774, 1636185774, 'Ldt4u5StvY1eBwQCiNB54JWQOBAsra2f_1636185774'),
+(66, 'T/UDOM/2020/8800', 'r1R4XE8A9dLVW-rSBn3pDxblR71-q3y8', '$2y$13$OQ4v13MfgJSitCzttWC1Geb.yelqPG3UpBStBktKgMumJcjYU/apa', NULL, 10, 1636185940, 1636185940, 'ryW_0V3-hHsg--vot-m15r-Oa5WN5XwB_1636185940'),
+(67, 'T/UDOM/2020/9990', 'Td1KRUAZY35niSDDE5H7Z15pHDHCFDjK', '$2y$13$qqoPY5FUEcT9/b48pZ4K1Oy77dcPronmE9i4x/Ux7D9ciMz1Gkmg6', NULL, 10, 1636185940, 1636185940, 'CsR_5aouuQSOOv8WOPPk4kdLM6_1Pl5M_1636185940'),
+(69, 'T/UDOM/2020/22222', 'e8ofGs7XF6GIYxrVhi-uc1N8rnOHi5ls', '$2y$13$oH6RROQhVSJsKrpiICLxY.0TKtv.jI/FAxA1TeddPH2x1BCdL9t/.', NULL, 10, 1636186925, 1636186925, 'K9gLOcXReDywWLEnoGkRfmEa2t84p1k8_1636186925'),
+(70, 'T/UDOM/2020/33332', 'LT9eyEGFSsz-cNf-kX0in8RsCOSNcjFL', '$2y$13$fkFT.Pyd3g/wapCRpo6gI.frLFCjSL4HlgEGre3TroIrtDRM5s196', NULL, 10, 1636186926, 1636186926, '2lFfzBQHoulDg9W5YDl28ujT64s4pgmK_1636186926'),
+(72, 'T/UDOM/2020/55555', 'zYWaqr0QxH_NxVhdM30HzyyDat3Ur9o4', '$2y$13$1f.Jpz1K3gENljIEVvSMKuv/Cnd3ZnnEr1VcbbzYcnREB7H5InFA6', NULL, 10, 1636187327, 1636187327, 'ABkwdr-ANqNEnE5ctWFK4G3D0iks96cS_1636187327'),
+(73, 'T/UDOM/2020/44442', 'Duh5CnHtFpJ1TEB5uoI5_2Vu9v-8bLmv', '$2y$13$mJeQARYyHyBXD3NM3k0e4eDjjcLPWAHikHyfRiNn4C34zZWppY.Am', NULL, 10, 1636187327, 1636187327, 'NuhWSFb9dUr_vpw9HWlZE8U0Dv0kee3u_1636187327'),
+(74, 'T/UDOM/2020/55553', 'nvgJlyEvS61vBv3vw-8ykCpaGk0WO5LT', '$2y$13$qtK6VqIR2uHWCUU3oIQmROgGds9Zy6.jLFfUT33W/4lR29zKBDGGC', NULL, 10, 1636187441, 1636187441, 'S_rtUQ53-RRFlkOyNfGF7zE6tQEy2sqO_1636187441'),
+(75, 'T/UDOM/2020/44452', 'XYaRWGFVW4YVCZSWMu6jpsCzNydWkJfM', '$2y$13$7SLBnT5Cjo4bboggi0KDEuzoOqyXa.tjYyh7XBounO9iotZGaSrW.', NULL, 10, 1636187442, 1636187442, 'F3PkXv8ZtT_PKSTTsP-r6uK9975MMpXy_1636187442'),
+(76, 'T/UDOM/2017/20154', 'mFVErJfqarssP68g-tC4oeTZo5zglyKr', '$2y$13$OqJiwmNOxf3V1/qXq6JtX.uzbvMYHp1PcFKJvXUrm2BmfAXFwxIIy', NULL, 10, 1636292482, 1636292482, 'AP_Q0VODCVo8v_e8tXRcb3Cxf5jpdHVx_1636292482'),
+(77, 'T/UDOM/2017/00091', 'AYqSjREbbxivviGcquQ_-pTATpmGbYrl', '$2y$13$bWZ7YF0hCycjynsAQaKLiOYVTA06thnyw72yksPMsxh7PVbIQKTtm', NULL, 10, 1636293783, 1636293783, '-j6KaUbDy4lgDx8-VbFiZbA25t11XUbF_1636293783'),
+(78, 'T/UDOM/2017/90000', 'uJ4ia5UiJuTD3tZ0d6YpJCbYSEOc6jq6', '$2y$13$ZhPwwRBRSLADGxMBIeSQIeW.Aabhsr1vxPK.2U/04fU9zIdzf.ZHi', NULL, 10, 1636295556, 1636295556, '_8V0mofCu4c6-P_5uQ7crp8twJMxnl3i_1636295556'),
+(79, 'T/UDOM/2021/04348', '1nTFxqB3xbdqBvTsb_A80C8YZ0Vgrfa8', '$2y$13$6aP36yYxDJQWN5LbMz.aeuPsqtAEz3N7VW4.j.QE70p0X1LmfNCzO', NULL, 10, 1636483079, 1636483079, 'HEeIuNhlm0q3Z8ZRqfl8MUZ7t-HbOFPl_1636483078'),
+(83, 'T/UDOM/2021/04350', 'XGUtG_-_vS94Q-Vdk-P6UVCKeXMuChNC', '$2y$13$hjNhZY0jvwxtj20p9vRTCeAk4VrfYYqINXxi0kzlwWUMf2jW1JU92', NULL, 10, 1636484167, 1636484167, 'hphkxsKhUNDxhQsOFhlUb-pA87Wyzprn_1636484167'),
+(84, 'T/UDOM/2021/04351', 'CCLYR4hv3KzRhRuxcAnDsGqnPhFdW8XF', '$2y$13$7Jh7Az3DAO0qSdFyRb1A8OoeeEEN5bVEa.4gXXGSkB8TRja7HJziG', NULL, 10, 1636484300, 1636484300, 'PCi1s3opPJTw6XIg_WHP4J_B7v-DCijh_1636484300'),
+(85, 'T/UDOM/2021/04352', 'EPH-tMQfqi8QS86EAyt12ijTNnAw26q6', '$2y$13$GohI6PM0og6Syi.uy.j84.DR7pS9NZ1wuBUKrhbiUEP7QFvjT4BsO', NULL, 10, 1636484424, 1636484424, 'PL4csijqdIDgSk46Ix2KoXLrSr5gsGep_1636484424'),
+(86, 'T/UDOM/2021/04344', 'X764oI5lYCIzm48zgq3B9l-PEgAqcpnR', '$2y$13$ehYnhe3CKsZvYY/w0mflBO58BC4Lp/6JhORYexAx7DNQmjIurQFZ2', NULL, 10, 1636485587, 1636485587, 'wKnvSqbfd3toZDcu5Ohy5x7lqamT_wJt_1636485587'),
+(87, 'T/UDOM/2021/04345', '0kKzBN_iei7Ugg-t2aVn4Re20VEqZ2TV', '$2y$13$1zWyo3baXH9c2vAbAoc7U.PJf0dOK8O.xOfhFc/8cxAFRICj0wXGe', NULL, 10, 1636485684, 1636485684, 'iRBAW2sTjLEdUeq5ljJ5Cg3f3NjBg3CH_1636485684'),
+(88, 'T/UDOM/2021/04311', '1ouBMcX0rijMTx7tl6coscbg24QCDFif', '$2y$13$7jd5e.m9eKywPYfNjjGar.qhONhFEUliiCqciG0/Cja1BW2KXzfFm', NULL, 10, 1636530872, 1636530872, 'Easjxp2bI5FBcOiqHk4Pt5WnBFTz-4vI_1636530872'),
+(89, 'T/UDOM/2021/04342', 'nDlpODJkSCINu-aQq1PDQL5x1xxuDRx_', '$2y$13$a8NGtrIU0wRa2/61ALfgIe8fYbzlKQWLbmjCsdeD9GHBw6SfAt0L6', NULL, 10, 1636531996, 1636531996, 'Imju3rvuRt8jN8AUcgLTTpJeJUa72kr4_1636531996'),
+(90, 'T/UDOM/2021/04355', 'pz91PUj41L6v4dxDytKaHTuiVweBiiKK', '$2y$13$NUBZNSBmy0d8UsM1Ob7Kde/BdIScSsgJ5DAaI1nfpfldPj/lyQ97a', NULL, 10, 1636532404, 1636532404, 'pL24j_ycbkENLmqhyeaLBoB2HCSLRK6E_1636532404'),
+(91, 'T/UDOM/2021/04356', 'vPdOBbClPXUrC84SvU2L3Q_Tu664MbZm', '$2y$13$IoZF.0Dx0VBpV44vIe7Xv.Il52XKfR5FvyvgOtX6fdqNSPKEvXj6q', NULL, 10, 1636532620, 1636532620, 'VaBEyuZX0W-zCMKx7qbz92_9FBvptcjs_1636532620'),
+(92, 'T/UDOM/2021/04354', 'U9l_QincCCBFKMaZUC4iW5OCVtb_BEjY', '$2y$13$iod64XoqTdWp9CFGvQjdX.hp8C/4bAhlRKGHV/z2TVtIz7dkbGvJi', NULL, 10, 1636532725, 1636532725, 'Z0FyUu0_pmeaGRJCyJa4Dvi3H-qhUhW0_1636532725'),
+(93, 'T/UDOM/2021/04353', 'cp4abaECATXW9eENEUYe2jQsbNdufUvH', '$2y$13$PZoerJVHQ7OHsaaLUzc6J.s1q2wAqFkDtYsb4T35hpaa0bgEjEysO', NULL, 10, 1636532795, 1636532795, 'LSOdMoybTvVARjOrewZhEfoUMAA0Tie5_1636532795'),
+(94, 'T/UDOM/2021/04300', 'nQQrXGHdEmzzZa2bfzZjIRBz5HD7FRwD', '$2y$13$B/Yfgti2csQI7XCTARG21eKqir8SNZbecAH.IREOXCSxQXIMoetCu', NULL, 10, 1636532920, 1636532920, 'Z5a5175LROHQWmBz6NlbNj9UFUTf2mTO_1636532920'),
+(95, 'T/UDOM/2021/04301', 'aa8yTcw7LpBxGecveIPNWhXGo3vZidAF', '$2y$13$dYSFXqqfNy9iQZvRc8tB0ujsWqqr0uteFk.mlSPWVclgqW/3j5dJe', NULL, 10, 1636533023, 1636533023, 'TUL0wQ0TuZ26zgdE1GaRxTJRuJ5mZZa__1636533023'),
+(96, 'T/UDOM/2021/04309', '3pMDrpIvuh7g83IeqN8HHuRsvEy43UX0', '$2y$13$h1pVP.5QSzdlhVB9WFJ2meQXVd6PIc4GRrZkfETgOe9Din/cjwYvm', NULL, 10, 1636533143, 1636533143, 'cD-Pzkxl4Yh7wlcRU5XkHm3MyRgaK3A5_1636533143');
 
 --
 -- Indexes for dumped tables
@@ -1348,7 +1541,6 @@ ALTER TABLE `college`
 --
 ALTER TABLE `course`
   ADD PRIMARY KEY (`course_code`),
-  ADD UNIQUE KEY `id` (`id`),
   ADD KEY `departmentID` (`departmentID`);
 
 --
@@ -1498,7 +1690,7 @@ ALTER TABLE `program`
 --
 ALTER TABLE `program_course`
   ADD PRIMARY KEY (`PC_ID`),
-  ADD UNIQUE KEY `programCode` (`programCode`,`course_code`),
+  ADD UNIQUE KEY `assignment_uniqueness` (`programCode`,`course_code`,`level`),
   ADD KEY `pcd` (`programCode`),
   ADD KEY `cozk2` (`course_code`);
 
@@ -1643,13 +1835,13 @@ ALTER TABLE `announcement`
 -- AUTO_INCREMENT for table `assignment`
 --
 ALTER TABLE `assignment`
-  MODIFY `assID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
+  MODIFY `assID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
 
 --
 -- AUTO_INCREMENT for table `assq`
 --
 ALTER TABLE `assq`
-  MODIFY `assq_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=331;
+  MODIFY `assq_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=340;
 
 --
 -- AUTO_INCREMENT for table `chat`
@@ -1664,12 +1856,6 @@ ALTER TABLE `college`
   MODIFY `collegeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `course`
---
-ALTER TABLE `course`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
 -- AUTO_INCREMENT for table `department`
 --
 ALTER TABLE `department`
@@ -1679,7 +1865,7 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `ext_assess`
 --
 ALTER TABLE `ext_assess`
-  MODIFY `assessID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `assessID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `fresh_thread`
@@ -1751,13 +1937,13 @@ ALTER TABLE `logs`
 -- AUTO_INCREMENT for table `material`
 --
 ALTER TABLE `material`
-  MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `module`
 --
 ALTER TABLE `module`
-  MODIFY `moduleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `moduleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `notification`
@@ -1769,7 +1955,7 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT for table `program_course`
 --
 ALTER TABLE `program_course`
-  MODIFY `PC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `PC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `quiz`
@@ -1781,7 +1967,7 @@ ALTER TABLE `quiz`
 -- AUTO_INCREMENT for table `q_marks`
 --
 ALTER TABLE `q_marks`
-  MODIFY `qmarkID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=292;
+  MODIFY `qmarkID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=307;
 
 --
 -- AUTO_INCREMENT for table `rep_thread`
@@ -1799,13 +1985,13 @@ ALTER TABLE `student_assignment`
 -- AUTO_INCREMENT for table `student_course`
 --
 ALTER TABLE `student_course`
-  MODIFY `SC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `SC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `student_ext_assess`
 --
 ALTER TABLE `student_ext_assess`
-  MODIFY `student_assess_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `student_assess_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `student_group`
@@ -1835,7 +2021,7 @@ ALTER TABLE `student_quiz`
 -- AUTO_INCREMENT for table `submit`
 --
 ALTER TABLE `submit`
-  MODIFY `submitID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `submitID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `thread`
@@ -1847,7 +2033,7 @@ ALTER TABLE `thread`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- Constraints for dumped tables
@@ -1910,7 +2096,7 @@ ALTER TABLE `chat`
 -- Constraints for table `course`
 --
 ALTER TABLE `course`
-  ADD CONSTRAINT `departmentID` FOREIGN KEY (`departmentID`) REFERENCES `department` (`departmentID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `course_ibfk_1` FOREIGN KEY (`departmentID`) REFERENCES `department` (`departmentID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `department`

@@ -10,6 +10,7 @@ use Yii;
  * @property int $PC_ID
  * @property string|null $course_code
  * @property string|null $programCode
+ * @property int $level
  *
  * @property Course $courseCode
  * @property Program $programCode0
@@ -30,11 +31,13 @@ class ProgramCourse extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-          //  [['course_code'], 'string', 'max' => 7],
-           // [['programCode'], 'string', 'max' => 10],
-          //  [['programCode', 'course_code'], 'unique', 'targetAttribute' => ['programCode', 'course_code'], 'message'=>'Program already assigned'],
-           // [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
-           // [['programCode'], 'exist', 'skipOnError' => true, 'targetClass' => Program::className(), 'targetAttribute' => ['programCode' => 'programCode']],
+            [['level'], 'required'],
+            [['level'], 'integer'],
+            [['course_code'], 'string', 'max' => 7],
+            [['programCode'], 'string', 'max' => 20],
+            [['programCode', 'course_code', 'level'], 'unique', 'targetAttribute' => ['programCode', 'course_code', 'level'],'message'=>'Program already assigned to this course'],
+            [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
+            [['programCode'], 'exist', 'skipOnError' => true, 'targetClass' => Program::className(), 'targetAttribute' => ['programCode' => 'programCode']],
         ];
     }
 
@@ -47,6 +50,7 @@ class ProgramCourse extends \yii\db\ActiveRecord
             'PC_ID' => 'Pc ID',
             'course_code' => 'Course Code',
             'programCode' => 'Program Code',
+            'level' => 'Level',
         ];
     }
 
