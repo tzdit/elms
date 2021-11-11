@@ -95,8 +95,12 @@ class AuthController extends \yii\web\Controller
      */
     public function actionLogout()
     {
+
+     $session = Yii::$app->session;
+         if ($session->isActive){
+             $session->destroy();
+         }
         Yii::$app->user->logout();
-        $destroySession = true;
 
         return $this->redirect(['auth/login']);
     }
