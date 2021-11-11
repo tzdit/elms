@@ -10,9 +10,9 @@ use frontend\models\StudentGroups;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] =$cid." Groups";
-$this->title = 'Student groups';
+$this->title = $cid." Groups";
 $this->params['breadcrumbs'] = [
-  ['label'=>'classwork', 'url'=>Url::to(['/instructor/classwork', 'cid'=>$cid])],
+  ['label'=>'Students', 'url'=>Url::to(['/instructor/class-students', 'cid'=>$cid])],
   ['label'=>$this->title]
 ];
 
