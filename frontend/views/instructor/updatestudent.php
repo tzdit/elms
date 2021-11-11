@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
               <div class="card-body">
               <div class="row">
               <div class="col-md-12">
-              <p class="text-secondary mb-1">Add Single Student</p>
+              <p class="text-secondary mb-1">Update Single Student</p>
               <?php $form = ActiveForm::begin()?>
                  <div class="col-md-12">
                   <div class="row">
@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                    <div class="row">
                    <div class="col-md-6">
-                   <?= $form->field($model, 'username')->textInput(['class'=>'form-control form-control-sm'])->label('Registration Number') ?>
+                   <?= $form->field($model, 'reg_no')->textInput(['class'=>'form-control form-control-sm'])->label('Registration Number') ?>
                   </div>
                   <div class="col-md-6">
                   <?= $form->field($model, 'YOS')->dropdownList(['1'=>'First Year', '2'=>'Second Year', '3'=>'Third Year', '4'=>'Fourth year'], ['prompt'=>'--Select--', 'class'=>'form-control form-control-sm'])->label(' Year of Study') ?>
@@ -76,11 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                    <?= $form->field($model, 'gender')->dropdownList(['M'=>'MALE', 'F'=>'FEMALE'], ['prompt'=>'--select--', 'class'=>'form-control form-control-sm'] )->label('Gender') ?>
                 
                  </div>
-                 <div class="col-md-6">
                 
-                   <?= $form->field($model, 'role')->dropdownList($roles, ['options'=>['INSTRUCTOR'=>['selected'=>true]], 'class'=>['form-control form-control-sm']], )->label('Role') ?>
-                
-                 </div>
                  </div>
                
                    <div class="row">

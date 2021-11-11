@@ -59,8 +59,12 @@ use common\models\Program;
 
 
       <div class="row">
-        <div class="col-md-12">
-        <?= $form->field($model, 'course_status')->dropdownList(['CORE'=>'CORE', 'ELECTIVE'=>'ELECTIVE'], ['class'=>'form-control form-control-sm', 'prompt'=>'--select course status--'])->label(false)?>
+        <div class="col-md-6">
+        <?= $form->field($model, 'course_status')->dropdownList(['CORE'=>'CORE', 'ELECTIVE'=>'ELECTIVE'], ['class'=>'form-control form-control-sm', 'prompt'=>'--Select Course Status--'])->label(false)?>
+        </div> 
+
+        <div class="col-md-6">
+        <?= $form->field($model, 'YOS')->dropdownList(['1'=>'First Year', '2'=>'Second Year', '3'=>'Third Year', '4'=>'Fourth Year', '5'=>'Fifth Year'], ['prompt'=>'--Select YOS --'], ['class'=>'form-control form-control-sm'])->label(false) ?>
         </div> 
         </div>
 

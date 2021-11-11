@@ -16,6 +16,7 @@ use common\models\Program;
 use yii\helpers\ArrayHelper;
 use common\models\AuthItem;
 use common\models\InstructorCourse;
+use common\models\Academicyear;
 use common\models\StudentCourse;
 use common\models\ProgramCourse;
 use frontend\models\UploadAssignment;
@@ -572,6 +573,7 @@ public function actionEditExtAssrecord($recordid)
         $dep= $coz ->departmentID;
        // $coz = new UpdateCourse;
        $depts = Department::find()->all();
+       $academic_yrs = ArrayHelper::map(Academicyear::find()->all(), 'yearID', 'yearID');
        $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
         $programs =ArrayHelper::map(ProgramCourse::find()->where(['course_code'=>$id])->all(), 'programCode', 'programCode');
         if($coz->load(Yii::$app->request->post()) && $coz->save())
@@ -580,7 +582,7 @@ public function actionEditExtAssrecord($recordid)
             return $this->redirect(['create-course']);
         }else{
         return $this->render('updatecoz', ['coz'=>$coz, 'programs'=>$programs, 
-        'depts'=>$depts, 'departments'=>$departments]);
+        'depts'=>$depts, 'departments'=>$departments, 'academic_yrs'=>$academic_yrs]);
         }
     }
 
@@ -588,7 +590,7 @@ public function actionEditExtAssrecord($recordid)
     {
         
         $model = Student::findOne($id);
-        $user = User::find($id);
+        $user = User::findOne($id);
         $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'STUDENT'])->all(), 'name', 'name');
         // $departments = Yii::$app->user->identity->hod->department;
         $departments = ArrayHelper::map(Department::find()->where(['departmentID'=> Yii::$app->user->identity->instructor->department->departmentID])->all(), 'depart_abbrev', 'depart_abbrev');
@@ -598,7 +600,7 @@ public function actionEditExtAssrecord($recordid)
             Yii::$app->session->setFlash('success', 'Student updated successfully');
             return $this->redirect(['create-student']);
         }else{
-        return $this->render('updatestudent', ['model'=>$model, 'programs'=>$programs, 'departments'=>$departments, 'roles'=>$roles ]);
+        return $this->render('updatestudent', ['model'=>$model, 'programs'=>$programs, 'departments'=>$departments, 'roles'=>$roles, 'user'=>$user ]);
         }
     }
 
@@ -1734,7 +1736,8 @@ public function actionStudentList(){
         Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
         return $this->redirect(Yii::$app->request->referrer);
     }
-        return $this->render('create-course', ['model'=>$model, 'courses'=>$courses, 'programs'=>$programs, 'departments'=>$departments]);
+        return $this->render('create-course', ['model'=>$model, 'courses'=>$courses, 'programs'=>$programs,
+         'departments'=>$departments]);
     }
 
     public function actionAssignCourse(){

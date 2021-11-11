@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 09, 2021 at 12:41 AM
+-- Generation Time: Nov 11, 2021 at 10:52 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.11
 
@@ -310,30 +310,34 @@ CREATE TABLE `course` (
   `course_semester` int(11) NOT NULL,
   `course_duration` int(11) DEFAULT NULL,
   `course_status` varchar(10) DEFAULT NULL,
-  `departmentID` int(11) DEFAULT NULL
+  `departmentID` int(11) DEFAULT NULL,
+  `YOS` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `course`
 --
 
-INSERT INTO `course` (`id`, `course_code`, `course_name`, `course_credit`, `course_semester`, `course_duration`, `course_status`, `departmentID`) VALUES
-(1, 'CP 111', 'Principle of Programming', 10, 1, 1, 'core', NULL),
-(2, 'CP 123', 'Introduction High Level Programming in C++', 10, 2, 1, 'CORE', 1),
-(3, 'CS 110', 'Clouding Computing', 11, 1, 2, 'CORE', 2),
-(4, 'CS 212', 'Data Structure and Algorithms', 10, 1, 2, 'CORE', 1),
-(5, 'CS 213', 'Linux Introduction', 10, 1, 3, 'CORE', NULL),
-(6, 'CS 585', 'Journal Computing', 12, 1, 2, 'CORE', NULL),
-(7, 'DD 333', 'HHCompu tin', 10, 2, 1, 'CORE', NULL),
-(8, 'ES 110', 'excel Computing', 10, 1, 1, 'CORE', NULL),
-(16, 'ha 222', 'haha', 10, 1, 2, 'CORE', NULL),
-(9, 'hh 111', 'hhhhhhhhhhhh', 10, 2, 4, 'CORE', NULL),
-(17, 'la 233', 'lulu', 10, 1, 1, 'CORE', 2),
-(10, 'ST 123', 'intro to saturday', 10, 1, 2, 'CORE', NULL),
-(11, 'TN 012', 'intro to net', 10, 1, 2, 'CORE', NULL),
-(12, 'TN 110', 'Introduction to Telecommunication', 10, 1, 1, 'CORE', NULL),
-(13, 'UB 213', 'intro to urber', 10, 1, 2, 'CORE', NULL),
-(14, 'ye 333', 'Clouding yes', 10, 1, 2, 'CORE', NULL);
+INSERT INTO `course` (`id`, `course_code`, `course_name`, `course_credit`, `course_semester`, `course_duration`, `course_status`, `departmentID`, `YOS`) VALUES
+(1, 'CP 111', 'Principle of Programming', 10, 1, 1, 'core', NULL, NULL),
+(2, 'CP 123', 'Introduction High Level Programming in C++', 10, 2, 1, 'CORE', 1, NULL),
+(3, 'CS 110', 'Clouding Computing', 11, 1, 2, 'CORE', 2, NULL),
+(4, 'CS 212', 'Data Structure and Algorithms', 10, 1, 2, 'CORE', 1, NULL),
+(5, 'CS 213', 'Linux Introduction', 10, 1, 3, 'CORE', NULL, NULL),
+(6, 'CS 585', 'Journal Computing', 12, 1, 2, 'CORE', NULL, NULL),
+(7, 'DD 333', 'HHCompu tin', 10, 2, 1, 'CORE', NULL, NULL),
+(8, 'ES 110', 'excel Computing', 10, 1, 1, 'CORE', NULL, NULL),
+(18, 'gh 123', 'gagagaga hahaha', 10, 1, 1, 'CORE', 2, NULL),
+(16, 'ha 222', 'haha', 10, 1, 2, 'CORE', NULL, NULL),
+(9, 'hh 111', 'hhhhhhhhhhhh', 10, 2, 4, 'CORE', NULL, NULL),
+(20, 'IE 100', 'INTRO TO EMPTY', 10, 1, 1, 'CORE', 3, 3),
+(17, 'la 233', 'lulu', 10, 1, 1, 'CORE', 2, NULL),
+(10, 'ST 123', 'intro to saturday', 10, 1, 2, 'CORE', NULL, NULL),
+(11, 'TN 012', 'intro to net', 10, 1, 2, 'CORE', NULL, NULL),
+(12, 'TN 110', 'Introduction to Telecommunication', 10, 1, 1, 'CORE', NULL, NULL),
+(19, 'TT 333', 'Touching Computing', 10, 1, 2, 'CORE', 2, NULL),
+(13, 'UB 213', 'intro to urber', 10, 1, 2, 'CORE', NULL, NULL),
+(14, 'ye 333', 'Clouding yes', 10, 1, 2, 'CORE', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1018,13 +1022,13 @@ CREATE TABLE `student` (
 
 INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lname`, `email`, `gender`, `f4_index_no`, `YOS`, `DOR`, `phone`, `status`) VALUES
 ('T/UDOM/2019/00900', 3, 'CS1', 'winner', '', 'OG', NULL, 'M', NULL, 2, '0000-00-00', NULL, ''),
-('T/UDOM/2020/00001', 45, 'CS1', 'STUDENT', 'STUDENT', 'STUDENT', 'student@gmail.com', 'M', NULL, 1, '2021-05-08', NULL, 'REGISTERED'),
+('T/UDOM/2020/00001', 45, 'CS1', 'ST', 'STUD', 'STUD', 'student@gmail.com', 'M', NULL, 1, '2021-05-08', '88', 'REGISTERED'),
 ('T/UDOM/2020/00003', 47, 'TE3', 'Hmiasa', 'rashidi', 'Shabani', 'student@gmail3.com', 'F', NULL, 1, '2021-05-08', NULL, 'REGISTERED'),
 ('T/UDOM/2020/00004', 48, 'TE3', 'Mwambashi', 'mwambashi', 'Shabani', 'student@gmail4.com', 'F', NULL, 2, '2021-05-08', NULL, 'REGISTERED'),
 ('T/UDOM/2020/00005', 49, 'TE3', 'sutdent20', 'mwambashi', 'Shabani', 'student@gmail5.com', 'F', NULL, 1, '2021-05-08', NULL, 'REGISTERED'),
-('T/UDOM/2020/00006', 50, 'TE3', 'Zuwena', 'Rashidi', 'Mwendachik', 'student@gmail56.com', 'F', NULL, 2, '2021-05-08', NULL, 'REGISTERED'),
-('T/UDOM/2020/11241', 55, 'CS1', 'Joshu', 'Franky', 'Njau', 'njaufrank@gmail.com', 'M', NULL, 2, '2021-11-05', '705434434', 'Registered'),
-('T/UDOM/2029/123', 59, 'CS1', 'Onaeli', 'm', 'Nickson', 'ona123@gmail.com', 'M', NULL, 1, '2021-11-06', NULL, 'REGISTERED');
+('T/UDOM/2020/00076', 50, 'TE3', 'Zuwena', 'Rashi', 'Mwenda', 'student@gmail56.com', 'F', NULL, 2, '2021-05-08', '', 'REGISTERED'),
+('T/UDOM/2020/11241', 55, 'CS1', 'JoshuA', 'Franky', 'Njau', 'njaufrank@gmail.com', 'M', NULL, 2, '2021-11-05', '705434434', 'Registered'),
+('T/UDOM/2029/123', 59, 'CS1', 'On', 'm', 'Nickson', 'ona123@gmail.com', 'M', NULL, 1, '2021-11-06', '8', 'REGISTERED');
 
 -- --------------------------------------------------------
 
@@ -1088,7 +1092,7 @@ INSERT INTO `student_ext_assess` (`student_assess_id`, `reg_no`, `score`, `asses
 (51, 'T/UDOM/2020/00001', '10.00', 63),
 (55, 'T/UDOM/2020/00005', '10.00', 70),
 (58, 'T/UDOM/2020/00003', '4.00', 70),
-(59, 'T/UDOM/2020/00006', '7.00', 70);
+(59, 'T/UDOM/2020/00076', '7.00', 70);
 
 -- --------------------------------------------------------
 
@@ -1125,7 +1129,7 @@ INSERT INTO `student_group` (`SG_ID`, `reg_no`, `groupID`) VALUES
 (155, 'T/UDOM/2020/00003', 74),
 (156, 'T/UDOM/2020/00004', 74),
 (157, 'T/UDOM/2020/00001', 75),
-(158, 'T/UDOM/2020/00006', 75),
+(158, 'T/UDOM/2020/00076', 75),
 (159, 'T/UDOM/2020/00005', 76),
 (160, 'T/UDOM/2020/00005', 77),
 (161, 'T/UDOM/2020/00003', 77),
@@ -1134,7 +1138,7 @@ INSERT INTO `student_group` (`SG_ID`, `reg_no`, `groupID`) VALUES
 (164, 'T/UDOM/2020/00001', 78),
 (165, 'T/UDOM/2020/00001', 78),
 (166, 'T/UDOM/2020/00004', 79),
-(168, 'T/UDOM/2020/00006', 79);
+(168, 'T/UDOM/2020/00076', 79);
 
 -- --------------------------------------------------------
 
@@ -1667,7 +1671,7 @@ ALTER TABLE `college`
 -- AUTO_INCREMENT for table `course`
 --
 ALTER TABLE `course`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `department`

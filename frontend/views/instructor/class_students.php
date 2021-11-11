@@ -27,7 +27,7 @@ use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] =$cid. " Students";
-$this->title = $cid. "Students";
+$this->title = $cid. " Students";
 $this->params['breadcrumbs'] = [
   ['label'=>'class-dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>$cid])],
   ['label'=>$this->title]
@@ -53,17 +53,27 @@ $this->params['breadcrumbs'] = [
               <div class="card-body" >
      <?php 
      $students=[];
-
-     $coursePrograms=ProgramCourse::find()->where(['course_code'=>$cid])->all();
+     $levels=[1,2,3,4,5];
+     for($l=0;$l<count($levels);$l++)
+     {
+     $level=$levels[$l];
+     $coursePrograms=ProgramCourse::find()->where(['course_code'=>$cid,'level'=>$level])->all();
      foreach($coursePrograms as $program)
      {
 
       $programStudents=$program->programCode0->students;
 
-      for($s=0;$s<count($programStudents);$s++){array_push($students,$programStudents[$s]);}
+      for($s=0;$s<count($programStudents);$s++){
+
+        if($programStudents[$s]->YOS===$level)
+        {
+        array_push($students,$programStudents[$s]);
+        }
+      }
 
 
      }
+    }
      $carryovers=StudentCourse::find()->where(['course_code'=>$cid])->all(); 
 
      foreach($carryovers as $carry)
@@ -80,10 +90,10 @@ $this->params['breadcrumbs'] = [
           <div class="col-md-6">
             <span class='bg-primary'>Assigned Programs:
             <?php
-     
-            for($p=0;$p<count($coursePrograms);$p++)
+            $assignedprog=ProgramCourse::find()->where(['course_code'=>$cid])->all();
+            for($p=0;$p<count($assignedprog);$p++)
             {
-              print "<span style='padding:2px'>".$coursePrograms[$p]->programCode.",</span>";
+              print "<span style='padding:2px'>".$assignedprog[$p]->programCode." ".$assignedprog[$p]->level.",</span>";
             }
              
 
@@ -621,6 +631,7 @@ $('#cadownloaderpdf').click(function(e){
   
 });
 JS;
+
 $this->registerJs($script);
 
 ?>
