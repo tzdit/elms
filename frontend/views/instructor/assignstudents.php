@@ -4,11 +4,12 @@ use yii\helpers\Html;
 use common\models\Program;
 use yii\helpers\ArrayHelper;
 ?>
-<link href="/css/select2.min.css" rel="stylesheet" />
+
 
 <?php 
 $programs=Program::find()->all();
 $programs=ArrayHelper::map($programs,'programCode','prog_name'); 
+$levels=[1=>'First Year',2=>'Second Year',3=>'Third Year',4=>'Fourth Year',5=>'Fifthy Year'];
 ?>
 <div class="modal fade " id="Addstudents" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
@@ -25,6 +26,7 @@ $programs=ArrayHelper::map($programs,'programCode','prog_name');
       <div class="col-md-12">
      
       <?= $form->field($assignstudentsmodel,'programs[]')->dropdownList($programs,['class'=>'form-control form-control-sm','id'=>'assignstudents','data-placeholder'=>'Select degree Programs','multiple'=>'multiple','style'=>'width:100%'])->label('Degree Programs')?>
+      <?= $form->field($assignstudentsmodel,'level')->dropdownList($levels,['class'=>'form-control form-control-sm','id'=>'levels','placeholder'=>'--select level--','style'=>'width:100%'])->label('Level')?>
   
      </div>
       </div>
