@@ -33,7 +33,7 @@ class UploadStudentForm extends Model
     public function rules()
     {
         return [
-            [['fname', 'mname', 'lname','program', 'YOS', 'role', 'gender'], 'required'],
+            [['fname', 'lname','program', 'YOS', 'role', 'gender'], 'required'],
             ['username', 'trim'],
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This user has already been taken.'],
@@ -70,7 +70,7 @@ class UploadStudentForm extends Model
            
         //Now insert data to student table
         $student->fname = $this->fname;
-        $student->mname = $this->mname;
+        $student->mname = isset($this->mname)?$this->mname:null;
         $student->lname = $this->lname;
         $student->reg_no = $this->username;
         $student->email = $this->email;

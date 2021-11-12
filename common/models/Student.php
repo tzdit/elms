@@ -50,7 +50,7 @@ class Student extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['reg_no', 'fname', 'mname', 'lname', 'gender', 'YOS', 'DOR', 'status'], 'required'],
+            [['reg_no', 'fname', 'lname', 'gender', 'YOS', 'DOR', 'status'], 'required'],
             [['userID', 'YOS'], 'integer'],
             [['DOR'], 'safe'],
             [['reg_no', 'f4_index_no'], 'string', 'max' => 20],
