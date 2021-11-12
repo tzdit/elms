@@ -230,25 +230,28 @@ public function actionClasswork($cid){
      */
     public function actionResubmit($assID, $cid, $submit_id){
         $model = AssSubmitForm::find()->where('submitID = :submitID AND assID = :assID ', [':submitID' => $submit_id, ':assID' => $assID])->one();
-        $submit_model = Submit::find()->where('assID = :assID', [':assID' => $assID])->one();
-        $file_path = $submit_model->fileName;
-        $documentPath = Yii::getAlias('@frontend/web/storage/submit/'.$file_path );
+//        $submit_model = Submit::find()->where('assID = :assID', [':assID' => $submit_id])->one();
 
+        if (!isset($model->fileName)){
+            throw new NotFoundHttpException('file do not exist');
+        }
 
-
-// echo '<pre>';
-//                     var_dump($documentPath);
-//                 echo '</pre>';
-//                 exit;
+        $file_name = $model->fileName;
+        $oldDocumentPath = Yii::getAlias('@frontend/web/storage/submit/'.$file_name);
 
 
         try{
+
             if (Yii::$app->request->isPost ) {
 
-                if (file_exists($documentPath)){
-                    unlink($documentPath);
+                if (file_exists($oldDocumentPath)){
+                    unlink($oldDocumentPath);
                 }
 
+//                echo '<pre>';
+//                var_dump($oldDocumentPath);
+//                echo '</pre>';
+//                exit;
                 $file = UploadedFile::getInstanceByName('document');
 
                 $model->document = $file;

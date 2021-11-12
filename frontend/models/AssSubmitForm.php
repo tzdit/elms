@@ -115,26 +115,23 @@ class AssSubmitForm extends \yii\db\ActiveRecord
 
     public function save($runValidation = true, $attributeNames = null){
 
-        $isInsert = $this->isNewRecord;
-
         $this->assID = $this->assinmentId;
         $this->submit_date = date('Y-m-d');
         $this->submit_time = date('H:i:s');
         $this->reg_no = Yii::$app->user->identity->username;
-        $this->fileName = Yii::$app->security->generateRandomString(6).$this->document;
+        $this->fileName = Yii::$app->security->generateRandomString(13).'.'.$this->document->extension;
 
-        if($isInsert){
-            
-        }
+
          $saved =  parent::save($runValidation, $attributeNames);
 
          if(!$saved)
          {
+
              return false;
          }
 
-         if($isInsert){
              $documentPath = Yii::getAlias('@frontend/web/storage/submit/'.$this->fileName );
+//             die($documentPath);
 
              if(!is_dir(\dirname($documentPath))) {
                  FileHelper::createDirectory(\dirname($documentPath));
@@ -146,7 +143,7 @@ class AssSubmitForm extends \yii\db\ActiveRecord
              catch (\Exception $e){
                  throw new NotFoundHttpException("fail to upload, Try to use another browser");
              }
-        }
+
 
 
         return true;
