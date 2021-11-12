@@ -29,16 +29,27 @@ class StudentGroups extends Model{
         
         $students=[];
 
-        $coursePrograms=ProgramCourse::find()->where(['course_code'=>$ccode])->all();
+        $levels=[1,2,3,4,5];
+        for($l=0;$l<count($levels);$l++)
+        {
+        $level=$levels[$l];
+        $coursePrograms=ProgramCourse::find()->where(['course_code'=>yii::$app->session->get('ccode'),'level'=>$level])->all();
         foreach($coursePrograms as $program)
         {
-
-        $programStudents=$program->programCode0->students;
-
-        for($s=0;$s<count($programStudents);$s++){array_push($students,$programStudents[$s]);}
-
-
+   
+         $programStudents=$program->programCode0->students;
+   
+         for($s=0;$s<count($programStudents);$s++){
+   
+           if($programStudents[$s]->YOS===$level)
+           {
+           array_push($students,$programStudents[$s]);
+           }
+         }
+   
+   
         }
+       }
         $carryovers=StudentCourse::find()->where(['course_code'=>$ccode])->all(); 
 
         foreach($carryovers as $carry)

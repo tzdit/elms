@@ -53,11 +53,11 @@ $script = <<<JS
 $(document).ready(function(){
   //alert("Heloo JQQUERY");
 
-function blinker() {
- $('.blinking').fadeOut(500);
- $('.blinking').fadeIn(500);
-}
-setInterval(blinker, 1500);
+//function blinker() {
+ //$('.blinking').fadeOut(500);
+ //$('.blinking').fadeIn(500);
+//}
+//setInterval(blinker, 1500);
 
  
 })
