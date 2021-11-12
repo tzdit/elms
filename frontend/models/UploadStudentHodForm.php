@@ -11,7 +11,7 @@ use common\models\Student;
 class UploadStudentHodForm extends Model
 {
     public $fname;
-    public $mname;
+    public $mname=null;
     public $lname;
     public $email;
     public $program;
@@ -31,7 +31,8 @@ class UploadStudentHodForm extends Model
     public function rules()
     {
         return [
-            [['fname', 'lname','program', 'YOS', 'role', 'gender'], 'required'],
+            [['fname','lname','program', 'YOS', 'role', 'gender'], 'required'],
+            [['fname', 'mname', 'lname', 'status'], 'string', 'max' => 60],
             ['username', 'trim'],
             ['username', 'required'],
             ['email','required'],
@@ -69,7 +70,8 @@ class UploadStudentHodForm extends Model
            
         //Now insert data to student table
         $student->fname = $this->fname;
-        $student->mname = isset($this->mname)?$this->mname:null;
+        //$student->mname =($this->mname!==null)?$this->mname:null;
+        $student->mname =$this->mname;
         $student->lname = $this->lname;
         $student->reg_no = $this->username;
         $student->email = $this->email;
