@@ -140,7 +140,7 @@ use common\models\Program;
             </td>
             <td>
             <?= Html::a('<i class="fas fa-edit"></i>',['updatecoz', 'id'=>$course->course_code], ['class'=>'btn btn-info btn-sm m-0'])?> 
-            <?= Html::a('<i class="fas fa-trash"></i>',['deletecoz', 'id'=>$course->course_code], ['class'=>'btn btn-danger btn-sm m-0'])?> 
+            <a href="#" cozid=<?=$course->course_code?> class="btn btn-sm btn-danger float-right ml-2 coursedel"><span><i class="fas fa-trash"></i></span></a>
             
             </td>
             
@@ -212,6 +212,53 @@ $(document).ready(function(){
   });
   // alert("JS IS OKAY")
 });
+
+//Deleting Program 
+$(document).on('click', '.coursedel', function(){
+var courseid = $(this).attr('cozid');
+Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'question',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, Delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+ 
+    $.ajax({
+      url:'/instructor/deletecoz',
+      method:'get',
+      async:false,
+      dataType:'JSON',
+      data:{courseid:courseid },
+      success:function(data){
+        if(data.message){
+          Swal.fire(
+              'Deleted!',
+              data.message,
+              'success'
+    )
+    setTimeout(function(){
+      window.location.reload();
+    },100);
+   
+
+        }
+      }
+    })
+   
+  }
+})
+
+})
+
+
+
+
+
 JS;
+
 $this->registerJs($script);
 ?>

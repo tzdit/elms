@@ -48,9 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                  </div> 
 
                    <div class="row">
-                   <div class="col-md-6">
-                   <?= $form->field($model, 'reg_no')->textInput(['class'=>'form-control form-control-sm'])->label('Registration Number') ?>
-                  </div>
+                  
                   <div class="col-md-6">
                   <?= $form->field($model, 'YOS')->dropdownList(['1'=>'First Year', '2'=>'Second Year', '3'=>'Third Year', '4'=>'Fourth year'], ['prompt'=>'--Select--', 'class'=>'form-control form-control-sm'])->label(' Year of Study') ?>
                   </div>  
