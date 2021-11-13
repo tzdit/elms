@@ -609,7 +609,14 @@ public function actionEditExtAssrecord($recordid)
 //############################### classwork  #######################################################
 public function actionClassDashboard($cid)
 {
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
     Yii::$app->session->set('ccode', $cid);
+
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
+
     return $this->render('classdashboard', ['cid'=>$cid]);
 
 }
@@ -617,7 +624,8 @@ public function actionClassDashboard($cid)
 
 public function actionClassAnnouncements($cid)
 {
-
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
     return $this->render('announcements', ['cid'=>$cid]);
 
 }
@@ -625,6 +633,8 @@ public function actionClassAnnouncements($cid)
 
 public function actionClassMaterials($cid)
 {
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
     $materials = Module::find()->where(['course_code' => $cid])->orderBy([
         'moduleID' => SORT_DESC ])->all();
     return $this->render('classmaterials', ['cid'=>$cid,'modules'=>$materials]);
@@ -666,6 +676,9 @@ public function actionCreateModule()
 //assignments page
 public function actionClassAssignments($cid)
 {
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
     $assignments = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->orderBy([
         'assID' => SORT_DESC ])->all();
     return $this->render('classAssignments', ['cid'=>$cid,'assignments'=>$assignments]);
@@ -676,6 +689,10 @@ public function actionClassAssignments($cid)
 
 public function actionClassLabs($cid)
 {
+
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
     $assignments = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->orderBy([
         'assID' => SORT_DESC ])->all();
     return $this->render('classLabAssignments', ['cid'=>$cid,'assignments'=>$assignments]);
@@ -686,6 +703,9 @@ public function actionClassLabs($cid)
 
 public function actionClassTutorials($cid)
 {
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
     $tutorials = Assignment::find()->where(['assNature' => 'tutorial', 'course_code' => $cid])->orderBy([
         'assID' => SORT_DESC])->all();
     return $this->render('tutorials', ['cid'=>$cid,'tutorials'=>$tutorials]);
@@ -696,7 +716,9 @@ public function actionClassTutorials($cid)
 
 public function actionClassExtAssessments($cid)
 {
-    
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
     return $this->render('classExtAssessments',['cid'=>$cid]);
 
 }
@@ -705,6 +727,8 @@ public function actionClassExtAssessments($cid)
 
 public function actionClassCaGenerator($cid)
 {
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
     
         return $this->render('classCAgenerator',['cid'=>$cid]);
 
@@ -714,6 +738,9 @@ public function actionClassCaGenerator($cid)
 
 public function actionClassStudents($cid)
 {
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
     return $this->render('class_students',['cid'=>$cid]);
 
 }
