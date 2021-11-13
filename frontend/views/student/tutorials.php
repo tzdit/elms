@@ -45,6 +45,15 @@ $this->params['breadcrumbs'] = [
                         <div class="card-body" >
                             <div class="tab-content" id="custom-tabs-four-tabContent">
 
+                                <?php
+                                if(empty($tutorials)){
+                                    echo "<p class='text-muted text-lg'>";
+                                    echo "No tutorial found";
+                                    echo "</p>";
+                                }
+                                ?>
+
+
                                 <!-- ########################################### tutorial work ######################################## -->
                                 <?php $tutt = Assignment::find()->where(['assNature' => 'tutorial', 'course_code' => $cid])->count(); ?>
                                     <div class="accordion" id="accordionExample_4">

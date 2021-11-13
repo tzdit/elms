@@ -43,8 +43,6 @@ $this->params['breadcrumbs'] = [
                                             <div class="card-header">
                                                 <h3 class="card-title com-sm-12 text-secondary">
                                                     <i class="fas fa-book mr-1"></i>
-                                                    My results
-
                                                     Announcements
                                                 </h3>
                                             </div>
@@ -52,6 +50,14 @@ $this->params['breadcrumbs'] = [
                                                 <div class="row">
                                                     <!-- <?= VarDumper::dump($announcement) ?> -->
                                                     <div class="col-md-12">
+                                                        <?php
+                                                        if(empty($announcement)){
+                                                            echo "<p class='text-muted text-lg'>";
+                                                            echo "No any announcement found";
+                                                            echo "</p>";
+                                                        }
+                                                        ?>
+
                                                         <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
                                                             <thead>
                                                             <tr>
