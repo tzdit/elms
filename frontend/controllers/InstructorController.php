@@ -495,7 +495,7 @@ public function actionEditExtAssrecord($recordid)
 
     public function actionDeletecoz($id)
     {
-        $cozdel = Course::findOne($cozid)->delete(); 
+        $cozdel = Course::findOne($id)->delete(); 
         if($cozdel){
            Yii::$app->session->setFlash('success', 'Course deleted successfully');
         }

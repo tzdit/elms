@@ -232,7 +232,7 @@ Swal.fire({
       method:'get',
       async:false,
       dataType:'JSON',
-      data:{courseid:courseid },
+      data:{id:courseid },
       success:function(data){
         if(data.message){
           Swal.fire(
