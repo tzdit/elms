@@ -5,13 +5,16 @@ use Yii;
 use yii\base\Model;
 use common\models\User;
 use common\models\Student;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 /**
  * Signup form
  */
-class UploadStudentHodForm extends Model
+class UpdateStudentForm extends Model
 {
+    public $assFile;
+    public $filetmp;
     public $fname;
-    public $mname=null;
+    public $mname;
     public $lname;
     public $email;
     public $program;
@@ -19,10 +22,9 @@ class UploadStudentHodForm extends Model
     public $phone;
     public $gender;
     public $username;
-    public $password = "123456";
+    public $password;
     public $role;
     public $status = 'REGISTERED';
-    public $department;
 
 
     /**
@@ -31,14 +33,12 @@ class UploadStudentHodForm extends Model
     public function rules()
     {
         return [
-            [['fname','lname','program', 'YOS', 'role', 'gender'], 'required'],
-            [['fname', 'mname', 'lname', 'status'], 'string', 'max' => 60],
+            [['fname', 'mname', 'lname','program', 'YOS', 'role', 'gender'], 'required'],
             ['username', 'trim'],
             ['username', 'required'],
-            ['email','required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'User already exixts.'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This user has already been taken.'],
             ['email', 'unique', 'targetClass' => '\common\models\Student', 'message' => 'This email has already been taken.'],
-           
+            [['assFile'],'file','skipOnEmpty' => false, 'extensions' => 'xlsx, xls']
 
 
         ];
@@ -56,22 +56,21 @@ class UploadStudentHodForm extends Model
          if (!$this->validate()) {
              return false;
         }
-        //$patt="/^(T|HD)[\/](UDOM)[\/][0-9]{4}[\/]([0-9]{5}|(T\.[0-9]{4}))$/";
-        //if(!preg_match($patt,$this->username)){return false;}
+        
         $user = new User();
         $student = new Student();
         $transaction = Yii::$app->db->beginTransaction();
         try{
         $user->username = $this->username;
-        $user->setPassword($this->password);
+        $user->email = $this->email;
+        $user->setPassword(strtoupper($this->lname));
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
         if($user->save()){
            
         //Now insert data to student table
         $student->fname = $this->fname;
-        //$student->mname =($this->mname!==null)?$this->mname:null;
-        $student->mname =$this->mname;
+        $student->mname = $this->mname;
         $student->lname = $this->lname;
         $student->reg_no = $this->username;
         $student->email = $this->email;
@@ -85,22 +84,11 @@ class UploadStudentHodForm extends Model
         if($student->save()){
            
         //now assign role to this newlly created user========>>
-       
         $userRole = $auth->getRole($this->role);
         $auth->assign($userRole, $user->getId());
-
         $transaction->commit();
-        
         return true;
         }
-        else
-        {
-            return false;
-        }
-        }
-        else
-        {
-            return false;
         }
     
        }catch(\Throwable $e){
@@ -109,6 +97,8 @@ class UploadStudentHodForm extends Model
       }
     return false;
 }
+
+// #########################################################################################
 
   
    
