@@ -71,9 +71,8 @@ use frontend\models\CreateProgram;
                     <td><?=  $program->prog_duration; ?></td>
                     <td><?=  $program->capacity; ?></td>
                     <td><?= Html::a('<i class="fas fa-edit" style="font-size:18px"></i>',['updateprog', 'id'=>$program->programCode], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
-                    <i class="fa fa-trash-alt" style="font-size:18px;color:red"></i></td>
-                    
-									
+                    <a href="#" progid=<?=$program->programCode?> class="btn btn-sm btn-danger float-right ml-2 programdel"><span><i class="fas fa-trash"></i></span></a>
+                    </td>
 										
 										
 
@@ -143,6 +142,48 @@ $(document).ready(function(){
 })
 
 })
+
+//Deleting Program 
+$(document).on('click', '.programdel', function(){
+var programid = $(this).attr('progid');
+Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'question',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, Delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+ 
+    $.ajax({
+      url:'/instructor/deleteprog',
+      method:'get',
+      async:false,
+      dataType:'JSON',
+      data:{programid:programid },
+      success:function(data){
+        if(data.message){
+          Swal.fire(
+              'Deleted!',
+              data.message,
+              'success'
+    )
+    setTimeout(function(){
+      window.location.reload();
+    },100);
+   
+
+        }
+      }
+    })
+   
+  }
+})
+
+})
+
 
 
 

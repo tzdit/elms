@@ -15,6 +15,9 @@ use common\models\Student;
  */
 class AddEmailForm extends \yii\db\ActiveRecord
 {
+    public $email;
+
+
     /**
      * {@inheritdoc}
      */

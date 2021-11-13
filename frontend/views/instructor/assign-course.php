@@ -19,7 +19,7 @@ use yii\helpers\Html;
 
       <div class="row">
         <div class="col-md-12">
-        <?= $form->field($model,'courses')->dropdownList($courses,['class'=>'form-control form-control-sm','id'=>'assignstudents2','data-placeholder'=>'Select course ','style'=>'width:100%'])->label('Course')?>
+        <?= $form->field($model,'courses')->dropdownList($courses,['class'=>'form-control form-control-sm','id'=>'assignstudents2','data-placeholder'=>'Select course ', 'prompt'=>'--Select Course--' ,'style'=>'width:100%'])->label('Course')?>
         </div> 
         </div>
 
