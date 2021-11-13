@@ -89,6 +89,7 @@ public $defaultAction = 'dashboard';
                             'upload-material',
                             'assignments',
                             'delete',
+                            
                             'deletelab',
                             'deletetut',
                             'materials',
@@ -176,6 +177,7 @@ public $defaultAction = 'dashboard';
                             'deletelab',
                             'deletetut',
                             'deletecoz',
+                            'deletestudent',
                             'deleteprog',
                             'materials',
                             'stdwork',
@@ -493,7 +495,7 @@ public function actionEditExtAssrecord($recordid)
 
     public function actionDeletecoz($id)
     {
-        $cozdel = Course::findOne($id)->delete(); 
+        $cozdel = Course::findOne($cozid)->delete(); 
         if($cozdel){
            Yii::$app->session->setFlash('success', 'Course deleted successfully');
         }
@@ -505,6 +507,15 @@ public function actionEditExtAssrecord($recordid)
         $progdel = Program::findOne($id)->delete(); 
         if($progdel){
            Yii::$app->session->setFlash('success', 'Program deleted successfully');
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionDeletestudent($id)
+    {
+        $stddel = User::findOne($id)->delete(); 
+        if($stddel){
+           Yii::$app->session->setFlash('success', 'Student deleted successfully');
         }
         return $this->redirect(Yii::$app->request->referrer);
     }

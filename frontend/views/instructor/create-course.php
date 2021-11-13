@@ -211,9 +211,9 @@ $(document).ready(function(){
     responsive:true
   });
   // alert("JS IS OKAY")
-});
 
-//Deleting Program 
+
+//Deleting Course 
 $(document).on('click', '.coursedel', function(){
 var courseid = $(this).attr('cozid');
 Swal.fire({
@@ -254,7 +254,7 @@ Swal.fire({
 
 })
 
-
+});
 
 
 
