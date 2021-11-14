@@ -3,11 +3,17 @@ use yii\bootstrap4\Breadcrumbs;
 use yii\helpers\Url;
 /* @var $this yii\web\View */
 
+$secretKey=Yii::$app->params['app.dataEncryptionKey'];
+$cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
 $this->title = 'class Dashboard';
 $this->params['courseTitle'] = $cid." Dashboard";
 $this->params['breadcrumbs'] = [
   ['label'=>$this->title]
 ];
+
+$secretKey=Yii::$app->params['app.dataEncryptionKey'];
+$cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
 ?>
 <div class="site-index">
 

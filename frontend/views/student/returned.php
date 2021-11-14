@@ -52,7 +52,13 @@ $this->params['breadcrumbs'] = [
 
                                             <!-- Left col -->
                                             <section class="col-lg-12">
-
+                                                <?php
+                                                if(empty($returned)){
+                                                    echo "<p class='text-muted text-lg'>";
+                                                    echo "No return found";
+                                                    echo "</p>";
+                                                }
+                                                ?>
 
                                                 <?php foreach($returned as $returne): ?>
                                                     <?php foreach($returne->submits as $submit_returne): ?>

@@ -182,7 +182,7 @@ public function actionClasswork($cid){
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionSubmit_assignment($assID,$cid)
+    public function actionSubmit_assignment($assID)
     {
 
         $model =new AssSubmitForm;
@@ -205,7 +205,7 @@ public function actionClasswork($cid){
                 Yii::$app->session->setFlash('success', 'Your Submit successed');
 
 
-                return $this->redirect(['assignment','cid' => $cid]);
+                return $this->redirect(Yii::$app->request->referrer);
             }
 
 
@@ -228,7 +228,7 @@ public function actionClasswork($cid){
      * Resubmision of an assinment
      * return in the same page after sumit
      */
-    public function actionResubmit($assID, $cid, $submit_id){
+    public function actionResubmit($assID, $submit_id){
         $model = AssSubmitForm::find()->where('submitID = :submitID AND assID = :assID ', [':submitID' => $submit_id, ':assID' => $assID])->one();
 //        $submit_model = Submit::find()->where('assID = :assID', [':assID' => $submit_id])->one();
 
@@ -260,14 +260,14 @@ public function actionClasswork($cid){
                     Yii::$app->session->setFlash('success', 'Your Re-Submit successed');
 
 
-                    return $this->redirect(['assignment', 'cid' => $cid]);
+                    return $this->redirect(Yii::$app->request->referrer);
                 }
             }
 
 
         }
         catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Fail to Resubmit');
+            Yii::$app->session->setFlash('error', 'Fail to Resubmit, Try to use another browser');
         }
 
 

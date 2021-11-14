@@ -64,8 +64,16 @@ use yii\helpers\Url;
         </a>
       <?php endif ?>
         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+            <?php if(Yii::$app->user->can('STUDENT')): ?>
+                <a href="<?= Url::to(['home/change-regno'])  ?>" class="dropdown-item">
+                    <i class="fas fa-user mr-2"></i> <span class="small">Change Registration Number</span>
+                </a>
+            <?php endif ?>
+
+            <div class="dropdown-divider"></div>
+
           <a href="<?= Url::to(['home/changepassword'])  ?>" class="dropdown-item">
-            <i class="fas fa-lock mr-2"></i> <span class="small"> Change password</span>
+            <i class="fas fa-lock mr-2"></i> <span class="small"> Change Password</span>
           </a>
           
           <div class="dropdown-divider"></div>

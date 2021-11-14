@@ -34,6 +34,14 @@ $this->params['breadcrumbs'] = [
                         <div class="card-body" >
                             <div class="tab-content" id="custom-tabs-four-tabContent">
 
+                                <?php
+                                    if(empty($labs)){
+                                        echo "<p class='text-muted text-lg'>";
+                                        echo "No lab found";
+                                        echo "</p>";
+                                    }
+                                ?>
+
                                 <!-- ########################################### lab work ######################################## -->
                                 <?php $labb = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->count(); ?>
 
@@ -85,11 +93,11 @@ $this->params['breadcrumbs'] = [
 
 
                                                                     <?php if(empty($submited) && $isOutOfDeadline == false):?>
-                                                                        <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> $lab->assID, 'cid' => $cid])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
+                                                                        <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> $lab->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
                                                                     <?php endif ?>
 
                                                                     <?php if(!empty($submited) && $isOutOfDeadline == false):?>
-                                                                        <a href="<?= Url::toRoute(['/student/resubmit','assID'=> $lab->assID,'cid' => $cid, 'submit_id' => $submited->submitID])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
+                                                                        <a href="<?= Url::toRoute(['/student/resubmit','assID'=> $lab->assID, 'submit_id' => $submited->submitID])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
                                                                     <?php endif ?>
 
                                                                     <?php if($isOutOfDeadline == true):?>

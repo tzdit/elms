@@ -1,6 +1,7 @@
 <?php
 
 namespace frontend\controllers;
+use frontend\models\ChangeRegNoForm;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -23,7 +24,7 @@ class HomeController extends \yii\web\Controller
                 'only'=>['dashboard'],
                 'rules' => [
                     [
-                        'actions' => ['dashboard','changePassword','add_email'],
+                        'actions' => ['dashboard','changePassword','add_email','change-regno'],
                         'allow' => true,
                         'roles' => ['@']
                     ],
@@ -83,11 +84,16 @@ public function actionChangepassword(){
          } 
         
     }catch(\Exception $e){
-        Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+        Yii::$app->session->setFlash('error', 'Something wente wrong!');
     }
 
     return $this->render('changePassword',['model' => $models]);
 }
+
+
+
+
+
 
 public function actionAdd_email(){
     
@@ -102,20 +108,48 @@ public function actionAdd_email(){
             if($models->addEmail()){
                 Yii::$app->session->setFlash('success', 'Email added successfully');
             }else{
-                Yii::$app->session->setFlash('error', 'Something went Wrong!');
+                Yii::$app->session->setFlash('error', 'Something went Wrong!, Email does not added');
             }
        
                 
          } 
         
     }catch(\Exception $e){
-        Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+        Yii::$app->session->setFlash('error', 'Something went wrong');
     }
 
     return $this->render('addEmail',['model' => $models]);
 }
-    
-    
+
+
+
+
+
+    public function actionChangeRegno(){
+
+
+        $models = new ChangeRegNoForm;
+
+        // VarDumper::dump($models->changePassword());
+
+        try{
+            if($models->load(Yii::$app->request->post())){
+                // VarDumper::dump($models->addEmail());
+                if($models->changeRegno()){
+                    Yii::$app->session->setFlash('success', 'Reg number changed successfully');
+                }else{
+                    Yii::$app->session->setFlash('error', 'Something went Wrong, Reg number does not changed!');
+                }
+
+
+            }
+
+        }catch(\Exception $e){
+            Yii::$app->session->setFlash('error', 'Something went wrong');
+        }
+
+        return $this->render('change_reg_no',['model' => $models]);
+    }
    
 
 }
