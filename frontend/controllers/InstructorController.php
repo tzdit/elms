@@ -191,7 +191,9 @@ public $defaultAction = 'dashboard';
                             'updatetut',
                             'updatelab',
                             'updateprog',
+                            'updateprogview',
                             'updatecoz',
+                            'updatecozview',
                             'add-partner',
                             'view-assessment',
                             'add-assess-record',
@@ -409,7 +411,9 @@ public function actionEditExtAssrecord($recordid)
             $inc->course_code = $ccode;
             $inc->instructorID = Yii::$app->user->identity->instructor->instructorID;
             if($inc->save()){
-                Yii::$app->session->setFlash('success', 'You have successfully enrolled to selected course');
+                Yii::$app->session->setFlash('success', 'You 
+                
+                successfully enrolled to selected course');
                 return $this->redirect(Url::toRoute('/instructor/courses'));
             }
         }
@@ -563,35 +567,63 @@ public function actionEditExtAssrecord($recordid)
     }
 
 
-    public function actionUpdateprog($id)
+    public function actionUpdateprog($progid)
     {
-        $prog = Program::findOne($id);
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $progid=Yii::$app->getSecurity()->decryptByPassword($progid, $secretKey);
+        $prog = Program::findOne($progid);
         $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
         if($prog->load(Yii::$app->request->post()) && $prog->save())
         {
             Yii::$app->session->setFlash('success', 'Program updated successfully');
-            return $this->redirect(['create-program']);
+            return $this->redirect(['create-program', 'progid'=>$progid, 'departments'=>$departments, 'prog'=>$prog ]);
         }else{
-        return $this->render('updateprog', ['prog'=>$prog, 'departments'=>$departments]);
+        
         }
     }
 
-    public function actionUpdatecoz($id)
+public function actionUpdatecozview($cozzid)
+{
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $cozzid=Yii::$app->getSecurity()->decryptByPassword($cozzid, $secretKey);
+    $coz=Course::findOne($cozzid);
+    $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $cozzid=Yii::$app->getSecurity()->encryptByPassword($cozzid, $secretKey); 
+
+    return $this->render('updatecoz',['cozzid'=>$cozzid, 'coz'=>$coz, 'departments'=>$departments]);
+}
+
+public function actionUpdateprogview($progid)
+{
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $progid=Yii::$app->getSecurity()->decryptByPassword($progid, $secretKey);
+    $prog=Program::findOne($progid);
+    $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $progid=Yii::$app->getSecurity()->encryptByPassword($progid, $secretKey); 
+
+    return $this->render('updateprog',['progid'=>$progid, 'prog'=>$prog, 'departments'=>$departments]);
+}
+
+
+    public function actionUpdatecoz($cozzid)
     {
-        
-        $coz = Course::findOne($id);
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cozzid=Yii::$app->getSecurity()->decryptByPassword($cozzid, $secretKey);
+        $coz = Course::findOne($cozzid);
         $dep= $coz ->departmentID;
        // $coz = new UpdateCourse;
-       $depts = Department::find()->all();
-       $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
-        $programs =ArrayHelper::map(ProgramCourse::find()->where(['course_code'=>$id])->all(), 'programCode', 'programCode');
+        $depts = Department::find()->all();
+        $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+        $programs =ArrayHelper::map(ProgramCourse::find()->where(['course_code'=>$cozzid])->all(), 'programCode', 'programCode');
+       
         if($coz->load(Yii::$app->request->post()) && $coz->save())
         {
             Yii::$app->session->setFlash('success', 'Course updated successfully');
-            return $this->redirect(['create-course']);
+            return $this->redirect(['create-course', 'cozzid'=>$cozzid, 'dep'=>$dep, 'departments'=>$departments ]);
         }else{
-        return $this->render('updatecoz', ['coz'=>$coz, 'programs'=>$programs, 
-        'depts'=>$depts, 'departments'=>$departments]);
+        
         }
     }
 
@@ -1675,7 +1707,7 @@ public function actionAddStudentGentype()
 //get list of students for particular department
 
 public function actionStudentList(){
-    
+    $program_students;
     $instructorid = Yii::$app->user->identity->instructor->instructorID;
     $myinstructor=Instructor::findOne($instructorid);
     $instructor_department= $myinstructor->department;
@@ -1686,7 +1718,7 @@ public function actionStudentList(){
         $program_students=$programs[$p]->students;
         array_push($students,$program_students);
     }
-    return $this->render('student_list', ['students'=>$students, 'program_students'=>$program_students]);
+    return $this->render('student_list', ['students'=>$students]);
 }
 
 
@@ -1718,6 +1750,7 @@ public function actionStudentList(){
      public function actionCreateCourse(){
         //print_r(Yii::$app->request->post());
         $model = new CreateCourse;
+        $coz = ArrayHelper::map(Course::find()->all(), 'course_code', 'course_code');
         $courses = Course::find()->all();
         $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
         $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
@@ -1744,7 +1777,7 @@ public function actionStudentList(){
         Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
         return $this->redirect(Yii::$app->request->referrer);
     }
-        return $this->render('create-course', ['model'=>$model, 'courses'=>$courses, 'programs'=>$programs, 'departments'=>$departments]);
+        return $this->render('create-course', ['model'=>$model, 'coz'=>$coz, 'courses'=>$courses, 'programs'=>$programs, 'departments'=>$departments]);
     }
 
     public function actionAssignCourse(){

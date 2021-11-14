@@ -28,6 +28,11 @@ use yii\helpers\Html;
         <?= $form->field($model,'programs[]')->dropdownList($programs,['class'=>'form-control form-control-sm','id'=>'assignstudents3','data-placeholder'=>'Select degree Programs','multiple'=>'multiple','style'=>'width:100%'])->label('Degree Programs')?>
         </div> 
         </div>
+        <div class="row">
+        <div class="col-md-12">
+        <?= $form->field($model, 'level')->dropdownList(['1'=>'First Year', '2'=>'Second Year', '3'=>'Third Year', '4'=>'Fourth Year', '5'=>'Fifth Year'], ['prompt'=>'--Select level --'], ['class'=>'form-control form-control-sm'])->label('Year-Level') ?>
+        </div> 
+      </div>
 
               
         <div class="row">

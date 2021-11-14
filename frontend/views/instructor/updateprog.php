@@ -3,7 +3,8 @@
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 
-
+$secretKey=Yii::$app->params['app.dataEncryptionKey'];
+$progid=Yii::$app->getSecurity()->decryptByPassword($progid, $secretKey);
 
 
 ?>
@@ -24,8 +25,8 @@ use yii\helpers\Html;
         
       </div>
       <div class="modal-body">
-      <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/updateprog/', 'id'=> $prog->programCode, 'enctype'=>'multipart/form-data']])?>
-        <div class="row">
+      <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/updateprog?progid='.$progid, 'enctype'=>'multipart/form-data']])?>
+        <div class="row">                                
         <div class="col-md-12">
         <?= $form->field($prog, 'prog_name')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Program Name'])->label(false)?>
         </div> 
