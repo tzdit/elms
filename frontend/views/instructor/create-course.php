@@ -8,6 +8,7 @@ use common\models\Program;
 
 
 
+
 ?>
 <!-- <div class="col-md-6">
         </div>
@@ -70,7 +71,7 @@ use common\models\Program;
 
         <div class="row">
         <div class="col-md-12">
-        <?= $form->field($model,'departments')->dropdownList($departments,['class'=>'form-control form-control-sm','id'=>'assignstudents2','data-placeholder'=>'Select course Department','style'=>'width:100%'])->label('Department')?>
+        <?= $form->field($model,'departments')->dropdownList($departments,['class'=>'form-control form-control-sm', 'prompt'=>'--Select Department --' ,'id'=>'assignstudents2','data-placeholder'=>'Select course Department','style'=>'width:100%'])->label('Department')?>
         </div> 
         </div>
         
@@ -90,6 +91,7 @@ use common\models\Program;
     </div>
   </div>
 </div>
+
 
 <!-- table for program -->
 <div class="body-content">
@@ -139,7 +141,13 @@ use common\models\Program;
             <?php endif; ?>
             </td>
             <td>
-            <?= Html::a('<i class="fas fa-edit"></i>',['updatecoz', 'id'=>$course->course_code], ['class'=>'btn btn-info btn-sm m-0'])?> 
+
+                  <?php 
+                    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+                    $encryptedcoz =Yii::$app->getSecurity()->encryptByPassword($course->course_code, $secretKey);
+                  ?>
+                  
+                  <?= Html::a('<i class="fas fa-edit"></i>',['updatecozview', 'cozzid'=>$encryptedcoz], ['class'=>'btn btn-info btn-sm m-0'])?> 
             <a href="#" cozid=<?=$course->course_code?> class="btn btn-sm btn-danger float-right ml-2 coursedel"><span><i class="fas fa-trash"></i></span></a>
             
             </td>
@@ -188,21 +196,7 @@ use common\models\Program;
 </div>
 
 
-<?php 
-$this->registerCssFile('@web/plugins/select2/css/select2.min.css');
-$this->registerJsFile(
-  '@web/plugins/select2/js/select2.full.js',
-  ['depends' => 'yii\web\JqueryAsset']
-);
-$this->registerJsFile(
-  '@web/js/create-assignment.js',
-  ['depends' => 'yii\web\JqueryAsset'],
 
-);
-
-
-
-?>
 
 <?php 
 $script = <<<JS
@@ -232,7 +226,7 @@ Swal.fire({
       method:'get',
       async:false,
       dataType:'JSON',
-      data:{courseid:courseid },
+      data:{id:courseid },
       success:function(data){
         if(data.message){
           Swal.fire(
@@ -261,4 +255,19 @@ Swal.fire({
 JS;
 
 $this->registerJs($script);
+?>
+<?php 
+$this->registerCssFile('@web/plugins/select2/css/select2.min.css');
+$this->registerJsFile(
+  '@web/plugins/select2/js/select2.full.js',
+  ['depends' => 'yii\web\JqueryAsset']
+);
+$this->registerJsFile(
+  '@web/js/create-assignment.js',
+  ['depends' => 'yii\web\JqueryAsset'],
+
+);
+
+
+
 ?>
