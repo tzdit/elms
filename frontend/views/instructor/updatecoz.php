@@ -41,7 +41,7 @@ use common\models\Program;
         </div>
 
         <div class="col-md-6">
-        <?= $form->field($coz, 'course_credit')->textInput(['type'=>'number', 'min'=>0, 'max'=>20, 'class'=>'form-control form-control-sm', 'placeholder'=>'Course Credit'])->label(false)?>
+        <?= $form->field($coz, 'course_credit')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Course Credit'])->label(false)?>
         </div>
 
        
