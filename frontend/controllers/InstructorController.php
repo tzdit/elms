@@ -609,8 +609,8 @@ public function actionUpdateprogview($progid)
 
     public function actionUpdatecoz($cozzid)
     {
-        //$secretKey=Yii::$app->params['app.dataEncryptionKey'];
-        //$cozzid=Yii::$app->getSecurity()->decryptByPassword($cozzid, $secretKey);
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cozzid=Yii::$app->getSecurity()->decryptByPassword($cozzid, $secretKey);
         $coz = Course::findOne($cozzid);
         $dep= $coz ->departmentID;
        // $coz = new UpdateCourse;
