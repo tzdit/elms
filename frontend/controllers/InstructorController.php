@@ -623,7 +623,7 @@ public function actionUpdateprogview($progid)
             Yii::$app->session->setFlash('success', 'Course updated successfully');
             return $this->redirect(['create-course', 'cozzid'=>$cozzid, 'dep'=>$dep, 'departments'=>$departments ]);
         }else{
-        
+           print_r($coz->getErrors());
         }
     }
 
