@@ -584,8 +584,8 @@ public function actionEditExtAssrecord($recordid)
 
 public function actionUpdatecozview($cozzid)
 {
-    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-    $cozzid=Yii::$app->getSecurity()->decryptByPassword($cozzid, $secretKey);
+    //$secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    //$cozzid=Yii::$app->getSecurity()->decryptByPassword($cozzid, $secretKey);
     $coz=Course::findOne($cozzid);
     $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
     $secretKey=Yii::$app->params['app.dataEncryptionKey'];
