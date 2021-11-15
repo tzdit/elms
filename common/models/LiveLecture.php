@@ -16,7 +16,9 @@ use Yii;
  * @property string $endTime
  * @property int|null $lateEntryMaxTime
  * @property string $status
+ * @property int $yearID
  *
+ * @property Lectureroominfo[] $lectureroominfos
  * @property Course $courseCode
  * @property Instructor $instructor
  * @property Quiz[] $quizzes
@@ -38,8 +40,8 @@ class LiveLecture extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['instructorID', 'lateEntryMaxTime'], 'integer'],
-            [['title', 'lectureDate', 'startTime', 'endTime', 'status'], 'required'],
+            [['instructorID', 'lateEntryMaxTime', 'yearID'], 'integer'],
+            [['title', 'lectureDate', 'startTime', 'endTime', 'status', 'yearID'], 'required'],
             [['lectureDate', 'startTime', 'endTime'], 'safe'],
             [['course_code'], 'string', 'max' => 7],
             [['title'], 'string', 'max' => 200],
@@ -64,7 +66,18 @@ class LiveLecture extends \yii\db\ActiveRecord
             'endTime' => 'End Time',
             'lateEntryMaxTime' => 'Late Entry Max Time',
             'status' => 'Status',
+            'yearID' => 'Year ID',
         ];
+    }
+
+    /**
+     * Gets query for [[Lectureroominfos]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLectureroominfos()
+    {
+        return $this->hasMany(Lectureroominfo::className(), ['lectureID' => 'lectureID']);
     }
 
     /**

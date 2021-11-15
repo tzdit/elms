@@ -29,7 +29,7 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
           <div class="col-12 col-sm-6 col-md-3">
           <a href="<?=Url::to(['/instructor/class-announcements','cid'=>$cid])?>">
             <div class="info-box">
-              <span class="info-box-icon  elevation-1"><i class="fa fa-bullhorn"></i></span>
+              <span class="info-box-icon "><i class="fa fa-bullhorn"></i></span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Announcements</span>
@@ -49,7 +49,7 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
 <div class="col-12 col-sm-6 col-md-3">
 <a href="<?=Url::to(['/instructor/class-materials','cid'=>$cid])?>">
   <div class="info-box mb-3">
-    <span class="info-box-icon elevation-1"><i class="fas fa-book"></i></span>
+    <span class="info-box-icon "><i class="fas fa-book"></i></span>
 
     <div class="info-box-content">
       <span class="info-box-text">Materials</span>
@@ -64,7 +64,7 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
           <div class="col-12 col-sm-6 col-md-3">
           <a href="<?=Url::to(['/instructor/class-assignments','cid'=>$cid])?>">
             <div class="info-box mb-3">
-              <span class="info-box-icon elevation-1"><i class="fas fa-book-reader"></i></span>
+              <span class="info-box-icon"><i class="fas fa-book-reader"></i></span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Assignments</span>
@@ -82,7 +82,7 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
           <div class="col-12 col-sm-6 col-md-3">
           <a href="<?=Url::to(['/instructor/class-labs','cid'=>$cid])?>">
             <div class="info-box mb-3">
-              <span class="info-box-icon elevation-1"><i class="fas fa-microscope"></i></span>
+              <span class="info-box-icon "><i class="fas fa-microscope"></i></span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Lab Assignments</span>
@@ -97,7 +97,7 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
           <div class="col-12 col-sm-6 col-md-3">
           <a href="<?=Url::to(['/instructor/class-tutorials','cid'=>$cid])?>">
             <div class="info-box">
-              <span class="info-box-icon elevation-1"><i class="fas fa-chalkboard"></i></span>
+              <span class="info-box-icon "><i class="fas fa-chalkboard"></i></span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Tutorials</span>
@@ -115,7 +115,7 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
 <div class="col-12 col-sm-6 col-md-3">
 <a href="<?=Url::to(['/instructor/class-ext-assessments','cid'=>$cid])?>">
   <div class="info-box mb-3">
-    <span class="info-box-icon elevation-1"><i class="fa fa-file-alt"></i></span>
+    <span class="info-box-icon"><i class="fa fa-file-alt"></i></span>
 
     <div class="info-box-content">
       <span class="info-box-text">Externals assessments</span>
@@ -130,7 +130,7 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
           <div class="col-12 col-sm-6 col-md-3">
           <a href="<?=Url::to(['/instructor/class-ca-generator','cid'=>$cid])?>">
             <div class="info-box mb-3">
-              <span class="info-box-icon elevation-1"><i class="fas fa-cogs"></i></span>
+              <span class="info-box-icon"><i class="fas fa-cogs"></i></span>
 
               <div class="info-box-content">
                 <span class="info-box-text">CA generator</span>
@@ -148,7 +148,7 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
           <div class="col-12 col-sm-6 col-md-3">
           <a href="<?=Url::to(['/instructor/class-students','cid'=>$cid])?>">
             <div class="info-box mb-3">
-              <span class="info-box-icon elevation-1"><i class="fas fa-user-graduate"></i></span>
+              <span class="info-box-icon "><i class="fas fa-user-graduate"></i></span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Students</span>
@@ -176,11 +176,11 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
            /.col -->
 
         
-          <!-- /.col 
+    
           <div class="col-12 col-sm-6 col-md-3">
-          <a href="#">
+          <a href="/lecture/lecture-room">
             <div class="info-box mb-2">
-              <span class="info-box-icon elevation-1"><i class="fas fa-chalkboard-teacher"></i></span>
+              <span class="info-box-icon "><i class="fas fa-chalkboard-teacher"></i></span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Live lecturing</span>
@@ -190,7 +190,7 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
             </a>
            
           </div>
-          /.col -->
+       
 <!--
           <div class="col-12 col-sm-6 col-md-3">
           <a href="#">
@@ -224,7 +224,6 @@ $script = <<<JS
 
    
       $('.info-box').hover(function(){
-      $(this).css('border','solid 0.5px #dda');
       $(this).css('border-radius','6px');
       $(this).css('box-shadow','5px 10px 18px #888888');
 

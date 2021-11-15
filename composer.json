@@ -25,7 +25,8 @@
         "aryelds/yii2-sweet-alert": "@dev",
         "phpoffice/phpspreadsheet": "^1.18",
         "mpdf/mpdf": "^8.0",
-        "kartik-v/yii2-widget-select2": "@dev"
+        "kartik-v/yii2-widget-select2": "@dev",
+        "bigbluebutton/bigbluebutton-api-php": "~2.0.0"
       
     },
     "require-dev": {
