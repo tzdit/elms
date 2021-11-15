@@ -148,7 +148,7 @@ use common\models\Program;
                   ?>
                   
                   <?= Html::a('<i class="fas fa-edit"></i>',['updatecozview', 'cozzid'=>$course->course_code], ['class'=>'btn btn-info btn-sm m-0'])?> 
-            <a href="#" cozid=<?=$course->course_code?> class="btn btn-sm btn-danger float-right ml-2 coursedel"><span><i class="fas fa-trash"></i></span></a>
+            <a href="#" cozid="<?=$course->course_code?>" class="btn btn-sm btn-danger float-right ml-2 coursedel"><span><i class="fas fa-trash"></i></span></a>
             
             </td>
             
