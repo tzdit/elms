@@ -5,8 +5,8 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use common\models\Program;
 
-$secretKey=Yii::$app->params['app.dataEncryptionKey'];
-$cozzid=Yii::$app->getSecurity()->decryptByPassword($cozzid, $secretKey);
+//$secretKey=Yii::$app->params['app.dataEncryptionKey'];
+//$cozzid=Yii::$app->getSecurity()->decryptByPassword($cozzid, $secretKey);
 
  
 
