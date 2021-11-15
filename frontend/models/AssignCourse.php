@@ -11,10 +11,12 @@ class AssignCourse extends Model{
     
     public $courses;
     public $programs;
+    public $level;
     public function rules(){
         return [
             [['courses'], 'required'],
-            ['programs','required']
+            ['programs','required'],
+            ['level','required']
             // [['course_code'], 'unique'],
         ];
 
@@ -27,11 +29,13 @@ class AssignCourse extends Model{
         try{
             $courses = $this->courses;
             $programs = $this->programs;
+            $level = $this->level;
             foreach($programs as $prog)
             {
             
             $progcourse = new ProgramCourse();
             $progcourse->course_code = $courses;
+            $progcourse->level = $level;
             $progcourse->programCode = $prog;
             $progcourse ->save();
             }

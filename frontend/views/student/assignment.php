@@ -75,9 +75,6 @@ $this->params['breadcrumbs'] = [
                                                         <div class="card-footer p-2 bg-white border-top">
                                                             <div class="row">
                                                                 <div class="col-md-6">
-                                                                    <b> Deadline : </b><?= $assign -> finishDate ?>
-                                                                </div>
-                                                                <div class="col-md-6">
 
                                                                     <?php
                                                                     //variable to check if there is any submission
@@ -85,12 +82,20 @@ $this->params['breadcrumbs'] = [
                                                                     ?>
 
                                                                     <?php
-                                                                    // check if dead line of submit assinemnt is meeted
-                                                                    $deadLineDate = new DateTime($assign->finishDate);
+                                                                    // check if dead line of submit assignment is meet
                                                                     $currentDateTime = new DateTime("now");
+                                                                    //set an date and time to work with
+                                                                    $start = $assign->finishDate;
 
+                                                                    //add 23:59 to the deadline date
+                                                                    $modified = date('Y-m-d H:i:s',strtotime('+23 hour +59 minutes',strtotime($start)));
+                                                                    $deadLineDate = new DateTime($modified);
                                                                     $isOutOfDeadline =   $currentDateTime > $deadLineDate;
                                                                     ?>
+
+                                                                    <b> Deadline : </b><?= $deadLineDate->format('Y-m-d H:i:s') ?>
+                                                                </div>
+                                                                <div class="col-md-6">
 
                                                                     <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
 

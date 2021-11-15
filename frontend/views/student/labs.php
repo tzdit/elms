@@ -72,19 +72,27 @@ $this->params['breadcrumbs'] = [
                                                         <div class="card-footer p-2 bg-white border-top">
                                                             <div class="row">
                                                                 <div class="col-md-8 float-left">
-                                                                    <b> Deadline : </b> <?= $lab -> finishDate ?>
+                                                                    <?php
+                                                                    // check if dead line of submit assignment is meet
+                                                                    $deadLineDate = new DateTime($lab->finishDate);
+
+                                                                    // check if dead line of submit assignment is meet
+                                                                    $currentDateTime = new DateTime("now");
+                                                                    //set an date and time to work with
+                                                                    $start = $lab->finishDate;
+
+                                                                    //add 23:59 to the deadline date
+                                                                    $modified = date('Y-m-d H:i:s', strtotime('+23 hour +59 minutes', strtotime($start)));
+                                                                    $deadLineDate = new DateTime($modified);
+                                                                    $isOutOfDeadline = $currentDateTime > $deadLineDate;
+
+                                                                    ?>
+
+                                                                    <b> Deadline : </b><?= $deadLineDate->format('Y-m-d H:i:s') ?>
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <?php
                                                                     $submited = Submit::find()->where('reg_no = :reg_no AND assID = :assID', [ ':reg_no' => $reg_no,':assID' => $lab->assID])->one();
-                                                                    ?>
-
-                                                                    <?php
-                                                                    // check if dead line of submit assinemnt is meeted
-                                                                    $deadLineDate = new DateTime($lab->finishDate);
-                                                                    $currentDateTime = new DateTime("now");
-
-                                                                    $isOutOfDeadline =   $currentDateTime > $deadLineDate;
                                                                     ?>
 
                                                                     <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> $lab->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>

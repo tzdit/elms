@@ -31,14 +31,13 @@ $this->params['breadcrumbs'] = [
                     <div class="card shadow-lg" style="font-family:'Times New Roman', sans-serif">
                         <div class="card-header text-center bg-primary">
                             <h2>Submit</h2>
-                            
                         </div>
                         <div class="card-body">
+                            <div id="drop-over">
                                 <div class="row ">
                                     <div class="col-sm-12 d-flex flex-column justify-content-center align-items-center">
-
-                                    <p class='text-muted'>Submit by uploading the file</p>
-                                    <br>
+                                        <p class='text-muted'>Submit by uploading the file</p>
+                                        <br>
                                         <div class="upload-icon">
                                             <i class="fas fa-upload"></i>
                                         </div>
@@ -46,23 +45,25 @@ $this->params['breadcrumbs'] = [
                                         <br>
                                         <h5 class='m-0'>Drag and drop a file you want to upload</h5>
                                         <br>
+
                                         <?php $form = ActiveForm::begin([
                                             'options' => ['enctype' => 'multipart/form-data'],
                                         ]); ?>
-                                          <?= $form->errorSummary($model) ?>
+                                        <?= $form->errorSummary($model) ?>
 
-                                        <button class="btn-primary btn-file">
-                                           Select File
-                                           <input type="file" name="document" id="document-file">
-                                       </button>
-                                       <?php ActiveForm::end(); ?>
+                                        <div class="btn-primary btn-file px-3 py-1">
+                                            Select File
+                                            <input type="file" name="document" id="document-file">
+                                        </div>
+                                        <?php ActiveForm::end(); ?>
                                     </div>
 
-                                    
+
                                     <div class="form-group">
-                                       
+
                                     </div>
-                                </div>    
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

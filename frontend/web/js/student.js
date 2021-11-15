@@ -21,8 +21,11 @@ $('#modal_button2').click(function(){
 });
 
 
+
 $(function(){
+
   $('#document-file').change(ev => {
+
     $(ev.target).closest('form').trigger('submit');
   })
 });
@@ -73,6 +76,14 @@ setTimeout(function(){
 })
 
 });
+
+
+
+//submit by drug file
+ const dragFile = document.querySelector('#drag-over');
+
+  dragFile.addEventListener('dragover',)
+
 
 
 

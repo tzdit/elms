@@ -5,6 +5,8 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use common\models\Program;
 
+$secretKey=Yii::$app->params['app.dataEncryptionKey'];
+$cozzid=Yii::$app->getSecurity()->decryptByPassword($cozzid, $secretKey);
 
  
 
@@ -24,9 +26,10 @@ use common\models\Program;
         <span class="modal-title" id="exampleModalLabel"><h4>Update Course</h4></span>
         
       </div>
+      
       <div class="modal-body">
-      <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/updatecoz/', 'id'=> $coz->course_code, 'enctype'=>'multipart/form-data']])?>
-        <div class="row">
+      <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/updatecoz?cozzid='.$cozzid, 'cozzid'=> $cozzid, 'enctype'=>'multipart/form-data']])?>
+        <div class="row">                                     
         <div class="col-md-12">
         <?= $form->field($coz, 'course_name')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Course Name'])->label(false)?>
         </div> 
