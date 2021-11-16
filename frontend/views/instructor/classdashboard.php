@@ -176,7 +176,7 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
            /.col -->
 
         
-    <!--
+    
           <div class="col-12 col-sm-6 col-md-3">
           <a href="/lecture/lecture-room">
             <div class="info-box mb-2">
@@ -190,7 +190,7 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
             </a>
            
           </div>
--->
+
        
 <!--
           <div class="col-12 col-sm-6 col-md-3">

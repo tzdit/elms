@@ -11,9 +11,9 @@ use Yii;
  * @property int|null $instructorID
  * @property string|null $course_code
  * @property string $title
+ * @property string $description
  * @property string $lectureDate
- * @property string $startTime
- * @property string $endTime
+ * @property int $duration
  * @property int|null $lateEntryMaxTime
  * @property string $status
  * @property int $yearID
@@ -40,11 +40,12 @@ class LiveLecture extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['instructorID', 'lateEntryMaxTime', 'yearID'], 'integer'],
-            [['title', 'lectureDate', 'startTime', 'endTime', 'status', 'yearID'], 'required'],
-            [['lectureDate', 'startTime', 'endTime'], 'safe'],
+            [['instructorID', 'duration', 'lateEntryMaxTime', 'yearID'], 'integer'],
+            [['title', 'description', 'lectureDate', 'duration', 'status', 'yearID'], 'required'],
+            [['lectureDate'], 'safe'],
             [['course_code'], 'string', 'max' => 7],
             [['title'], 'string', 'max' => 200],
+            [['description'], 'string', 'max' => 255],
             [['status'], 'string', 'max' => 10],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
             [['instructorID'], 'exist', 'skipOnError' => true, 'targetClass' => Instructor::className(), 'targetAttribute' => ['instructorID' => 'instructorID']],
@@ -61,9 +62,9 @@ class LiveLecture extends \yii\db\ActiveRecord
             'instructorID' => 'Instructor ID',
             'course_code' => 'Course Code',
             'title' => 'Title',
+            'description' => 'Description',
             'lectureDate' => 'Lecture Date',
-            'startTime' => 'Start Time',
-            'endTime' => 'End Time',
+            'duration' => 'Duration',
             'lateEntryMaxTime' => 'Late Entry Max Time',
             'status' => 'Status',
             'yearID' => 'Year ID',

@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use common\helpers\Security;
 use common\models\Assignment;
 use yii\helpers\ArrayHelper;
+use common\models\LiveLecture;
 
 $cid=yii::$app->session->get('ccode');
 $this->params['courseTitle'] = $cid." Lecture Room";
@@ -37,7 +38,7 @@ $this->params['breadcrumbs'] = [
 
          <div class='col-md-6' style="background-color:rgba(254,254,254,.8);border-left:solid 2px #ccc">
 
-         <span class='float-left'><i class='fa fa-plus-circle'></i><a href="" >New Session</a></span>
+         <a href="#" class='float-left' data-target="#lectureModal" data-toggle="modal"><span  ><i class='fa fa-plus-circle'></i>New Session</span></a>
          
          </div>
 
@@ -80,9 +81,10 @@ $this->params['breadcrumbs'] = [
 
 </div>
 
-    </div>
 </div>
 </div>
+</div>  
+
    
  
 
@@ -90,10 +92,10 @@ $this->params['breadcrumbs'] = [
 
 <?php
 //the module creating
-//$modulemodel = new Module();
-//$this->render('module/_form', ['modulemodel'=>$modulemodel, 'ccode'=>$cid]) 
-?>
+$lecturemodel = new LiveLecture();
 
+?>
+<?=$this->render('newsession_form', ['model'=>$lecturemodel])?>
 
 <?php 
 $script = <<<JS

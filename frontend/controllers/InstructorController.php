@@ -677,6 +677,8 @@ public function actionClassMaterials($cid)
     $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
     $materials = Module::find()->where(['course_code' => $cid])->orderBy([
         'moduleID' => SORT_DESC ])->all();
+
+
     return $this->render('classmaterials', ['cid'=>$cid,'modules'=>$materials]);
 
 }
@@ -1271,9 +1273,11 @@ public function actionUploadMaterial(){
         $model->assFile = UploadedFile::getInstance($model, 'assFile');
        
         if($model->upload()){
-         
-       Yii::$app->session->setFlash('success', 'Material uploaded successfully');
-        return $this->redirect(['class-materials','cid'=>yii::$app->session->get('ccode')]);
+            
+            $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+            $cid=Yii::$app->getSecurity()->encryptByPassword($cid, yii::$app->session->get('ccode'));
+            Yii::$app->session->setFlash('success', 'Material uploaded successfully');
+            return $this->redirect(['class-materials','cid'=>$cid]);
         }else{
           
            
