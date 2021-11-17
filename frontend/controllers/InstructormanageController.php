@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use common\models\User;
 use common\models\Instructor;
 use common\models\InsructorSearch;
 use yii\web\Controller;
@@ -59,6 +60,7 @@ class InstructormanageController extends Controller
                             'create-hod',
                             'view',
                             'update',
+                            'reset',
                             'delete',
                             'create',
                         ],
@@ -74,6 +76,21 @@ class InstructormanageController extends Controller
      * Lists all Instructor models.
      * @return mixed
      */
+
+     // password resseting
+     public function actionReset($id)
+    {
+        $model= new User();
+        $model = User::findOne($id);
+        $password = 123456;
+
+            $model->password= $password;
+            $model->save();
+            
+            $instructors = Instructor::find()->all();
+            return $this->render('instructor_list', ['instructors'=>$instructors]);
+    }
+
     //Create instructor
     public function actionCreateInstructor(){
         $model = new RegisterInstructorForm;

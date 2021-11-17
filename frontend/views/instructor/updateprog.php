@@ -46,7 +46,7 @@ use yii\helpers\Html;
 
       <div class="row">
         <div class="col-md-12">
-        <?= $form->field($prog, 'department')->dropdownList($departments, ['prompt'=>'--Select Department--'], ['class'=>'form-control form-control-sm'])->label(false) ?>
+        <?= $form->field($prog, 'departmentID')->dropdownList($departments, ['prompt'=>'--Select Department--'], ['class'=>'form-control form-control-sm'])->label(false) ?>
         </div> 
         </div>
         <div class="row">

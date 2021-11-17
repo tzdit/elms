@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Student;
+use common\models\User;
 use common\models\StudentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -56,6 +57,7 @@ class StudentmanageController extends Controller
                             'view',
                             'update',
                             'delete',
+                            'reset',
                             'create',
                         ],
                         'allow' => true,
@@ -120,6 +122,20 @@ class StudentmanageController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+
+    public function actionReset($id)
+    {
+        $model= new User();
+        $model = User::findOne($id);
+        $password = 123456;
+
+            $model->password= $password;
+            $model->save();
+
+            $students = Student::find()->all();
+            return $this->render('student_list', ['students'=>$students]);
     }
 
     /**
