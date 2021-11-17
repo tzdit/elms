@@ -574,8 +574,9 @@ public function actionEditExtAssrecord($recordid)
         $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
         if($prog->load(Yii::$app->request->post()) && $prog->save())
         {
+            
             Yii::$app->session->setFlash('success', 'Program updated successfully');
-            return $this->redirect(['create-program']);
+           return $this->redirect(['create-program']);
         }else{
         return $this->render('updateprog', ['prog'=>$prog, 'departments'=>$departments]);
         }
@@ -587,13 +588,14 @@ public function actionUpdatecoz($cozzid)
     
     $coz = Course::findOne($cozzid);
     $dep= $coz ->departmentID;
-   // $coz = new UpdateCourse;
+   
    $depts = Department::find()->all();
    
    $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
     $programs =ArrayHelper::map(ProgramCourse::find()->where(['course_code'=>$cozzid])->all(), 'programCode', 'programCode');
     if($coz->load(Yii::$app->request->post()) && $coz->save())
     {
+        
         Yii::$app->session->setFlash('success', 'Course updated successfully');
         return $this->redirect(['create-course']);
     }else{

@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
                  </div>
                  <div class="row"> 
                  <div class="col-md-12">
-                   <?= $form->field($model, 'program')->dropdownList($programs, ['prompt'=>'--Select--','class'=>'form-control form-control-sm'])->label(' Program') ?>
+                   <?= $form->field($model, 'programCode')->dropdownList($programs, ['prompt'=>'--Select--','class'=>'form-control form-control-sm'])->label(' Program') ?>
                   </div>
                  
                  </div>
