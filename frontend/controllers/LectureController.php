@@ -13,6 +13,9 @@ use Yii;
 use yii\helpers\Url;
 use common\helpers\Security;
 use frontend\models\LectureRoom;
+use common\models\LiveLecture;
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Responses\ApiVersionResponse;
 
 class LectureController extends \yii\web\Controller
 {
@@ -32,6 +35,7 @@ public $defaultAction = 'dashboard';
                     [
                         'actions' => [
                             'lecture-room',
+                            'new-session'
                  
 
                         ],
@@ -44,6 +48,7 @@ public $defaultAction = 'dashboard';
                     [
                         'actions' => [
                             'lecture-room',
+                            'new-session'
                            
                            
                         ],
@@ -67,11 +72,13 @@ public $defaultAction = 'dashboard';
 public function actionLectureRoom()
 {
  
+    $serverstatus=true;
+    $servermaster=(new BigBlueButton())->getApiVersion();
+    if(!($servermaster instanceof ApiVersionResponse)){$serverstatus=false;}
 
-  //more parameters will be set in the future according to need
-
+    $lectures=LiveLecture::find()->where(['course_code'=>yii::$app->session->get('ccode')])->all();
  
-    return $this->render('lectureRoom');
+    return $this->render('lectureRoom',['lectures'=>$lectures,'serverstatus'=>$serverstatus]);
 
   
 
@@ -88,11 +95,30 @@ public function actionSession($sessionid)
 public function actionNewSession()
 {
 
+  
   $lectureroommanager=new LectureRoom();
+  if($lectureroommanager->load(yii::$app->request->post()) && $lectureroommanager->validate())
+  {
   $lectureroommanager->meetingId=yii::$app->session->get('ccode');
   $lectureroommanager->meetingName=yii::$app->session->get('ccode')." Lecture ".date('d-m-Y');
   $lectureroommanager->attendeePassword=yii::$app->session->get('ccode')."student";
   $lectureroommanager->moderatorPassword=yii::$app->session->get('ccode')."lecturer";
+
+  $return=$lectureroommanager->holdRoomState();
+  if($return===true)
+  {
+    Yii::$app->session->setFlash('success', 'Lecture Created successfully');
+    return $this->redirect('lecture-room');
+
+
+  }
+  else
+  {
+    Yii::$app->session->setFlash('error',$return);
+    return $this->redirect('lecture-room');
+  }
+
+  }
 
 }
   
