@@ -10,6 +10,7 @@ use Yii;
  * @property int $lectureroomID
  * @property int $lectureID
  * @property string $meetingID
+ * @property int $duration
  * @property string $mpw
  * @property string $attpw
  *
@@ -31,8 +32,8 @@ class Lectureroominfo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['lectureID', 'meetingID', 'mpw', 'attpw'], 'required'],
-            [['lectureID'], 'integer'],
+            [['lectureID', 'meetingID', 'duration', 'mpw', 'attpw'], 'required'],
+            [['lectureID', 'duration'], 'integer'],
             [['meetingID'], 'string', 'max' => 10],
             [['mpw', 'attpw'], 'string', 'max' => 20],
             [['lectureID'], 'exist', 'skipOnError' => true, 'targetClass' => LiveLecture::className(), 'targetAttribute' => ['lectureID' => 'lectureID']],
@@ -48,6 +49,7 @@ class Lectureroominfo extends \yii\db\ActiveRecord
             'lectureroomID' => 'Lectureroom ID',
             'lectureID' => 'Lecture ID',
             'meetingID' => 'Meeting ID',
+            'duration' => 'Duration',
             'mpw' => 'Mpw',
             'attpw' => 'Attpw',
         ];
