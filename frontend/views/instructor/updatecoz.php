@@ -28,7 +28,7 @@ use common\models\Program;
       </div>
       
       <div class="modal-body">
-      <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/updatecoz?cozzid='.$cozzid, 'cozzid'=> $cozzid, 'enctype'=>'multipart/form-data']])?>
+      <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/updatecoz/', 'cozzid'=> $coz->course_code, 'enctype'=>'multipart/form-data']])?>
         <div class="row">                                     
         <div class="col-md-12">
         <?= $form->field($coz, 'course_name')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Course Name'])->label(false)?>
