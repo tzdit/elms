@@ -4,7 +4,9 @@ use Yii;
 use yii\base\Model;
 use common\models\LiveLecture;
 use BigBlueButton\Parameters\CreateMeetingParameters;
+use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\BigBlueButton;
+use yii\db\Connection;
 
 
 
@@ -12,171 +14,74 @@ class LectureRoom extends Model{
 
   public $meetingId;
 
-  /**
-   * @var string
-   */
+  
   public $meetingName;
 
-  /**
-   * @var string
-   */
   public $attendeePassword;
 
-  /**
-   * @var string
-   */
   public $moderatorPassword;
 
-  /**
-   * @var string
-   */
-  private $dialNumber;
+  public $logoutUrl="http://localhost:8080/";
 
-  /**
-   * @var int
-   */
-  private $voiceBridge;
+  public $maxParticipants;
 
-  /**
-   * @var string
-   */
-  private $webVoice;
+  public $record;
 
-  /**
-   * @var string
-   */
-  private $logoutUrl;
+  public $autoStartRecording=false;
 
-  /**
-   * @var int
-   */
-  private $maxParticipants;
+ 
+  public $allowStartStopRecording=true;
 
-  /**
-   * @var bool
-   */
-  private $record;
+ 
+  public $duration;
 
-  /**
-   * @var bool
-   */
-  private $autoStartRecording;
+ 
+  public $welcomeMessage="Welcome in Our today's lecture, students are required to switch their MIC off";
 
-  /**
-   * @var bool
-   */
-  private $allowStartStopRecording;
 
-  /**
-   * @var int
-   */
-  private $duration;
+  public $moderatorOnlyMessage;
 
-  /**
-   * @var string
-   */
-  private $welcomeMessage;
+ 
+  public $webcamsOnlyForModerator=true;
 
-  /**
-   * @var string
-   */
-  private $moderatorOnlyMessage;
+  public $logo;
 
-  /**
-   * @var bool
-   */
-  private $webcamsOnlyForModerator;
+  public $copyright;
 
-  /**
-   * @var string
-   */
-  private $logo;
+  public $muteOnStart;
 
-  /**
-   * @var string
-   */
-  private $copyright;
+  public $lockSettingsDisableCam;
 
-  /**
-   * @var bool
-   */
-  private $muteOnStart;
+  public $lockSettingsDisableMic;
 
-  /**
-   * @var bool
-   */
-  private $lockSettingsDisableCam;
+  public $lockSettingsDisablePrivateChat=true;
 
-  /**
-   * @var bool
-   */
-  private $lockSettingsDisableMic;
+  public $lockSettingsDisablePublicChat=false;
 
-  /**
-   * @var bool
-   */
-  private $lockSettingsDisablePrivateChat;
+  public $lockSettingsDisableNote=true;
 
-  /**
-   * @var bool
-   */
-  private $lockSettingsDisablePublicChat;
-
-  /**
-   * @var bool
-   */
-  private $lockSettingsDisableNote;
-
-  /**
-   * @var bool
-   */
-  private $lockSettingsHideUserList;
-
-  /**
-   * @var bool
-   */
   private $lockSettingsLockedLayout;
 
-  /**
-   * @var bool
-   */
-  private $lockSettingsLockOnJoin = true;
+  
+  private $allowModsToUnmuteUsers=true;
 
-  /**
-   * @var bool
-   */
-  private $lockSettingsLockOnJoinConfigurable;
+  // lecture basic info
 
-  /**
-   * @var bool
-   */
-  private $allowModsToUnmuteUsers;
-
-  /**
-   * @var array
-   */
-  private $presentations = [];
-
-  /**
-   * @var boolean
-   */
-  private $isBreakout;
-
-  /**
-   * @var string
-   */
-  private $parentMeetingId;
-
-  /**
-   * @var int
-   */
-  private $sequence;
-
-  /**
-   * @var boolean
-   */
-  private $freeJoin;
-
+  public $title;
+  public $description;
+  public $lectureDate;
+  
+///////////////////////////////////////////
+  public function rules()
+  {
+      return [
+          [['duration'], 'integer'],
+          [['title', 'description', 'lectureDate', 'duration'], 'required'],
+          [['lectureDate'], 'safe'],
+          [['title'], 'string', 'max' => 200],
+          [['description'], 'string', 'max' => 255],
+      ];
+  }
 
   public function createLectureRoom()
   {
@@ -202,6 +107,49 @@ class LectureRoom extends Model{
      return $e->getMessage();
 
    }
+
+  }
+
+  //saving the classroom state into the database
+
+  public function holdRoomState()
+  {
+    
+    // starting by the basic information 
+    
+    $transact=Connection::beginTransaction();
+
+    $lecturebucket=new LiveLecture();
+    $lecturebucket->course_code=yii::$app->session->get('ccode');
+    $lecturebucket->instructorID=Yii::$app->user->identity->instructor->instructorID;
+    $lecturebucket->title=$this->title;
+    $lecturebucket->description=$this->description;
+    $lecturebucket->lectureDate=$this->lectureDate;
+    $lecturebucket->duration=$this->duration;
+
+
+    $lecturebucket->save(); //filling the bucket
+
+    $switch=$this->createLectureRoom();  //creating the live lecture room
+
+    if($switch)
+    {
+       // we get the room information and store them
+     $classroomBuilding=new BigBlueButton();
+     $roomparams=new GetMeetingInfoParameters($this->meetingId,$this->moderatorPassword);
+     $roominfo=$classroomBuilding->getMeetingInfo();
+
+
+     if($roominfo->getReturnCode()=="SUCCESS")
+     {
+        print $roominfo->getRawXml();
+     }
+    
+
+
+
+    }
+
 
   }
   

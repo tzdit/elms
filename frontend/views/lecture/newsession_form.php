@@ -20,7 +20,7 @@ use yii\helpers\Html;
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header bg-primary pt-1 pb-1">
-     <span class="modal-title" id="exampleModalLabel"><h7> <i class="fas fa-chalkboard-teacher" aria-hidden="true"></i>Create New Session</h7></span>
+     <span class="modal-title" id="exampleModalLabel"><h7> <i class="fas fa-chalkboard-teacher" aria-hidden="true"></i> Create New Session</h7></span>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -34,7 +34,7 @@ use yii\helpers\Html;
         </div>
         <div class="row">
         <div class="col-md-12">
-        <?= $form->field($model, 'description')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Session Description'])->label(false)?>
+        <?= $form->field($model, 'description')->textarea(['class'=>'form-control form-control-sm', 'placeholder'=>'Session Description','rows'=>3])->label(false)?>
         </div> 
         </div>
         <div class="row">
@@ -47,19 +47,55 @@ use yii\helpers\Html;
         </div>
         <div class="row text-center" style="margin-bottom:10px"><div class="col-md-12" style="background-color:rgba(255,150,255,.05)"><i class="fa fa-cog"></i> Room Settings</div></div>
         <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
   
-        <span>On</span><?= $form->field($model, 'duration')->input('radio',['class'=>'form-control form-control-sm'])?>
-        <?= $form->field($model, 'duration')->input('radio',['class'=>'form-control form-control-sm'])->label(false)?>
-   
        
-</div>
-<div class="col-md-6">
-  
-  heyhey<?= $form->field($model, 'duration')->input('radio',['class'=>'form-control form-control-sm'])->label(false)?>
+        <?= $form->field($model, 'lockSettingsDisablePublicChat')->dropDownList(['on'=>'On','off'=>'Off'],['class'=>'form-control form-control-sm', 'prompt'=>'--Public Chat--'])->label(false)?>
+       
+        </div>
+        </div>
 
- 
-</div>
+        <div class="row">
+        <div class="col-md-12">
+  
+       
+        <?= $form->field($model, 'lockSettingsDisablePrivateChat')->dropDownList(['on'=>'On','off'=>'Off'],['class'=>'form-control form-control-sm', 'prompt'=>'--Private Chat--'])->label(false)?>
+       
+        </div>
+
+
+        </div>
+
+        <div class="row">
+        <div class="col-md-12">
+  
+       
+        <?= $form->field($model, 'webcamsOnlyForModerator')->dropDownList(['on'=>'On','off'=>'Off'],['class'=>'form-control form-control-sm', 'prompt'=>'--WebCams Only For Instructor--'])->label(false)?>
+       
+        </div>
+
+
+        </div>
+
+        <div class="row">
+        <div class="col-md-12">
+  
+       
+        <?= $form->field($model, 'allowStartStopRecording')->dropDownList(['on'=>'On','off'=>'Off'],['class'=>'form-control form-control-sm', 'prompt'=>'--Allow Start-stop Recording--'])->label(false)?>
+       
+        </div>
+
+
+        </div>
+
+        <div class="row">
+        <div class="col-md-12">
+  
+       
+        <?= $form->field($model, 'autoStartRecording')->dropDownList(['on'=>'On','off'=>'Off'],['class'=>'form-control form-control-sm', 'prompt'=>'--AutoStart Recording--'])->label(false)?>
+       
+        </div>
+
 
         </div>
      

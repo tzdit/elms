@@ -6,6 +6,7 @@ use common\helpers\Security;
 use common\models\Assignment;
 use yii\helpers\ArrayHelper;
 use common\models\LiveLecture;
+use frontend\models\LectureRoom;
 
 $cid=yii::$app->session->get('ccode');
 $this->params['courseTitle'] = $cid." Lecture Room";
@@ -92,7 +93,7 @@ $this->params['breadcrumbs'] = [
 
 <?php
 //the module creating
-$lecturemodel = new LiveLecture();
+$lecturemodel = new LectureRoom();
 
 ?>
 <?=$this->render('newsession_form', ['model'=>$lecturemodel])?>
@@ -113,6 +114,9 @@ $(document).ready(function(){
      
 
       });
+
+
+      
 });
 JS;
 $this->registerJs($script);
