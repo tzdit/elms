@@ -129,13 +129,4 @@ a h5{
 
 
 
-/*####################################### submit ##########################################*/
-#drop-over{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  border: 2px dashed #2adcff;
-  padding: 10px;
-}
 
