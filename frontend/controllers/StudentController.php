@@ -456,11 +456,18 @@ public function actionClasswork($cid){
         }
 
         $reg_no = Yii::$app->user->identity->username;
-        $returned= Assignment::find()->where('submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->joinWith('submits')->orderBy([
+        $returned= Submit::find()->innerJoin('assignment','assignment.assID = submit.assID AND submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->orderBy([
             'submit.submitID' => SORT_DESC ])->all();
 
 //        $returnedGroupAss= Assignment::find()->where('submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->innerJoin('group_assignment_submit','assignment.assID = group_assignment_submit.assID')->innerJoin('')->orderBy([
 //            'submit.submitID' => SORT_DESC ])->all();
+
+//
+//         echo '<pre>';
+//             var_dump($returned);
+//         echo '</pre>';
+//         exit;
+
 
         return $this->render('returned', ['cid'=>$cid, 'reg_no' => $reg_no, 'returned'=>$returned,] );
     }
