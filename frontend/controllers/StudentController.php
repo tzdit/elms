@@ -107,7 +107,7 @@ class StudentController extends \yii\web\Controller
      } 
     
 }catch(\Exception $e){
-    Yii::$app->session->setFlash('error', 'Registration failed! try again later or contact administrator');
+    Yii::$app->session->setFlash('error', 'Registration failed! try again later or contact administrator'.$e->getMessage());
 }
     $this->layout = 'register';
     return $this->render('student_registration', ['model'=>$model, 'programs'=>$programs, 'roles'=>$roles]);
