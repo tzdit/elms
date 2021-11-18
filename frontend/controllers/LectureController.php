@@ -14,8 +14,11 @@ use yii\helpers\Url;
 use common\helpers\Security;
 use frontend\models\LectureRoom;
 use common\models\LiveLecture;
+use common\models\Lectureroominfo;
 use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Responses\ApiVersionResponse;
+
 
 class LectureController extends \yii\web\Controller
 {
@@ -35,7 +38,9 @@ public $defaultAction = 'dashboard';
                     [
                         'actions' => [
                             'lecture-room',
-                            'new-session'
+                            'new-session',
+                            'session',
+                            'start-session'
                  
 
                         ],
@@ -48,7 +53,9 @@ public $defaultAction = 'dashboard';
                     [
                         'actions' => [
                             'lecture-room',
-                            'new-session'
+                            'new-session',
+                            'session',
+                            'start-session'
                            
                            
                         ],
@@ -89,7 +96,12 @@ public function actionLectureRoom()
 
 public function actionSession($sessionid)
 {
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $sessionid=Yii::$app->getSecurity()->decryptByPassword($sessionid, $secretKey);
 
+    $session=Lectureroominfo::find()->where(['lectureID'=>$sessionid])->one();
+
+    return $this->render('session',['session'=>$session]);
 }
 
 public function actionNewSession()
@@ -115,10 +127,28 @@ public function actionNewSession()
   else
   {
     Yii::$app->session->setFlash('error',$return);
+   
     return $this->redirect('lecture-room');
+  
   }
 
   }
+
+}
+public function actionStartSession($session)
+{
+    $sessioninfo=Lectureroominfo::findOne($session);
+    $rooms_master=new BigBlueButton();
+    $roomid=$sessioninfo->meetingID;
+    $mpw=$sessioninfo->mpw;
+    $instructor_name=$sessioninfo->lecture->instructor->full_name;
+    $door_open_registar=new JoinMeetingParameters($roomid,$instructor_name,$mpw);
+
+    $door_open_registar->setRedirect(true);
+    $door_open_registar->setJoinViaHtml5(true);
+    header('status: 301 Moved Permanently',false,301);
+    return $this->redirect($rooms_master->getJoinMeetingUrl($door_open_registar));
+   
 
 }
   

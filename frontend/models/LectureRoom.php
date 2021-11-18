@@ -158,14 +158,9 @@ class LectureRoom extends Model{
         $infobucket=new Lectureroominfo();
         $infobucket->lectureID=$lecturebucket->lectureID;
         $infobucket->duration=($this->duration!=null)?$this->duration:120;
-        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-        $meetingid=Yii::$app->getSecurity()->encryptByPassword($infobj->meetingID, $secretKey);
-        $mpw=Yii::$app->getSecurity()->encryptByPassword($infobj->moderatorPW, $secretKey);
-        $attpw=Yii::$app->getSecurity()->encryptByPassword($infobj->attendeePW, $secretKey);
-        
-        $infobucket->mpw=$mpw;
-        $infobucket->attpw=$attpw;
-        $infobucket->meetingID=$meetingid;
+        $infobucket->mpw=$this->moderatorPassword;
+        $infobucket->attpw=$this->attendeePassword;
+        $infobucket->meetingID=$this->meetingId;
 
         if(!$infobucket->save()){throw new Exception('An error occured, could not save lecture room secondary information...'); }
 
@@ -189,6 +184,7 @@ class LectureRoom extends Model{
     {
       $transact->rollBack();
       return $e->getMessage();
+     
     }
 
 

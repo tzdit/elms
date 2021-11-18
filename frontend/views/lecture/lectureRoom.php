@@ -67,7 +67,12 @@ $this->params['breadcrumbs'] = [
       {
      ?>
       <div class="col-12 col-sm-6 col-md-3" >
-          <a href="#">
+        <?php $sessionid=
+
+          $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+          $sessionid=Yii::$app->getSecurity()->encryptByPassword($lecture->lectureID, $secretKey);
+        ?>
+          <a href="<?=Url::to(['lecture/session/', 'sessionid'=>$sessionid]) ?>">
             <div class="info-box mb-2 " style="border:none;box-shadow:none">
               <span class="info-box-icon"><i class="fas fa-chalkboard-teacher" aria-hidden="true" style="font-size:5"></i></span>
 
