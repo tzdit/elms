@@ -33,18 +33,18 @@ $this->params['breadcrumbs'] = [
                             <h2>Submit</h2>
                         </div>
                         <div class="card-body">
-                            <div id="drop-over">
+                            <div class="drop-over drop-zone">
                                 <div class="row ">
                                     <div class="col-sm-12 d-flex flex-column justify-content-center align-items-center">
                                         <p class='text-muted'>Submit by uploading the file</p>
                                         <br>
-                                        <div class="upload-icon">
-                                            <i class="fas fa-upload"></i>
-                                        </div>
-
-                                        <br>
-                                        <h5 class='m-0'>Drag and drop a file you want to upload</h5>
-                                        <br>
+<!--                                        <div class="upload-icon">-->
+<!--                                            <i class="fas fa-upload"></i>-->
+<!--                                        </div>-->
+<!---->
+<!--                                        <br>-->
+<!--                                        <span class='drag-header m-0'>Drag and drop file you want to upload</span>-->
+<!--                                        <br>-->
 
                                         <?php $form = ActiveForm::begin([
                                             'options' => ['enctype' => 'multipart/form-data'],
@@ -53,7 +53,7 @@ $this->params['breadcrumbs'] = [
 
                                         <div class="btn-primary btn-file px-3 py-1">
                                             Select File
-                                            <input type="file" name="document" id="document-file">
+                                            <input type="file" name="document" id="document-file" class="drop-zone-input">
                                         </div>
                                         <?php ActiveForm::end(); ?>
                                     </div>

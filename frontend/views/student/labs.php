@@ -136,28 +136,3 @@ $this->params['breadcrumbs'] = [
     </div>
 </div>
 
-<?php
-$script = <<<JS
-$(document).ready(function(){
-  $("#CoursesTable").DataTable({
-    responsive:true,
-  });
-//Remember active tab
-$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-
-localStorage.setItem('activeTab', $(e.target).attr('href'));
-
-});
-
-var activeTab = localStorage.getItem('activeTab');
-
-if(activeTab){
-
-$('#custom-tabs-four-tab a[href="' + activeTab + '"]').tab('show');
-
-}
-  
-});
-JS;
-$this->registerJs($script);
-?>

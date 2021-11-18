@@ -76,8 +76,13 @@ $this->params['breadcrumbs'][] = $this->title;
      
         <div class="row">
         <?php foreach($data as $course): ?>
+            <?php
+            $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+            $cid=Yii::$app->getSecurity()->encryptByPassword($course->course_code, $secretKey);
+            ?>
+
           <div class="col-lg-3 col-6 ">
-                <a href="<?=Url::to(['student/classwork/', 'cid'=>$course->course_code])  ?>" >
+                <a href="<?=Url::to(['student/classwork/', 'cid'=>$cid])  ?>" >
 
                     <div class="small-box bg-info ">
                           <div class="inner p-2 ">
