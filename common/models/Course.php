@@ -9,7 +9,7 @@ use Yii;
  *
  * @property string $course_code
  * @property string $course_name
- * @property int $course_credit
+ * @property float $course_credit
  * @property int $course_semester
  * @property int|null $course_duration
  * @property string|null $course_status
@@ -28,7 +28,6 @@ use Yii;
  * @property Module[] $modules
  * @property Notification[] $notifications
  * @property ProgramCourse[] $programCourses
- * @property Program[] $programCodes
  * @property StudentCourse[] $studentCourses
  * @property Student[] $regNos
  */
@@ -49,7 +48,8 @@ class Course extends \yii\db\ActiveRecord
     {
         return [
             [['course_code', 'course_name', 'course_credit', 'course_semester', 'departmentID', 'YOS'], 'required'],
-            [['course_credit', 'course_semester', 'course_duration', 'departmentID', 'YOS'], 'integer'],
+            [['course_credit'], 'number'],
+            [['course_semester', 'course_duration', 'departmentID', 'YOS'], 'integer'],
             [['course_code'], 'string', 'max' => 7],
             [['course_name'], 'string', 'max' => 150],
             [['course_status'], 'string', 'max' => 10],
@@ -193,16 +193,6 @@ class Course extends \yii\db\ActiveRecord
     public function getProgramCourses()
     {
         return $this->hasMany(ProgramCourse::className(), ['course_code' => 'course_code']);
-    }
-
-    /**
-     * Gets query for [[ProgramCodes]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProgramCodes()
-    {
-        return $this->hasMany(Program::className(), ['programCode' => 'programCode'])->viaTable('program_course', ['course_code' => 'course_code']);
     }
 
     /**

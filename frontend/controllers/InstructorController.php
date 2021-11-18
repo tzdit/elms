@@ -191,9 +191,7 @@ public $defaultAction = 'dashboard';
                             'updatetut',
                             'updatelab',
                             'updateprog',
-                            'updateprogview',
                             'updatecoz',
-                            'updatecozview',
                             'add-partner',
                             'view-assessment',
                             'add-assess-record',
@@ -569,63 +567,42 @@ public function actionEditExtAssrecord($recordid)
 
     public function actionUpdateprog($progid)
     {
-        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-        $progid=Yii::$app->getSecurity()->decryptByPassword($progid, $secretKey);
         $prog = Program::findOne($progid);
+        $dept = $prog -> departmentID;
+        $dept_id = Department::find('departmentID',$dept);
+        $prog ->departmentID = $dept;
         $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
         if($prog->load(Yii::$app->request->post()) && $prog->save())
         {
+            
             Yii::$app->session->setFlash('success', 'Program updated successfully');
-            return $this->redirect(['create-program', 'progid'=>$progid, 'departments'=>$departments, 'prog'=>$prog ]);
+           return $this->redirect(['create-program']);
         }else{
-        
+        return $this->render('updateprog', ['prog'=>$prog, 'departments'=>$departments]);
         }
     }
 
-public function actionUpdatecozview($cozzid)
+
+public function actionUpdatecoz($cozzid)
 {
-    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-    $cozzid=Yii::$app->getSecurity()->decryptByPassword($cozzid, $secretKey);
-    $coz=Course::findOne($cozzid);
-    $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
-    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-    $cozzid=Yii::$app->getSecurity()->encryptByPassword($cozzid, $secretKey); 
-
-    return $this->render('updatecoz',['cozzid'=>$cozzid, 'coz'=>$coz, 'departments'=>$departments]);
-}
-
-public function actionUpdateprogview($progid)
-{
-    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-    $progid=Yii::$app->getSecurity()->decryptByPassword($progid, $secretKey);
-    $prog=Program::findOne($progid);
-    $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
-    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-    $progid=Yii::$app->getSecurity()->encryptByPassword($progid, $secretKey); 
-
-    return $this->render('updateprog',['progid'=>$progid, 'prog'=>$prog, 'departments'=>$departments]);
-}
-
-
-    public function actionUpdatecoz($cozzid)
+    
+    $coz = Course::findOne($cozzid);
+    $dep= $coz ->departmentID;
+   
+   $depts = Department::find()->all();
+   
+   $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+    $programs =ArrayHelper::map(ProgramCourse::find()->where(['course_code'=>$cozzid])->all(), 'programCode', 'programCode');
+    if($coz->load(Yii::$app->request->post()) && $coz->save())
     {
-        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-        $cozzid=Yii::$app->getSecurity()->decryptByPassword($cozzid, $secretKey);
-        $coz = Course::findOne($cozzid);
-        $dep= $coz ->departmentID;
-       // $coz = new UpdateCourse;
-        $depts = Department::find()->all();
-        $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
-        $programs =ArrayHelper::map(ProgramCourse::find()->where(['course_code'=>$cozzid])->all(), 'programCode', 'programCode');
-       
-        if($coz->load(Yii::$app->request->post()) && $coz->save())
-        {
-            Yii::$app->session->setFlash('success', 'Course updated successfully');
-            return $this->redirect(['create-course', 'cozzid'=>$cozzid, 'dep'=>$dep, 'departments'=>$departments ]);
-        }else{
         
-        }
+        Yii::$app->session->setFlash('success', 'Course updated successfully');
+        return $this->redirect(['create-course']);
+    }else{
+    return $this->render('updatecoz', ['coz'=>$coz, 'programs'=>$programs, 
+    'depts'=>$depts, 'departments'=>$departments]);
     }
+}
 
     public function actionUpdatestudent($id)
     {
@@ -677,6 +654,8 @@ public function actionClassMaterials($cid)
     $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
     $materials = Module::find()->where(['course_code' => $cid])->orderBy([
         'moduleID' => SORT_DESC ])->all();
+
+
     return $this->render('classmaterials', ['cid'=>$cid,'modules'=>$materials]);
 
 }
@@ -1089,7 +1068,7 @@ public function actionUploadAssignment(){
 public function actionUpdateAssignment($assid){
     
     $model = new UploadAssignment();
-   
+    
     if($model->load(Yii::$app->request->post())){
     
     //loading the external post data into the model
@@ -1271,9 +1250,11 @@ public function actionUploadMaterial(){
         $model->assFile = UploadedFile::getInstance($model, 'assFile');
        
         if($model->upload()){
-         
-       Yii::$app->session->setFlash('success', 'Material uploaded successfully');
-        return $this->redirect(['class-materials','cid'=>yii::$app->session->get('ccode')]);
+            
+            $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+            $cid=Yii::$app->getSecurity()->encryptByPassword(yii::$app->session->get('ccode'),$secretKey);
+            Yii::$app->session->setFlash('success', 'Material uploaded successfully');
+            return $this->redirect(['class-materials','cid'=>$cid]);
         }else{
           
            

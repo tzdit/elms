@@ -104,15 +104,12 @@ use yii\helpers\Html;
             <td><?= $program->prog_duration ?></td>
             <td><?= $program->capacity ?></td>
             <td>
-            <?php 
-                    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-                    $encryptedprog =Yii::$app->getSecurity()->encryptByPassword($program->programCode, $secretKey);
-            ?>
-             <?= Html::a('<i class="fas fa-edit"></i>',['updateprogview', 'progid'=>$encryptedprog], ['class'=>'btn btn-info btn-sm m-0'])?>      
+           
+             <?= Html::a('<i class="fas fa-edit"></i>',['updateprog', 'progid'=>$program->programCode], ['class'=>'btn btn-info btn-sm m-0'])?>      
              <a href="#" progid=<?=$program->programCode?> class="btn btn-sm btn-danger float-right ml-2 programdel"><span><i class="fas fa-trash"></i></span></a>
             </td>
             </tr>
-            <?php endforeach ?>
+            <?php endforeach; ?>
             </tbody>
             </table>
              

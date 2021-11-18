@@ -5,8 +5,8 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use common\models\Program;
 
-$secretKey=Yii::$app->params['app.dataEncryptionKey'];
-$cozzid=Yii::$app->getSecurity()->decryptByPassword($cozzid, $secretKey);
+//$secretKey=Yii::$app->params['app.dataEncryptionKey'];
+//$cozzid=Yii::$app->getSecurity()->decryptByPassword($cozzid, $secretKey);
 
  
 
@@ -28,7 +28,7 @@ $cozzid=Yii::$app->getSecurity()->decryptByPassword($cozzid, $secretKey);
       </div>
       
       <div class="modal-body">
-      <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/updatecoz?cozzid='.$cozzid, 'cozzid'=> $cozzid, 'enctype'=>'multipart/form-data']])?>
+      <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/updatecoz/', 'cozzid'=> $coz->course_code, 'enctype'=>'multipart/form-data']])?>
         <div class="row">                                     
         <div class="col-md-12">
         <?= $form->field($coz, 'course_name')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Course Name'])->label(false)?>
@@ -41,7 +41,7 @@ $cozzid=Yii::$app->getSecurity()->decryptByPassword($cozzid, $secretKey);
         </div>
 
         <div class="col-md-6">
-        <?= $form->field($coz, 'course_credit')->textInput(['type'=>'number', 'min'=>0, 'max'=>20, 'class'=>'form-control form-control-sm', 'placeholder'=>'Course Credit'])->label(false)?>
+        <?= $form->field($coz, 'course_credit')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Course Credit'])->label(false)?>
         </div>
 
        

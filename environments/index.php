@@ -65,4 +65,9 @@ return [
             'frontend/config/main-local.php',
         ],
     ],
+    'BBB_SERVER_BASE_URL'=>[
+
+
+        'http://192.168.152.128/bigbluebutton/'
+    ]
 ];

@@ -3,8 +3,7 @@
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 
-$secretKey=Yii::$app->params['app.dataEncryptionKey'];
-$progid=Yii::$app->getSecurity()->decryptByPassword($progid, $secretKey);
+
 
 
 ?>
@@ -25,7 +24,7 @@ $progid=Yii::$app->getSecurity()->decryptByPassword($progid, $secretKey);
         
       </div>
       <div class="modal-body">
-      <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/updateprog?progid='.$progid, 'enctype'=>'multipart/form-data']])?>
+      <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/updateprog/', 'progid'=> $prog->programCode, 'enctype'=>'multipart/form-data']])?>
         <div class="row">                                
         <div class="col-md-12">
         <?= $form->field($prog, 'prog_name')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Program Name'])->label(false)?>
@@ -47,7 +46,7 @@ $progid=Yii::$app->getSecurity()->decryptByPassword($progid, $secretKey);
 
       <div class="row">
         <div class="col-md-12">
-        <?= $form->field($prog, 'department')->dropdownList($departments, ['prompt'=>'--Select Department--'], ['class'=>'form-control form-control-sm'])->label(false) ?>
+        <?= $form->field($prog, 'departmentID')->dropdownList($departments, ['prompt'=>'--Select Department--'], ['class'=>'form-control form-control-sm'])->label(false) ?>
         </div> 
         </div>
         <div class="row">

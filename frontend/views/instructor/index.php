@@ -9,6 +9,8 @@ use common\helpers\Custom;
 use common\models\Instructor;
 use frontend\models\AddPartner;
 use yii\helpers\ArrayHelper;
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\CreateMeetingParameters;
 /* @var $this yii\web\View */
 $this->params['courseTitle'] = "My courses";
 $this->title = 'Instructor Dashboard';
@@ -22,6 +24,7 @@ $instructors=ArrayHelper::map(Instructor::find()->asArray()->where(['<>','instru
     
 
     <div class="body-content">
+   
             <!-- Content Wrapper. Contains page content -->
    
         <div class="container-fluid">

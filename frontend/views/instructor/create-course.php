@@ -143,12 +143,12 @@ use common\models\Program;
             <td>
 
                   <?php 
-                    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-                    $encryptedcoz =Yii::$app->getSecurity()->encryptByPassword($course->course_code, $secretKey);
+                   // $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+                    //$encryptedcoz =Yii::$app->getSecurity()->encryptByPassword($course->course_code, $secretKey);
                   ?>
                   
-                  <?= Html::a('<i class="fas fa-edit"></i>',['updatecozview', 'cozzid'=>$encryptedcoz], ['class'=>'btn btn-info btn-sm m-0'])?> 
-            <a href="#" cozid=<?=$course->course_code?> class="btn btn-sm btn-danger float-right ml-2 coursedel"><span><i class="fas fa-trash"></i></span></a>
+                  <?= Html::a('<i class="fas fa-edit"></i>',['updatecoz', 'cozzid'=>$course->course_code], ['class'=>'btn btn-info btn-sm m-0'])?> 
+            <a href="#" cozid="<?=$course->course_code?>" class="btn btn-sm btn-danger float-right ml-2 coursedel"><span><i class="fas fa-trash"></i></span></a>
             
             </td>
             

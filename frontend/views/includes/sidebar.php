@@ -145,12 +145,47 @@ use yii\helpers\Url;
                 </a>
               </li>
 
+
+              <!-- ################################################ -->
               <li class="nav-item">
+            <a href="#" class="nav-link">
+            <i class="fas fa-book nav-icon"></i>
+              <p>
+                Manage Courses
+                <i class="right fas fa-angle-left"></i>    
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+              <a href="<?= Url::toRoute('/instructor/create-course') ?>" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  <p>Create Course</p>
+                </a>
+              </li>
+              <li class="nav-item">
+              <a href="<?= Url::toRoute('/instructor/assign-course') ?>" class="nav-link">
+                <i class="fas fa-tasks"></i>
+                  <p>Assign Course</p>
+                </a>
+              </li>
+             
+            </ul>
+
+
+              <!-- ################################################ -->
+
+              <!-- <li class="nav-item">
                 <a href="<?= Url::toRoute('/instructor/create-course') ?>" class="nav-link">
                   <i class="fas fa-book nav-icon"></i>
                   <p>Manage Courses</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="<?= Url::toRoute('/instructor/assign-course') ?>" class="nav-link">
+                <i class="fas fa-tasks"></i>
+                  <p>Assign Course </p>
+                </a>
+              </li> -->
 
               <li class="nav-item">
                 <a href="<?= Url::toRoute('/instructor/instructor-course') ?>" class="nav-link">
@@ -159,12 +194,7 @@ use yii\helpers\Url;
                 </a>
               </li>
 
-              <li class="nav-item">
-                <a href="<?= Url::toRoute('/instructor/assign-course') ?>" class="nav-link">
-                <i class="fas fa-tasks"></i>
-                  <p>Assign Course </p>
-                </a>
-              </li>
+             
               <?php endif ?> <!-- END OF STUDENT ROLE -->
         
         </ul>
