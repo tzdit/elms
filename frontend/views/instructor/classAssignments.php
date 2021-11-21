@@ -24,10 +24,11 @@ use frontend\models\External_assess;
 use frontend\models\StudentAssign;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
+use frontend\models\ClassRoomSecurity;
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =$cid." Assignments";
-$this->title = $cid." Assignments";
+$this->params['courseTitle'] ="<i class='fas fa-book-reader'></i> ".ClassRoomSecurity::decrypt($cid)." Assignments";
+$this->title = ClassRoomSecurity::decrypt($cid)." Assignments";
 $this->params['breadcrumbs'] = [
   ['label'=>'class Dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>$cid])],
   ['label'=>$this->title]
@@ -119,7 +120,7 @@ $this->params['breadcrumbs'] = [
       $subperc=(count($submits)/$assigned)*100;
       }
       ?>
-      <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>$assign->course_code, 'id' => $assign->assID]) ?>" >
+      <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>ClassRoomSecurity::encrypt($assign->course_code), 'id' => ClassRoomSecurity::encrypt($assign->assID)]) ?>" >
             <div class="info-box shadow">
               <div class="info-box-content">
                 <span class="info-box-text">Submitted</span>

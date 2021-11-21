@@ -13,8 +13,9 @@ use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
+use frontend\models\ClassRoomSecurity;
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =Assignment::findOne($id)->assName." : Missing Assignments";
+$this->params['courseTitle'] ="<i class='fas fa-book-reader'></i> ".Assignment::findOne(ClassRoomSecurity::decrypt($id))->assName." : Missing Assignments";
 $this->title = "Missing Assignments";
 $this->params['breadcrumbs'] = [
   ['label'=>'class Assignments', 'url'=>Url::to(['/instructor/class-assignments', 'cid'=>$cid])],

@@ -25,12 +25,13 @@ use frontend\models\External_assess;
 use frontend\models\StudentAssign;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
+use frontend\models\ClassRoomSecurity;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] =$cid." Materials";
 $this->title =$cid." Materials";
 $this->params['breadcrumbs'] = [
-  ['label'=>'class dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>$cid])],
+  ['label'=>'class dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
   ['label'=>$this->title]
 ];
 
@@ -80,11 +81,11 @@ $materials=$module->materials;
       <h2 class="mb-0">
       <div class="row" >
       <div class="col-md-11 pointer" data-toggle="collapse" data-target="#collapse<?=$mat?>" aria-expanded="true" aria-controls="collapse<?=$mat?>" >
-      <span style="font-size:22px"><i class="fas fa-book-open"></i><?=$module->moduleName?>:</span><span class="text-md"><?=$module->module_description?></span>
+      <span style="font-size:22px"><i class="fas fa-book-open"></i> <?=Html::encode($module->moduleName)?>:</span><span class="text-md"><?=Html::encode($module->module_description)?></span>
       </div>
       <div class="col-md-1">
       <a href="#" modid=<?=$module->moduleID?> class="btn btn-sm btn-danger float-right ml-2 moduledel"><span><i class="fas fa-trash"></i></span></a>
-      <a href="<?=Url::to(['/instructor/material-upload-form', 'moduleID'=>$module->moduleID])?>" class="btn btn-sm btn-primary btn-rounded float-right mb-2"><span><i class="fas fa-upload"></span></i></a>
+      <a href="<?=Url::to(['/instructor/material-upload-form', 'moduleID'=>ClassRoomSecurity::encrypt($module->moduleID)])?>" class="btn btn-sm btn-primary btn-rounded float-right mb-2"><span><i class="fas fa-upload"></span></i></a>
       </div>
       </div>
          
@@ -101,19 +102,19 @@ $materials=$module->materials;
       <?php if(in_array(pathinfo($material->fileName,PATHINFO_EXTENSION),['MP4','mp4','mkv','MKV','AVI','avi']))
           {
       ?>
-      <a href="<?=Url::to(['material/player','currentvid'=>$material->fileName,'currenttitle'=>$material->title])?>"><img src="/img/video thumb.png" style="width:4%;height:20px;margin-right:3px"/><?= $material -> title ?></a>
+      <a href="<?=Url::to(['material/player','currentvid'=>$material->fileName,'currenttitle'=>$material->title])?>"><img src="/img/video thumb.png" style="width:4%;height:20px;margin-right:3px"/><?=Html::encode($material -> title) ?></a>
        <?php 
           }
           else if(in_array(pathinfo($material->fileName,PATHINFO_EXTENSION),['pdf','PDF']))
           {
        ?>
-      <i class="fa fa-file-pdf-o" style="font-size:20px;color:red;margin-right:3px"></i><?= $material -> title ?>
+      <i class="fa fa-file-pdf-o" style="font-size:20px;color:red;margin-right:3px"></i><?=Html::encode($material -> title) ?>
       <?php
           }
           else
           {
       ?>
-      <a href="/storage/temp/<?=$material->fileName ?>"  class=" ml-2"><span><i class="fa fa-files-o" style="font-size:25px;margin-right:4px"></i><?= $material -> title ?></span></a>
+      <a href="/storage/temp/<?=$material->fileName ?>"  class=" ml-2"><span><i class="fa fa-files-o" style="font-size:25px;margin-right:4px"></i><?=Html::encode($material -> title) ?></span></a>
       <?php
           }
       ?>

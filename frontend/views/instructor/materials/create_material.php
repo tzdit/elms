@@ -4,22 +4,24 @@ use yii\helpers\Html;
 use frontend\models\UploadMaterial;
 use yii\helpers\Url;
 use common\models\Module;
+use frontend\models\ClassRoomSecurity;
 ?>
 <?php 
 $assmodel = new UploadMaterial();
 $ccode=yii::$app->session->get('ccode');
 
-$this->params['courseTitle'] =Module::findOne($moduleID)->moduleName;
+$moduleID=ClassRoomSecurity::decrypt($moduleID);
+$this->params['courseTitle'] ="<i class='fa fa-book-open'></i> Module: <span class='text-sm'>".Module::findOne($moduleID)->moduleName."</span>";
 $this->title =Module::findOne($moduleID)->moduleName;
 $this->params['breadcrumbs'] = [
-  ['label'=>'class materials', 'url'=>Url::to(['/instructor/class-materials', 'cid'=>$ccode])],
+  ['label'=>'class materials', 'url'=>Url::to(['/instructor/class-materials', 'cid'=>ClassRoomSecurity::encrypt($ccode)])],
   ['label'=>'upload material']
 ];
 ?>
 <div class="container col d-flex justify-content-center">
 <div class="card" style="width:70%">
-      <div class="card-header bg-primary">
-        <span><h6>Upload New Material</h6></span>
+      <div class="card-header bg-primary pt-2 pb-2">
+        <span><h6><i class="fa fa-upload"></i> Upload New Material</h6></span>
       </div>
       <div class="card-body">
       <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/upload-material', 'enctype'=>'multipart/form-data']])?>
@@ -31,7 +33,7 @@ $this->params['breadcrumbs'] = [
         
       <div class="row">
         <div class="col-md-12">
-        <?= $form->field($assmodel, 'assType')->dropdownList(['Videos'=>'Videos','Notes'=>'Notes'], ['class'=>'form-control form-control-sm', 'prompt'=>'--select--'])->label('Material Type')?>
+        <?= $form->field($assmodel, 'assType')->dropdownList(['Videos'=>'Videos','Notes'=>'Notes'], ['class'=>'form-control form-control-sm', 'prompt'=>'--Material type--'])->label(false)?>
         </div>
         
       </div>

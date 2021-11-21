@@ -145,21 +145,13 @@ public function actionStartSession($session)
     $mpw=$sessioninfo->mpw;
     $instructor_name=$sessioninfo->lecture->instructor->full_name;
     $door_open_registar=new JoinMeetingParameters($roomid,$instructor_name,$mpw);
-    $door_open_registar->setRedirect(false);
-    //$joinresponse=$rooms_master->joinMeeting($door_open_registar);
- 
-    //$classroom_address=BBB_JOIN_URL."html5client/join?sessionToken=" .$joinresponse->getSessionToken();
-
+    $door_open_registar->setRedirect(true);
+    
     //now heading to the classroom like a boss
     header('status: 301 Moved Permanently',false,301);
-    //return $this->render("classPodium",['address'=>$classroom_address]);
-    return $this->redirect(['class-podium','podiumaddress'=>$rooms_master->getJoinMeetingURL($door_open_registar)]);
+    return $this->redirect($rooms_master->getJoinMeetingURL($door_open_registar));
    
 
 }
-public function actionClassPodium($podiumaddress)
-{
-    return $this->render('classPodium',['address'=>$podiumaddress]);
-}
-  
+
 }

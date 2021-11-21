@@ -55,6 +55,7 @@ use Yii;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
 use common\helpers\Security;
+use frontend\models\ClassRoomSecurity;
 
 class InstructorController extends \yii\web\Controller
 {
@@ -145,7 +146,8 @@ public $defaultAction = 'dashboard';
                             'class-students',
                             'create-module',
                             'material-upload-form',
-                            'module-delete'
+                            'module-delete',
+                            'mark-secure-redirect'
 
                         ],
                         'allow' => true,
@@ -227,7 +229,8 @@ public $defaultAction = 'dashboard';
                             'create-module',
                             'material-upload-form',
                             'module-delete',
-                            'updatestudent'
+                            'updatestudent',
+                            'mark-secure-redirect'
                            
                         ],
                         'allow' => true,
@@ -641,8 +644,7 @@ public function actionClassDashboard($cid)
 
 public function actionClassAnnouncements($cid)
 {
-    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+   
     return $this->render('announcements', ['cid'=>$cid]);
 
 }
@@ -684,6 +686,7 @@ public function actionCreateModule()
 
     public function actionModuleDelete($moduleid)
     {
+
         $module=Module::findOne($moduleid);
 
         if($module->delete()){ return $this->asJson(['message'=>'Module deleted']); }
@@ -695,10 +698,9 @@ public function actionCreateModule()
 //assignments page
 public function actionClassAssignments($cid)
 {
-    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+  
 
-    $assignments = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->orderBy([
+    $assignments = Assignment::find()->where(['assNature' => 'assignment', 'course_code' =>ClassRoomSecurity::decrypt($cid)])->orderBy([
         'assID' => SORT_DESC ])->all();
     return $this->render('classAssignments', ['cid'=>$cid,'assignments'=>$assignments]);
 
@@ -818,17 +820,17 @@ public function actionClasswork($cid){
 //############################## student work assignment ######################################
 public function actionStdwork($cid, $id){
     if(!empty($cid)){
-   Yii::$app->session->set('ccode', $cid);
+   Yii::$app->session->set('ccode', ClassRoomSecurity::decrypt($cid));
     }
     $submits=null;
-    $asstype=Assignment::findOne($id)->assType;
+    $asstype=Assignment::findOne(ClassRoomSecurity::decrypt($id))->assType;
     if($asstype=="allgroups" || $asstype=="groups")
     {
-     $submits =GroupAssignmentSubmit::find()->where(['assID'=> $id])->all();
+     $submits =GroupAssignmentSubmit::find()->where(['assID'=>ClassRoomSecurity::decrypt($id)])->all();
     }
     else
     {
-    $submits = Submit::find()->where(['assID'=> $id])->all();
+    $submits = Submit::find()->where(['assID'=>ClassRoomSecurity::decrypt($id)])->all();
     }
     
 
@@ -870,16 +872,12 @@ public function actionStdworkmark($cid, $id){
 }
 public function actionMissedWorkmark($cid, $id){
 
-    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
     
     if(!empty($cid)){
-      Yii::$app->session->set('ccode', $cid);
+      Yii::$app->session->set('ccode', ClassRoomSecurity::decrypt($cid));
     }
     
-    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-    $id=Yii::$app->getSecurity()->decryptByPassword($id, $secretKey);
-    $assign=Assignment::findOne($id);
+    $assign=Assignment::findOne(ClassRoomSecurity::decrypt($id));
             $submits=[];
             $assigned=[];
 
@@ -1248,8 +1246,12 @@ public function actionUploadMaterial(){
    
     if($model->load(Yii::$app->request->post())){
         $model->assFile = UploadedFile::getInstance($model, 'assFile');
+
+        try{
+
        
-        if($model->upload()){
+       $res=$model->upload();
+        if($res===true){
             
             $secretKey=Yii::$app->params['app.dataEncryptionKey'];
             $cid=Yii::$app->getSecurity()->encryptByPassword(yii::$app->session->get('ccode'),$secretKey);
@@ -1264,10 +1266,24 @@ public function actionUploadMaterial(){
         return $this->redirect(Yii::$app->request->referrer);
     }
 }
+catch(Exception $d)
+{
+    Yii::$app->session->setFlash('error',$d->getMessage());
+        
+         
+    return $this->redirect(Yii::$app->request->referrer); 
+}
+}
+}
+public function actionMarkSecureRedirect($id,$subid=null)
+{
+  return $this->redirect(['mark','id'=>ClassRoomSecurity::encrypt($id),'subid'=>ClassRoomSecurity::encrypt($subid)]);
 }
 public function actionMark($id,$subid=null)
 {
     //loading the current assignment
+    $id=ClassRoomSecurity::decrypt($id);
+    $subid=ClassRoomSecurity::decrypt($subid);
     $submit=[];
     $assignment=new Assignment();
     $current_assignment=$assignment::findOne($id);

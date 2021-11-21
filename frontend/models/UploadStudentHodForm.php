@@ -103,7 +103,7 @@ class UploadStudentHodForm extends Model
             return false;
         }
     
-       }catch(\Throwable $e){
+       }catch(\Exception $e){
             $transaction->rollBack();
             return $e->getMessage();
       }
