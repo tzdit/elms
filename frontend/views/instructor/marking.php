@@ -48,7 +48,7 @@ else
 if($submits!=null)
 {
   ?>
-<div class="col-md-2 shadow" style="height:100%;overflow:auto;position:absolute">  
+<div class="col-md-2 shadow" style="height:100%;overflow:auto">  
 <table class="table d-flex mytable" style="font-size:10px;cursor:pointer">
 <tr class="d-flex"><th>s/no</th><th>reg #</th></tr>
 
