@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="instructor-view">
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->instructorID], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Reset password', ['update', 'id' => $model->instructorID], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Reset password', ['reset', 'id' => $model->userID], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->instructorID], [
             'class' => 'btn btn-danger',
             'data' => [

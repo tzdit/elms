@@ -26,13 +26,17 @@ use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =$cid." Announcements";
+
 $this->title = 'Class Announcements';
 $this->params['breadcrumbs'] = [
   ['label'=>'Class dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>$cid])],
   ['label'=>$this->title]
 ];
 
+$secretKey=Yii::$app->params['app.dataEncryptionKey'];
+$cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
+$this->params['courseTitle'] =$cid." Announcements";
 ?>
  
 
@@ -71,7 +75,7 @@ $this->params['breadcrumbs'] = [
    foreach($announcements as $announcement)
    {
      ?>
-  
+    
     <div class="card shadow" >
     <div class="card-header p-1 bg-primary" id="heading">
     <div class="row ">

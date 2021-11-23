@@ -17,11 +17,15 @@ $this->title = 'Student Dashboard';
     <div class="body-content">
    
         <div class="container-fluid">
-     
         <div class="row">
         <?php foreach($courses as $course): ?>
+            <?php
+            $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+            $cid=Yii::$app->getSecurity()->encryptByPassword($course->course_code, $secretKey);
+
+            ?>
           <div class="col-lg-3 col-6">
-          <a href="<?=Url::to(['student/classwork/', 'cid'=>$course->course_code])  ?>" class="small-box bg-info" >
+          <a href="<?=Url::to(['student/classwork/', 'cid'=>$cid])  ?>" class="small-box bg-info" >
           
               <div class="inner">
                 <h3><?= $course->course_code ?></h3>

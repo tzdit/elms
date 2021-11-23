@@ -34,8 +34,8 @@ class Lectureroominfo extends \yii\db\ActiveRecord
         return [
             [['lectureID', 'meetingID', 'duration', 'mpw', 'attpw'], 'required'],
             [['lectureID', 'duration'], 'integer'],
-            [['meetingID'], 'string', 'max' => 10],
-            [['mpw', 'attpw'], 'string', 'max' => 20],
+            [['meetingID'], 'string', 'max' => 255],
+            [['mpw', 'attpw'], 'string', 'max' => 255],
             [['lectureID'], 'exist', 'skipOnError' => true, 'targetClass' => LiveLecture::className(), 'targetAttribute' => ['lectureID' => 'lectureID']],
         ];
     }

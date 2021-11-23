@@ -22,15 +22,6 @@ $('#modal_button2').click(function(){
 
 
 
-$(function(){
-
-  $('#document-file').change(ev => {
-
-    $(ev.target).closest('form').trigger('submit');
-  })
-});
-
-
 /**
  * sweet alert for delete carry
  */
@@ -80,9 +71,27 @@ setTimeout(function(){
 
 
 //submit by drug file
- const dragFile = document.querySelector('#drag-over');
+ const activateTag = document.querySelector('.drop-over');
+ const  dragText = document.querySelector('.drag-header');
+ const  documentFile = document.querySelector('#document-file')
 
-  dragFile.addEventListener('dragover',)
+
+
+
+$(function(){
+
+    $('#document-file').change(ev => {
+
+        $(ev.target).closest('form').trigger('submit');
+    })
+});
+
+
+
+
+
+
+
 
 
 

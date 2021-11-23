@@ -14,12 +14,13 @@ use frontend\models\UploadAssignment;
 use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
+use frontend\models\ClassRoomSecurity;
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =!empty($submits)?$submits[0]->ass->assName:"Failed students";
+$this->params['courseTitle'] ="<i class='fas fa-book-reader'></i> ".(!empty($submits)?$submits[0]->ass->assName:"Failed students");
 $this->title = !empty($submits[0]->ass->assName)?'Failed students '.$submits[0]->ass->assName:'Failed students';
 $this->params['breadcrumbs'] = [
-  ['label'=>'class Assignments', 'url'=>Url::to(['/instructor/class-assignments', 'cid'=>$cid])],
+  ['label'=>'class Assignments', 'url'=>Url::to(['/instructor/class-assignments', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
   ['label'=>$this->title]
 ];
 
@@ -85,7 +86,7 @@ $this->params['breadcrumbs'] = [
 										 ?></td> 
 										 <td><?= $submit->score; ?></td>
                                          <td><?= $submit->comment; ?></td>
-                                         <td><?= Html::a('<i class="fa fa-edit" style="font-size:18px"></i>', ['mark','id'=>$submit->ass->assID,'subid'=>$submit->submitID]) ?></td>
+                                         <td><?= Html::a('<i class="fa fa-edit" style="font-size:18px"></i>', ['mark-secure-redirect','id'=>$submit->ass->assID,'subid'=>$submit->submitID]) ?></td>
 						 			</tr>
 						 		     <?php } ?>
 									 <?php endforeach ?>

@@ -13,6 +13,7 @@ use Yii;
  * @property string $title
  * @property string $description
  * @property string $lectureDate
+ * @property string $lectureTime
  * @property int $duration
  * @property int|null $lateEntryMaxTime
  * @property string $status
@@ -41,8 +42,8 @@ class LiveLecture extends \yii\db\ActiveRecord
     {
         return [
             [['instructorID', 'duration', 'lateEntryMaxTime', 'yearID'], 'integer'],
-            [['title', 'description', 'lectureDate', 'duration', 'status', 'yearID'], 'required'],
-            [['lectureDate'], 'safe'],
+            [['title', 'description', 'lectureDate', 'lectureTime', 'duration', 'status', 'yearID'], 'required'],
+            [['lectureDate', 'lectureTime'], 'safe'],
             [['course_code'], 'string', 'max' => 7],
             [['title'], 'string', 'max' => 200],
             [['description'], 'string', 'max' => 255],
@@ -64,6 +65,7 @@ class LiveLecture extends \yii\db\ActiveRecord
             'title' => 'Title',
             'description' => 'Description',
             'lectureDate' => 'Lecture Date',
+            'lectureTime' => 'Lecture Time',
             'duration' => 'Duration',
             'lateEntryMaxTime' => 'Late Entry Max Time',
             'status' => 'Status',

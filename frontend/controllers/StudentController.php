@@ -143,6 +143,10 @@ class StudentController extends \yii\web\Controller
  ############################## assignments in each course  #######################################################
 
 public function actionClasswork($cid){
+
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
     if(!empty($cid)){
    Yii::$app->session->set('ccode', $cid);
     }
@@ -202,7 +206,7 @@ public function actionClasswork($cid){
         try{
             if (Yii::$app->request->isPost && $model->save()) {
 
-                Yii::$app->session->setFlash('success', 'Your Submit successed');
+                Yii::$app->session->setFlash('success', 'Your Submit success');
 
 
                 return $this->redirect(Yii::$app->request->referrer);
@@ -211,7 +215,7 @@ public function actionClasswork($cid){
 
         }
         catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+            Yii::$app->session->setFlash('error', 'Something went wrong');
         }
 
 
@@ -257,7 +261,7 @@ public function actionClasswork($cid){
                 $model->document = $file;
                 $model->assinmentId = $assID;
                 if ($model->save()) {
-                    Yii::$app->session->setFlash('success', 'Your Re-Submit successed');
+                    Yii::$app->session->setFlash('success', 'Your Re-Submit success');
 
 
                     return $this->redirect(Yii::$app->request->referrer);
@@ -267,7 +271,7 @@ public function actionClasswork($cid){
 
         }
         catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Fail to Resubmit, Try to use another browser');
+            Yii::$app->session->setFlash('error', 'Fail to Resubmit');
         }
 
 
@@ -452,11 +456,18 @@ public function actionClasswork($cid){
         }
 
         $reg_no = Yii::$app->user->identity->username;
-        $returned= Assignment::find()->where('submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->innerJoin('submit','assignment.assID = submit.assID')->orderBy([
+        $returned= Submit::find()->innerJoin('assignment','assignment.assID = submit.assID AND submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->orderBy([
             'submit.submitID' => SORT_DESC ])->all();
 
 //        $returnedGroupAss= Assignment::find()->where('submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->innerJoin('group_assignment_submit','assignment.assID = group_assignment_submit.assID')->innerJoin('')->orderBy([
 //            'submit.submitID' => SORT_DESC ])->all();
+
+//
+//         echo '<pre>';
+//             var_dump($returned);
+//         echo '</pre>';
+//         exit;
+
 
         return $this->render('returned', ['cid'=>$cid, 'reg_no' => $reg_no, 'returned'=>$returned,] );
     }

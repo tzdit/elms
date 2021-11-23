@@ -26,7 +26,7 @@ use yii\helpers\Html;
         </button>
       </div>
       <div class="modal-body">
-      <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/create-program', 'enctype'=>'multipart/form-data']])?>
+      <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/lecture/new-session']])?>
         <div class="row">
         <div class="col-md-12">
         <?= $form->field($model, 'title')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Session Title'])->label(false)?>
@@ -37,12 +37,15 @@ use yii\helpers\Html;
         <?= $form->field($model, 'description')->textarea(['class'=>'form-control form-control-sm', 'placeholder'=>'Session Description','rows'=>3])->label(false)?>
         </div> 
         </div>
-        <div class="row">
-        <div class="col-md-6">
-        <?= $form->field($model, 'lectureDate')->input('date',['class'=>'form-control form-control-sm', 'placeholder'=>'Date and Time'])->label(false)?>
+        <div class="row" style="font-size:11px">
+        <div class="col-md-4">
+        <?= $form->field($model, 'lectureDate')->input('date',['class'=>'form-control form-control-sm', 'prompt'=>'Date and Time'])->label('Date')?>
         </div> 
-        <div class="col-md-6">
-        <?= $form->field($model, 'duration')->input('number',['class'=>'form-control form-control-sm', 'placeholder'=>'duration'])->label(false)?>
+        <div class="col-md-4">
+        <?= $form->field($model, 'lectureTime')->input('time',['class'=>'form-control form-control-sm', 'prompt'=>'Date and Time'])->label('Time')?>
+        </div> 
+        <div class="col-md-4">
+        <?= $form->field($model, 'duration')->input('number',['class'=>'form-control form-control-sm', 'placeholder'=>'duration'])->label('Duration')?>
         </div>
         </div>
         <div class="row text-center" style="margin-bottom:10px"><div class="col-md-12" style="background-color:rgba(255,150,255,.05)"><i class="fa fa-cog"></i> Room Settings</div></div>
@@ -103,7 +106,7 @@ use yii\helpers\Html;
               
         <div class="row">
         <div class="col-md-12">
-        <?= Html::submitButton('Submit', ['class'=>'btn btn-primary btn-sm float-right ml-2']) ?>
+        <?= Html::submitButton('Create', ['class'=>'btn btn-primary btn-sm float-right ml-2']) ?>
         <button type="button" class="btn btn-secondary btn-sm float-right" data-dismiss="modal">Close</button>
       
         </div>

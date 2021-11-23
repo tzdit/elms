@@ -13,6 +13,12 @@ use Yii;
 use yii\helpers\Url;
 use common\helpers\Security;
 use frontend\models\LectureRoom;
+use common\models\LiveLecture;
+use common\models\Lectureroominfo;
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\JoinMeetingParameters;
+use BigBlueButton\Responses\ApiVersionResponse;
+
 
 class LectureController extends \yii\web\Controller
 {
@@ -32,6 +38,10 @@ public $defaultAction = 'dashboard';
                     [
                         'actions' => [
                             'lecture-room',
+                            'new-session',
+                            'session',
+                            'start-session',
+                            'class-podium'
                  
 
                         ],
@@ -44,6 +54,10 @@ public $defaultAction = 'dashboard';
                     [
                         'actions' => [
                             'lecture-room',
+                            'new-session',
+                            'session',
+                            'start-session',
+                            'class-podium'
                            
                            
                         ],
@@ -67,11 +81,13 @@ public $defaultAction = 'dashboard';
 public function actionLectureRoom()
 {
  
+    $serverstatus=true;
+    $servermaster=(new BigBlueButton())->getApiVersion();
+    if(!($servermaster instanceof ApiVersionResponse)){$serverstatus=false;}
 
-  //more parameters will be set in the future according to need
-
+    $lectures=LiveLecture::find()->where(['course_code'=>yii::$app->session->get('ccode')])->all();
  
-    return $this->render('lectureRoom');
+    return $this->render('lectureRoom',['lectures'=>$lectures,'serverstatus'=>$serverstatus]);
 
   
 
@@ -82,18 +98,60 @@ public function actionLectureRoom()
 
 public function actionSession($sessionid)
 {
+    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+    $sessionid=Yii::$app->getSecurity()->decryptByPassword($sessionid, $secretKey);
 
+    $session=Lectureroominfo::find()->where(['lectureID'=>$sessionid])->one();
+
+    return $this->render('session',['session'=>$session]);
 }
 
 public function actionNewSession()
 {
 
+  
   $lectureroommanager=new LectureRoom();
+  if($lectureroommanager->load(yii::$app->request->post()) && $lectureroommanager->validate())
+  {
   $lectureroommanager->meetingId=yii::$app->session->get('ccode');
   $lectureroommanager->meetingName=yii::$app->session->get('ccode')." Lecture ".date('d-m-Y');
   $lectureroommanager->attendeePassword=yii::$app->session->get('ccode')."student";
   $lectureroommanager->moderatorPassword=yii::$app->session->get('ccode')."lecturer";
 
-}
+  $return=$lectureroommanager->holdRoomState();
+  if($return===true)
+  {
+    Yii::$app->session->setFlash('success', 'Lecture Created successfully');
+    return $this->redirect('lecture-room');
+
+
+  }
+  else
+  {
+    Yii::$app->session->setFlash('error',$return);
+   
+    return $this->redirect('lecture-room');
   
+  }
+
+  }
+
+}
+public function actionStartSession($session)
+{
+    $sessioninfo=Lectureroominfo::findOne($session);
+    $rooms_master=new BigBlueButton();
+    $roomid=$sessioninfo->meetingID;
+    $mpw=$sessioninfo->mpw;
+    $instructor_name=$sessioninfo->lecture->instructor->full_name;
+    $door_open_registar=new JoinMeetingParameters($roomid,$instructor_name,$mpw);
+    $door_open_registar->setRedirect(true);
+    
+    //now heading to the classroom like a boss
+    header('status: 301 Moved Permanently',false,301);
+    return $this->redirect($rooms_master->getJoinMeetingURL($door_open_registar));
+   
+
+}
+
 }

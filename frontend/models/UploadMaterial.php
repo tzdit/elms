@@ -2,6 +2,7 @@
 namespace frontend\models;
 use Yii;
 use yii\base\Model;
+use yii\base\Exception;
 use common\models\Material;
 class UploadMaterial extends Model{
     public $assTitle;
@@ -12,7 +13,7 @@ class UploadMaterial extends Model{
         return [
            [['assTitle', 'assType', 'assFile'], 'required'],
            ['moduleID','required'],
-           [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, mp4, MP4, jpg, JPG, MKV, AVI, mkv, avi, png, PNG, doc, docx, xlsx, xls, pkt, ppt, pptx, PPTX'],
+           [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, mp4, jpg, MKV, avi, png, doc, docx, xlsx, xls, pkt, ppt, pptx'],
 
 
         ];
@@ -50,7 +51,7 @@ class UploadMaterial extends Model{
         
     }catch(\Exception $e){
     
-        return $e->getMessage();
+        throw new Exception($e->getMessage()) ;
     }
     }
     

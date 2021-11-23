@@ -14,8 +14,8 @@ use frontend\models\UploadTutorial;
 use frontend\models\UploadLab;
 use frontend\models\UploadMaterial;
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =!empty($submits)?$submits[0]->ass->assName." submits":"Submits";
-$this->title = !empty($submits[0]->ass->assName)?$submits[0]->ass->assName." Submits":'Submits';
+$this->params['courseTitle'] ="<i class='fas fa-book-reader'></i> ".(!empty($submits)?$submits[0]->ass->assName." submits":"Assignment Submits");
+$this->title = !empty($submits[0]->ass->assName)?$submits[0]->ass->assName." Submits":'Assignment Submits';
 $this->params['breadcrumbs'] = [
   ['label'=>'class Assignments', 'url'=>Url::to(['/instructor/class-assignments', 'cid'=>$cid])],
   ['label'=>$this->title]
@@ -36,7 +36,7 @@ $this->params['breadcrumbs'] = [
 
 				
 				
-	<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-ex2">
+	<table width="100%" class="table table-striped table-bordered table-hover text-sm" id="dataTables-ex2">
 		<thead>
 			<tr>
 				
@@ -103,7 +103,7 @@ $this->params['breadcrumbs'] = [
 										 <td><?= $submit->submit_time; ?></td>
 										 <td><?= $submit->score; ?></td>
 										 <td><?= $submit->comment; ?></td>
-										 <td><?= Html::a('<i class="fa fa-edit" style="font-size:18px"></i>', ['mark','id'=>$submit->ass->assID,'subid'=>$submit->submitID]) ?></td>
+										 <td><?= Html::a('<i class="fa fa-edit" style="font-size:18px"></i>', ['mark-secure-redirect','id'=>$submit->ass->assID,'subid'=>$submit->submitID]) ?></td>
 										
 										
 
