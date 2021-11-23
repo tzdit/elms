@@ -71,27 +71,21 @@ use yii\helpers\Html;
               <div class="card-body">
             <table class="table table-bordered table-striped table-hover" id="CourseList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
             <thead>
-            <tr><th width="1%">#</th><th>Course Code</th><th>Programs</th><th width="5%">Action</th></tr>
+            <tr><th width="1%">#</th><th>Course Code</th><th>Programs</th><th>Year</th><th width="5%">Action</th></tr>
             
             </thead>
             <tbody>
 
             <?php $i = 0; ?>
-            <?php foreach($cozz as $course): ?>
+            <?php foreach($progcozz as $procoz): ?>
             <tr>
             <td><?= ++$i; ?></td>
-            <td><?= $course->course_code ?></td>
+            <td><?= $procoz-> course_code ?></td>
+            <td><?= $procoz -> programCode; ?></td>
+            <td><?= $procoz -> level; ?></td>
             <td>
-            <?php if($course -> programCourses == NULL):  ?>
-              <center><i style="color:blue;"> No Program Assigned Yet!!! </i></center>
-            <?php else: ?>  
-            <?php foreach($course -> programCourses as $progcoz): ?>
-             <b> <?= $progcoz->programCode; ?> </b>,
-            <?php endforeach; ?>
-            <?php endif; ?>
-            </td>
-            <td>
-            <a href="#" class="btn btn-danger btn-sm m-0" data-toggle="modal" data-target="#modal-danger<?php $course->course_code ?>"><span><i class="fas fa-trash"></i></span></a>
+            <a href="#" procozid="<?=$procoz->PC_ID?>" class="btn btn-sm btn-danger float-right ml-2 progcozdel"><span><i class="fas fa-trash"></i></span></a>
+            
             </td>
             
    
@@ -147,6 +141,50 @@ $(document).ready(function(){
     responsive:true
   });
   // alert("JS IS OKAY")
+
+  
+//Deleting Course 
+$(document).on('click', '.progcozdel', function(){
+var programcourseid = $(this).attr('procozid');
+Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'question',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, Delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+ 
+    $.ajax({
+      url:'/instructor/deleteprogcoz',
+      method:'get',
+      async:false,
+      dataType:'JSON',
+      data:{id:programcourseid },
+      success:function(data){
+        if(data.message){
+          Swal.fire(
+              'Deleted!',
+              data.message,
+              'success'
+    )
+    setTimeout(function(){
+      window.location.reload();
+    },100);
+   
+
+        }
+      }
+    })
+   
+  }
+})
+
+})
+
+
 });
 JS;
 $this->registerJs($script);

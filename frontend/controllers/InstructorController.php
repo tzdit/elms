@@ -179,6 +179,7 @@ public $defaultAction = 'dashboard';
                             'deletelab',
                             'deletetut',
                             'deletecoz',
+                            'deleteprogcoz',
                             'deletestudent',
                             'deleteprog',
                             'materials',
@@ -505,7 +506,16 @@ public function actionEditExtAssrecord($recordid)
            Yii::$app->session->setFlash('success', 'Course deleted successfully');
         }
         return $this->redirect(Yii::$app->request->referrer);
-    }
+    } 
+
+    public function actionDeleteprogcoz($id)
+    {
+        $progcozdel = ProgramCourse::findOne($id)->delete(); 
+        if($progcozdel){
+           Yii::$app->session->setFlash('success', 'Program removed from course successfully');
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    } 
 
     public function actionDeleteprog($id)
     {
@@ -1731,7 +1741,6 @@ public function actionAddStudentGentype()
 //get list of students for particular department
 
 public function actionStudentList(){
-    $program_students;
     $instructorid = Yii::$app->user->identity->instructor->instructorID;
     $myinstructor=Instructor::findOne($instructorid);
     $instructor_department= $myinstructor->department;
@@ -1808,6 +1817,7 @@ public function actionStudentList(){
         //print_r(Yii::$app->request->post());
         $model = new AssignCourse;
         $cozz = Course::find()->all();
+        $progcozz = ProgramCourse::find()->all();
         $courses = ArrayHelper::map(Course::find()->all(), 'course_code', 'course_code');
         
         $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
@@ -1835,7 +1845,8 @@ public function actionStudentList(){
         Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
          return $this->redirect(Yii::$app->request->referrer);
     }
-        return $this->render('assign-course', ['model'=>$model, 'courses'=>$courses, 'programs'=>$programs, 'cozz'=>$cozz]);
+        return $this->render('assign-course', ['model'=>$model, 'courses'=>$courses, 'programs'=>$programs, 
+                            'cozz'=>$cozz, 'progcozz'=>$progcozz]);
     }
 
     public function actionInstructorCourse()
