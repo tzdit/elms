@@ -56,9 +56,19 @@ if($submits!=null)
 
 for($sub=0;$sub<count($submits);$sub++)
 {
+  if($submits[$sub]->score!=null || $submits[$sub]->score!="")
+  {
 ?>
-<tr class="d-flex"><td id="<?=$submits[$sub]->submitID;?>"><?=$sub+1?><td id="<?=$submits[$sub]->fileName;?>"><?php if($asstype=="class"){print $submits[$sub]->reg_no;}else{ print $submits[$sub]->group->groupName;}?></td></tr>
+<tr class="d-flex bg-primary"><td id="<?=$submits[$sub]->submitID;?>"><?=$sub+1?><td id="<?=$submits[$sub]->fileName;?>"><?php if($asstype=="class"){print $submits[$sub]->reg_no;}else{ print $submits[$sub]->group->groupName;}?></td></tr>
 <?php
+  }
+  else
+  {
+    ?>
+
+<tr class="d-flex"><td id="<?=$submits[$sub]->submitID;?>"><?=$sub+1?><td id="<?=$submits[$sub]->fileName;?>"><?php if($asstype=="class"){print $submits[$sub]->reg_no;}else{ print $submits[$sub]->group->groupName;}?></td></tr>
+    <?php
+  }
 }
 ?>
 
@@ -66,7 +76,7 @@ for($sub=0;$sub<count($submits);$sub++)
 </div>
   <div class="col-md-8 shadow">
     <iframe src="" style="width:100%;border:none" height="426" id="fileobj"  type="application/pdf">
-    the file here
+    file not found or could not be read
 
     </iframe>
     <!-- <div id="viewpdf"></div> -->

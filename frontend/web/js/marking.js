@@ -116,14 +116,14 @@ $(document).ready(function(){
  $("#heading").animate({width: "100%"});
  $("#asshead").css("width", "0%");
  $("#asshead").animate({width: "50%"});
-
+ */
  
  //Putting the last entry into the local storage
  localStorage.setItem('file_id',file_id);
  localStorage.setItem('filename',filename);
  localStorage.setItem('course_code',course_code);
  localStorage.setItem('ass_name',ass_name);
- */
+
  $('#scoremark').val("");
  
  //emptying the questions score
@@ -201,10 +201,10 @@ if(code==39 || code==40)
  
  
  //Putting the last entry into the local storage
- //localStorage.setItem('file_id',file_id);
- //localStorage.setItem('filename',filename);
- //localStorage.setItem('course_code',course_code);
- //localStorage.setItem('ass_name',ass_name);
+ localStorage.setItem('file_id',file_id);
+ localStorage.setItem('filename',filename);
+ localStorage.setItem('course_code',course_code);
+ localStorage.setItem('ass_name',ass_name);
  
  crow=$("tr:eq("+rw+")"); //set the current row
  $('#scoremark').val("");
@@ -256,10 +256,10 @@ if(code==37 || code==38)
  
  
  //Putting the last entry into the local storage
- //localStorage.setItem('file_id',file_id);
- //localStorage.setItem('filename',filename);
- //localStorage.setItem('course_code',course_code);
- //localStorage.setItem('ass_name',ass_name);
+ localStorage.setItem('file_id',file_id);
+ localStorage.setItem('filename',filename);
+ localStorage.setItem('course_code',course_code);
+ localStorage.setItem('ass_name',ass_name);
  
  crow=$("tr:eq("+rw+")"); //set the current row
  //crow.css("background-color","");

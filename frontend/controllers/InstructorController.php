@@ -536,7 +536,7 @@ public function actionEditExtAssrecord($recordid)
 
     public function actionUpdate($id)
     {
-        $ass = Assignment::findOne($id);
+        $ass = Assignment::findOne(ClassRoomSecurity::decrypt($id));
         $assmodel = new UploadAssignment();
      
         return $this->render('assignments/update_assignment', ['ass'=>$ass,'assmodel'=>$assmodel]);
