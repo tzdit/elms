@@ -86,7 +86,7 @@ $this->params['breadcrumbs'] = [
        
        
        ?>
-          <div class="row">
+          <div class="row" style="margin-bottom:10px">
           <div class="col-md-6">
             <span>
             <span class='bg-primary'>Assigned Programs:</span>
@@ -94,12 +94,11 @@ $this->params['breadcrumbs'] = [
             $assignedprog=ProgramCourse::find()->where(['course_code'=>$cid])->all();
             for($p=0;$p<count($assignedprog);$p++)
             {
-              print "<span class='text-primary' style='padding:2px'>".$assignedprog[$p]->programCode." ".$assignedprog[$p]->level.",</span>";
+              print "<span class='text-primary text-sm' style='padding:2px'>".$assignedprog[$p]->programCode." ".$assignedprog[$p]->level.",</span>";
             }
              
 
           ?>
-
           </span>
      </div>
           <div class="col-md-6">
