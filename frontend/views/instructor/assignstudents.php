@@ -46,16 +46,9 @@ $levels=[1=>'First Year',2=>'Second Year',3=>'Third Year',4=>'Fourth Year',5=>'F
   </div>
 </div>
 <?php 
-$this->registerCssFile('@web/plugins/select2/css/select2.min.css');
-$this->registerJsFile(
-  '@web/plugins/select2/js/select2.full.js',
-  ['depends' => 'yii\web\JqueryAsset']
-);
-$this->registerJsFile(
-  '@web/js/create-assignment.js',
-  ['depends' => 'yii\web\JqueryAsset'],
 
-);
+
+
 
 ?>
 
