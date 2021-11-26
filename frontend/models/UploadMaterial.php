@@ -20,9 +20,9 @@ class UploadMaterial extends Model{
 
     }
     public function upload(){
-        if(!$this->validate()){
-            throw new Exception("could not validate your data submission");
-        }
+        //if(!$this->validate()){
+            //throw new Exception("could not validate your data submission");
+       // }
  
         
         $fileName =uniqid().'.'.$this->assFile->extension;
@@ -35,7 +35,7 @@ class UploadMaterial extends Model{
         $ass->instructorID = Yii::$app->user->identity->instructor->instructorID;
         $ass->course_code =Yii::$app->session->get('ccode');
         $this->assFile->saveAs('storage/temp/'.$fileName);
-        if($ass->save())
+        if($ass->save(false))
         {
             return true;
         }
