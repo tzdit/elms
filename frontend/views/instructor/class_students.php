@@ -88,18 +88,19 @@ $this->params['breadcrumbs'] = [
        ?>
           <div class="row">
           <div class="col-md-6">
-            <span class='bg-primary'>Assigned Programs:
+            <span>
+            <span class='bg-primary'>Assigned Programs:</span>
             <?php
             $assignedprog=ProgramCourse::find()->where(['course_code'=>$cid])->all();
             for($p=0;$p<count($assignedprog);$p++)
             {
-              print "<span style='padding:2px'>".$assignedprog[$p]->programCode." ".$assignedprog[$p]->level.",</span>";
+              print "<span class='text-primary' style='padding:2px'>".$assignedprog[$p]->programCode." ".$assignedprog[$p]->level.",</span>";
             }
              
 
           ?>
 
-</span>
+          </span>
      </div>
           <div class="col-md-6">
           <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#Addstudents" data-toggle="modal" style="margin-left:10px"><i class="fas fa-plus" ></i>Assign Students</a>
@@ -115,7 +116,7 @@ $this->params['breadcrumbs'] = [
 				</th>
 
 				<th>
-				Degree program
+				Program
 				</th>
        <th>
        Full name
@@ -126,6 +127,12 @@ $this->params['breadcrumbs'] = [
 				<th>
 				YOS
 				</th>
+        <th>
+			   Status
+				</th>
+        <th>
+			   Profile
+      </th>
 				
 			</tr>
 		</thead>
@@ -137,6 +144,8 @@ $this->params['breadcrumbs'] = [
                     <td><?=  $student->fname." ".$student->mname." ".$student->lname; ?></td>
                     <td><?=  $student->gender; ?></td>
                     <td><?=  $student->YOS; ?></td>
+                    <td></td>
+                    <td></td>
                     
 						 			</tr>
 						 		

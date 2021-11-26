@@ -47,7 +47,7 @@ $this->title = 'Create Users';
                  </div>
                  <div class="row"> 
                  <div class="col-md-12">
-                   <?= $form->field($model, 'department')->dropdownList($departments, ['prompt'=>'--Select--'], ['class'=>'form-control form-control-sm'])->label(' Department') ?>
+                   <?= $form->field($model, 'department')->dropdownList($departments, ['prompt'=>'--Select department--'], ['class'=>'form-control form-control-sm'])->label(' Department') ?>
                   </div>
                  
                  </div>

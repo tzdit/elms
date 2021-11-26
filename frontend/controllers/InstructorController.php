@@ -55,6 +55,7 @@ use Yii;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
 use common\helpers\Security;
+use yii\base\Exception;
 use frontend\models\ClassRoomSecurity;
 
 class InstructorController extends \yii\web\Controller
@@ -1267,14 +1268,7 @@ public function actionUploadMaterial(){
             $cid=Yii::$app->getSecurity()->encryptByPassword(yii::$app->session->get('ccode'),$secretKey);
             Yii::$app->session->setFlash('success', 'Material uploaded successfully');
             return $this->redirect(['class-materials','cid'=>$cid]);
-        }else{
-          
-           
-        Yii::$app->session->setFlash('error',"An error occured");
-        
-         
-        return $this->redirect(Yii::$app->request->referrer);
-    }
+        }
 }
 catch(Exception $d)
 {
