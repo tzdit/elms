@@ -156,7 +156,7 @@ $this->params['breadcrumbs'] = [
 <?php 
 $removestudentsmodel = new StudentAssign();
 ?>
-<?= $this->render('removestudents', ['removestudentsmodel'=>$removestudentsmodel, 'ccode'=>$cid]) ?>
+<?= $this->render('removeStudents', ['removestudentsmodel'=>$removestudentsmodel, 'ccode'=>$cid]) ?>
 
 
 <!-- ############################################## the student adding modal ######################################## -->
