@@ -24,12 +24,14 @@ use frontend\models\External_assess;
 use frontend\models\StudentAssign;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
+use frontend\models\ClassRoomSecurity;
+use frontend\models\CourseStudents;
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =$cid. " Students";
+$this->params['courseTitle'] ="<i class='fa fa-graduation-cap'></i> ".$cid. " Students";
 $this->title = $cid. " Students";
 $this->params['breadcrumbs'] = [
-  ['label'=>'class-dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>$cid])],
+  ['label'=>'class-dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
   ['label'=>$this->title]
 ];
 
@@ -52,34 +54,7 @@ $this->params['breadcrumbs'] = [
              
               <div class="card-body" >
      <?php 
-     $students=[];
-     $levels=[1,2,3,4,5];
-     for($l=0;$l<count($levels);$l++)
-     {
-     $level=$levels[$l];
-     $coursePrograms=ProgramCourse::find()->where(['course_code'=>$cid,'level'=>$level])->all();
-     foreach($coursePrograms as $program)
-     {
-
-      $programStudents=$program->programCode0->students;
-
-      for($s=0;$s<count($programStudents);$s++){
-
-        if($programStudents[$s]->YOS===$level)
-        {
-        array_push($students,$programStudents[$s]);
-        }
-      }
-
-
-     }
-    }
-     $carryovers=StudentCourse::find()->where(['course_code'=>$cid])->all(); 
-
-     foreach($carryovers as $carry)
-     {
-      array_push($students,$carry->regNo);
-     }
+       $students=CourseStudents::getClassStudents($cid);
 
      //participating programs
 
@@ -102,8 +77,10 @@ $this->params['breadcrumbs'] = [
           </span>
      </div>
           <div class="col-md-6">
-          <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#Addstudents" data-toggle="modal" style="margin-left:10px"><i class="fas fa-plus" ></i>Assign Students</a>
-          <a href="/instructor/view-groups" class="btn btn-sm btn-primary btn-rounded float-right mb-2"><i class="fas fa-group" ></i>Student Groups</a>
+         
+          <a href="/instructor/view-groups" class="btn btn-sm btn-primary btn-rounded float-right mb-2"><i class="fas fa-group" ></i> Student Groups</a>
+          <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target=".remstudents" data-toggle="modal" style="margin-right:10px"><i class="fas fa-minus-circle" ></i> Remove Students</a>
+          <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#Addstudents" data-toggle="modal" style="margin-right:10px"><i class="fas fa-plus-circle" ></i> Assign Students</a>
             
             </div>
             </div>
@@ -173,24 +150,14 @@ $this->params['breadcrumbs'] = [
 </div>
 </div>
                 </div>
+                
     
-<!--  ###################################render model to create_assignment ###########################################-->
+<!--############## removing student modal!> -->
 <?php 
-$assmodel = new UploadAssignment();
+$removestudentsmodel = new StudentAssign();
 ?>
-<?= $this->render('assignments/create_assignment', ['assmodel'=>$assmodel, 'ccode'=>$cid]) ?>
+<?= $this->render('removestudents', ['removestudentsmodel'=>$removestudentsmodel, 'ccode'=>$cid]) ?>
 
-<!--  ###################################render model to Create_tutorial ##############################################-->
-<?php 
-$tutmodel = new UploadTutorial();
-?>
-<?= $this->render('tutorials/create_tutorial', ['tutmodel'=>$tutmodel, 'ccode'=>$cid]) ?>
-
-<!--  ###################################render model to Create_lab ####################################################-->
-<?php 
-$labmodel = new UploadLab();
-?>
-<?= $this->render('labs/create_lab', ['labmodel'=>$labmodel, 'ccode'=>$cid]) ?>
 
 <!-- ############################################## the student adding modal ######################################## -->
 <?php 
@@ -198,24 +165,15 @@ $assignstudentsmodel = new StudentAssign();
 ?>
 <?= $this->render('assignstudents', ['assignstudentsmodel'=>$assignstudentsmodel, 'ccode'=>$cid]) ?>
 
-<!--  ###################################render model to create_material ####################################################-->
 
-<!--  ###################################new assessment modal ####################################################-->
-<?php 
-$assessmodel = new External_assess();
-?>
-<?= $this->render('assessupload', ['assessmodel'=>$assessmodel, 'ccode'=>$cid]) ?>
-<!--  ###################################new announce modal ####################################################-->
-<?php 
-$announcemodel = new PostAnnouncement();
-?>
-<?= $this->render('announcementForm', ['announcemodel'=>$announcemodel]) ?>
 
 
 
 <?php 
 $script = <<<JS
 $(document).ready(function(){
+  $('#assignstudents').select2();
+  $('#remstudents').select2();
   $(".headcard").on('show.bs.collapse','.collapse', function(e) {
   $(e.target).parent().addClass('shadow');
   });

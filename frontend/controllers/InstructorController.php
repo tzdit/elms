@@ -148,7 +148,8 @@ public $defaultAction = 'dashboard';
                             'create-module',
                             'material-upload-form',
                             'module-delete',
-                            'mark-secure-redirect'
+                            'mark-secure-redirect',
+                            'remove-students'
 
                         ],
                         'allow' => true,
@@ -232,7 +233,8 @@ public $defaultAction = 'dashboard';
                             'material-upload-form',
                             'module-delete',
                             'updatestudent',
-                            'mark-secure-redirect'
+                            'mark-secure-redirect',
+                            'remove-students'
                            
                         ],
                         'allow' => true,
@@ -1691,6 +1693,34 @@ public function actionAddStudentGentype()
      else{
         
         $errors="Error(s) detected during assigning:";
+        foreach($returned as $prog=>$error)
+        {
+            $errors.="<br>".$prog.": ".$error;
+        }
+        Yii::$app->session->setFlash('success',$errors);
+        return $this->redirect(Yii::$app->request->referrer);
+     }
+ 
+     }
+
+
+ }
+
+ public function actionRemoveStudents()
+ {
+   
+    $model = new StudentAssign();
+    if($model->load(Yii::$app->request->post()) && $model->validate()){
+    $returned=$model->removeStudents();
+     if(empty($returned))
+     {
+
+        Yii::$app->session->setFlash('success', 'Programs removed successfully');
+        return $this->redirect(Yii::$app->request->referrer);
+     }
+     else{
+        
+        $errors="Error(s) detected during removing:";
         foreach($returned as $prog=>$error)
         {
             $errors.="<br>".$prog.": ".$error;
