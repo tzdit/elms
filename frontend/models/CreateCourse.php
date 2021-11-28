@@ -21,6 +21,7 @@ class CreateCourse extends Model{
             [['course_code', 'course_name', 'course_status', 'course_credit', 'YOS', 'course_semester', 'departments'], 'required'],
             [[ 'course_semester', 'course_duration'], 'integer'],
             [['course_code'], 'string', 'max' => 25],
+            ['course_code', 'unique', 'targetClass' => '\common\models\Course', 'message' => 'This course already exists.'],
             [['course_name'], 'string', 'max' => 150],
             [['course_status'], 'string', 'max' => 15],
             [['YOS'], 'integer', 'max' => 5, 'min'=> 1],

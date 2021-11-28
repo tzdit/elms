@@ -76,11 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                    <?= $form->field($model, 'gender')->dropdownList(['M'=>'MALE', 'F'=>'FEMALE'], ['prompt'=>'--select--', 'class'=>'form-control form-control-sm'] )->label('Gender') ?>
                 
                  </div>
-                 <div class="col-md-6">
                 
-                   <?= $form->field($model, 'role')->dropdownList($roles, ['options'=>['INSTRUCTOR'=>['selected'=>true]], 'class'=>['form-control form-control-sm']], )->label('Role') ?>
-                
-                 </div>
                  </div>
                
                    <div class="row">
