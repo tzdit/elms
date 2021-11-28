@@ -634,10 +634,10 @@ public function actionUpdatecoz($cozzid)
         // $departments = Yii::$app->user->identity->hod->department;
         $departments = ArrayHelper::map(Department::find()->where(['departmentID'=> Yii::$app->user->identity->instructor->department->departmentID])->all(), 'depart_abbrev', 'depart_abbrev');
         $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
-        if($model->load(Yii::$app->request->post()) && $model->save())
+        if($model->load(Yii::$app->request->post()))
         {
             Yii::$app->session->setFlash('success', 'Student updated successfully');
-            print_r($model->getErrors());
+            print_r(Yii::$app->request->post());
            // return $this->redirect(['student-list']);
         }else{
         return $this->render('updatestudent', ['model'=>$model, 'programs'=>$programs, 'departments'=>$departments, 'roles'=>$roles ]);
