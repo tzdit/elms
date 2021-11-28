@@ -638,6 +638,7 @@ public function actionUpdatecoz($cozzid)
         {
             Yii::$app->session->setFlash('success', 'Student updated successfully');
             print_r(Yii::$app->request->post());
+            print $model->programCode;
            // return $this->redirect(['student-list']);
         }else{
         return $this->render('updatestudent', ['model'=>$model, 'programs'=>$programs, 'departments'=>$departments, 'roles'=>$roles ]);
