@@ -636,7 +636,7 @@ public function actionUpdatecoz($cozzid)
         $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
         if($model->load(Yii::$app->request->post()) && $model->save())
         {
-            Yii::$app->session->setFlash('success', 'Student updated successfully');
+           Yii::$app->session->setFlash('success', 'Student updated successfully');
            return $this->redirect(['student-list']);
         }else{
         return $this->render('updatestudent', ['model'=>$model, 'programs'=>$programs, 'departments'=>$departments, 'roles'=>$roles ]);
