@@ -57,7 +57,6 @@ class Student extends \yii\db\ActiveRecord
             [['programCode', 'fname', 'mname', 'lname', 'status'], 'string', 'max' => 100],
             [['gender'], 'string', 'max' => 7],
             [['phone'], 'string', 'max' => 30],
-            [['phone'], 'unique'],
             [['reg_no'], 'unique'],
             [['programCode'], 'exist', 'skipOnError' => true, 'targetClass' => Program::className(), 'targetAttribute' => ['programCode' => 'programCode']],
             [['userID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userID' => 'id']],

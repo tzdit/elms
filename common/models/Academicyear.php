@@ -10,10 +10,11 @@ use Yii;
  * @property int $yearID
  * @property int $starts_in
  * @property int $ends_in
+ * @property string $title
  * @property string $date_launched
+ * @property int $duration duration in months
  * @property string $status ex: ongoing or finished
  *
- * @property Course[] $courses
  * @property Logs[] $logs
  * @property Notification[] $notifications
  * @property Notification[] $notifications0
@@ -41,9 +42,10 @@ class Academicyear extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['starts_in', 'ends_in', 'date_launched', 'status'], 'required'],
-            [['starts_in', 'ends_in'], 'integer'],
+            [['starts_in', 'ends_in', 'title', 'date_launched', 'duration', 'status'], 'required'],
+            [['starts_in', 'ends_in', 'duration'], 'integer'],
             [['date_launched'], 'safe'],
+            [['title'], 'string', 'max' => 15],
             [['status'], 'string', 'max' => 10],
         ];
     }
@@ -57,19 +59,11 @@ class Academicyear extends \yii\db\ActiveRecord
             'yearID' => 'Year ID',
             'starts_in' => 'Starts In',
             'ends_in' => 'Ends In',
+            'title' => 'Title',
             'date_launched' => 'Date Launched',
+            'duration' => 'Duration',
             'status' => 'Status',
         ];
-    }
-
-    /**
-     * Gets query for [[Courses]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCourses()
-    {
-        return $this->hasMany(Course::className(), ['yearID' => 'yearID']);
     }
 
     /**

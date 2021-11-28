@@ -55,7 +55,10 @@ use Yii;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
 use common\helpers\Security;
+use yii\base\Exception;
 use frontend\models\ClassRoomSecurity;
+use common\models\Academicyear;
+use frontend\models\AcademicYearManager;
 
 class InstructorController extends \yii\web\Controller
 {
@@ -147,7 +150,9 @@ public $defaultAction = 'dashboard';
                             'create-module',
                             'material-upload-form',
                             'module-delete',
-                            'mark-secure-redirect'
+                            'mark-secure-redirect',
+                            'remove-students',
+                            'switch-academicyear'
 
                         ],
                         'allow' => true,
@@ -231,7 +236,9 @@ public $defaultAction = 'dashboard';
                             'material-upload-form',
                             'module-delete',
                             'updatestudent',
-                            'mark-secure-redirect'
+                            'mark-secure-redirect',
+                            'remove-students',
+                            'switch-academicyear'
                            
                         ],
                         'allow' => true,
@@ -254,12 +261,35 @@ public $defaultAction = 'dashboard';
 
     public function actionDashboard()
     {
+   
+    //getting the courses
     $courses = Yii::$app->user->identity->instructor->courses;
+    
+    //traveling with all shit
     return $this->render('index', ['courses'=>$courses]);
     }
 
 
+    //switching academic year
 
+    public function actionSwitchAcademicyear()
+    {
+      $model=new AcademicYearManager;
+      if($model->load(yii::$app->request->post()))
+      {
+          $res=$model->switchAcademicYear();
+          if($res===true)
+          {
+              return $this->redirect(yii::$app->request->referrer);
+          }
+          else
+          {
+            Yii::$app->session->setFlash('error', 'Can\'t Switch academic year now');
+            return $this->redirect(yii::$app->request->referrer);
+          }
+      }
+
+    }
     //#################### function to render instructor courses ##############################
 
     public function actionCourses(){
@@ -546,7 +576,7 @@ public function actionEditExtAssrecord($recordid)
 
     public function actionUpdate($id)
     {
-        $ass = Assignment::findOne($id);
+        $ass = Assignment::findOne(ClassRoomSecurity::decrypt($id));
         $assmodel = new UploadAssignment();
      
         return $this->render('assignments/update_assignment', ['ass'=>$ass,'assmodel'=>$assmodel]);
@@ -627,8 +657,8 @@ public function actionUpdatecoz($cozzid)
         $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
         if($model->load(Yii::$app->request->post()) && $model->save())
         {
-            Yii::$app->session->setFlash('success', 'Student updated successfully');
-            return $this->redirect(['student-list']);
+           Yii::$app->session->setFlash('success', 'Student updated successfully');
+           return $this->redirect(['student-list']);
         }else{
         return $this->render('updatestudent', ['model'=>$model, 'programs'=>$programs, 'departments'=>$departments, 'roles'=>$roles ]);
         }
@@ -1267,14 +1297,7 @@ public function actionUploadMaterial(){
             $cid=Yii::$app->getSecurity()->encryptByPassword(yii::$app->session->get('ccode'),$secretKey);
             Yii::$app->session->setFlash('success', 'Material uploaded successfully');
             return $this->redirect(['class-materials','cid'=>$cid]);
-        }else{
-          
-           
-        Yii::$app->session->setFlash('error',"An error occured");
-        
-         
-        return $this->redirect(Yii::$app->request->referrer);
-    }
+        }
 }
 catch(Exception $d)
 {
@@ -1404,7 +1427,7 @@ public function actionAddPartner()
   }
   else
   {
-    Yii::$app->session->setFlash('success', 'unkown error occured');
+    Yii::$app->session->setFlash('error', 'unkown error occured');
     return $this->redirect(Yii::$app->request->referrer);  
   }
 
@@ -1425,12 +1448,12 @@ public function actionGenerateGroups()
      if($model->generateRandomGroups())
      {
 
-        Yii::$app->session->setFlash('success', 'groups generated');
+        Yii::$app->session->setFlash('success', 'Groups generated successfully');
         return $this->redirect(Yii::$app->request->referrer);
      }
      else{
 
-        Yii::$app->session->setFlash('success', 'groups generating failed');
+        Yii::$app->session->setFlash('error', 'Groups generating failed');
         return $this->redirect(Yii::$app->request->referrer);
      }
  
@@ -1444,16 +1467,24 @@ public function actionAddStudentGentype()
  
     $model = new StudentGroups();
     if($model->load(Yii::$app->request->post()) && $model->validate()){
-      
-     if($model->addstudenttype())
+     $res=$model->addstudenttype();
+     if($res===true)
      {
 
-        Yii::$app->session->setFlash('success', 'successful');
+        Yii::$app->session->setFlash('success', 'Student-groups type added successfully');
         return $this->redirect(Yii::$app->request->referrer);
      }
      else{
 
-        Yii::$app->session->setFlash('success', 'failed');
+        $resp="";
+        foreach($res as $key)
+        {
+            for($c=0;$c<count($key);$c++)
+            {
+                $resp.=$key[$c];
+            }
+        }
+        Yii::$app->session->setFlash('error', 'Student-groups type adding failed...<br>'.$resp);
         return $this->redirect(Yii::$app->request->referrer);
      }
  
@@ -1697,6 +1728,34 @@ public function actionAddStudentGentype()
      else{
         
         $errors="Error(s) detected during assigning:";
+        foreach($returned as $prog=>$error)
+        {
+            $errors.="<br>".$prog.": ".$error;
+        }
+        Yii::$app->session->setFlash('success',$errors);
+        return $this->redirect(Yii::$app->request->referrer);
+     }
+ 
+     }
+
+
+ }
+
+ public function actionRemoveStudents()
+ {
+   
+    $model = new StudentAssign();
+    if($model->load(Yii::$app->request->post()) && $model->validate()){
+    $returned=$model->removeStudents();
+     if(empty($returned))
+     {
+
+        Yii::$app->session->setFlash('success', 'Programs removed successfully');
+        return $this->redirect(Yii::$app->request->referrer);
+     }
+     else{
+        
+        $errors="Error(s) detected during removing:";
         foreach($returned as $prog=>$error)
         {
             $errors.="<br>".$prog.": ".$error;

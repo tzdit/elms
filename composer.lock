@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8fe1a235036548a69e6d5accb99e2014",
+    "content-hash": "e8af0532a862c2d644376f0e37ae28b8",
     "packages": [
         {
             "name": "aryelds/yii2-sweet-alert",
@@ -250,7 +250,7 @@
             "version": "3.3.11",
             "source": {
                 "type": "git",
-                "url": "https://github.com/RobinHerbots/Inputmask.git",
+                "url": "git@github.com:RobinHerbots/Inputmask.git",
                 "reference": "5e670ad62f50c738388d4dcec78d2888505ad77b"
             },
             "dist": {
@@ -304,7 +304,7 @@
             "version": "v1.1.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/t4t5/sweetalert.git",
+                "url": "git@github.com:t4t5/sweetalert.git",
                 "reference": "3b9d8eb90268e0b1f8f58b2eba240631df0ad18f"
             },
             "dist": {
@@ -337,6 +337,49 @@
             "license": [
                 "MIT"
             ]
+        },
+        {
+            "name": "c006/yii2-submit-spinner",
+            "version": "v2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/c006/yii2-submit-spinner.git",
+                "reference": "bbfae8272cd34885c7f4913bf23cbddb1fe806c5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/c006/yii2-submit-spinner/zipball/bbfae8272cd34885c7f4913bf23cbddb1fe806c5",
+                "reference": "bbfae8272cd34885c7f4913bf23cbddb1fe806c5",
+                "shasum": ""
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "c006\\spinner\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jon Chambers",
+                    "email": "jchambers.dev@gmail.com"
+                }
+            ],
+            "description": "Adds a div overlay with a spinning loader on submit",
+            "keywords": [
+                "extension",
+                "form",
+                "widgets",
+                "yii2"
+            ],
+            "support": {
+                "issues": "https://github.com/c006/yii2-submit-spinner/issues",
+                "source": "https://github.com/c006/yii2-submit-spinner/tree/v2.0"
+            },
+            "time": "2017-09-19T22:07:57+00:00"
         },
         {
             "name": "cebe/markdown",
@@ -1305,16 +1348,16 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "1.19.0",
+            "version": "1.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "a9ab55bfae02eecffb3df669a2e19ba0e2f04bbf"
+                "reference": "44436f270bb134b4a94670f3d020a85dfa0a3c02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/a9ab55bfae02eecffb3df669a2e19ba0e2f04bbf",
-                "reference": "a9ab55bfae02eecffb3df669a2e19ba0e2f04bbf",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/44436f270bb134b4a94670f3d020a85dfa0a3c02",
+                "reference": "44436f270bb134b4a94670f3d020a85dfa0a3c02",
                 "shasum": ""
             },
             "require": {
@@ -1335,7 +1378,7 @@
                 "maennchen/zipstream-php": "^2.1",
                 "markbaker/complex": "^3.0",
                 "markbaker/matrix": "^3.0",
-                "php": "^7.2 || ^8.0",
+                "php": "^7.3 || ^8.0",
                 "psr/http-client": "^1.0",
                 "psr/http-factory": "^1.0",
                 "psr/simple-cache": "^1.0"
@@ -1343,15 +1386,15 @@
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "dev-master",
                 "dompdf/dompdf": "^1.0",
-                "friendsofphp/php-cs-fixer": "^2.18",
+                "friendsofphp/php-cs-fixer": "^3.2",
                 "jpgraph/jpgraph": "^4.0",
                 "mpdf/mpdf": "^8.0",
                 "phpcompatibility/php-compatibility": "^9.3",
-                "phpstan/phpstan": "^0.12.82",
-                "phpstan/phpstan-phpunit": "^0.12.18",
-                "phpunit/phpunit": "^8.5",
-                "squizlabs/php_codesniffer": "^3.5",
-                "tecnickcom/tcpdf": "^6.3"
+                "phpstan/phpstan": "^1.1",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^8.5 || ^9.0",
+                "squizlabs/php_codesniffer": "^3.6",
+                "tecnickcom/tcpdf": "^6.4"
             },
             "suggest": {
                 "dompdf/dompdf": "Option for rendering PDF with PDF Writer (doesn't yet support PHP8)",
@@ -1403,9 +1446,9 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.19.0"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.20.0"
             },
-            "time": "2021-10-31T15:09:20+00:00"
+            "time": "2021-11-23T15:23:42+00:00"
         },
         {
             "name": "psr/http-client",
@@ -1855,6 +1898,7 @@
                     "type": "tidelift"
                 }
             ],
+            "abandoned": "symfony/mailer",
             "time": "2021-10-18T15:26:12+00:00"
         },
         {
@@ -3098,22 +3142,22 @@
         },
         {
             "name": "codeception/module-yii2",
-            "version": "1.1.3",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/module-yii2.git",
-                "reference": "09853feb15ad5e80e472c6881793a22f273a9921"
+                "reference": "aec2976c45136056f1b05c930cd376bb283d42e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/module-yii2/zipball/09853feb15ad5e80e472c6881793a22f273a9921",
-                "reference": "09853feb15ad5e80e472c6881793a22f273a9921",
+                "url": "https://api.github.com/repos/Codeception/module-yii2/zipball/aec2976c45136056f1b05c930cd376bb283d42e2",
+                "reference": "aec2976c45136056f1b05c930cd376bb283d42e2",
                 "shasum": ""
             },
             "require": {
                 "codeception/codeception": "^4.0",
                 "codeception/lib-innerbrowser": "^1.0",
-                "php": ">=5.6.0 <8.1"
+                "php": ">=5.6.0 <=8.1"
             },
             "type": "library",
             "autoload": {
@@ -3144,9 +3188,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Codeception/module-yii2/issues",
-                "source": "https://github.com/Codeception/module-yii2/tree/1.1.3"
+                "source": "https://github.com/Codeception/module-yii2/tree/1.1.4"
             },
-            "time": "2021-05-24T20:05:32+00:00"
+            "time": "2021-10-23T08:48:42+00:00"
         },
         {
             "name": "codeception/phpunit-wrapper",
@@ -5300,16 +5344,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v5.3.10",
+            "version": "v5.3.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "d4e409d9fbcfbf71af0e5a940abb7b0b4bad0bd3"
+                "reference": "3e7ab8f5905058984899b05a4648096f558bfeba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/d4e409d9fbcfbf71af0e5a940abb7b0b4bad0bd3",
-                "reference": "d4e409d9fbcfbf71af0e5a940abb7b0b4bad0bd3",
+                "url": "https://api.github.com/repos/symfony/console/zipball/3e7ab8f5905058984899b05a4648096f558bfeba",
+                "reference": "3e7ab8f5905058984899b05a4648096f558bfeba",
                 "shasum": ""
             },
             "require": {
@@ -5322,7 +5366,6 @@
                 "symfony/string": "^5.1"
             },
             "conflict": {
-                "psr/log": ">=3",
                 "symfony/dependency-injection": "<4.4",
                 "symfony/dotenv": "<5.1",
                 "symfony/event-dispatcher": "<4.4",
@@ -5379,7 +5422,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v5.3.10"
+                "source": "https://github.com/symfony/console/tree/v5.3.11"
             },
             "funding": [
                 {
@@ -5395,7 +5438,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-26T09:30:15+00:00"
+            "time": "2021-11-21T19:41:05+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -5465,16 +5508,16 @@
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v2.4.0",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "5f38c8804a9e97d23e0c8d63341088cd8a22d627"
+                "reference": "6f981ee24cf69ee7ce9736146d1c57c2780598a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/5f38c8804a9e97d23e0c8d63341088cd8a22d627",
-                "reference": "5f38c8804a9e97d23e0c8d63341088cd8a22d627",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/6f981ee24cf69ee7ce9736146d1c57c2780598a8",
+                "reference": "6f981ee24cf69ee7ce9736146d1c57c2780598a8",
                 "shasum": ""
             },
             "require": {
@@ -5483,7 +5526,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "2.4-dev"
+                    "dev-main": "2.5-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -5512,7 +5555,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v2.4.0"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v2.5.0"
             },
             "funding": [
                 {
@@ -5528,7 +5571,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-03-23T23:28:01+00:00"
+            "time": "2021-07-12T14:48:14+00:00"
         },
         {
             "name": "symfony/dom-crawler",
@@ -5606,16 +5649,16 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v5.3.7",
+            "version": "v5.3.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "ce7b20d69c66a20939d8952b617506a44d102130"
+                "reference": "661a7a6e085394f8513945669e31f7c1338a7e69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/ce7b20d69c66a20939d8952b617506a44d102130",
-                "reference": "ce7b20d69c66a20939d8952b617506a44d102130",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/661a7a6e085394f8513945669e31f7c1338a7e69",
+                "reference": "661a7a6e085394f8513945669e31f7c1338a7e69",
                 "shasum": ""
             },
             "require": {
@@ -5671,7 +5714,7 @@
             "description": "Provides tools that allow your application components to communicate with each other by dispatching events and listening to them",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/event-dispatcher/tree/v5.3.7"
+                "source": "https://github.com/symfony/event-dispatcher/tree/v5.3.11"
             },
             "funding": [
                 {
@@ -5687,20 +5730,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-04T21:20:46+00:00"
+            "time": "2021-11-17T12:16:12+00:00"
         },
         {
             "name": "symfony/event-dispatcher-contracts",
-            "version": "v2.4.0",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher-contracts.git",
-                "reference": "69fee1ad2332a7cbab3aca13591953da9cdb7a11"
+                "reference": "66bea3b09be61613cd3b4043a65a8ec48cfa6d2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher-contracts/zipball/69fee1ad2332a7cbab3aca13591953da9cdb7a11",
-                "reference": "69fee1ad2332a7cbab3aca13591953da9cdb7a11",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher-contracts/zipball/66bea3b09be61613cd3b4043a65a8ec48cfa6d2a",
+                "reference": "66bea3b09be61613cd3b4043a65a8ec48cfa6d2a",
                 "shasum": ""
             },
             "require": {
@@ -5713,7 +5756,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "2.4-dev"
+                    "dev-main": "2.5-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -5750,7 +5793,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/event-dispatcher-contracts/tree/v2.4.0"
+                "source": "https://github.com/symfony/event-dispatcher-contracts/tree/v2.5.0"
             },
             "funding": [
                 {
@@ -5766,7 +5809,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-03-23T23:28:01+00:00"
+            "time": "2021-07-12T14:48:14+00:00"
         },
         {
             "name": "symfony/finder",
@@ -6298,16 +6341,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v5.3.6",
+            "version": "v5.3.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "4500fe63dc9c6ffc32d3b1cb0448c329f9c814b7"
+                "reference": "226638aa877bc4104e619a15f27d8141cd6b4e4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/4500fe63dc9c6ffc32d3b1cb0448c329f9c814b7",
-                "reference": "4500fe63dc9c6ffc32d3b1cb0448c329f9c814b7",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/226638aa877bc4104e619a15f27d8141cd6b4e4a",
+                "reference": "226638aa877bc4104e619a15f27d8141cd6b4e4a",
                 "shasum": ""
             },
             "require": {
@@ -6353,7 +6396,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v5.3.6"
+                "source": "https://github.com/symfony/yaml/tree/v5.3.11"
             },
             "funding": [
                 {
@@ -6369,7 +6412,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-29T06:20:01+00:00"
+            "time": "2021-11-20T16:42:42+00:00"
         },
         {
             "name": "theseer/tokenizer",

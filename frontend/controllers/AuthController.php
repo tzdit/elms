@@ -9,6 +9,7 @@ use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\VerifyEmailForm;
+use common\models\Academicyear;
 class AuthController extends \yii\web\Controller
 {
         /**
@@ -74,6 +75,11 @@ class AuthController extends \yii\web\Controller
       $model = new LoginForm();
       if ($model->load(Yii::$app->request->post()) && $model->login()) {
 
+           //setting up the current academic year
+
+           $currentAcademicYear=Academicyear::find()->where(['status'=>'ongoing'])->one();
+           $acYearId=$currentAcademicYear->yearID;
+           yii::$app->session->set('currentAcademicYear', $acYearId);
            return $this->redirect(['/home/dashboard']);
           
      }

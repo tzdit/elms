@@ -1,6 +1,10 @@
 <?php 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
+use yii\bootstrap4\ActiveForm;
+use frontend\models\AcademicYearManager;
+use common\models\Academicyear;
 ?>
      <!-- Navbar -->
      <nav class="main-header navbar navbar-expand navbar-primary navbar-dark">
@@ -13,6 +17,30 @@ use yii\helpers\Url;
 
 
     </ul>
+ 
+    
+    <ul class="navbar-nav ml-auto ">
+   <li class="nav-item">
+    <?php
+       $yearmodel=new AcademicYearManager;
+       $yearmodel->yearid=yii::$app->session->get('currentAcademicYear'); 
+
+        //preparing academic years
+    $academicyears=Academicyear::find()->all();
+    $mappedyears=ArrayHelper::map($academicyears,'yearID','title');
+ 
+    $form = ActiveForm::begin(['method'=>'post','options'=>['class'=>'form-inline form-horizontal'], 'action'=>['/instructor/switch-academicyear']]);?>
+        <div class="row"><div class="col-md-8 col-sm-8 nav-link" style="padding-right:0;padding-left:0"><div class="form-group">
+        <?= $form->field($yearmodel, 'yearid')->dropDownList($mappedyears,['class'=>'p-1 btn-default btn-sm rounded-pill'])->label('Academic Year',['class'=>'text-md'])?>
+</div>
+</div><div class="col-md-4 col-sm-4 nav-link" style="padding-right:0;padding-left:1"><div class="form-group" >
+       <?=Html::submitButton('<i class="fa fa-refresh"></i> Switch',['class'=>'btn btn-sm btn-default rounded-pill'])?>
+</div></div>
+
+        <?php ActiveForm::end()?>
+</li>
+</ul>
+    
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">

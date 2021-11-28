@@ -13,17 +13,17 @@ class UploadMaterial extends Model{
         return [
            [['assTitle', 'assType', 'assFile'], 'required'],
            ['moduleID','required'],
-           [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, mp4, jpg, MKV, avi, png, doc, docx, xlsx, xls, pkt, ppt, pptx'],
+           [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, mp4, jpg, MKV, avi, png, doc, docx, xlsx, xls, pkt, ppt, pptx, PDF, MP4, JPG, AVI, PNG, DOC, DOCX, XLSX, XLS, PKT, PPT, PPTX'],
 
 
         ];
 
     }
     public function upload(){
-        if(!$this->validate()){
-            return false;
-        }
-        try{
+        //if(!$this->validate()){
+            //throw new Exception("could not validate your data submission");
+       // }
+ 
         
         $fileName =uniqid().'.'.$this->assFile->extension;
         $ass = new Material();
@@ -35,24 +35,29 @@ class UploadMaterial extends Model{
         $ass->instructorID = Yii::$app->user->identity->instructor->instructorID;
         $ass->course_code =Yii::$app->session->get('ccode');
         $this->assFile->saveAs('storage/temp/'.$fileName);
-        if($ass->save())
+        if($ass->save(false))
         {
             return true;
         }
         else
         {
-            
-            return false;
+            $exception="";
+            foreach($ass->getErrors() as $key=>$value)
+            {
+                foreach($value as $content)
+                {
+                    $exception.=$content;
+                }
+                
+            }
+            throw new Exception($exception);
+
             
         }
         
        
 
         
-    }catch(\Exception $e){
-    
-        throw new Exception($e->getMessage()) ;
-    }
     }
     
 }
