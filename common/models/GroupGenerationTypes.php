@@ -66,11 +66,11 @@ class GroupGenerationTypes extends \yii\db\ActiveRecord
             'max_groups_members' => 'Max Groups Members',
             'course_code' => 'Course Code',
             'creator_type' => 'Creator Type',
-            'instructorID' => 'Instructor ID',
+            'instructorID' => 'Instructor',
             'reg_no' => 'Reg No',
             'created_date' => 'Created Date',
             'created_time' => 'Created Time',
-            'yearID' => 'Year ID',
+            'yearID' => 'Academic Year',
         ];
     }
 

@@ -31,7 +31,7 @@ use frontend\models\CourseStudents;
 $this->params['courseTitle'] ="<i class='fa fa-graduation-cap'></i> ".$cid. " Students";
 $this->title = $cid. " Students";
 $this->params['breadcrumbs'] = [
-  ['label'=>'class-dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
+  ['label'=>$cid.' dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
   ['label'=>$this->title]
 ];
 
@@ -115,11 +115,11 @@ $this->params['breadcrumbs'] = [
 		<tbody>
 								<?php for($l=0;$l<count($students);$l++){ $student=$students[$l];?>
 						 			<tr>
-									 	<td><?=  $student->reg_no; ?></td>
-                    <td><?=  $student->programCode; ?></td>
-                    <td><?=  $student->fname." ".$student->mname." ".$student->lname; ?></td>
-                    <td><?=  $student->gender; ?></td>
-                    <td><?=  $student->YOS; ?></td>
+									 	<td><?=Html::encode($student->reg_no);?></td>
+                    <td><?=Html::encode($student->programCode); ?></td>
+                    <td><?=Html::encode($student->fname." ".$student->mname." ".$student->lname); ?></td>
+                    <td><?=Html::encode($student->gender); ?></td>
+                    <td><?=Html::encode($student->YOS); ?></td>
                     <td></td>
                     <td></td>
                     

@@ -6,8 +6,8 @@ use yii\helpers\Url;
 $secretKey=Yii::$app->params['app.dataEncryptionKey'];
 $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
 
-$this->title = 'class Dashboard';
-$this->params['courseTitle'] = $cid." Dashboard";
+$this->title = $cid.' Dashboard';
+$this->params['courseTitle'] = "<i class='fas fa-th'></i> ".$cid." Dashboard";
 $this->params['breadcrumbs'] = [
   ['label'=>$this->title]
 ];

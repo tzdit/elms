@@ -20,9 +20,9 @@ $levels=[1=>'First Year',2=>'Second Year',3=>'Third Year',4=>'Fourth Year',5=>'F
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body ">
       <?php $form= ActiveForm::begin(['method'=>'post', 'action'=>'/instructor/add-students','id'=>'studentsaddform'])?>
-      <div class="row">
+      <div class="row text-sm">
       <div class="col-md-12">
      
       <?= $form->field($assignstudentsmodel,'programs[]')->dropdownList($programs,['class'=>'form-control form-control-sm','id'=>'assignstudents','data-placeholder'=>'--Search or Select Programs--','multiple'=>'multiple','style'=>'width:100%'])->label('Programs')?>

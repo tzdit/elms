@@ -8,6 +8,15 @@ use common\models\ProgramCourse;
 use common\models\StudentGroup;
 use common\models\GroupGenerationTypes;
 use common\models\Groups;
+use frontend\models\CourseStudents;
+/*
+A class that creates and manages students groups
+written by khalid hassan
+thewinner016@gmail.com
+0755189736
+last modified 28/11/2021
+*/
+
 class StudentGroups extends Model{
     public $generationType;
     public $membersNumber;
@@ -16,10 +25,13 @@ class StudentGroups extends Model{
         return [
            ['membersNumber', 'required'],
            ['generationType', 'string','max'=>100],
-           ['membersNumber', 'integer','min'=>2,'message'=>'the minimum members of a group not less than 2']
+           ['membersNumber', 'integer','min'=>2,'message'=>'Members number is a number not less than 2']
         ];
 
     }
+
+    //a function for generating random groups
+    //last modified 28/11/2021
     public function generateRandomGroups()
     {
         //getting all student taking this course
@@ -27,35 +39,9 @@ class StudentGroups extends Model{
         $students_array=array();
         $status=false;
         
-        $students=[];
+        $students=CourseStudents::getClassStudents($ccode);
 
-        $levels=[1,2,3,4,5];
-        for($l=0;$l<count($levels);$l++)
-        {
-        $level=$levels[$l];
-        $coursePrograms=ProgramCourse::find()->where(['course_code'=>yii::$app->session->get('ccode'),'level'=>$level])->all();
-        foreach($coursePrograms as $program)
-        {
-   
-         $programStudents=$program->programCode0->students;
-   
-         for($s=0;$s<count($programStudents);$s++){
-   
-           if($programStudents[$s]->YOS===$level)
-           {
-           array_push($students,$programStudents[$s]);
-           }
-         }
-   
-   
-        }
-       }
-        $carryovers=StudentCourse::find()->where(['course_code'=>$ccode])->all(); 
-
-        foreach($carryovers as $carry)
-        {
-        array_push($students,$carry->regNo);
-        }
+  
         
         for($n=0;$n<count($students);$n++)
         {
@@ -135,6 +121,11 @@ class StudentGroups extends Model{
 
     
 }
+
+// a function to add a student generation type
+//for students to add their own groups
+//last modified 28/11/2021
+
 public function addstudenttype()
 {
 
@@ -148,11 +139,11 @@ public function addstudenttype()
   $typesmodel->course_code=$ccode;
   $typesmodel->creator_type="instructor-student";
   $typesmodel->instructorID=$instructorID;
-  $typesmodel->yearID=1;
+ // $typesmodel->yearID=1;
   $typesmodel->max_groups_members=$this->membersNumber;
-  $typesmodel->save();
+  if($typesmodel->save()){return true;}else{return $typesmodel->getErrors();}
 
-  return true;
+  
 
 }
 

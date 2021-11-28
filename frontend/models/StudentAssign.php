@@ -1,4 +1,14 @@
 <?php
+
+/*
+   A model class to add and remove students on a particular course
+   by program
+   written by khalid hassan
+   thewinner016@gmail.com
+   0755189736
+   last modified 27/11/2021
+
+*/
 namespace frontend\models;
 use Yii;
 use yii\base\Model;
@@ -18,6 +28,8 @@ class StudentAssign extends Model{
         ];
 
     }
+
+    //function for adding students to the courses
   public function assignStudents()
   {
     $programs=$this->programs;
@@ -41,6 +53,7 @@ class StudentAssign extends Model{
    return $errors;
 
   }
+  // function to remove students (program) from a particular course
   public function removeStudents()
   {
     $programs=$this->programs;
@@ -89,7 +102,7 @@ class StudentAssign extends Model{
 
    return $errors;
   }
-
+//function to retrieve all assigned programs, is used when removing programs from a particular course
   public function getAssignedPrograms()
   {
     $programs=ProgramCourse::find()->joinWith('programCode0')->where(['course_code'=>yii::$app->session->get('ccode')])->all();

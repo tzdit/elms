@@ -22,7 +22,7 @@ $levels=[0=>'All',1=>'First Year',2=>'Second Year',3=>'Third Year',4=>'Fourth Ye
       </div>
       <div class="modal-body">
       <?php $form= ActiveForm::begin(['method'=>'post', 'action'=>'/instructor/remove-students','id'=>'studentsremform'])?>
-      <div class="row">
+      <div class="row text-sm">
       <div class="col-md-12">
      
       <?= $form->field($removestudentsmodel,'programs[]')->dropdownList($removestudentsmodel->getAssignedPrograms(),['class'=>'form-control form-control-sm','id'=>'remstudents','data-placeholder'=>'--Search or Select Programs--','multiple'=>'multiple','style'=>'width:100%'])->label('Programs')?>
