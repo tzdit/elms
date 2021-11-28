@@ -139,7 +139,7 @@ public function addstudenttype()
   $typesmodel->course_code=$ccode;
   $typesmodel->creator_type="instructor-student";
   $typesmodel->instructorID=$instructorID;
- // $typesmodel->yearID=1;
+  $typesmodel->yearID=1;
   $typesmodel->max_groups_members=$this->membersNumber;
   if($typesmodel->save()){return true;}else{return $typesmodel->getErrors();}
 

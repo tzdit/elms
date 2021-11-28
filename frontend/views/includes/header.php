@@ -29,12 +29,12 @@ use common\models\Academicyear;
     $academicyears=Academicyear::find()->all();
     $mappedyears=ArrayHelper::map($academicyears,'yearID','title');
  
-    $form = ActiveForm::begin(['method'=>'post','options'=>['class'=>'form-inline form-horizontal'], 'action'=>['/instructor/add-partner']]);?>
+    $form = ActiveForm::begin(['method'=>'post','options'=>['class'=>'form-inline form-horizontal'], 'action'=>['/instructor/switch-academicyear']]);?>
         <div class="row"><div class="col-md-8 col-sm-8 nav-link" style="padding-right:0;padding-left:0"><div class="form-group">
         <?= $form->field($yearmodel, 'yearid')->dropDownList($mappedyears,['class'=>'p-1 btn-default btn-sm rounded-pill'])->label('Academic Year',['class'=>'text-md'])?>
 </div>
 </div><div class="col-md-4 col-sm-4 nav-link" style="padding-right:0;padding-left:1"><div class="form-group" >
-       <?=Html::button('<i class="fa fa-refresh"></i> Switch',['class'=>'btn btn-sm btn-default rounded-pill'])?>
+       <?=Html::submitButton('<i class="fa fa-refresh"></i> Switch',['class'=>'btn btn-sm btn-default rounded-pill'])?>
 </div></div>
 
         <?php ActiveForm::end()?>

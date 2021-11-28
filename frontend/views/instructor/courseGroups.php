@@ -99,7 +99,23 @@ $this->params['breadcrumbs'] = [
   }
 }
         ?>
-        
+        <?=
+        c006\spinner\SubmitSpinner::widget(
+                               [
+                                   'bg_color'               => '#444444',
+                                   'bg_opacity'             => 0.8,
+                                   'spin_speed'             => 4,
+                                   'radius'                 => 200,
+                                   'bg_spinner_opacity'     => 0.5,
+                                   'bg_spinner_color'       => '#000000',
+                                   'sections'               => 15,
+                                   'section_size'           => 20,
+                                   'section_color'          => '#FFFFFF',
+                                   'section_offset'         => 80,
+                                   'section_opacity_base'   => .2,
+                                   'proportionate_increase' => 1,
+                               ]
+        ) ?>
       <!-- /.modal -->
   
   <?php// endforeach ?>

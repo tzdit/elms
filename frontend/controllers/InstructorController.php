@@ -151,7 +151,8 @@ public $defaultAction = 'dashboard';
                             'material-upload-form',
                             'module-delete',
                             'mark-secure-redirect',
-                            'remove-students'
+                            'remove-students',
+                            'switch-academicyear'
 
                         ],
                         'allow' => true,
@@ -236,7 +237,8 @@ public $defaultAction = 'dashboard';
                             'module-delete',
                             'updatestudent',
                             'mark-secure-redirect',
-                            'remove-students'
+                            'remove-students',
+                            'switch-academicyear'
                            
                         ],
                         'allow' => true,
@@ -268,7 +270,26 @@ public $defaultAction = 'dashboard';
     }
 
 
+    //switching academic year
 
+    public function actionSwitchAcademicyear()
+    {
+      $model=new AcademicYearManager;
+      if($model->load(yii::$app->request->post()))
+      {
+          $res=$model->switchAcademicYear();
+          if($res===true)
+          {
+              return $this->redirect(yii::$app->request->referrer);
+          }
+          else
+          {
+            Yii::$app->session->setFlash('error', 'Can\'t Switch academic year now');
+            return $this->redirect(yii::$app->request->referrer);
+          }
+      }
+
+    }
     //#################### function to render instructor courses ##############################
 
     public function actionCourses(){
