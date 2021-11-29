@@ -20,7 +20,7 @@ class UploadStudentHodForm extends Model
     public $gender;
     public $username;
     public $password = "123456";
-    public $role;
+    public $role = 'STUDENT';
     public $status = 'REGISTERED';
     public $department;
 

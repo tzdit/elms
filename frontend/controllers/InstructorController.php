@@ -1825,7 +1825,7 @@ public function actionStudentList(){
             Yii::$app->session->setFlash('success', 'Program added successfully');
             return $this->redirect(Yii::$app->request->referrer);
             }else{
-                Yii::$app->session->setFlash('error', 'Something went Wrong!');
+                Yii::$app->session->setFlash('error','something went wrong. This program may already exists.');
             }
        
                 
@@ -1848,21 +1848,22 @@ public function actionStudentList(){
         $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
         try{
         //$departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+       
         if($model->load(Yii::$app->request->post())){
+
             if($model->create()){
             Yii::$app->session->setFlash('success', 'Course added successfully');
             return $this->redirect(Yii::$app->request->referrer);
             }else{
-                Yii::$app->session->setFlash('error',$model->create());
-                return $this->redirect(Yii::$app->request->referrer);
-            }
-       
+                Yii::$app->session->setFlash('error','something went wrong. This course may exists');
                 
+               // return $this->redirect(Yii::$app->request->referrer);
+            }    
          } 
          else
          {
-            //  print_r($model->getErrors());
-            //  print "no validation";
+              
+            
          }
         
     }catch(\Exception $e){
@@ -1888,7 +1889,7 @@ public function actionStudentList(){
             return $this->redirect(Yii::$app->request->referrer);
             }else{
                print_r($model->getErrors());
-            // Yii::$app->session->setFlash('error', 'no no no');
+                // Yii::$app->session->setFlash('error', 'no no no');
                 // return $this->redirect(Yii::$app->request->referrer);
             }
        

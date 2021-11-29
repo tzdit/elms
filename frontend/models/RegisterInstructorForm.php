@@ -16,7 +16,7 @@ class RegisterInstructorForm extends Model
     public $department;
     public $username;
     public $password = "123456";
-    public $role;
+    public $role = "INSTRUCTOR";
     public $email;
 
 

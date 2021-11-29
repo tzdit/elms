@@ -15,7 +15,7 @@ class CreateProgram extends Model{
             [['programCode', 'prog_name', 'prog_duration', 'department'], 'required'],
             [[ 'prog_duration', 'capacity'], 'integer'],
            
-            // [['programCode'], 'unique'],
+            ['programCode', 'unique', 'targetClass' => '\common\models\Program', 'message' => 'This program already exists.'],
             
          
 

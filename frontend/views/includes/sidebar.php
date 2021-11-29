@@ -68,16 +68,19 @@ use yii\helpers\Url;
               <li class="nav-item">
                 <a href="<?= Url::toRoute('/instructormanage/instructor-list') ?>" class="nav-link">
                  <i class="fas fa-chalkboard-teacher nav-icon"></i>
-                  <p>Instructors</p>
+                  <p>Instructors & Hod</p>
                 </a>
               </li>
+              
               <li class="nav-item">
                 <a href="<?= Url::toRoute('/studentmanage/student-list') ?>" class="nav-link">
                   <i class="fas fa-user-graduate nav-icon"></i>
                   <p>Students</p>
                 </a>
               </li>
-              <li class="nav-item">
+              
+            </ul>
+            <li class="nav-item">
                 <a href="<?= Url::toRoute('/departmentmanage/index') ?>" class="nav-link">
                   <i class="fas fa-book nav-icon"></i>
                   <p>Departments</p>
@@ -89,7 +92,6 @@ use yii\helpers\Url;
                   <p>Colleges</p>
                 </a>
               </li>
-            </ul>
           </li>
             <?php endif ?> <!-- END OF SYS_ADMIN ROLE-->
             <!-- ======================================================= -->

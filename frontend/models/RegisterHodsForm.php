@@ -4,11 +4,11 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use common\models\User;
-use common\models\Hod;
+use common\models\Instructor;
 /**
  * Signup form
  */
-class RegisterHodForm extends Model
+class RegisterHodsForm extends Model
 {
     public $full_name;
     public $phone;
@@ -16,7 +16,8 @@ class RegisterHodForm extends Model
     public $department;
     public $username;
     public $password = "123456";
-    public $role;
+    public $role = "INSTRUCTOR & HOD";
+    public $email;
 
 
     /**
@@ -49,7 +50,7 @@ class RegisterHodForm extends Model
         }
         
         $user = new User();
-        $hod = new Hod();
+        $instructor = new Instructor();
         $transaction = Yii::$app->db->beginTransaction();
         try{
         $user->username = $this->username;
@@ -58,13 +59,13 @@ class RegisterHodForm extends Model
         $user->generateEmailVerificationToken();
         if($user->save()){
         //Now insert data to hod table
-        $hod->full_name = $this->full_name;
-        $hod->email = $this->username;
-        $hod->phone = $this->phone;
-        $hod->gender = $this->gender;
-        $hod->departmentID = $this->department;
-        $hod->userID = $user->getId();
-        if($hod->save()){
+        $instructor->full_name = $this->full_name;
+        $instructor->email = $this->username;
+        $instructor->phone = $this->phone;
+        $instructor->gender = $this->gender;
+        $instructor->departmentID = $this->department;
+        $instructor->userID = $user->getId();
+        if($instructor->save()){
         //now assign role to this newlly created user========>>
         $userRole = $auth->getRole($this->role);
         $auth->assign($userRole, $user->getId());
@@ -79,6 +80,7 @@ class RegisterHodForm extends Model
       }
     return false;
 }
+
 
     /**
      * Sends confirmation email to user

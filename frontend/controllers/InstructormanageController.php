@@ -15,7 +15,7 @@ use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
 use yii\filters\AccessControl;
 use frontend\models\RegisterInstructorForm;
-use frontend\models\RegisterHodForm;
+use frontend\models\RegisterHodsForm;
 use frontend\models\UploadStudentForm;
 use common\models\Student;
 use common\models\College;
@@ -57,7 +57,7 @@ class InstructormanageController extends Controller
                             'instructor-list',
                             'hod-list',
                             'create-instructor',
-                            'create-hod',
+                            'create-hods',
                             'view',
                             'update',
                             'reset',
@@ -113,27 +113,26 @@ class InstructormanageController extends Controller
     }
 
 
-        //Create hod
-        public function actionCreateHod(){
-            $model = new RegisterHodForm;
-            $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'HOD'])->all(), 'name', 'name');
-            try{
-            $departments = ArrayHelper::map(Department::find()->where(['collegeID'=>Yii::$app->user->identity->admin->college->collegeID])->all(), 'departmentID', 'department_name');
-            if($model->load(Yii::$app->request->post())){
-                if($model->create()){
-                Yii::$app->session->setFlash('success', 'Hod registered successfully');
-                }else{
-                    Yii::$app->session->setFlash('error', 'Something went Wrong!');
-                }
-           
-                    
-             } 
-            
-        }catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+       //Create Hods
+    public function actionCreateHods(){
+        $model = new RegisterHodsForm;
+        $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'INSTRUCTOR & HOD'])->orwhere(['name'=>'INSTRUCTOR'])->all(), 'name', 'name');
+        try{
+        $departments = ArrayHelper::map(Department::find()->where(['collegeID'=>Yii::$app->user->identity->admin->college->collegeID])->all(), 'departmentID', 'department_name');
+        if($model->load(Yii::$app->request->post())){
+            if($model->create()){
+            Yii::$app->session->setFlash('success', 'Hod registered successfully');
+            return $this->redirect(Yii::$app->request->referrer);
+            }else{
+            Yii::$app->session->setFlash('error', 'Something went Wrong!');
         }
-            return $this->render('create_hod', ['model'=>$model, 'departments'=>$departments, 'roles'=>$roles]);
-        }
+         } 
+        
+    }catch(\Exception $e){
+          Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+    }
+        return $this->render('create_hods', ['model'=>$model, 'departments'=>$departments, 'roles'=>$roles]);
+    }
     
     
 

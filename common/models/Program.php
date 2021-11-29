@@ -37,7 +37,7 @@ class Program extends \yii\db\ActiveRecord
             [['departmentID', 'prog_duration', 'capacity'], 'integer'],
             [['programCode'], 'string', 'max' => 10],
             [['prog_name'], 'string', 'max' => 100],
-            // [['programCode'], 'unique'],
+            [['programCode'], 'unique'],
             [['departmentID'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['departmentID' => 'departmentID']],
         ];
     }

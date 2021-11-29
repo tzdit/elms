@@ -21,7 +21,7 @@ $this->title = 'Create Users';
               <div class="card" style="font-family:'Times New Roman', sans-serif">
               <div class="card-header ">
                 
-                  <h3 class="card-title">Instructor Registration</h3>
+                  <h3 class="card-title">Hods Registration</h3>
                 
                 </div>
              
