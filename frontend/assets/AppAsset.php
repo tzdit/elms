@@ -60,12 +60,12 @@ class AppAsset extends AssetBundle
         'plugins/fileinput/js/fileinput.min.js',
         'plugins/pace-progress/pace.min.js',
         'plugins/sweetalert2/sweetalert2.min.js',
-        'js/tooltip.js'
-
+        'js/tooltip.js',
+        
 
 
         //'js/dashboard.js',
-        //'plugins/jquery/jquery.min.js',
+        
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -1,5 +1,5 @@
 <?php  
-use yii\bootstrap4\ActiveForm;
+use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 ?>
 <div class="modal fade" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -12,7 +12,7 @@ use yii\helpers\Html;
         </button>
       </div>
       <div class="modal-body">
-      <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/generate-groups']])?>
+      <?php $form = ActiveForm::begin(['method'=>'post','id'=>'form-submit', 'action'=>['/instructor/generate-groups']])?>
         <div class="row">
         <div class="col-md-12">
         <?= $form->field($studentGroups, 'generationType')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Generation Type: ex: assignment 1 groups'])->label(false)?>
@@ -30,8 +30,10 @@ use yii\helpers\Html;
       
         </div>
         </div>
-        <?php ActiveForm::end()?>
+       
     </div>
     </div>
   </div>
 </div>
+
+
