@@ -13,7 +13,7 @@ class UploadMaterial extends Model{
         return [
            [['assTitle', 'assType', 'assFile'], 'required'],
            ['moduleID','required'],
-           [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, mp4, jpg, MKV, avi, png, doc, docx, xlsx, xls, pkt, ppt, pptx, PDF, MP4, JPG, AVI, PNG, DOC, DOCX, XLSX, XLS, PKT, PPT, PPTX'],
+           [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, mp4, jpg, MKV, avi, png, doc, docx, xlsx, xls, pkt, ppt, pptx, PDF, MP4, JPG, AVI, PNG, DOC, DOCX, XLSX, XLS, PKT, PPT, PPTX, zip, ZIP, RAR, rar','message'=>'file type not allowed'],
 
 
         ];

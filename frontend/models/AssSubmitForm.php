@@ -61,7 +61,7 @@ class AssSubmitForm extends \yii\db\ActiveRecord
             [['comment'], 'string', 'max' => 200],
             [['assID'], 'exist', 'skipOnError' => true, 'targetClass' => Assignment::className(), 'targetAttribute' => ['assID' => 'assID']],
             [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],
-            [['document'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf,doc,xls,xlsx,docx,pptx,ppt,rtf,odt,txt','message' => 'file type not allowed'],
+            [['document'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf,doc,xls,xlsx,docx,pptx,ppt,rtf,odt,txt,pkt,zip,rar','message' => 'file type not allowed'],
             [['document'], 'file','maxSize' => 1024 * 1024 * 10 ,'message' => 'exceed maximum file size'],
         ];
     }
