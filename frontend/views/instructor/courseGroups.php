@@ -118,6 +118,7 @@ $studentGroups = new StudentGroups();
 </div>
 
 </div>
+
 <?php
 $script = <<<JS
  $(document).on('click', '.grpdelete', function(){
