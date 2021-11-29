@@ -11,6 +11,7 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use yii\helpers\Url;
 use common\widgets\Course;
+use yii\widgets\Pjax;
 //use Yii;
 
 AppAsset::register($this);
@@ -136,6 +137,7 @@ AppAsset::register($this);
     <!-- Main content -->
     <section class="content mt-3">
       <?= $content ?>
+   
     </section>
     <!-- /.content -->
   </div>

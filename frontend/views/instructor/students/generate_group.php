@@ -1,6 +1,7 @@
 <?php  
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\widgets\Pjax;
 ?>
 <div class="modal fade" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog" role="document">
@@ -12,7 +13,11 @@ use yii\helpers\Html;
         </button>
       </div>
       <div class="modal-body">
-      <?php $form = ActiveForm::begin(['method'=>'post','id'=>'form-submit', 'action'=>['/instructor/generate-groups']])?>
+
+     
+      <?php 
+        Pjax::begin(['id'=>'groupsform']);
+        $form = ActiveForm::begin(['method'=>'post','id'=>'form-submit','options' => ['data-pjax' => true ], 'action'=>['/instructor/generate-groups']])?>
         <div class="row">
         <div class="col-md-12">
         <?= $form->field($studentGroups, 'generationType')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Generation Type: ex: assignment 1 groups'])->label(false)?>
@@ -30,10 +35,39 @@ use yii\helpers\Html;
       
         </div>
         </div>
-        <?php ActiveForm::end()?>
+        <?php 
+        ActiveForm::end();
+        Pjax::end();
+        ?>
+        <?php
+   Pjax::begin(['id'=>'loader']);
+   ?>
+
+
+   <div class="overlay" id="loading" style="background-color:rgba(0,0,255,.3);color:#fff;display:none">
+     <i class="fas fa-2x fa-sync-alt fa-spin"></i>Processing...
+</div>
+   <?php
+
+   Pjax::end();
+?>
     </div>
     </div>
   </div>
 </div>
+<?php
+$script = <<<JS
+    $('document').ready(function(){
+
+      $('#groupsform').on('pjax:send', function() {
+       $('#loading').show();
+       })
+      $('#groupsform').on('pjax:complete', function() {
+      $('#loading').hide();
+            })
+        })
+
+    JS;
+    $this->registerJs($script);
 
 
