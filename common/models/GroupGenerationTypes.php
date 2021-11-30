@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 
 /**
  * This is the model class for table "group_generation_types".
@@ -33,6 +34,14 @@ class GroupGenerationTypes extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'group_generation_types';
+    }
+    public function behaviors()
+    {
+        return [
+            'auditEntryBehaviors' => [
+                'class' => AuditEntryBehaviors::class
+             ],
+        ];
     }
 
     /**

@@ -15,6 +15,9 @@ return [
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
+        'dateTimeConversion' => [
+            'class' => 'ruturajmaniyar\mod\audit\components\DateTimeHelper'
+],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => false,
@@ -51,6 +54,11 @@ return [
             'appendTimestamp' => true
         ]
         
+    ],
+    'modules' => [
+        'auditlog' => [
+                    'class' => 'ruturajmaniyar\mod\audit\AuditEntryModule'
+        ],
     ],
     'defaultRoute' => 'auth',
     'params' => $params,

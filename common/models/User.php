@@ -10,6 +10,7 @@ use common\models\Admin;
 use common\models\Instructor;
 use common\models\Student;
 use common\models\Hod;
+use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 
 /**
  * User model
@@ -44,10 +45,14 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
+    
     public function behaviors()
     {
         return [
             TimestampBehavior::className(),
+            'auditEntryBehaviors' => [
+                'class' => AuditEntryBehaviors::class
+             ],
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 
 /**
  * This is the model class for table "module".
@@ -21,6 +22,14 @@ class Module extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public function behaviors()
+    {
+        return [
+            'auditEntryBehaviors' => [
+                'class' => AuditEntryBehaviors::class
+             ],
+        ];
+    }
     public static function tableName()
     {
         return 'module';

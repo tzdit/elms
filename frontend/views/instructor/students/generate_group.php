@@ -45,7 +45,7 @@ use yii\widgets\Pjax;
 
 
    <div class="overlay" id="loading" style="background-color:rgba(0,0,255,.3);color:#fff;display:none">
-     <i class="fas fa-2x fa-sync-alt fa-spin"></i>Processing...
+     <i class="fas fa-2x fa-sync-alt fa-spin"></i>Generating...
 </div>
    <?php
 
