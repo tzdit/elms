@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2021 at 06:44 AM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 7.4.16
+-- Generation Time: Nov 30, 2021 at 09:11 AM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.4.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -353,8 +353,8 @@ CREATE TABLE `course` (
 INSERT INTO `course` (`course_code`, `course_name`, `course_credit`, `course_semester`, `course_duration`, `course_status`, `departmentID`, `YOS`) VALUES
 ('CD459', 'java', '9.0', 2, 2, 'CORE', 1, 0),
 ('CD4591', 'introduction to programming in python', '9.0', 2, 2, 'CORE', 1, 0),
-('CH111', 'java', '9.0', 2, 3, 'CORE', 1, 0),
-('CP 111', 'Principle of Programming', '10.0', 1, 1, 'core', 1, 0),
+('CH111', 'java', '9.0', 2, 3, 'CORE', 1, 1),
+('CP 111', 'Principle of Programming', '10.0', 1, 1, 'core', 1, 1),
 ('CP 123', 'Introduction High Level Programming in C++', '9.0', 2, 1, 'CORE', 1, 0),
 ('CS 212', 'Data Structure and Algorithms', '10.0', 1, 2, 'CORE', 1, 0),
 ('TN 110', 'Introduction to Telecommunication', '10.0', 1, 1, 'CORE', 1, 0);
@@ -408,6 +408,62 @@ INSERT INTO `ext_assess` (`assessID`, `instructorID`, `course_code`, `title`, `t
 (71, 2, 'CS 212', 'my testing', 40, '2021-11-02', 0),
 (72, 2, 'CP 111', 'kjhsfd', 30, '2021-11-03', 1),
 (73, 2, 'CS 212', 'my testing', 50, '2021-11-04', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `forum_answer`
+--
+
+CREATE TABLE `forum_answer` (
+  `answer_id` int(11) NOT NULL,
+  `answer_content` text NOT NULL,
+  `time_added` date NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `question_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `forum_comment`
+--
+
+CREATE TABLE `forum_comment` (
+  `comment_id` int(11) NOT NULL,
+  `comment_content` varchar(500) NOT NULL,
+  `comment_type` int(1) NOT NULL,
+  `time_added` date NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `question_id` int(11) DEFAULT NULL,
+  `answer_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `forum_qn_tag`
+--
+
+CREATE TABLE `forum_qn_tag` (
+  `tag_id` int(11) NOT NULL,
+  `course_code` varchar(7) NOT NULL,
+  `question_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `forum_question`
+--
+
+CREATE TABLE `forum_question` (
+  `question_id` int(11) NOT NULL,
+  `question_tittle` varchar(150) NOT NULL,
+  `question_desc` text NOT NULL,
+  `time_add` date NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -827,7 +883,7 @@ CREATE TABLE `program_course` (
 --
 
 INSERT INTO `program_course` (`PC_ID`, `course_code`, `programCode`, `level`) VALUES
-(22, 'CP 111', 'TE3', 1),
+(22, 'CP 111', 'CS1', 1),
 (23, 'CP 111', 'TE3', 2);
 
 -- --------------------------------------------------------
@@ -1661,6 +1717,38 @@ ALTER TABLE `ext_assess`
   ADD KEY `coursekey8` (`course_code`);
 
 --
+-- Indexes for table `forum_answer`
+--
+ALTER TABLE `forum_answer`
+  ADD PRIMARY KEY (`answer_id`),
+  ADD KEY `fk_user_answer` (`user_id`),
+  ADD KEY `fk_question_answer` (`question_id`);
+
+--
+-- Indexes for table `forum_comment`
+--
+ALTER TABLE `forum_comment`
+  ADD PRIMARY KEY (`comment_id`),
+  ADD KEY `fk_user_comment` (`user_id`),
+  ADD KEY `fk_question_comment` (`question_id`),
+  ADD KEY `fk_answer_comment` (`answer_id`);
+
+--
+-- Indexes for table `forum_qn_tag`
+--
+ALTER TABLE `forum_qn_tag`
+  ADD PRIMARY KEY (`tag_id`),
+  ADD KEY `fk_question_tag` (`question_id`),
+  ADD KEY `fk_course_tag` (`course_code`);
+
+--
+-- Indexes for table `forum_question`
+--
+ALTER TABLE `forum_question`
+  ADD PRIMARY KEY (`question_id`),
+  ADD KEY `fk_user_qn` (`user_id`);
+
+--
 -- Indexes for table `fresh_thread`
 --
 ALTER TABLE `fresh_thread`
@@ -1985,6 +2073,30 @@ ALTER TABLE `ext_assess`
   MODIFY `assessID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
+-- AUTO_INCREMENT for table `forum_answer`
+--
+ALTER TABLE `forum_answer`
+  MODIFY `answer_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `forum_comment`
+--
+ALTER TABLE `forum_comment`
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `forum_qn_tag`
+--
+ALTER TABLE `forum_qn_tag`
+  MODIFY `tag_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `forum_question`
+--
+ALTER TABLE `forum_question`
+  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `fresh_thread`
 --
 ALTER TABLE `fresh_thread`
@@ -2239,6 +2351,34 @@ ALTER TABLE `department`
 ALTER TABLE `ext_assess`
   ADD CONSTRAINT `coursekey8` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `instr` FOREIGN KEY (`instructorID`) REFERENCES `instructor` (`instructorID`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `forum_answer`
+--
+ALTER TABLE `forum_answer`
+  ADD CONSTRAINT `fk_question_answer` FOREIGN KEY (`question_id`) REFERENCES `forum_question` (`question_id`),
+  ADD CONSTRAINT `fk_user_answer` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+--
+-- Constraints for table `forum_comment`
+--
+ALTER TABLE `forum_comment`
+  ADD CONSTRAINT `fk_answer_comment` FOREIGN KEY (`answer_id`) REFERENCES `forum_answer` (`answer_id`),
+  ADD CONSTRAINT `fk_question_comment` FOREIGN KEY (`question_id`) REFERENCES `forum_question` (`question_id`),
+  ADD CONSTRAINT `fk_user_comment` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+--
+-- Constraints for table `forum_qn_tag`
+--
+ALTER TABLE `forum_qn_tag`
+  ADD CONSTRAINT `fk_course_tag` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`),
+  ADD CONSTRAINT `fk_question_tag` FOREIGN KEY (`question_id`) REFERENCES `forum_question` (`question_id`);
+
+--
+-- Constraints for table `forum_question`
+--
+ALTER TABLE `forum_question`
+  ADD CONSTRAINT `fk_user_qn` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints for table `fresh_thread`
