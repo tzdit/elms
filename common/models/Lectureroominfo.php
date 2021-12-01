@@ -1,7 +1,7 @@
 <?php
 
 namespace common\models;
-
+use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 use Yii;
 
 /**
@@ -25,7 +25,15 @@ class Lectureroominfo extends \yii\db\ActiveRecord
     {
         return 'lectureroominfo';
     }
-
+    
+    public function behaviors()
+    {
+        return [
+            'auditEntryBehaviors' => [
+                'class' => AuditEntryBehaviors::class
+             ],
+        ];
+    }
     /**
      * {@inheritdoc}
      */

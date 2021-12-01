@@ -1,7 +1,7 @@
 <?php
 
 namespace common\models;
-
+use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 use Yii;
 
 /**
@@ -34,7 +34,15 @@ class LiveLecture extends \yii\db\ActiveRecord
     {
         return 'live_lecture';
     }
-
+    
+    public function behaviors()
+    {
+        return [
+            'auditEntryBehaviors' => [
+                'class' => AuditEntryBehaviors::class
+             ],
+        ];
+    }
     /**
      * {@inheritdoc}
      */

@@ -1,7 +1,7 @@
 <?php
 
 namespace common\models;
-
+use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 use Yii;
 
 /**
@@ -27,7 +27,15 @@ class Notification extends \yii\db\ActiveRecord
     {
         return 'notification';
     }
-
+    
+    public function behaviors()
+    {
+        return [
+            'auditEntryBehaviors' => [
+                'class' => AuditEntryBehaviors::class
+             ],
+        ];
+    }
     /**
      * {@inheritdoc}
      */

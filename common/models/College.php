@@ -1,7 +1,7 @@
 <?php
 
 namespace common\models;
-
+use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 use Yii;
 
 /**
@@ -23,7 +23,15 @@ class College extends \yii\db\ActiveRecord
     {
         return 'college';
     }
-
+  
+    public function behaviors()
+    {
+        return [
+            'auditEntryBehaviors' => [
+                'class' => AuditEntryBehaviors::class
+             ],
+        ];
+    }
     /**
      * {@inheritdoc}
      */

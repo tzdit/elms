@@ -729,9 +729,12 @@ public function actionCreateModule()
 
         $module=Module::findOne($moduleid);
 
-        if($module->delete()){ return $this->asJson(['message'=>'Module deleted']); }
+        if($module->delete()){ 
+            return $this->asJson(['message'=>'Module deleted successfully']);
+           
+        }
         else{
-            Yii::$app->session->setFlash('serror', 'module deleting failed');
+            Yii::$app->session->setFlash('error', 'module deleting failed');
             return $this->redirect(Yii::$app->request->referrer);
         }
     }

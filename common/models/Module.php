@@ -22,6 +22,7 @@ class Module extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    
     public function behaviors()
     {
         return [
