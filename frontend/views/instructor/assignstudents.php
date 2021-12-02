@@ -3,6 +3,7 @@ use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 use common\models\Program;
 use yii\helpers\ArrayHelper;
+use yii\widgets\Pjax;
 ?>
 
 
@@ -21,7 +22,9 @@ $levels=[1=>'First Year',2=>'Second Year',3=>'Third Year',4=>'Fourth Year',5=>'F
         </button>
       </div>
       <div class="modal-body ">
-      <?php $form= ActiveForm::begin(['method'=>'post', 'action'=>'/instructor/add-students','id'=>'studentsaddform'])?>
+      <?php 
+      Pjax::begin(['id'=>'studaddform']);
+      $form= ActiveForm::begin(['method'=>'post','options' => ['data-pjax' => true ], 'action'=>'/instructor/add-students','id'=>'studentsaddform'])?>
       <div class="row text-sm">
       <div class="col-md-12">
      
@@ -41,17 +44,41 @@ Save changes', ['class'=>'btn btn-primary btn-md float-right ml-2']) ?>
         <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
         </div>
         </div>
-        <?php ActiveForm::end()?>
+        <?php 
+        
+        ActiveForm::end();
+        Pjax::end();
+        ?>
+          <?php
+   Pjax::begin(['id'=>'studloader']);
+   ?>
+
+
+   <div class="overlay" id="studloading" style="background-color:rgba(0,0,255,.3);color:#fff;display:none">
+     <i class="fas fa-2x fa-sync-alt fa-spin"></i>Assigning...
+</div>
+   <?php
+
+   Pjax::end();
+?>
     </div>
     </div>
   </div>
 </div>
 
-<?php 
+<?php
+$script = <<<JS
+    $('document').ready(function(){
 
+      $('#studaddform').on('pjax:send', function() {
+       $('#studloading').show();
+       })
+      $('#studaddform').on('pjax:complete', function() {
+      $('#studloading').hide();
+            })
+        })
 
-
-
-?>
+    JS;
+    $this->registerJs($script);
 
 

@@ -52,8 +52,10 @@ AppAsset::register($this);
   <?= $this->render('/includes/header') ?>
   <!-- /.navbar -->
     <!-- Main Sidebar Container -->
-    <!-- also this you may trie these 082B45  # #0062CC-->
-  <aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4 pace-primary " style="background:#001832">
+    <!-- also this you may trie these 082B45  # #0062CC
+    lovely background style="background:#001832"
+  -->
+  <aside class="main-sidebar main-sidebar-custom sidebar-light-primary  elevation-2 pace-primary " style="background-color:rgba(40,50,150,.08)" >
     <!-- Brand Logo -->
     <a href="<?= Url::to(['/home/dashboard']) ?>" class="brand-link bg-primary">
       <img src="<?= Yii::getAlias('@web/img/logo.png') ?>" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -61,7 +63,7 @@ AppAsset::register($this);
     </a>
 
     <!-- Sidebar -->
-    <div class="sidebar" >
+    <div class="sidebar text-primary" >
   
       <!-- Sidebar Menu -->
       <?= $this->render('/includes/sidebar') ?>
