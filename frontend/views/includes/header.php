@@ -18,9 +18,7 @@ use common\models\Academicyear;
 
     </ul>
     
-    <a href="<?= Url::to(['chat/index-chat'])  ?>"
-             <i class="fas fa-envelope" style="color:white;"> Chat</i>
-    </a>
+   
     <ul class="navbar-nav ml-auto ">
    <li class="nav-item">
     <?php
