@@ -3,7 +3,7 @@
     use yii\bootstrap4\ActiveForm;
     use yii\helpers\Url;
     ?>
-    <marquee><img src="/img/covid.jpg" class="img-circle"  style="height:10%;width:10%;margin-bottom:1%"></img><i class="blinking text-danger">Covid (phase 4) kills.. Take required Precautions. Be safe. <img src="/img/flag.png" class="img"  style="height:10%;width:10%;margin-bottom:1%"></img></i></marquee>
+    
     <div class="container-fluid text-center ">
     <img src="/img/logo.png" class="img-circle"  style="height:70%;width:25%;margin-bottom:1%"></img>
     </div>
