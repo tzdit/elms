@@ -23,7 +23,7 @@ $levels=[0=>'All',1=>'First Year',2=>'Second Year',3=>'Third Year',4=>'Fourth Ye
       </div>
       <div class="modal-body">
       <?php 
-      Pjax::begin(['id'=>'studremform']);
+      Pjax::begin(['id'=>'studremform','timeout'=>'30000']);
       $form= ActiveForm::begin(['method'=>'post','options' => ['data-pjax' => true ], 'action'=>'/instructor/remove-students','id'=>'studentsremform']);
       ?>
       <div class="row text-sm">
