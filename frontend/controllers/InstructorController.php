@@ -1509,9 +1509,18 @@ public function actionAddStudentGentype()
 
  public function actionDeleteGroups($groupgenerationid)
  {
-   $deleted=new GroupGenerationTypes();
-   $deleted::findOne($groupgenerationid)->delete();
-   return $this->redirect(Yii::$app->request->referrer);
+   $deleted=GroupGenerationTypes::findOne($groupgenerationid);
+   if($deleted->delete()){
+
+    return $this->asJson(['message'=>'Deleted']);
+    return $this->redirect(Yii::$app->request->referrer);
+   }
+   else
+   {
+    Yii::$app->session->setFlash('error','Deleting failed');
+    return $this->redirect(Yii::$app->request->referrer); 
+   }
+   
 
  }
 

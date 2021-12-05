@@ -31,7 +31,7 @@ $this->params['breadcrumbs'] = [
  
              <div class="row">
                <div class="col-md-12">
-                  <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+                  <table class="table table-bordered table-hover table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
                   <thead>
                   <tr>
                   <th width="1%">#</th><th width="2%">Code</th><th>Name</th><th>Credit</th><th>Status</th><th>Enroll</th>
