@@ -17,8 +17,10 @@ use common\models\Academicyear;
 
 
     </ul>
- 
     
+    <a href="<?= Url::to(['chat/index-chat'])  ?>"
+             <i class="fas fa-envelope" style="color:white;"> Chat</i>
+    </a>
     <ul class="navbar-nav ml-auto ">
    <li class="nav-item">
     <?php
@@ -70,6 +72,8 @@ use common\models\Academicyear;
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
+
+        
       <!-- </li  class="navbar-nav">
     <?php if(Yii::$app->user->can('STUDENT')): ?>
       <a class="nav-link"  href="<?= Url::to(['student/student_groups'])  ?> ">

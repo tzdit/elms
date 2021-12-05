@@ -3,6 +3,7 @@
     use yii\bootstrap4\ActiveForm;
     use yii\helpers\Url;
     ?>
+    
     <div class="container-fluid text-center ">
     <img src="/img/logo.png" class="img-circle"  style="height:70%;width:25%;margin-bottom:1%"></img>
     </div>

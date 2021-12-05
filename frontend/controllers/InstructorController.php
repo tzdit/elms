@@ -558,9 +558,12 @@ public function actionEditExtAssrecord($recordid)
 
     public function actionDeletestudent($id)
     {
-        $stddel = User::findOne($id)->delete(); 
-        if($stddel){
-           Yii::$app->session->setFlash('success', 'Student deleted successfully');
+        $stddel = User::findOne(['username'=>$id]);
+        $std_id = $stddel->id; 
+        $std_delete = User::findOne($std_id)->delete();
+        if($std_delete){
+            $std_tbl = Student::findOne($id)->delete();
+            Yii::$app->session->setFlash('success', 'Student deleted successfully');
         }
         return $this->redirect(Yii::$app->request->referrer);
     }

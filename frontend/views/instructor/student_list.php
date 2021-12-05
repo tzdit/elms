@@ -53,11 +53,9 @@ $this->title = 'Students List';
                 echo '<td>' .$current_students[$b]->program->department->depart_abbrev.'</td>';
                 echo   '<td>' .
                 Html::a('<i class="fas fa-edit"> </i>',['updatestudent', 'id'=>$current_students[$b]->reg_no], ['class'=>'btn btn-info btn-sm m-0']) ,
-                Html::a('<i class="fas fa-trash"> </i>',['deletestudent', 'id'=>$current_students[$b]->reg_no], ['class'=>'btn btn-danger btn-sm m-0'])
-
-                       .'</td>';
-            
-                '</tr>';
+                Html::a('<i class="fas fa-trash"> </i>',['deletestudent', 'id'=>$current_students[$b]->reg_no], ['class'=>'btn btn-danger btn-sm m-0 studentdel'])
+               
+                .'</tr>';
                  
               }
               
@@ -91,6 +89,49 @@ $(document).ready(function(){
     responsive:true
   });
   // alert("JS IS OKAY")
+});
+
+//Deleting Student 
+$(document).on('click', '.studentdel', function(){
+var studentid = $(this).attr('stdid');
+Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'question',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, Delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+ 
+    $.ajax({
+      url:'/instructor/deletestudent',
+      method:'get',
+      async:false,
+      dataType:'JSON',
+      data:{id:studentid },
+      success:function(data){
+        if(data.message){
+          Swal.fire(
+              'Deleted!',
+              data.message,
+              'success'
+    )
+    setTimeout(function(){
+      window.location.reload();
+    },100);
+   
+
+        }
+      }
+    })
+   
+  }
+})
+
+})
+
 });
 JS;
 $this->registerJs($script);
