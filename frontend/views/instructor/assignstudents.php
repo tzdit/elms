@@ -23,7 +23,7 @@ $levels=[1=>'First Year',2=>'Second Year',3=>'Third Year',4=>'Fourth Year',5=>'F
       </div>
       <div class="modal-body ">
       <?php 
-      Pjax::begin(['id'=>'studaddform']);
+      Pjax::begin(['id'=>'studaddform','timeout'=>'30000']);
       $form= ActiveForm::begin(['method'=>'post','options' => ['data-pjax' => true ], 'action'=>'/instructor/add-students','id'=>'studentsaddform'])?>
       <div class="row text-sm">
       <div class="col-md-12">
