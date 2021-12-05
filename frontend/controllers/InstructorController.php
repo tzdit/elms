@@ -1455,6 +1455,7 @@ public function actionGenerateGroups()
      {
 
         Yii::$app->session->setFlash('success', 'Groups generated successfully');
+        return $this->asJson(['message'=>'Groups generated successfully']);
         return $this->redirect(Yii::$app->request->referrer);
      }
      else{
