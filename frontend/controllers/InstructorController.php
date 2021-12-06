@@ -1447,7 +1447,7 @@ public function actionAddPartner()
 
 public function actionGenerateGroups()
 {
- 
+    ini_set('max_execution_time', 200);
     $model = new StudentGroups();
     if($model->load(Yii::$app->request->post())){
       
@@ -1455,13 +1455,12 @@ public function actionGenerateGroups()
      {
 
         Yii::$app->session->setFlash('success', 'Groups generated successfully');
-        return $this->asJson(['message'=>'Groups generated successfully']);
-        //return $this->redirect(Yii::$app->request->referrer);
+        return $this->redirect(Yii::$app->request->referrer);
      }
      else{
 
         Yii::$app->session->setFlash('error', 'Groups generating failed');
-        return $this->asJson(['message'=>'failed']);
+     
         return $this->redirect(Yii::$app->request->referrer);
      }
  
