@@ -57,7 +57,7 @@ class UploadStudentHodForm extends Model
         try{
         $auth = Yii::$app->authManager;
          if (!$this->validate()) {
-             throw new Exception("Registration failed, Please verify your data and resubmit");
+             throw new Exception("Registration failed, Please verify your data then resubmit");
         }
         $patt="/^((T|T[0-9]{2})|(HD))([-]|[\/])((UDOM)|[0-9]{2})([-]|[\/])(([0-9]{4}[\/]([0-9]{5}|(T\.[0-9]{4})))|([0-9]{5}))$/";
         if(!preg_match($patt,$this->username)){throw new Exception("Invalid registration number");}
