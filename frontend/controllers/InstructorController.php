@@ -1455,12 +1455,13 @@ public function actionGenerateGroups()
      {
 
         Yii::$app->session->setFlash('success', 'Groups generated successfully');
-        //return $this->asJson(['message'=>'Groups generated successfully']);
-        return $this->redirect(Yii::$app->request->referrer);
+        return $this->asJson(['message'=>'Groups generated successfully']);
+        //return $this->redirect(Yii::$app->request->referrer);
      }
      else{
 
         Yii::$app->session->setFlash('error', 'Groups generating failed');
+        return $this->asJson(['message'=>'failed']);
         return $this->redirect(Yii::$app->request->referrer);
      }
  
