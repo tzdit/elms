@@ -31,6 +31,7 @@ $this->params['breadcrumbs'] = [
         </div>
                   
       </div>
+      <?php phpinfo();?>
 <?php if($groups!=null){foreach($groups as $group)  {?>
 <div class="accordion" id="accordionExample">
   <div class="card" >
