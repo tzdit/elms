@@ -1501,6 +1501,7 @@ public function actionAddStudentGentype()
 
  public function actionViewGroups()
  {
+    ini_set('max_execution_time', 200);
    $groupsModel=new GroupGenerationTypes();
    $coursecode=Yii::$app->session->get('ccode');
    $groups=$groupsModel::find()->where(['course_code'=>$coursecode])->orderBy(['typeID'=>SORT_DESC])->all();
