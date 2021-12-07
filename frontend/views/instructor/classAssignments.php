@@ -25,6 +25,7 @@ use frontend\models\StudentAssign;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
 use frontend\models\ClassRoomSecurity;
+use frontend\models\CourseStudents;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] ="<i class='fas fa-book-reader'></i> ".ClassRoomSecurity::decrypt($cid)." Assignments";
@@ -103,15 +104,11 @@ $this->params['breadcrumbs'] = [
         $gentypes=$assign->groupGenerationAssignments;
         for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
       }
-      else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);
-        $assignedprog=$assign->courseCode->programCourses;
+      else if($assign->assType=="allstudents"){
+        $submits=$assign->submits;
+        $assigned=$assigned+count(CourseStudents::getClassStudents(ClassRoomSecurity::decrypt($cid)));
 
-        for($p=0;$p<count($assignedprog);$p++)
-        {
-          $num=count($assignedprog[$p]->programCode0->students);
-          $assigned=$assigned+$num;
-
-        }
+        
       }
       else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);}
       $subperc=0;
@@ -141,15 +138,11 @@ $this->params['breadcrumbs'] = [
               $gentypes=$assign->groupGenerationAssignments;
               for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
             }
-            else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);
-              $assignedprog=$assign->courseCode->programCourses;
-      
-              for($p=0;$p<count($assignedprog);$p++)
-              {
-                $num=count($assignedprog[$p]->programCode0->students);
-                $assigned=$assigned+$num;
-      
-              }}
+            else if($assign->assType=="allstudents"){
+              $submits=$assign->submits;
+
+              $assigned=$assigned+count(CourseStudents::getClassStudents(ClassRoomSecurity::decrypt($cid)));
+              }
             else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
             
             $missing=$assigned-count($submits);
@@ -192,15 +185,10 @@ $this->params['breadcrumbs'] = [
               $gentypes=$assign->groupGenerationAssignments;
               for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
             }
-            else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);
-              $assignedprog=$assign->courseCode->programCourses;
-      
-              for($p=0;$p<count($assignedprog);$p++)
-              {
-                $num=count($assignedprog[$p]->programCode0->students);
-                $assigned=$assigned+$num;
-      
-              }}
+            else if($assign->assType=="allstudents"){
+              $submits=$assign->submits;
+              $assigned=$assigned+count(CourseStudents::getClassStudents(ClassRoomSecurity::decrypt($cid)));
+          }
             else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
             
             for($o=0;$o<count($submits);$o++)
@@ -241,15 +229,10 @@ $this->params['breadcrumbs'] = [
               $gentypes=$assign->groupGenerationAssignments;
               for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
             }
-            else if($assign->assType=="allstudents"){$submits=$assign->submits;$assigned=count($assign->courseCode->studentCourses);
-              $assignedprog=$assign->courseCode->programCourses;
-      
-              for($p=0;$p<count($assignedprog);$p++)
-              {
-                $num=count($assignedprog[$p]->programCode0->students);
-                $assigned=$assigned+$num;
-      
-              }}
+            else if($assign->assType=="allstudents"){
+              $submits=$assign->submits;
+              $assigned=$assigned+count(CourseStudents::getClassStudents(ClassRoomSecurity::decrypt($cid)));
+              }
             else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
             
             for($o=0;$o<count($submits);$o++)
