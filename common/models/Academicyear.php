@@ -1,7 +1,7 @@
 <?php
 
 namespace common\models;
-
+use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 use Yii;
 
 /**
@@ -14,8 +14,6 @@ use Yii;
  * @property string $date_launched
  * @property int $duration duration in months
  * @property string $status ex: ongoing or finished
- *
- * @property Logs[] $logs
  * @property Notification[] $notifications
  * @property Notification[] $notifications0
  * @property Notification[] $notifications1
@@ -31,6 +29,15 @@ class Academicyear extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+   
+public function behaviors()
+{
+    return [
+        'auditEntryBehaviors' => [
+            'class' => AuditEntryBehaviors::class
+         ],
+    ];
+}
     public static function tableName()
     {
         return 'academicyear';
@@ -66,15 +73,7 @@ class Academicyear extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Logs]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getLogs()
-    {
-        return $this->hasMany(Logs::className(), ['yearID' => 'yearID']);
-    }
+  
 
     /**
      * Gets query for [[Notifications]].

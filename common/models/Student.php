@@ -2,7 +2,7 @@
 
 namespace common\models;
 use common\models\StudentGroup;
-
+use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 use Yii;
 
 /**
@@ -39,6 +39,14 @@ class Student extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public function behaviors()
+    {
+        return [
+            'auditEntryBehaviors' => [
+                'class' => AuditEntryBehaviors::class
+             ],
+        ];
+    }
     public static function tableName()
     {
         return 'student';

@@ -558,9 +558,12 @@ public function actionEditExtAssrecord($recordid)
 
     public function actionDeletestudent($id)
     {
-        $stddel = User::findOne($id)->delete(); 
-        if($stddel){
-           Yii::$app->session->setFlash('success', 'Student deleted successfully');
+        $stddel = User::findOne(['username'=>$id]);
+        $std_id = $stddel->id; 
+        $std_delete = User::findOne($std_id)->delete();
+        if($std_delete){
+            $std_tbl = Student::findOne($id)->delete();
+            Yii::$app->session->setFlash('success', 'Student deleted successfully');
         }
         return $this->redirect(Yii::$app->request->referrer);
     }
@@ -729,9 +732,12 @@ public function actionCreateModule()
 
         $module=Module::findOne($moduleid);
 
-        if($module->delete()){ return $this->asJson(['message'=>'Module deleted']); }
+        if($module->delete()){ 
+            return $this->asJson(['message'=>'Module deleted successfully']);
+           
+        }
         else{
-            Yii::$app->session->setFlash('serror', 'module deleting failed');
+            Yii::$app->session->setFlash('error', 'module deleting failed');
             return $this->redirect(Yii::$app->request->referrer);
         }
     }
@@ -750,11 +756,7 @@ public function actionClassAssignments($cid)
 
 public function actionClassLabs($cid)
 {
-
-    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
-
-    $assignments = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->orderBy([
+    $assignments = Assignment::find()->where(['assNature' => 'lab', 'course_code' =>ClassRoomSecurity::decrypt($cid)])->orderBy([
         'assID' => SORT_DESC ])->all();
     return $this->render('classLabAssignments', ['cid'=>$cid,'assignments'=>$assignments]);
 
@@ -1096,7 +1098,7 @@ public function actionUploadAssignment(){
         return $this->redirect(Yii::$app->request->referrer);
         }else{
           
-        Yii::$app->session->setFlash('error', 'Something went wrong');
+        Yii::$app->session->setFlash('error',"Assignment creating failed unexpectedly, please try again");
         return $this->redirect(Yii::$app->request->referrer);
     }
 }
@@ -1441,11 +1443,11 @@ public function actionAddPartner()
 
 public function actionGenerateGroups()
 {
- 
+    ini_set('max_execution_time', 200);
     $model = new StudentGroups();
     if($model->load(Yii::$app->request->post())){
       
-     if($model->generateRandomGroups())
+     if($model->generateRandomGroups()===true)
      {
 
         Yii::$app->session->setFlash('success', 'Groups generated successfully');
@@ -1454,6 +1456,7 @@ public function actionGenerateGroups()
      else{
 
         Yii::$app->session->setFlash('error', 'Groups generating failed');
+     
         return $this->redirect(Yii::$app->request->referrer);
      }
  
@@ -1494,6 +1497,7 @@ public function actionAddStudentGentype()
 
  public function actionViewGroups()
  {
+    ini_set('max_execution_time', 200);
    $groupsModel=new GroupGenerationTypes();
    $coursecode=Yii::$app->session->get('ccode');
    $groups=$groupsModel::find()->where(['course_code'=>$coursecode])->orderBy(['typeID'=>SORT_DESC])->all();
@@ -1506,9 +1510,18 @@ public function actionAddStudentGentype()
 
  public function actionDeleteGroups($groupgenerationid)
  {
-   $deleted=new GroupGenerationTypes();
-   $deleted::findOne($groupgenerationid)->delete();
-   return $this->redirect(Yii::$app->request->referrer);
+   $deleted=GroupGenerationTypes::findOne($groupgenerationid);
+   if($deleted->delete()){
+
+    return $this->asJson(['message'=>'Deleted']);
+    return $this->redirect(Yii::$app->request->referrer);
+   }
+   else
+   {
+    Yii::$app->session->setFlash('error','Deleting failed');
+    return $this->redirect(Yii::$app->request->referrer); 
+   }
+   
 
  }
 

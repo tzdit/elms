@@ -17,8 +17,8 @@ use common\models\Academicyear;
 
 
     </ul>
- 
     
+   
     <ul class="navbar-nav ml-auto ">
    <li class="nav-item">
     <?php
@@ -70,6 +70,8 @@ use common\models\Academicyear;
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
+
+        
       <!-- </li  class="navbar-nav">
     <?php if(Yii::$app->user->can('STUDENT')): ?>
       <a class="nav-link"  href="<?= Url::to(['student/student_groups'])  ?> ">

@@ -5,6 +5,7 @@ use Yii;
 use yii\base\Model;
 use common\models\User;
 use common\models\Student;
+use yii\base\Exception;
 /**
  * Signup form
  */
@@ -51,17 +52,19 @@ class UploadStudentHodForm extends Model
      */
     public function create()
     {
+        $transaction = Yii::$app->db->beginTransaction();
         //get authManager instance
-     $auth = Yii::$app->authManager;
+        try{
+        $auth = Yii::$app->authManager;
          if (!$this->validate()) {
-             return false;
+             throw new Exception("Registration failed, Please verify your data then resubmit");
         }
-        //$patt="/^(T|HD)[\/](UDOM)[\/][0-9]{4}[\/]([0-9]{5}|(T\.[0-9]{4}))$/";
-        //if(!preg_match($patt,$this->username)){return false;}
+        $patt="/^((T|T[0-9]{2})|(HD))([-]|[\/])((UDOM)|[0-9]{2})([-]|[\/])(([0-9]{4}[\/]([0-9]{5}|(T\.[0-9]{4})))|([0-9]{5}))$/";
+        if(!preg_match($patt,$this->username)){throw new Exception("Invalid registration number");}
         $user = new User();
         $student = new Student();
-        $transaction = Yii::$app->db->beginTransaction();
-        try{
+        
+       
         $user->username = $this->username;
         $user->setPassword($this->password);
         $user->generateAuthKey();
@@ -84,7 +87,7 @@ class UploadStudentHodForm extends Model
         $student->userID = $user->getId();
         if($student->save()){
            
-        //now assign role to this newlly created user========>>
+        //now assign role to this newly created user========>>
        
         $userRole = $auth->getRole($this->role);
         $auth->assign($userRole, $user->getId());
@@ -95,19 +98,19 @@ class UploadStudentHodForm extends Model
         }
         else
         {
-            return false;
+            throw new Exception("Registration failed, An unexpected error occured");
         }
         }
         else
         {
-            return false;
+            throw new Exception("Registration failed, Could not create user account");
         }
     
        }catch(\Exception $e){
             $transaction->rollBack();
-            return $e->getMessage();
+            throw new Exception($e->getMessage());
       }
-    return false;
+   
 }
 
   

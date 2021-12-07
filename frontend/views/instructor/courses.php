@@ -7,10 +7,9 @@ use yii\helpers\Html;
 use common\helpers\Custom;
 /* @var $this yii\web\View */
 
-$this->title = 'Enroll Courses';
+$this->title = 'Courses';
 $this->params['courseTitle'] =$this->title;
 $this->params['breadcrumbs'] = [
-  ['label'=>'Courses', 'url'=>Url::to(['/instructor/courses'])],
   ['label'=>$this->title]
 ];
 
@@ -24,25 +23,15 @@ $this->params['breadcrumbs'] = [
    
        <div class="container-fluid">
       
- <div class="row">
+ <div class="row text-sm">
           <!-- Left col -->
           <section class="col-lg-12">
             <!-- Custom tabs (Charts with tabs)-->
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title com-sm-12 text-secondary">
-                  <i class="fas fa-book mr-1"></i>
-                choose your course
-                 
-                </h3>
-               
-              
-              </div><!-- /.card-header -->
-              <div class="card-body">
+           
  
              <div class="row">
                <div class="col-md-12">
-                  <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+                  <table class="table table-bordered table-hover table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
                   <thead>
                   <tr>
                   <th width="1%">#</th><th width="2%">Code</th><th>Name</th><th>Credit</th><th>Status</th><th>Enroll</th>
@@ -71,9 +60,8 @@ $this->params['breadcrumbs'] = [
              </div>
             
              </div>
-              </div><!-- /.card-body -->
-            </div>
-            <!-- /.card -->
+            
+        
 
           </section>
           <!-- /.Left col -->

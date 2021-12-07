@@ -14,7 +14,7 @@ use yii\widgets\Pjax;
       </div>
       <div class="modal-body">
       <?php 
-      Pjax::begin(['id'=>'studgroupsform']);
+      Pjax::begin(['id'=>'studgroupsform','timeout'=>'30000']);
       $form = ActiveForm::begin(['method'=>'post','options' => ['data-pjax' => true ], 'action'=>['/instructor/add-student-gentype']])?>
         <div class="row">
         <div class="col-md-12">

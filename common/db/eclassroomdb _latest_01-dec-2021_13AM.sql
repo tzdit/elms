@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2021 at 09:11 AM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.10
+-- Generation Time: Dec 01, 2021 at 11:29 AM
+-- Server version: 10.4.18-MariaDB
+-- PHP Version: 7.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -91,7 +91,7 @@ CREATE TABLE `announcement` (
 --
 
 INSERT INTO `announcement` (`annID`, `instructorID`, `course_code`, `content`, `ann_date`, `ann_time`, `title`, `yearID`) VALUES
-(24, 2, 'CP 111', 'cgnfgjfghjfg', '2021-11-19', '22:37:23', 'new test', 1);
+(25, 2, 'CP 111', 'zcvzxcv', '2021-12-01', '11:12:04', 'thewinner', 1);
 
 -- --------------------------------------------------------
 
@@ -585,16 +585,6 @@ INSERT INTO `group_generation_types` (`typeID`, `generation_type`, `max_groups_m
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hod`
---
-
-CREATE TABLE `hod` (
-  `id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `instructor`
 --
 
@@ -736,24 +726,6 @@ INSERT INTO `live_lecture` (`lectureID`, `instructorID`, `course_code`, `title`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `logs`
---
-
-CREATE TABLE `logs` (
-  `logID` int(11) NOT NULL,
-  `userID` int(11) DEFAULT NULL,
-  `object` varchar(10) NOT NULL,
-  `activity` varchar(15) NOT NULL,
-  `logdate` date NOT NULL,
-  `logtime` time NOT NULL,
-  `username` varchar(30) DEFAULT NULL,
-  `role` varchar(20) DEFAULT NULL,
-  `yearID` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `material`
 --
 
@@ -820,8 +792,7 @@ CREATE TABLE `module` (
 
 INSERT INTO `module` (`moduleID`, `moduleName`, `module_description`, `course_code`) VALUES
 (19, 'my module', 'my module', 'CS 212'),
-(21, 'another module', 'another module', 'CS 212'),
-(22, 'cp 111 module', 'yes yes', 'CP 111');
+(21, 'another module', 'another module', 'CS 212');
 
 -- --------------------------------------------------------
 
@@ -1493,29 +1464,120 @@ CREATE TABLE `tbl_audit_entry` (
   `audit_entry_old_value` text DEFAULT NULL,
   `audit_entry_new_value` text NOT NULL,
   `audit_entry_user_id` varchar(100) NOT NULL,
-  `audit_entry_ip` varchar(100) NOT NULL
+  `audit_entry_ip` varchar(100) NOT NULL,
+  `audit_entry_affected_record_reference` varchar(30) NOT NULL,
+  `audit_entry_affected_record_reference_type` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbl_audit_entry`
 --
 
-INSERT INTO `tbl_audit_entry` (`audit_entry_id`, `audit_entry_timestamp`, `audit_entry_model_name`, `audit_entry_operation`, `audit_entry_field_name`, `audit_entry_old_value`, `audit_entry_new_value`, `audit_entry_user_id`, `audit_entry_ip`) VALUES
-(1, '1638216371', 'Module', 'UPDATE', 'course_code', NULL, 'CP 111', '36', '::1'),
-(2, '1638216371', 'Module', 'UPDATE', 'moduleName', NULL, 'xdfgdf', '36', '::1'),
-(3, '1638216372', 'Module', 'UPDATE', 'module_description', NULL, 'dfhgdfg', '36', '::1'),
-(4, '1638216372', 'Module', 'UPDATE', 'moduleID', NULL, '24', '36', '::1'),
-(5, '1638216610', 'Module', 'UPDATE', 'course_code', NULL, 'CP 111', '36', '::1'),
-(6, '1638216610', 'Module', 'UPDATE', 'moduleName', NULL, 'my module', '36', '::1'),
-(7, '1638216610', 'Module', 'UPDATE', 'module_description', NULL, '333', '36', '::1'),
-(8, '1638216610', 'Module', 'UPDATE', 'moduleID', NULL, '25', '36', '::1'),
-(9, '1638216781', 'GroupGenerationTypes', 'UPDATE', 'generation_type', NULL, 'winner', '36', '::1'),
-(10, '1638216781', 'GroupGenerationTypes', 'UPDATE', 'course_code', NULL, 'CP 111', '36', '::1'),
-(11, '1638216781', 'GroupGenerationTypes', 'UPDATE', 'creator_type', NULL, 'instructor-student', '36', '::1'),
-(12, '1638216782', 'GroupGenerationTypes', 'UPDATE', 'instructorID', NULL, '2', '36', '::1'),
-(13, '1638216782', 'GroupGenerationTypes', 'UPDATE', 'yearID', NULL, '1', '36', '::1'),
-(14, '1638216782', 'GroupGenerationTypes', 'UPDATE', 'max_groups_members', NULL, '2', '36', '::1'),
-(15, '1638216782', 'GroupGenerationTypes', 'UPDATE', 'typeID', NULL, '116', '36', '::1');
+INSERT INTO `tbl_audit_entry` (`audit_entry_id`, `audit_entry_timestamp`, `audit_entry_model_name`, `audit_entry_operation`, `audit_entry_field_name`, `audit_entry_old_value`, `audit_entry_new_value`, `audit_entry_user_id`, `audit_entry_ip`, `audit_entry_affected_record_reference`, `audit_entry_affected_record_reference_type`) VALUES
+(21, '1638345734', 'Module', 'INSERT', 'moduleID', 'NA', '28', '36', '::1', 'N/A', 'N/A'),
+(22, '1638345734', 'Module', 'INSERT', 'moduleName', 'NA', 'thewinner', '36', '::1', 'N/A', 'N/A'),
+(23, '1638345734', 'Module', 'INSERT', 'module_description', 'NA', 'mimi', '36', '::1', 'N/A', 'N/A'),
+(24, '1638345734', 'Module', 'INSERT', 'course_code', 'NA', 'CP 111', '36', '::1', 'N/A', 'N/A'),
+(25, '1638345919', 'Module', 'INSERT', 'moduleID', 'NA', '29', '36', '::1', 'N/A', 'N/A'),
+(26, '1638345919', 'Module', 'INSERT', 'moduleName', 'NA', 'fhfg', '36', '::1', 'N/A', 'N/A'),
+(27, '1638345919', 'Module', 'INSERT', 'module_description', 'NA', 'fghjfg', '36', '::1', 'N/A', 'N/A'),
+(28, '1638345919', 'Module', 'INSERT', 'course_code', 'NA', 'CP 111', '36', '::1', 'N/A', 'N/A'),
+(29, '1638346011', 'Module', 'INSERT', 'moduleID', 'NA', '30', '36', '::1', 'N/A', 'N/A'),
+(30, '1638346011', 'Module', 'INSERT', 'moduleName', 'NA', 'dfghd', '36', '::1', 'N/A', 'N/A'),
+(31, '1638346011', 'Module', 'INSERT', 'module_description', 'NA', 'dfghd', '36', '::1', 'N/A', 'N/A'),
+(32, '1638346011', 'Module', 'INSERT', 'course_code', 'NA', 'CP 111', '36', '::1', 'N/A', 'N/A'),
+(33, '1638346128', 'Module', 'INSERT', 'moduleID', 'NA', '31', '36', '::1', 'N/A', 'N/A'),
+(34, '1638346128', 'Module', 'INSERT', 'moduleName', 'NA', 'sdfgds', '36', '::1', 'N/A', 'N/A'),
+(35, '1638346128', 'Module', 'INSERT', 'module_description', 'NA', 'sdfgsdf', '36', '::1', 'N/A', 'N/A'),
+(36, '1638346128', 'Module', 'INSERT', 'course_code', 'NA', 'CP 111', '36', '::1', 'N/A', 'N/A'),
+(37, '1638346565', 'Module', 'INSERT', 'moduleID', 'NA', '32', '36', '::1', 'N/A', 'N/A'),
+(38, '1638346565', 'Module', 'INSERT', 'moduleName', 'NA', 'dfghd', '36', '::1', 'N/A', 'N/A'),
+(39, '1638346565', 'Module', 'INSERT', 'module_description', 'NA', 'dfgh', '36', '::1', 'N/A', 'N/A'),
+(40, '1638346566', 'Module', 'INSERT', 'course_code', 'NA', 'CP 111', '36', '::1', 'N/A', 'N/A'),
+(41, '1638346613', 'Module', 'INSERT', 'moduleID', 'NA', '33', '36', '::1', 'N/A', 'N/A'),
+(42, '1638346613', 'Module', 'INSERT', 'moduleName', 'NA', 'asdfa', '36', '::1', 'N/A', 'N/A'),
+(43, '1638346613', 'Module', 'INSERT', 'module_description', 'NA', 'asdfas', '36', '::1', 'N/A', 'N/A'),
+(44, '1638346613', 'Module', 'INSERT', 'course_code', 'NA', 'CP 111', '36', '::1', 'N/A', 'N/A'),
+(45, '1638346844', 'Module', 'INSERT', 'moduleID', 'NA', '34', '36', '::1', 'N/A', 'N/A'),
+(46, '1638346844', 'Module', 'INSERT', 'moduleName', 'NA', 'ncvbncbb', '36', '::1', 'N/A', 'N/A'),
+(47, '1638346844', 'Module', 'INSERT', 'module_description', 'NA', 'cvbnc', '36', '::1', 'N/A', 'N/A'),
+(48, '1638346844', 'Module', 'INSERT', 'course_code', 'NA', 'CP 111', '36', '::1', 'N/A', 'N/A'),
+(49, '1638347009', 'Module', 'INSERT', 'moduleID', 'NA', '35', '36', '::1', 'N/A', 'N/A'),
+(50, '1638347009', 'Module', 'INSERT', 'moduleName', 'NA', 'fhgjf', '36', '::1', 'N/A', 'N/A'),
+(51, '1638347009', 'Module', 'INSERT', 'module_description', 'NA', 'fjghf', '36', '::1', 'N/A', 'N/A'),
+(52, '1638347009', 'Module', 'INSERT', 'course_code', 'NA', 'CP 111', '36', '::1', 'N/A', 'N/A'),
+(53, '1638347113', 'Module', 'INSERT', 'moduleID', 'NA', '36', '36', '::1', 'N/A', 'N/A'),
+(54, '1638347113', 'Module', 'INSERT', 'moduleName', 'NA', 'fhgjf', '36', '::1', 'N/A', 'N/A'),
+(55, '1638347113', 'Module', 'INSERT', 'module_description', 'NA', 'fjghf', '36', '::1', 'N/A', 'N/A'),
+(56, '1638347113', 'Module', 'INSERT', 'course_code', 'NA', 'CP 111', '36', '::1', 'N/A', 'N/A'),
+(57, '1638347241', 'Module', 'INSERT', 'moduleID', 'NA', '37', '36', '::1', 'N/A', 'N/A'),
+(58, '1638347241', 'Module', 'INSERT', 'moduleName', 'NA', 'fhgjf', '36', '::1', 'N/A', 'N/A'),
+(59, '1638347241', 'Module', 'INSERT', 'module_description', 'NA', 'fjghf', '36', '::1', 'N/A', 'N/A'),
+(60, '1638347241', 'Module', 'INSERT', 'course_code', 'NA', 'CP 111', '36', '::1', 'N/A', 'N/A'),
+(61, '1638347268', 'Module', 'INSERT', 'moduleID', 'NA', '38', '36', '::1', 'N/A', 'N/A'),
+(62, '1638347268', 'Module', 'INSERT', 'moduleName', 'NA', 'fhgjf', '36', '::1', 'N/A', 'N/A'),
+(63, '1638347268', 'Module', 'INSERT', 'module_description', 'NA', 'fjghf', '36', '::1', 'N/A', 'N/A'),
+(64, '1638347268', 'Module', 'INSERT', 'course_code', 'NA', 'CP 111', '36', '::1', 'N/A', 'N/A'),
+(65, '1638347308', 'Module', 'INSERT', 'moduleID', 'NA', '39', '36', '::1', 'N/A', 'N/A'),
+(66, '1638347308', 'Module', 'INSERT', 'moduleName', 'NA', 'fhgjf', '36', '::1', 'N/A', 'N/A'),
+(67, '1638347308', 'Module', 'INSERT', 'module_description', 'NA', 'fjghf', '36', '::1', 'N/A', 'N/A'),
+(68, '1638347308', 'Module', 'INSERT', 'course_code', 'NA', 'CP 111', '36', '::1', 'N/A', 'N/A'),
+(69, '1638347374', 'Module', 'INSERT', 'moduleID', 'NA', '40', '36', '::1', 'N/A', 'N/A'),
+(70, '1638347374', 'Module', 'INSERT', 'moduleName', 'NA', 'fhgjf', '36', '::1', 'N/A', 'N/A'),
+(71, '1638347375', 'Module', 'INSERT', 'module_description', 'NA', 'fjghf', '36', '::1', 'N/A', 'N/A'),
+(72, '1638347375', 'Module', 'INSERT', 'course_code', 'NA', 'CP 111', '36', '::1', 'N/A', 'N/A'),
+(73, '1638347558', 'Module', 'INSERT', 'moduleID', 'NA', '41', '36', '::1', 'N/A', 'N/A'),
+(74, '1638347559', 'Module', 'INSERT', 'moduleName', 'NA', 'fhgjf', '36', '::1', 'N/A', 'N/A'),
+(75, '1638347559', 'Module', 'INSERT', 'module_description', 'NA', 'fjghf', '36', '::1', 'N/A', 'N/A'),
+(76, '1638347559', 'Module', 'INSERT', 'course_code', 'NA', 'CP 111', '36', '::1', 'N/A', 'N/A'),
+(77, '1638348652', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'CP 111', 'Course'),
+(78, '1638348652', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'fhgjf', 'Module name'),
+(79, '1638348652', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'CP 111', 'Course'),
+(80, '1638348652', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'fhgjf', 'Module name'),
+(81, '1638348899', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'CP 111', 'Course'),
+(82, '1638348899', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'fhgjf', 'Module name'),
+(83, '1638348899', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'CP 111', 'Course'),
+(84, '1638348899', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'fhgjf', 'Module name'),
+(85, '1638348908', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'CP 111', 'Course'),
+(86, '1638348908', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'fhgjf', 'Module name'),
+(87, '1638348909', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'CP 111', 'Course'),
+(88, '1638348909', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'fhgjf', 'Module name'),
+(89, '1638348928', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'CP 111', 'Course'),
+(90, '1638348928', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'fhgjf', 'Module name'),
+(91, '1638348928', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'CP 111', 'Course'),
+(92, '1638348928', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'fhgjf', 'Module name'),
+(93, '1638348936', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'CP 111', 'Course'),
+(94, '1638348936', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'fhgjf', 'Module name'),
+(95, '1638348936', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'CP 111', 'Course'),
+(96, '1638348936', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'fhgjf', 'Module name'),
+(97, '1638348939', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'CP 111', 'Course'),
+(98, '1638348939', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'fhgjf', 'Module name'),
+(99, '1638348939', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'CP 111', 'Course'),
+(100, '1638348939', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'fhgjf', 'Module name'),
+(101, '1638348941', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'CP 111', 'Course'),
+(102, '1638348941', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'fhgjf', 'Module name'),
+(103, '1638348941', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'CP 111', 'Course'),
+(104, '1638348941', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'fhgjf', 'Module name'),
+(105, '1638349249', 'Module', 'INSERT', 'moduleID', 'NA', '42', '36', '::1', 'N/A', 'N/A'),
+(106, '1638349249', 'Module', 'INSERT', 'moduleName', 'NA', 'fhgjf', '36', '::1', 'N/A', 'N/A'),
+(107, '1638349249', 'Module', 'INSERT', 'module_description', 'NA', 'fjghf', '36', '::1', 'N/A', 'N/A'),
+(108, '1638349249', 'Module', 'INSERT', 'course_code', 'NA', 'CP 111', '36', '::1', 'N/A', 'N/A'),
+(109, '1638349268', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'CP 111', 'Course'),
+(110, '1638349269', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'fhgjf', 'Module name'),
+(111, '1638349269', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'CP 111', 'Course'),
+(112, '1638349269', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'fhgjf', 'Module name'),
+(113, '1638349368', 'Module', 'INSERT', 'moduleID', 'NA', '43', '36', '::1', 'N/A', 'N/A'),
+(114, '1638349368', 'Module', 'INSERT', 'moduleName', 'NA', 'serte', '36', '::1', 'N/A', 'N/A'),
+(115, '1638349368', 'Module', 'INSERT', 'module_description', 'NA', 'wert', '36', '::1', 'N/A', 'N/A'),
+(116, '1638349368', 'Module', 'INSERT', 'course_code', 'NA', 'CP 111', '36', '::1', 'N/A', 'N/A'),
+(117, '1638349404', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'CP 111', 'Course'),
+(118, '1638349404', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'serte', 'Module name'),
+(119, '1638349432', 'Module', 'INSERT', 'moduleID', 'NA', '44', '36', '::1', 'N/A', 'N/A'),
+(120, '1638349432', 'Module', 'INSERT', 'moduleName', 'NA', 'thewinner', '36', '::1', 'N/A', 'N/A'),
+(121, '1638349432', 'Module', 'INSERT', 'module_description', 'NA', 'mimi', '36', '::1', 'N/A', 'N/A'),
+(122, '1638349432', 'Module', 'INSERT', 'course_code', 'NA', 'CP 111', '36', '::1', 'N/A', 'N/A'),
+(123, '1638349439', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'CP 111', 'Course'),
+(124, '1638349439', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '36', '::1', 'thewinner', 'Module name');
 
 -- --------------------------------------------------------
 
@@ -1837,14 +1899,6 @@ ALTER TABLE `live_lecture`
   ADD KEY `coursekey7` (`course_code`);
 
 --
--- Indexes for table `logs`
---
-ALTER TABLE `logs`
-  ADD PRIMARY KEY (`logID`),
-  ADD KEY `userlogkey` (`userID`),
-  ADD KEY `yearID` (`yearID`);
-
---
 -- Indexes for table `material`
 --
 ALTER TABLE `material`
@@ -2034,7 +2088,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `announcement`
 --
 ALTER TABLE `announcement`
-  MODIFY `annID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `annID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `assignment`
@@ -2163,12 +2217,6 @@ ALTER TABLE `live_lecture`
   MODIFY `lectureID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
--- AUTO_INCREMENT for table `logs`
---
-ALTER TABLE `logs`
-  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `material`
 --
 ALTER TABLE `material`
@@ -2178,7 +2226,7 @@ ALTER TABLE `material`
 -- AUTO_INCREMENT for table `module`
 --
 ALTER TABLE `module`
-  MODIFY `moduleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `moduleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `notification`
@@ -2262,7 +2310,7 @@ ALTER TABLE `submit`
 -- AUTO_INCREMENT for table `tbl_audit_entry`
 --
 ALTER TABLE `tbl_audit_entry`
-  MODIFY `audit_entry_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `audit_entry_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 
 --
 -- AUTO_INCREMENT for table `thread`
@@ -2442,159 +2490,6 @@ ALTER TABLE `instructor_course`
 ALTER TABLE `instructor_notification`
   ADD CONSTRAINT `instrnotif` FOREIGN KEY (`instructorID`) REFERENCES `instructor` (`instructorID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `notifinstr` FOREIGN KEY (`notif_ID`) REFERENCES `notification` (`notif_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `lectureroominfo`
---
-ALTER TABLE `lectureroominfo`
-  ADD CONSTRAINT `lectureroominfo_ibfk_1` FOREIGN KEY (`lectureID`) REFERENCES `live_lecture` (`lectureID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `live_lecture`
---
-ALTER TABLE `live_lecture`
-  ADD CONSTRAINT `coursekey7` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `instructorkey7` FOREIGN KEY (`instructorID`) REFERENCES `instructor` (`instructorID`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `logs`
---
-ALTER TABLE `logs`
-  ADD CONSTRAINT `logs_ibfk_1` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`),
-  ADD CONSTRAINT `userlogkey` FOREIGN KEY (`userID`) REFERENCES `user` (`id`) ON UPDATE CASCADE;
-
---
--- Constraints for table `material`
---
-ALTER TABLE `material`
-  ADD CONSTRAINT `coursekey4` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `instructorkey5` FOREIGN KEY (`instructorID`) REFERENCES `instructor` (`instructorID`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `material_ibfk_2` FOREIGN KEY (`moduleID`) REFERENCES `module` (`moduleID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `module`
---
-ALTER TABLE `module`
-  ADD CONSTRAINT `module_ibfk_1` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `notification`
---
-ALTER TABLE `notification`
-  ADD CONSTRAINT `coursekey6` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`),
-  ADD CONSTRAINT `notification_ibfk_2` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`),
-  ADD CONSTRAINT `notification_ibfk_3` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`),
-  ADD CONSTRAINT `notification_ibfk_4` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`),
-  ADD CONSTRAINT `notification_ibfk_5` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`),
-  ADD CONSTRAINT `notification_ibfk_6` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`),
-  ADD CONSTRAINT `notification_ibfk_7` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`),
-  ADD CONSTRAINT `notification_ibfk_8` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`),
-  ADD CONSTRAINT `notification_ibfk_9` FOREIGN KEY (`yearID`) REFERENCES `academicyear` (`yearID`);
-
---
--- Constraints for table `program`
---
-ALTER TABLE `program`
-  ADD CONSTRAINT `depkey2` FOREIGN KEY (`departmentID`) REFERENCES `department` (`departmentID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `program_course`
---
-ALTER TABLE `program_course`
-  ADD CONSTRAINT `cozk2` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `pcd` FOREIGN KEY (`programCode`) REFERENCES `program` (`programCode`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `quiz`
---
-ALTER TABLE `quiz`
-  ADD CONSTRAINT `lecturekey1` FOREIGN KEY (`lectureID`) REFERENCES `live_lecture` (`lectureID`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `q_marks`
---
-ALTER TABLE `q_marks`
-  ADD CONSTRAINT `q_marks_ibfk_1` FOREIGN KEY (`group_submit_id`) REFERENCES `group_assignment_submit` (`submitID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `qkey` FOREIGN KEY (`assq_ID`) REFERENCES `assq` (`assq_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `submitkey` FOREIGN KEY (`submitID`) REFERENCES `submit` (`submitID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `rep_thread`
---
-ALTER TABLE `rep_thread`
-  ADD CONSTRAINT `threadkey1` FOREIGN KEY (`threadID`) REFERENCES `thread` (`threadID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `threadkey2` FOREIGN KEY (`parent_thread`) REFERENCES `thread` (`threadID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `student`
---
-ALTER TABLE `student`
-  ADD CONSTRAINT `programkey1` FOREIGN KEY (`programCode`) REFERENCES `program` (`programCode`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `userkey2` FOREIGN KEY (`userID`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `student_assignment`
---
-ALTER TABLE `student_assignment`
-  ADD CONSTRAINT `stdasskey` FOREIGN KEY (`assID`) REFERENCES `assignment` (`assID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `student_assignment_ibfk_1` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `student_course`
---
-ALTER TABLE `student_course`
-  ADD CONSTRAINT `cozk3` FOREIGN KEY (`course_code`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `studckey2` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `student_ext_assess`
---
-ALTER TABLE `student_ext_assess`
-  ADD CONSTRAINT `assesskey` FOREIGN KEY (`assessID`) REFERENCES `ext_assess` (`assessID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `regkey` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `student_group`
---
-ALTER TABLE `student_group`
-  ADD CONSTRAINT `gkey2` FOREIGN KEY (`groupID`) REFERENCES `groups` (`groupID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `gstudkey` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `student_lecture`
---
-ALTER TABLE `student_lecture`
-  ADD CONSTRAINT `lecstudkey` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `lecturekey2` FOREIGN KEY (`lectureID`) REFERENCES `live_lecture` (`lectureID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `student_notification`
---
-ALTER TABLE `student_notification`
-  ADD CONSTRAINT `notifkey` FOREIGN KEY (`notif_ID`) REFERENCES `notification` (`notif_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `notstudkey` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `student_quiz`
---
-ALTER TABLE `student_quiz`
-  ADD CONSTRAINT `quizkey` FOREIGN KEY (`quizID`) REFERENCES `quiz` (`quizID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `quizstudkey` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `submit`
---
-ALTER TABLE `submit`
-  ADD CONSTRAINT `asskey` FOREIGN KEY (`assID`) REFERENCES `assignment` (`assID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `studk22` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `thread`
---
-ALTER TABLE `thread`
-  ADD CONSTRAINT `instructorkey3` FOREIGN KEY (`instructorID`) REFERENCES `instructor` (`instructorID`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `studkey2` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

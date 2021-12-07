@@ -1,7 +1,7 @@
 <?php 
 use yii\helpers\Url;
 ?>
-<nav class="mt-2" style="height:57%;">
+<nav class="mt-2 text-dark" style="height:57%;">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
            <li class="nav-item">
             <a href="<?= Url::to(['/home/dashboard']) ?>" class="nav-link">
