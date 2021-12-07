@@ -125,7 +125,7 @@ $this->params['breadcrumbs'] = [
                     <td><?=Html::encode($student->YOS); ?></td>
                     <td></td>
                     <td></td>
-                    <td><?= Html::a('<i class="fas fa-comment"> Chat</i>',['chat-index', 'stdid'=>$student->reg_no], ['class'=>'btn btn-info btn-sm m-0'])?> </td>
+                    <td></td>
                     
 						 			</tr>
 						 		
