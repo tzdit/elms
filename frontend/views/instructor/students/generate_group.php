@@ -16,7 +16,7 @@ use yii\widgets\Pjax;
 
      
       <?php 
-        Pjax::begin(['id'=>'groupsform','timeout'=>'30000']);
+        Pjax::begin(['id'=>'groupsform','timeout'=>'300000']);
         $form = ActiveForm::begin(['method'=>'post','id'=>'form-submit','options' => ['data-pjax' => true ], 'action'=>['/instructor/generate-groups']])?>
         <div class="row">
         <div class="col-md-12">

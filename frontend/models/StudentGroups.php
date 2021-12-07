@@ -34,6 +34,7 @@ class StudentGroups extends Model{
     //last modified 28/11/2021
     public function generateRandomGroups()
     {
+        ini_set('max_execution_time', 200);
         //getting all student taking this course
         $ccode=Yii::$app->session->get('ccode');
         $students_array=array();

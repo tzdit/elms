@@ -45,7 +45,7 @@ class StudentController extends \yii\web\Controller
                             'resubmit','videos','announcement','group_assignment_submit',
                             'quiz_answer','quiz_view','group_resubmit','assignment',
                             'group-assignment','labs','tutorial','course-materials','returned',
-                            'course-announcement','quiz','student-group','forum'
+                            'course-announcement','quiz','student-group',
                         ],
                         
 
@@ -96,18 +96,16 @@ class StudentController extends \yii\web\Controller
     $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
     if($model->load(Yii::$app->request->post())){
        
-        if($model->create()){
-        Yii::$app->session->setFlash('success', '<br>Registration Successfull&nbsp&nbsp<a class="btn btn-primary" href="/auth/login">Login</a><br>username: your registration number & password: 123456<br><i class="fa fa-info-circle"></i>make sure you change your password');
+        if($model->create()===true){
+        Yii::$app->session->setFlash('success', '<br>Registration Successful&nbsp&nbsp<a class="btn btn-primary" href="/auth/login">Login</a><br>username: your registration number & password: 123456<br><i class="fa fa-info-circle"></i>make sure you change your password');
         return $this->redirect(Yii::$app->request->referrer);
-        }else{
-            Yii::$app->session->setFlash('error', 'Registration failed! try again later or contact administrator');
         }
    
             
      } 
     
 }catch(\Exception $e){
-    Yii::$app->session->setFlash('error', 'Registration failed! try again later or contact administrator');
+    Yii::$app->session->setFlash('error', $e->getMessage());
 }
     $this->layout = 'register';
     return $this->render('student_registration', ['model'=>$model, 'programs'=>$programs, 'roles'=>$roles]);
@@ -496,15 +494,6 @@ public function actionClasswork($cid){
 
         $reg_no = Yii::$app->user->identity->username;
              return $this->render('quiz', ['cid'=>$cid, 'reg_no' => $reg_no]);
-    }
-
-
-
-
-    public function actionForum($cid){
-
-        $reg_no = Yii::$app->user->identity->username;
-        return $this->render('forum', ['cid'=>$cid, 'reg_no' => $reg_no]);
     }
 
 

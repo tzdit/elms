@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use common\models\Student;
+use common\models\Submit;
 use common\models\User;
 use Yii;
 
@@ -72,6 +73,7 @@ class ChangeRegNoForm extends \yii\db\ActiveRecord
 
         $user = User::findIdentity($id);
         $student = Student::findReg_no($reg_no);
+        $submitArray = Submit::find()->where('reg_no = :reg_no',[':reg_no' => $reg_no])->all();
 
 
         /* save the new password to the database */
@@ -81,6 +83,11 @@ class ChangeRegNoForm extends \yii\db\ActiveRecord
             if($user->save()){
                 $student->reg_no = $this->username;
                 if($student->save()){
+                    foreach ( $submitArray as $submitsModel ){
+
+                        $submitsModel->reg_no = $this->username;
+                        $submitsModel->update();
+                    }
                     $transaction->commit();
                     return true;
                 }

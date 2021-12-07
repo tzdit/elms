@@ -763,11 +763,7 @@ public function actionClassAssignments($cid)
 
 public function actionClassLabs($cid)
 {
-
-    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
-
-    $assignments = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->orderBy([
+    $assignments = Assignment::find()->where(['assNature' => 'lab', 'course_code' =>ClassRoomSecurity::decrypt($cid)])->orderBy([
         'assID' => SORT_DESC ])->all();
     return $this->render('classLabAssignments', ['cid'=>$cid,'assignments'=>$assignments]);
 
@@ -1109,7 +1105,7 @@ public function actionUploadAssignment(){
         return $this->redirect(Yii::$app->request->referrer);
         }else{
           
-        Yii::$app->session->setFlash('error', 'Something went wrong');
+        Yii::$app->session->setFlash('error',"Assignment creating failed unexpectedly, please try again");
         return $this->redirect(Yii::$app->request->referrer);
     }
 }
@@ -1454,11 +1450,11 @@ public function actionAddPartner()
 
 public function actionGenerateGroups()
 {
- 
+    ini_set('max_execution_time', 200);
     $model = new StudentGroups();
     if($model->load(Yii::$app->request->post())){
       
-     if($model->generateRandomGroups())
+     if($model->generateRandomGroups()===true)
      {
 
         Yii::$app->session->setFlash('success', 'Groups generated successfully');
@@ -1467,6 +1463,7 @@ public function actionGenerateGroups()
      else{
 
         Yii::$app->session->setFlash('error', 'Groups generating failed');
+     
         return $this->redirect(Yii::$app->request->referrer);
      }
  
@@ -1507,6 +1504,7 @@ public function actionAddStudentGentype()
 
  public function actionViewGroups()
  {
+    ini_set('max_execution_time', 200);
    $groupsModel=new GroupGenerationTypes();
    $coursecode=Yii::$app->session->get('ccode');
    $groups=$groupsModel::find()->where(['course_code'=>$coursecode])->orderBy(['typeID'=>SORT_DESC])->all();
