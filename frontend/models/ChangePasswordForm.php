@@ -5,6 +5,8 @@ use Yii;
 use yii\helpers\VarDumper;
 use yii\base\Model;
 use common\models\User;
+use yii\web\NotFoundHttpException;
+
 /**
  * Signup form
  */
@@ -64,7 +66,8 @@ class ChangePasswordForm extends Model
             }
        
        }catch(\Throwable $e){
-            return $e->getMessage();
+
+            throw new NotFoundHttpException('fail to change password');
       }
     return false;
 }

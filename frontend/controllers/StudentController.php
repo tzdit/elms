@@ -45,7 +45,7 @@ class StudentController extends \yii\web\Controller
                             'resubmit','videos','announcement','group_assignment_submit',
                             'quiz_answer','quiz_view','group_resubmit','assignment',
                             'group-assignment','labs','tutorial','course-materials','returned',
-                            'course-announcement','quiz','student-group','forum'
+                            'course-announcement','quiz','student-group',
                         ],
                         
 
@@ -496,15 +496,6 @@ public function actionClasswork($cid){
 
         $reg_no = Yii::$app->user->identity->username;
              return $this->render('quiz', ['cid'=>$cid, 'reg_no' => $reg_no]);
-    }
-
-
-
-
-    public function actionForum($cid){
-
-        $reg_no = Yii::$app->user->identity->username;
-        return $this->render('forum', ['cid'=>$cid, 'reg_no' => $reg_no]);
     }
 
 
