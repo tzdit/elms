@@ -26,7 +26,7 @@ $this->params['breadcrumbs'] = [
 //
 //    ?>
 
-    <a href="<?= Url::toRoute('forum/add-thread') ?>"  class="btn btn-shadow btn-wide btn-primary mb-4"> <span class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-plus fa-w-20"></i> </span> New Thread </a>
+    <a href="<?= Url::toRoute('forum/add-thread') ?>"  class="btn btn-shadow btn-wide bg-gradient-dark mb-4"> <span class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-plus fa-w-20"></i> </span> New Thread </a>
     <a href="<?= Url::toRoute(['forum/my-thread', 'cid' => $cid]) ?>"  class="btn btn-shadow btn-wide btn-primary mb-4"> <span class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-server" aria-hidden="true"></i></span> My Threads </a>
 
     <?php if (empty($topic)): ?>
@@ -101,15 +101,6 @@ $this->params['breadcrumbs'] = [
         <?php endforeach ?>
 
     </div>
-    <nav>
-        <ul class="pagination mb-5">
-            <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" data-abc="true">«</a></li>
-            <li class="page-item active"><a class="page-link" href="javascript:void(0)" data-abc="true">1</a></li>
-            <li class="page-item"><a class="page-link" href="javascript:void(0)" data-abc="true">2</a></li>
-            <li class="page-item"><a class="page-link" href="javascript:void(0)" data-abc="true">3</a></li>
-            <li class="page-item"><a class="page-link" href="javascript:void(0)" data-abc="true">»</a></li>
-        </ul>
-    </nav>
     </div>
 
     <?php else: ?>

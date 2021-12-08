@@ -64,7 +64,7 @@ class ForumController extends \yii\web\Controller
     {
         $reg_no = Yii::$app->user->identity->username;
 
-        $forumTopics = ForumQuestion::find()->select('forum_question.*,forum_qn_tag.*')->join('INNER JOIN','forum_qn_tag','forum_question.question_id = forum_qn_tag.question_id')->where('forum_qn_tag.course_code = :cid',[':cid' => $cid])->orderBy(['forum_question.time_add' => SORT_ASC])->asArray()->all();
+        $forumTopics = ForumQuestion::find()->select('forum_question.*,forum_qn_tag.*')->join('INNER JOIN','forum_qn_tag','forum_question.question_id = forum_qn_tag.question_id')->where('forum_qn_tag.course_code = :cid',[':cid' => $cid])->orderBy(['forum_question.time_add' => SORT_DESC])->asArray()->all();
         return $this->render('index', ['cid'=>$cid, 'topics' => $forumTopics]);
     }
 
@@ -131,7 +131,7 @@ class ForumController extends \yii\web\Controller
     {
         $reg_no = Yii::$app->user->identity->getId();
 
-        $forumTopics = ForumQuestion::find()->select('forum_question.*,forum_qn_tag.*')->join('INNER JOIN','forum_qn_tag','forum_question.question_id = forum_qn_tag.question_id')->where('forum_qn_tag.course_code = :cid AND forum_question.user_id = :reg_no',[':cid' => $cid, ':reg_no' => $reg_no])->orderBy(['forum_question.time_add' => SORT_ASC])->asArray()->all();
+        $forumTopics = ForumQuestion::find()->select('forum_question.*,forum_qn_tag.*')->join('INNER JOIN','forum_qn_tag','forum_question.question_id = forum_qn_tag.question_id')->where('forum_qn_tag.course_code = :cid AND forum_question.user_id = :reg_no',[':cid' => $cid, ':reg_no' => $reg_no])->orderBy(['forum_question.time_add' => SORT_DESC])->asArray()->all();
         return $this->render('my_thread', ['cid'=>$cid, 'topics' => $forumTopics]);
     }
 
