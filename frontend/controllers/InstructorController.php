@@ -93,7 +93,7 @@ public $defaultAction = 'dashboard';
                             'upload-material',
                             'assignments',
                             'delete',
-                            
+                            'chat-index',
                             'deletelab',
                             'deletetut',
                             'materials',
@@ -229,6 +229,7 @@ public $defaultAction = 'dashboard';
                             'class-assignments',
                             'class-labs',
                             'class-tutorials',
+                            'chat-index',
                             'class-ext-assessments',
                             'class-ca-generator',
                             'class-students',
@@ -346,6 +347,12 @@ public $defaultAction = 'dashboard';
         return $this->redirect(Yii::$app->request->referrer); 
     }
 
+  }
+
+  public function actionChatIndex($stdid)
+  {
+    
+    return $this->render('chat_index');
   }
 
 
