@@ -10,10 +10,11 @@ use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 
-$this->title = 'Forum';
+$this->title = 'Question';
 
-$this->params['courseTitle'] ='FORUM';
+$this->params['courseTitle'] ='QUESTION';
 $this->params['breadcrumbs'] = [
+    ['label'=>'Forum', 'url'=>Url::to(Yii::$app->request->referrer)],
     ['label'=>$this->title]
 ];
 
@@ -58,8 +59,11 @@ $this->params['breadcrumbs'] = [
 
                 </div>
                 <div class="card-header border-0">
-                    <h4>Question</h4>
-                    <h6 class="text-muted card-text qn-replay">6 Reply</h6>
+                    <h4><i class="fa fa-star icon-color-count" aria-hidden="true"></i> Question</h4>
+                    <?php
+                    $reply_count = ForumAnswer::find()->where('question_id = :question_id ',[':question_id' => $question['question_id']])->count();
+                    ?>
+                    <h6 class="text-muted card-text qn-replay"><i class="fa fa-reply float-left mr-1 icon-color-count" aria-hidden="true"></i> <?= $reply_count ?> Reply</h6>
                 </div>
                 <div class="card-body shadow-sm">
                     <p class="m-3">
@@ -85,7 +89,7 @@ $this->params['breadcrumbs'] = [
                      <div class="card-body my-4 ml-xl-5">
 
                          <?php
-                         $answer_name = Student::find()->select('fname, lname')->where('reg_no = :username', [':username' => $answer['username']])->one();
+                         $answer_name = Student::find()->select('fname, lname')->where('userID = :userID', [':userID' => $answer['user_id']])->one();
                          ?>
                          <p class="mx-3">
                              <i class="fa fa-reply float-left mr-1 icon-color-count" aria-hidden="true"></i>

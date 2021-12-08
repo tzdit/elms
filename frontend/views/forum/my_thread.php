@@ -1,5 +1,6 @@
 <?php
 
+use common\models\ForumAnswer;
 use common\models\Student;
 use yii\helpers\Url;
 /* @var $this yii\web\View */
@@ -47,13 +48,9 @@ $this->params['breadcrumbs'] = [
 
                 <div class="card-body py-3">
                     <div class="row no-gutters align-items-center">
-                        <div class="col"> <a href="javascript:void(0)" class="text-big" data-abc="true"><?= $topic['question_tittle'] ?></a>
+                        <div class="col"> <a href="<?= Url::toRoute(["forum/qn-conversation",'cid' => $cid, 'question_id' => $topic['question_id']]) ?>" class="text-big" data-abc="true"><?= $topic['question_tittle'] ?></a>
 
-                            <?php
-                            $name = Student::find()->select('fname,mname, lname')->where('reg_no = :reg_no', [':reg_no' => $topic['username']])->one();
-                            ?>
-
-                            <div class="text-muted small mt-1">Started <?php echo Yii::$app->formatter->format($topic['time_add'], 'relativeTime') ?>&nbsp; <a href="javascript:void(0)" class="text-muted font-italic" data-abc="true"><?=  ucwords($name->fname." ".$name->mname."".$name->lname) ?></a></div>
+                            <div class="text-muted small mt-1">Started <?php echo Yii::$app->formatter->format($topic['time_add'], 'relativeTime') ?>&nbsp; <a href="javascript:void(0)" class="text-muted font-italic" data-abc="true"></a></div>
                         </div>
                         <!--                --><?php
                         //                print_r($topic->$key[question_id]);
@@ -62,7 +59,10 @@ $this->params['breadcrumbs'] = [
                         //                ?>
                         <div class="d-none d-md-block col-4">
                             <div class="row no-gutters align-items-center">
-                                <div class="col-4">12</div>
+                                <?php
+                                $reply_count = ForumAnswer::find()->where('question_id = :question_id ',[':question_id' => $topic['question_id']])->count();
+                                ?>
+                                <div class="col-4"><i class="fa-sm mb-5"> &nbsp;&nbsp;<img src="<?= Yii::getAlias('@web/img/reply.png') ?>" width="30px" height="30px"></i><?= $reply_count ?></div>
                                 <div class="col-8 align-items-center">
                                     <a href="<?= Url::toRoute(['forum/edit-thread','id' => $topic['question_id'] ]) ?>"><i class="fa fa-pencil-square fa-lg" aria-hidden="true"></i></a>
                                     <a href="#" class="btn-qn-delete" id="btn-qn-delete" forum_qn_id = "<?= $topic['question_id'] ?>"><i class="fa fa-minus-circle fa-lg text-danger" aria-hidden="true"></i></a>
