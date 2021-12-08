@@ -73,7 +73,7 @@ $this->params['breadcrumbs'] = [
                                   <div class="col-sm-3 col-12">
 
 
-                                      <a href="<?=Url::to(['student/course-materials/', 'cid'=>$cid])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
+                                      <a href="<?=Url::to(['videos-and-notes/modules/', 'cid'=>$cid])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
                                           <img src="<?=  Yii::getAlias('@web/img/classmaterial.png')?>" height="35px" width="35px"/>
                                           <h5>
                                               Course Material

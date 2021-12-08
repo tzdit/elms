@@ -9,7 +9,7 @@ $this->title = 'Forum';
 
 $this->params['courseTitle'] ='FORUM';
 $this->params['breadcrumbs'] = [
-    ['label'=>'class', 'url'=>Url::to(['/student/classwork', 'cid' => $cid])],
+    ['label'=>'Class', 'url'=>Url::to(Yii::$app->request->referrer)],
     ['label'=>$this->title]
 ];
 

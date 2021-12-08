@@ -31,7 +31,7 @@ $this->params['breadcrumbs'] = [
 //
 //        ?>
 
-    <a href="<?= Url::toRoute('forum/add-thread') ?>"  class="btn btn-shadow btn-wide btn-primary mb-4"> <span class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-plus fa-w-20"></i> </span> New Thread </a>
+    <a href="<?= Url::toRoute('forum/add-thread') ?>"  class="btn btn-shadow btn-wide bg-gradient-dark mb-4"> <span class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-plus fa-w-20"></i> </span> New Thread </a>
     <a href="<?= Url::toRoute(['forum/my-thread', 'cid' => $cid]) ?>"  class="btn btn-shadow btn-wide btn-primary mb-4"> <span class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-server" aria-hidden="true"></i></span> My Threads </a>
 
         <div class="d-block flex-wrap justify-content-between">

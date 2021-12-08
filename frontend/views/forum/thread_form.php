@@ -3,6 +3,7 @@
 use common\models\Course;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 
@@ -13,6 +14,7 @@ use yii\widgets\ActiveForm;
 $this->params['courseTitle'] ='CREATE THREAD';
 $this->title = 'Add Thread';
 $this->params['breadcrumbs'] = [
+    ['label'=>'Forum', 'url'=>Url::to(Yii::$app->request->referrer)],
     ['label'=>$this->title]
 ];
 
