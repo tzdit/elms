@@ -130,9 +130,9 @@ Swal.fire({
   }
 })
 
-})
 
-});
+
+})
 JS;
 $this->registerJs($script);
 ?>

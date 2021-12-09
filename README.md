@@ -78,3 +78,9 @@ username: instructor@gmail.com
 
 Database update 
 ->attribute title in announcencent table
+
+Database content for forum
+ALTER table forum_question ADD COLUMN code text null;
+ALTER table forum_question ADD COLUMN fileName VARCHAR(30) null;
+ALTER table forum_answer ADD COLUMN fileName VARCHAR(30) null;
+ALTER table forum_answer ADD COLUMN code text null;

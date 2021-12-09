@@ -137,6 +137,7 @@ public function actionAdd_email(){
                 // VarDumper::dump($models->addEmail());
                 if($models->changeRegno()){
                     Yii::$app->session->setFlash('success', 'Reg number changed successfully');
+                    return $this->refresh();
                 }else{
                     Yii::$app->session->setFlash('error', 'Something went Wrong, Reg number does not changed!');
                 }

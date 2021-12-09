@@ -103,8 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="col-sm-10  ">
                             </div>
                             <div class="col-sm-2 m-0 p-0">
-                                  <a href="#" class="  btn-delete " id = "btn-delete" carry_id = "<?= $course->studentCourses[0]->SC_ID ?>" ><i class="fas fa-times-circle fa-lg carry-delete"></i></i>
-                                    </a>
+                                  <a href="#" class="  btn-delete " id = "btn-delete" carry_id = "<?= $course->studentCourses[0]->SC_ID ?>" ><i class="fas fa-times-circle fa-lg carry-delete"></i></a>
                             </div>
                           </div>
                         </div>
