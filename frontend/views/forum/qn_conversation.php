@@ -7,6 +7,8 @@ use common\models\ForumQnTag;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use kartik\file\FileInput;
+
 
 /* @var $this yii\web\View */
 
@@ -66,9 +68,25 @@ $this->params['breadcrumbs'] = [
                     <h6 class="text-muted card-text qn-replay"><i class="fa fa-reply float-left mr-1 icon-color-count" aria-hidden="true"></i> <?= $reply_count ?> Reply</h6>
                 </div>
                 <div class="card-body shadow-sm">
-                    <p class="m-3">
+                    <p class="p-3">
                         <?= $question['question_desc'] ?>
                     </p>
+                    <div class="row">
+                        <div class="col-sm-5">
+                           <?php if (!empty($question['fileName'])): ?>
+                                <img src="<?= Yii::getAlias('@web/img/').$question['fileName']  ?>" class="img-thumbnail" height="400" width="500">
+                            <?php else: ?>
+                                <?php echo "" ?>
+                            <?php endif; ?>
+                        </div>
+                        <div class="col-sm-7">
+                            <?php if (!empty($question['code'])): ?>
+                                <pre class="p-2"><code><?= Html::encode($question['code']) ?></code></pre>
+                            <?php else: ?>
+                                <?php echo "" ?>
+                            <?php endif; ?>
+                           </div>
+                    </div>
                 </div>
 
                 <div class="card-header border-0">
@@ -94,6 +112,23 @@ $this->params['breadcrumbs'] = [
                          <p class="mx-3">
                              <i class="fa fa-reply float-left mr-1 icon-color-count" aria-hidden="true"></i>
                              <?= $answer['answer_content'] ?>
+                         <div class="row">
+                             <div class="col-sm-5">
+                                 <?php if (!empty($answer['fileName'])): ?>
+                                    <img src="<?= Yii::getAlias('@web/img/').$answer['fileName']  ?>" class="img-thumbnail" height="400" width="500">
+                                 <?php else: ?>
+                                    <?php echo "" ?>
+                                 <?php endif; ?>
+                             </div>
+                             <div class="col-sm-7">
+                                 <?php if (!empty($answer['code'])): ?>
+                                     <pre class="p-2"><code><?= Html::encode($answer['code']) ?></code></pre>
+                                 <?php else: ?>
+                                     <?php echo "" ?>
+                                 <?php endif; ?>
+
+                             </div>
+                         </div>
                              <span class="float-right font-italic m-4"><i class="fa fa-user icon-color-count" aria-hidden="true"></i> <?= $answer_name->fname ?>&nbsp;<?= $answer_name->lname ?></span>
                          </p>
 
@@ -104,7 +139,8 @@ $this->params['breadcrumbs'] = [
                              ?>
                              <h6 class="text-muted card-text qn-replay"><i class="fa fa-comment ml-n2 mr-1 icon-color-count" ></i><?= $comment_count ?> Comment</h6>
 
-                             <?php $form = ActiveForm::begin(); ?>
+                             <?php $form = ActiveForm::begin([
+                                 'options'=>['enctype'=>'multipart/form-data']]); ?>
                              <div class="form-group row">
                                  <?= $form->field($model1, 'comment_content')->textInput([ 'placeholder' => 'Add comment', 'class' => 'col-sm-11', 'size' => 100])->label(false) ?>
                                  <?= $form->field($model1, 'answer_id')->hiddenInput(['value' => $answer['answer_id']])->label(false) ?>
@@ -134,6 +170,13 @@ $this->params['breadcrumbs'] = [
                     <?php $form = ActiveForm::begin(); ?>
 
                     <?= $form->field($model, 'answer_content')->textarea(['rows' => 10, 'maxlength' => 1000, 'row' => 50, 'placeholder' => 'Write your answer here with in short words' ])->label('Answer') ?>
+                    <?= $form->field($model, 'code')->textarea(['rows' => 7, 'maxlength' => 1000, 'row' => 15, 'placeholder' => 'write your code snippets for clarification if you have any', 'style'=>'width:70%' ])->label('Code  Snippets') ?>
+                    <div class="row">
+                        <?= $form->field($model, 'image')->widget(FileInput::classname(), [
+                            'options' => ['accept' => 'image/*'],
+                            'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png'],'showUpload' => false,],
+                        ])->label('Choose to select image if you have any for support your answer');   ?>
+                    </div>
                     <div class="form-group">
                         <?= Html::submitButton('Submit your answer', ['class' => 'btn btn-primary']) ?>
                     </div>
