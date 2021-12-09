@@ -80,6 +80,7 @@ public $defaultAction = 'dashboard';
                             'dashboard',
                             'assign-course',
                             'courses',
+                            'class-quizes',
                             'enroll-course',
                             'dropcourse',
                             'classwork',
@@ -174,6 +175,7 @@ public $defaultAction = 'dashboard';
                             'create-program',
                             'student-list',
                             'view-groups',
+                            'class-quizes',
                             'upload-assignment',
                             'upload-tutorial',
                             'upload-lab',
@@ -810,11 +812,9 @@ public function actionClassStudents($cid)
 
 //Quizes page
 
-public function actionClassQuizes($cid)
+public function actionClassQuizes()
 {
-    $materials = Material::find()->where(['course_code' => $cid])->orderBy([
-        'material_ID' => SORT_DESC ])->all();
-    return $this->render('classmaterials', ['cid'=>$cid,'materials'=>$materials]);
+    return $this->render('quiz/quiz_view');
 
 }
 
