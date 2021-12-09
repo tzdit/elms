@@ -22,7 +22,8 @@ use common\models\Course;
 use yii\helpers\ArrayHelper;
 use common\models\AuthItem;
 use yii\helpers\URL;
-use common\models\Logs;
+use common\models\TblAuditEntry;
+use common\models\TblAuditEntrySearch;
 use yii\data\ActiveDataProvider;
 //use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -81,9 +82,8 @@ public $defaultAction = 'dashboard';
      */
     public function actionDashboard()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Logs::find(),
-        ]);
+        $searchModel = new TblAuditEntrySearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
          //passing the numbers of users to the admin dashboard
          $instructors = Instructor::find()->all();
@@ -98,8 +98,7 @@ public $defaultAction = 'dashboard';
          $courses = Course::find()->all();
          $coursesnumber=count($courses);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,'instructorsnumber'=> $instructorsnumber,'studentsnumber'=>$studentsnumber,
+        return $this->render('index', ['searchModel' => $searchModel,'dataProvider' => $dataProvider,'instructorsnumber'=> $instructorsnumber,'studentsnumber'=>$studentsnumber,
             'programsnumber'=> $programsnumber,'coursesnumber'=> $coursesnumber,
         ]);
     }
