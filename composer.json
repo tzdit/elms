@@ -29,7 +29,8 @@
         "bigbluebutton/bigbluebutton-api-php": "~2.0.0",
         "ruturajmaniyar/yii2-audit-log": "dev-master",
         "ext-gd": "*",
-        "kartik-v/yii2-widget-fileinput": "*"
+        "kartik-v/yii2-widget-fileinput": "*",
+        "kartik-v/bootstrap-fileinput": "dev-master"
     
       
     },
