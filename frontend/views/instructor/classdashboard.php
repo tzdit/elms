@@ -159,11 +159,11 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
             <!-- /.info-box -->
 </a>
           </div>
-          <!-- /.col 
+         
           <div class="col-12 col-sm-6 col-md-3">
-          <a href="#">
+          <a href="<?=Url::to(['/instructor/class-quizes'])?>">
             <div class="info-box mb-3">
-              <span class="info-box-icon elevation-1"><i class="fas fa-pen"></i></span>
+              <span class="info-box-icon"><i class="fas fa-pen"></i></span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Quizes</span>
@@ -173,7 +173,7 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
             
 </a>
           </div>
-           /.col -->
+          
 
        
 

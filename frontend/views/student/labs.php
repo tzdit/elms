@@ -43,7 +43,7 @@ $this->params['breadcrumbs'] = [
                                 ?>
 
                                 <!-- ########################################### lab work ######################################## -->
-                                <?php $labb = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->count(); ?>
+                                <?php $labb = Assignment::find()->where('assNature = :assNature AND course_code = :course_code',[':assNature' => 'lab', ':course_code' => $cid])->count(); ?>
 
                                     <div class="accordion" id="accordionExample_3">
                                         <?php foreach( $labs as $lab ) : ?>

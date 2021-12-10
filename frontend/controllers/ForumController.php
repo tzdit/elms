@@ -9,7 +9,9 @@ use frontend\models\ForumQuestionForm;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use Yii;
+use yii\helpers\HtmlPurifier;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 use function React\Promise\all;
 
 class ForumController extends \yii\web\Controller
@@ -64,7 +66,7 @@ class ForumController extends \yii\web\Controller
     {
         $reg_no = Yii::$app->user->identity->username;
 
-        $forumTopics = ForumQuestion::find()->select('forum_question.*,forum_qn_tag.*, user.*')->join('INNER JOIN','forum_qn_tag','forum_question.question_id = forum_qn_tag.question_id')->join('INNER JOIN','user','user.id = forum_question.question_id')->where('forum_qn_tag.course_code = :cid',[':cid' => $cid])->orderBy(['forum_question.time_add' => SORT_ASC])->asArray()->all();
+        $forumTopics = ForumQuestion::find()->select('forum_question.*,forum_qn_tag.*')->join('INNER JOIN','forum_qn_tag','forum_question.question_id = forum_qn_tag.question_id')->where('forum_qn_tag.course_code = :cid',[':cid' => $cid])->orderBy(['forum_question.time_add' => SORT_DESC])->asArray()->all();
         return $this->render('index', ['cid'=>$cid, 'topics' => $forumTopics]);
     }
 
@@ -74,6 +76,8 @@ class ForumController extends \yii\web\Controller
 
         if ($model->load(Yii::$app->request->post())) {
 
+            $imageInstance = UploadedFile::getInstance($model,'image');
+            $model->imageSave = $imageInstance;
 
             if (!$model->validate() && $model->addThread() == false){
                 Yii::$app->session->setFlash('error', 'Question added failed');
@@ -131,7 +135,7 @@ class ForumController extends \yii\web\Controller
     {
         $reg_no = Yii::$app->user->identity->getId();
 
-        $forumTopics = ForumQuestion::find()->select('forum_question.*,forum_qn_tag.*, user.*')->join('INNER JOIN','forum_qn_tag','forum_question.question_id = forum_qn_tag.question_id')->join('INNER JOIN','user','user.id = forum_question.question_id')->where('forum_qn_tag.course_code = :cid AND forum_question.user_id = :reg_no',[':cid' => $cid, ':reg_no' => $reg_no])->orderBy(['forum_question.time_add' => SORT_ASC])->asArray()->all();
+        $forumTopics = ForumQuestion::find()->select('forum_question.*,forum_qn_tag.*')->join('INNER JOIN','forum_qn_tag','forum_question.question_id = forum_qn_tag.question_id')->where('forum_qn_tag.course_code = :cid AND forum_question.user_id = :reg_no',[':cid' => $cid, ':reg_no' => $reg_no])->orderBy(['forum_question.time_add' => SORT_DESC])->asArray()->all();
         return $this->render('my_thread', ['cid'=>$cid, 'topics' => $forumTopics]);
     }
 
@@ -143,15 +147,31 @@ class ForumController extends \yii\web\Controller
 
         $model = new ForumAnswer();
         $model1 = new ForumComment();
-        $question = ForumQuestion::find()->select('forum_question.*,forum_qn_tag.*, user.*')->join('INNER JOIN','forum_qn_tag','forum_question.question_id = forum_qn_tag.question_id')->join('INNER JOIN','user','user.id = forum_question.question_id')->where('forum_question.question_id = :question_id ',[':question_id' => $question_id])->orderBy(['forum_question.time_add' => SORT_ASC])->asArray()->one();
-        $answers = ForumAnswer::find()->select('forum_answer.*,, user.*')->join('INNER JOIN','user','user.id = forum_answer.user_id')->where('forum_answer.question_id = :question_id ',[':question_id' => $question_id])->orderBy(['forum_answer.time_added' => SORT_DESC])->asArray()->all();
+        $purifier = new HtmlPurifier();
+        $question = ForumQuestion::find()->select('forum_question.*,forum_qn_tag.*')->join('INNER JOIN','forum_qn_tag','forum_question.question_id = forum_qn_tag.question_id')->where('forum_question.question_id = :question_id ',[':question_id' => $question_id])->orderBy(['forum_question.time_add' => SORT_ASC])->asArray()->one();
+        $answers = ForumAnswer::find()->select('forum_answer.*')->where('forum_answer.question_id = :question_id ',[':question_id' => $question_id])->orderBy(['forum_answer.time_added' => SORT_DESC])->asArray()->all();
 
 
         if ($model->load(Yii::$app->request->post())){
+
+            $imageSave = UploadedFile::getInstance($model,'image');
+
+            if (!is_null($imageSave)) {
+                // generate a unique file name to prevent duplicate filenames
+                $fileImageName = Yii::$app->security->generateRandomString(13).'.'.$imageSave->extension;
+                // the path to save file, you can set an uploadPath
+                // in Yii::$app->params (as used in example below)
+                Yii::$app->params['uploadPath'] = Yii::$app->basePath . '/web/img/';
+                $path = Yii::$app->params['uploadPath'] . $fileImageName;
+                $imageSave->saveAs($path);
+            }
+
            $model->answer_content = $model->answer_content;
            $model->time_added = date('Y-m-d H:i:s');
            $model->user_id = Yii::$app->user->identity->getId();
            $model->question_id = $question_id;
+           $model->code = $purifier->process($model->code);
+           $model->fileName = $fileImageName;
 
 
            if ($model->save()){

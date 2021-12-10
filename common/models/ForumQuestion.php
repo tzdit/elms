@@ -12,6 +12,8 @@ use Yii;
  * @property string $question_desc
  * @property string $time_add
  * @property int $user_id
+ * @property string $code
+ * @property string $fileName
  *
  * @property ForumAnswer[] $forumAnswers
  * @property ForumComment[] $forumComments
@@ -20,6 +22,9 @@ use Yii;
  */
 class ForumQuestion extends \yii\db\ActiveRecord
 {
+
+    public $image;
+
     /**
      * {@inheritdoc}
      */
@@ -35,9 +40,10 @@ class ForumQuestion extends \yii\db\ActiveRecord
     {
         return [
             [['question_tittle', 'question_desc', 'time_add', 'user_id'], 'required'],
-            [['question_desc'], 'string'],
+            [['question_desc','code'], 'string'],
             [['time_add'], 'safe'],
             [['user_id'], 'integer'],
+            [['fileName'], 'string', 'max' => 30],
             [['question_tittle'], 'string', 'max' => 150],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -54,6 +60,8 @@ class ForumQuestion extends \yii\db\ActiveRecord
             'question_desc' => 'Question Desc',
             'time_add' => 'Time Add',
             'user_id' => 'User ID',
+            'code' => 'Code',
+            'fileName'  => 'File Name'
         ];
     }
 

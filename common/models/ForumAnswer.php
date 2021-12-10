@@ -12,6 +12,8 @@ use Yii;
  * @property string $time_added
  * @property int|null $user_id
  * @property int|null $question_id
+ * @property string $code
+ * @property string $fileName
  *
  * @property ForumQuestion $question
  * @property User $user
@@ -20,6 +22,7 @@ use Yii;
 class ForumAnswer extends \yii\db\ActiveRecord
 {
 
+    public $image;
     /**
      * {@inheritdoc}
      */
@@ -35,9 +38,12 @@ class ForumAnswer extends \yii\db\ActiveRecord
     {
         return [
             [['answer_content', 'time_added'], 'required'],
-            [['answer_content'], 'string'],
+            [['answer_content','code'], 'string'],
             [['time_added'], 'safe'],
             [['user_id', 'question_id'], 'integer'],
+            [['fileName'], 'string', 'max' => 30],
+            ['image','file','extensions'=>['jpg','jpeg','png']],
+            [['image'], 'file', 'maxSize'=>'100000'],
             [['question_id'], 'exist', 'skipOnError' => true, 'targetClass' => ForumQuestion::className(), 'targetAttribute' => ['question_id' => 'question_id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -54,6 +60,8 @@ class ForumAnswer extends \yii\db\ActiveRecord
             'time_added' => 'Time Added',
             'user_id' => 'User ID',
             'question_id' => 'Question ID',
+            'code' => 'Code',
+            'fileName'  => 'File Name'
         ];
     }
 

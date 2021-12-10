@@ -7,13 +7,16 @@ use common\models\ForumQnTag;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use kartik\file\FileInput;
+
 
 /* @var $this yii\web\View */
 
-$this->title = 'Forum';
+$this->title = 'Question';
 
-$this->params['courseTitle'] ='FORUM';
+$this->params['courseTitle'] ='QUESTION';
 $this->params['breadcrumbs'] = [
+    ['label'=>'Forum', 'url'=>Url::to(Yii::$app->request->referrer)],
     ['label'=>$this->title]
 ];
 
@@ -30,7 +33,7 @@ $this->params['breadcrumbs'] = [
 //
 //        ?>
 
-    <a href="<?= Url::toRoute('forum/add-thread') ?>"  class="btn btn-shadow btn-wide btn-primary mb-4"> <span class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-plus fa-w-20"></i> </span> New Thread </a>
+    <a href="<?= Url::toRoute('forum/add-thread') ?>"  class="btn btn-shadow btn-wide bg-gradient-dark mb-4"> <span class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-plus fa-w-20"></i> </span> New Thread </a>
     <a href="<?= Url::toRoute(['forum/my-thread', 'cid' => $cid]) ?>"  class="btn btn-shadow btn-wide btn-primary mb-4"> <span class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-server" aria-hidden="true"></i></span> My Threads </a>
 
         <div class="d-block flex-wrap justify-content-between">
@@ -58,13 +61,32 @@ $this->params['breadcrumbs'] = [
 
                 </div>
                 <div class="card-header border-0">
-                    <h4>Question</h4>
-                    <h6 class="text-muted card-text qn-replay">6 Reply</h6>
+                    <h4><i class="fa fa-star icon-color-count" aria-hidden="true"></i> Question</h4>
+                    <?php
+                    $reply_count = ForumAnswer::find()->where('question_id = :question_id ',[':question_id' => $question['question_id']])->count();
+                    ?>
+                    <h6 class="text-muted card-text qn-replay"><i class="fa fa-reply float-left mr-1 icon-color-count" aria-hidden="true"></i> <?= $reply_count ?> Reply</h6>
                 </div>
                 <div class="card-body shadow-sm">
-                    <p class="m-3">
+                    <p class="p-3">
                         <?= $question['question_desc'] ?>
                     </p>
+                    <div class="row">
+                        <div class="col-sm-5">
+                           <?php if (!empty($question['fileName'])): ?>
+                                <img src="<?= Yii::getAlias('@web/img/').$question['fileName']  ?>" class="img-thumbnail" height="400" width="500">
+                            <?php else: ?>
+                                <?php echo "" ?>
+                            <?php endif; ?>
+                        </div>
+                        <div class="col-sm-7">
+                            <?php if (!empty($question['code'])): ?>
+                                <pre class="p-2"><code><?= Html::encode($question['code']) ?></code></pre>
+                            <?php else: ?>
+                                <?php echo "" ?>
+                            <?php endif; ?>
+                           </div>
+                    </div>
                 </div>
 
                 <div class="card-header border-0">
@@ -85,11 +107,28 @@ $this->params['breadcrumbs'] = [
                      <div class="card-body my-4 ml-xl-5">
 
                          <?php
-                         $answer_name = Student::find()->select('fname, lname')->where('reg_no = :username', [':username' => $answer['username']])->one();
+                         $answer_name = Student::find()->select('fname, lname')->where('userID = :userID', [':userID' => $answer['user_id']])->one();
                          ?>
                          <p class="mx-3">
                              <i class="fa fa-reply float-left mr-1 icon-color-count" aria-hidden="true"></i>
                              <?= $answer['answer_content'] ?>
+                         <div class="row">
+                             <div class="col-sm-5">
+                                 <?php if (!empty($answer['fileName'])): ?>
+                                    <img src="<?= Yii::getAlias('@web/img/').$answer['fileName']  ?>" class="img-thumbnail" height="400" width="500">
+                                 <?php else: ?>
+                                    <?php echo "" ?>
+                                 <?php endif; ?>
+                             </div>
+                             <div class="col-sm-7">
+                                 <?php if (!empty($answer['code'])): ?>
+                                     <pre class="p-2"><code><?= Html::encode($answer['code']) ?></code></pre>
+                                 <?php else: ?>
+                                     <?php echo "" ?>
+                                 <?php endif; ?>
+
+                             </div>
+                         </div>
                              <span class="float-right font-italic m-4"><i class="fa fa-user icon-color-count" aria-hidden="true"></i> <?= $answer_name->fname ?>&nbsp;<?= $answer_name->lname ?></span>
                          </p>
 
@@ -100,7 +139,8 @@ $this->params['breadcrumbs'] = [
                              ?>
                              <h6 class="text-muted card-text qn-replay"><i class="fa fa-comment ml-n2 mr-1 icon-color-count" ></i><?= $comment_count ?> Comment</h6>
 
-                             <?php $form = ActiveForm::begin(); ?>
+                             <?php $form = ActiveForm::begin([
+                                 'options'=>['enctype'=>'multipart/form-data']]); ?>
                              <div class="form-group row">
                                  <?= $form->field($model1, 'comment_content')->textInput([ 'placeholder' => 'Add comment', 'class' => 'col-sm-11', 'size' => 100])->label(false) ?>
                                  <?= $form->field($model1, 'answer_id')->hiddenInput(['value' => $answer['answer_id']])->label(false) ?>
@@ -130,6 +170,13 @@ $this->params['breadcrumbs'] = [
                     <?php $form = ActiveForm::begin(); ?>
 
                     <?= $form->field($model, 'answer_content')->textarea(['rows' => 10, 'maxlength' => 1000, 'row' => 50, 'placeholder' => 'Write your answer here with in short words' ])->label('Answer') ?>
+                    <?= $form->field($model, 'code')->textarea(['rows' => 7, 'maxlength' => 1000, 'row' => 15, 'placeholder' => 'write your code snippets for clarification if you have any', 'style'=>'width:70%' ])->label('Code  Snippets') ?>
+                    <div class="row">
+                        <?= $form->field($model, 'image')->widget(FileInput::classname(), [
+                            'options' => ['accept' => 'image/*'],
+                            'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png'],'showUpload' => false,],
+                        ])->label('Choose to select image if you have any for support your answer');   ?>
+                    </div>
                     <div class="form-group">
                         <?= Html::submitButton('Submit your answer', ['class' => 'btn btn-primary']) ?>
                     </div>
