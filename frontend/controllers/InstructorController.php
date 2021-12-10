@@ -35,6 +35,7 @@ use frontend\models\StudentGroups;
 use frontend\models\TemplateDownloader;
 use frontend\models\StudentTemplateDownload;
 use frontend\models\CA;
+use frontend\models\CreateChat;
 use frontend\models\CA_previewer;
 use frontend\models\UpdateCourse;
 use frontend\models\StudentAssign;
@@ -143,6 +144,7 @@ public $defaultAction = 'dashboard';
                             'class-materials',
                             'class-assignments',
                             'class-labs',
+                            'create-chat',
                             'class-tutorials',
                             'class-ext-assessments',
                             'class-ca-generator',
@@ -174,6 +176,7 @@ public $defaultAction = 'dashboard';
                             'create-program',
                             'student-list',
                             'view-groups',
+                            'create-chat',
                             'upload-assignment',
                             'upload-tutorial',
                             'upload-lab',
@@ -351,9 +354,38 @@ public $defaultAction = 'dashboard';
 
   public function actionChatIndex($stdid)
   {
-    
-    return $this->render('chat_index');
+    $model = new CreateChat;
+    $sender = Yii::$app->user->identity->instructor->instructorID;
+    $username = $stdid;
+    return $this->render('chat_index',['username'=>$username,'sender'=>$sender, 'model'=>$model]);
   }
+
+
+     //Create program
+     public function actionCreateChat(){
+        $model = new CreateChat;
+        
+       // $programs = Program::find()->all();
+        try{
+        
+        if($model->load(Yii::$app->request->post())){
+            if($model->create()){
+                //print_r($model->getErrors());
+            Yii::$app->session->setFlash('success', 'Chat added successfully');
+            return $this->redirect(Yii::$app->request->referrer);
+            }else{
+                Yii::$app->session->setFlash('error','something went wrong.');
+            }
+       
+                
+         } 
+        
+    }catch(\Exception $e){
+        Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+    }
+        return $this->render('chat_index', ['model'=>$model]);
+    }
+
 
 
   public function actionDownloadStdexcellTemplate()
