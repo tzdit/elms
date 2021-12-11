@@ -1453,19 +1453,20 @@ public function actionGenerateGroups()
     ini_set('max_execution_time', 200);
     $model = new StudentGroups();
     if($model->load(Yii::$app->request->post())){
-      
+      try
+      {
      if($model->generateRandomGroups()===true)
      {
 
         Yii::$app->session->setFlash('success', 'Groups generated successfully');
         return $this->redirect(Yii::$app->request->referrer);
      }
-     else{
-
-        Yii::$app->session->setFlash('error', 'Groups generating failed');
-     
-        return $this->redirect(Yii::$app->request->referrer);
-     }
+      }
+      catch(Exception $d)
+      {
+        Yii::$app->session->setFlash('error', $d->getMessage());
+        return $this->redirect(Yii::$app->request->referrer); 
+      }
  
      }
 
