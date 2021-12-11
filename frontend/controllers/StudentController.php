@@ -189,9 +189,6 @@ public function actionClasswork($cid){
 
         $model =new AssSubmitForm;
 
-        $file = UploadedFile::getInstanceByName('document');
-        $model->document = $file;
-        $model->assinmentId = $assID;
 
 
         // echo '<pre>';
@@ -199,15 +196,18 @@ public function actionClasswork($cid){
         // echo '</pre>';
         // exit;
 
-        $reg_no = Yii::$app->user->identity->username;
-
         try{
-            if (Yii::$app->request->isPost && $model->save()) {
+            if (Yii::$app->request->isPost) {
 
-                Yii::$app->session->setFlash('success', 'Your Submit success');
+                $file = UploadedFile::getInstance($model,'document');
+                $model->document = $file;
+                $model->assinmentId = $assID;
 
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('success', 'Your Submit success');
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
 
-                return $this->redirect(Yii::$app->request->referrer);
             }
 
 
@@ -254,11 +254,12 @@ public function actionClasswork($cid){
 //                var_dump($oldDocumentPath);
 //                echo '</pre>';
 //                exit;
-                $file = UploadedFile::getInstanceByName('document');
+                $file = UploadedFile::getInstance($model,'document');
 
                 $model->document = $file;
                 $model->assinmentId = $assID;
                 if ($model->save()) {
+
                     Yii::$app->session->setFlash('success', 'Your Re-Submit success');
 
 
@@ -269,7 +270,7 @@ public function actionClasswork($cid){
 
         }
         catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Fail to Resubmit');
+            Yii::$app->session->setFlash('error', 'Fail to Resubmit'.$e);
         }
 
 

@@ -20,7 +20,6 @@ $this->params['breadcrumbs'] = [
     ['label'=>$this->title]
 ];
 
-
 ?>
 <div class="thread_form container">
 
@@ -35,7 +34,7 @@ $this->params['breadcrumbs'] = [
         <div class="row">
             <?= $form->field($model, 'image')->widget(FileInput::classname(), [
                 'options' => ['accept' => 'image/*'],
-                'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png'],'showUpload' => false,],
+                'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png'],'showUpload' => TRUE,],
             ])->label('Choose to select image if you have any');   ?>
         </div>
 

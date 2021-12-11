@@ -1,4 +1,6 @@
 <?php
+
+use kartik\file\FileInput;
 use yii\bootstrap4\Breadcrumbs;
 use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
@@ -23,20 +25,13 @@ $this->params['breadcrumbs'] = [
 <div class="changePassword">
 
    
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-3">
-                </div>
-                <div class="col-sm-6">
+        <div class="container">
                     <div class="card shadow-lg" style="font-family:'Times New Roman', sans-serif">
                         <div class="card-header text-center bg-primary">
                             <h2>Submit</h2>
                         </div>
                         <div class="card-body">
-                            <div class="drop-over drop-zone">
-                                <div class="row ">
-                                    <div class="col-sm-12 d-flex flex-column justify-content-center align-items-center">
-                                        <p class='text-muted'>Submit by uploading the file</p>
+                                        <h4 class='text-muted'>Submit by uploading the file</h4>
                                         <br>
 <!--                                        <div class="upload-icon">-->
 <!--                                            <i class="fas fa-upload"></i>-->
@@ -51,9 +46,26 @@ $this->params['breadcrumbs'] = [
                                         ]); ?>
                                         <?= $form->errorSummary($model) ?>
 
-                                        <div class="btn-primary btn-file px-3 py-1">
-                                            Select File
-                                            <input type="file" name="document" id="document-file" class="drop-zone-input">
+                                        <div class="form-group">
+                                            <?=
+
+                                             FileInput::widget([
+                                                'model' => $model,
+                                                'attribute' => 'document',
+                                                'options' => ['multiple' => false],
+                                                 'pluginOptions' => [
+                                                     'showUpload' => true,
+                                                     'browseLabel' => 'Browse to choose attachment',
+                                                     'removeLabel' => 'Remove',
+                                                     'uploadClass' => ' mx-2 btn btn-primary',
+                                                     'browseClass' => 'btn btn-success',
+                                                     'removeClass' => 'btn btn-danger',
+                                                 ]
+
+                                            ]);
+
+                                            ?>
+
                                         </div>
                                         <?php ActiveForm::end(); ?>
                                     </div>
@@ -61,15 +73,9 @@ $this->params['breadcrumbs'] = [
 
                                     <div class="form-group">
 
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-3">
-                </div>
-            </div>
+
            
         </div>
     

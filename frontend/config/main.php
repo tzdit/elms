@@ -51,6 +51,11 @@ return [
         // ],
 
         'assetManager' => [
+            'bundles' => [
+
+                'yii\bootstrap\BootstrapAsset' => FALSE,
+
+            ],
             'appendTimestamp' => true
         ]
         
