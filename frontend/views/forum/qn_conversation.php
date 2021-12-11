@@ -6,7 +6,7 @@ use common\models\Student;
 use common\models\ForumQnTag;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 use kartik\file\FileInput;
 
 
@@ -89,9 +89,8 @@ $this->params['breadcrumbs'] = [
                     </div>
                 </div>
 
-                <div class="card-header border-0">
-                    <h4>Reply</h4>
-
+                <div class="card-header mt-5 border-0 bg-gradient-dark">
+                    <h4> <i class="fa fa-reply float-left mr-1" aria-hidden="true"></i> Replies</h4>
                 </div>
 <!--                --><?php
 //
@@ -167,10 +166,13 @@ $this->params['breadcrumbs'] = [
 
 
                 <div class="card-footer">
+                    <div class="card-header mt-5 border-0 bg-gradient-dark">
+                        <h4> <i class="fa fa-reply float-left mr-1" aria-hidden="true"></i> Add answer to reply</h4>
+                    </div>
                     <?php $form = ActiveForm::begin(); ?>
 
-                    <?= $form->field($model, 'answer_content')->textarea(['rows' => 10, 'maxlength' => 1000, 'row' => 50, 'placeholder' => 'Write your answer here with in short words' ])->label('Answer') ?>
-                    <?= $form->field($model, 'code')->textarea(['rows' => 7, 'maxlength' => 1000, 'row' => 15, 'placeholder' => 'write your code snippets for clarification if you have any', 'style'=>'width:70%' ])->label('Code  Snippets') ?>
+                    <?= $form->field($model, 'answer_content')->textarea(['class'=>'form-control form-control-sm', 'rows' => 10, 'maxlength' => 1000, 'row' => 50, 'placeholder' => 'Write your answer here with in short words' ])->label('Answer') ?>
+                    <?= $form->field($model, 'code')->textarea(['class'=>'form-control form-control-sm', 'rows' => 7, 'maxlength' => 1000, 'row' => 15, 'placeholder' => 'write your code snippets for clarification if you have any', 'style'=>'width:70%' ])->label('Code  Snippets') ?>
                     <div class="row">
                         <?= $form->field($model, 'image')->widget(FileInput::classname(), [
                             'options' => ['accept' => 'image/*'],

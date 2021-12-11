@@ -4,7 +4,7 @@ use common\models\Course;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 
 use kartik\file\FileInput;
 
@@ -24,11 +24,15 @@ $this->params['breadcrumbs'] = [
 <div class="thread_form container">
 
     <?php $form = ActiveForm::begin([
-        'options'=>['enctype'=>'multipart/form-data']]); ?>
+        'options'=>['enctype'=>'multipart/form-data']
+
+    ]);
+
+    ?>
 
     <?= $form->field($model, 'question_tittle')->label('Question Tittle') ?>
-    <?= $form->field($model, 'question_desc')->textarea(['rows' => 17, 'maxlength' => 1000, 'row' => 50, 'placeholder' => 'Write your question here with in short words' ])->label('Question Body') ?>
-    <?= $form->field($model, 'code')->textarea(['rows' => 7, 'maxlength' => 1000, 'row' => 15, 'placeholder' => 'write your code snippets for clarification if you have any', 'style'=>'width:70%' ])->label('Code  Snippets') ?>
+    <?= $form->field($model, 'question_desc')->textarea(['class'=>'form-control form-control-sm', 'rows' => 17, 'maxlength' => 1000, 'row' => 50, 'placeholder' => 'Write your question here with in short words' ])->label('Question Body') ?>
+    <?= $form->field($model, 'code')->textarea(['class'=>'form-control form-control-sm', 'rows' => 7, 'maxlength' => 1000, 'row' => 15, 'placeholder' => 'write your code snippets for clarification if you have any', 'style'=>'width:70%' ])->label('Code  Snippets') ?>
     <?= $form->field($model,'coursesTag[]')->dropDownList(ArrayHelper::map(Course::find()->select(['course_name','course_code'])->all(),'course_code','course_name'),['data-placeholder'=>'--Search course to tag --','class' => 'form-control form-control-sm','id' => 'courses_tag', 'multiple'=>true,'style'=>'width:100%'])->label("Tags") ?>
 
         <div class="row">
