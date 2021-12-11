@@ -35,6 +35,7 @@ use frontend\models\StudentGroups;
 use frontend\models\TemplateDownloader;
 use frontend\models\StudentTemplateDownload;
 use frontend\models\CA;
+use frontend\models\CreateChat;
 use frontend\models\CA_previewer;
 use frontend\models\UpdateCourse;
 use frontend\models\StudentAssign;
@@ -144,6 +145,7 @@ public $defaultAction = 'dashboard';
                             'class-materials',
                             'class-assignments',
                             'class-labs',
+                            'create-chat',
                             'class-tutorials',
                             'class-ext-assessments',
                             'class-ca-generator',
@@ -175,6 +177,7 @@ public $defaultAction = 'dashboard';
                             'create-program',
                             'student-list',
                             'view-groups',
+                            'create-chat',
                             'class-quizes',
                             'upload-assignment',
                             'upload-tutorial',
@@ -353,9 +356,42 @@ public $defaultAction = 'dashboard';
 
   public function actionChatIndex($stdid)
   {
-    
-    return $this->render('chat_index');
+    $model = new CreateChat;
+    $sender = Yii::$app->user->identity->instructor->instructorID;
+    $username = $stdid;
+    return $this->render('chat_index',['username'=>$username,'sender'=>$sender, 'model'=>$model]);
   }
+
+
+     //Create program
+     public function actionCreateChat(){
+        $model = new CreateChat;
+        
+       // $programs = Program::find()->all();
+        try{
+        
+        if($model->load(Yii::$app->request->post())){
+            $res=$model->create();
+            if($res===true){
+                //print_r($model->getErrors());
+            Yii::$app->session->setFlash('success', 'Chat added successfully');
+            return $this->redirect(Yii::$app->request->referrer);
+            }else{
+             
+                Yii::$app->session->setFlash('error','something went wrong.'.$resp);
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+       
+                
+         } 
+        
+    }catch(\Exception $e){
+        Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+        return $this->render('chat_index', ['model'=>$model]);
+    }
+
 
 
   public function actionDownloadStdexcellTemplate()
@@ -1453,19 +1489,20 @@ public function actionGenerateGroups()
     ini_set('max_execution_time', 200);
     $model = new StudentGroups();
     if($model->load(Yii::$app->request->post())){
-      
+      try
+      {
      if($model->generateRandomGroups()===true)
      {
 
         Yii::$app->session->setFlash('success', 'Groups generated successfully');
         return $this->redirect(Yii::$app->request->referrer);
      }
-     else{
-
-        Yii::$app->session->setFlash('error', 'Groups generating failed');
-     
-        return $this->redirect(Yii::$app->request->referrer);
-     }
+      }
+      catch(Exception $d)
+      {
+        Yii::$app->session->setFlash('error', $d->getMessage());
+        return $this->redirect(Yii::$app->request->referrer); 
+      }
  
      }
 

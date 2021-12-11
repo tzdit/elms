@@ -8,6 +8,7 @@ use common\helpers\Security;
 use common\models\StudentCourse;
 use frontend\models\StudentGroups;
 use frontend\models\ClassRoomSecurity;
+use common\models\User;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] ="<i class='fa fa-group'></i> ".$cid." Groups";
@@ -31,7 +32,6 @@ $this->params['breadcrumbs'] = [
         </div>
                   
       </div>
-      
 <?php if($groups!=null){foreach($groups as $group)  {?>
 <div class="accordion" id="accordionExample">
   <div class="card" >
