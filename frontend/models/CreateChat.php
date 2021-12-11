@@ -6,6 +6,7 @@ use common\models\Chat;
 
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
+use yii\base\Exception;
 
 class CreateChat extends Model{
     public $username;
@@ -23,28 +24,31 @@ class CreateChat extends Model{
 
     }
     public function create(){
+        try{
         if(!$this->validate()){
-            return false;
+            throw new Exception("could not validate data");
         }
 
         $chat = new Chat();
 
-        try{
+        
 
         $chat->instructorID = Yii::$app->user->identity->instructor->instructorID;
         $chat->reg_no =  $this->username;
         $chat->chatText = $this->chatText;
         $chat->chatDate = date('Y-m-d H:i:s');
         $chat->chatTime = strtotime("now");
-        $chat->status = 1;
-        $chat->save();   
-        
-        return true;
+        $chat->status ="true";
+        if($chat->save()){return true;} 
+        else
+        {  
+         throw new Exception("message not delivered");
+        }
 
         
     }catch(\Exception $e){
     
-        return $e->getMessage();
+        throw new Exception($e->getMessage());
     }
     }
     

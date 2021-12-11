@@ -371,12 +371,15 @@ public $defaultAction = 'dashboard';
         try{
         
         if($model->load(Yii::$app->request->post())){
-            if($model->create()){
+            $res=$model->create();
+            if($res===true){
                 //print_r($model->getErrors());
             Yii::$app->session->setFlash('success', 'Chat added successfully');
             return $this->redirect(Yii::$app->request->referrer);
             }else{
-                Yii::$app->session->setFlash('error','something went wrong.');
+             
+                Yii::$app->session->setFlash('error','something went wrong.'.$resp);
+                return $this->redirect(Yii::$app->request->referrer);
             }
        
                 
@@ -384,6 +387,7 @@ public $defaultAction = 'dashboard';
         
     }catch(\Exception $e){
         Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+        return $this->redirect(Yii::$app->request->referrer);
     }
         return $this->render('chat_index', ['model'=>$model]);
     }
