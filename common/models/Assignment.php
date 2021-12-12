@@ -32,6 +32,8 @@ use Yii;
  * @property StudentAssignment[] $studentAssignments
  * @property Submit[] $submits
  */
+
+
 class Assignment extends \yii\db\ActiveRecord
 {
     /**
@@ -50,6 +52,11 @@ class Assignment extends \yii\db\ActiveRecord
              ],
         ];
     }
+    public function __construct($config = [])
+   {
+ 
+    parent::__construct($config);
+   }
     /**
      * {@inheritdoc}
      */
