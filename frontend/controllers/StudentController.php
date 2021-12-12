@@ -291,8 +291,10 @@ public function actionClasswork($cid){
         }
 
         $reg_no = Yii::$app->user->identity->username;
-        $studentGroups = Groups::find()->joinWith('studentGroups')->where('student_group.reg_no = :reg_no', [':reg_no' => $reg_no])->orderBy(['SG_ID' => SORT_DESC ])->all();
-        return $this->render('student_groups', ['cid'=>$cid, 'reg_no' => $reg_no, 'studentGroupsList' => $studentGroups] );
+        $studentGroups = Groups::find()->select('groups.groupName, student_group.*,group_generation_types.* ')->join('INNER JOIN','student_group','groups.groupID = student_group.groupID')->join('INNER JOIN', 'group_generation_types', 'groups.generation_type = group_generation_types.typeID')->where('student_group.reg_no = :reg_no AND group_generation_types.course_code = :course_code', [':reg_no' => $reg_no, 'course_code' => $cid])->orderBy(['SG_ID' => SORT_DESC ])->asArray()->all();
+        $studentGroupsCount = Groups::find()->select('groups.groupName, student_group.*, ')->join('INNER JOIN','student_group','groups.groupID = student_group.groupID')->join('INNER JOIN', 'group_generation_types', 'groups.generation_type = group_generation_types.typeID')->where('student_group.reg_no = :reg_no AND group_generation_types.course_code = :course_code', [':reg_no' => $reg_no, 'course_code' => $cid])->count();
+
+        return $this->render('student_groups', ['cid'=>$cid, 'reg_no' => $reg_no, 'studentGroupsList' => $studentGroups, 'count' => $studentGroupsCount] );
     }
 
 
@@ -322,10 +324,6 @@ public function actionClasswork($cid){
 
         $model =new GroupAssSubmit;
 
-        $file = UploadedFile::getInstanceByName('document');
-        $model->document = $file;
-        $model->assinmentId = $assID;
-        $model->groupId = $groupID;
 
 
         // echo '<pre>';
@@ -334,23 +332,29 @@ public function actionClasswork($cid){
         // exit;
 
         try{
-            if (Yii::$app->request->isPost && $model->save()) {
+            if (Yii::$app->request->isPost) {
 
-                Yii::$app->session->setFlash('success', 'Your Submit successed');
+                $file = UploadedFile::getInstance($model,'document');
+                $model->document = $file;
+                $model->assinmentId = $assID;
+                $model->groupId = $groupID;
 
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('success', 'Your Submit success');
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
 
-                return $this->refresh();
             }
 
 
         }
         catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+            Yii::$app->session->setFlash('error', 'Something went wrong');
         }
 
 
         return $this->render('group_ass_submit', [
-            'model' => $model, 'assID' => $assID,'groupId' => $groupID],false,true);
+            'model' => $model],false,true);
     }
 
 
@@ -361,39 +365,54 @@ public function actionClasswork($cid){
      * Resubmision of an assinment
      * return in the same page after sumit
      */
-    public function actionGroup_resubmit($assID,$groupID){
-        $model =new AssSubmitForm;
+    public function actionGroup_resubmit($assID,$groupID,$submit_id){
+        $model = GroupAssSubmit::find()->where('submitID = :submitID AND assID = :assID ', [':submitID' => $submit_id, ':assID' => $assID])->one();
+//        $submit_model = Submit::find()->where('assID = :assID', [':assID' => $submit_id])->one();
 
-        $file = UploadedFile::getInstanceByName('document');
-        $model->document = $file;
-        $model->assinmentId = $assID;
+        if (!isset($model->fileName)){
+            throw new NotFoundHttpException('file do not exist');
+        }
 
-
-        // echo '<pre>';
-        //     var_dump($file);
-        // echo '</pre>';
-        // exit;
-
+        $file_name = $model->fileName;
+        $oldDocumentPath = Yii::getAlias('@frontend/web/storage/submit/'.$file_name);
 
 
         try{
-            if (Yii::$app->request->isPost && $model->save()) {
 
-                Yii::$app->session->setFlash('success', 'Your Re-Submit successed');
+            if (Yii::$app->request->isPost ) {
+
+                if (file_exists($oldDocumentPath)){
+                    unlink($oldDocumentPath);
+                }
+
+//                echo '<pre>';
+//                var_dump($oldDocumentPath);
+//                echo '</pre>';
+//                exit;
+                $file = UploadedFile::getInstance($model,'document');
+                $model->document = $file;
+                $model->assinmentId = $assID;
+                $model->groupId = $groupID;
+
+                if ($model->save()) {
+
+                    Yii::$app->session->setFlash('success', 'Your Re-Submit success');
 
 
-                return $this->refresh();
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
             }
 
 
         }
         catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+            Yii::$app->session->setFlash('error', 'Fail to Resubmit'.$e);
         }
 
 
+
         return $this->render('group_ass_submit', [
-            'model' => $model, 'assID' => $assID,'groupID' => $groupID],false,true);
+            'model' => $model],false,true);
     }
 
 

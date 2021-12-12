@@ -95,71 +95,22 @@ $this->params['breadcrumbs'] = [
         <div class="row">
         
       <div class="col-md-3 col-sm-6 col-12">
-      <?php 
-      $submits=[];
-      $assigned=0;
-      if($assign->assType=="groups"){$submits=$assign->groupAssignmentSubmits;$assigned=count($assign->groupAssignments);}
-      else if($assign->assType=="allgroups"){
-        $submits=$assign->groupAssignmentSubmits;
-        $gentypes=$assign->groupGenerationAssignments;
-        for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
-      }
-      else if($assign->assType=="allstudents"){
-        $submits=$assign->submits;
-        $assigned=$assigned+count(CourseStudents::getClassStudents(ClassRoomSecurity::decrypt($cid)));
-
-        
-      }
-      else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);}
-      $subperc=0;
-      if($assigned!=0)
-      {
-      $subperc=(count($submits)/$assigned)*100;
-      }
-      ?>
       <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>ClassRoomSecurity::encrypt($assign->course_code), 'id' => ClassRoomSecurity::encrypt($assign->assID)]) ?>" >
             <div class="info-box shadow">
               <div class="info-box-content">
                 <span class="info-box-text">Submitted</span>
-                <span class="info-box-number"><?=round($subperc,2)?>%</span>
+                <span class="info-box-number"><?=round($assign->getSubmitsPercent(),2)?>%</span>
               </div>
         
             </div>
             </a>
           </div>
-
           <div class="col-md-3 col-sm-6 col-12">
-          <?php 
-            $submits=[];
-            $assigned=0;
-            if($assign->assType=="groups"){$submits=$assign->groupAssignmentSubmits;$assigned=count($assign->groupAssignments);}
-            else if($assign->assType=="allgroups"){
-              $submits=$assign->groupAssignmentSubmits;
-              $gentypes=$assign->groupGenerationAssignments;
-              for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
-            }
-            else if($assign->assType=="allstudents"){
-              $submits=$assign->submits;
-
-              $assigned=$assigned+count(CourseStudents::getClassStudents(ClassRoomSecurity::decrypt($cid)));
-              }
-            else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
-            
-            $missing=$assigned-count($submits);
-            $missperc=0;
-            if($assigned!=0)
-            {
-            $missperc=($missing/$assigned)*100;
-            }
-            $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-            $missedcourse=Yii::$app->getSecurity()->encryptByPassword($assign->course_code, $secretKey);
-            $id=Yii::$app->getSecurity()->encryptByPassword($assign->assID, $secretKey);
-            ?>
-            <a href="<?=Url::to(['instructor/missed-workmark/', 'cid'=>$missedcourse, 'id' =>$id]) ?>">
+            <a href="<?=Url::to(['instructor/missed-workmark/', 'cid'=>ClassRoomSecurity::encrypt($assign->course_code), 'id' =>ClassRoomSecurity::encrypt($assign->assID)]) ?>">
             <div class="info-box shadow">
               <div class="info-box-content">
                 <span class="info-box-text">Missing</span>
-                <span class="info-box-number"><?=round($missperc,2)?>%</span>
+                <span class="info-box-number"><?=round($assign->getMissingAssignmentsPerc(),2)?>%</span>
               </div>
      
             </div>
@@ -167,93 +118,22 @@ $this->params['breadcrumbs'] = [
     
           </div>
           <div class="col-md-3 col-sm-6 col-12">
-            <?php   
-            $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-            $markedcourse=Yii::$app->getSecurity()->encryptByPassword($assign->course_code, $secretKey);
-            $id=Yii::$app->getSecurity()->encryptByPassword($assign->assID, $secretKey);
-            ?>
-          <a href="<?=Url::to(['instructor/stdworkmark/', 'cid'=>$markedcourse, 'id' =>$id]) ?>">
+          <a href="<?=Url::to(['instructor/stdworkmark/', 'cid'=>ClassRoomSecurity::encrypt($assign->course_code), 'id' =>ClassRoomSecurity::encrypt($assign->assID)]) ?>">
             <div class="info-box shadow">
               <div class="info-box-content">
-                <?php 
-            $submits=[];
-            $assigned=0;
-            $marked_submits=[];
-            if($assign->assType=="groups"){$submits=$assign->groupAssignmentSubmits;$assigned=count($assign->groupAssignments);}
-            else if($assign->assType=="allgroups"){
-              $submits=$assign->groupAssignmentSubmits;
-              $gentypes=$assign->groupGenerationAssignments;
-              for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
-            }
-            else if($assign->assType=="allstudents"){
-              $submits=$assign->submits;
-              $assigned=$assigned+count(CourseStudents::getClassStudents(ClassRoomSecurity::decrypt($cid)));
-          }
-            else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
-            
-            for($o=0;$o<count($submits);$o++)
-            {
-              if($submits[$o]->isMarked()){array_push($marked_submits,$submits[$o]);}
-            }
-            $marked=count($marked_submits);
-            $allsubmits=count($submits);
-            $markperc=0;
-            if($allsubmits!=0)
-            {
-            $markperc=($marked/$allsubmits)*100;
-            }
-            ?>
                 <span class="info-box-text">Marked</span>
-                <span class="info-box-number"><?=round($markperc,2)?>%</span>
+                <span class="info-box-number"><?=round($assign->getMarkedAssignmentsPerc(),2)?>%</span>
               </div>
       
             </div>
             </a>
           </div>
           <div class="col-md-3 col-sm-6 col-12">
-          <?php   
-            $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-            $failedcourse=Yii::$app->getSecurity()->encryptByPassword($assign->course_code, $secretKey);
-            $id=Yii::$app->getSecurity()->encryptByPassword($assign->assID, $secretKey);
-            ?>
-          <a href="<?=Url::to(['instructor/failed-assignments/', 'cid'=>$failedcourse, 'id' =>$id]) ?>">
+          <a href="<?=Url::to(['instructor/failed-assignments/', 'cid'=>ClassRoomSecurity::encrypt($assign->course_code), 'id' =>ClassRoomSecurity::encrypt($assign->assID)]) ?>">
             <div class="info-box shadow">
               <div class="info-box-content">
-              <?php 
-            $submits=[];
-            $failed_submits=[];
-            $marked_submits=[];
-            if($assign->assType=="groups"){$submits=$assign->groupAssignmentSubmits;$assigned=count($assign->groupAssignments);}
-            else if($assign->assType=="allgroups"){
-              $submits=$assign->groupAssignmentSubmits;
-              $gentypes=$assign->groupGenerationAssignments;
-              for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
-            }
-            else if($assign->assType=="allstudents"){
-              $submits=$assign->submits;
-              $assigned=$assigned+count(CourseStudents::getClassStudents(ClassRoomSecurity::decrypt($cid)));
-              }
-            else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
-            
-            for($o=0;$o<count($submits);$o++)
-            {
-              if($submits[$o]->isMarked()){array_push($marked_submits,$submits[$o]);}
-            }
-            for($f=0;$f<count($submits);$f++)
-            {
-              if($submits[$f]->isFailed()){array_push($failed_submits,$submits[$f]);}
-            }
-            $marked=count($marked_submits);
-            $failedsubmits=count($failed_submits);
-            $failedperc=0;
-            if($marked!=0)
-            {
-            $failedperc=$marked!=0?($failedsubmits/$marked)*100:0;
-            }
-            ?>
-
                 <span class="info-box-text">Failed</span>
-                <span class="info-box-number"><?=round($failedperc,2)?>%</span>
+                <span class="info-box-number"><?=round($assign->getFailurePerc(),2)?>%</span>
               </div>
          
             </div>
