@@ -106,7 +106,11 @@ $this->params['breadcrumbs'] = [
                      <div class="card-body my-4 ml-xl-5">
 
                          <?php
-                         $answer_name = Student::find()->select('fname, lname')->where('userID = :userID', [':userID' => $answer['user_id']])->one();
+                         $answer_name = Student::find()->select('fname,mname, lname')->where('userID = :userID', [':userID' => $answer['user_id']])->one();
+                         if (empty($answer_name)){
+                             $inst_answer_name = Instructor::find()->select('full_name')->where('userID = :userID', [':userID' => $answer['user_id']])->one();
+                         }
+
                          ?>
                          <p class="mx-3">
                              <i class="fa fa-reply float-left mr-1 icon-color-count" aria-hidden="true"></i>
@@ -128,7 +132,15 @@ $this->params['breadcrumbs'] = [
 
                              </div>
                          </div>
-                             <span class="float-right font-italic m-4"><i class="fa fa-user icon-color-count" aria-hidden="true"></i> <?= $answer_name->fname ?>&nbsp;<?= $answer_name->lname ?></span>
+                             <span class="float-right font-italic m-4"><i class="fa fa-user icon-color-count" aria-hidden="true"></i> <?php
+                                 if (!empty($answer_name)){
+                                     echo ucwords($answer_name->fname." ".$answer_name->lname);
+                                 }
+                                 else{
+                                     echo  ucwords($inst_answer_name->full_name);
+                                 }
+                                 ?>
+                                 </span>
                          </p>
 
                          <div class="card-footer border-0 mt-5">
@@ -151,10 +163,25 @@ $this->params['breadcrumbs'] = [
                              <?php foreach ($comments as $comment): ?>
                              <?php
                                  $comment_name = Student::find()->select('student.fname, student.lname')->join('INNER JOIN', 'user', 'student.userID = user.id')->where('user.id = :id', [':id' => $comment['user_id']])->one();
+
+                                 if (empty($comment_name)){
+                                     $inst_comment_name = Instructor::find()->select('full_name')->where('userID = :userID', [':userID' => $comment['user_id']])->one();
+                                 }
+
+
                                  ?>
                                  <hr class="m-0">
                                 <div class="row">
-                                    <li class="ml-xl-5 p-1 col-md-9" style="display: inline-block"><i class="fa fa-comment ml-n2 mr-1 icon-color" ></i><?= $comment['comment_content'] ?> <span class="float-right font-italic"><i class="fa fa-user icon-color-count" aria-hidden="true"></i> <?= $comment_name->fname ?>&nbsp;<?= $comment_name->lname ?></span></li>
+                                    <li class="ml-xl-5 p-1 col-md-9" style="display: inline-block"><i class="fa fa-comment ml-n2 mr-1 icon-color" ></i><?= $comment['comment_content'] ?> <span class="float-right font-italic"><i class="fa fa-user icon-color-count" aria-hidden="true"></i> <?php
+
+                                            if (!empty($comment_name)){
+                                                echo ucwords($comment_name->fname." ".$comment_name->lname);
+                                            }
+                                            else{
+                                                echo  ucwords($inst_comment_name->full_name);
+                                            }
+                                            ?>
+                                        </span></li>
                                 </div>
                                  <hr class="m-0">
                              <?php endforeach; ?>

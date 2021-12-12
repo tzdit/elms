@@ -1,6 +1,7 @@
 <?php
 
 use common\models\ForumAnswer;
+use common\models\Instructor;
 use common\models\Student;
 use yii\helpers\Url;
 /* @var $this yii\web\View */
@@ -52,15 +53,22 @@ $this->params['breadcrumbs'] = [
 
                         <?php
                         $name = Student::find()->select('fname,mname, lname')->where('userID = :userID', [':userID' => $topic['user_id']])->one();
+                        if (empty($name)){
+                            $inst_name = Instructor::find()->select('full_name')->where('userID = :userID', [':userID' => $topic['user_id']])->one();
+                        }
                         ?>
 
-                        <div class="text-muted small mt-1">Started <?php echo Yii::$app->formatter->format($topic['time_add'], 'relativeTime') ?>&nbsp; <a href="javascript:void(0)" class="text-muted font-italic" data-abc="true"><?=  ucwords($name->fname." ".$name->lname) ?></a></div>
+                        <div class="text-muted small mt-1">Started <?php echo Yii::$app->formatter->format($topic['time_add'], 'relativeTime') ?>&nbsp; <a href="javascript:void(0)" class="text-muted font-italic" data-abc="true"><?php
+                            if (!empty($name)){
+                                echo ucwords($name->fname." ".$name->lname);
+                            }
+                            else{
+                               echo  ucwords($inst_name->full_name);
+                            }
+                            ?>
+                            </a>
+                        </div>
                     </div>
-<!--                --><?php
-//                print_r($topic->$key[question_id]);
-//                die();
-//
-//                ?>
                     <div class="d-none d-md-block col-4">
                         <div class="row no-gutters align-items-center">
                             <?php
@@ -79,15 +87,24 @@ $this->params['breadcrumbs'] = [
                             <div class="col-4"><i class="fa-sm mb-5"> &nbsp;&nbsp;<img src="<?= Yii::getAlias('@web/img/reply.png') ?>" width="30px" height="30px"></i><?= $reply_count ?></div>
                             <div class="media col-8 align-items-center"> <img src="<?= Yii::getAlias('@web/img/user.png') ?>" alt="" class="d-block ui-w-30 rounded-circle" height="40px" width="40px">
 
-<!--                                --><?php
-//                                $answersLast = ForumAnswer::find()->select(['que'=>'MAX(`id`)'])->one()->id;
-//                                ?>
                                 <div class="media-body flex-truncate ml-2">
                                     <?php foreach ($reply_last as $key => $last):?>
                                         <?php
                                         $reply_name = Student::find()->select('fname,mname, lname')->where('userID = :userID', [':userID' => $last['user_id']])->one();
+                                        if (empty($reply_name)){
+                                            $reply_inst_name = Instructor::find()->select('full_name')->where('userID = :userID', [':userID' => $last['user_id']])->one();
+                                        }
                                         ?>
-                                    <div class="line-height-1 text-truncate"><?php echo Yii::$app->formatter->format($last['time_added'], 'relativeTime') ?></div> <a href="javascript:void(0)" class="text-muted small text-truncate" data-abc="true">by <?=  ucwords($reply_name->fname." ".$reply_name->lname) ?></a>
+
+                                    <div class="line-height-1 text-truncate"><?php echo Yii::$app->formatter->format($last['time_added'], 'relativeTime') ?></div> <a href="javascript:void(0)" class="text-muted small text-truncate" data-abc="true">by <?php
+                                            if (!empty($reply_name)){
+                                                echo ucwords($reply_name->fname." ".$reply_name->lname);
+                                            }
+                                            else{
+                                                echo  ucwords($reply_inst_name->full_name);
+                                            }
+                                            ?>
+                                        </a>
                                         <?php if ($key == 0){break;}?>
                                     <?php endforeach ?>
                                 </div>
