@@ -281,7 +281,7 @@ $this->params['breadcrumbs'] = [
                                                         </div>
                                                         <?php foreach ($studentList as $student) : ?>
                                                             <div class="card-footer p-2 bg-white shadow-lg">
-                                                                <li class="ml-xl-5 p-1 col-md-9 text-muted" style="display: inline-block"><?= ucwords($student['fname']) ?> &nbsp; <?= ucwords($student['mname']) ?> &nbsp; <?= ucwords($student['lname']) ?> </li>
+                                                                <li class="ml-xl-5 p-1 col-md-9 text-muted" style="display: inline-block"><?= strtoupper($student['fname']) ?> &nbsp; <?= strtoupper($student['mname']) ?> &nbsp; <?= strtoupper($student['lname']) ?> </li>
                                                             </div>
                                                         <?php endforeach; ?>
                                                     </div>
