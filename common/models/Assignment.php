@@ -2,6 +2,8 @@
 
 namespace common\models;
 use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
+use frontend\models\CourseStudents;
+use frontend\models\ClassRoomSecurity;
 use Yii;
 
 /**
@@ -169,4 +171,126 @@ class Assignment extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Submit::className(), ['assID' => 'assID']);
     }
+    public function getSubmitsPercent()
+    {
+      $submits=[];
+      $assigned=0;
+      $course=yii::$app->session->get('ccode');
+      if($this->assType=="groups"){$submits=$this->groupAssignmentSubmits;$assigned=count($this->groupAssignments);}
+      else if($this->assType=="allgroups"){
+        $submits=$this->groupAssignmentSubmits;
+        $gentypes=$this->groupGenerationAssignments;
+        for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
+      }
+      else if($this->assType=="allstudents"){
+        $submits=$this->submits;
+        $assigned=$assigned+count(CourseStudents::getClassStudents($course));
+
+        
+      }
+      else{$submits=$this->submits;$assigned=count($this->studentAssignments);}
+      $subperc=0;
+      if($assigned!=0)
+      {
+      $subperc=(count($submits)/$assigned)*100;
+      }
+      return $subperc;
+    }
+    public function getMissingAssignmentsPerc()
+    {
+            $submits=[];
+            $assigned=0;
+            $course=yii::$app->session->get('ccode');
+            if($this->assType=="groups"){$submits=$this->groupAssignmentSubmits;$assigned=count($this->groupAssignments);}
+            else if($this->assType=="allgroups"){
+              $submits=$this->groupAssignmentSubmits;
+              $gentypes=$this->groupGenerationAssignments;
+              for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
+            }
+            else if($this->assType=="allstudents"){
+              $submits=$this->submits;
+
+              $assigned=$assigned+count(CourseStudents::getClassStudents($course));
+              }
+            else{$submits=$this->submits;$assigned=count($this->studentAssignments);} 
+            
+            $missing=$assigned-count($submits);
+            $missperc=0;
+            if($assigned!=0)
+            {
+            $missperc=($missing/$assigned)*100;
+            }
+
+            return $missperc;
+    }
+    public function getMarkedAssignmentsPerc()
+    {
+            $submits=[];
+            $assigned=0;
+            $marked_submits=[];
+            $course=yii::$app->session->get('ccode');
+            if($this->assType=="groups"){$submits=$this->groupAssignmentSubmits;$assigned=count($this->groupAssignments);}
+            else if($this->assType=="allgroups"){
+              $submits=$this->groupAssignmentSubmits;
+              $gentypes=$this->groupGenerationAssignments;
+              for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
+            }
+            else if($this->assType=="allstudents"){
+              $submits=$this->submits;
+              $assigned=$assigned+count(CourseStudents::getClassStudents($course));
+          }
+            else{$submits=$this->submits;$assigned=count($this->studentAssignments);} 
+            
+            for($o=0;$o<count($submits);$o++)
+            {
+              if($submits[$o]->isMarked()){array_push($marked_submits,$submits[$o]);}
+            }
+            $marked=count($marked_submits);
+            $allsubmits=count($submits);
+            $markperc=0;
+            if($allsubmits!=0)
+            {
+            $markperc=($marked/$allsubmits)*100;
+            }
+
+            return $markperc;
+    }
+    public function getFailurePerc()
+    {
+            $submits=[];
+            $failed_submits=[];
+            $marked_submits=[];
+            $assigned=0;
+            $course=yii::$app->session->get('ccode');
+            if($this->assType=="groups"){$submits=$this->groupAssignmentSubmits;$assigned=count($this->groupAssignments);}
+            else if($this->assType=="allgroups"){
+              $submits=$this->groupAssignmentSubmits;
+              $gentypes=$this->groupGenerationAssignments;
+              for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
+            }
+            else if($this->assType=="allstudents"){
+              $submits=$this->submits;
+              $assigned=$assigned+count(CourseStudents::getClassStudents($course));
+              }
+            else{$submits=$this->submits;$assigned=count($this->studentAssignments);} 
+            
+            for($o=0;$o<count($submits);$o++)
+            {
+              if($submits[$o]->isMarked()){array_push($marked_submits,$submits[$o]);}
+            }
+            for($f=0;$f<count($submits);$f++)
+            {
+              if($submits[$f]->isFailed()){array_push($failed_submits,$submits[$f]);}
+            }
+            $marked=count($marked_submits);
+            $failedsubmits=count($failed_submits);
+            $failedperc=0;
+            if($marked!=0)
+            {
+            $failedperc=$marked!=0?($failedsubmits/$marked)*100:0;
+            }
+
+            return $failedperc;
+    }
+
 }
