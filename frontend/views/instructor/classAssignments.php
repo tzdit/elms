@@ -87,7 +87,7 @@ $this->params['breadcrumbs'] = [
       <div class="row">
       <div class="col-sm-11">
       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$assign->assID?>" aria-expanded="true" aria-controls="collapse<?=$assign->assID?>">
-        <i class="fas fa-book-reader"></i> <?php echo $assign->assName;?>
+        <i class="fas fa-book-reader"></i> <?=Html::encode($assign->assName);?>
         </button>
       </div>
       <div class="col-sm-1" data-toggle="collapse" data-target="#collapse<?=$assign->assID?>" aria-expanded="true" aria-controls="collapse<?=$assign->assID?>">
