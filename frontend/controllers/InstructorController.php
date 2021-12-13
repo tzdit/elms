@@ -8,6 +8,7 @@ use common\models\Course;
 use common\models\Assignment;
 use common\models\Material;
 use common\models\Submit;
+use common\models\Chat;
 use common\models\Instructor;
 use common\models\Module;
 use common\models\Student;
@@ -362,24 +363,33 @@ public $defaultAction = 'dashboard';
     return $this->render('chat_index',['username'=>$username,'sender'=>$sender, 'model'=>$model]);
   }
 
+  public function actionViewChat()
+  {
+    $chats = Chat::find()->all();
+    $sender = Yii::$app->user->identity->instructor->instructorID;
+    $username = $stdid;
+    return $this->render('chat_index',['username'=>$username,'sender'=>$sender, 'model'=>$model]);
+  }
 
-     //Create program
-     public function actionCreateChat(){
+
+     //Create chat
+     public function actionCreateChat($stdid){
         $model = new CreateChat;
+        $sender = Yii::$app->user->identity->instructor->instructorID;
+        $username = $stdid;
         
+        $chats = Chat::find()->where(['instructorID'=>$sender, 'reg_no'=>$username])->all();
        // $programs = Program::find()->all();
         try{
         
         if($model->load(Yii::$app->request->post())){
-            $res=$model->create();
-            if($res===true){
-                //print_r($model->getErrors());
+            if($model->create()){
+                //print_r(Yii::$app->request->post());
             Yii::$app->session->setFlash('success', 'Chat added successfully');
             return $this->redirect(Yii::$app->request->referrer);
             }else{
-             
-                Yii::$app->session->setFlash('error','something went wrong.'.$resp);
-                return $this->redirect(Yii::$app->request->referrer);
+               Yii::$app->session->setFlash('error','something went wrong.');
+               return $this->redirect(Yii::$app->request->referrer);
             }
        
                 
@@ -389,9 +399,11 @@ public $defaultAction = 'dashboard';
         Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
         return $this->redirect(Yii::$app->request->referrer);
     }
-        return $this->render('chat_index', ['model'=>$model]);
+        return $this->render('chat_index', ['model'=>$model, 'username'=>$username, 
+        'sender'=>$sender, 'chats'=>$chats]);
     }
 
+    
 
 
   public function actionDownloadStdexcellTemplate()

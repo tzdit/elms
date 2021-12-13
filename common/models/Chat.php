@@ -43,7 +43,7 @@ class Chat extends \yii\db\ActiveRecord
     {
         return [
             [['instructorID'], 'integer'],
-            [['chatText', 'chatDate', 'chatTime', 'status'], 'required'],
+            [['chatText', 'chatDate', 'chatTime', 'status', 'reg_no'], 'required'],
             [['chatDate', 'chatTime'], 'safe'],
             [['reg_no'], 'string', 'max' => 20],
             [['chatText'], 'string', 'max' => 500],
