@@ -152,7 +152,7 @@ $this->params['breadcrumbs'] = [
       <div class="col-md-3">
         
       <a href="#" class="btn btn-sm btn-danger float-right ml-2 assdel" assid=<?=$assign->assID ?>><span><i class="fas fa-trash"></i></span></a>
-      <?= Html::a('<i class="fas fa-edit"></i>',['update', 'id'=>ClassRoomSecurity::encrypt($assign->assID)], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
+      <?= Html::a('<i class="fas fa-edit"></i>',['update', 'id'=>ClassRoomSecurity::encrypt($assign->assID)], ['class'=>'btn btn-sm btn-warning float-right ml-2','data-toggle'=>'tooltip','data-title'=>'Update assignment']) ?>
       <a href="/storage/temp/<?= $assign -> fileName ?>" download target="_blank" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-download"></i></span></a>
       <?= Html::a('<i class="fa fa-pen"></i>',['mark', 'id'=>ClassRoomSecurity::encrypt($assign->assID)], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
       </div>
@@ -166,34 +166,6 @@ $this->params['breadcrumbs'] = [
         
         ?>
         
-<div class="modal fade" id="modal-danger<?= $assign -> assID ?>">
-
-        <div class="modal-dialog">
-          <div class="modal-content bg-danger">
-            <div class="modal-header">
-              <h4 class="modal-title">Deleting <b> <?= $assign -> assName ?> </b> Assignment</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            
-            <div class="modal-body">
-            
-              <p>Are you sure, you want to delete <b> <?= $assign -> assName ?> </b> assignment&hellip;?</p>
-              
-            </div>
-            <div class="modal-footer justify-content-between">
-            
-              <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
-              <?= Html::a('Delete', ['delete', 'cid'=>$assign->course_code, 'id'=>$assign -> assID], ['class'=>'btn btn-sm btn-danger float-right ml-2 btn-outline-light']) ?>
-            </div>
-            
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-        
-      </div>
       <!-- /.modal -->
   
   <?php endforeach ?>
