@@ -802,8 +802,8 @@ public function actionCreateModule()
 public function actionClassAssignments($cid)
 {
   
-
-    $assignments = Assignment::find()->where(['assNature' => 'assignment', 'course_code' =>ClassRoomSecurity::decrypt($cid)])->orderBy([
+    $yearid=(yii::$app->session->get('currentAcademicYear'))->yearID;
+    $assignments = Assignment::find()->where(['assNature' => 'assignment', 'course_code' =>ClassRoomSecurity::decrypt($cid),'yearID'=>$yearid])->orderBy([
         'assID' => SORT_DESC ])->all();
     return $this->render('classAssignments', ['cid'=>$cid,'assignments'=>$assignments]);
 

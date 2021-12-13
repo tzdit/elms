@@ -23,7 +23,7 @@ use common\models\Academicyear;
    <li class="nav-item">
     <?php
        $yearmodel=new AcademicYearManager;
-       $yearmodel->yearid=yii::$app->session->get('currentAcademicYear'); 
+       $yearmodel->yearid=(yii::$app->session->get('currentAcademicYear'))->yearID; 
 
         //preparing academic years
     $academicyears=Academicyear::find()->all();

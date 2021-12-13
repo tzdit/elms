@@ -30,7 +30,7 @@ class AcademicYearManager extends Model
         //setting up the new selected academic year
         try
         {
-        yii::$app->session->set('currentAcademicYear', $this->yearid);
+        yii::$app->session->set('currentAcademicYear', Academicyear::find()->where(['yearID'=>$this->yearid])->one());
         return true;
         }
         catch(Exception $e)

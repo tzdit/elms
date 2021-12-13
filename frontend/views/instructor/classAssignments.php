@@ -64,7 +64,16 @@ $this->params['breadcrumbs'] = [
 
       <div class="row">
         <div class="col-md-12">
-              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createAssignmentModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create New</a>
+              <?php
+              //creating an assignment in a finished academic year is not allowed
+              $academicyear=yii::$app->session->get('currentAcademicYear');
+              if($academicyear->isCurrent())
+              {
+              ?>
+              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createAssignmentModal" data-toggle="modal"><i class="fas fa-plus-circle" data-toggle="modal" ></i> Create New</a>
+              <?php
+              }
+              ?>
         </div>
                   
       </div>
@@ -78,7 +87,7 @@ $this->params['breadcrumbs'] = [
       <div class="row">
       <div class="col-sm-11">
       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$assign->assID?>" aria-expanded="true" aria-controls="collapse<?=$assign->assID?>">
-        <i class="fas fa-clipboard-list"></i> <?php echo $assign->assName;?>
+        <i class="fas fa-book-reader"></i> <?php echo $assign->assName;?>
         </button>
       </div>
       <div class="col-sm-1" data-toggle="collapse" data-target="#collapse<?=$assign->assID?>" aria-expanded="true" aria-controls="collapse<?=$assign->assID?>">
@@ -150,11 +159,20 @@ $this->params['breadcrumbs'] = [
       <i class="fas fa-clock" aria-hidden="true"></i> <b>Deadline : </b> <?= $assign -> finishDate ?>
       </div>
       <div class="col-md-3">
-        
-      <a href="#" class="btn btn-sm btn-danger float-right ml-2 assdel" assid=<?=$assign->assID ?>><span><i class="fas fa-trash"></i></span></a>
-      <?= Html::a('<i class="fas fa-edit"></i>',['update', 'id'=>ClassRoomSecurity::encrypt($assign->assID)], ['class'=>'btn btn-sm btn-warning float-right ml-2','data-toggle'=>'tooltip','data-title'=>'Update assignment']) ?>
-      <a href="/storage/temp/<?= $assign -> fileName ?>" download target="_blank" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-download"></i></span></a>
-      <?= Html::a('<i class="fa fa-pen"></i>',['mark', 'id'=>ClassRoomSecurity::encrypt($assign->assID)], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
+     
+      <a href="#" class="btn btn-sm btn-danger float-right ml-2 assdel" data-toggle="tooltip" data-title="Delete" assid=<?=$assign->assID ?>><span><i class="fas fa-trash"></i></span></a>
+      <a href="/storage/temp/<?= $assign -> fileName ?>" download target="_blank" class="btn btn-sm btn-success float-right ml-2" data-toggle="tooltip" data-title="Download"><span><i class="fas fa-download"></i></span></a>
+      <?php
+      //update and marking an assignment in a finished academic year is not allowed
+      $academicyear=yii::$app->session->get('currentAcademicYear');
+      if($academicyear->isCurrent())
+      {
+      ?>
+      <?= Html::a('<i class="fas fa-edit"></i>',['update', 'id'=>ClassRoomSecurity::encrypt($assign->assID)], ['class'=>'btn btn-sm btn-warning float-right ml-2','data-toggle'=>'tooltip','data-title'=>'Update']) ?>
+      <?= Html::a('<i class="fa fa-pen"></i>',['mark', 'id'=>ClassRoomSecurity::encrypt($assign->assID)], ['class'=>'btn btn-sm btn-warning float-right ml-2','data-toggle'=>'tooltip','data-title'=>'Mark All']) ?>
+      <?php
+      }
+      ?>
       </div>
       </div>
       </div>
