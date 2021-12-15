@@ -32,9 +32,12 @@ use yii\widgets\Pjax;
               <!-- /.card-header -->
               <div class="card-body">
                 <!-- Conversations are loaded here -->
+                
                 <div class="direct-chat-messages">
                   <!-- Message. Default to the left -->
+                  <?php foreach($chats as $chat): ?>
                   <div class="direct-chat-msg">
+                  <?php if($sender == $chat->instructorID): ?>
                     <div class="direct-chat-infos clearfix">
                       <span class="direct-chat-name float-left">Samia Suluhu</span>
                       <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
@@ -43,13 +46,18 @@ use yii\widgets\Pjax;
                     <img class="direct-chat-img" src="/img/announcement.gif" alt="Message User Image">
                     <!-- /.direct-chat-img -->
                     <div class="direct-chat-text">
-                       Eti ni kweli, Cive Eclassroom imetengenezwa UDOM?
+                    <?= $chat->chatText ?>
                     </div>
                     <!-- /.direct-chat-text -->
+                    <?php endif; ?>
                   </div>
+                  
+                  
+                  
                   <!-- /.direct-chat-msg -->
 
                   <!-- Message to the right -->
+                  <?php if($sender !== $chat->instructorID): ?>
                   <div class="direct-chat-msg right">
                     <div class="direct-chat-infos clearfix">
                       <span class="direct-chat-name float-right">Kasimu Majaliwa</span>
@@ -63,7 +71,11 @@ use yii\widgets\Pjax;
                     </div>
                     <!-- /.direct-chat-text -->
                   </div>
+                  
                   <!-- /.direct-chat-msg -->
+                
+                <?php endif; ?>
+                <?php endforeach; ?>
                 </div>
                 <!--/.direct-chat-messages-->
 
@@ -94,19 +106,21 @@ use yii\widgets\Pjax;
               <div class="card-footer">
               <?php 
                   Pjax::begin(['id'=>'sendmessage','timeout'=>'30000']);
-                  $form = ActiveForm::begin(['method'=>'post','options' => ['data-pjax' => true ], 'action'=>['/instructor/create-chat']])?>
+                  $form = ActiveForm::begin(['method'=>'post','options' => ['data-pjax' => true ], 'action'=>['/instructor/create-chat', 'stdid'=>$username]])?>
       
                   <!-- <form action="#" method="post"> -->
-                  <div class="input-group">
+                  <div class="">
                   <?= $form->field($model, 'chatText')->textInput(['class'=>'form-control ', 'placeholder'=>'Type Message ...'])->label(false)?>
-                  <?= $form->field($model, 'username')->hiddenInput(['value'=>$username, 'class'=>'form-control form-control-sm'])->label(false) ?>
-                  <span class="input-group-append">
+                  <?= $form->field($model, 'reg_no')->hiddenInput(['value'=>$username, 'class'=>'form-control form-control-sm'])->label(false) ?>
+                  
+                  <span class="">
                     <?= Html::submitButton('<i class="fa fa-plus-circle"></i> Send', ['class'=>'btn btn-primary btn-sm float-right ml-2']) ?>
                     </span>
                    
                   </div>
                   <?php 
                  ActiveForm::end();
+                 
                  Pjax::end();
                 ?>
                <!-- </form> -->

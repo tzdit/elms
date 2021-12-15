@@ -118,7 +118,7 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
     <span class="info-box-icon"><i class="fa fa-file-alt"></i></span>
 
     <div class="info-box-content">
-      <span class="info-box-text">Externals assessments</span>
+      <span class="info-box-text">External assessments</span>
     </div>
     <!-- /.info-box-content -->
   </div>
@@ -159,9 +159,9 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
             <!-- /.info-box -->
 </a>
           </div>
-         
+         <!--
           <div class="col-12 col-sm-6 col-md-3">
-          <a href="<?=Url::to(['/instructor/class-quizes'])?>">
+          <a href="//Url::to(['/instructor/class-quizes'])?>">
             <div class="info-box mb-3">
               <span class="info-box-icon"><i class="fas fa-pen"></i></span>
 
@@ -174,7 +174,7 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
 </a>
           </div>
           
-
+-->
        
 
           <div class="col-12 col-sm-6 col-md-3">
@@ -191,11 +191,11 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
            
           </div>
       
-<!--
+
           <div class="col-12 col-sm-6 col-md-3">
-          <a href="#">
+          <a href="<?=Url::to(['/forum/index','cid'=>$cid])?>">
             <div class="info-box mb-2">
-              <span class="info-box-icon elevation-1"><i class="fas fa-comments" aria-hidden="true"></i></span>
+              <span class="info-box-icon "><i class="fas fa-comments" aria-hidden="true"></i></span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Class forum</span>
@@ -206,7 +206,7 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
         
           </div>
         
--->
+
         </div>
       </div><!--/. container-fluid -->
 

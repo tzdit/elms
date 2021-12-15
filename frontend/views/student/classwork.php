@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Url;
+use frontend\models\ClassRoomSecurity;
 
 
 /* @var $this yii\web\View */
@@ -31,7 +32,7 @@ $this->params['breadcrumbs'] = [
                                      <a href="<?=Url::to(['student/assignment/', 'cid'=>$cid])  ?>" class="card pl-2 pr-1  py-2 row result-card mx-1 my-2 ">
                                          <img src="<?=  Yii::getAlias('@web/img/assignment.png')?>" height="34px" width="33px"/>
                                          <h5>
-                                             Individual Assignment
+                                             Individual Assignments
                                          </h5>
                                      </a>
 
@@ -42,7 +43,7 @@ $this->params['breadcrumbs'] = [
                                       <a href="<?=Url::to(['student/student-group/', 'cid'=>$cid])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
                                           <img src="<?=  Yii::getAlias('@web/img/group.png')?>" height="35px" width="35px"/>
                                           <h5>
-                                              Group Assignment
+                                              Group Assignments
                                           </h5>
                                       </a>
 
@@ -53,7 +54,7 @@ $this->params['breadcrumbs'] = [
                                       <a href="<?=Url::to(['student/labs/', 'cid'=>$cid])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
                                           <img src="<?=  Yii::getAlias('@web/img/computer_lab.png')?>" height="35px" width="35px"/>
                                           <h5>
-                                              Lab Work's
+                                              Lab Assignments
                                           </h5>
                                       </a>
 
@@ -76,7 +77,7 @@ $this->params['breadcrumbs'] = [
                                       <a href="<?=Url::to(['videos-and-notes/modules/', 'cid'=>$cid])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
                                           <img src="<?=  Yii::getAlias('@web/img/classmaterial.png')?>" height="35px" width="35px"/>
                                           <h5>
-                                              Course Material
+                                              Course Materials
                                           </h5>
                                       </a>
 
@@ -98,7 +99,7 @@ $this->params['breadcrumbs'] = [
                                       <a href="<?=Url::to(['student/course-announcement/', 'cid'=>$cid])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
                                           <img src="<?=  Yii::getAlias('@web/img/announcement.png')?>" height="35px" width="35px"/>
                                           <h5>
-                                              Announcement
+                                              Announcements
                                           </h5>
                                       </a>
 
@@ -110,7 +111,7 @@ $this->params['breadcrumbs'] = [
                                       <a href="<?= Url::toRoute(['/student/quiz','cid' => $cid])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
                                           <img src="<?=  Yii::getAlias('@web/img/quiz.png')?>" height="35px" width="35px"/>
                                           <h5>
-                                              Quiz
+                                              Quizes
                                           </h5>
                                       </a>
 
@@ -119,7 +120,7 @@ $this->params['breadcrumbs'] = [
 
                                   <div class="col-sm-3 col-12">
 
-                                      <a href="<?=Url::to(['forum/index', 'cid'=>$cid])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
+                                      <a href="<?=Url::to(['forum/index', 'cid'=>ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
                                           <img src="<?=  Yii::getAlias('@web/img/forum1.png')?>" height="35px" width="35px"/>
                                           <h5>
                                               Forum

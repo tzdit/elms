@@ -93,7 +93,7 @@ $this->params['breadcrumbs'] = [
                                                                     $isOutOfDeadline =   $currentDateTime > $deadLineDate;
                                                                     ?>
 
-                                                                    <b> Deadline : </b><?= $deadLineDate->format('Y-m-d H:i:s') ?>
+                                                                    <b class="text-danger ml-3"><i class="fa fa-clock-o"></i> Deadline : </b><?= $deadLineDate->format('Y-m-d H:i:s') ?>
                                                                 </div>
                                                                 <div class="col-md-6">
 
