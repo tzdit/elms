@@ -42,9 +42,7 @@ phpunit.phar
 /backend/web/index-test.php
 /backend/web/robots.txt
 
-# files
-*pdf
-*txt
+
 #ignoring classroom uploading folder
 /frontend/web/storage/submit/*
 /frontend/web/storage/temp/*
