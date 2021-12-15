@@ -8,6 +8,7 @@ use common\models\Course;
 use common\models\Assignment;
 use common\models\Material;
 use common\models\Submit;
+use common\models\Chat;
 use common\models\Instructor;
 use common\models\Module;
 use common\models\Student;
@@ -155,7 +156,8 @@ public $defaultAction = 'dashboard';
                             'module-delete',
                             'mark-secure-redirect',
                             'remove-students',
-                            'switch-academicyear'
+                            'switch-academicyear',
+                            'course-update-data'
 
                         ],
                         'allow' => true,
@@ -244,7 +246,8 @@ public $defaultAction = 'dashboard';
                             'updatestudent',
                             'mark-secure-redirect',
                             'remove-students',
-                            'switch-academicyear'
+                            'switch-academicyear',
+                            'course-update-data'
                            
                         ],
                         'allow' => true,
@@ -362,24 +365,33 @@ public $defaultAction = 'dashboard';
     return $this->render('chat_index',['username'=>$username,'sender'=>$sender, 'model'=>$model]);
   }
 
+  public function actionViewChat()
+  {
+    $chats = Chat::find()->all();
+    $sender = Yii::$app->user->identity->instructor->instructorID;
+    $username = $stdid;
+    return $this->render('chat_index',['username'=>$username,'sender'=>$sender, 'model'=>$model]);
+  }
 
-     //Create program
-     public function actionCreateChat(){
+
+     //Create chat
+     public function actionCreateChat($stdid){
         $model = new CreateChat;
+        $sender = Yii::$app->user->identity->instructor->instructorID;
+        $username = $stdid;
         
+        $chats = Chat::find()->where(['instructorID'=>$sender, 'reg_no'=>$username])->all();
        // $programs = Program::find()->all();
         try{
         
         if($model->load(Yii::$app->request->post())){
-            $res=$model->create();
-            if($res===true){
-                //print_r($model->getErrors());
+            if($model->create()){
+                //print_r(Yii::$app->request->post());
             Yii::$app->session->setFlash('success', 'Chat added successfully');
             return $this->redirect(Yii::$app->request->referrer);
             }else{
-             
-                Yii::$app->session->setFlash('error','something went wrong.'.$resp);
-                return $this->redirect(Yii::$app->request->referrer);
+               Yii::$app->session->setFlash('error','something went wrong.');
+               return $this->redirect(Yii::$app->request->referrer);
             }
        
                 
@@ -389,9 +401,11 @@ public $defaultAction = 'dashboard';
         Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
         return $this->redirect(Yii::$app->request->referrer);
     }
-        return $this->render('chat_index', ['model'=>$model]);
+        return $this->render('chat_index', ['model'=>$model, 'username'=>$username, 
+        'sender'=>$sender, 'chats'=>$chats]);
     }
 
+    
 
 
   public function actionDownloadStdexcellTemplate()
@@ -488,9 +502,7 @@ public function actionEditExtAssrecord($recordid)
             $inc->course_code = $ccode;
             $inc->instructorID = Yii::$app->user->identity->instructor->instructorID;
             if($inc->save()){
-                Yii::$app->session->setFlash('success', 'You 
-                
-                successfully enrolled to selected course');
+                Yii::$app->session->setFlash('success', 'Course assigned successfully');
                 return $this->redirect(Url::toRoute('/instructor/courses'));
             }
         }
@@ -680,19 +692,37 @@ public function actionUpdatecoz($cozzid)
     $coz = Course::findOne($cozzid);
     $dep= $coz ->departmentID;
    
-   $depts = Department::find()->all();
+    $depts = Department::find()->all();
    
-   $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+    $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
     $programs =ArrayHelper::map(ProgramCourse::find()->where(['course_code'=>$cozzid])->all(), 'programCode', 'programCode');
+
+    return $this->render('updatecoz', ['coz'=>$coz, 'programs'=>$programs, 
+    'depts'=>$depts, 'departments'=>$departments]);
+}
+
+public function actionCourseUpdateData($cozzid)
+{
+    
+    try
+    {
+    $coz =Course::findOne($cozzid);
     if($coz->load(Yii::$app->request->post()) && $coz->save())
     {
         
-        Yii::$app->session->setFlash('success', 'Course updated successfully');
+        Yii::$app->session->setFlash('success', 'course updated successfully');
         return $this->redirect(['create-course']);
-    }else{
-    return $this->render('updatecoz', ['coz'=>$coz, 'programs'=>$programs, 
-    'depts'=>$depts, 'departments'=>$departments]);
     }
+    else
+    {
+        throw new Exception("could not update course");
+    }
+}
+catch(Exception $d)
+{
+    Yii::$app->session->setFlash('error',$d->getMessage()); 
+    return $this->redirect(yii::$app->request->referrer);
+}
 }
 
     public function actionUpdatestudent($id)
@@ -790,8 +820,8 @@ public function actionCreateModule()
 public function actionClassAssignments($cid)
 {
   
-
-    $assignments = Assignment::find()->where(['assNature' => 'assignment', 'course_code' =>ClassRoomSecurity::decrypt($cid)])->orderBy([
+    $yearid=(yii::$app->session->get('currentAcademicYear'))->yearID;
+    $assignments = Assignment::find()->where(['assNature' => 'assignment', 'course_code' =>ClassRoomSecurity::decrypt($cid),'yearID'=>$yearid])->orderBy([
         'assID' => SORT_DESC ])->all();
     return $this->render('classAssignments', ['cid'=>$cid,'assignments'=>$assignments]);
 

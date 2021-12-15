@@ -10,6 +10,9 @@ use yii\helpers\ArrayHelper;
 
 $this->params['courseTitle'] = "Marking:".yii::$app->session->get('ccode')." ".$assignment->assName;
 $this->title = 'Assignment Marking';
+
+
+
 $submits=[];
 $asstype="";
 $quantity="one";
@@ -42,7 +45,7 @@ else
 }
 ?>
 <body>
-
+<div class="row"><div class="col-md-6" id="coursecode" ><?=$assignment->course_code?></div><div class="col-md-6" id="assidt"><?=$assignment->assID?></div></div>
 <div class="row shadow">
   <?php
 if($submits!=null)
@@ -59,7 +62,7 @@ for($sub=0;$sub<count($submits);$sub++)
   if($submits[$sub]->score!=null || $submits[$sub]->score!="")
   {
 ?>
-<tr class="d-flex bg-primary"><td id="<?=$submits[$sub]->submitID;?>"><?=$sub+1?><td id="<?=$submits[$sub]->fileName;?>"><?php if($asstype=="class"){print $submits[$sub]->reg_no;}else{ print $submits[$sub]->group->groupName;}?></td></tr>
+<tr class="d-flex text-primary"><td id="<?=$submits[$sub]->submitID;?>"><?=$sub+1?><td id="<?=$submits[$sub]->fileName;?>"><?php if($asstype=="class"){print $submits[$sub]->reg_no;}else{ print $submits[$sub]->group->groupName;}?></td></tr>
 <?php
   }
   else

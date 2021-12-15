@@ -8,7 +8,7 @@ use yii\helpers\Url;
 
 $this->title = 'Forum';
 
-$this->params['courseTitle'] ='FORUM';
+$this->params['courseTitle'] ='<i class="fa fa-comments"></i> Forum';
 $this->params['breadcrumbs'] = [
     ['label'=>'Class', 'url'=>Url::to(Yii::$app->request->referrer)],
     ['label'=>$this->title]

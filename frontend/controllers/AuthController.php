@@ -78,8 +78,7 @@ class AuthController extends \yii\web\Controller
            //setting up the current academic year
 
            $currentAcademicYear=Academicyear::find()->where(['status'=>'ongoing'])->one();
-           $acYearId=$currentAcademicYear->yearID;
-           yii::$app->session->set('currentAcademicYear', $acYearId);
+           yii::$app->session->set('currentAcademicYear', $currentAcademicYear);
            return $this->redirect(['/home/dashboard']);
           
      }

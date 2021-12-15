@@ -30,6 +30,7 @@ AppAsset::register($this);
   <!-- /.login-logo -->
 <?= $content ?>
 </div>
+<?= $this->render('/includes/loginfooter') ?>
 <!-- /.login-box -->
 <?php $this->endBody() ?>
 </body>

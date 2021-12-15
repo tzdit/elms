@@ -102,8 +102,8 @@ use yii\helpers\Url;
          
           <li class="nav-item">
                 <a href="<?= Url::toRoute('/instructor/courses') ?>" class="nav-link">
-                  <i class="fas fa-book nav-icon"></i>
-                  <p>Take a new course</p>
+                  <i class="fas fa-chalkboard-teacher nav-icon"></i>
+                  <p>Self-assign Courses</p>
                 </a>
               </li>
             <?php  endif ?>  <!-- END OF INSTRUCTOR ROLE -->
@@ -128,8 +128,8 @@ use yii\helpers\Url;
           <?php if(Yii::$app->user->can('INSTRUCTOR & HOD')): ?>
             <li class="nav-item">
                 <a href="<?= Url::toRoute('/instructor/courses') ?>" class="nav-link">
-                  <i class="fas fa-book nav-icon"></i>
-                  <p>Take a new course</p>
+                  <i class="fas fa-chalkboard-teacher nav-icon"></i>
+                  <p>Self-assign Courses</p>
                 </a>
               </li>
           

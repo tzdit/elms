@@ -8,6 +8,7 @@ use common\models\ForumQuestion;
 use frontend\models\ForumQuestionForm;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use frontend\models\ClassRoomSecurity;
 use Yii;
 use yii\helpers\HtmlPurifier;
 use yii\web\NotFoundHttpException;
@@ -34,6 +35,22 @@ class ForumController extends \yii\web\Controller
 
                         'allow' => true,
                         'roles'=>['STUDENT']
+                    ],
+                    [
+                        'actions' => ['dashboard', 'index', 'add-thread','edit-thread','my-thread', 'delete-forum-qn','qn-conversation'
+                        ],
+
+
+                        'allow' => true,
+                        'roles'=>['INSTRUCTOR']
+                    ],
+                    [
+                        'actions' => ['dashboard', 'index', 'add-thread','edit-thread','my-thread', 'delete-forum-qn','qn-conversation'
+                        ],
+
+
+                        'allow' => true,
+                        'roles'=>['INSTRUCTOR & HOD']
                     ],
                     [
                         'actions' => [  'logout' => ['post'],],
@@ -65,9 +82,8 @@ class ForumController extends \yii\web\Controller
     public function actionIndex($cid)
     {
         $reg_no = Yii::$app->user->identity->username;
-
-        $forumTopics = ForumQuestion::find()->select('forum_question.*,forum_qn_tag.*')->join('INNER JOIN','forum_qn_tag','forum_question.question_id = forum_qn_tag.question_id')->where('forum_qn_tag.course_code = :cid',[':cid' => $cid])->orderBy(['forum_question.time_add' => SORT_DESC])->asArray()->all();
-        return $this->render('index', ['cid'=>$cid, 'topics' => $forumTopics]);
+        $forumTopics = ForumQuestion::find()->select('forum_question.*,forum_qn_tag.*')->join('INNER JOIN','forum_qn_tag','forum_question.question_id = forum_qn_tag.question_id')->where('forum_qn_tag.course_code = :cid',[':cid' => ClassRoomSecurity::decrypt($cid)])->orderBy(['forum_question.time_add' => SORT_DESC])->asArray()->all();
+        return $this->render('index', ['cid'=>ClassRoomSecurity::decrypt($cid), 'topics' => $forumTopics]);
     }
 
     public function actionAddThread()

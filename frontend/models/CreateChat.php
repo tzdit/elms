@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
 use yii\base\Exception;
 
 class CreateChat extends Model{
-    public $username;
+    public $reg_no;
     public $instructorID;
     public $chatText;
     public $chatDate;
@@ -18,7 +18,7 @@ class CreateChat extends Model{
     
     public function rules(){
         return [
-            [['chatText'], 'required'],
+            [['chatText', 'reg_no'], 'required'],
             // [['course_code'], 'unique'],
         ];
 
@@ -34,7 +34,7 @@ class CreateChat extends Model{
         
 
         $chat->instructorID = Yii::$app->user->identity->instructor->instructorID;
-        $chat->reg_no =  $this->username;
+        $chat->reg_no =  $this->reg_no;
         $chat->chatText = $this->chatText;
         $chat->chatDate = date('Y-m-d H:i:s');
         $chat->chatTime = strtotime("now");
@@ -42,6 +42,7 @@ class CreateChat extends Model{
         if($chat->save()){return true;} 
         else
         {  
+            print_r($chat->getErrors());
          throw new Exception("message not delivered");
         }
 

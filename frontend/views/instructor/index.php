@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
 use BigBlueButton\BigBlueButton;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 /* @var $this yii\web\View */
-$this->params['courseTitle'] = "My courses";
+$this->params['courseTitle'] ="<i class='fa fa-th'></i> My Courses";
 $this->title = 'Instructor Dashboard';
 $instructorid=Yii::$app->user->identity->instructor->instructorID;
  //finding all instructors
@@ -36,7 +36,7 @@ $instructors=ArrayHelper::map(Instructor::find()->asArray()->where(['<>','instru
               ?>
               <div class="container-fluid ">
                <div class="card d-flex justify-content-center">
-                 <div class="card-body text-center"><i class="fa fa-info-circle" style="font-size:36px"></i><h5>You Currently Have no any course</h5><a class="btn btn-sm btn-primary" href="/instructor/courses">Take Your Course</a></div>
+                 <div class="card-body text-center"><i class="fa fa-info-circle" style="font-size:36px"></i><h5>You Currently Have no Any Course</h5><a class="btn btn-sm btn-primary" href="/instructor/courses"><i class="fas fa-chalkboard-teacher"></i> Self-assign Courses</a></div>
                 </div>
             </div>
               <?php
