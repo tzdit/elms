@@ -156,7 +156,8 @@ public $defaultAction = 'dashboard';
                             'module-delete',
                             'mark-secure-redirect',
                             'remove-students',
-                            'switch-academicyear'
+                            'switch-academicyear',
+                            'course-update-data'
 
                         ],
                         'allow' => true,
@@ -245,7 +246,8 @@ public $defaultAction = 'dashboard';
                             'updatestudent',
                             'mark-secure-redirect',
                             'remove-students',
-                            'switch-academicyear'
+                            'switch-academicyear',
+                            'course-update-data'
                            
                         ],
                         'allow' => true,
@@ -500,9 +502,7 @@ public function actionEditExtAssrecord($recordid)
             $inc->course_code = $ccode;
             $inc->instructorID = Yii::$app->user->identity->instructor->instructorID;
             if($inc->save()){
-                Yii::$app->session->setFlash('success', 'You 
-                
-                successfully enrolled to selected course');
+                Yii::$app->session->setFlash('success', 'Course assigned successfully');
                 return $this->redirect(Url::toRoute('/instructor/courses'));
             }
         }
@@ -692,19 +692,37 @@ public function actionUpdatecoz($cozzid)
     $coz = Course::findOne($cozzid);
     $dep= $coz ->departmentID;
    
-   $depts = Department::find()->all();
+    $depts = Department::find()->all();
    
-   $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+    $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
     $programs =ArrayHelper::map(ProgramCourse::find()->where(['course_code'=>$cozzid])->all(), 'programCode', 'programCode');
+
+    return $this->render('updatecoz', ['coz'=>$coz, 'programs'=>$programs, 
+    'depts'=>$depts, 'departments'=>$departments]);
+}
+
+public function actionCourseUpdateData($cozzid)
+{
+    
+    try
+    {
+    $coz =Course::findOne($cozzid);
     if($coz->load(Yii::$app->request->post()) && $coz->save())
     {
         
-        Yii::$app->session->setFlash('success', 'Course updated successfully');
+        Yii::$app->session->setFlash('success', 'course updated successfully');
         return $this->redirect(['create-course']);
-    }else{
-    return $this->render('updatecoz', ['coz'=>$coz, 'programs'=>$programs, 
-    'depts'=>$depts, 'departments'=>$departments]);
     }
+    else
+    {
+        throw new Exception("could not update course");
+    }
+}
+catch(Exception $d)
+{
+    Yii::$app->session->setFlash('error',$d->getMessage()); 
+    return $this->redirect(yii::$app->request->referrer);
+}
 }
 
     public function actionUpdatestudent($id)

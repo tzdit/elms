@@ -20,7 +20,8 @@ use common\models\Academicyear;
     
    
     <ul class="navbar-nav ml-auto ">
-   <li class="nav-item">
+    <?php if(Yii::$app->user->can('INSTRUCTOR & HOD') || Yii::$app->user->can('INSTRUCTOR') ){ ?>
+   <li class="nav-item d-none d-md-block">
     <?php
        $yearmodel=new AcademicYearManager;
        $yearmodel->yearid=(yii::$app->session->get('currentAcademicYear'))->yearID; 
@@ -28,17 +29,30 @@ use common\models\Academicyear;
         //preparing academic years
     $academicyears=Academicyear::find()->all();
     $mappedyears=ArrayHelper::map($academicyears,'yearID','title');
- 
+    
     $form = ActiveForm::begin(['method'=>'post','options'=>['class'=>'form-inline form-horizontal'], 'action'=>['/instructor/switch-academicyear']]);?>
-        <div class="row"><div class="col-md-8 col-sm-8 nav-link" style="padding-right:0;padding-left:0"><div class="form-group">
-        <?= $form->field($yearmodel, 'yearid')->dropDownList($mappedyears,['class'=>'p-1 btn-default btn-sm rounded-pill'])->label('Academic Year',['class'=>'text-md'])?>
+
+        <div class="row"><div class="col-md-8 col-sm-8  nav-link" style="padding-right:0;padding-left:0"><div class="form-group">
+        <?= $form->field($yearmodel, 'yearid')->dropDownList($mappedyears,['class'=>'p-1 btn-default btn-sm rounded-pill'])->label('Academic Year',['class'=>'text-md d-none d-md-block'])?>
 </div>
 </div><div class="col-md-4 col-sm-4 nav-link" style="padding-right:0;padding-left:1"><div class="form-group" >
-       <?=Html::submitButton('<i class="fa fa-refresh"></i> Switch',['class'=>'btn btn-sm btn-default rounded-pill'])?>
+       <?=Html::submitButton('<i class="fa fa-refresh"></i> Switch',['class'=>'btn btn-sm  btn-default rounded-pill '])?>
 </div></div>
 
         <?php ActiveForm::end()?>
+        <?php
+}
+else
+{
+  ?>
+  <div class="col-md-12 col-sm-12 text-sm nav-link d-none d-md-block">
+  <?=Html::Button('<i class="fa fa-clock-o"></i> '.(yii::$app->session->get('currentAcademicYear'))->title,['class'=>'btn btn-lg p-1  btn-default rounded-pill '])?>
+</div>
+  <?php
+}
+?>
 </li>
+
 </ul>
     
 
@@ -66,7 +80,7 @@ use common\models\Academicyear;
         </div>
       </li> -->
       <!-- Fullscreen media -->
-       <li class="nav-item">
+       <li class="nav-item ">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
         </a>

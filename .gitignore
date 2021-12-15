@@ -45,3 +45,5 @@ phpunit.phar
 # files
 *pdf
 *txt
+#ignoring classroom uploading folder
+/frontend/web/storage

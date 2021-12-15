@@ -7,6 +7,7 @@ use common\models\Department;
 use common\models\ProgramCourse;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
+use yii\base\Exception;
 class UpdateCourse extends Model{
     public $course_code;
     public $programs;
@@ -28,13 +29,14 @@ class UpdateCourse extends Model{
 
     }
     public function create(){
+        try{
         if(!$this->validate()){
-            return false;
+           throw new Exception("unable to validate your data");
         }
 
         $coz = new Course();
 
-        try{
+      
 
         $coz->course_code = $this->course_code;
         $coz->course_name =  $this->course_name;
@@ -45,27 +47,13 @@ class UpdateCourse extends Model{
         $programs = $this->programs;
 
         $coz->save();   
-        if ($coz ->save())
-        {
-            foreach($programs as $prog)
-            {
-            
-            $progcourse = new ProgramCourse();
-            $progcourse->course_code = $coz->course_code;
-            $progcourse->programCode = $prog;
-            $progcourse ->save();
-            }
-        }
-        else
-        {
-            return false;
-        }  
+
         return true;
 
         
     }catch(\Exception $e){
     
-        return $e->getMessage();
+        throw new Exception($e->getMessage());
     }
     }
 

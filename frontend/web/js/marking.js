@@ -9,33 +9,71 @@ $(document).ready(function(){
     var qids=[];
     var obj=$('#fileobj');
     var qid="";
- 
-   var rw="";
-   var crow="";
-   var colum="";
-   var regno="";
-    
-   file_id=localStorage.getItem('file_id');
+    var currentcourse=$("#coursecode").text();
+    var currentassignment=$("#assidt").text();
+    var rw="";
+    var crow="";
+    var colum="";
+    var regno="";
+    var savedfileid=currentassignment+"fileid";
+   file_id=localStorage.getItem(savedfileid);
    record=$('#'+file_id).parent();
    
  
+
+    var last_course=localStorage.getItem(currentcourse);
+    var last_ass=localStorage.getItem(currentassignment);
+  
+  //as the assignment match, we may pick the last entry
+  if(currentcourse==last_course && currentassignment==last_ass)
+  {
+    file_id=localStorage.getItem(savedfileid);
+    record=$('#'+file_id).parent();
+    rw=$('tr').index(record);
+    crow=$("tr:eq("+rw+")");
+    filename=crow.children('td').eq(1).attr('id');
+
+    //setting the localstorage data
+    localStorage.setItem(savedfileid,file_id);
+    localStorage.setItem('filename',filename);
+    localStorage.setItem(currentcourse,currentcourse);
+    localStorage.setItem(currentassignment,currentassignment);
+    
  
+      record.css('backgroundColor',"lightblue");
+      
+      regno=crow.children('td').eq(1).text();
+      obj.attr("src","/storage/submit/"+$.trim(filename));
+      crow.css('backgroundColor',"lightblue");
+      /*
+      $('h4').text(regno);
+      $('#heading').text(regno);
+      $("#heading").css("width", "0%");
+      $("#heading").animate({width: "100%"});
+      $("#asshead").css("width", "0%");
+      $("#asshead").animate({width: "50%"}); 
+      */  
+}
+else{
    //gone through the local storage, no last one found, we set up the first record as en entry record
    rw=1;
    crow=$("tr:eq("+rw+")");
    colum=crow.find($('td')[0]);
    file_id=colum.attr('id');
    //filename=colum.text();
-   filename = crow.children('td').eq(1).attr('id');
+   //filename = crow.children('td').eq(1).attr('id');
    regno=crow.children('td').eq(1).text();
+   // now displaying the current entry
+  if(filename!="" && file_id!=""){
    obj.attr("src","/storage/submit/"+$.trim(filename));
-   $('h4').text(regno);
-   $('#heading').text(regno);
-   $("#heading").animate({width: "100%"});
-   $("#asshead").animate({width: "50%"});
+  // $('h4').text(regno);
+   //$('#heading').text(regno);
+   //$("#heading").animate({width: "100%"});
+   //$("#asshead").animate({width: "50%"});
     
    crow.css('backgroundColor',"lightblue");
- 
+  }
+}
 //the validations
 
   //handling enter key clicks: the current entry is recorded and we set up the next one
@@ -119,10 +157,10 @@ $(document).ready(function(){
  */
  
  //Putting the last entry into the local storage
- localStorage.setItem('file_id',file_id);
+ localStorage.setItem(savedfileid,file_id);
  localStorage.setItem('filename',filename);
- localStorage.setItem('course_code',course_code);
- localStorage.setItem('ass_name',ass_name);
+ localStorage.setItem(currentcourse,currentcourse);
+ localStorage.setItem(currentassignment,currentassignment);
 
  $('#scoremark').val("");
  
@@ -201,10 +239,10 @@ if(code==39 || code==40)
  
  
  //Putting the last entry into the local storage
- localStorage.setItem('file_id',file_id);
+ localStorage.setItem(savedfileid,file_id);
  localStorage.setItem('filename',filename);
- localStorage.setItem('course_code',course_code);
- localStorage.setItem('ass_name',ass_name);
+ localStorage.setItem(currentcourse,currentcourse);
+ localStorage.setItem(currentassignment,currentassignment);
  
  crow=$("tr:eq("+rw+")"); //set the current row
  $('#scoremark').val("");
@@ -256,10 +294,10 @@ if(code==37 || code==38)
  
  
  //Putting the last entry into the local storage
- localStorage.setItem('file_id',file_id);
+ localStorage.setItem(savedfileid,file_id);
  localStorage.setItem('filename',filename);
- localStorage.setItem('course_code',course_code);
- localStorage.setItem('ass_name',ass_name);
+ localStorage.setItem(currentcourse,currentcourse);
+ localStorage.setItem(currentassignment,currentassignment);
  
  crow=$("tr:eq("+rw+")"); //set the current row
  //crow.css("background-color","");

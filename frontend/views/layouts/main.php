@@ -55,7 +55,7 @@ AppAsset::register($this);
     <!-- also this you may trie these 082B45  # #0062CC
     lovely background style="background:#001832"
   -->
-  <aside class="main-sidebar main-sidebar-custom sidebar-light-primary  elevation-2 pace-primary " style="background-color:rgba(40,50,150,.08)" >
+  <aside class="main-sidebar main-sidebar-custom sidebar-light-primary  elevation-2 pace-primary " style="background-color:rgba(238,239,247,1)" >
     <!-- Brand Logo -->
     <a href="<?= Url::to(['/home/dashboard']) ?>" class="brand-link bg-primary">
       <img src="<?= Yii::getAlias('@web/img/logo.png') ?>" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -77,7 +77,7 @@ AppAsset::register($this);
     <div class="content-header border-bottom p-2 show-sm">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6 text-secondary font-weight-bold" style="font-family:'Times New Roman'; font-size:20px;">
+          <div class="col-sm-6 text-secondary font-weight-bold d-none d-md-block" style="font-family:'Times New Roman'; font-size:20px;">
            <?= Course::widget([
              'courseTitle'=>isset($this->params['courseTitle'])? $this->params['courseTitle']: ''
            ])?>
