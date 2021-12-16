@@ -8,7 +8,7 @@ use common\models\QMarks;
 use common\models\Instructor;
 use yii\helpers\ArrayHelper;
 
-$this->params['courseTitle'] = "Marking:".yii::$app->session->get('ccode')." ".$assignment->assName;
+$this->params['courseTitle'] = "Marking:<span class='text-primary text-sm'>".substr(yii::$app->session->get('ccode')." ".$assignment->assName,0,30)."<span>...";
 $this->title = 'Assignment Marking';
 
 
@@ -45,7 +45,10 @@ else
 }
 ?>
 <body>
-<div class="row"><div class="col-md-6" id="coursecode" ><?=$assignment->course_code?></div><div class="col-md-6" id="assidt"><?=$assignment->assID?></div></div>
+  <div class="container-fluid">
+<div class="row d-none"><div class="col-md-6" id="coursecode" ><?=$assignment->course_code?></div><div class="col-md-6" id="assidt"><?=$assignment->assID?></div></div>
+<div class="row pt-2 pb-2 shadow "><div class="col-md-2 col-ms-2 "  ></div><div class="col-md-7 col-ms-7 " ></div><div class="col-md-3 col-ms-3 "><div class="row"><a href="" class="col-md-3" data-toggle="tooltip" data-title="Ordinary Mode"><img src="/img/normal.png" width="53%" height="73%"></img></a><a href="" class="col-md-3" data-toggle="tooltip" data-title="Presentation Mode"><img src="/img/pres.png" width="60%" height="80%"></img></a><a href="" class="col-md-3"><i class="fa fa-undo-alt text-dark " data-toggle="tooltip" data-title="Re-assign"></i></a></div></div></div>
+
 <div class="row shadow">
   <?php
 if($submits!=null)
@@ -94,7 +97,7 @@ for($q=0;$q<count($questions);$q++)
 { 
 ?>
 <div id="marks" class="row qmarking">
-<div id="mrow" class="col-md-12">
+<div id="mrow" class="col-md-12" style="margin-top:7px">
   <?php
     $mark=QMarks::find()->where(['assq_ID'=>$questions[$q]->assq_ID])->one();
     $mark=(!empty($mark) || $mark!==null)?$mark->q_score:null;
@@ -125,7 +128,9 @@ for($q=0;$q<count($questions);$q++)
 <textarea id="<?=$asstype?>"class="form-control comment" placeholder="Comment" style="margin-bottom:4px"></textarea>
 </div>
 </div>
+
 </div>
+
 <?php
 }
 else
@@ -133,6 +138,8 @@ else
   print '<div class="container-fluid text-primary text-center">No any submits</div>';
 }
 ?>
+</div>
+<div class="row pt-2 pb-2 shadow bg-light" style="position:absolute; bottom:1%;left:50%"><div class="col-md-12 col-ms-12 d-flex justify-content-center"><span class="btn btn-sm btn-default mr-5" data-toggle="tooltip" data-title="Skip Back" id="skipback"><i class="fa fa-arrow-circle-left fa-2x text-primary"></i></span><span class="btn btn-lg btn-default shadow text-primary" id="savemove"data-toggle="tooltip" data-title="Save And Move"><i class="fa fa-save ">Save</i></span><span class="btn btn-sm btn-default ml-5" id="skipnext" data-toggle="tooltip" data-title="Skip Next"><i class="fa fa-arrow-circle-right fa-2x text-primary"></i></span></div></div>
 </div>
 <?php
 $this->registerJsFile(
