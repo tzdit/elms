@@ -23,29 +23,54 @@ $this->params['breadcrumbs'] = [
 ?>
 <div class="thread_form container">
 
-    <?php $form = ActiveForm::begin([
-        'options'=>['enctype'=>'multipart/form-data']
+    <div class="card p-5">
 
-    ]);
+        <?php $form = ActiveForm::begin([
+            'options'=>['enctype'=>'multipart/form-data']
 
-    ?>
+        ]);
 
-    <?= $form->field($model, 'question_tittle')->label('Question Tittle') ?>
-    <?= $form->field($model, 'question_desc')->textarea(['class'=>'form-control form-control-sm', 'rows' => 17, 'maxlength' => 1000, 'row' => 50, 'placeholder' => 'Write your question here with in short words' ])->label('Question Body') ?>
-    <?= $form->field($model, 'code')->textarea(['class'=>'form-control form-control-sm', 'rows' => 7, 'maxlength' => 1000, 'row' => 15, 'placeholder' => 'write your code snippets for clarification if you have any', 'style'=>'width:70%' ])->label('Code  Snippets') ?>
-    <?= $form->field($model,'coursesTag[]')->dropDownList(ArrayHelper::map(Course::find()->select(['course_name','course_code'])->all(),'course_code','course_name'),['data-placeholder'=>'--Search course to tag --','class' => 'form-control form-control-sm','id' => 'courses_tag', 'multiple'=>true,'style'=>'width:100%'])->label("Tags") ?>
+        ?>
 
-        <div class="row">
-            <?= $form->field($model, 'image')->widget(FileInput::classname(), [
-                'options' => ['accept' => 'image/*'],
-                'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png'],'showUpload' => TRUE,],
-            ])->label('Choose to select image if you have any');   ?>
+        <?= $form->field($model, 'question_tittle')->label('Question Tittle') ?>
+        <?= $form->field($model, 'question_desc')->textarea(['class'=>'form-control form-control-sm', 'rows' => 17, 'maxlength' => 1000, 'row' => 50, 'placeholder' => 'Write your question here with in short words' ])->label('Question Body') ?>
+        <?= $form->field($model,'coursesTag[]')->dropDownList(ArrayHelper::map(Course::find()->select(['course_name','course_code'])->all(),'course_code','course_name'),['data-placeholder'=>'--Search course to tag --','class' => 'form-control form-control-sm','id' => 'courses_tag', 'multiple'=>true,'style'=>'width:100%'])->label("Tags") ?>
+
+        <p>
+            <a class="btn btn-success" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1">
+                Code snippets(Optional)
+            </a>
+        </p>
+        <div class="collapse" id="collapseExample1">
+            <div class="card card-body">
+                <?= $form->field($model, 'code')->textarea(['class'=>'form-control form-control-sm', 'rows' => 7, 'maxlength' => 1000, 'row' => 15, 'placeholder' => 'write your code snippets for clarification if you have any', 'style'=>'width:70%' ])->label('Code  Snippets') ?>
+            </div>
         </div>
 
-    <div class="form-group">
-            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+        <p>
+            <a class="btn btn-success" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Image for attachment(Optional)
+            </a>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+
+                <div class="row">
+                    <?= $form->field($model, 'image')->widget(FileInput::classname(), [
+                        'options' => ['accept' => 'image/*'],
+                        'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png'],'showUpload' => TRUE,],
+                    ])->label('Choose to select image if you have any');   ?>
+                </div>
+
+            </div>
         </div>
-    <?php ActiveForm::end(); ?>
+
+        <div class="form-group ">
+            <?= Html::submitButton('Submit', ['class' => 'btn btn-success  float-right font-weight-bold']) ?>
+        </div>
+        <?php ActiveForm::end(); ?>
+
+    </div>
 
 </div><!-- thread_form -->
 

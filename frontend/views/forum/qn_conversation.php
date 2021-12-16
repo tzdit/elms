@@ -92,12 +92,12 @@ $this->params['breadcrumbs'] = [
                 <div class="card-header mt-5 border-0 bg-gradient-dark">
                     <h4> <i class="fa fa-reply float-left mr-1" aria-hidden="true"></i> Replies</h4>
                 </div>
-<!--                --><?php
-//
+                <?php
+
 //                echo '<pre>';
-//                print_r($answers);
+//                print_r($answer_counts);
 //                echo  '</pre>';
-//                //exit();
+//                exit();
 //
 //                ?>
 
@@ -149,15 +149,28 @@ $this->params['breadcrumbs'] = [
                              $comment_count = ForumComment::find()->where('forum_comment.answer_id = :answer_id ',[':answer_id' => $answer['answer_id']])->count();
                              ?>
                              <h6 class="text-muted card-text qn-replay"><i class="fa fa-comment ml-n2 mr-1 icon-color-count" ></i><?= $comment_count ?> Comment</h6>
+                             <p>
+                                 <a class="font-italic ml-2" data-toggle="collapse" href="#collapseExample<?=$answer_counts?>" role="button" aria-expanded="false" aria-controls="collapseExample<?=$answer_counts?>">
+                                     Add Comment
+                                 </a>
+                             </p>
+                             <div class="collapse" id="collapseExample<?=$answer_counts?>">
+                                 <div class="card card-body">
 
-                             <?php $form = ActiveForm::begin([
-                                 'options'=>['enctype'=>'multipart/form-data']]); ?>
-                             <div class="form-group row">
-                                 <?= $form->field($model1, 'comment_content')->textInput([ 'placeholder' => 'Add comment', 'class' => 'col-sm-11', 'size' => 100])->label(false) ?>
-                                 <?= $form->field($model1, 'answer_id')->hiddenInput(['value' => $answer['answer_id']])->label(false) ?>
-                                 <?= Html::submitButton('Post', ['class' => 'btn  col-sm-1 p-0', 'id' => 'comment-btn']) ?>
+                                     <?php $form = ActiveForm::begin([
+                                         'options'=>['enctype'=>'multipart/form-data']]); ?>
+                                     <div class="form-group row">
+                                         <?= $form->field($model1, 'comment_content')->textInput([ 'placeholder' => 'Add comment', 'class' => 'col-sm-11', 'size' => 100])->label(false) ?>
+                                         <?= $form->field($model1, 'answer_id')->hiddenInput(['value' => $answer['answer_id']])->label(false) ?>
+                                         <?= Html::submitButton('Post', ['class' => 'btn  col-sm-1 p-0', 'id' => 'comment-btn']) ?>
+                                     </div>
+                                     <?php ActiveForm::end(); ?>
+
+                                 </div>
                              </div>
-                             <?php ActiveForm::end(); ?>
+
+
+
 
                          <div class="card-footer border-0 p-0">
                              <?php foreach ($comments as $comment): ?>
@@ -189,6 +202,8 @@ $this->params['breadcrumbs'] = [
                          </div>
                      </div>
 
+                 <?php $answer_counts-- ?>
+
                 <?php endforeach; ?>
 
 
@@ -199,15 +214,36 @@ $this->params['breadcrumbs'] = [
                     <?php $form = ActiveForm::begin(); ?>
 
                     <?= $form->field($model, 'answer_content')->textarea(['class'=>'form-control form-control-sm', 'rows' => 10, 'maxlength' => 1000, 'row' => 50, 'placeholder' => 'Write your answer here with in short words' ])->label('Answer') ?>
-                    <?= $form->field($model, 'code')->textarea(['class'=>'form-control form-control-sm', 'rows' => 7, 'maxlength' => 1000, 'row' => 15, 'placeholder' => 'write your code snippets for clarification if you have any', 'style'=>'width:70%' ])->label('Code  Snippets') ?>
-                    <div class="row">
-                        <?= $form->field($model, 'image')->widget(FileInput::classname(), [
-                            'options' => ['accept' => 'image/*'],
-                            'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png'],'showUpload' => false,],
-                        ])->label('Choose to select image if you have any for support your answer');   ?>
+                    <p>
+                        <a class="btn btn-success" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1">
+                            Code snippets(Optional)
+                        </a>
+                    </p>
+                    <div class="collapse" id="collapseExample1">
+                        <div class="card card-body">
+                            <?= $form->field($model, 'code')->textarea(['class'=>'form-control form-control-sm', 'rows' => 7, 'maxlength' => 1000, 'row' => 15, 'placeholder' => 'write your code snippets for clarification if you have any', 'style'=>'width:70%' ])->label('Code  Snippets') ?>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <?= Html::submitButton('Submit your answer', ['class' => 'btn btn-primary']) ?>
+
+                    <p>
+                        <a class="btn btn-success" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Image for attachment(Optional)
+                        </a>
+                    </p>
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+
+                            <div class="row">
+                                <?= $form->field($model, 'image')->widget(FileInput::classname(), [
+                                    'options' => ['accept' => 'image/*'],
+                                    'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png'],'showUpload' => false,],
+                                ])->label('Choose to select image if you have any for support your answer');   ?>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <?= Html::submitButton('Submit', ['class' => 'btn btn-success  float-right font-weight-bold']) ?>
                     </div>
                     <?php ActiveForm::end(); ?>
                 </div>

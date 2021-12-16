@@ -24,6 +24,7 @@ class ForumQuestion extends \yii\db\ActiveRecord
 {
 
     public $image;
+    public $coursesTag;
 
     /**
      * {@inheritdoc}

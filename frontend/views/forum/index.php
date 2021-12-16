@@ -3,6 +3,7 @@
 use common\models\ForumAnswer;
 use common\models\Instructor;
 use common\models\Student;
+use frontend\models\ClassRoomSecurity;
 use yii\helpers\Url;
 /* @var $this yii\web\View */
 
@@ -28,7 +29,7 @@ $this->params['breadcrumbs'] = [
 //    ?>
 
     <a href="<?= Url::toRoute('forum/add-thread') ?>"  class="btn btn-shadow btn-wide bg-gradient-dark mb-4"> <span class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-plus fa-w-20"></i> </span> New Thread </a>
-    <a href="<?= Url::toRoute(['forum/my-thread', 'cid' => $cid]) ?>"  class="btn btn-shadow btn-wide btn-primary mb-4"> <span class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-server" aria-hidden="true"></i></span> My Threads </a>
+    <a href="<?= Url::toRoute(['forum/my-thread', 'cid' => ClassRoomSecurity::encrypt($cid)]) ?>"  class="btn btn-shadow btn-wide btn-primary mb-4"> <span class="btn-icon-wrapper pr-2 opacity-7"> <i class="fa fa-server" aria-hidden="true"></i></span> My Threads </a>
 
     <?php if (empty($topic)): ?>
     <div class="d-block flex-wrap justify-content-between">
@@ -49,7 +50,7 @@ $this->params['breadcrumbs'] = [
 
             <div class="card-body py-3">
                 <div class="row no-gutters align-items-center">
-                    <div class="col-8"> <a href="<?= Url::toRoute(["forum/qn-conversation",'cid' => $cid, 'question_id' => $topic['question_id']]) ?>" class="text-big" data-abc="true"><?= $topic['question_tittle'] ?></a>
+                    <div class="col-8"> <a href="<?= Url::toRoute(["forum/qn-conversation",'cid' => ClassRoomSecurity::encrypt($cid), 'question_id' => ClassRoomSecurity::encrypt($topic['question_id'])]) ?>" class="text-big" data-abc="true"><?= $topic['question_tittle'] ?></a>
 
                         <?php
                         $name = Student::find()->select('fname,mname, lname')->where('userID = :userID', [':userID' => $topic['user_id']])->one();
