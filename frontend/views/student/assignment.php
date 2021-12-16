@@ -1,4 +1,6 @@
 <?php
+
+use frontend\models\ClassRoomSecurity;
 use yii\helpers\Url;
 use common\models\Assignment;
 use common\models\Submit;
@@ -97,16 +99,16 @@ $this->params['breadcrumbs'] = [
                                                                 </div>
                                                                 <div class="col-md-6">
 
-                                                                    <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
+                                                                    <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> ClassRoomSecurity::encrypt($assign->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
 
-                                                                    <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-eye"> View</i></span></a>
+                                                                    <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> ClassRoomSecurity::encrypt($assign->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-eye"> View</i></span></a>
 
                                                                     <?php if(empty($submited) && $isOutOfDeadline == false):?>
-                                                                        <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> $assign->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
+                                                                        <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> ClassRoomSecurity::encrypt($assign->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
                                                                     <?php endif ?>
 
                                                                     <?php if(!empty($submited) && $isOutOfDeadline == false):?>
-                                                                        <a href="<?= Url::toRoute(['/student/resubmit','assID'=> $assign->assID, 'submit_id' => $submited->submitID])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
+                                                                        <a href="<?= Url::toRoute(['/student/resubmit','assID'=> ClassRoomSecurity::encrypt($assign->assID), 'submit_id' => ClassRoomSecurity::encrypt($submited->submitID)])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
                                                                     <?php endif ?>
 
                                                                     <?php if($isOutOfDeadline == true):?>

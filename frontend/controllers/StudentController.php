@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 use common\models\Submit;
+use frontend\models\ClassRoomSecurity;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use common\models\Course;
@@ -163,7 +164,11 @@ public function actionClasswork($cid){
 
 
     public function actionAssignment($cid){
-        if(!empty($cid)){
+
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
+	     if(!empty($cid)){
             Yii::$app->session->set('ccode', $cid);
         }
 
@@ -186,6 +191,7 @@ public function actionClasswork($cid){
      */
     public function actionSubmit_assignment($assID)
     {
+        $assID = ClassRoomSecurity::decrypt($assID);
 
         $model =new AssSubmitForm;
 
@@ -231,6 +237,10 @@ public function actionClasswork($cid){
      * return in the same page after sumit
      */
     public function actionResubmit($assID, $submit_id){
+
+        $assID = ClassRoomSecurity::decrypt($assID);
+        $submit_id = ClassRoomSecurity::decrypt($submit_id);
+
         $model = AssSubmitForm::find()->where('submitID = :submitID AND assID = :assID ', [':submitID' => $submit_id, ':assID' => $assID])->one();
 //        $submit_model = Submit::find()->where('assID = :assID', [':assID' => $submit_id])->one();
 
@@ -286,6 +296,10 @@ public function actionClasswork($cid){
 
 
     public function actionStudentGroup($cid){
+
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
         if(!empty($cid)){
             Yii::$app->session->set('ccode', $cid);
         }
@@ -321,6 +335,9 @@ public function actionClasswork($cid){
      */
     public function actionGroup_assignment_submit($assID,$groupID)
     {
+
+        $assID = ClassRoomSecurity::decrypt($assID);
+        $groupID = ClassRoomSecurity::decrypt($groupID);
 
         $model =new GroupAssSubmit;
 
@@ -366,6 +383,11 @@ public function actionClasswork($cid){
      * return in the same page after sumit
      */
     public function actionGroup_resubmit($assID,$groupID,$submit_id){
+
+        $assID = ClassRoomSecurity::decrypt($assID);
+        $groupID = ClassRoomSecurity::decrypt($groupID);
+        $submit_id = ClassRoomSecurity::decrypt($submit_id);
+
         $model = GroupAssSubmit::find()->where('submitID = :submitID AND assID = :assID ', [':submitID' => $submit_id, ':assID' => $assID])->one();
 //        $submit_model = Submit::find()->where('assID = :assID', [':assID' => $submit_id])->one();
 
@@ -421,6 +443,10 @@ public function actionClasswork($cid){
 
 
     public function actionLabs($cid){
+
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
         if(!empty($cid)){
             Yii::$app->session->set('ccode', $cid);
         }
@@ -437,6 +463,10 @@ public function actionClasswork($cid){
 
 
     public function actionTutorial($cid){
+
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
         if(!empty($cid)){
             Yii::$app->session->set('ccode', $cid);
         }
@@ -453,6 +483,11 @@ public function actionClasswork($cid){
 
 
     public function actionCourseMaterials($cid){
+
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
+
         if(!empty($cid)){
             Yii::$app->session->set('ccode', $cid);
         }
@@ -469,6 +504,10 @@ public function actionClasswork($cid){
 
 
     public function actionReturned($cid){
+
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
         if(!empty($cid)){
             Yii::$app->session->set('ccode', $cid);
         }
@@ -495,6 +534,10 @@ public function actionClasswork($cid){
 
 
     public function actionCourseAnnouncement($cid){
+
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
         if(!empty($cid)){
             Yii::$app->session->set('ccode', $cid);
         }
@@ -894,6 +937,9 @@ public function actionClasswork($cid){
      */
 
     public function actionDownload_assignment($assID) {
+
+        $assID = ClassRoomSecurity::decrypt($assID);
+
         $model = Assignment::findOne($assID);
     
         // This will need to be the path relative to the root of your app.
@@ -921,6 +967,9 @@ public function actionClasswork($cid){
      */
     public function actionView_assignment($assID)
     {
+
+        $assID = ClassRoomSecurity::decrypt($assID);
+
         $model = Assignment::findOne($assID);
     
         // This will need to be the path relative to the root of your app.

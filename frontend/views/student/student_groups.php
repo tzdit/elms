@@ -3,6 +3,7 @@
 use common\models\GroupAssignment;
 use common\models\GroupGenerationAssignment;
 use common\models\StudentGroup;
+use frontend\models\ClassRoomSecurity;
 use frontend\models\GroupAssSubmit;
 use yii\helpers\Url;
 
@@ -132,16 +133,16 @@ $this->params['breadcrumbs'] = [
                                                                     </div>
                                                                     <div class="col-md-6">
 
-                                                                        <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> $assignment['assID']])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
+                                                                        <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> ClassRoomSecurity::encrypt($assignment['assID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
 
-                                                                        <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> $assignment['assID']])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-eye"> View</i></span></a>
+                                                                        <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> ClassRoomSecurity::encrypt($assignment['assID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-eye"> View</i></span></a>
 
                                                                         <?php if(empty($submited) && $isOutOfDeadline == false):?>
-                                                                            <a href="<?= Url::toRoute(['/student/group_assignment_submit','assID'=> $assignment['assID'], 'groupID' => $assignment['groupID']])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
+                                                                            <a href="<?= Url::toRoute(['/student/group_assignment_submit','assID'=> ClassRoomSecurity::encrypt($assignment['assID']), 'groupID' => ClassRoomSecurity::encrypt($assignment['groupID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
                                                                         <?php endif ?>
                                                                         <?php
                                                                         if(!empty($submited) && $isOutOfDeadline == false):?>
-                                                                            <a href="<?= Url::toRoute(['/student/group_resubmit','assID'=> $assignment['assID'], 'submit_id' => $submited['submitID'], 'groupID' => $assignment['groupID']])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
+                                                                            <a href="<?= Url::toRoute(['/student/group_resubmit','assID'=> ClassRoomSecurity::encrypt($assignment['assID']), 'submit_id' => ClassRoomSecurity::encrypt($submited['submitID']), 'groupID' => ClassRoomSecurity::encrypt($assignment['groupID'])])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
                                                                         <?php endif ?>
                                                                         <?php if($isOutOfDeadline == true):?>
                                                                             <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
@@ -190,16 +191,16 @@ $this->params['breadcrumbs'] = [
                                                                             </div>
                                                                             <div class="col-md-6">
 
-                                                                                <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> $assignmentAllItem['assID']])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
+                                                                                <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
 
-                                                                                <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> $assignmentAllItem['assID']])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-eye"> View</i></span></a>
+                                                                                <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-eye"> View</i></span></a>
 
                                                                                 <?php if(empty($submitedAll) && $isOutOfDeadline == false):?>
-                                                                                    <a href="<?= Url::toRoute(['/student/group_assignment_submit','assID'=> $assignmentAllItem['assID'], 'groupID' => $assignmentAllItem['groupID']])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
+                                                                                    <a href="<?= Url::toRoute(['/student/group_assignment_submit','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID']), 'groupID' => ClassRoomSecurity::encrypt($assignmentAllItem['groupID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
                                                                                 <?php endif ?>
                                                                                 <?php
                                                                                 if(!empty($submitedAll) && $isOutOfDeadline == false):?>
-                                                                                    <a href="<?= Url::toRoute(['/student/group_resubmit','assID'=> $assignmentAllItem['assID'], 'submit_id' => $submitedAll['submitID'], 'groupID' => $assignmentAllItem['groupID']])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
+                                                                                    <a href="<?= Url::toRoute(['/student/group_resubmit','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID']), 'submit_id' => ClassRoomSecurity::encrypt($submitedAll['submitID']), 'groupID' => ClassRoomSecurity::encrypt($assignmentAllItem['groupID'])])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
                                                                                 <?php endif ?>
                                                                                 <?php if($isOutOfDeadline == true):?>
                                                                                     <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
@@ -247,16 +248,16 @@ $this->params['breadcrumbs'] = [
                                                                         </div>
                                                                         <div class="col-md-6">
 
-                                                                            <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> $assignmentAllItem['assID']])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
+                                                                            <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
 
-                                                                            <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> $assignmentAllItem['assID']])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-eye"> View</i></span></a>
+                                                                            <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-eye"> View</i></span></a>
 
                                                                             <?php if(empty($submitedAll) && $isOutOfDeadline == false):?>
-                                                                                <a href="<?= Url::toRoute(['/student/group_assignment_submit','assID'=> $assignmentAllItem['assID'], 'groupID' => $assignmentAllItem['groupID']])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
+                                                                                <a href="<?= Url::toRoute(['/student/group_assignment_submit','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID']), 'groupID' => ClassRoomSecurity::encrypt($assignmentAllItem['groupID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
                                                                             <?php endif ?>
                                                                             <?php
                                                                             if(!empty($submitedAll) && $isOutOfDeadline == false):?>
-                                                                                <a href="<?= Url::toRoute(['/student/group_resubmit','assID'=> $assignmentAllItem['assID'], 'submit_id' => $submitedAll['submitID'], 'groupID' => $assignmentAllItem['groupID']])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
+                                                                                <a href="<?= Url::toRoute(['/student/group_resubmit','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID']), 'submit_id' => ClassRoomSecurity::encrypt($submitedAll['submitID']), 'groupID' => ClassRoomSecurity::encrypt($assignmentAllItem['groupID'])])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
                                                                             <?php endif ?>
                                                                             <?php if($isOutOfDeadline == true):?>
                                                                                 <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
