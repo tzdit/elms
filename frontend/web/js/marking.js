@@ -123,13 +123,14 @@ else{
  //done sending the current user, we point to the next one
  .done(function(){
  record.css('backgroundColor',"");
- 
+ $('.comment').val("");
 
 //console.log($("tr:eq("+rw+")"));
  if($(".mytable tr:eq("+rw+")").is($('.mytable tr').last())){
     Swal.fire("end of the list","","info");
    //emptying them
    $('#scoremark').val("");
+   $('.comment').val("");
    var num_item=$('.qmarking').length;
    for(var t=0;t<num_item;t++)
    {
@@ -163,7 +164,7 @@ else{
  localStorage.setItem(currentassignment,currentassignment);
 
  $('#scoremark').val("");
- 
+ $('.comment').val("");
  //emptying the questions score
  maxima=0; 
  var num_item=$('.qmarking').length;
@@ -239,13 +240,14 @@ else{
  //done sending the current user, we point to the next one
  .done(function(){
  record.css('backgroundColor',"");
- 
+ $('.comment').val("");
 
 //console.log($("tr:eq("+rw+")"));
  if($(".mytable tr:eq("+rw+")").is($('.mytable tr').last())){
     Swal.fire("end of the list","","info");
    //emptying them
    $('#scoremark').val("");
+   $('.comment').val("");
    var num_item=$('.qmarking').length;
    for(var t=0;t<num_item;t++)
    {
@@ -279,7 +281,7 @@ else{
  localStorage.setItem(currentassignment,currentassignment);
 
  $('#scoremark').val("");
- 
+ $('.comment').val("");
  //emptying the questions score
  maxima=0; 
  var num_item=$('.qmarking').length;

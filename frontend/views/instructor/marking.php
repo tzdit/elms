@@ -125,7 +125,7 @@ for($q=0;$q<count($questions);$q++)
 </div>
 <div class="row">
 <div class="col-md-12">
-<textarea id="<?=$asstype?>"class="form-control comment" placeholder="Comment" style="margin-bottom:4px"></textarea>
+<textarea id="<?=$asstype?>" class="form-control comment" placeholder="Comment" style="margin-bottom:4px"></textarea>
 </div>
 </div>
 
