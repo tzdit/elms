@@ -58,7 +58,7 @@ else{
    //gone through the local storage, no last one found, we set up the first record as en entry record
    rw=1;
    crow=$("tr:eq("+rw+")");
-   colum=crow.find($('td')[1]);
+   colum=crow.find($('td')[0]);
    file_id=colum.attr('id');
    //filename=colum.text();
    filename = crow.children('td').eq(1).attr('id');
