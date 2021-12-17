@@ -613,5 +613,9 @@ if(code==37 || code==38)
  
    });
  
+ //draggable marking controls
 
+ $('#markcontrol2').draggable({cursor: 'move',containment: 'window',cancel:'.btn'});
+ var height=$('.studenttable').parent().css('height');
+ $('.studenttable').css('max-height',height);
  });
