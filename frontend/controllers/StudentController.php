@@ -98,7 +98,7 @@ class StudentController extends \yii\web\Controller
     if($model->load(Yii::$app->request->post())){
        
         if($model->create()===true){
-        Yii::$app->session->setFlash('success', '<br>Registration Successful&nbsp&nbsp<a class="btn btn-primary" href="/auth/login">Login</a><br>username: your registration number & password: 123456<br><i class="fa fa-info-circle"></i>make sure you change your password');
+        Yii::$app->session->setFlash('success', 'Registration Successful&nbsp&nbsp<a class="btn btn-primary" href="/auth/login">Login</a><br>username: your registration number & password: 123456&nbsp&nbsp&nbsp&nbsp<i class="fa fa-info-circle"></i>Change your password afterwards');
         return $this->redirect(Yii::$app->request->referrer);
         }
    

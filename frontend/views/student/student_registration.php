@@ -15,7 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="body-content">
             <!-- Content Wrapper. Contains page content -->
-   
+            <div class="container-fluid text-center d-none d-lg-block d-md-block d-xl-block d-xxl-block">
+    <img src="/img/logo.png" class="img-circle"  style="height:60%;width:15%;margin-bottom:1%"></img>
+    </div>
         <div class="container-fluid">
 
        
@@ -28,10 +30,16 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
               <div class="card" style="font-family:'Times New Roman', sans-serif;width:100%">
               <div class="card-header bg-primary text-center">
-                
-                 <h3><span><i class="fa fa-graduation-cap"></i></span><span>Student Registration</span></h3>
+                <div class="row">
+                  <div class="col-md-6 col-sm-6 col-lg-6">
+                  <img src="/img/logo.png" class="img-circle d-lg-none d-md-none d-xl-none d-xxl-none d-sm-block"  style="height:45%;width:10%;margin-bottom:1%"></img>
+                 <h5 class="text-md">UDOM CLASSROOM</h5>
                 </div>
-             
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                 <h5 class="text-md"><span><i class="fa fa-user-plus"></i></span><span> Student Registration</span></h5>
+                </div>
+                </div>
+                </div>
               <div class="card-body">
               <div class="row">
               <div class="col-md-12">
@@ -39,49 +47,49 @@ $this->params['breadcrumbs'][] = $this->title;
              
                   <div class="row">
                   <div class="col-md-4">
-                   <?= $form->field($model, 'fname')->textInput(['class'=>'form-control form-control-sm'])->label('First Name') ?>
+                   <?= $form->field($model, 'fname')->textInput(['class'=>'form-control form-control-sm'])->label('First Name',['class'=>'text-sm']) ?>
                   </div> 
                   <div class="col-md-4">
-                   <?= $form->field($model, 'mname')->textInput(['class'=>'form-control form-control-sm'])->label('Middle Name') ?>
+                   <?= $form->field($model, 'mname')->textInput(['class'=>'form-control form-control-sm'])->label('Middle Name',['class'=>'text-sm']) ?>
                   </div> 
                   <div class="col-md-4">
-                   <?= $form->field($model, 'lname')->textInput(['class'=>'form-control form-control-sm'])->label('Last Name') ?>
+                   <?= $form->field($model, 'lname')->textInput(['class'=>'form-control form-control-sm'])->label('Last Name',['class'=>'text-sm']) ?>
                   </div>  
                  </div> 
 
                    <div class="row">
                    <div class="col-md-6">
-                   <?= $form->field($model, 'username')->textInput(['class'=>'form-control form-control-sm','id'=>'regno'])->label('Registration Number') ?>
+                   <?= $form->field($model, 'username')->textInput(['class'=>'form-control form-control-sm','id'=>'regno'])->label('Registration Number',['class'=>'text-sm']) ?>
                   </div>
                   <div class="col-md-6">
-                  <?= $form->field($model, 'YOS')->dropdownList(['1'=>'First Year', '2'=>'Second Year', '3'=>'Third Year', '4'=>'Fourth year'], ['prompt'=>'--Select--', 'class'=>'form-control form-control-sm'])->label(' Year of Study') ?>
+                  <?= $form->field($model, 'YOS')->dropdownList(['1'=>'First Year', '2'=>'Second Year', '3'=>'Third Year', '4'=>'Fourth year'], ['prompt'=>'--Select--', 'class'=>'form-control form-control-sm'])->label(' Year of Study',['class'=>'text-sm']) ?>
                   </div>  
                  </div>
                  <div class="row">
                    <div class="col-md-6">
-                   <?= $form->field($model, 'email')->input('email', ['class'=>'form-control form-control-sm'])->label('Email') ?>
+                   <?= $form->field($model, 'email')->input('email', ['class'=>'form-control form-control-sm'])->label('Email',['class'=>'text-sm']) ?>
                   </div>
                   <div class="col-md-6">
-                   <?= $form->field($model, 'phone')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'optional'])->label('Phone Number') ?>
+                   <?= $form->field($model, 'phone')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'optional'])->label('Phone Number',['class'=>'text-sm']) ?>
                   </div>  
                  </div>
                  <div class="row"> 
                  <div class="col-md-6">
-                   <?= $form->field($model, 'program')->dropdownList($programs, ['prompt'=>'--Select--','class'=>'form-control form-control-sm'])->label(' Program') ?>
+                   <?= $form->field($model, 'program')->dropdownList($programs, ['prompt'=>'--Select--','class'=>'form-control form-control-sm'])->label(' Program',['class'=>'text-sm']) ?>
                   </div>
                   <div class="col-md-6">
                 
-                  <?= $form->field($model, 'gender')->dropdownList(['M'=>'MALE', 'F'=>'FEMALE'], ['prompt'=>'--select--', 'class'=>'form-control form-control-sm'] )->label('Gender') ?>
+                  <?= $form->field($model, 'gender')->dropdownList(['M'=>'MALE', 'F'=>'FEMALE'], ['prompt'=>'--select--', 'class'=>'form-control form-control-sm'] )->label('Gender',['class'=>'text-sm']) ?>
              
                  </div>
                  </div>
                    <div class="row">
-                     <div class="col-md-4">
+                     <div class="col-md-4 col-sm-12 col-lg-4">
                      <span style="font-size:16px;margin-left:5px" class="text-success">Support: <i class="fab fa-whatsapp"></i></span><span style="font-size:16px;margin-left:5px" class="text-success"><i class="fa fa-phone"></i></span><span style="font-size:16px; margin-left:5px" class="text-success"><i class="fas fa-sms"></i> +255755189736</span>
                      </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8 col-sm-12 col-lg-8">
                     
-                     <?= Html::submitButton('Submit', ['class'=>'btn btn-primary btn-lg float-right mr-0','style'=>'width:70%']) ?>
+                     <?= Html::submitButton('<i class="fa fa-paper-plane" aria-hidden="true"></i>  Submit', ['class'=>'btn btn-primary btn-md  float-right mr-0','style'=>'width:70%']) ?>
                 
                     </div>
                
@@ -124,20 +132,13 @@ $this->params['breadcrumbs'][] = $this->title;
 $script = <<<JS
  // Dropzone.autoDiscover = false;
 $(document).ready(function(){
-  //alert("Heloo JQQUERY");
-  $("#file-input").fileinput({
-    uploadClass:'btn btn-info',
-    browseOnZoneClick: true,
-    uploadIcon: '<i class="fa fa-upload"></i>'
-    
-  });
-
   
 $('#regno').blur(function(){
-
-var regexp=/^((T|T[0-9]{2})|(HD))([-]|[/])((UDOM)|[0-9]{2})([-]|[/])(([0-9]{4}[/]([0-9]{5}|(T\.[0-9]{4})))|([0-9]{5}))$/;
+var regexp1=/^(T[0-9]{2})[-]([0-9]{2})[-](([0-9]{4})|([0-9]{5}))$/;
+var regexp2=/^((T)[/](UDOM))[/]([0-9]{4})[/]([0-9]{5})$/;
+var regexp=/^((HD)[/](UDOM))[/]([0-9]{4})[/](T\.([0-9]{4}))$/;
 var regno=$(this).val();
-if(!regexp.test(regno))
+if(!regexp.test(regno) && !regexp2.test(regno) && !regexp1.test(regno))
 {
   $(this).val("");
 
