@@ -45,14 +45,12 @@ $(document).ready(function(){
       regno=crow.children('td').eq(1).text();
       obj.attr("src","/storage/submit/"+$.trim(filename));
       crow.css('backgroundColor',"lightblue");
-      /*
-      $('h4').text(regno);
-      $('#heading').text(regno);
-      $("#heading").css("width", "0%");
-      $("#heading").animate({width: "100%"});
-      $("#asshead").css("width", "0%");
-      $("#asshead").animate({width: "50%"}); 
-      */  
+      
+      
+     
+      animateassheader();
+     
+        
 }
 else{
    //gone through the local storage, no last one found, we set up the first record as en entry record
@@ -66,15 +64,20 @@ else{
    // now displaying the current entry
   if(filename!="" && file_id!=""){
    obj.attr("src","/storage/submit/"+$.trim(filename));
-  // $('h4').text(regno);
-   //$('#heading').text(regno);
-   //$("#heading").animate({width: "100%"});
-   //$("#asshead").animate({width: "50%"});
+   animateassheader();
     
    crow.css('backgroundColor',"lightblue");
   }
 }
-//the validations
+
+function animateassheader()
+{
+      $("#currentass").css("width", "0%");
+      $('#currentass').text(regno);
+      $('#currentass').css('font-size','0px');
+      $("#currentass").animate({width: "90%"},{queue:false});
+      $("#currentass").animate({fontSize: "15px"},{queue:false});
+}
 
   //handling enter key clicks: the current entry is recorded and we set up the next one
   $('body').keyup(function(e){
@@ -118,10 +121,12 @@ else{
     var scoreoverfourty=(marks*40)/tot_marks;
     if(scoreoverfourty<15.5){comment="failed";}else{comment="passed";}
   }
+  $('.savespin').removeClass('d-none');
   $.post("/instructor/mark-inputing",{ score:marks, fid:file_id, qscores:qscores,qids:qids, asstype:asstype, comment:comment,_csrf: yii.getCsrfToken()},returnAnswer)
  
  //done sending the current user, we point to the next one
  .done(function(){
+  $('.savespin').addClass('d-none');
  record.css('backgroundColor',"");
  $('.comment').val("");
 
@@ -147,15 +152,7 @@ else{
  filename = crow.children('td').eq(1).attr('id');
  crow.css('backgroundColor',"lightblue");
  obj.attr("src","/storage/submit/"+$.trim(filename));
- /*
- regno=crow.children('td').eq(1).text();
- $('h4').text(regno);
- $('#heading').text(regno);
- $("#heading").css("width", "0%");
- $("#heading").animate({width: "100%"});
- $("#asshead").css("width", "0%");
- $("#asshead").animate({width: "50%"});
- */
+ animateassheader();
  
  //Putting the last entry into the local storage
  localStorage.setItem(savedfileid,file_id);
@@ -176,7 +173,31 @@ else{
    }
  //emptying the scores buffer
  qscores=[];
- });
+ })
+ .fail(function() {
+  $('.savespin').addClass('d-none');
+  Swal.fire("Unexpected Exception","could not complete marks recording","error");
+})
+.always(function() {
+  //Putting the last entry into the local storage
+ $('.savespin').addClass('d-none');
+ localStorage.setItem(savedfileid,file_id);
+ localStorage.setItem('filename',filename);
+ localStorage.setItem(currentcourse,currentcourse);
+ localStorage.setItem(currentassignment,currentassignment);
+
+ $('#scoremark').val("");
+ $('.comment').val("");
+
+ //emptying the questions score
+ maxima=0; 
+ var num_item=$('.qmarking').length;
+    for(var t=0;t<num_item;t++)
+    {
+        
+      $('.qmarking').eq(t).find('.score').val("");  
+    }
+});
  function returnAnswer(answer)
   {
   //alert(answer);
@@ -194,121 +215,139 @@ else{
  
   });
  //Save and move button clicked
-
+ var numsaveclicks=0;
  $('#savemove').click(function(){
-  
+  numsaveclicks++;
  //taking all the questions score
-    var num_item=$('.qmarking').length;
-    for(var t=0;t<num_item;t++)
-    {
-        if($('.qmarking').eq(t).find('.score'))
-        {
-         if($('.qmarking').eq(t).find('.score').val()==""){Swal.fire("question no "+(t+1)+" is not marked","","error"); return false;}
-         else
-         {
-            var qm=0;
-            if(isNaN(parseFloat($('.qmarking').eq(t).find('.score').val()))){qm=0;}
-            else{ qm=$('.qmarking').eq(t).find('.score').val();}
-            qid=$('.qmarking').eq(t).find('.score').attr('id');
-            qscores.push(qm);
-            qids.push(qid);
-       }
-      }
-        
+ var num_item=$('.qmarking').length;
+ for(var t=0;t<num_item;t++)
+ {
+     if($('.qmarking').eq(t).find('.score'))
+     {
+      if($('.qmarking').eq(t).find('.score').val()==""){Swal.fire("question no "+(t+1)+" is not marked","","error"); return false;}
+      else
+      {
+         var qm=0;
+         if(isNaN(parseFloat($('.qmarking').eq(t).find('.score').val()))){qm=0;}
+         else{ qm=$('.qmarking').eq(t).find('.score').val();}
+         qid=$('.qmarking').eq(t).find('.score').attr('id');
+         qscores.push(qm);
+         qids.push(qid);
     }
- //end taking all the questions score
-  if(parseFloat($('#scoremark').val())!=maxima && $('#scoremark').val()!=""){Swal.fire("the total score must be equal to the total of questions scores","","error");}
-  else{
-  var marks="";
-  //we call the marking script for the current entry
-  if(file_id!=""){ //test again and again
-  if($('#scoremark').val()==""){Swal.fire("please mark each question then click 'enter'","","info");}
-  else{
-  var tot_marks=parseFloat($('#tot').val());
-  if(parseFloat($('#scoremark').val())>tot_marks){Swal.fire("marks provided exceed the maximum scoring","","error"); $('#scoremark').val("");}
-  else{
-  marks=parseFloat($('#scoremark').val());
-  var comment=$('.comment').val();
-  var asstype=$('.comment').attr('id');
-  if(comment=="")
-  {
-    var scoreoverfourty=(marks*40)/tot_marks;
-    if(scoreoverfourty<15.5){comment="failed";}else{comment="passed";}
-  }
-  $.post("/instructor/mark-inputing",{ score:marks, fid:file_id, qscores:qscores,qids:qids, asstype:asstype, comment:comment,_csrf: yii.getCsrfToken()},returnAnswer)
- 
- //done sending the current user, we point to the next one
- .done(function(){
- record.css('backgroundColor',"");
- $('.comment').val("");
+   }
+     
+ }
+//end taking all the questions score
+if(parseFloat($('#scoremark').val())!=maxima && $('#scoremark').val()!=""){Swal.fire("the total score must be equal to the total of questions scores","","error");}
+else{
+var marks="";
+//we call the marking script for the current entry
+if(file_id!=""){ //test again and again
+if($('#scoremark').val()==""){Swal.fire("please mark each question then click 'enter'","","info");}
+else{
+var tot_marks=parseFloat($('#tot').val());
+if(parseFloat($('#scoremark').val())>tot_marks){Swal.fire("marks provided exceed the maximum scoring","","error"); $('#scoremark').val("");}
+else{
+marks=parseFloat($('#scoremark').val());
+var comment=$('.comment').val();
+var asstype=$('.comment').attr('id');
+if(comment=="")
+{
+ var scoreoverfourty=(marks*40)/tot_marks;
+ if(scoreoverfourty<15.5){comment="failed";}else{comment="passed";}
+}
+$('.savespin').removeClass('d-none');
+$.post("/instructor/mark-inputing",{ score:marks, fid:file_id, qscores:qscores,qids:qids, asstype:asstype, comment:comment,_csrf: yii.getCsrfToken()},returnAnswer)
+
+//done sending the current user, we point to the next one
+.done(function(){
+$('.savespin').addClass('d-none');
+record.css('backgroundColor',"");
+$('.comment').val("");
 
 //console.log($("tr:eq("+rw+")"));
- if($(".mytable tr:eq("+rw+")").is($('.mytable tr').last())){
-    Swal.fire("end of the list","","info");
-   //emptying them
-   $('#scoremark').val("");
-   $('.comment').val("");
-   var num_item=$('.qmarking').length;
-   for(var t=0;t<num_item;t++)
-   {
-       
-     $('.qmarking').eq(t).find('.score').val("");  
-   }
-  
-   }
- else{
- rw++;
- crow=$("tr:eq("+rw+")");
- colum=crow.children('td').eq(0);
- file_id=colum.attr('id');
- filename = crow.children('td').eq(1).attr('id');
- crow.css('backgroundColor',"lightblue");
- obj.attr("src","/storage/submit/"+$.trim(filename));
- /*
- regno=crow.children('td').eq(1).text();
- $('h4').text(regno);
- $('#heading').text(regno);
- $("#heading").css("width", "0%");
- $("#heading").animate({width: "100%"});
- $("#asshead").css("width", "0%");
- $("#asshead").animate({width: "50%"});
- */
- 
- //Putting the last entry into the local storage
- localStorage.setItem(savedfileid,file_id);
- localStorage.setItem('filename',filename);
- localStorage.setItem(currentcourse,currentcourse);
- localStorage.setItem(currentassignment,currentassignment);
-
- $('#scoremark').val("");
- $('.comment').val("");
- //emptying the questions score
- maxima=0; 
- var num_item=$('.qmarking').length;
-    for(var t=0;t<num_item;t++)
-    {
-        
-      $('.qmarking').eq(t).find('.score').val("");  
-    }
-   }
- //emptying the scores buffer
- qscores=[];
- });
- function returnAnswer(answer)
-  {
-  //alert(answer);
+if($(".mytable tr:eq("+rw+")").is($('.mytable tr').last())){
+ Swal.fire("end of the list","","info");
+//emptying them
+$('#scoremark').val("");
+$('.comment').val("");
+var num_item=$('.qmarking').length;
+for(var t=0;t<num_item;t++)
+{
     
-  }
-  crow.css("background-color","");
+  $('.qmarking').eq(t).find('.score').val("");  
+}
+
+}
+else{
+rw++;
+crow=$("tr:eq("+rw+")");
+colum=crow.children('td').eq(0);
+file_id=colum.attr('id');
+filename = crow.children('td').eq(1).attr('id');
+crow.css('backgroundColor',"lightblue");
+obj.attr("src","/storage/submit/"+$.trim(filename));
+animateassheader();
+
+//Putting the last entry into the local storage
+localStorage.setItem(savedfileid,file_id);
+localStorage.setItem('filename',filename);
+localStorage.setItem(currentcourse,currentcourse);
+localStorage.setItem(currentassignment,currentassignment);
+
+$('#scoremark').val("");
+$('.comment').val("");
+//emptying the questions score
+maxima=0; 
+var num_item=$('.qmarking').length;
+ for(var t=0;t<num_item;t++)
+ {
+     
+   $('.qmarking').eq(t).find('.score').val("");  
  }
- 
+}
+//emptying the scores buffer
+qscores=[];
+})
+.fail(function() {
+$('.savespin').addClass('d-none');
+Swal.fire("Unexpected Exception","could not complete marks recording","error");
+})
+.always(function() {
+//Putting the last entry into the local storage
+$('.savespin').addClass('d-none');
+localStorage.setItem(savedfileid,file_id);
+localStorage.setItem('filename',filename);
+localStorage.setItem(currentcourse,currentcourse);
+localStorage.setItem(currentassignment,currentassignment);
+
+$('#scoremark').val("");
+$('.comment').val("");
+
+//emptying the questions score
+maxima=0; 
+var num_item=$('.qmarking').length;
+ for(var t=0;t<num_item;t++)
+ {
+     
+   $('.qmarking').eq(t).find('.score').val("");  
  }
- }
+});
+function returnAnswer(answer)
+{
+//alert(answer);
  
- 
-  }
+}
+crow.css("background-color","");
+}
+
+}
+}
+
+
+}
   
- 
+  if(numsaveclicks==3){Swal.fire("Did you know?","Using keyboard \"ENTER KEY\" may make you mark more faster and become more productive","info")}
   });
  //handling next arrow key clicked;
 $('body').keyup(function(e){
@@ -320,6 +359,7 @@ if(code==39 || code==40)
    Swal.fire("end of the list","","info");
   //emptying them
   $('#scoremark').val("");
+  $('.comment').val("");
   var num_item=$('.qmarking').length;
   for(var t=0;t<num_item;t++)
   {
@@ -340,6 +380,7 @@ if(code==39 || code==40)
  //emptying them
 
  $('#scoremark').val("");
+ $('.comment').val("");
  var num_item=$('.qmarking').length;
  for(var t=0;t<num_item;t++)
  {
@@ -347,12 +388,7 @@ if(code==39 || code==40)
    $('.qmarking').eq(t).find('.score').val("");  
  }
  regno=crow.children('td').eq(1).text();
- $('h4').text(regno);
- $('#heading').text(regno);
- $("#heading").css("width", "0%");
- $("#heading").animate({width: "100%"});
- $("#asshead").css("width", "0%");
- $("#asshead").animate({width: "50%"});
+ animateassheader();
  
  
  //Putting the last entry into the local storage
@@ -363,11 +399,14 @@ if(code==39 || code==40)
  
  crow=$("tr:eq("+rw+")"); //set the current row
  $('#scoremark').val("");
+ $('.comment').val("");
 }
  });
  
  //Next button clicked
+ var numnextclicks=0;
 $('#skipnext').click(function(){
+  numnextclicks++;
    crow.css('backgroundColor',"");
    if($(".mytable tr:eq("+rw+")").is($('.mytable tr').last())){
      Swal.fire("end of the list","","info");
@@ -393,6 +432,7 @@ $('#skipnext').click(function(){
    //emptying them
   
    $('#scoremark').val("");
+   $('.comment').val("");
    var num_item=$('.qmarking').length;
    for(var t=0;t<num_item;t++)
    {
@@ -400,12 +440,7 @@ $('#skipnext').click(function(){
      $('.qmarking').eq(t).find('.score').val("");  
    }
    regno=crow.children('td').eq(1).text();
-   $('h4').text(regno);
-   $('#heading').text(regno);
-   $("#heading").css("width", "0%");
-   $("#heading").animate({width: "100%"});
-   $("#asshead").css("width", "0%");
-   $("#asshead").animate({width: "50%"});
+   animateassheader();
    
    
    //Putting the last entry into the local storage
@@ -416,7 +451,8 @@ $('#skipnext').click(function(){
    
    crow=$("tr:eq("+rw+")"); //set the current row
    $('#scoremark').val("");
-  
+   $('.comment').val("");
+   if(numnextclicks==3){Swal.fire("Did you know?","Using keyboard \"ARROW KEYS\" may make you more faster and productive","info")}
    });
  
  //prev arrow key clicked
@@ -428,12 +464,14 @@ if(code==37 || code==38)
  if($(".mytable tr:eq("+rw+")").is($('.mytable tr:eq(1)'))){
     Swal.fire("no previous record","","info");
     $('#scoremark').val("");
+    $('.comment').val("");
     var num_item=$('.qmarking').length;
     for(var t=0;t<num_item;t++)
     {
         
       $('.qmarking').eq(t).find('.score').val("");  
     }
+    $('.comment').val("");
    }
  else{rw--; crow=$("tr:eq("+rw+")");}
  crowpr.css("background-color","");
@@ -447,6 +485,7 @@ if(code==37 || code==38)
  }
  //emptying them
  $('#scoremark').val("");
+ $('.comment').val("");
  var num_item=$('.qmarking').length;
  for(var t=0;t<num_item;t++)
  {
@@ -454,12 +493,7 @@ if(code==37 || code==38)
    $('.qmarking').eq(t).find('.score').val("");  
  }
  regno=crow.children('td').eq(1).text();
- $('h4').text(regno);
- //$('#heading').text(regno);
- //$("#heading").css("width", "0%");
- //$("#heading").animate({width: "100%"});
- //$("#asshead").css("width", "0%");
- //$("#asshead").animate({width: "50%"});
+ animateassheader();
  
  
  //Putting the last entry into the local storage
@@ -471,17 +505,20 @@ if(code==37 || code==38)
  crow=$("tr:eq("+rw+")"); //set the current row
  //crow.css("background-color","");
  $('#scoremark').val("");
+ $('.comment').val("");
 }
  });
 
  // prev button clicked
-
+  var numbackclicks=0;
   //handling prev 
   $('#skipback').click(function(){
+    numbackclicks++;
      crowpr=$("tr:eq("+rw+")");
      if($(".mytable tr:eq("+rw+")").is($('.mytable tr:eq(1)'))){
         Swal.fire("no previous record","","info");
         $('#scoremark').val("");
+        $('.comment').val("");
         var num_item=$('.qmarking').length;
         for(var t=0;t<num_item;t++)
         {
@@ -501,6 +538,7 @@ if(code==37 || code==38)
      }
      //emptying them
      $('#scoremark').val("");
+     $('.comment').val("");
      var num_item=$('.qmarking').length;
      for(var t=0;t<num_item;t++)
      {
@@ -508,12 +546,8 @@ if(code==37 || code==38)
        $('.qmarking').eq(t).find('.score').val("");  
      }
      regno=crow.children('td').eq(1).text();
-     $('h4').text(regno);
-     //$('#heading').text(regno);
-     //$("#heading").css("width", "0%");
-     //$("#heading").animate({width: "100%"});
-     //$("#asshead").css("width", "0%");
-     //$("#asshead").animate({width: "50%"});
+   
+     animateassheader();
      
      
      //Putting the last entry into the local storage
@@ -525,10 +559,15 @@ if(code==37 || code==38)
      crow=$("tr:eq("+rw+")"); //set the current row
      //crow.css("background-color","");
      $('#scoremark').val("");
+     $('.comment').val("");
     
+     if(numbackclicks==3){Swal.fire("Did you know?","Using keyboard \"ARROW KEYS\" may make you more faster and productive","info")}
      });
  //row clicking handler
  $('tr').click(function(){
+
+  if(!($(this).is($('.mytable tr:eq(0)')))){
+   
  crow.css("background-color",""); //the current record is cleared
  rw=$('tr').index($(this));
  file_id=$(this).children('td').eq(0).attr('id');
@@ -538,20 +577,15 @@ if(code==37 || code==38)
  //updating UI
  obj.attr("src","/storage/submit/"+$.trim(filename));
 
- //$('h4').text(regno);
- //$('#heading').text(regno);
- //$("#heading").css("width", "0%");
- //$("#heading").animate({width: "100%"});
- //$("#asshead").css("width", "0%");
- //$("#asshead").animate({width: "50%"});
- 
+ animateassheader();
  //showing the clicked record
  crow.css('backgroundColor',"lightblue");
  
  $('#scoremark').val("");
+ $('.comment').val("");
  
  
- 
+  }
  
  })
  
@@ -604,7 +638,7 @@ if(code==37 || code==38)
     {
         //alert(isNaN(parseFloat($('#scoremark').val())));
         Swal.fire("","the total score must be equal to the total of questions scores","error");
-        if(maxima>0){$('#scoremark').val(maxima);}else{$('#scoremark').val("");}
+        if(maxima>0){$('#scoremark').val(maxima);}else{$('#scoremark').val("");$('.comment').val("");}
     }
      
  
@@ -618,4 +652,19 @@ if(code==37 || code==38)
  $('#markcontrol2').draggable({cursor: 'move',containment: 'window',cancel:'.btn'});
  var height=$('.studenttable').parent().css('height');
  $('.studenttable').css('max-height',height);
+
+ //getting the percentage of the marked assignments
+ function getmarkedperc()
+ {
+   var data={
+     ass:currentassignment
+   }
+   data[yii.getCsrfParam()]=yii.getCsrfToken();
+ $.get("/instructor/get-marked-perc",data)
+ .done(function(an){
+  $('#markedperc').text(an+ "%");
+ })
+}
+
+setInterval(getmarkedperc,500);
  });

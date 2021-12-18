@@ -157,7 +157,8 @@ public $defaultAction = 'dashboard';
                             'mark-secure-redirect',
                             'remove-students',
                             'switch-academicyear',
-                            'course-update-data'
+                            'course-update-data',
+                            'get-marked-perc'
 
                         ],
                         'allow' => true,
@@ -247,7 +248,8 @@ public $defaultAction = 'dashboard';
                             'mark-secure-redirect',
                             'remove-students',
                             'switch-academicyear',
-                            'course-update-data'
+                            'course-update-data',
+                            'get-marked-perc'
                            
                         ],
                         'allow' => true,
@@ -1474,6 +1476,14 @@ public function actionMarkInputing()
   }
  // return $this->redirect(Yii::$app->request->referrer);   
 }
+}
+
+public function actionGetMarkedPerc($ass)
+{
+    $assignment=Assignment::findOne(intval($ass));
+    $markedperc=round($assignment->getMarkedAssignmentsPerc(),2);
+
+    return $this->asJson($markedperc);
 }
 //##################################### add partner ##################################################################
 

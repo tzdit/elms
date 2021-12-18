@@ -7,11 +7,15 @@ use common\helpers\Custom;
 use common\models\QMarks;
 use common\models\Instructor;
 use yii\helpers\ArrayHelper;
+use frontend\models\ClassRoomSecurity;
 
 $this->params['courseTitle'] = "Marking:<span class='text-primary text-sm'>".substr(yii::$app->session->get('ccode')." ".$assignment->assName,0,30)."<span>...";
 $this->title = 'Assignment Marking';
 
-
+$this->params['breadcrumbs'] = [
+  ['label'=>'class Assignments', 'url'=>Url::to(['/instructor/class-assignments', 'cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get('ccode'))])],
+  ['label'=>$this->title]
+];
 
 $submits=[];
 $asstype="";
@@ -47,7 +51,30 @@ else
 <body>
   <div class="container-fluid">
 <div class="row d-none"><div class="col-md-6" id="coursecode" ><?=$assignment->course_code?></div><div class="col-md-6" id="assidt"><?=$assignment->assID?></div></div>
-<div class="row pt-2 pb-2 shadow "><div class="col-md-2 col-ms-2 "  ><div class="row pt-2 pb-2 shadow bg-light" id="markcontrol2" style="position:fixed;z-index:20;left:50%"><div class="col-md-12 col-ms-12 d-flex  justify-content-center" ><span class="btn btn-sm btn-default mr-5" data-toggle="tooltip" data-title="Skip Back" id="skipback"><i class="fa fa-arrow-circle-left fa-2x text-primary"></i></span><span class="btn btn-lg btn-default shadow text-primary" id="savemove"data-toggle="tooltip" data-title="Save And Move"><i class="fa fa-save ">Save</i></span><span class="btn btn-sm btn-default ml-5" id="skipnext" data-toggle="tooltip" data-title="Skip Next"><i class="fa fa-arrow-circle-right fa-2x text-primary"></i></span></div></div></div><div class="col-md-7 col-ms-7 " ></div><div class="col-md-3 col-ms-3 "><div class="row"><a href="" class="col-md-3" data-toggle="tooltip" data-title="Ordinary Mode"><img src="/img/normal.png" width="53%" height="73%"></img></a><a href="" class="col-md-3" data-toggle="tooltip" data-title="Presentation Mode"><img src="/img/pres.png" width="60%" height="80%"></img></a><a href="" class="col-md-3"><i class="fa fa-undo-alt text-dark " data-toggle="tooltip" data-title="Re-assign"></i></a></div></div></div>
+<div class="row pt-2 pb-2 shadow">
+  <div class="col-md-3 col-ms-3 "  >
+    <div class="row ">
+    <span class="text-md col-md-4 shadow pt-1 pb-1">Marked:</span><span id="markedperc" class="text-primary col-md-3 shadow"></span><span class="col-md-5 shadow">of &nbsp&nbsp&nbsp&nbsp<?=count($assignment->submits)?> </span>
+</div>
+    <div class="row pt-2 pb-2 shadow bg-light" id="markcontrol2" style="position:fixed;z-index:20;left:50%">
+    <div class="col-md-12 col-ms-12 d-flex  justify-content-center" >
+      <span class="btn btn-sm btn-default mr-5" data-toggle="tooltip" data-title="Skip Back" id="skipback"><i class="fa fa-arrow-circle-left fa-2x text-primary"></i>
+    </span>
+    <span class="btn btn-lg btn-default shadow text-primary" id="savemove"data-toggle="tooltip" data-title="Save And Move"><i class="fa fa-save ">Save</i>
+  </span>
+  <span class="btn btn-sm btn-default ml-5" id="skipnext" data-toggle="tooltip" data-title="Skip Next"><i class="fa fa-arrow-circle-right fa-2x text-primary"></i>
+</span>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-ms-6 d-flex justify-content-center" >
+  <span class=" text-primary text-center" id="currentass"></span>
+</div>
+<div class="col-md-3 col-ms-3 ">
+  <div class="row"><a href="" class="col-md-3" data-toggle="tooltip" data-title="Ordinary Mode"><img src="/img/normal.png" width="53%" height="73%"></img></a><a href="" class="col-md-3" data-toggle="tooltip" data-title="Presentation Mode"><img src="/img/pres.png" width="60%" height="80%"></img></a><a href="" class="col-md-3"><i class="fa fa-undo-alt text-dark " data-toggle="tooltip" data-title="Re-assign"></i></a><a href="" class="col-md-3"><i class="fas fa-user-friends text-dark " data-toggle="tooltip" data-title="RealTime collaboration"></i></a>
+</div>
+</div>
+</div>
 
 <div class="row shadow">
   <?php
@@ -80,7 +107,8 @@ for($sub=0;$sub<count($submits);$sub++)
 
 </table>
 </div>
-  <div class="col-md-8 shadow">
+  <div class="col-md-8 shadow d-flex justify-content-center">
+    <span class="d-none savespin bg-primary overlay p-4 opacity-75 rounded-pill" style="position:absolute;z-index:2;bottom:50%;opacity:.7"><i class="fas fa-sync-alt fa-spin fa-2x " ></i>Saving...</span>
     <iframe src="" style="position: relative; height: 100%; width: 100%;border:none" frameborder="0" height="426" id="fileobj"  type="application/pdf">
     file not found or could not be read
 
