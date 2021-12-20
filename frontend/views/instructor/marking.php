@@ -8,7 +8,6 @@ use common\models\QMarks;
 use common\models\Instructor;
 use yii\helpers\ArrayHelper;
 use frontend\models\ClassRoomSecurity;
-
 $this->params['courseTitle'] = "Marking:<span class='text-primary text-sm'>".substr(yii::$app->session->get('ccode')." ".$assignment->assName,0,30)."<span>...";
 $this->title = 'Assignment Marking';
 
@@ -71,13 +70,16 @@ else
   <span class=" text-primary text-center" id="currentass"></span>
 </div>
 <div class="col-md-3 col-ms-3 ">
-  <div class="row"><a href="" class="col-md-3" data-toggle="tooltip" data-title="Ordinary Mode"><img src="/img/normal.png" width="53%" height="73%"></img></a><a href="" class="col-md-3" data-toggle="tooltip" data-title="Presentation Mode"><img src="/img/pres.png" width="60%" height="80%"></img></a><a href="" class="col-md-3"><i class="fa fa-undo-alt text-dark " data-toggle="tooltip" data-title="Re-assign"></i></a><a href="" class="col-md-3"><i class="fas fa-user-friends text-dark " data-toggle="tooltip" data-title="RealTime collaboration"></i></a>
+  <div class="row"><a href="<?=Url::to(['/instructor/change-marking-mode','mode'=>'ordinary'])?>" class="col-md-3" data-toggle="tooltip" data-title="Ordinary Mode"><img src="/img/normal.png" width="53%" height="73%"></img></a><a href="<?=Url::to(['/instructor/change-marking-mode','mode'=>'presentation'])?>" class="col-md-3" data-toggle="tooltip" data-title="Presentation Mode"><img src="/img/pres.png" width="60%" height="80%"></img></a><a href="" class="col-md-2"><i class="fa fa-undo-alt text-dark " data-toggle="tooltip" data-title="Re-assign"></i></a><a href="" class="col-md-2"><i class="fas fa-user-friends text-dark " data-toggle="tooltip" data-title="RealTime collaboration"></i></a><a href="" class="col-md-2"><i class="fas fa-download text-dark " data-toggle="tooltip" data-title="Download all submits"></i></a>
 </div>
 </div>
 </div>
 
 <div class="row shadow">
   <?php
+  
+if(yii::$app->session->get('markingmode')=='ordinary')
+{
 if($submits!=null)
 {
   ?>
@@ -164,6 +166,125 @@ for($q=0;$q<count($questions);$q++)
 else
 {
   print '<div class="container-fluid text-primary text-center p-5">No any submits</div>';
+}
+}
+else
+{
+  //###########################################################
+   //presentation mode starts here
+
+   //###########################################################
+
+   if($submits!=null)
+{
+  ?>
+<div class="col-md-12 shadow studenttable" style="height:inherit;">  
+<table class="table table-hover mytable" style="font-size:10px;cursor:pointer;width:inherit;">
+<tr><th>s/no</th><th>reg #</th><th>
+<div class="row text-center">
+<?php 
+$questions=$assignment->assqs;
+
+for($q=0;$q<count($questions);$q++)
+{ 
+?>
+<div class="col-md-1">
+<?= "Q".$questions[$q]->qno;?>
+</div>
+<?php }?>
+<div class="col-md-1 p-0"><i class="fa fa-plus-circle fa-2x" data-toggle="tooltip" data-title="Add Assessment Item"></i><i class="fa fa-minus-circle fa-2x" data-toggle="tooltip" data-title="Remove Assessment Item"></i></div>
+<div class="col-md-3" style="position:absolute;right:0;z-index:2">
+<textarea id="<?=$asstype?>" rows="1" class="form-control shadow comment" placeholder="Comment"></textarea>
+</div>
+</div>
+</th></tr>
+
+<?php 
+
+for($sub=0;$sub<count($submits);$sub++)
+{
+  if($submits[$sub]->score!=null || $submits[$sub]->score!="")
+  {
+?>
+<tr class="text-primary p-0"><td  id="<?=$submits[$sub]->submitID;?>"><?=$sub+1?><td id="<?=$submits[$sub]->fileName;?>"><?php if($asstype=="class"){print $submits[$sub]->reg_no;}else{ print $submits[$sub]->group->groupName;}?></td>
+<td class="p-1">
+<!--question marking-->
+<div id="marks" class="row qmarking p-0">
+<?php 
+$questions=$assignment->assqs;
+for($q=0;$q<count($questions);$q++)
+{ 
+?>
+
+<div id="mrow" class="col-md-1 p-0 mr-1">
+  <?php
+    $mark=QMarks::find()->where(['assq_ID'=>$questions[$q]->assq_ID])->one();
+    $mark=(!empty($mark) || $mark!==null)?$mark->q_score:null;
+    $value=($quantity==="one")?$mark:null;
+   
+  ?>
+  <input type="text" class="form-control p-0 score" id="<?=$questions[$q]->assq_ID?>" placeholder="" value="<?=$value?>"></input>
+</div>
+<?php }?>
+</div>
+</td>
+</tr>
+<?php
+  }
+  else
+  {
+    ?>
+
+<tr class=""><td  id="<?=$submits[$sub]->submitID;?>"><?=$sub+1?><td id="<?=$submits[$sub]->fileName;?>"><?php if($asstype=="class"){print $submits[$sub]->reg_no;}else{ print $submits[$sub]->group->groupName;}?></td>
+<td class="p-1">
+<div id="marks" class="row qmarking p-0">
+<!--question marking-->
+<?php 
+$questions=$assignment->assqs;
+for($q=0;$q<count($questions);$q++)
+{ 
+?>
+
+<div id="mrow" class="col-md-1 p-0 mr-1">
+  <?php
+    $mark=QMarks::find()->where(['assq_ID'=>$questions[$q]->assq_ID])->one();
+    $mark=(!empty($mark) || $mark!==null)?$mark->q_score:null;
+    $value=($quantity==="one")?$mark:null;
+   
+  ?>
+  <input type="text" class="form-control p-0 score" id="<?=$questions[$q]->assq_ID?>" placeholder="" value="<?=$value?>"></input>
+</div>
+<?php }?>
+</div>
+</td>
+</tr>
+    <?php
+  }
+}
+?>
+
+</table>
+</div>
+  <div class="shadow justify-content-center pt-4 bg-white" style="position:fixed;z-index:5;min-height:50%;width:50%;right:0;top:40%" id="presentationmodeviewer">
+    <span class="d-none savespin bg-primary overlay p-4 opacity-75 rounded-pill" style="position:absolute;z-index:2;bottom:50%;opacity:.7"><i class="fas fa-sync-alt fa-spin fa-2x " ></i>Saving...</span>
+    <iframe src="" style="position: relative; height: inherit; width: 100%;border:none" frameborder="0" height="426" id="fileobj"  type="application/pdf">
+    file not found or could not be read
+
+    </iframe>
+    <!-- <div id="viewpdf"></div> -->
+
+  </div>
+
+<?php
+}
+else
+{
+  print '<div class="container-fluid text-primary text-center p-5">No any submits</div>';
+}
+?>
+<?php
+
+//the end of presentation mode
 }
 ?>
 </div>

@@ -158,7 +158,8 @@ public $defaultAction = 'dashboard';
                             'remove-students',
                             'switch-academicyear',
                             'course-update-data',
-                            'get-marked-perc'
+                            'get-marked-perc',
+                            'change-marking-mode'
 
                         ],
                         'allow' => true,
@@ -249,7 +250,8 @@ public $defaultAction = 'dashboard';
                             'remove-students',
                             'switch-academicyear',
                             'course-update-data',
-                            'get-marked-perc'
+                            'get-marked-perc',
+                            'change-marking-mode'
                            
                         ],
                         'allow' => true,
@@ -1391,6 +1393,20 @@ public function actionMarkSecureRedirect($id,$subid=null)
 }
 public function actionMark($id,$subid=null)
 {
+    //setting up the marking mode
+    try
+    {
+        if(yii::$app->session->get('markingmode')===null)
+        {
+         yii::$app->session->set('markingmode','ordinary');
+        }  
+    }
+    catch(Exception $m)
+    {
+        yii::$app->session->setFlash("error",$m->getMessage());
+        yii::$app->session->set('markingmode','ordinary');
+    }
+    
     //loading the current assignment
     $id=ClassRoomSecurity::decrypt($id);
     $subid=ClassRoomSecurity::decrypt($subid);
@@ -1413,6 +1429,19 @@ public function actionMark($id,$subid=null)
     if($model!==null){$submit=$model->find()->where(['submitID'=>$subid])->all();}
    
     return $this->render('marking',['assignment'=>$current_assignment,'singlesub'=>$submit]);  
+}
+public function actionChangeMarkingMode($mode)
+{
+  try
+  {
+      yii::$app->session->set('markingmode',$mode);
+      return $this->redirect(yii::$app->request->referrer);
+  }
+  catch(Exception $e)
+  {
+    yii::$app->session->setFlash("error","could not change marking mode".$e->getMessage());
+    return $this->redirect(yii::$app->request->referrer);
+  }
 }
 public function actionMarkInputing()
 {

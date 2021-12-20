@@ -650,6 +650,12 @@ if(code==37 || code==38)
  //draggable marking controls
 
  $('#markcontrol2').draggable({cursor: 'move',containment: 'window',cancel:'.btn'});
+
+ //on presentation mode the view should be draggable
+
+ $('#presentationmodeviewer').draggable({cursor: 'move',containment: 'window',cancel:'.btn'});
+
+ 
  var height=$('.studenttable').parent().css('height');
  $('.studenttable').css('max-height',height);
 
@@ -666,5 +672,5 @@ if(code==37 || code==38)
  })
 }
 
-setInterval(getmarkedperc,500);
+setInterval(getmarkedperc,1000);
  });
