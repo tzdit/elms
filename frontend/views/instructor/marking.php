@@ -265,11 +265,10 @@ for($q=0;$q<count($questions);$q++)
 
 </table>
 </div>
-  <div class="shadow justify-content-center pt-4 bg-white" style="position:fixed;z-index:5;min-height:50%;width:50%;right:0;top:40%" id="presentationmodeviewer">
+  <div class="shadow justify-content-center pt-4 bg-white" style="position:fixed;z-index:5;min-height:40%;width:50%;right:0;top:40%" id="presentationmodeviewer">
     <span class="d-none savespin bg-primary overlay p-4 opacity-75 rounded-pill" style="position:absolute;z-index:2;bottom:50%;opacity:.7"><i class="fas fa-sync-alt fa-spin fa-2x " ></i>Saving...</span>
-    <iframe src="" style="position: relative; height: inherit; width: 100%;border:none" frameborder="0" height="426" id="fileobj"  type="application/pdf">
+    <iframe src="" style="position: relative; min-height:inherit;width: 100%;border:none" frameborder="0" height="426" id="fileobj"  type="application/pdf">
     file not found or could not be read
-
     </iframe>
     <!-- <div id="viewpdf"></div> -->
 
