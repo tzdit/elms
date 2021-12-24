@@ -1269,8 +1269,8 @@ public function actionImportStudents()
     }
     else
     {
-        Yii::$app->session->setFlash('error', 'Importing failed, you may need to download the standard format');
-          return $this->redirect(Yii::$app->request->referrer);
+        Yii::$app->session->setFlash('error', 'Importing failed, you may need to download the standard format'.$act);
+         return $this->redirect(Yii::$app->request->referrer);
     }
   }
   else

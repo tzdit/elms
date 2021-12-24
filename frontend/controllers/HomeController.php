@@ -24,7 +24,7 @@ class HomeController extends \yii\web\Controller
                 'only'=>['dashboard'],
                 'rules' => [
                     [
-                        'actions' => ['dashboard','changePassword','add_email','change-regno'],
+                        'actions' => ['dashboard','changePassword','password-change-cancel','change-password-restrict','add_email','change-regno'],
                         'allow' => true,
                         'roles' => ['@']
                     ],
@@ -43,17 +43,33 @@ class HomeController extends \yii\web\Controller
     {
 
     if (Yii::$app->user->can('SUPER_ADMIN')) {
+        if(yii::$app->user->identity->hasDefaultPassword()){
+            return $this->redirect(Url::to(['/home/change-password-restrict']));
+          }
          return $this->redirect(Url::to(['/super-admin/dashboard']));
      }else if (Yii::$app->user->can('SYS_ADMIN')) {
+        if(yii::$app->user->identity->hasDefaultPassword()){
+            return $this->redirect(Url::to(['/home/change-password-restrict']));
+          }
         return $this->redirect(Url::to(['/admin/dashboard']));
     }
      else if (Yii::$app->user->can('INSTRUCTOR')) {
+
+        if(yii::$app->user->identity->hasDefaultPassword()){
+            return $this->redirect(Url::to(['/home/change-password-restrict']));
+          }
           return $this->redirect(Url::to(['/instructor/dashboard']));
       }
       else if (Yii::$app->user->can('INSTRUCTOR & HOD')) {
+        if(yii::$app->user->identity->hasDefaultPassword()){
+            return $this->redirect(Url::to(['/home/change-password-restrict']));
+          }
         return $this->redirect(Url::to(['/instructor/dashboard']));
     }
       else if (Yii::$app->user->can('STUDENT')) {
+        if(yii::$app->user->identity->hasDefaultPassword()){
+            return $this->redirect(Url::to(['/home/change-password-restrict']));
+          }
         return $this->redirect(Url::to(['/student/dashboard']));
     }
 
@@ -71,26 +87,61 @@ public function actionChangepassword(){
         if($models->load(Yii::$app->request->post())){
            // VarDumper::dump($models->changePassword());
             if($models->changePassword()){
-                Yii::$app->session->setFlash('success', 'Password change successfully');
                 Yii::$app->user->logout();
                 $destroySession = true;
-        
+                Yii::$app->session->setFlash('success', 'Password changed successfully, Now login with the new password!');
                 return $this->redirect(['auth']);
             }else{
-                Yii::$app->session->setFlash('error', 'Wrong current password');
+                Yii::$app->session->setFlash('error', 'The current password is wrong');
+                return $this->redirect(yii::$app->request->referrer);
             }
        
                 
          } 
         
     }catch(\Exception $e){
-        Yii::$app->session->setFlash('error', 'Something wente wrong!');
+        Yii::$app->session->setFlash('error', 'Something went wrong! try again later');
+        return $this->redirect(yii::$app->request->referrer);
     }
 
     return $this->render('changePassword',['model' => $models]);
 }
 
+public function actionChangePasswordRestrict()
+{
+    $models = new ChangePasswordForm;
 
+    // VarDumper::dump($models->changePassword());
+    $this->layout='restrictPasswordChange';
+    try{
+        if($models->load(Yii::$app->request->post())){
+           // VarDumper::dump($models->changePassword());
+            if($models->changePassword()){
+                  Yii::$app->user->logout();
+                  $destroySession = true;
+                  Yii::$app->session->setFlash('success', 'Password changed successfully, Now login with the new password!');
+                return $this->redirect(['auth']);
+            }else{
+                Yii::$app->session->setFlash('error', 'The current password is wrong');
+                return $this->redirect(yii::$app->request->referrer);
+            }
+       
+                
+         } 
+        
+    }catch(\Exception $e){
+        Yii::$app->session->setFlash('error', 'Something went wrong! try again later');
+        return $this->redirect(yii::$app->request->referrer);
+    }
+
+    return $this->render('changePasswordrestrict',['model' => $models]);  
+}
+public function actionPasswordChangeCancel()
+{
+    Yii::$app->user->logout();
+    $destroySession = true;
+    return $this->redirect(['auth']);
+}
 
 
 

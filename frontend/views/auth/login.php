@@ -5,7 +5,8 @@
     ?>
     
     <div class="container-fluid text-center ">
-    <img src="/img/logo.png" class="img-circle"  style="height:70%;width:25%;margin-bottom:1%"></img>
+    <!--<img src="/img/logo.png" class="img-circle"  style="height:70%;width:25%;margin-bottom:1%"></img>-->
+    <img src="/img/marry.gif" class="rounded-pill"  style="height:70%;width:55%;margin-bottom:2%"></img>
     </div>
     <div class="card card-default shadow-lg bg-white rounded" style="font-family:'Lucida Bright'">
     <div class="card-header text-center bg-primary">
@@ -46,7 +47,7 @@
     <!-- /.card-body -->
     
    <span>Students' Registration <a href="/student/register">here</a><br>
-   &nbsp;<img src="/img/announcement.gif" class="img-circle"  style="height:10%;width:10%;margin-bottom:1%"></img><i class="blinking text-danger">Deadline: 21/12/2021</i></span>
+   &nbsp;<img src="/img/announcement.gif" class="img-circle"  style="height:10%;width:10%;margin-bottom:1%"></img><i class="blinking text-danger">Deadline: 29/12/2021</i></span>
   </div>
   <!-- /.card -->
   <?php

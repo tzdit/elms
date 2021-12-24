@@ -6,6 +6,7 @@ use yii\base\Model;
 use common\models\User;
 use common\models\Student;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use yii\base\Exception;
 /**
  * Signup form
  */
@@ -101,22 +102,21 @@ class UploadStudentForm extends Model
 // #########################################################################################
 
 public function excelstd_importer(){
-    $auth = Yii::$app->authManager;
-    
-//     if(!$this->validate()){
-//        return false;
-//    }
-        
-   try{
+       $auth = Yii::$app->authManager;
+       $data=null;
+        try
+        {
         $data=$this->excelstd_to_array($this->filetmp);
+        }
+        catch(Exception $e)
+        {
+            return false;
+        }
         //$status=false;
-        $error_rec=[];
-        //saving the assessment first
-
-        
+        $error_rec=array();
         for($std=0;$std<count($data);$std++)
         {
-          
+           
            if($std==0){continue;}
            else
            {
@@ -132,20 +132,18 @@ public function excelstd_importer(){
            $status=$data[$std][8];
            $YOS=$data[$std][9];
            
-           
-
-           
+        
            $usermodel=new User();
-           
-           $usermodel->username=$username;
-           //$usermodel->email=$email;
-           $usermodel->setPassword(strtoupper($this->lname));
-           $usermodel->generateAuthKey();
-           $usermodel->generateEmailVerificationToken();
-           
-
-           if($usermodel->save())
+          
+           try
            {
+            $usermodel->username=$username;
+            $usermodel->setPassword("123456");
+            $usermodel->generateAuthKey();
+            $usermodel->generateEmailVerificationToken();   
+           if($usermodel->save(false))
+           {
+        
            $stdmodel=new Student();
            $stdmodel->fname=$fname;
            $stdmodel->mname=$mname;
@@ -153,7 +151,7 @@ public function excelstd_importer(){
            $stdmodel->email=$email;
            $stdmodel->gender=$gender;
            $stdmodel->reg_no=$username;
-           $stdmodel->phone=strval($phone);
+           $stdmodel->phone=($phone!==null)?strval($phone):strval(rand());
            $stdmodel->programCode=$program;
            $stdmodel->status=$status;
            $stdmodel->YOS=$YOS;
@@ -161,7 +159,7 @@ public function excelstd_importer(){
            $stdmodel->userID = $usermodel->getId();
            
           
-        
+          
            if($stdmodel->save()){
            
             //now assign role to this newlly created user========>>
@@ -170,22 +168,36 @@ public function excelstd_importer(){
             }
             else
             {
-                //print_r($stdmodel->getErrors());
+               throw new Exception($this->handleErrors($stdmodel->getErrors()));
             }
+         
            
 
            }
-        }
+           else
+           {
+            throw new Exception($this->handleErrors($usermodel->getErrors()));
+           }
+           }
+           catch(Exception $e)
+           {
+         
+             $msg=isset(($e->errorInfo)[2])?($e->errorInfo)[2]:$e->getMessage();
 
-     
+            $error_rec[$username]=$msg;
+
+             continue;
+               
+              
+           }
+         
       }
-      return $error_rec;
      
-  }catch(\Exception $e){
-    print  "oops".$e->getMessage();
-      return false;
+     
+  
   }
-  }
+  return $error_rec;
+}
 private function excelstd_to_array($tmpfile)
 {
 $file_type=IOFactory::identify($tmpfile);
@@ -193,6 +205,22 @@ $reader=IOFactory::createReader($file_type);
 $data=$reader->load($tmpfile);
 $data_array=$data->getActiveSheet()->toArray();
 return $data_array;
+
+}
+private function handleErrors($errors)
+{
+  $errorstring="";
+  foreach($errors as $error=>$errorinfo)
+  {
+    for($i=0;$i<count($errorinfo);$i++)
+    {
+        $errorstring.=$errorinfo[$i];
+    }
+    
+
+  }
+
+  return $errorstring;
 
 }
   

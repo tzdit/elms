@@ -25,8 +25,11 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="hold-transition login-page ">
-<div class="container ">
+<body class="hold-transition login-page">
+
+  <!-- /.login-logo -->
+
+  <div class="container ">
      <div class="row mt-3 show-sm">
       <?php if(Yii::$app->session->hasFlash('success')): ?>
 
@@ -53,14 +56,14 @@ AppAsset::register($this);
       <?php endif ?>
        </div>
        </div>
-<div class="login-box text-center">
-  <!-- /.login-logo -->
-<?= $content ?>
-</div>
+       <div class="container-fluid text-primary text-lg text-center pt-4 pb-4"><i class="fa fa-info-circle fa-2x"></i><h5>You are required to change your password before continuing...</h5></div>
+       <div class="container-fluid" style="position:fixed;top:30%">
+          <?= $content ?>
+       </div>
+      
 <?= $this->render('/includes/loginfooter') ?>
 <!-- /.login-box -->
 <?php $this->endBody() ?>
 </body>
 </html>
-
 <?php $this->endPage() ?>
