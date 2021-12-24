@@ -113,6 +113,7 @@ public function excelstd_importer(){
             return false;
         }
         //$status=false;
+        $transaction = Yii::$app->db->beginTransaction();
         $error_rec=array();
         for($std=0;$std<count($data);$std++)
         {
@@ -141,7 +142,7 @@ public function excelstd_importer(){
             $usermodel->setPassword("123456");
             $usermodel->generateAuthKey();
             $usermodel->generateEmailVerificationToken();   
-           if($usermodel->save(false))
+           if($usermodel->save())
            {
         
            $stdmodel=new Student();
@@ -178,13 +179,15 @@ public function excelstd_importer(){
            {
             throw new Exception($this->handleErrors($usermodel->getErrors()));
            }
+
+           $transaction->commit();
            }
            catch(Exception $e)
            {
-         
+             $transaction->rollBack();
              $msg=isset(($e->errorInfo)[2])?($e->errorInfo)[2]:$e->getMessage();
 
-            $error_rec[$username]=$msg;
+             $error_rec[$username]=$msg;
 
              continue;
                
