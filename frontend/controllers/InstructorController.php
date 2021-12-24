@@ -1256,14 +1256,16 @@ public function actionImportStudents()
     $act=$importmodel->excelstd_importer();
     if($act!==false)
     {
-        $flash="Import successful with ".count($act)." error(s)";
+        $flash="Import completed with ".count($act)." error(s)";
         if($act!=null){
            foreach($act as $reg=>$msg)
            {
                $flash=$flash."<br>'".$reg."'=>".$msg;
            }
+           Yii::$app->session->setFlash('error', $flash);
         }
-        Yii::$app->session->setFlash('success', $flash);
+        else{Yii::$app->session->setFlash('success', $flash);}
+          
         
           return $this->redirect(Yii::$app->request->referrer);
     }

@@ -37,7 +37,7 @@ class UploadStudentForm extends Model
             [['fname', 'lname','program', 'YOS', 'role', 'gender'], 'required'],
             ['username', 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This user has already been taken.'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Registration number already in  use.'],
             ['email', 'unique', 'targetClass' => '\common\models\Student', 'message' => 'This email has already been taken.'],
             [['assFile'],'file','skipOnEmpty' => false, 'extensions' => 'xlsx, xls']
 
@@ -113,7 +113,7 @@ public function excelstd_importer(){
             return false;
         }
         //$status=false;
-        $transaction = Yii::$app->db->beginTransaction();
+        
         $error_rec=array();
         for($std=0;$std<count($data);$std++)
         {
@@ -138,12 +138,15 @@ public function excelstd_importer(){
           
            try
            {
+            $transaction = Yii::$app->db->beginTransaction();
             $usermodel->username=$username;
             $usermodel->setPassword("123456");
             $usermodel->generateAuthKey();
             $usermodel->generateEmailVerificationToken();   
-           if($usermodel->save())
+           if(!$usermodel->save())
            {
+            throw new Exception($this->handleErrors($usermodel->getErrors()));
+           }
         
            $stdmodel=new Student();
            $stdmodel->fname=$fname;
@@ -161,32 +164,22 @@ public function excelstd_importer(){
            
           
           
-           if($stdmodel->save()){
+           if(!$stdmodel->save()){
+            throw new Exception($this->handleErrors($stdmodel->getErrors()));
+           }
            
             //now assign role to this newlly created user========>>
             $userRole = $auth->getRole('STUDENT');
             $auth->assign($userRole, $usermodel->getId());
-            }
-            else
-            {
-               throw new Exception($this->handleErrors($stdmodel->getErrors()));
-            }
-         
+
+
+            $transaction->commit();
            
-
-           }
-           else
-           {
-            throw new Exception($this->handleErrors($usermodel->getErrors()));
-           }
-
-           $transaction->commit();
            }
            catch(Exception $e)
            {
              $transaction->rollBack();
              $msg=isset(($e->errorInfo)[2])?($e->errorInfo)[2]:$e->getMessage();
-
              $error_rec[$username]=$msg;
 
              continue;
