@@ -64,7 +64,7 @@ class UploadStudentForm extends Model
         try{
         $user->username = $this->username;
         $user->email = $this->email;
-        $user->setPassword(strtoupper($this->lname));
+        $user->setPassword("123456");
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
         if($user->save()){

@@ -673,4 +673,14 @@ if(code==37 || code==38)
 }
 
 setInterval(getmarkedperc,1000);
+
+$(window).on('beforeunload',function(){
+
+  var data={
+    assignment:currentassignment
+  }
+  data[yii.getCsrfParam()]=yii.getCsrfToken();
+  $.get("/instructor/release-assignment-lock",data)
+ 
+});
  });

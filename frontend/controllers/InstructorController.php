@@ -61,6 +61,7 @@ use yii\base\Exception;
 use frontend\models\ClassRoomSecurity;
 use common\models\Academicyear;
 use frontend\models\AcademicYearManager;
+use frontend\models\ClassroomMutex;
 
 class InstructorController extends \yii\web\Controller
 {
@@ -159,7 +160,9 @@ public $defaultAction = 'dashboard';
                             'switch-academicyear',
                             'course-update-data',
                             'get-marked-perc',
-                            'change-marking-mode'
+                            'change-marking-mode',
+                            'get-assignment-lock',
+                            'release-assignment-lock'
 
                         ],
                         'allow' => true,
@@ -251,7 +254,9 @@ public $defaultAction = 'dashboard';
                             'switch-academicyear',
                             'course-update-data',
                             'get-marked-perc',
-                            'change-marking-mode'
+                            'change-marking-mode',
+                            'get-assignment-lock',
+                            'release-assignment-lock'
                            
                         ],
                         'allow' => true,
@@ -1284,6 +1289,38 @@ public function actionImportStudents()
     
 }
 
+//assignment collaboration MUTEX implementation
+
+public function actionGetAssignmentLock($assignment)
+{
+  $mutexmanager=new ClassroomMutex;
+
+  if(!$mutexmanager->getAssingmentMutexLock($assignment))
+  {
+      throw new Exception("You cannot mark this assignment while someone else (your partner) is marking the same assignment, unless he/she allows marking collaboration!");
+  }
+  else
+  {
+      return true;
+  }
+  
+
+}
+
+public function actionReleaseAssignmentLock($assignment)
+{
+    $mutexmanager=new ClassroomMutex;
+    
+    if($mutexmanager->freeAssignmentMutexLock($assignment))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 public function actionViewAssessment($assid)
 {
 
@@ -1395,6 +1432,19 @@ public function actionMarkSecureRedirect($id,$subid=null)
 }
 public function actionMark($id,$subid=null)
 {
+    //try acquiring mutex
+     try
+     {
+        $this->actionGetAssignmentLock(ClassRoomSecurity::decrypt($id));
+        
+     }
+     catch(Exception $q)
+     {
+        yii::$app->session->setFlash("error",$q->getMessage());
+        return $this->redirect(yii::$app->request->referrer);
+     }
+
+
     //setting up the marking mode
     try
     {
