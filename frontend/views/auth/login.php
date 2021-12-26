@@ -6,7 +6,7 @@
     
     <div class="container-fluid text-center ">
     <!--<img src="/img/logo.png" class="img-circle"  style="height:70%;width:25%;margin-bottom:1%"></img>-->
-    <img src="/img/marry.gif" class="rounded-pill"  style="height:70%;width:55%;margin-bottom:2%"></img>
+    <img src="/img/year.gif" class=""  style="height:80px;width:45%;margin-bottom:3%"></img>
     </div>
     <div class="card card-default shadow-lg bg-white rounded" style="font-family:'Lucida Bright'">
     <div class="card-header text-center bg-primary">
