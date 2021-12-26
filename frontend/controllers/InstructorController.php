@@ -162,7 +162,9 @@ public $defaultAction = 'dashboard';
                             'get-marked-perc',
                             'change-marking-mode',
                             'get-assignment-lock',
-                            'release-assignment-lock'
+                            'release-assignment-lock',
+                            'toggle-collaboration',
+                            'leave-marking-collaboration'
 
                         ],
                         'allow' => true,
@@ -256,7 +258,9 @@ public $defaultAction = 'dashboard';
                             'get-marked-perc',
                             'change-marking-mode',
                             'get-assignment-lock',
-                            'release-assignment-lock'
+                            'release-assignment-lock',
+                            'toggle-collaboration',
+                            'leave-marking-collaboration'
                            
                         ],
                         'allow' => true,
@@ -1295,7 +1299,7 @@ public function actionGetAssignmentLock($assignment)
 {
   $mutexmanager=new ClassroomMutex;
 
-  if(!$mutexmanager->getAssingmentMutexLock($assignment))
+  if(!$mutexmanager->getAssignmentMutexLock($assignment))
   {
       throw new Exception("You cannot mark this assignment while someone else (your partner) is marking the same assignment, unless he/she allows marking collaboration!");
   }
@@ -1321,6 +1325,27 @@ public function actionReleaseAssignmentLock($assignment)
     }
 }
 
+public function actionLeaveMarkingCollaboration($assignment)
+{
+    $mutexmanager=new ClassroomMutex;
+    $collaborationlock=$assignment."collaboration";
+    if($mutexmanager->isLockAcquired($collaborationlock))
+    {
+        $mutexmanager->freeLock($collaborationlock);
+
+        return true;
+    }
+
+    return true;
+
+}
+//toggling between marking collaboration activating mode
+
+public function actionToggleCollaboration($assignment)
+{
+    $mutex=new ClassroomMutex();
+    return $this->asJson($mutex->toggleCollaborationMode($assignment));
+}
 public function actionViewAssessment($assid)
 {
 
@@ -1432,6 +1457,10 @@ public function actionMarkSecureRedirect($id,$subid=null)
 }
 public function actionMark($id,$subid=null)
 {
+    //setting up the session starter
+
+    $starter=Yii::$app->user->identity->id;
+    yii::$app->session->set("marksessionowner",ClassRoomSecurity::encrypt($starter));
     //try acquiring mutex
      try
      {

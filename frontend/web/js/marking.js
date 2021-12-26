@@ -674,13 +674,49 @@ if(code==37 || code==38)
 
 setInterval(getmarkedperc,1000);
 
-$(window).on('beforeunload',function(){
 
+//function toggle assignment collaboration
+
+function toggleCollaboration()
+{
   var data={
     assignment:currentassignment
   }
   data[yii.getCsrfParam()]=yii.getCsrfToken();
-  $.get("/instructor/release-assignment-lock",data)
+  $.get("/instructor/toggle-collaboration",data)
+.done(function(an){
+ if(an!==true){Swal.fire(an);}
+})
+}
+
+$("#collabo").click(function(col){
+  col.preventDefault();
+
+  toggleCollaboration();
+})
+
+
+//releasing lock on leave
+window.onbeforeunload = function (e) {
+  var e = e || window.event;
+
+  // For IE and Firefox
+  if (e) {
+    var data={
+      assignment:currentassignment
+    }
+    data[yii.getCsrfParam()]=yii.getCsrfToken();
+    $.get("/instructor/release-assignment-lock",data);
+  }
+
+  // For Safari
+  var data={
+    assignment:currentassignment
+  }
+  data[yii.getCsrfParam()]=yii.getCsrfToken();
+  $.get("/instructor/release-assignment-lock",data);
  
-});
+};
+
+
  });

@@ -5,6 +5,7 @@ use Yii;
 use yii\base\Model;
 use yii\base\Exception;
 use yii\mutex\FileMutex;
+use frontend\models\ClassRoomSecurity;
 
 /*
 A class to manage process mutual exclusion in this system
@@ -51,10 +52,10 @@ class ClassroomMutex extends Model
    public function isLockAcquired($name)
    {
        $mutex=new FileMutex();
-       return $mutex->isAcquired($name);
+       return file_exists($mutex->getLockFilePath($name));
    }
 
-   public function getAssingmentMutexLock($name)
+   public function getAssignmentMutexLock($name)
    {
      //first we try seeing if a collaboration mode is activated
 
@@ -67,7 +68,7 @@ class ClassroomMutex extends Model
         {
             //collaboration mode is activated
             //no need of acquiring assingment lock
-
+            yii::$app->session->set("marksessionowner",null); //entered on collaboration, then is not a session owner
             return true;
         }
         else
@@ -152,6 +153,75 @@ class ClassroomMutex extends Model
        return false;
      }
           
+   }
+
+   //setting the collaboration mode active
+
+   private function setCollaborationActive($name)
+   {
+     $collaborationlock=$name."collaboration";
+     
+     //we try setting it up if possible
+     try
+     {
+      
+          $this->freeAssignmentMutexLock($name);
+          $this->getLock($collaborationlock);
+          return true;
+      }
+      catch(Exception $c)
+      {
+        $this->getLock($collaborationlock);
+        return true;
+      }
+
+   }
+   public function toggleCollaborationMode($assignment)
+   {
+     try
+     {
+       $sessionowner=ClassRoomSecurity::decrypt(yii::$app->session->get("marksessionowner"));
+       $currentuser=Yii::$app->user->identity->id;
+       if($sessionowner!=$currentuser){throw new Exception("Only the owner of the marking session can change collaboration mode");}
+       if($this->isCollaborationActive($assignment))
+       {
+         $res=$this->setCollaborationOff($assignment);
+         return true;
+       }
+      
+        $res=$this->setCollaborationActive($assignment);
+      
+
+        return true;
+     }
+     catch(Exception $t)
+     {
+       return $t->getMessage();
+     }
+   }
+  
+   private function setCollaborationOff($assignment)
+   {
+    $collaborationlock=$assignment."collaboration";
+    if($this->isLockAcquired($collaborationlock)){
+      $this->freeLock($collaborationlock);
+      $this->getAssignmentMutexLock($assignment);
+      return true;
+    }
+    else
+    {
+      throw new Exception("collaboration not active, try again");
+    }
+
+    return true;
+   }
+   private function isCollaborationActive($assignment)
+   {
+    $collaborationlock=$assignment."collaboration";
+
+    if($this->isLockAcquired($collaborationlock)){return true;}
+
+    return false;
    }
 
    //files lock aquiring
