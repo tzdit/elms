@@ -68,7 +68,7 @@ else
 </div>
 <div class="col-md-6 col-ms-6 d-flex justify-content-center" >
   <span class=" text-primary text-center" id="currentass"></span>
-</div><?=phpinfo()?>
+</div>
 <div class="col-md-3 col-ms-3 ">
   <div class="row"><a href="<?=Url::to(['/instructor/change-marking-mode','mode'=>'ordinary'])?>" class="col-md-3" data-toggle="tooltip" data-title="Ordinary Mode"><img src="/img/normal.png" width="53%" height="73%"></img></a><a href="<?=Url::to(['/instructor/change-marking-mode','mode'=>'presentation'])?>" class="col-md-3" data-toggle="tooltip" data-title="Presentation Mode"><img src="/img/pres.png" width="60%" height="80%"></img></a><a href="" class="col-md-2"><i class="fa fa-undo-alt text-dark " data-toggle="tooltip" data-title="Re-assign"></i></a><a href="" class="col-md-2" id="collabo"><i class="fas fa-user-friends text-dark " data-toggle="tooltip" data-title="RealTime collaboration"></i></a><a href="<?=Url::to(['/instructor/download-submits','assignment'=>ClassRoomSecurity::encrypt($assignment->assID)])?>" class="col-md-2"><i class="fas fa-download text-dark " data-toggle="tooltip" data-title="Download all submits"></i></a>
 </div>
