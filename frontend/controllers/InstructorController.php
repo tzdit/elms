@@ -164,7 +164,8 @@ public $defaultAction = 'dashboard';
                             'get-assignment-lock',
                             'release-assignment-lock',
                             'toggle-collaboration',
-                            'leave-marking-collaboration'
+                            'leave-marking-collaboration',
+                            'download-submits'
 
                         ],
                         'allow' => true,
@@ -260,7 +261,8 @@ public $defaultAction = 'dashboard';
                             'get-assignment-lock',
                             'release-assignment-lock',
                             'toggle-collaboration',
-                            'leave-marking-collaboration'
+                            'leave-marking-collaboration',
+                            'download-submits'
                            
                         ],
                         'allow' => true,
@@ -1367,6 +1369,66 @@ public function actionDeleteExtAssrecord($recordid)
   }
 
 }
+//downloading all assignment submits
+public function actionDownloadSubmits($assignment)
+{
+   $assignment=ClassRoomSecurity::decrypt($assignment);
+   $course=yii::$app->session->get('ccode');
+   $current_assignment=Assignment::findOne($assignment);
+
+   try
+   {
+   $ziptmp=$course."_Assignment_".$current_assignment->finishDate."_Submits.zip";
+ 
+   $ziptmp=str_replace(' ', '', $ziptmp);
+
+   $zipper=new \ZipArchive();
+
+   if(!$zipper->open($ziptmp,\ZipArchive::CREATE || \ZipArchive::OVERWRITE))
+   {
+       throw new Exception("could not create zip file");
+       
+   }
+   
+   
+   $submits=null;
+
+   if($current_assignment->assType=="allstudents" || $current_assignment->assType=="students")
+   {
+       $submits=$current_assignment->submits;
+   }
+   else
+   {
+       $submits=$current_assignment->groupAssignmentSubmits; 
+   }
+
+   if(empty($submits) || $submits==null){throw new Exception("No submits found");}
+
+   foreach($submits as $submit)
+   {
+       $file=$submit->fileName;
+       if(file_exists($file))
+       {
+        $zipper->addFile("storage/submit/".$file,$submit->reg_no.".".pathinfo($file,PATHINFO_EXTENSION));
+       }
+   }
+        $zipper->close();
+  
+    Yii::$app->response->sendFile($ziptmp,$course."_Assignment_".$current_assignment->finishDate."_Submits.zip");
+    if(connection_aborted()){unlink($ziptmp);}
+    register_shutdown_function('unlink', $ziptmp);
+}
+catch(Exception $dn)
+{
+    yii::$app->session->setFlash('error',$dn->getMessage());
+    $this->redirect(yii::$app->request->referrer);
+}
+
+}
+
+
+
+
 //######################## function to create tutorial ###############################################
 
 public function actionUploadTutorial(){
