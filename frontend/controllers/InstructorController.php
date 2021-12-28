@@ -1405,7 +1405,7 @@ public function actionDownloadSubmits($assignment)
 
    try
    {
-   $dir="storage/tmpfiles";
+   $dir="storage/tmpfiles/";
 
    if(!file_exists(realPath($dir))){ mkdir($dir);}
 
@@ -1447,7 +1447,7 @@ public function actionDownloadSubmits($assignment)
   
     Yii::$app->response->sendFile($ziptmp,$course."_Assignment_".$current_assignment->finishDate."_Submits.zip");
     if(connection_aborted()){unlink($ziptmp);}
-    register_shutdown_function('unlink', $ziptmp);
+    register_shutdown_function(unlink($ziptmp));
 }
 catch(Exception $dn)
 {
