@@ -1405,7 +1405,7 @@ public function actionDownloadSubmits($assignment)
 
    try
    {
-   $dir="@runtime/tmp/";
+   $dir=sys_get_temp_dir();
    $ziptmp=$dir."submits_tmp.zip";
    
    $ziptmp=str_replace(' ', '', $ziptmp);
