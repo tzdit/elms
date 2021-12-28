@@ -34,7 +34,7 @@ $this->title = 'Instructors $ Courses';
               <div class="card-body">
             <table class="table table-bordered table-striped table-hover" id="StudentList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
             <thead>
-            <tr><th>Instructor Name</th><th>Department</th><th>Courses</th><th width="16%">Action</th></tr>
+            <tr><th>Instructor Name</th><th>Department</th><th>Courses</th><th width="18%">Action</th></tr>
             
             </thead>
             <tbody>
