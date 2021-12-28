@@ -22,7 +22,7 @@ $this->params['breadcrumbs'] = [
 ?>
 <div class="changePassword">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(["action"=>"/home/change-password-restrict"]); ?>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-3">
@@ -48,6 +48,7 @@ $this->params['breadcrumbs'] = [
                                     
                                     <div class="col-sm-12">
                                         <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary btn-md float-right']) ?>
+                                        <a href="<?=Url::to(['/home/password-change-cancel'])?>" class="btn btn-md btn-primary">Cancel</a>
                                     </div>
                                 </div>    
                         </div>

@@ -70,7 +70,7 @@ else
   <span class=" text-primary text-center" id="currentass"></span>
 </div>
 <div class="col-md-3 col-ms-3 ">
-  <div class="row"><a href="<?=Url::to(['/instructor/change-marking-mode','mode'=>'ordinary'])?>" class="col-md-3" data-toggle="tooltip" data-title="Ordinary Mode"><img src="/img/normal.png" width="53%" height="73%"></img></a><a href="<?=Url::to(['/instructor/change-marking-mode','mode'=>'presentation'])?>" class="col-md-3" data-toggle="tooltip" data-title="Presentation Mode"><img src="/img/pres.png" width="60%" height="80%"></img></a><a href="" class="col-md-2"><i class="fa fa-undo-alt text-dark " data-toggle="tooltip" data-title="Re-assign"></i></a><a href="" class="col-md-2"><i class="fas fa-user-friends text-dark " data-toggle="tooltip" data-title="RealTime collaboration"></i></a><a href="" class="col-md-2"><i class="fas fa-download text-dark " data-toggle="tooltip" data-title="Download all submits"></i></a>
+  <div class="row"><a href="<?=Url::to(['/instructor/change-marking-mode','mode'=>'ordinary'])?>" class="col-md-3" data-toggle="tooltip" data-title="Ordinary Mode"><img src="/img/normal.png" width="53%" height="73%"></img></a><a href="<?=Url::to(['/instructor/change-marking-mode','mode'=>'presentation'])?>" class="col-md-3" data-toggle="tooltip" data-title="Presentation Mode"><img src="/img/pres.png" width="60%" height="80%"></img></a><a href="" class="col-md-2"><i class="fa fa-undo-alt text-dark " data-toggle="tooltip" data-title="Re-assign"></i></a><a href="" class="col-md-2" id="collabo"><i class="fas fa-user-friends text-dark " data-toggle="tooltip" data-title="RealTime collaboration"></i></a><a href="<?=Url::to(['/instructor/download-submits','assignment'=>ClassRoomSecurity::encrypt($assignment->assID)])?>" class="col-md-2"><i class="fas fa-download text-dark " data-toggle="tooltip" data-title="Download all submits"></i></a>
 </div>
 </div>
 </div>
@@ -180,16 +180,21 @@ else
   ?>
 <div class="col-md-12 shadow studenttable" style="height:inherit;">  
 <table class="table table-hover mytable" style="font-size:10px;cursor:pointer;width:inherit;">
-<tr><th>s/no</th><th>reg #</th><th>
-<div class="row text-center">
+<tr class="p-1"><th>s/no</th><th>reg #</th><th class="pl-1">
+<div class="row text-center p-0">
 <?php 
 $questions=$assignment->assqs;
 
 for($q=0;$q<count($questions);$q++)
 { 
 ?>
-<div class="col-md-1">
+<div class="col-md-1 mr-1 p-1 bg-white">
+ 
 <?= "Q".$questions[$q]->qno;?>
+
+
+<?= "/".$assignment->total_marks;?>
+
 </div>
 <?php }?>
 <div class="col-md-1 p-0"><i class="fa fa-plus-circle fa-2x" data-toggle="tooltip" data-title="Add Assessment Item"></i><i class="fa fa-minus-circle fa-2x" data-toggle="tooltip" data-title="Remove Assessment Item"></i></div>
@@ -265,9 +270,9 @@ for($q=0;$q<count($questions);$q++)
 
 </table>
 </div>
-  <div class="shadow justify-content-center pt-4 bg-white" style="position:fixed;z-index:5;min-height:40%;width:50%;right:0;top:40%" id="presentationmodeviewer">
+  <div class="shadow d-none justify-content-center pt-4 bg-white" style="position:fixed;z-index:5;min-height:40%;width:50%;right:0;top:40%" id="presentationmodeviewer">
     <span class="d-none savespin bg-primary overlay p-4 opacity-75 rounded-pill" style="position:absolute;z-index:2;bottom:50%;opacity:.7"><i class="fas fa-sync-alt fa-spin fa-2x " ></i>Saving...</span>
-    <iframe src="" style="position: relative; min-height:inherit;width: 100%;border:none" frameborder="0" height="426" id="fileobj"  type="application/pdf">
+    <iframe src="" style="position: absolute;height:100%;width: 100%;border:none" frameborder="0" height="426" id="fileobj"  type="application/pdf">
     file not found or could not be read
     </iframe>
     <!-- <div id="viewpdf"></div> -->
@@ -289,9 +294,20 @@ else
 </div>
 </div>
 <?php
+if((yii::$app->session->get('markingmode'))=='ordinary')
+{
 $this->registerJsFile(
   '@web/js/marking.js',
   ['depends' => 'yii\web\JqueryAsset'],
 
 );
+}
+else
+{
+  $this->registerJsFile(
+    '@web/js/marking2.js',
+    ['depends' => 'yii\web\JqueryAsset'],
+  
+  );
+}
 ?>

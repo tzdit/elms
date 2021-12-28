@@ -71,7 +71,7 @@ class AuthController extends \yii\web\Controller
             //return $this->goHome();
              return $this->redirect(['/home/dashboard']);
        }
-     $this->layout = 'login';
+      $this->layout = 'login';
       $model = new LoginForm();
       if ($model->load(Yii::$app->request->post()) && $model->login()) {
 
@@ -79,6 +79,7 @@ class AuthController extends \yii\web\Controller
 
            $currentAcademicYear=Academicyear::find()->where(['status'=>'ongoing'])->one();
            yii::$app->session->set('currentAcademicYear', $currentAcademicYear);
+
            return $this->redirect(['/home/dashboard']);
           
      }
