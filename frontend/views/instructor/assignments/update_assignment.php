@@ -54,21 +54,6 @@ $this->params['breadcrumbs'] = [
         <?= $form->field($assmodel, 'totalMarks')->textInput(['type'=>'text','class'=>'form-control form-control-sm','id'=>'totm'])->label('Total Marks')?>
         </div>
       </div>
-      <div class="row" id="asstypearea" style="border:solid 1px #ccc;margin-bottom:1%">
-        <div class="col-md-4">
-        <?= $form->field($assmodel, 'assType')->dropdownList(['allstudents'=>'All students','allgroups'=>'All groups','groups'=>'Chosen groups','students'=>'Chosen students'], ['class'=>'form-control form-control-sm','id'=>'asstype', 'prompt'=>'--select--'])->label('Assigned to')?>
-        </div>
-       
-      </div>
-      <div class="row" id="assrow">
-      <div class="col-md-12" id="assformatt" style="margin-bottom:10px">
-      
-      <?= $form->field($assmodel,'assFormat')->textInput(['class'=>'form-control form-control-sm','id'=>'assFormat','value'=>'N/A','readonly'=>'readonly'])->label('Format')?>
-      
-      </div>
-      <?= $form->field($assmodel, 'ccode')->hiddenInput(['class'=>'form-control form-control-sm'])->label(false)?>
-       </div>
-  
         <div class="row">
         <div class="col-md-12">
         <?= Html::submitButton('Update', ['class'=>'btn btn-primary btn-md float-right ml-2']) ?>

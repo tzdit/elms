@@ -1196,28 +1196,30 @@ public function actionUploadAssignment(){
 public function actionUpdateAssignment($assid){
     
     $model = new UploadAssignment();
-    
     if($model->load(Yii::$app->request->post())){
     
     //loading the external post data into the model
     $model->questions_maxima=Yii::$app->request->post('q_max');
-    if($model->assType=="allgroups"){$model->generation_type=Yii::$app->request->post('gentypes');}
-    else if($model->assType=="groups"){$model->generation_type=Yii::$app->request->post('gentypes');$model->groups=Yii::$app->request->post('gengroups');}
-    else if($model->assType=="students"){$model->students=Yii::$app->request->post('mystudents');}else{}
-  
-        $model->the_assignment=Yii::$app->request->post('the_assignment');
-       
- 
-    
+   
+    $model->the_assignment=Yii::$app->request->post('the_assignment');
+        try
+        {
         if($model->update($assid)){
+            
         Yii::$app->session->setFlash('success', 'Assignment updated successfully');
         return $this->redirect(Yii::$app->request->referrer);
         }else{
-            print_r($model->getErrors());
-        Yii::$app->session->setFlash('error', 'Something went wrong during updating');
+        Yii::$app->session->setFlash('error', 'Updating failed, try again later');
        
         return $this->redirect(Yii::$app->request->referrer);
-    }
+        }
+       }
+       catch(Exception $u)
+       {
+        Yii::$app->session->setFlash('error', 'Updating failed, Make sure all fields are filled in then try again');
+        return $this->redirect(Yii::$app->request->referrer);  
+       }
+
 }
 }
 public function actionImportExternalAssessment()
@@ -1378,18 +1380,19 @@ public function actionDownloadSubmits($assignment)
 
    try
    {
-   $ziptmp=$course."_Assignment_".$current_assignment->finishDate."_Submits.zip";
- 
+   $dir=sys_get_temp_dir();
+   $ziptmp=$dir."submits_tmp.zip";
+   
    $ziptmp=str_replace(' ', '', $ziptmp);
 
    $zipper=new \ZipArchive();
 
-   if(!$zipper->open($ziptmp,\ZipArchive::CREATE || \ZipArchive::OVERWRITE))
+   if(!$zipper->open($ziptmp,\ZipArchive::CREATE | \ZipArchive::OVERWRITE))
    {
-       throw new Exception("could not create zip file");
-       
+         throw new Exception("could not create archive"); 
    }
    
+   $zipper->addFromString('Readme.txt',"Assignment submits download information \n------------------------------------------");
    
    $submits=null;
 
@@ -1412,7 +1415,7 @@ public function actionDownloadSubmits($assignment)
         $zipper->addFile("storage/submit/".$file,$submit->reg_no.".".pathinfo($file,PATHINFO_EXTENSION));
        }
    }
-        $zipper->close();
+    $zipper->close();
   
     Yii::$app->response->sendFile($ziptmp,$course."_Assignment_".$current_assignment->finishDate."_Submits.zip");
     if(connection_aborted()){unlink($ziptmp);}
