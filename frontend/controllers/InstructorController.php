@@ -61,6 +61,7 @@ use yii\base\Exception;
 use frontend\models\ClassRoomSecurity;
 use common\models\Academicyear;
 use frontend\models\AcademicYearManager;
+use yii\grid\GridView;
 
 class InstructorController extends \yii\web\Controller
 {
@@ -193,6 +194,7 @@ public $defaultAction = 'dashboard';
                             'deletelab',
                             'deletetut',
                             'deletecoz',
+                            'delete-instructor-coz',
                             'deleteprogcoz',
                             'deletestudent',
                             'deleteprog',
@@ -205,6 +207,7 @@ public $defaultAction = 'dashboard';
                             'stdlabmark',
                             'update',
                             'instructor-course',
+                            'remove-instructor-course',
                             'updatetut',
                             'updatelab',
                             'updateprog',
@@ -243,6 +246,7 @@ public $defaultAction = 'dashboard';
                             'class-ca-generator',
                             'class-students',
                             'create-module',
+                            'view-chats',
                             'material-upload-form',
                             'module-delete',
                             'updatestudent',
@@ -384,6 +388,7 @@ public $defaultAction = 'dashboard';
         $sender = Yii::$app->user->identity->instructor->instructorID;
         $username = $stdid;
         
+        
         $chats = Chat::find()->where(['instructorID'=>$sender, 'reg_no'=>$username])->all();
        // $programs = Program::find()->all();
         try{
@@ -391,7 +396,7 @@ public $defaultAction = 'dashboard';
         if($model->load(Yii::$app->request->post())){
             if($model->create()){
                 //print_r(Yii::$app->request->post());
-            Yii::$app->session->setFlash('success', 'Chat added successfully');
+            //Yii::$app->session->setFlash('success', 'Chat added successfully');
             return $this->redirect(Yii::$app->request->referrer);
             }else{
                Yii::$app->session->setFlash('error','something went wrong.');
@@ -406,6 +411,20 @@ public $defaultAction = 'dashboard';
         return $this->redirect(Yii::$app->request->referrer);
     }
         return $this->render('chat_index', ['model'=>$model, 'username'=>$username, 
+        'sender'=>$sender, 'chats'=>$chats]);
+    }
+
+    //view chat
+    public function actionViewChats($stdid){
+        $model = new CreateChat;
+        $sender = Yii::$app->user->identity->instructor->instructorID;
+        $username = $stdid;
+        
+        
+        $chats = Chat::find()->where(['instructorID'=>$sender, 'reg_no'=>$username])->all();
+       // $programs = Program::find()->all();
+   
+        return $this->render('chat_index1', ['model'=>$model, 'username'=>$username, 
         'sender'=>$sender, 'chats'=>$chats]);
     }
 
@@ -489,9 +508,6 @@ public function actionEditExtAssrecord($recordid)
         
         
       }
-
-
-
 
     }
 }
@@ -595,6 +611,15 @@ public function actionEditExtAssrecord($recordid)
         $cozdel = Course::findOne($id)->delete(); 
         if($cozdel){
            Yii::$app->session->setFlash('success', 'Course deleted successfully');
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    } 
+
+    public function actionDeleteInstructorCoz($id)
+    {
+        $cozdel = InstructorCourse::findOne($id)->delete(); 
+        if($cozdel){
+           Yii::$app->session->setFlash('success', 'Course Removed successfully');
         }
         return $this->redirect(Yii::$app->request->referrer);
     } 
@@ -2045,5 +2070,11 @@ public function actionStudentList(){
       
 
        return $this->render('instructor-course', [ 'instructors'=>$instructors]);
+    }
+
+    public function actionRemoveInstructorCourse($instructorID)
+    {
+        $instructorCoz=InstructorCourse::find()->where(['instructorID'=>$instructorID])->all();
+       return $this->render('remove-instructor-course', [ 'instructorCoz'=>$instructorCoz]);
     }
 }

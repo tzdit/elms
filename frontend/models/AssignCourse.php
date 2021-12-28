@@ -49,7 +49,5 @@ class AssignCourse extends Model{
     }
     }
 
-    
-    
 }
 ?>
