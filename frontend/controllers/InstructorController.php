@@ -1405,7 +1405,10 @@ public function actionDownloadSubmits($assignment)
 
    try
    {
-   $dir=ini_get('upload_tmp_dir');
+   $dir="storage/tmpfiles";
+
+   if(!file_exists(realPath($dir))){ mkdir($dir);}
+
    $ziptmp=$dir."submits_tmp.zip";
    
    $ziptmp=str_replace(' ', '', $ziptmp);
