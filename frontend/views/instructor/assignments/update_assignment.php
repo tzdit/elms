@@ -2,11 +2,12 @@
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use frontend\models\ClassRoomSecurity;
 
 $this->params['courseTitle'] ="Update Assignment";
 $this->title ="Update assignment";
 $this->params['breadcrumbs'] = [
-  ['label'=>'class assignments', 'url'=>Url::to(['/instructor/class-assignments', 'cid'=>yii::$app->session->get('ccode')])],
+  ['label'=>'class assignments', 'url'=>Url::to(['/instructor/class-assignments', 'cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get('ccode'))])],
   ['label'=>$this->title]
 ];
 
