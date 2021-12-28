@@ -1411,8 +1411,6 @@ public function actionDownloadSubmits($assignment)
 
    $ziptmp=$dir."submits_tmp.zip";
    
-   $ziptmp=str_replace(' ', '', $ziptmp);
-
    $zipper=new \ZipArchive();
 
    if(!$zipper->open($ziptmp,\ZipArchive::CREATE | \ZipArchive::OVERWRITE))
@@ -1445,9 +1443,11 @@ public function actionDownloadSubmits($assignment)
    }
     $zipper->close();
   
-    Yii::$app->response->sendFile($ziptmp,$course."_Assignment_".$current_assignment->finishDate."_Submits.zip");
+    Yii::$app->response->sendFile($ziptmp,$course."_Assignment_".$current_assignment->finishDate."_Submits.zip")->on(\yii\web\Response::EVENT_AFTER_SEND, function($event) {
+        unlink($event->data);
+    },$ziptmp);
     if(connection_aborted()){unlink($ziptmp);}
-    register_shutdown_function(unlink($ziptmp));
+    //register_shutdown_function(unlink($ziptmp));
 }
 catch(Exception $dn)
 {
