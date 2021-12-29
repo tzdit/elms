@@ -1436,6 +1436,8 @@ public function actionDownloadSubmits($assignment)
    foreach($submits as $submit)
    {
        $file=$submit->fileName;
+       $file=str_replace('/', '-', $file);
+       $file=str_replace('\\', '-', $file);
        if(file_exists("storage/submit/".$file))
        {
         $zipper->addFile("storage/submit/".$file,$submit->reg_no.".".pathinfo($file,PATHINFO_EXTENSION));
