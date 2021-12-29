@@ -1436,7 +1436,7 @@ public function actionDownloadSubmits($assignment)
    foreach($submits as $submit)
    {
        $file=$submit->fileName;
-       if(file_exists($file))
+       if(file_exists("storage/submit/".$file))
        {
         $zipper->addFile("storage/submit/".$file,$submit->reg_no.".".pathinfo($file,PATHINFO_EXTENSION));
        }
@@ -1557,8 +1557,8 @@ public function actionMark($id,$subid=null)
     //try acquiring mutex
      try
      {
-        $this->actionGetAssignmentLock(ClassRoomSecurity::decrypt($id));
-        
+        //$this->actionGetAssignmentLock(ClassRoomSecurity::decrypt($id));
+        $starter=Yii::$app->user->identity->id; //just for waiting
      }
      catch(Exception $q)
      {
