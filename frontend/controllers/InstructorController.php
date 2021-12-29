@@ -1436,18 +1436,18 @@ public function actionDownloadSubmits($assignment)
    foreach($submits as $submit)
    {
        $file=$submit->fileName;
-       $file=str_replace('/', '-', $file);
-       $file=str_replace('\\', '-', $file);
+       $regno=str_replace('/', '-', $submit->reg_no);
        if(file_exists("storage/submit/".$file))
        {
-        $zipper->addFile("storage/submit/".$file,$submit->reg_no.".".pathinfo($file,PATHINFO_EXTENSION));
+        $localfile=$regno.".".pathinfo($file,PATHINFO_EXTENSION);
+        $zipper->addFile("storage/submit/".$file,$localfile);
        }
    }
     $zipper->close();
   
-    Yii::$app->response->sendFile($ziptmp,$course."_Assignment_".$current_assignment->finishDate."_Submits.zip")->on(\yii\web\Response::EVENT_AFTER_SEND, function($event) {
+   Yii::$app->response->sendFile($ziptmp,$course."_Assignment_".$current_assignment->finishDate."_Submits.zip")->on(\yii\web\Response::EVENT_AFTER_SEND, function($event) {
         unlink($event->data);
-    },$ziptmp);
+   },$ziptmp);
     if(connection_aborted()){unlink($ziptmp);}
     //register_shutdown_function(unlink($ziptmp));
 }
