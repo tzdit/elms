@@ -1227,8 +1227,8 @@ public function actionUpdateAssignment($assid){
     $model->questions_maxima=Yii::$app->request->post('q_max');
    
     $model->the_assignment=Yii::$app->request->post('the_assignment');
-       // try
-       // {
+        try
+        {
         if($model->update($assid)){
             
         Yii::$app->session->setFlash('success', 'Assignment updated successfully');
@@ -1238,12 +1238,12 @@ public function actionUpdateAssignment($assid){
        
         return $this->redirect(Yii::$app->request->referrer);
         }
-       //}
-       //catch(Exception $u)
-       //{
-        //Yii::$app->session->setFlash('error', $u->getMessage());
-        //return $this->redirect(Yii::$app->request->referrer);  
-       //}
+       }
+       catch(Exception $u)
+       {
+        Yii::$app->session->setFlash('error', $u->getMessage());
+        return $this->redirect(Yii::$app->request->referrer);  
+       }
 
 }
 }
