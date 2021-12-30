@@ -142,7 +142,7 @@ class UploadAssignment extends Model{
              //the assignment questions and maxima
            
              for($q=0;$q<$this->number_of_questions;$q++)
-             {
+              {
          
                 $assq=new Assq();
                 $assq->assID=$ass->assID;
@@ -186,6 +186,10 @@ class UploadAssignment extends Model{
 
     public function update($assid)
     {
+        try
+        {
+
+        $transaction = Yii::$app->db->beginTransaction();
         $ass =Assignment::findOne($assid);
         $ass->assName = $this->assTitle;
         $ass->submitMode = $this->submitMode;
@@ -197,16 +201,35 @@ class UploadAssignment extends Model{
         $ass->total_marks = $this->totalMarks;
         $ass->course_code =Yii::$app->session->get('ccode');
         
-        if(!$ass->save()){return false;}
+        if(!$ass->save()){throw new Exception("could not update assignment");}
+
+           
            $assqs=$ass->assqs;
            for($q=0;$q<count($assqs);$q++)
            {
               $assq=Assq::findOne($assqs[$q]->assq_ID);
-              $assq->total_marks=$this->questions_maxima[$q];
-              if(!$assq->save()){return false;}
+              if(!$assq->delete()){throw new Exception("could not delete assignment questions");}
            }
-        return true;
 
+           //readd assignment questions 
+
+           for($q=0;$q<$this->number_of_questions;$q++)
+           {
+      
+             $assq=new Assq();
+             $assq->assID=$ass->assID;
+             $assq->qno=$q+1;
+             $assq->total_marks=$this->questions_maxima[$q];
+             if(!$assq->save()){throw new Exception("could not readd assignment questions");}
+          }
+         $transaction->commit();
+         return true;
+         }
+         catch(Exception $d)
+         {
+            $transaction->rollBack();
+            throw new Exception($d);
+         }
         
     }
     

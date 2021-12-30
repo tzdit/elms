@@ -1227,8 +1227,8 @@ public function actionUpdateAssignment($assid){
     $model->questions_maxima=Yii::$app->request->post('q_max');
    
     $model->the_assignment=Yii::$app->request->post('the_assignment');
-        try
-        {
+       // try
+       // {
         if($model->update($assid)){
             
         Yii::$app->session->setFlash('success', 'Assignment updated successfully');
@@ -1238,12 +1238,12 @@ public function actionUpdateAssignment($assid){
        
         return $this->redirect(Yii::$app->request->referrer);
         }
-       }
-       catch(Exception $u)
-       {
-        Yii::$app->session->setFlash('error', 'Updating failed, Make sure all fields are filled in then try again');
-        return $this->redirect(Yii::$app->request->referrer);  
-       }
+       //}
+       //catch(Exception $u)
+       //{
+        //Yii::$app->session->setFlash('error', $u->getMessage());
+        //return $this->redirect(Yii::$app->request->referrer);  
+       //}
 
 }
 }
@@ -1417,9 +1417,22 @@ public function actionDownloadSubmits($assignment)
    {
          throw new Exception("could not create archive"); 
    }
-   
-   $zipper->addFromString('Readme.txt',"Assignment submits download information \n------------------------------------------");
-   
+   //building download information
+
+   $readme="Assignment submits download information \n------------------------------------------";
+   $assignment_title=$current_assignment->assName;
+   $assignment_type=($current_assignment->assType=="groups" || $current_assignment->assType=="allgroups")?"Group":"Individual";
+   $expire=$current_assignment->finishDate;
+   $coursetitle=$current_assignment->courseCode->course_name;
+   $coursecode=$current_assignment->courseCode->course_code;
+   $downloadinstructor=((new Instructor)::find()->where(['userID'=>yii::$app->user->identity->id])->one())->full_name;
+   $no_submits=0;
+   $no_files=0;
+   $no_missing=0;
+   $missing_files="";
+   $readme.="\nAssignment Title: ".$assignment_title."\nAssignment type: ".$assignment_type."\nExpiring/Expired on: ".$expire."\n";
+   $readme.="Course Name: ".$coursetitle."\nCourse Code: ".$coursecode."\n";
+   $readme.="Download Instructor: ".$downloadinstructor."\n";
    $submits=null;
 
    if($current_assignment->assType=="allstudents" || $current_assignment->assType=="students")
@@ -1430,19 +1443,33 @@ public function actionDownloadSubmits($assignment)
    {
        $submits=$current_assignment->groupAssignmentSubmits; 
    }
-
+    $no_submits=count($submits);
    if(empty($submits) || $submits==null){throw new Exception("No submits found");}
-
+   
    foreach($submits as $submit)
    {
        $file=$submit->fileName;
        $regno=str_replace('/', '-', $submit->reg_no);
        if(file_exists("storage/submit/".$file))
        {
+        $no_files++;
         $localfile=$regno.".".pathinfo($file,PATHINFO_EXTENSION);
         $zipper->addFile("storage/submit/".$file,$localfile);
        }
+
+       $missing_files.=$regno.","; 
+       $no_missing++;
    }
+   
+   $ending="Copyright 2020 - ".date('Y')." The University of Dodoma,  All Rights Reserved.\n\n UDOM-CLASSROOM V2.0";
+   $readme.="Number of Submits: ".$no_submits."\nNumber Of Downloaded Files: ".$no_files."\nNumber Of Missing Files: ".$no_missing."\n";
+   $readme.="Missing Files: ".$missing_files."\n\n\n\n\n\n";
+   $college=((new Instructor)::find()->where(['userID'=>yii::$app->user->identity->id])->one())->department->college->college_name;
+   $department=((new Instructor)::find()->where(['userID'=>yii::$app->user->identity->id])->one())->department->department_name;
+   $readme.=str_pad($department.", ".$college."\n\n\n\n\n\n\n".$ending,100,"++++++++",STR_PAD_BOTH);
+   $zipper->addFromString('Readme.txt',$readme);
+
+    $readme;
     $zipper->close();
   
    Yii::$app->response->sendFile($ziptmp,$course."_Assignment_".$current_assignment->finishDate."_Submits.zip")->on(\yii\web\Response::EVENT_AFTER_SEND, function($event) {

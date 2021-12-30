@@ -44,7 +44,7 @@ $this->params['breadcrumbs'] = [
         <?= $form->field($assmodel, 'submitMode')->dropdownList(['resubmit'=>'Can resubmit', 'unresubmit'=>'Cant resubmit'], ['class'=>'form-control form-control-sm', 'prompt'=>'--select--'])->label('Submission Mode')?>
         </div>
         <div class="col-md-3">
-        <?= $form->field($assmodel, 'number_of_questions')->textInput(['type'=>'text','class'=>'form-control form-control-sm','id'=>'qnumber','readonly'=>'readonly','value'=>count($ass->assqs)])->label('Number of questions')?>
+        <?= $form->field($assmodel, 'number_of_questions')->textInput(['type'=>'text','class'=>'form-control form-control-sm','id'=>'qnumber','value'=>count($ass->assqs)])->label('Number of questions')?>
         </div>
       </div>
       <div class="row" style="border:solid 1px #ccc;margin-bottom:1%">
