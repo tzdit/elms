@@ -1455,6 +1455,7 @@ public function actionDownloadSubmits($assignment)
         $no_files++;
         $localfile=$regno.".".pathinfo($file,PATHINFO_EXTENSION);
         $zipper->addFile("storage/submit/".$file,$localfile);
+        continue;
        }
 
        $missing_files.=$regno.","; 
@@ -1462,7 +1463,7 @@ public function actionDownloadSubmits($assignment)
    }
    
    $ending="Copyright 2020 - ".date('Y')." The University of Dodoma,  All Rights Reserved.\n\n UDOM-CLASSROOM V2.0";
-   $readme.="Number of Submits: ".$no_submits."\nNumber Of Downloaded Files: ".$no_files."\nNumber Of Missing Files: ".$no_missing."\n";
+   $readme.="Total Number of Submits: ".$no_submits."\nNumber Of Downloaded Files: ".$no_files."\nNumber Of Missing Files: ".$no_missing."\n";
    $readme.="Missing Files: ".$missing_files."\n\n\n\n\n\n";
    $college=((new Instructor)::find()->where(['userID'=>yii::$app->user->identity->id])->one())->department->college->college_name;
    $department=((new Instructor)::find()->where(['userID'=>yii::$app->user->identity->id])->one())->department->department_name;
