@@ -1584,6 +1584,27 @@ public function actionMark($id,$subid=null)
 
     $starter=Yii::$app->user->identity->id;
     yii::$app->session->set("marksessionowner",ClassRoomSecurity::encrypt($starter));
+     //loading the current assignment
+     $id=ClassRoomSecurity::decrypt($id);
+     $subid=ClassRoomSecurity::decrypt($subid);
+     $submit=[];
+     $current_assignment=Assignment::findOne($id);
+
+    //marking before the deadline is no longer allowed
+
+    try
+    {
+      if(!($current_assignment->isExpired()) && ($current_assignment->submitMode=="resubmit"))
+      {
+          throw new Exception("Marking before deadline is not allowed in \"resubmit\" assignment type");
+      }
+    }
+    catch(Exception $m)
+    {
+        yii::$app->session->setFlash("error",$m->getMessage());
+        return $this->redirect(yii::$app->request->referrer); 
+    }
+    
     //try acquiring mutex
      try
      {
@@ -1611,12 +1632,7 @@ public function actionMark($id,$subid=null)
         yii::$app->session->set('markingmode','ordinary');
     }
     
-    //loading the current assignment
-    $id=ClassRoomSecurity::decrypt($id);
-    $subid=ClassRoomSecurity::decrypt($subid);
-    $submit=[];
-    $assignment=new Assignment();
-    $current_assignment=$assignment::findOne($id);
+   
     $model=null;
     $asstype=$current_assignment->assType;
     if($asstype=="group" || $asstype=="allgroups")
@@ -1643,7 +1659,7 @@ public function actionChangeMarkingMode($mode)
   }
   catch(Exception $e)
   {
-    yii::$app->session->setFlash("error","could not change marking mode".$e->getMessage());
+    yii::$app->session->setFlash("error","could not change marking mode");
     return $this->redirect(yii::$app->request->referrer);
   }
 }

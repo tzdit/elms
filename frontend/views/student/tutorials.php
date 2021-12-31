@@ -14,6 +14,7 @@ use common\models\GroupAssignmentSubmit;
 use frontend\models\UploadMaterial;
 use yii\helpers\VarDumper;
 use yii\bootstrap4\Modal;
+use frontend\models\ClassRoomSecurity;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] =$cid;
@@ -86,9 +87,9 @@ $this->params['breadcrumbs'] = [
 
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> $tutorial->assID])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
+                                                                    <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> ClassRoomSecurity::encrypt($tutorial->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
 
-                                                                    <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> $tutorial->assID])?>" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"> View</i></span></a>
+                                                                    <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> ClassRoomSecurity::encrypt($tutorial->assID)])?>" class="btn btn-sm btn-info float-right"><span><i class="fas fa-eye"> View</i></span></a>
                                                                 </div>
                                                             </div>
                                                         </div>

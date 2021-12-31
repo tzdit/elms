@@ -211,7 +211,7 @@ class UploadAssignment extends Model{
               if(!$assq->delete()){throw new Exception("could not delete assignment questions");}
            }
 
-           //readd assignment questions 
+           //re-add assignment questions 
 
            for($q=0;$q<$this->number_of_questions;$q++)
            {
