@@ -166,7 +166,9 @@ public $defaultAction = 'dashboard';
                             'release-assignment-lock',
                             'toggle-collaboration',
                             'leave-marking-collaboration',
-                            'download-submits'
+                            'download-submits',
+                            'publish-assignment-results',
+                            'get-assignment-stat'
 
                         ],
                         'allow' => true,
@@ -266,7 +268,9 @@ public $defaultAction = 'dashboard';
                             'release-assignment-lock',
                             'toggle-collaboration',
                             'leave-marking-collaboration',
-                            'download-submits'
+                            'download-submits',
+                            'publish-assignment-results',
+                            'get-assignment-stat'
                            
                         ],
                         'allow' => true,
@@ -867,6 +871,34 @@ public function actionClassAssignments($cid)
 
 }
 
+//assignment stats
+
+public function actionGetAssignmentStat($assignment,$stat)
+{
+  $assignment=Assignment::findOne($assignment);
+
+  switch($stat)
+  {
+    case "submitted":
+        return round($assignment->getSubmitsPercent(),2)." %";
+        break;
+    case "missing":
+        return round($assignment->getMissingAssignmentsPerc(),2)." %";
+        break;
+    case "marked":
+        return round($assignment->getMarkedAssignmentsPerc(),2)." %";
+        break;
+    case "failed":
+        return round($assignment->getFailurePerc(),2)." %";
+        break;
+    default:
+        return null;
+
+  }
+
+
+}
+
 //lab assignments page
 
 public function actionClassLabs($cid)
@@ -1343,7 +1375,6 @@ public function actionGetAssignmentLock($assignment)
 public function actionReleaseAssignmentLock($assignment)
 {
     $mutexmanager=new ClassroomMutex;
-    
     if($mutexmanager->freeAssignmentMutexLock($assignment))
     {
         return true;
@@ -1470,8 +1501,7 @@ public function actionDownloadSubmits($assignment)
    $readme.=str_pad($department.", ".$college."\n\n\n\n\n\n\n".$ending,100,"++++++++",STR_PAD_BOTH);
    $zipper->addFromString('Readme.txt',$readme);
 
-    $readme;
-    $zipper->close();
+   $zipper->close();
   
    Yii::$app->response->sendFile($ziptmp,$course."_Assignment_".$current_assignment->finishDate."_Submits.zip")->on(\yii\web\Response::EVENT_AFTER_SEND, function($event) {
         unlink($event->data);
@@ -1582,8 +1612,8 @@ public function actionMark($id,$subid=null)
 {
     //setting up the session starter
 
-    $starter=Yii::$app->user->identity->id;
-    yii::$app->session->set("marksessionowner",ClassRoomSecurity::encrypt($starter));
+     $starter=Yii::$app->user->identity->id;
+     yii::$app->session->set("marksessionowner",ClassRoomSecurity::encrypt($starter));
      //loading the current assignment
      $id=ClassRoomSecurity::decrypt($id);
      $subid=ClassRoomSecurity::decrypt($subid);
@@ -1604,12 +1634,12 @@ public function actionMark($id,$subid=null)
         yii::$app->session->setFlash("error",$m->getMessage());
         return $this->redirect(yii::$app->request->referrer); 
     }
-    
+
     //try acquiring mutex
      try
      {
-        //$this->actionGetAssignmentLock(ClassRoomSecurity::decrypt($id));
-        $starter=Yii::$app->user->identity->id; //just for waiting
+        //$this->actionGetAssignmentLock($id);
+        $user=true; //as a placeholder
      }
      catch(Exception $q)
      {
@@ -1617,6 +1647,18 @@ public function actionMark($id,$subid=null)
         return $this->redirect(yii::$app->request->referrer);
      }
 
+   //for connection exceptions, release lock
+  
+    if(connection_status()==1 || connection_status()==2 || connection_status()==3)
+    {
+      if($this->actionReleaseAssignmentLock($id))
+      {
+        yii::$app->session->set("marksessionowner",null); //he is no longer the owner
+      }
+      $this->actionReleaseAssignmentLock($id);
+    }
+   
+ 
 
     //setting up the marking mode
     try
@@ -1662,6 +1704,21 @@ public function actionChangeMarkingMode($mode)
     yii::$app->session->setFlash("error","could not change marking mode");
     return $this->redirect(yii::$app->request->referrer);
   }
+}
+public function actionPublishAssignmentResults($assignment)
+{
+    $currentassignment=Assignment::findOne(ClassRoomSecurity::decrypt($assignment));
+    $currentassignment->status="published";
+
+    if($currentassignment->save()){
+        yii::$app->session->setFlash("success","Assignment results published successfully");
+        return $this->redirect(yii::$app->request->referrer);
+    }
+    else
+    {
+        yii::$app->session->setFlash("error","unknown error occurred while publishing results, try again");
+        return $this->redirect(yii::$app->request->referrer);  
+    }
 }
 public function actionMarkInputing()
 {

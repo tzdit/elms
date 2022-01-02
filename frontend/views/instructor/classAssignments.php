@@ -108,7 +108,7 @@ $this->params['breadcrumbs'] = [
             <div class="info-box shadow">
               <div class="info-box-content">
                 <span class="info-box-text">Submitted</span>
-                <span class="info-box-number"><?=round($assign->getSubmitsPercent(),2)?>%</span>
+                <span class="info-box-number submited" id=<?=$assign->assID?>></span>
               </div>
         
             </div>
@@ -119,7 +119,7 @@ $this->params['breadcrumbs'] = [
             <div class="info-box shadow">
               <div class="info-box-content">
                 <span class="info-box-text">Missing</span>
-                <span class="info-box-number"><?=round($assign->getMissingAssignmentsPerc(),2)?>%</span>
+                <span class="info-box-number missing" id=<?=$assign->assID?>></span>
               </div>
      
             </div>
@@ -130,8 +130,8 @@ $this->params['breadcrumbs'] = [
           <a href="<?=Url::to(['instructor/stdworkmark/', 'cid'=>ClassRoomSecurity::encrypt($assign->course_code), 'id' =>ClassRoomSecurity::encrypt($assign->assID)]) ?>">
             <div class="info-box shadow">
               <div class="info-box-content">
-                <span class="info-box-text">Marked</span>
-                <span class="info-box-number"><?=round($assign->getMarkedAssignmentsPerc(),2)?>%</span>
+                <span class="info-box-text ">Marked</span>
+                <span class="info-box-number marked" id=<?=$assign->assID?>></span>
               </div>
       
             </div>
@@ -142,7 +142,7 @@ $this->params['breadcrumbs'] = [
             <div class="info-box shadow">
               <div class="info-box-content">
                 <span class="info-box-text">Failed</span>
-                <span class="info-box-number"><?=round($assign->getFailurePerc(),2)?>%</span>
+                <span class="info-box-number failed" id=<?=$assign->assID?> >9 %</span>
               </div>
          
             </div>
@@ -205,36 +205,11 @@ $assmodel = new UploadAssignment();
 ?>
 <?= $this->render('assignments/create_assignment', ['assmodel'=>$assmodel, 'ccode'=>$cid]) ?>
 
-<!--  ###################################render model to Create_tutorial ##############################################-->
-<?php 
-$tutmodel = new UploadTutorial();
-?>
-<?= $this->render('tutorials/create_tutorial', ['tutmodel'=>$tutmodel, 'ccode'=>$cid]) ?>
 
-<!--  ###################################render model to Create_lab ####################################################-->
 <?php 
 $labmodel = new UploadLab();
 ?>
 <?= $this->render('labs/create_lab', ['labmodel'=>$labmodel, 'ccode'=>$cid]) ?>
-
-<!-- ############################################## the student adding modal ######################################## -->
-<?php 
-$assignstudentsmodel = new StudentAssign();
-?>
-<?= $this->render('assignstudents', ['assignstudentsmodel'=>$assignstudentsmodel, 'ccode'=>$cid]) ?>
-<!--  ###################################new assessment modal ####################################################-->
-<?php 
-$assessmodel = new External_assess();
-?>
-<?= $this->render('assessupload', ['assessmodel'=>$assessmodel, 'ccode'=>$cid]) ?>
-<!--  ###################################new announce modal ####################################################-->
-<?php 
-$announcemodel = new PostAnnouncement();
-?>
-<?= $this->render('announcementForm', ['announcemodel'=>$announcemodel]) ?>
-
-
-
 <?php 
 $script = <<<JS
 $(document).ready(function(){
@@ -654,12 +629,53 @@ $('#cadownloaderpdf').click(function(e){
     
   });
  
-
-
-
-
+  /////////////////////////
+  $(".info-box-number").each(function(i,elem)
+  {
+    var data={
+    assignment:$(elem).attr('id')
+  }
+  data[yii.getCsrfParam()]=yii.getCsrfToken();
+    if($(elem).hasClass("submited"))
+    {
+      data["stat"]="submitted";
+      $.get("/instructor/get-assignment-stat",data)
+      .done(function(an){
+       $(elem).text(an);
+      })
+    }
+    if($(elem).hasClass("missing"))
+    {
+      data["stat"]="missing";
+      $.get("/instructor/get-assignment-stat",data)
+      .done(function(an){
+       $(elem).text(an);
+      })
+    }
+    if($(elem).hasClass("marked"))
+    {
+      data["stat"]="marked";
+      $.get("/instructor/get-assignment-stat",data)
+      .done(function(an){
+       $(elem).text(an);
+      })
+    }
+    if($(elem).hasClass("failed"))
+    {
+      data["stat"]="failed";
+      $.get("/instructor/get-assignment-stat",data)
+      .done(function(an){
+       $(elem).text(an);
+      })
+    }
   
+
+  });
+  /////////////////////
+
 });
+
+
 JS;
 $this->registerJs($script);
 

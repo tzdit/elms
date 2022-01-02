@@ -715,8 +715,35 @@ window.onbeforeunload = function (e) {
   }
   data[yii.getCsrfParam()]=yii.getCsrfToken();
   $.get("/instructor/release-assignment-lock",data);
- 
+  
 };
 
+
+//when the page is loaded, recheck lock
+window.addEventListener('load', (event) => {
+
+  var e = e || window.event;
+
+  // For IE and Firefox
+  if (e) {
+    var data={
+      assignment:currentassignment
+    }
+    data[yii.getCsrfParam()]=yii.getCsrfToken();
+    $.get("/instructor/get-assignment-lock",data);
+  }
+
+  // For Safari
+  var data={
+    assignment:currentassignment
+  }
+  data[yii.getCsrfParam()]=yii.getCsrfToken();
+  $.get("/instructor/get-assignment-lock",data);
+ 
+});
+var data={
+  assignment:currentassignment
+}
+$.get("/instructor/get-assignment-lock",data);
 
  });

@@ -110,6 +110,16 @@ class ClassroomMutex extends Model
    public function freeAssignmentMutexLock($name)
    {
      $collaborationlock=$name."collaboration";
+     $sessionowner=ClassRoomSecurity::decrypt(yii::$app->session->get("marksessionowner"));
+     $currentuser=Yii::$app->user->identity->id;
+     if($sessionowner!=$currentuser){return true;} //no need to continue with releasing lock, only the owner of the lock can
+
+     //if the assignment lock is not acquired, then no need to continue
+
+     if(!$this->isLockAcquired($name))
+     {
+       return true;
+     }
 
      try
      {
