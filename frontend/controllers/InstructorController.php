@@ -701,14 +701,19 @@ public function actionEditExtAssrecord($recordid)
 
     public function actionUpdatetut($id)
     {
-        $tut = Assignment::findOne($id);
+        $tut = Assignment::findOne(ClassRoomSecurity::decrypt($id));
+        if(Yii::$app->request->isPost)
+        {
         if($tut->load(Yii::$app->request->post()) && $tut->save())
         {
             Yii::$app->session->setFlash('success', 'Tutorial updated successfully');
-            return $this->redirect(['classwork', 'cid'=>$tut->course_code]);
+            return $this->redirect(['class-tutorials', 'cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get('ccode'))]);
         }else{
-        return $this->render('updatetut', ['tut'=>$tut]);
+            Yii::$app->session->setFlash('error', 'Tutorial updating failed, try again later');
+            return $this->redirect(yii::$app->request->referrer);
         }
+       }
+        return $this->render('updatetut', ['tut'=>$tut,'id'=>$id]);
     }
 
 
@@ -1526,13 +1531,12 @@ public function actionUploadTutorial(){
     $model = new UploadTutorial();
     if($model->load(Yii::$app->request->post())){
         $model->assFile = UploadedFile::getInstance($model, 'assFile');
-        if($model->upload()){
+        $upload=$model->upload();
+        if($upload===true){
         Yii::$app->session->setFlash('success', 'Tutorial created successfully');
-        //print_r($model->getErrors());
         return $this->redirect(Yii::$app->request->referrer);
         }else{
-            print_r($model->getErrors());
-        Yii::$app->session->setFlash('error', 'Something went wrong');
+        Yii::$app->session->setFlash('error', 'Unable to upload tutorial now, try again letter');
        
         return $this->redirect(Yii::$app->request->referrer);
     }
@@ -1579,13 +1583,9 @@ public function actionUploadLab(){
 
 public function actionUploadMaterial(){
     $model = new UploadMaterial();
-   
     if($model->load(Yii::$app->request->post())){
         $model->assFile = UploadedFile::getInstance($model, 'assFile');
-
         try{
-
-       
        $res=$model->upload();
         if($res===true){
             
@@ -1651,11 +1651,8 @@ public function actionMark($id,$subid=null)
   
     if(connection_status()==1 || connection_status()==2 || connection_status()==3)
     {
-      if($this->actionReleaseAssignmentLock($id))
-      {
-        yii::$app->session->set("marksessionowner",null); //he is no longer the owner
-      }
       $this->actionReleaseAssignmentLock($id);
+      yii::$app->session->set("marksessionowner",null); //he is no longer the owner
     }
    
  

@@ -1,9 +1,14 @@
 <?php  
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
+use kartik\file\FileInput;
+use yii\widgets\Pjax;
+use frontend\assets\AppAsset;
+
+AppAsset::register($this);
 ?>
 <div class="modal fade" id="createTutorialModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
+<div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header bg-primary">
         <span class="modal-title" id="exampleModalLabel"><h6>Create New Tutorial</h6></span>
@@ -12,7 +17,12 @@ use yii\helpers\Html;
         </button>
       </div>
       <div class="modal-body">
-      <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/upload-tutorial', 'enctype'=>'multipart/form-data']])?>
+      
+      <?php 
+      Pjax::begin(['id'=>'tutorialform','timeout'=>'3000']);
+      $form = ActiveForm::begin(['method'=>'post','options' => ['data-pjax' => true ], 'action'=>['/instructor/upload-tutorial', 'enctype'=>'multipart/form-data']]);
+      ?>
+      <?= $form->errorSummary($tutmodel) ?>
         <div class="row">
         <div class="col-md-12">
         <?= $form->field($tutmodel, 'assTitle')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Tutorial Title'])->label(false)?>
@@ -26,21 +36,59 @@ use yii\helpers\Html;
         
       <div class="row">
       <div class="col-md-12">
-      <div class="custom-file">
-      <?= $form->field($tutmodel, 'assFile')->fileInput(['class'=>'form-control form-control-sm custom-file-input'])->label('Select File', ['class'=>'custom-file-label col-form-label-sm', 'for'=>'customFile'])?>
+      <?php
+   Pjax::begin(['id'=>'studloader1']);
+   ?>
+
+
+   <div class="overlay mt-0" id="studloading1" style="background-color:rgba(0,0,255,.1);color:#fff;display:none;position:absolute;height:75%;width:100%">
+     <i class="fas fa-2x fa-sync-alt fa-spin text-white font-weight-bold"></i> Uploading...
+   </div>
+   <?php
+
+   Pjax::end();
+?>
+      <?=
+
+$form->field($tutmodel, 'assFile')->widget(FileInput::classname(),[
+   'options' => ['multiple' => false],
+    'pluginOptions' => [
+        'showUpload' => true,
+        'browseLabel' => 'Browse',
+        'removeLabel' => 'Remove',
+        'uploadClass' => ' mx-2 btn btn-primary',
+        'browseClass' => 'btn btn-primary float-right',
+        'removeClass' => 'btn btn-danger',
+        'removeIcon'=>'<i class="fa fa-trash"></i>',
+        'uploadIcon'=>'<i class="fa fa-upload"></i>',
+        'browseIcon'=>'<i class="fa fa-search"></i>'
+    ]
+
+])->label(false);
+
+?>
       </div>
-      <?= $form->field($tutmodel, 'ccode')->hiddenInput(['class'=>'form-control form-control-sm'])->label(false)?>
-      </div>
         </div>
-        <div class="row">
-        <div class="col-md-12">
-        <?= Html::submitButton('Create', ['class'=>'btn btn-primary btn-md float-right ml-2']) ?>
-        <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
-      
-        </div>
-        </div>
-        <?php ActiveForm::end()?>
+        <?php 
+        ActiveForm::end();
+        Pjax::end();
+        ?>
     </div>
     </div>
   </div>
 </div>
+<?php
+$script = <<<JS
+    $('document').ready(function(){
+
+      $('#tutorialform').on('pjax:send', function() {
+       $('#studloading1').show();
+       })
+      $('#tutorialform').on('pjax:complete', function() {
+      $('#studloading1').hide();
+            })
+        })
+
+    JS;
+    $this->registerJs($script);
+
