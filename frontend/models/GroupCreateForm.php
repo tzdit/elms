@@ -79,7 +79,7 @@ class GroupCreateForm extends Model
                     $studentGroup->reg_no = $reg_no;
 
 
-                    $studentInTwoGroup = StudentGroup::find()->select('student_group.reg_no')->join('INNER JOIN','groups','groups.groupID = student_group.groupID')->where('generation_type = :gen_type',[':gen_type' => $this->generation_type])->all();
+                    $studentInTwoGroup = StudentGroup::find()->select('student_group.reg_no')->join('INNER JOIN','groups','groups.groupID = student_group.groupID')->where('groups.generation_type = :gen_type AND reg_no = :reg_no',[':gen_type' => $this->generation_type, ':reg_no' => $studentGroup->reg_no])->one();
 
                     if ( !empty($studentInTwoGroup)){
                         $transaction->rollBack();
