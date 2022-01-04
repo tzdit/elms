@@ -1,8 +1,9 @@
-
 <?php  
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
+use yii\grid\GridView;
+use yii\data\ActiveDataProvider;
 ?>
 
 
@@ -34,51 +35,18 @@ use yii\widgets\Pjax;
               <div class="card-body">
                 <!-- Conversations are loaded here -->
                 
-                <div class="direct-chat-messages">
-                  <!-- Message. Default to the left -->
-                  <?php foreach($chats as $chat): ?>
-                  <div class="direct-chat-msg">
-                  <?php if($sender == $chat->instructorID): ?>
-                    <div class="direct-chat-msg right">
-                    <div class="direct-chat-infos clearfix">
-                      <span class="direct-chat-name float-right">Kasimu Majaliwa</span>
-                      <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
-                    </div>
-                    <!-- /.direct-chat-infos -->
-                    <img class="direct-chat-img" src="/img/announcement.gif" alt="Message User Image">
-                    <!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                    <?= $chat->chatText ?>
-                    </div>
-                    <!-- /.direct-chat-text -->
-                  </div>
-                  
-                  <!-- /.direct-chat-msg -->
-                    <?php endif; ?>
-                  </div>
-                  
-                  
-                  
-                  <!-- /.direct-chat-msg -->
-
-                  <!-- Message to the right -->
-                  <?php if($sender !== $chat->instructorID): ?>
-                  <div class="direct-chat-infos clearfix">
-                      <span class="direct-chat-name float-left">Samia Suluhu</span>
-                      <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
-                    </div>
-                    <!-- /.direct-chat-infos -->
-                    <img class="direct-chat-img" src="/img/announcement.gif" alt="Message User Image">
-                    <!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                    <?= $chat->chatText ?>
-                    </div>
-                    <!-- /.direct-chat-text -->
-                
-                <?php endif; ?>
-
-                <?php endforeach; ?>
-                </div>
+                <?php Pjax::begin(['id' => 'countries']) ?>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            'chatID',
+            'reg_no',
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
+<?php Pjax::end() ?>
                 <!--/.direct-chat-messages-->
 
                 <!-- Contacts are loaded here -->
@@ -138,12 +106,11 @@ use yii\widgets\Pjax;
 $script = <<<JS
     $('document').ready(function(){
 
-      $('#sendmessage').on('pjax:send', function() {
-       //$('#studloading').show();
-       })
-      $('#sendmessage').on('pjax:complete', function() {
-      //$('#studloading').hide();
-            })
+    $("#sendmessage").on("pjax:end", function() {
+    $.pjax.reload({container:"#countries"});  //Reload GridView
+    });
+    });'
+    );
 
         })
 

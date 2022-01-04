@@ -61,6 +61,8 @@ use yii\base\Exception;
 use frontend\models\ClassRoomSecurity;
 use common\models\Academicyear;
 use frontend\models\AcademicYearManager;
+use yii\grid\GridView;
+use frontend\models\ClassroomMutex;
 
 class InstructorController extends \yii\web\Controller
 {
@@ -157,7 +159,16 @@ public $defaultAction = 'dashboard';
                             'mark-secure-redirect',
                             'remove-students',
                             'switch-academicyear',
-                            'course-update-data'
+                            'course-update-data',
+                            'get-marked-perc',
+                            'change-marking-mode',
+                            'get-assignment-lock',
+                            'release-assignment-lock',
+                            'toggle-collaboration',
+                            'leave-marking-collaboration',
+                            'download-submits',
+                            'publish-assignment-results',
+                            'get-assignment-stat'
 
                         ],
                         'allow' => true,
@@ -191,6 +202,7 @@ public $defaultAction = 'dashboard';
                             'deletelab',
                             'deletetut',
                             'deletecoz',
+                            'delete-instructor-coz',
                             'deleteprogcoz',
                             'deletestudent',
                             'deleteprog',
@@ -203,6 +215,7 @@ public $defaultAction = 'dashboard';
                             'stdlabmark',
                             'update',
                             'instructor-course',
+                            'remove-instructor-course',
                             'updatetut',
                             'updatelab',
                             'updateprog',
@@ -241,13 +254,23 @@ public $defaultAction = 'dashboard';
                             'class-ca-generator',
                             'class-students',
                             'create-module',
+                            'view-chats',
                             'material-upload-form',
                             'module-delete',
                             'updatestudent',
                             'mark-secure-redirect',
                             'remove-students',
                             'switch-academicyear',
-                            'course-update-data'
+                            'course-update-data',
+                            'get-marked-perc',
+                            'change-marking-mode',
+                            'get-assignment-lock',
+                            'release-assignment-lock',
+                            'toggle-collaboration',
+                            'leave-marking-collaboration',
+                            'download-submits',
+                            'publish-assignment-results',
+                            'get-assignment-stat'
                            
                         ],
                         'allow' => true,
@@ -380,6 +403,7 @@ public $defaultAction = 'dashboard';
         $sender = Yii::$app->user->identity->instructor->instructorID;
         $username = $stdid;
         
+        
         $chats = Chat::find()->where(['instructorID'=>$sender, 'reg_no'=>$username])->all();
        // $programs = Program::find()->all();
         try{
@@ -387,7 +411,7 @@ public $defaultAction = 'dashboard';
         if($model->load(Yii::$app->request->post())){
             if($model->create()){
                 //print_r(Yii::$app->request->post());
-            Yii::$app->session->setFlash('success', 'Chat added successfully');
+            //Yii::$app->session->setFlash('success', 'Chat added successfully');
             return $this->redirect(Yii::$app->request->referrer);
             }else{
                Yii::$app->session->setFlash('error','something went wrong.');
@@ -402,6 +426,20 @@ public $defaultAction = 'dashboard';
         return $this->redirect(Yii::$app->request->referrer);
     }
         return $this->render('chat_index', ['model'=>$model, 'username'=>$username, 
+        'sender'=>$sender, 'chats'=>$chats]);
+    }
+
+    //view chat
+    public function actionViewChats($stdid){
+        $model = new CreateChat;
+        $sender = Yii::$app->user->identity->instructor->instructorID;
+        $username = $stdid;
+        
+        
+        $chats = Chat::find()->where(['instructorID'=>$sender, 'reg_no'=>$username])->all();
+       // $programs = Program::find()->all();
+   
+        return $this->render('chat_index1', ['model'=>$model, 'username'=>$username, 
         'sender'=>$sender, 'chats'=>$chats]);
     }
 
@@ -485,9 +523,6 @@ public function actionEditExtAssrecord($recordid)
         
         
       }
-
-
-
 
     }
 }
@@ -595,6 +630,15 @@ public function actionEditExtAssrecord($recordid)
         return $this->redirect(Yii::$app->request->referrer);
     } 
 
+    public function actionDeleteInstructorCoz($id)
+    {
+        $cozdel = InstructorCourse::findOne($id)->delete(); 
+        if($cozdel){
+           Yii::$app->session->setFlash('success', 'Course Removed successfully');
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    } 
+
     public function actionDeleteprogcoz($id)
     {
         $progcozdel = ProgramCourse::findOne($id)->delete(); 
@@ -657,14 +701,19 @@ public function actionEditExtAssrecord($recordid)
 
     public function actionUpdatetut($id)
     {
-        $tut = Assignment::findOne($id);
+        $tut = Assignment::findOne(ClassRoomSecurity::decrypt($id));
+        if(Yii::$app->request->isPost)
+        {
         if($tut->load(Yii::$app->request->post()) && $tut->save())
         {
             Yii::$app->session->setFlash('success', 'Tutorial updated successfully');
-            return $this->redirect(['classwork', 'cid'=>$tut->course_code]);
+            return $this->redirect(['class-tutorials', 'cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get('ccode'))]);
         }else{
-        return $this->render('updatetut', ['tut'=>$tut]);
+            Yii::$app->session->setFlash('error', 'Tutorial updating failed, try again later');
+            return $this->redirect(yii::$app->request->referrer);
         }
+       }
+        return $this->render('updatetut', ['tut'=>$tut,'id'=>$id]);
     }
 
 
@@ -824,6 +873,34 @@ public function actionClassAssignments($cid)
     $assignments = Assignment::find()->where(['assNature' => 'assignment', 'course_code' =>ClassRoomSecurity::decrypt($cid),'yearID'=>$yearid])->orderBy([
         'assID' => SORT_DESC ])->all();
     return $this->render('classAssignments', ['cid'=>$cid,'assignments'=>$assignments]);
+
+}
+
+//assignment stats
+
+public function actionGetAssignmentStat($assignment,$stat)
+{
+  $assignment=Assignment::findOne($assignment);
+
+  switch($stat)
+  {
+    case "submitted":
+        return round($assignment->getSubmitsPercent(),2)." %";
+        break;
+    case "missing":
+        return round($assignment->getMissingAssignmentsPerc(),2)." %";
+        break;
+    case "marked":
+        return round($assignment->getMarkedAssignmentsPerc(),2)." %";
+        break;
+    case "failed":
+        return round($assignment->getFailurePerc(),2)." %";
+        break;
+    default:
+        return null;
+
+  }
+
 
 }
 
@@ -1181,28 +1258,30 @@ public function actionUploadAssignment(){
 public function actionUpdateAssignment($assid){
     
     $model = new UploadAssignment();
-    
     if($model->load(Yii::$app->request->post())){
     
     //loading the external post data into the model
     $model->questions_maxima=Yii::$app->request->post('q_max');
-    if($model->assType=="allgroups"){$model->generation_type=Yii::$app->request->post('gentypes');}
-    else if($model->assType=="groups"){$model->generation_type=Yii::$app->request->post('gentypes');$model->groups=Yii::$app->request->post('gengroups');}
-    else if($model->assType=="students"){$model->students=Yii::$app->request->post('mystudents');}else{}
-  
-        $model->the_assignment=Yii::$app->request->post('the_assignment');
-       
- 
-    
+   
+    $model->the_assignment=Yii::$app->request->post('the_assignment');
+        try
+        {
         if($model->update($assid)){
+            
         Yii::$app->session->setFlash('success', 'Assignment updated successfully');
         return $this->redirect(Yii::$app->request->referrer);
         }else{
-            print_r($model->getErrors());
-        Yii::$app->session->setFlash('error', 'Something went wrong during updating');
+        Yii::$app->session->setFlash('error', 'Updating failed, try again later');
        
         return $this->redirect(Yii::$app->request->referrer);
-    }
+        }
+       }
+       catch(Exception $u)
+       {
+        Yii::$app->session->setFlash('error', $u->getMessage());
+        return $this->redirect(Yii::$app->request->referrer);  
+       }
+
 }
 }
 public function actionImportExternalAssessment()
@@ -1252,21 +1331,23 @@ public function actionImportStudents()
     $act=$importmodel->excelstd_importer();
     if($act!==false)
     {
-        $flash="Import successful with ".count($act)." error(s)";
+        $flash="Import completed with ".count($act)." error(s)";
         if($act!=null){
            foreach($act as $reg=>$msg)
            {
                $flash=$flash."<br>'".$reg."'=>".$msg;
            }
+           Yii::$app->session->setFlash('error', $flash);
         }
-        Yii::$app->session->setFlash('success', $flash);
+        else{Yii::$app->session->setFlash('success', $flash);}
+          
         
           return $this->redirect(Yii::$app->request->referrer);
     }
     else
     {
-        Yii::$app->session->setFlash('error', 'Importing failed, you may need to download the standard format');
-          return $this->redirect(Yii::$app->request->referrer);
+        Yii::$app->session->setFlash('error', 'Importing failed, you may need to download the standard format'.$act);
+         return $this->redirect(Yii::$app->request->referrer);
     }
   }
   else
@@ -1278,6 +1359,58 @@ public function actionImportStudents()
     
 }
 
+//assignment collaboration MUTEX implementation
+
+public function actionGetAssignmentLock($assignment)
+{
+  $mutexmanager=new ClassroomMutex;
+
+  if(!$mutexmanager->getAssignmentMutexLock($assignment))
+  {
+      throw new Exception("You cannot mark this assignment while someone else (your partner) is marking the same assignment, unless he/she allows marking collaboration!");
+  }
+  else
+  {
+      return true;
+  }
+  
+
+}
+
+public function actionReleaseAssignmentLock($assignment)
+{
+    $mutexmanager=new ClassroomMutex;
+    if($mutexmanager->freeAssignmentMutexLock($assignment))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+public function actionLeaveMarkingCollaboration($assignment)
+{
+    $mutexmanager=new ClassroomMutex;
+    $collaborationlock=$assignment."collaboration";
+    if($mutexmanager->isLockAcquired($collaborationlock))
+    {
+        $mutexmanager->freeLock($collaborationlock);
+
+        return true;
+    }
+
+    return true;
+
+}
+//toggling between marking collaboration activating mode
+
+public function actionToggleCollaboration($assignment)
+{
+    $mutex=new ClassroomMutex();
+    return $this->asJson($mutex->toggleCollaborationMode($assignment));
+}
 public function actionViewAssessment($assid)
 {
 
@@ -1299,19 +1432,111 @@ public function actionDeleteExtAssrecord($recordid)
   }
 
 }
+//downloading all assignment submits
+public function actionDownloadSubmits($assignment)
+{
+   $assignment=ClassRoomSecurity::decrypt($assignment);
+   $course=yii::$app->session->get('ccode');
+   $current_assignment=Assignment::findOne($assignment);
+
+   try
+   {
+   $dir="storage/tmpfiles/";
+
+   if(!file_exists(realPath($dir))){ mkdir($dir);}
+
+   $ziptmp=$dir."submits_tmp.zip";
+   
+   $zipper=new \ZipArchive();
+
+   if(!$zipper->open($ziptmp,\ZipArchive::CREATE | \ZipArchive::OVERWRITE))
+   {
+         throw new Exception("could not create archive"); 
+   }
+   //building download information
+
+   $readme="Assignment submits download information \n------------------------------------------";
+   $assignment_title=$current_assignment->assName;
+   $assignment_type=($current_assignment->assType=="groups" || $current_assignment->assType=="allgroups")?"Group":"Individual";
+   $expire=$current_assignment->finishDate;
+   $coursetitle=$current_assignment->courseCode->course_name;
+   $coursecode=$current_assignment->courseCode->course_code;
+   $downloadinstructor=((new Instructor)::find()->where(['userID'=>yii::$app->user->identity->id])->one())->full_name;
+   $no_submits=0;
+   $no_files=0;
+   $no_missing=0;
+   $missing_files="";
+   $readme.="\nAssignment Title: ".$assignment_title."\nAssignment type: ".$assignment_type."\nExpiring/Expired on: ".$expire."\n";
+   $readme.="Course Name: ".$coursetitle."\nCourse Code: ".$coursecode."\n";
+   $readme.="Download Instructor: ".$downloadinstructor."\n";
+   $submits=null;
+
+   if($current_assignment->assType=="allstudents" || $current_assignment->assType=="students")
+   {
+       $submits=$current_assignment->submits;
+   }
+   else
+   {
+       $submits=$current_assignment->groupAssignmentSubmits; 
+   }
+    $no_submits=count($submits);
+   if(empty($submits) || $submits==null){throw new Exception("No submits found");}
+   
+   foreach($submits as $submit)
+   {
+       $file=$submit->fileName;
+       $regno=str_replace('/', '-', $submit->reg_no);
+       if(file_exists("storage/submit/".$file))
+       {
+        $no_files++;
+        $localfile=$regno.".".pathinfo($file,PATHINFO_EXTENSION);
+        $zipper->addFile("storage/submit/".$file,$localfile);
+        continue;
+       }
+
+       $missing_files.=$regno.","; 
+       $no_missing++;
+   }
+   
+   $ending="Copyright 2020 - ".date('Y')." The University of Dodoma,  All Rights Reserved.\n\n UDOM-CLASSROOM V2.0";
+   $readme.="Total Number of Submits: ".$no_submits."\nNumber Of Downloaded Files: ".$no_files."\nNumber Of Missing Files: ".$no_missing."\n";
+   $readme.="Missing Files: ".$missing_files."\n\n\n\n\n\n";
+   $college=((new Instructor)::find()->where(['userID'=>yii::$app->user->identity->id])->one())->department->college->college_name;
+   $department=((new Instructor)::find()->where(['userID'=>yii::$app->user->identity->id])->one())->department->department_name;
+   $readme.=str_pad($department.", ".$college."\n\n\n\n\n\n\n".$ending,100,"++++++++",STR_PAD_BOTH);
+   $zipper->addFromString('Readme.txt',$readme);
+
+   $zipper->close();
+  
+   Yii::$app->response->sendFile($ziptmp,$course."_Assignment_".$current_assignment->finishDate."_Submits.zip")->on(\yii\web\Response::EVENT_AFTER_SEND, function($event) {
+        unlink($event->data);
+   },$ziptmp);
+    if(connection_aborted()){unlink($ziptmp);}
+    //register_shutdown_function(unlink($ziptmp));
+}
+catch(Exception $dn)
+{
+    yii::$app->session->setFlash('error',$dn->getMessage());
+    $this->redirect(yii::$app->request->referrer);
+}
+
+}
+
+
+
+
 //######################## function to create tutorial ###############################################
 
 public function actionUploadTutorial(){
     $model = new UploadTutorial();
     if($model->load(Yii::$app->request->post())){
         $model->assFile = UploadedFile::getInstance($model, 'assFile');
-        if($model->upload()){
+        $upload=$model->upload();
+        if($upload===true){
         Yii::$app->session->setFlash('success', 'Tutorial created successfully');
-        //print_r($model->getErrors());
         return $this->redirect(Yii::$app->request->referrer);
         }else{
-            print_r($model->getErrors());
-        Yii::$app->session->setFlash('error', 'Something went wrong');
+        Yii::$app->session->setFlash('error', 'Unable to upload tutorial now, try again letter');
        
         return $this->redirect(Yii::$app->request->referrer);
     }
@@ -1358,13 +1583,9 @@ public function actionUploadLab(){
 
 public function actionUploadMaterial(){
     $model = new UploadMaterial();
-   
     if($model->load(Yii::$app->request->post())){
         $model->assFile = UploadedFile::getInstance($model, 'assFile');
-
         try{
-
-       
        $res=$model->upload();
         if($res===true){
             
@@ -1389,12 +1610,68 @@ public function actionMarkSecureRedirect($id,$subid=null)
 }
 public function actionMark($id,$subid=null)
 {
-    //loading the current assignment
-    $id=ClassRoomSecurity::decrypt($id);
-    $subid=ClassRoomSecurity::decrypt($subid);
-    $submit=[];
-    $assignment=new Assignment();
-    $current_assignment=$assignment::findOne($id);
+    //setting up the session starter
+
+     $starter=Yii::$app->user->identity->id;
+     yii::$app->session->set("marksessionowner",ClassRoomSecurity::encrypt($starter));
+     //loading the current assignment
+     $id=ClassRoomSecurity::decrypt($id);
+     $subid=ClassRoomSecurity::decrypt($subid);
+     $submit=[];
+     $current_assignment=Assignment::findOne($id);
+
+    //marking before the deadline is no longer allowed
+
+    try
+    {
+      if(!($current_assignment->isExpired()) && ($current_assignment->submitMode=="resubmit"))
+      {
+          throw new Exception("Marking before deadline is not allowed in \"resubmit\" assignment type");
+      }
+    }
+    catch(Exception $m)
+    {
+        yii::$app->session->setFlash("error",$m->getMessage());
+        return $this->redirect(yii::$app->request->referrer); 
+    }
+
+    //try acquiring mutex
+     try
+     {
+        //$this->actionGetAssignmentLock($id);
+        $user=true; //as a placeholder
+     }
+     catch(Exception $q)
+     {
+        yii::$app->session->setFlash("error",$q->getMessage());
+        return $this->redirect(yii::$app->request->referrer);
+     }
+
+   //for connection exceptions, release lock
+  
+    if(connection_status()==1 || connection_status()==2 || connection_status()==3)
+    {
+      $this->actionReleaseAssignmentLock($id);
+      yii::$app->session->set("marksessionowner",null); //he is no longer the owner
+    }
+   
+ 
+
+    //setting up the marking mode
+    try
+    {
+        if(yii::$app->session->get('markingmode')===null)
+        {
+         yii::$app->session->set('markingmode','ordinary');
+        }  
+    }
+    catch(Exception $m)
+    {
+        yii::$app->session->setFlash("error",$m->getMessage());
+        yii::$app->session->set('markingmode','ordinary');
+    }
+    
+   
     $model=null;
     $asstype=$current_assignment->assType;
     if($asstype=="group" || $asstype=="allgroups")
@@ -1411,6 +1688,34 @@ public function actionMark($id,$subid=null)
     if($model!==null){$submit=$model->find()->where(['submitID'=>$subid])->all();}
    
     return $this->render('marking',['assignment'=>$current_assignment,'singlesub'=>$submit]);  
+}
+public function actionChangeMarkingMode($mode)
+{
+  try
+  {
+      yii::$app->session->set('markingmode',$mode);
+      return $this->redirect(yii::$app->request->referrer);
+  }
+  catch(Exception $e)
+  {
+    yii::$app->session->setFlash("error","could not change marking mode");
+    return $this->redirect(yii::$app->request->referrer);
+  }
+}
+public function actionPublishAssignmentResults($assignment)
+{
+    $currentassignment=Assignment::findOne(ClassRoomSecurity::decrypt($assignment));
+    $currentassignment->status="published";
+
+    if($currentassignment->save()){
+        yii::$app->session->setFlash("success","Assignment results published successfully");
+        return $this->redirect(yii::$app->request->referrer);
+    }
+    else
+    {
+        yii::$app->session->setFlash("error","unknown error occurred while publishing results, try again");
+        return $this->redirect(yii::$app->request->referrer);  
+    }
 }
 public function actionMarkInputing()
 {
@@ -1474,6 +1779,14 @@ public function actionMarkInputing()
   }
  // return $this->redirect(Yii::$app->request->referrer);   
 }
+}
+
+public function actionGetMarkedPerc($ass)
+{
+    $assignment=Assignment::findOne(intval($ass));
+    $markedperc=round($assignment->getMarkedAssignmentsPerc(),2);
+
+    return $this->asJson($markedperc);
 }
 //##################################### add partner ##################################################################
 
@@ -2006,5 +2319,11 @@ public function actionStudentList(){
       
 
        return $this->render('instructor-course', [ 'instructors'=>$instructors]);
+    }
+
+    public function actionRemoveInstructorCourse($instructorID)
+    {
+        $instructorCoz=InstructorCourse::find()->where(['instructorID'=>$instructorID])->all();
+       return $this->render('remove-instructor-course', [ 'instructorCoz'=>$instructorCoz]);
     }
 }

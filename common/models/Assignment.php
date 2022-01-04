@@ -22,6 +22,7 @@ use Yii;
  * @property int|null $total_marks
  * @property string|null $fileName
  * @property int $yearID
+ * @property string $status
  *
  * @property Course $courseCode
  * @property Instructor $instructor
@@ -86,10 +87,10 @@ class Assignment extends \yii\db\ActiveRecord
             'assID' => 'Ass ID',
             'instructorID' => 'Instructor ID',
             'course_code' => 'Course Code',
-            'assName' => 'Ass Name',
-            'assType' => 'Ass Type',
+            'assName' => 'Assignment Name',
+            'assType' => 'Assignment Type',
             'assNature' => 'Ass Nature',
-            'ass_desc' => 'Ass Desc',
+            'ass_desc' => 'Assignment Description',
             'submitMode' => 'Submit Mode',
             'startDate' => 'Start Date',
             'finishDate' => 'Finish Date',
@@ -298,6 +299,12 @@ class Assignment extends \yii\db\ActiveRecord
             }
 
             return $failedperc;
+    }
+    public function isExpired()
+    {
+      $today=date('Y-m-d H:i:s');
+
+      return $this->finishDate<$today;
     }
 
 }

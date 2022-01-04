@@ -24,12 +24,13 @@ use frontend\models\External_assess;
 use frontend\models\StudentAssign;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
+use frontend\models\ClassRoomSecurity;
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =$cid. " Tutorials";
+$this->params['courseTitle'] ="<i class='fa fa-chalkboard-teacher'></i> ".$cid. " Tutorials";
 $this->title =$cid. " Tutorials";
 $this->params['breadcrumbs'] = [
-  ['label'=>'class-dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>$cid])],
+  ['label'=>'class-dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
   ['label'=>$this->title]
 ];
 
@@ -88,7 +89,7 @@ $this->params['breadcrumbs'] = [
       <div class="row">
       <div class="col-md-12">
       <a href="#" class="btn btn-sm btn-danger float-right ml-2" id="tutodelete" ccode="<?=$tutorial->assID?>"><span><i class="fas fa-trash"></i></span></a>
-      <?= Html::a('<i class="fas fa-edit"></i>',['updatetut', 'id'=>$tutorial->assID], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
+      <?= Html::a('<i class="fas fa-edit"></i>',['updatetut', 'id'=>ClassRoomSecurity::encrypt($tutorial->assID)], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
       <a href="/storage/temp/<?= $tutorial -> fileName ?>" download target="_blank" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-download"></i></span></a>
       
      

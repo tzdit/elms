@@ -142,7 +142,7 @@ class UploadAssignment extends Model{
              //the assignment questions and maxima
            
              for($q=0;$q<$this->number_of_questions;$q++)
-             {
+              {
          
                 $assq=new Assq();
                 $assq->assID=$ass->assID;
@@ -186,119 +186,50 @@ class UploadAssignment extends Model{
 
     public function update($assid)
     {
-      if(!$this->validate()){
-         return false;
-     }
+        try
+        {
+
+        $transaction = Yii::$app->db->beginTransaction();
         $ass =Assignment::findOne($assid);
         $ass->assName = $this->assTitle;
-        $ass->assType = $this->assType;
         $ass->submitMode = $this->submitMode;
         $ass->startDate = $this->startDate;
         $ass->finishDate = $this->endDate;
        // $ass->fileName = $filefordb;
         $ass->ass_desc = $this->description;
-        $ass->assNature = "assignment";
         $ass->instructorID = Yii::$app->user->identity->instructor->instructorID;
         $ass->total_marks = $this->totalMarks;
-        $ass->course_code = isset($this->ccode) ? $this->ccode : Yii::$app->session->get('ccode');
+        $ass->course_code =Yii::$app->session->get('ccode');
         
-        if(!$ass->save()){return false;}
-      
-      
-     
-        
-        //handling group assignments
+        if(!$ass->save()){throw new Exception("could not update assignment");}
 
-        if($this->assType=="allgroups")
-        {
-           $grpass=GroupGenerationAssignment::findOne($ass->assID);
-           //the assignment questions and maxima
+           
            $assqs=$ass->assqs;
            for($q=0;$q<count($assqs);$q++)
            {
               $assq=Assq::findOne($assqs[$q]->assq_ID);
-              $assq->assID=$ass->assID;
-              $assq->qno=$q+1;
-              $assq->total_marks=$this->questions_maxima[$q];
-              if(!$assq->save()){return false;}
-            
-             // print var_export($assq->getErrors());
+              if(!$assq->delete()){throw new Exception("could not delete assignment questions");}
            }
-           $grpass->gentypeID=$this->generation_type;
-           $grpass->assID=$ass->assID;
-           if(!$grpass->save()){return false;}
 
-        }
-        else if($this->assType=="allstudents")
-        {
-        
-         $assqs=$ass->assqs;
-         for($q=0;$q<count($assqs);$q++)
+           //re-add assignment questions 
+
+           for($q=0;$q<$this->number_of_questions;$q++)
+           {
+      
+             $assq=new Assq();
+             $assq->assID=$ass->assID;
+             $assq->qno=$q+1;
+             $assq->total_marks=$this->questions_maxima[$q];
+             if(!$assq->save()){throw new Exception("could not readd assignment questions");}
+          }
+         $transaction->commit();
+         return true;
+         }
+         catch(Exception $d)
          {
-               $assq=Assq::findOne($assqs[$q]->assq_ID);
-               $assq->assID=$ass->assID;
-               $assq->qno=$q+1;
-               $assq->total_marks=$this->questions_maxima[$q];
-               if(!$assq->save()){return false;}
-               
-             // print var_export($assq->getErrors());
-            }
-        }
-        else if($this->assType=="groups")
-        {
-            
-    
-            //the assignment questions and maxima
-           
-            $assqs=$ass->assqs;
-            for($q=0;$q<count($assqs);$q++)
-            {
-        
-               $assq=Assq::findOne($assqs[$q]->assq_ID);
-               $assq->assID=$ass->assID;
-               $assq->qno=$q+1;
-               $assq->total_marks=$this->questions_maxima[$q];
-               if(!$assq->save()){return false;}
-            }
-            for($g=0;$g<count($this->groups);$g++)
-            {
-               $grpass1=GroupAssignment::findOne($ass->assID);
-               $grpass1->assID=$ass->assID;
-               $grpass1->groupID=intval($this->groups[$g]);
-               if(!$grpass1->save()){return false;}
-            }
- 
-         
-        }
-        else if($this->assType=="students")
-        {
-             //the assignment questions and maxima
-           
-             $assqs=$ass->assqs;
-             for($q=0;$q<count($assqs);$q++)
-             {
-         
-                $assq=Assq::findOne($assqs[$q]->assq_ID);
-                $assq->assID=$ass->assID;
-                $assq->qno=$q+1;
-                $assq->total_marks=$this->questions_maxima[$q];
-                if(!$assq->save()){return false;}
-             }
-             for($g=0;$g<count($this->students);$g++)
-             {
-                $stud=StudentAssignment::findOne($ass->assID);
-                $stud->assID=$ass->assID;
-                $stud->reg_no=$this->students[$g];
-                if(!$stud->save()){return false;}
-                //print var_export($stud->getErrors());
-                
-             }
-        }
-        else{
-            return false;
-        }
-        return true;
-
+            $transaction->rollBack();
+            throw new Exception($d);
+         }
         
     }
     

@@ -2,11 +2,12 @@
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use frontend\models\ClassRoomSecurity;
 
 $this->params['courseTitle'] ="Update Assignment";
 $this->title ="Update assignment";
 $this->params['breadcrumbs'] = [
-  ['label'=>'class assignments', 'url'=>Url::to(['/instructor/class-assignments', 'cid'=>yii::$app->session->get('ccode')])],
+  ['label'=>'class assignments', 'url'=>Url::to(['/instructor/class-assignments', 'cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get('ccode'))])],
   ['label'=>$this->title]
 ];
 
@@ -43,7 +44,7 @@ $this->params['breadcrumbs'] = [
         <?= $form->field($assmodel, 'submitMode')->dropdownList(['resubmit'=>'Can resubmit', 'unresubmit'=>'Cant resubmit'], ['class'=>'form-control form-control-sm', 'prompt'=>'--select--'])->label('Submission Mode')?>
         </div>
         <div class="col-md-3">
-        <?= $form->field($assmodel, 'number_of_questions')->textInput(['type'=>'text','class'=>'form-control form-control-sm','id'=>'qnumber','readonly'=>'readonly','value'=>count($ass->assqs)])->label('Number of questions')?>
+        <?= $form->field($assmodel, 'number_of_questions')->textInput(['type'=>'text','class'=>'form-control form-control-sm','id'=>'qnumber','value'=>count($ass->assqs)])->label('Number of questions')?>
         </div>
       </div>
       <div class="row" style="border:solid 1px #ccc;margin-bottom:1%">
@@ -54,21 +55,6 @@ $this->params['breadcrumbs'] = [
         <?= $form->field($assmodel, 'totalMarks')->textInput(['type'=>'text','class'=>'form-control form-control-sm','id'=>'totm'])->label('Total Marks')?>
         </div>
       </div>
-      <div class="row" id="asstypearea" style="border:solid 1px #ccc;margin-bottom:1%">
-        <div class="col-md-4">
-        <?= $form->field($assmodel, 'assType')->dropdownList(['allstudents'=>'All students','allgroups'=>'All groups','groups'=>'Chosen groups','students'=>'Chosen students'], ['class'=>'form-control form-control-sm','id'=>'asstype', 'prompt'=>'--select--'])->label('Assigned to')?>
-        </div>
-       
-      </div>
-      <div class="row" id="assrow">
-      <div class="col-md-12" id="assformatt" style="margin-bottom:10px">
-      
-      <?= $form->field($assmodel,'assFormat')->textInput(['class'=>'form-control form-control-sm','id'=>'assFormat','value'=>'N/A','readonly'=>'readonly'])->label('Format')?>
-      
-      </div>
-      <?= $form->field($assmodel, 'ccode')->hiddenInput(['class'=>'form-control form-control-sm'])->label(false)?>
-       </div>
-  
         <div class="row">
         <div class="col-md-12">
         <?= Html::submitButton('Update', ['class'=>'btn btn-primary btn-md float-right ml-2']) ?>

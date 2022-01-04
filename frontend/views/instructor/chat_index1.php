@@ -1,4 +1,3 @@
-
 <?php  
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
@@ -107,23 +106,23 @@ use yii\widgets\Pjax;
               <!-- /.card-body -->
               <div class="card-footer">
               <?php 
-                  Pjax::begin(['id'=>'sendmessage','timeout'=>'30000']);
-                  $form = ActiveForm::begin(['method'=>'post','options' => ['data-pjax' => true ], 'action'=>['/instructor/create-chat', 'stdid'=>$username]])?>
+                  
+                  $form = ActiveForm::begin(['method'=>'post'])?>
       
                   <!-- <form action="#" method="post"> -->
                   <div class="">
-                  <?= $form->field($model, 'chatText')->textInput(['class'=>'form-control ', 'placeholder'=>'Type Message ...'])->label(false)?>
-                  <?= $form->field($model, 'reg_no')->hiddenInput(['value'=>$username, 'class'=>'form-control form-control-sm'])->label(false) ?>
+                  <?= $form->field($model, 'chatText')->textInput(['class'=>'form-control ', 'id'=>'chatText', 'placeholder'=>'Type Message ...'])->label(false)?>
+                  <?= $form->field($model, 'reg_no')->hiddenInput(['value'=>$username, 'class'=>'form-control form-control-sm', 'id'=>'username'])->label(false) ?>
                   
                   <span class="">
-                    <?= Html::submitButton('<i class="fa fa-plus-circle"></i> Send', ['class'=>'btn btn-primary btn-sm float-right ml-2']) ?>
+                    <?= Html::submitButton('<i class="fa fa-plus-circle"></i> Send', ['class'=>'btn btn-primary btn-sm float-right ml-2', 'id'=>'send']) ?>
                     </span>
                    
                   </div>
                   <?php 
                  ActiveForm::end();
                  
-                 Pjax::end();
+                 
                 ?>
                <!-- </form> -->
               </div>
@@ -138,14 +137,38 @@ use yii\widgets\Pjax;
 $script = <<<JS
     $('document').ready(function(){
 
-      $('#sendmessage').on('pjax:send', function() {
-       //$('#studloading').show();
-       })
-      $('#sendmessage').on('pjax:complete', function() {
-      //$('#studloading').hide();
-            })
+     $("#send").on("click", function()
+     {
+       $.ajax({
+         url: "/instructor/create-chat",
+         method: "POST",
+         data: {
+           reg_no: $('#username').val(),
+           chatText: $('#chatText').val(),
+         },
+         dataType: "text",
+         success: function(data){
+           $('#chatText').val();
+         }
+       });
+     });
 
-        })
+     setInterval(function(){
+       $.ajax({
+         url: "/instructor/create-chat",
+         method: "POST",
+         data: {
+           reg_no: $('#username').val(),
+           chatText: $('#chatText').val(),
+         },
+         dataType: "text",
+         success: function(data)
+         {
+           $('#chatText').html(data);
+         }
+       });
+     }, 700);
+    });
 
     JS;
     $this->registerJs($script);

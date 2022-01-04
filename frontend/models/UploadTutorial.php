@@ -10,8 +10,9 @@ class UploadTutorial extends Model{
     public $ccode;
     public function rules(){
         return [
-           [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, jpg, png, doc, pkt, ppt, pptx, xls,xlsx'],
-          ['assTitle','required']
+           [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, jpg, png, doc, pkt, ppt,MP4,mpg,avi, pptx, xls,xlsx'],
+          ['assTitle','required'],
+          ['description','string','max' => 1000]
 
         ];
 
@@ -26,19 +27,31 @@ class UploadTutorial extends Model{
         $fileName = $this->assFile->baseName.'.'.$this->assFile->extension;
         $tut = new Assignment();
         $tut->assName =$this->assTitle;
-        $tut->ass_desc = $this->description;
-        $tut->yearID=1;
+        $tut->ass_desc=$this->description;
+        $tut->yearID=yii::$app->session->get("currentAcademicYear")->yearID;
         $tut->assNature = "tutorial";
-        $tut->instructorID = Yii::$app->user->identity->instructor->instructorID;
-        $tut->course_code = isset($this->ccode) ? $this->ccode : Yii::$app->session->get('ccode');
+        $tut->instructorID =Yii::$app->user->identity->instructor->instructorID;
+        $tut->course_code =Yii::$app->session->get('ccode');
         $extension=pathinfo($fileName,PATHINFO_EXTENSION);
         $filename=uniqid().'.'.$extension;
         $this->assFile->saveAs('storage/temp/'.$filename);
         $tut->fileName =$filename;
-        $tut->save(); 
+
+        if($tut->save())
+        {
+            return true;
+        }
+        else
+        {
+
+            //check if the file is already upload and destroy it
+          return $tut->getErrors();
+            if(file_exists('storage/temp/'.$filename)){unlink('storage/temp/'.$filename);}
+            return false;
+        }
         
       
-        return true;
+        
 
         
     }catch(\Exception $e){
