@@ -102,7 +102,7 @@ class GroupCreateForm extends Model
             $transaction->rollBack();
             throw new NotFoundHttpException('Fail to create group');
         }
-        return false;
+        return true;
     }
 
 
