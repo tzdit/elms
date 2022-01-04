@@ -819,13 +819,14 @@ public function actionClassAnnouncements($cid)
 
 public function actionClassMaterials($cid)
 {
-    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
-    $materials = Module::find()->where(['course_code' => $cid])->orderBy([
+    
+    $cid=ClassRoomSecurity::decrypt($cid);
+    $yearid=yii::$app->session->get("currentAcademicYear")->yearID;
+    $modules = Module::find()->where(['course_code' => $cid,'yearID'=>$yearid])->orderBy([
         'moduleID' => SORT_DESC ])->all();
 
 
-    return $this->render('classmaterials', ['cid'=>$cid,'modules'=>$materials]);
+    return $this->render('classmaterials', ['cid'=>$cid,'modules'=>$modules]);
 
 }
 //material upload form
@@ -844,8 +845,9 @@ public function actionCreateModule()
     {
         $model = new Module();
         $model->course_code=yii::$app->session->get('ccode');
+        $model->yearID=yii::$app->session->get("currentAcademicYear")->yearID;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'module created successfully');
+            Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> Module created successfully');
             return $this->redirect(Yii::$app->request->referrer);
         }
     }
