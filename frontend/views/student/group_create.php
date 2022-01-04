@@ -32,8 +32,6 @@ use yii\bootstrap4\Breadcrumbs;
                                             'enableAjaxValidation'=> false,
                                         ]); ?>
 
-
-
                                         <?= $form->field($model, 'groupName')->textInput(['class' => 'col-sm-12', 'size' => 100])->label('Group Name') ?>
 
                                         <?php

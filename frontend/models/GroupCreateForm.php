@@ -47,6 +47,15 @@ class GroupCreateForm extends Model
             return false;
         }
 
+        $count = count($this->memberStudents);
+
+        $limit = GroupGenerationTypes::find()->select(['max_groups_members'])->where('typeID = :typeID', [':typeID' => $this->generation_type])->one();
+
+        if ( $count > $limit->max_groups_members){
+            Yii::$app->session->setFlash('error', 'Group exceed maximum limit');
+            return false;
+        }
+
         $transaction = Yii::$app->db->beginTransaction();
         try{
 
@@ -54,6 +63,11 @@ class GroupCreateForm extends Model
 
             $group->groupName = $this->groupName;
             $group->generation_type = $this->generation_type;
+
+//            echo '<pre>';
+//                            print_r($count);
+//                            echo  '</pre>';
+//                            exit();
 
             if($group->save()){
                 $errors=[];
@@ -63,6 +77,15 @@ class GroupCreateForm extends Model
 
                     $studentGroup->groupID = $group->groupID;
                     $studentGroup->reg_no = $reg_no;
+
+
+                    $studentInTwoGroup = StudentGroup::find()->select('student_group.reg_no')->join('INNER JOIN','groups','groups.groupID = student_group.groupID')->where('generation_type = :gen_type',[':gen_type' => $this->generation_type])->all();
+
+                    if ( !empty($studentInTwoGroup)){
+                        $transaction->rollBack();
+                        Yii::$app->session->setFlash('error', $studentGroup->reg_no.' '.'already added in another group');
+                        return false;
+                    }
 
                     if(!$studentGroup->save()){
 
