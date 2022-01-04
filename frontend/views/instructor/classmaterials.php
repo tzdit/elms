@@ -88,12 +88,12 @@ $materials=$module->materials;
       <h2 class="mb-0">
       <div class="row" >
       <div class="col-md-10 pointer" data-toggle="collapse" data-target="#collapse<?=$mat?>" aria-expanded="true" aria-controls="collapse<?=$mat?>" >
-      <span style="font-size:22px"><i class="fas fa-book-open"></i> <?=Html::encode($module->moduleName)?>:</span><span class="text-md"><?=Html::encode($module->module_description)?></span>
+      <i class="fas fa-book-open" style="font-size:18px"></i><span style="font-size:22px"> <?=Html::encode($module->moduleName)?>:</span><span class="text-md"><?=Html::encode($module->module_description)?></span>
       </div>
       <div class="col-md-2">
       <a href="#" modid=<?=$module->moduleID?> data-toggle="tooltip" data-title="Delete Module" class="text-md text-danger float-right ml-3 moduledel"><span><i class="fas fa-trash"></i></span></a>
       <a href="<?=Url::to(['/instructor/material-upload-form', 'moduleID'=>ClassRoomSecurity::encrypt($module->moduleID)])?>" data-toggle="tooltip" data-title="Upload Material" class="text-md float-right"><span><i class="fas fa-upload"></span></i></a>
-      <a href="<?=Url::to(['/instructor/material-upload-form', 'moduleID'=>ClassRoomSecurity::encrypt($module->moduleID)])?>" data-toggle="tooltip" data-title="Share External Link" class="text-md mr-3 float-right "><span><i class="fas fa-external-link-alt"></span></i></a>
+      <a href="<?=Url::to(['/instructor/share-link', 'module'=>ClassRoomSecurity::encrypt($module->moduleID)])?>" data-toggle="tooltip" data-title="Share External Link" class="text-md mr-3 float-right "><span><i class="fas fa-external-link-alt"></span></i></a>
       </div>
       </div>
          
@@ -121,9 +121,19 @@ $materials=$module->materials;
           }
           else
           {
-      ?>
+            if($material->material_type!="link")
+            {
+              
+      ?>     
       <a href="/storage/temp/<?=$material->fileName ?>"  class=" ml-2"><span><i class="fa fa-files-o" style="font-size:25px;margin-right:4px"></i><?=Html::encode($material -> title) ?></span></a>
       <?php
+            }
+            else
+            {
+              ?>
+            <a href="<?=$material->fileName?>"  class="ml-2"><span><i class="fa fa-external-link-alt" style="font-size:25px;margin-right:4px"></i><?=Html::encode($material -> title) ?></span></a>
+              <?php
+            }
           }
       ?>
          
@@ -144,9 +154,18 @@ $materials=$module->materials;
      }
      else
      {
+      if($material->material_type!="link")
+      {
      ?>
-      <a href="/storage/temp/<?=$material->fileName ?>"  class=" ml-2 float-right"><span><i class="fas fa-eye"></i></span></a>
+      <a href="/storage/temp/<?=$material->fileName ?>"  class=" ml-2 float-right" data-toggle="tooltip" data-title="View Material"><span><i class="fas fa-eye"></i></span></a>
      <?php
+      }
+      else
+      {
+        ?>
+ <a href="<?=$material->fileName ?>"  class=" ml-2 float-right" data-toggle="tooltip" data-title="View Material" target="_blank"><span><i class="fas fa-eye"></i></span></a>
+        <?php
+      }
      }
      ?>
       </div>

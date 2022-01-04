@@ -14,10 +14,9 @@ use yii\widgets\Pjax;
 AppAsset::register($this);
 ?>
 <?php 
-$assmodel = new UploadMaterial();
 $ccode=yii::$app->session->get('ccode');
 
-$moduleID=ClassRoomSecurity::decrypt($moduleID);
+$moduleID=ClassRoomSecurity::decrypt($module);
 $this->params['courseTitle'] ="<i class='fa fa-book-open'></i> Module: <span class='text-sm'>".Module::findOne($moduleID)->moduleName."</span>";
 $this->title =Module::findOne($moduleID)->moduleName;
 $this->params['breadcrumbs'] = [
@@ -29,26 +28,30 @@ $this->params['breadcrumbs'] = [
 <div class="container col d-flex justify-content-center">
 <div class="card" style="width:80%">
       <div class="card-header bg-primary pt-2 pb-2">
-        <span><h6><i class="fa fa-upload"></i> Upload New Material</h6></span>
+        <span><h6><i class="fas fa-external-link-alt"></i> Share External Material Link</h6></span>
       </div>
       <div class="card-body justify-content-center">
     
       <?php 
        Pjax::begin(['id'=>'materialform','timeout'=>'3000']);
-      $form = ActiveForm::begin(['method'=>'post','options' => ['data-pjax' => true ], 'action'=>['/instructor/upload-material', 'enctype'=>'multipart/form-data']]);
+      $form = ActiveForm::begin(['method'=>'post', 'action'=>['/instructor/share-link','module'=>$module]]);
       ?>
         <div class="row">
         <div class="col-md-12">
-        <?= $form->field($assmodel, 'assTitle')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Material Title'])->label(false)?>
+        <?= $form->field($model, 'title')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Material Title'])->label(false)?>
         </div> 
         </div>
-        
       <div class="row">
         <div class="col-md-12">
-        <?= $form->field($assmodel, 'assType')->dropdownList(['Videos'=>'Multimedia Content','Notes'=>'Textual Content'], ['class'=>'form-control form-control-sm', 'prompt'=>'--Material type--'])->label(false)?>
+        <?= $form->field($model, 'fileName')->textarea(['class'=>'form-control form-control-sm', 'placeholder'=>'Paste you link here'])->label(false)?>
+       
+        </div> 
         </div>
-        
-      </div>
+        <div class="row">
+        <div class="col-md-12">
+        <?=Html::submitButton('<i class="fa fa-plus-circle"></i> Share', ['class' => 'btn btn-primary float-right']) ?>
+        </div> 
+        </div>
       <div class="row">
       <div class="col-md-12 p-0">
       <?php
@@ -63,29 +66,11 @@ $this->params['breadcrumbs'] = [
 
    Pjax::end();
 ?>
-<?= $form->errorSummary($assmodel) ?>
-      <?=
 
-$form->field($assmodel, 'assFile')->widget(FileInput::classname(),[
-   'options' => ['multiple' => false],
-    'pluginOptions' => [
-        'showUpload' => true,
-        'browseLabel' => 'Browse',
-        'removeLabel' => 'Remove',
-        'uploadClass' => ' mx-2 btn btn-primary',
-        'browseClass' => 'btn btn-primary float-right',
-        'removeClass' => 'btn btn-danger',
-        'removeIcon'=>'<i class="fa fa-trash"></i>',
-        'uploadIcon'=>'<i class="fa fa-upload"></i>',
-        'browseIcon'=>'<i class="fa fa-search"></i>'
-    ]
-
-])->label(false);
-
-?>
+      
+       </div>
        </div>
      
-      <?= $form->field($assmodel, 'moduleID')->hiddenInput(['class'=>'form-control form-control-sm','value'=>$moduleID])->label(false)?>
       
         <?php 
         ActiveForm::end();
@@ -93,7 +78,7 @@ $form->field($assmodel, 'assFile')->widget(FileInput::classname(),[
         ?>
         
 
-</div>
+
         </div>
     </div>
     </div>

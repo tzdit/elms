@@ -72,7 +72,7 @@ class Assignment extends \yii\db\ActiveRecord
             [['assType'], 'string', 'max' => 15],
             [['assNature', 'submitMode'], 'string', 'max' => 10],
             [['ass_desc'], 'string', 'max' => 1000],
-            [['fileName'], 'string', 'max' => 70],
+            [['fileName'], 'string', 'max' =>70],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
             [['instructorID'], 'exist', 'skipOnError' => true, 'targetClass' => Instructor::className(), 'targetAttribute' => ['instructorID' => 'instructorID']],
         ];

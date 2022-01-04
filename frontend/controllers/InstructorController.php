@@ -168,7 +168,8 @@ public $defaultAction = 'dashboard';
                             'leave-marking-collaboration',
                             'download-submits',
                             'publish-assignment-results',
-                            'get-assignment-stat'
+                            'get-assignment-stat',
+                            'share-link'
 
                         ],
                         'allow' => true,
@@ -270,7 +271,8 @@ public $defaultAction = 'dashboard';
                             'leave-marking-collaboration',
                             'download-submits',
                             'publish-assignment-results',
-                            'get-assignment-stat'
+                            'get-assignment-stat',
+                            'share-link'
                            
                         ],
                         'allow' => true,
@@ -851,6 +853,38 @@ public function actionCreateModule()
             return $this->redirect(Yii::$app->request->referrer);
         }
     }
+
+    //public action share material from an external link
+
+public function actionShareLink($module)
+{
+  $material=new material();
+      if(yii::$app->request->isPost)
+      {
+      if($material->load(yii::$app->request->post()))
+      {
+          $material->instructorID=yii::$app->user->identity->instructor->instructorID;
+          $material->course_code=yii::$app->session->get('ccode');
+          $material->yearID=yii::$app->session->get("currentAcademicYear")->yearID;
+          $material->moduleID=ClassRoomSecurity::decrypt($module);
+          $material->material_type="link";
+          if($material->save()){
+              yii::$app->session->setFlash("success","<i class='fa fa-info-circle'></i> Link shared successfully");
+              return $this->redirect(yii::$app->request->referrer);
+          }
+          else
+          {
+            yii::$app->session->setFlash("error","<i class='fa fa-exclamation-triangle'></i> An error occured while sharing this link, try again later");
+            return $this->redirect(yii::$app->request->referrer);  
+          }
+      }
+     
+    }
+   
+        return $this->render("materials/shareExternalLink",['model'=>$material,'module'=>$module]);
+    
+  
+}
     //deleting a module
 
     public function actionModuleDelete($moduleid)
