@@ -21,6 +21,17 @@ $('#modal_button2').click(function(){
 });
 
 
+$(function(){
+
+    //click event of the add carry button
+    $('#group_modal_button').click(function(){
+        $('#group_modal').modal('show')
+            .find('#group_modal_content')
+            .load($(this).attr('value'));
+    });
+});
+
+
 
 /**
  * sweet alert for delete carry

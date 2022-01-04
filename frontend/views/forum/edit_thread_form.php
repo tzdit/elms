@@ -65,7 +65,7 @@ $this->params['breadcrumbs'] = [
         </div>
 
         <div class="form-group ">
-            <?= Html::submitButton('Submit', ['class' => 'btn btn-success  float-right font-weight-bold']) ?>
+            <?= Html::submitButton('Submit', ['class' => 'btn btn-outline-dark float-right font-weight-bold']) ?>
         </div>
         <?php ActiveForm::end(); ?>
 
