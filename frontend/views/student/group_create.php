@@ -38,7 +38,7 @@ use yii\bootstrap4\Breadcrumbs;
 
                                         echo $form->field($model, 'generation_type')->dropDownList(ArrayHelper::map(GroupGenerationTypes::find()->
                                         select(['typeID','generation_type','max_groups_members'])
-                                            ->where('course_code = :cid', [':cid' => $cid])
+                                            ->where('course_code = :cid AND creator_type = :creator_type', [':cid' => $cid, 'creator_type' => 'instructor-student' ])
                                             ->orderBy(['typeID' => SORT_DESC])
                                             ->all(),'typeID',
                                             function ($model)
