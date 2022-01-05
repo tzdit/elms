@@ -117,6 +117,8 @@ class InstructormanageController extends Controller
     public function actionCreateHods(){
         $model = new RegisterHodsForm;
         $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'INSTRUCTOR & HOD'])->orwhere(['name'=>'INSTRUCTOR'])->all(), 'name', 'name');
+        if(yii::$app->request->isPost)
+        {
         try{
         $departments = ArrayHelper::map(Department::find()->where(['collegeID'=>Yii::$app->user->identity->admin->college->collegeID])->all(), 'departmentID', 'department_name');
         if($model->load(Yii::$app->request->post())){
@@ -124,13 +126,17 @@ class InstructormanageController extends Controller
             Yii::$app->session->setFlash('success', 'Hod registered successfully');
             return $this->redirect(Yii::$app->request->referrer);
             }else{
+            print_r($model->getErrors());
             Yii::$app->session->setFlash('error', 'Something went Wrong!');
+            //return $this->redirect(Yii::$app->request->referrer);
         }
          } 
         
     }catch(\Exception $e){
           Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+          return $this->redirect(Yii::$app->request->referrer);
     }
+}
         return $this->render('create_hods', ['model'=>$model, 'departments'=>$departments, 'roles'=>$roles]);
     }
     
