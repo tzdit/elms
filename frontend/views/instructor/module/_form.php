@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $model common\models\Module */
 /* @var $form yii\widgets\ActiveForm */
@@ -19,21 +19,52 @@ use yii\widgets\ActiveForm;
       </div>
       <div class="modal-body text-sm">
 
-    <?php $form = ActiveForm::begin(['action'=>'create-module']); ?>
+    <?php 
+     Pjax::begin(['id'=>'moduleform','timeout'=>'3000']);
+    $form = ActiveForm::begin(['action'=>'create-module','options' => ['data-pjax' => true ]]); 
+    ?>
 
     <?= $form->field($modulemodel, 'moduleName')->textInput(['maxlength' => true,'placeholder'=>'Ex: chapter One, lecture One...']) ?>
 
     <?= $form->field($modulemodel, 'module_description')->textInput(['maxlength' => true,'placeholder'=>'Ex: introduction to cooking']) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('create', ['class' => 'btn btn-primary float-right']) ?>
+        <?= Html::submitButton('<i class="fa fa-plus-circle"></i> create', ['class' => 'btn btn-primary float-right']) ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
+    <?php 
+    ActiveForm::end(); 
+    Pjax::end();
+    ?>
+ <?php
+   Pjax::begin(['id'=>'loader']);
+   ?>
 
+
+   <div class="overlay" id="loading" style="background-color:rgba(0,0,255,.3);color:#fff;display:none">
+     <i class="fas fa-2x fa-sync-alt fa-spin"></i>Creating...
+</div>
+   <?php
+
+   Pjax::end();
+?>
 </div>
 </div>
     </div>
   </div>
 </div>
 </div>
+<?php
+$script = <<<JS
+    $('document').ready(function(){
+
+      $('#moduleform').on('pjax:send', function() {
+       $('#loading').show();
+       })
+      $('#moduleform').on('pjax:complete', function() {
+      $('#loading').hide();
+            })
+        })
+
+    JS;
+    $this->registerJs($script);

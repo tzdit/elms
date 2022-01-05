@@ -152,6 +152,7 @@ function animateassheader()
  filename = crow.children('td').eq(1).attr('id');
  crow.css('backgroundColor',"lightblue");
  obj.attr("src","/storage/submit/"+$.trim(filename));
+ regno=crow.children('td').eq(1).text();
  animateassheader();
  
  //Putting the last entry into the local storage
@@ -287,6 +288,7 @@ file_id=colum.attr('id');
 filename = crow.children('td').eq(1).attr('id');
 crow.css('backgroundColor',"lightblue");
 obj.attr("src","/storage/submit/"+$.trim(filename));
+regno=crow.children('td').eq(1).text();
 animateassheader();
 
 //Putting the last entry into the local storage
@@ -546,7 +548,6 @@ if(code==37 || code==38)
        $('.qmarking').eq(t).find('.score').val("");  
      }
      regno=crow.children('td').eq(1).text();
-   
      animateassheader();
      
      
