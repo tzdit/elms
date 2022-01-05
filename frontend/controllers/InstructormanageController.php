@@ -127,7 +127,7 @@ class InstructormanageController extends Controller
             return $this->redirect(Yii::$app->request->referrer);
             }else{
             Yii::$app->session->setFlash('error', 'Something went Wrong!');
-            //return $this->redirect(Yii::$app->request->referrer);
+            return $this->redirect(Yii::$app->request->referrer);
         }
          } 
         
