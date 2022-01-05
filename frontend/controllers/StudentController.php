@@ -373,12 +373,16 @@ public function actionClasswork($cid){
 
                 $returned=$model->groupCreate();
 
-                if ($returned == false){
+                if ($returned == false && !empty($returned)){
+//                    echo '<pre>';
+//                var_dump($returned);
+//                echo '</pre>';
+//                exit;
                     Yii::$app->session->setFlash('success', 'Fail to create group');
                     return $this->redirect(Yii::$app->request->referrer);
                 }
 
-                elseif (empty($returned))
+                if (empty($returned))
                 {
 
                     Yii::$app->session->setFlash('success', 'Group created successfully');
