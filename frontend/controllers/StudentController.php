@@ -378,7 +378,7 @@ public function actionClasswork($cid){
                     return $this->redirect(Yii::$app->request->referrer);
                 }
 
-                elseif (empty($returned))
+                if (empty($returned))
                 {
 
                     Yii::$app->session->setFlash('success', 'Group created successfully');

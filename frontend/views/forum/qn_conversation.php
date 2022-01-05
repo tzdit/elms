@@ -2,6 +2,7 @@
 
 use common\models\ForumAnswer;
 use common\models\ForumComment;
+use common\models\Instructor;
 use common\models\Student;
 use common\models\ForumQnTag;
 use yii\helpers\Html;
