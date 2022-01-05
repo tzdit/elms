@@ -3,6 +3,7 @@
 namespace common\models;
 use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 use Yii;
+use frontend\models\ClassRoomBehaviours;
 
 /**
  * This is the model class for table "submit".
@@ -48,6 +49,9 @@ class Submit extends \yii\db\ActiveRecord
             'auditEntryBehaviors' => [
                 'class' => AuditEntryBehaviors::class
              ],
+             'classroombehaviours' => [
+                'class' => ClassRoomBehaviours::class
+             ]
         ];
     }
     /**

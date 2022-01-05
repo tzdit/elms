@@ -4,6 +4,7 @@ namespace common\models;
 use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 use frontend\models\CourseStudents;
 use frontend\models\ClassRoomSecurity;
+use frontend\models\ClassRoomBehaviours;
 use Yii;
 
 /**
@@ -51,6 +52,9 @@ class Assignment extends \yii\db\ActiveRecord
             'auditEntryBehaviors' => [
                 'class' => AuditEntryBehaviors::class
              ],
+             'classroombehaviours' => [
+              'class' => ClassRoomBehaviours::class
+           ]
         ];
     }
     public function __construct($config = [])

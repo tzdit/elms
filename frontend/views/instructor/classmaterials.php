@@ -131,7 +131,7 @@ $materials=$module->materials;
             else
             {
               ?>
-            <a href="<?=$material->fileName?>"  class="ml-2"><span><i class="fa fa-external-link-alt" style="font-size:25px;margin-right:4px"></i><?=Html::encode($material -> title) ?></span></a>
+            <a href="<?=$material->fileName?>"  class="ml-2" target="_blank"><span><i class="fa fa-external-link-alt" style="font-size:25px;margin-right:4px"></i><?=Html::encode($material -> title) ?></span></a>
               <?php
             }
           }
@@ -157,7 +157,7 @@ $materials=$module->materials;
       if($material->material_type!="link")
       {
      ?>
-      <a href="/storage/temp/<?=$material->fileName ?>"  class=" ml-2 float-right" data-toggle="tooltip" data-title="View Material"><span><i class="fas fa-eye"></i></span></a>
+      <a href="/storage/temp/<?=$material->fileName ?>"  class=" ml-2 float-right" data-toggle="tooltip" data-title="View Material" target="_blank"><span><i class="fas fa-eye"></i></span></a>
      <?php
       }
       else
