@@ -70,6 +70,14 @@ class RegisterHodsForm extends Model
         $transaction->commit();
         return true;
         }
+        else
+        {
+            print_r($instructor->getErrors()); 
+        }
+        }
+        else
+        {
+            print_r($user->getErrors());
         }
         return false;
        }catch(\Exception $e){
