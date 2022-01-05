@@ -30,6 +30,7 @@ class RegisterHodsForm extends Model
             ['username', 'trim'],
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email has already been taken.'],
+            ['phone', 'unique', 'targetClass' => '\common\models\Instructor', 'message' => 'phone number already taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
         ];
     }
