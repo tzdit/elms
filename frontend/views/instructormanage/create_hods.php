@@ -30,6 +30,7 @@ $this->title = 'Create Users';
               <div class="col-md-5 border-right">
               <p class="text-secondary mb-1">Add Single Instructor</p>
               <?php $form = ActiveForm::begin()?>
+               <div class="col-md-12"><?=$form->errorSummary($model)?></div>
                  <div class="col-md-12">
                   <div class="row">
                   <div class="col-md-12">
