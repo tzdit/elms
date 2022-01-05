@@ -126,9 +126,8 @@ class InstructormanageController extends Controller
             Yii::$app->session->setFlash('success', 'Hod registered successfully');
             return $this->redirect(Yii::$app->request->referrer);
             }else{
-            print_r($model->getErrors());
             Yii::$app->session->setFlash('error', 'Something went Wrong!');
-            //return $this->redirect(Yii::$app->request->referrer);
+            return $this->redirect(Yii::$app->request->referrer);
         }
          } 
         

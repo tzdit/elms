@@ -26,13 +26,11 @@ class RegisterHodsForm extends Model
     public function rules()
     {
         return [
-            [['full_name', 'phone', 'department', 'role', 'gender'], 'required'],
+            [['full_name', 'phone', 'department', 'gender'], 'required'],
             ['username', 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
-
-
         ];
     }
 
@@ -73,12 +71,12 @@ class RegisterHodsForm extends Model
         return true;
         }
         }
-    
+        return false;
        }catch(\Exception $e){
             $transaction->rollBack();
-            return $e->getMessage();
+            throw new Exception($e->getMessage());
       }
-    return false;
+   
 }
 
 
