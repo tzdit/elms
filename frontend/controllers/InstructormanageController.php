@@ -137,7 +137,11 @@ class InstructormanageController extends Controller
           return $this->redirect(Yii::$app->request->referrer);
     }
 }
-        return $this->render('create_hods', ['model'=>$model, 'departments'=>$departments, 'roles'=>$roles]);
+else
+{
+    return $this->render('create_hods', ['model'=>$model, 'departments'=>$departments, 'roles'=>$roles]);
+}
+       
     }
     
     
