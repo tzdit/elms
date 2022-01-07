@@ -467,16 +467,16 @@ $this->params['breadcrumbs'] = [
                                                                             select(['student.reg_no', 'student.fname', 'student.mname', 'student.lname'])
                                                                                 ->join('INNER JOIN', 'program', 'student.programCode = program.programCode')
                                                                                 ->join('INNER JOIN', 'program_course', 'program.programCode = program_course.programCode')
-                                                                                ->join('LEFT JOIN', 'student_group', 'student.reg_no = student_group.reg_no')
-                                                                                ->join('LEFT JOIN', 'groups', 'student_group.groupID = groups.groupID')
-                                                                                ->where('groups.generation_type != :generation_type AND program_course.course_code = :course_code', [':generation_type' => $itemNoGroup['typeID'], ':course_code' => $itemNoGroup['course_code']])
+                                                                                ->join('LEFT OUTER JOIN', 'student_group', 'student.reg_no = student_group.reg_no')
+                                                                                ->join('LEFT OUTER JOIN', 'groups', 'student_group.groupID = groups.groupID')
+                                                                                ->where('(groups.generation_type != :generation_type OR groups.generation_type IS NULL )  AND program_course.course_code = :course_code', [':generation_type' => $itemNoGroup['typeID'], ':course_code' => $itemNoGroup['course_code']])
                                                                                 ->orderBy(['student.fname' => SORT_ASC])
                                                                                 ->asArray()
                                                                                 ->all(),'reg_no',
                                                                                 function ($model){
                                                                                 return $model['fname']." ".$model['mname']." ".$model['lname']." - ".$model['reg_no'];
                                                                                 }
-                                                                                ),['data-placeholder'=>'--Search member to add --','class' => 'form-control form-control-sm','id' => 'group_members'.$noGroupAssignmentCount, 'multiple'=>true,'style'=>'width:100%'])
+                                                                                ),['data-placeholder'=>'-- Search member to add --','class' => 'form-control form-control-sm','id' => 'group_members'.$noGroupAssignmentCount, 'multiple'=>true,'style'=>'width:100%'])
 
                                                                             ?>
 
@@ -489,6 +489,19 @@ $this->params['breadcrumbs'] = [
 
                                                                             <?php ActiveForm::end(); ?>
 
+                                                                            <?php
+                                                                            $script = <<<JS
+$(document).ready(function(){
+  $('#group_members' + $noGroupAssignmentCount).select2();
+  
+});
+JS;
+
+                                                                            $this->registerJs($script);
+
+                                                                            ?>
+
+
                                                                         </div>
 
 
@@ -496,6 +509,11 @@ $this->params['breadcrumbs'] = [
 
                                                                     </div>
                                                                 <?php endif; ?>
+
+                                                                <?php
+                                                                $noGroupAssignmentCount--;
+                                                                ?>
+
                                                             <?php endforeach; ?>
                                                         </div>
 
