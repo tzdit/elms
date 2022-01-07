@@ -125,7 +125,7 @@ $this->params['breadcrumbs'] = [
                     <td><?=Html::encode($student->YOS); ?></td>
                     <td></td>
                     <td></td>
-                    <td>  </td>
+                    <td><?= Html::a('<i class="fas fa-envelope"> Chat</i>',['create-chat', 'stdid'=>$student->reg_no], ['class'=>'btn btn-primary btn-sm m-0']); ?>  </td>
                     
 						 			</tr>
 						 		
@@ -135,10 +135,7 @@ $this->params['breadcrumbs'] = [
 
 		</tbody>
 		</table>
-    <?php
-             
-           //   Html::a('<i class="fas fa-envelope"> Chat</i>',['create-chat', 'stdid'=>$student->reg_no], ['class'=>'btn btn-primary btn-sm m-0'])
-    ?>
+   
     </div>
     </div>
 </div>

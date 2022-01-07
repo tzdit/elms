@@ -35,18 +35,7 @@ use yii\data\ActiveDataProvider;
               <div class="card-body">
                 <!-- Conversations are loaded here -->
                 
-                <?php Pjax::begin(['id' => 'countries']) ?>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            'chatID',
-            'reg_no',
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-<?php Pjax::end() ?>
+               
                 <!--/.direct-chat-messages-->
 
                 <!-- Contacts are loaded here -->
@@ -75,8 +64,15 @@ use yii\data\ActiveDataProvider;
               <!-- /.card-body -->
               <div class="card-footer">
               <?php 
-                  Pjax::begin(['id'=>'sendmessage','timeout'=>'30000']);
-                  $form = ActiveForm::begin(['method'=>'post','options' => ['data-pjax' => true ], 'action'=>['/instructor/create-chat', 'stdid'=>$username]])?>
+                  
+                  $form = ActiveForm::begin([
+                  'id' => 'chatForm',
+                  'method'=>'post', 
+                  'action'=>['/instructor/create-chat', 
+                  'stdid'=>$username,
+                  'enableAjaxValidation'=>false
+                  
+                  ]])?>
       
                   <!-- <form action="#" method="post"> -->
                   <div class="">
@@ -88,11 +84,7 @@ use yii\data\ActiveDataProvider;
                     </span>
                    
                   </div>
-                  <?php 
-                 ActiveForm::end();
                  
-                 Pjax::end();
-                ?>
                <!-- </form> -->
               </div>
               <!-- /.card-footer-->
@@ -105,15 +97,25 @@ use yii\data\ActiveDataProvider;
 
 $script = <<<JS
     $('document').ready(function(){
-
-    $("#sendmessage").on("pjax:end", function() {
-    $.pjax.reload({container:"#countries"});  //Reload GridView
+      $('body').on('beforeSubmit', '#chatForm', function () {
+        var form = $(this);
+         // return false if form still have some validation errors
+       
+         // submit form
+         $.ajax({
+              url: form.attr('action'),
+              type: 'post',
+              dataType:"json",
+              data: form.serialize(),
+              success: function (data) {         
+               // form.trigger("reset");     ; /--__ --/ ;
+              // do something with response ; /--__--/ ;
+              }
+         });
+         //return false;
     });
-    });'
-    );
-
-        })
-
+    })
     JS;
     $this->registerJs($script);
+    ActiveForm::end();
 ?>

@@ -404,19 +404,17 @@ public $defaultAction = 'dashboard';
        // $programs = Program::find()->all();
         try{
         
-        if($model->load(Yii::$app->request->post())){
+        //if($model->load(Yii::$app->request->post())){
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             if($model->create()){
-                //print_r(Yii::$app->request->post());
-            //Yii::$app->session->setFlash('success', 'Chat added successfully');
-            return $this->redirect(Yii::$app->request->referrer);
+                
+                return $this->redirect(Yii::$app->request->referrer);
+            return true;
             }else{
                Yii::$app->session->setFlash('error','something went wrong.');
                return $this->redirect(Yii::$app->request->referrer);
-            }
-       
-                
-         } 
-        
+            }   
+         }      
     }catch(\Exception $e){
         Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
         return $this->redirect(Yii::$app->request->referrer);
