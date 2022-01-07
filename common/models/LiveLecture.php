@@ -52,7 +52,7 @@ class LiveLecture extends \yii\db\ActiveRecord
             [['instructorID', 'duration', 'lateEntryMaxTime', 'yearID'], 'integer'],
             [['title', 'description', 'lectureDate', 'lectureTime', 'duration', 'status', 'yearID'], 'required'],
             [['lectureDate', 'lectureTime'], 'safe'],
-            [['course_code'], 'string', 'max' => 7],
+            [['course_code'], 'string', 'max' => 20],
             [['title'], 'string', 'max' => 200],
             [['description'], 'string', 'max' => 255],
             [['status'], 'string', 'max' => 10],

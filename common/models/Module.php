@@ -4,7 +4,7 @@ namespace common\models;
 
 use Yii;
 use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
-
+use frontend\models\ClassRoomBehaviours;
 /**
  * This is the model class for table "module".
  *
@@ -29,6 +29,9 @@ class Module extends \yii\db\ActiveRecord
             'auditEntryBehaviors' => [
                 'class' => AuditEntryBehaviors::class
              ],
+             'classroombehaviours' => [
+                'class' => ClassRoomBehaviours::class
+             ]
         ];
     }
     public static function tableName()
@@ -45,7 +48,7 @@ class Module extends \yii\db\ActiveRecord
             [['moduleName', 'course_code'], 'required'],
             [['moduleName'], 'string', 'max' => 200],
             [['module_description'], 'string', 'max' => 400],
-            [['course_code'], 'string', 'max' => 15],
+            [['course_code'], 'string', 'max' => 20],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
         ];
     }

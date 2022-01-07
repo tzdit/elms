@@ -2,6 +2,7 @@
 
 use common\models\ForumAnswer;
 use common\models\ForumComment;
+use common\models\Instructor;
 use common\models\Student;
 use common\models\ForumQnTag;
 use yii\helpers\Html;
@@ -162,7 +163,7 @@ $this->params['breadcrumbs'] = [
                                      <div class="form-group row">
                                          <?= $form->field($model1, 'comment_content')->textInput([ 'placeholder' => 'Add comment', 'class' => 'col-sm-11', 'size' => 100])->label(false) ?>
                                          <?= $form->field($model1, 'answer_id')->hiddenInput(['value' => $answer['answer_id']])->label(false) ?>
-                                         <?= Html::submitButton('Post', ['class' => 'btn  col-sm-1 p-0', 'id' => 'comment-btn']) ?>
+                                         <?= Html::submitButton('Post', ['class' => 'btn  col-sm-1 p-0 btn-outline-dark']) ?>
                                      </div>
                                      <?php ActiveForm::end(); ?>
 
@@ -242,8 +243,8 @@ $this->params['breadcrumbs'] = [
 
                         </div>
                     </div>
-                    <div class="form-group ">
-                        <?= Html::submitButton('Submit', ['class' => 'btn btn-success  float-right font-weight-bold']) ?>
+                    <div class="form-group">
+                        <?= Html::submitButton('Submit', ['class' => 'btn btn-outline-dark float-right font-weight-bold']) ?>
                     </div>
                     <?php ActiveForm::end(); ?>
                 </div>

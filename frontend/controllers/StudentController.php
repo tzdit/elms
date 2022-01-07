@@ -2,7 +2,9 @@
 
 namespace frontend\controllers;
 use common\models\Submit;
+use frontend\models\AddGroupMembers;
 use frontend\models\ClassRoomSecurity;
+use frontend\models\GroupCreateForm;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use common\models\Course;
@@ -40,13 +42,13 @@ class StudentController extends \yii\web\Controller
                     [
                         'actions' => ['dashboard','error','classwork','courses',
                             'changePassword','carrycourse','add_carry','delete_carry',
-                            'student_groups','delete_group','add_group',
+                            'student_groups','delete_group', 'delete-group','add_group',
                             'student_in_login_user_course','add_to_group','list_student_in_group',
                             'remove_student_from_group','submit_assignment','view_assignment','download_assignment',
                             'resubmit','videos','announcement','group_assignment_submit',
                             'quiz_answer','quiz_view','group_resubmit','assignment',
                             'group-assignment','labs','tutorial','course-materials','returned',
-                            'course-announcement','quiz','student-group',
+                            'course-announcement','quiz','student-group','add-group-member', 'create-group'
                         ],
                         
 
@@ -74,6 +76,7 @@ class StudentController extends \yii\web\Controller
                     'logout' => ['post'],
                     'changePassword' => ['post'],
                     'delete_carry' => ['post'],
+                    'delete-group' => ['post'],
                 ],
             ],
        
@@ -84,8 +87,10 @@ class StudentController extends \yii\web\Controller
 
     public function beforeAction($action) {
         $this->enableCsrfValidation = ($action->id !== "delete_carry"); // <-- here
+        $this->enableCsrfValidation = ($action->id !== "delete-group");
         return parent::beforeAction($action);
     }
+
    
     //create students
   public function actionRegister(){
@@ -307,8 +312,128 @@ public function actionClasswork($cid){
         $reg_no = Yii::$app->user->identity->username;
         $studentGroups = Groups::find()->select('groups.groupName, student_group.*,group_generation_types.* ')->join('INNER JOIN','student_group','groups.groupID = student_group.groupID')->join('INNER JOIN', 'group_generation_types', 'groups.generation_type = group_generation_types.typeID')->where('student_group.reg_no = :reg_no AND group_generation_types.course_code = :course_code', [':reg_no' => $reg_no, 'course_code' => $cid])->orderBy(['SG_ID' => SORT_DESC ])->asArray()->all();
         $studentGroupsCount = Groups::find()->select('groups.groupName, student_group.*, ')->join('INNER JOIN','student_group','groups.groupID = student_group.groupID')->join('INNER JOIN', 'group_generation_types', 'groups.generation_type = group_generation_types.typeID')->where('student_group.reg_no = :reg_no AND group_generation_types.course_code = :course_code', [':reg_no' => $reg_no, 'course_code' => $cid])->count();
+        $noGroupAssignment =  Assignment::find()->select('assignment.*, group_generation_types.*, group_generation_assignment.*')->join('INNER JOIN', 'group_generation_assignment','assignment.assID = group_generation_assignment.assID')->join('INNER JOIN', 'group_generation_types', 'group_generation_assignment.gentypeID = group_generation_types.typeID ')->where('group_generation_types.course_code = :course_code', ['course_code' => $cid])->orderBy(['assignment.assID' => SORT_DESC ])->asArray()->all();
+        $noGroupAssignmentCount =  Assignment::find()->select('assignment.*, group_generation_types.*, group_generation_assignment.*')->join('INNER JOIN', 'group_generation_assignment','assignment.assID = group_generation_assignment.assID')->join('INNER JOIN', 'group_generation_types', 'group_generation_assignment.gentypeID = group_generation_types.typeID ')->where('group_generation_types.course_code = :course_code', ['course_code' => $cid])->count();
 
-        return $this->render('student_groups', ['cid'=>$cid, 'reg_no' => $reg_no, 'studentGroupsList' => $studentGroups, 'count' => $studentGroupsCount] );
+        $model = new AddGroupMembers;
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            if (!$model->validate() && $model->addMember() == false){
+                Yii::$app->session->setFlash('error', 'Group creation failed');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+
+            $returned=$model->addMember();
+
+            if (empty($returned))
+            {
+
+                Yii::$app->session->setFlash('success', 'Group created successfully');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            else{
+
+                $errors="Error(s) detected during creation:";
+                foreach($returned as $member=>$error)
+                {
+                    $errors.="<br>".$member.": ".$error;
+                }
+                Yii::$app->session->setFlash('error',$errors);
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+
+        }
+
+
+
+
+        return $this->render('student_groups', ['cid'=>$cid, 'reg_no' => $reg_no, 'studentGroupsList' => $studentGroups, 'count' => $studentGroupsCount, 'noGroupAssignment' => $noGroupAssignment, 'noGroupAssignmentCount' => $noGroupAssignmentCount, 'model' => $model] );
+    }
+
+
+
+
+
+
+    /**
+     * Creates a new group model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreateGroup($cid)
+    {
+        $model= new GroupCreateForm;
+
+        try{
+
+            if ($model->load(Yii::$app->request->post()) ) {
+
+                if (!$model->validate() && $model->groupCreate() == false){
+                    Yii::$app->session->setFlash('error', 'Group creation failed');
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
+
+                $returned=$model->groupCreate();
+
+                if ($returned == false && !empty($returned)){
+//                    echo '<pre>';
+//                var_dump($returned);
+//                echo '</pre>';
+//                exit;
+                    Yii::$app->session->setFlash('success', 'Fail to create group');
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
+
+                if (empty($returned))
+                {
+
+                    Yii::$app->session->setFlash('success', 'Group created successfully');
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
+                else{
+
+                    $errors="Error(s) detected during creation:";
+                    foreach($returned as $member=>$error)
+                    {
+                        $errors.="<br>".$member.": ".$error;
+                    }
+                    Yii::$app->session->setFlash('error',$errors);
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
+            }
+
+            return $this->renderAjax('group_create', [
+                'model' => $model, 'cid' => $cid,
+            ],false,true);
+        }
+        catch(\Exception $e){
+            Yii::$app->session->setFlash('error', 'Fail to create group'.$e);
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+
+    }
+
+
+
+    /**
+     * Deletes an existing Group.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param string $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionDeleteGroup()
+    {
+        if(Yii::$app->request->isAjax){
+
+            $id = Yii::$app->request->post('groupID');
+            $group_deleted =  $this->findGroup($id)->delete();
+            if($group_deleted){
+                return $this->asJson(['message'=>'Group Deleted']);
+            }
+        }
+
     }
 
 
@@ -896,7 +1021,7 @@ public function actionClasswork($cid){
      * Finds the Group model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return Course the loaded model
+     * @return StudentGroup the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findStudentGroupModel($id)
@@ -908,6 +1033,25 @@ public function actionClasswork($cid){
         throw new NotFoundHttpException(Yii::t('app', 'Group .'));
     }
 
+
+
+
+
+    /**
+     * Finds the Group model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param string $id
+     * @return Groups the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findGroup($id)
+    {
+        if (($model = Groups::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException(Yii::t('app', 'Group do not exist!!!!!!!!!!!!!!!!'));
+    }
 
 
 

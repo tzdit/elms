@@ -4,6 +4,7 @@ namespace common\models;
 use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 use frontend\models\CourseStudents;
 use frontend\models\ClassRoomSecurity;
+use frontend\models\ClassRoomBehaviours;
 use Yii;
 
 /**
@@ -22,6 +23,7 @@ use Yii;
  * @property int|null $total_marks
  * @property string|null $fileName
  * @property int $yearID
+ * @property string $status
  *
  * @property Course $courseCode
  * @property Instructor $instructor
@@ -50,6 +52,9 @@ class Assignment extends \yii\db\ActiveRecord
             'auditEntryBehaviors' => [
                 'class' => AuditEntryBehaviors::class
              ],
+             'classroombehaviours' => [
+              'class' => ClassRoomBehaviours::class
+           ]
         ];
     }
     public function __construct($config = [])
@@ -66,12 +71,12 @@ class Assignment extends \yii\db\ActiveRecord
             [['instructorID', 'total_marks', 'yearID'], 'integer'],
             [['assName', 'assNature', 'yearID'], 'required'],
             [['startDate', 'finishDate'], 'safe'],
-            [['course_code'], 'string', 'max' => 7],
+            [['course_code'], 'string', 'max' => 20],
             [['assName'], 'string', 'max' => 100],
             [['assType'], 'string', 'max' => 15],
             [['assNature', 'submitMode'], 'string', 'max' => 10],
             [['ass_desc'], 'string', 'max' => 1000],
-            [['fileName'], 'string', 'max' => 70],
+            [['fileName'], 'string', 'max' =>70],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
             [['instructorID'], 'exist', 'skipOnError' => true, 'targetClass' => Instructor::className(), 'targetAttribute' => ['instructorID' => 'instructorID']],
         ];
@@ -86,10 +91,10 @@ class Assignment extends \yii\db\ActiveRecord
             'assID' => 'Ass ID',
             'instructorID' => 'Instructor ID',
             'course_code' => 'Course Code',
-            'assName' => 'Ass Name',
-            'assType' => 'Ass Type',
+            'assName' => 'Assignment Name',
+            'assType' => 'Assignment Type',
             'assNature' => 'Ass Nature',
-            'ass_desc' => 'Ass Desc',
+            'ass_desc' => 'Assignment Description',
             'submitMode' => 'Submit Mode',
             'startDate' => 'Start Date',
             'finishDate' => 'Finish Date',
@@ -298,6 +303,12 @@ class Assignment extends \yii\db\ActiveRecord
             }
 
             return $failedperc;
+    }
+    public function isExpired()
+    {
+      $today=date('Y-m-d H:i:s');
+
+      return $this->finishDate<$today;
     }
 
 }

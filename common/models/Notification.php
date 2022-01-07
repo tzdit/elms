@@ -44,7 +44,7 @@ class Notification extends \yii\db\ActiveRecord
         return [
             [['title', 'content', 'notif_date', 'notif_time'], 'required'],
             [['notif_date', 'notif_time'], 'safe'],
-            [['course_code'], 'string', 'max' => 7],
+            [['course_code'], 'string', 'max' => 20],
             [['title'], 'string', 'max' => 20],
             [['content'], 'string', 'max' => 100],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],

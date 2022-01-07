@@ -152,6 +152,7 @@ function animateassheader()
  filename = crow.children('td').eq(1).attr('id');
  crow.css('backgroundColor',"lightblue");
  obj.attr("src","/storage/submit/"+$.trim(filename));
+ regno=crow.children('td').eq(1).text();
  animateassheader();
  
  //Putting the last entry into the local storage
@@ -287,6 +288,7 @@ file_id=colum.attr('id');
 filename = crow.children('td').eq(1).attr('id');
 crow.css('backgroundColor',"lightblue");
 obj.attr("src","/storage/submit/"+$.trim(filename));
+regno=crow.children('td').eq(1).text();
 animateassheader();
 
 //Putting the last entry into the local storage
@@ -546,7 +548,6 @@ if(code==37 || code==38)
        $('.qmarking').eq(t).find('.score').val("");  
      }
      regno=crow.children('td').eq(1).text();
-   
      animateassheader();
      
      
@@ -715,8 +716,35 @@ window.onbeforeunload = function (e) {
   }
   data[yii.getCsrfParam()]=yii.getCsrfToken();
   $.get("/instructor/release-assignment-lock",data);
- 
+  
 };
 
+
+//when the page is loaded, recheck lock
+window.addEventListener('load', (event) => {
+
+  var e = e || window.event;
+
+  // For IE and Firefox
+  if (e) {
+    var data={
+      assignment:currentassignment
+    }
+    data[yii.getCsrfParam()]=yii.getCsrfToken();
+    $.get("/instructor/get-assignment-lock",data);
+  }
+
+  // For Safari
+  var data={
+    assignment:currentassignment
+  }
+  data[yii.getCsrfParam()]=yii.getCsrfToken();
+  $.get("/instructor/get-assignment-lock",data);
+ 
+});
+var data={
+  assignment:currentassignment
+}
+$.get("/instructor/get-assignment-lock",data);
 
  });

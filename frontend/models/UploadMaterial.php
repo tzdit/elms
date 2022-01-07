@@ -28,7 +28,7 @@ class UploadMaterial extends Model{
         $fileName =uniqid().'.'.$this->assFile->extension;
         $ass = new Material();
         $ass->moduleID=$this->moduleID;
-        $ass->yearID=1;
+        $ass->yearID=yii::$app->session->get("currentAcademicYear")->yearID;
         $ass->title = $this->assTitle;
         $ass->material_type = $this->assType;
         $ass->fileName =  $fileName;

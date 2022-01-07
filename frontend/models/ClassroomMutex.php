@@ -74,7 +74,6 @@ class ClassroomMutex extends Model
         else
         {
             //assignment lock acquiring is required
-
             throw new Exception("assignment lock acquiring required");
         }
 
@@ -110,6 +109,16 @@ class ClassroomMutex extends Model
    public function freeAssignmentMutexLock($name)
    {
      $collaborationlock=$name."collaboration";
+     $sessionowner=ClassRoomSecurity::decrypt(yii::$app->session->get("marksessionowner"));
+     $currentuser=Yii::$app->user->identity->id;
+     if($sessionowner!=$currentuser){return true;} //no need to continue with releasing lock, only the owner of the lock can
+
+     //if the assignment lock is not acquired, then no need to continue
+
+     if(!$this->isLockAcquired($name))
+     {
+       return true;
+     }
 
      try
      {
@@ -128,7 +137,6 @@ class ClassroomMutex extends Model
 
    public function getAssignmentQuestionLock($question)
    {
-
     try
     {
       if($this->getLock($question)){return true;}
@@ -176,6 +184,32 @@ class ClassroomMutex extends Model
       }
 
    }
+
+   //panelist mode activating
+
+   private function setPanelistActive($assignment)
+   {
+    $panelistmode=$assignment."panelist";
+     //we try setting it up if possible
+     try
+     {
+          if($this->getLock($panelistmode))
+          {
+          if(!$this->isCollaborationActive($assignment))
+          {
+            $this->setCollaborationActive($assignment);
+          }
+          }
+          yii::$app->session->set("markpanelowner",ClassRoomSecurity::encrypt(yii::$app->user->identity->id)); //and then he becomes the owner of the panelist mode
+          yii::$app->session->set('markingmode','presentation');
+          return true;
+      }
+      catch(Exception $c)
+      {
+        throw new Exception($c->getMessage());
+      }
+
+   }
    public function toggleCollaborationMode($assignment)
    {
      try
@@ -199,12 +233,35 @@ class ClassroomMutex extends Model
        return $t->getMessage();
      }
    }
-  
+  //toggle panelist mode
+
+  public function togglePanelistMode($assignment)
+  {
+    try
+    {
+      if($this->isPanelistActive($assignment))
+      {
+        $res=$this->setPanelistOff($assignment);
+        return "Panelist mode is off";
+      }
+    
+       $res=$this->setPanelistActive($assignment);
+     
+
+       return "Panelist mode activated";
+    }
+    catch(Exception $d)
+    {
+      throw new Exception($d->getMessage());
+    }
+  }
+  //////////////////////////////////
    private function setCollaborationOff($assignment)
    {
     $collaborationlock=$assignment."collaboration";
     if($this->isLockAcquired($collaborationlock)){
       $this->freeLock($collaborationlock);
+      $this->setPanelistOff($assignment);
       $this->getAssignmentMutexLock($assignment);
       return true;
     }
@@ -213,6 +270,23 @@ class ClassroomMutex extends Model
       throw new Exception("collaboration not active, try again");
     }
 
+     return true;
+   }
+   //panelist set off
+
+   public function setPanelistOff($assignment)
+   {
+    $panelistmode=$assignment."panelist";
+
+    $sessionowner=ClassRoomSecurity::decrypt(yii::$app->session->get("markpanelowner"));
+    $currentuser=Yii::$app->user->identity->id;
+    if($sessionowner!=$currentuser){throw new Exception("Only the owner of the marking session can toggle the panelist mode");}
+
+    if($this->isLockAcquired($panelistmode)){
+      $this->freeLock($panelistmode);
+      yii::$app->session->set("markpanelowner",null); //and he is no longer the owner
+      return true;
+    }
     return true;
    }
    private function isCollaborationActive($assignment)
@@ -220,6 +294,17 @@ class ClassroomMutex extends Model
     $collaborationlock=$assignment."collaboration";
 
     if($this->isLockAcquired($collaborationlock)){return true;}
+
+    return false;
+   }
+
+   //is panelist mode active
+
+   public function isPanelistActive($assignment)
+   {
+    $panelist=$assignment."panelist";
+
+    if($this->isLockAcquired($panelist)){return true;}
 
     return false;
    }
