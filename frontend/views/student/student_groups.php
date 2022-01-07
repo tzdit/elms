@@ -458,6 +458,10 @@ $this->params['breadcrumbs'] = [
 
                                                                         <div class="card mx-3 p-4">
 
+                                                                            <div class="mb-2">
+                                                                                <h5 class="text-warning font-italic">Your name will be added automatic in a group you create,So add  <?= $itemNoGroup['max_groups_members'] -1 ." " ?>member</h5>
+                                                                            </div>
+
                                                                             <?php $form = ActiveForm::begin();?>
 
 
@@ -469,7 +473,7 @@ $this->params['breadcrumbs'] = [
                                                                                 ->join('INNER JOIN', 'program_course', 'program.programCode = program_course.programCode')
                                                                                 ->join('LEFT OUTER JOIN', 'student_group', 'student.reg_no = student_group.reg_no')
                                                                                 ->join('LEFT OUTER JOIN', 'groups', 'student_group.groupID = groups.groupID')
-                                                                                ->where('(groups.generation_type != :generation_type OR groups.generation_type IS NULL )  AND program_course.course_code = :course_code', [':generation_type' => $itemNoGroup['typeID'], ':course_code' => $itemNoGroup['course_code']])
+                                                                                ->where('(groups.generation_type != :generation_type OR groups.generation_type IS NULL )  AND program_course.course_code = :course_code AND student.reg_no != :reg_no', [':generation_type' => $itemNoGroup['typeID'], ':course_code' => $itemNoGroup['course_code'], ':reg_no' => Yii::$app->user->identity->username])
                                                                                 ->orderBy(['student.fname' => SORT_ASC])
                                                                                 ->asArray()
                                                                                 ->all(),'reg_no',
