@@ -28,12 +28,12 @@ $this->params['breadcrumbs'] = [
 
 
 
-                                                    <?php
-                                                    echo '<pre>';
-                                                    var_dump($studentGroupsList);
-                                                    echo '</pre>';
-//                                                                                             exit;
-                                                    ?>
+<!--                                                    --><?php
+//                                                    echo '<pre>';
+//                                                    var_dump($studentGroupsList);
+//                                                    echo '</pre>';
+////                                                                                             exit;
+//                                                    ?>
 
 
 <div class="site-index">
