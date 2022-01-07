@@ -65,7 +65,7 @@ $this->params['breadcrumbs'] = [
                  
               
              
-   <?php foreach( $tutorials as $tutorial ) : ?>
+   <?php foreach($tutorials as $tutorial) : ?>
   <div class="card">
     <div class="card-header p-2" id="heading<?=$tutt?>">
       <h2 class="mb-0">

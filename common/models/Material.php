@@ -2,7 +2,7 @@
 
 namespace common\models;
 use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
-
+use frontend\models\ClassRoomBehaviours;
 use Yii;
 
 /**
@@ -34,6 +34,9 @@ class Material extends \yii\db\ActiveRecord
         return [
             'auditEntryBehaviors' => [
                 'class' => AuditEntryBehaviors::class
+             ],
+             'classroombehaviours' => [
+                'class' => ClassRoomBehaviours::class
              ],
         ];
     }
