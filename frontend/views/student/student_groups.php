@@ -28,12 +28,12 @@ $this->params['breadcrumbs'] = [
 
 
 
-<!--                                                    --><?php
-//                                                    echo '<pre>';
-//                                                    var_dump($studentGroupsList);
-//                                                    echo '</pre>';
-////                                                                                             exit;
-//                                                    ?>
+                                                    <?php
+                                                    echo '<pre>';
+                                                    var_dump($studentGroupsList);
+                                                    echo '</pre>';
+//                                                                                             exit;
+                                                    ?>
 
 
 <div class="site-index">
@@ -90,14 +90,23 @@ $this->params['breadcrumbs'] = [
                                                                                 <div class="card-header p-2" id="heading<?=$count?>">
                                                                                     <h2 class="mb-0">
                                                                                         <div class="row">
-                                                                                            <div class="col-sm-11">
+                                                                                            <div class="col-sm-8">
                                                                                                 <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$count?>" aria-expanded="true" aria-controls="collapse<?=$count?>">
                                                                                                     <h4><img src="<?= Yii::getAlias('@web/img/groupWork.png') ?>" width="40" height="40" class="mt-1"> <span class="assignment-header "><?php echo $item['generation_type']." ";?><span class="font-italic text-info font-weight-normal"><?php echo "(".$item['groupName'].")"; ?></span></span></h4>
                                                                                                 </button>
                                                                                             </div>
-                                                                                            <div class="col-sm-1">
-                                                                                                <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
-                                                                                            </div>
+                                                                                            <div class="col-sm-4">
+
+                                                                                                <?php
+
+                                                                                                $groupCreator = Groups::find()->select('group_generation_types.creator_type')->join('INNER JOIN', 'group_generation_types', 'groups.generation_type = group_generation_types.typeID')->where('groups.groupID = :groupID', [':groupID' => $item['groupID']])->asArray()->one();
+
+                                                                                                ?>
+
+                                                                                                <?php if ($groupCreator['creator_type'] == 'instructor-student'): ?>
+                                                                                                    <h4 class="text-danger"><a href="#" class="btn-delete-group float-right mr-2" id = "btn-delete-group" groupID = "<?= $item['groupID'] ?>" ><i class="fas fa-times-circle fa-lg carry-delete"></i></a></h4>
+                                                                                                <?php endif; ?>
+                                                                                                 </div>
                                                                                         </div>
                                                                                     </h2>
                                                                                 </div>
