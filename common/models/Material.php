@@ -54,7 +54,7 @@ class Material extends \yii\db\ActiveRecord
             [['instructorID', 'yearID', 'moduleID'], 'integer'],
             [['upload_date', 'upload_time'], 'safe'],
             [['yearID'], 'required'],
-            [['course_code'], 'string', 'max' => 7],
+            [['course_code'], 'string', 'max' => 20],
             [['title'], 'string', 'max' => 100],
             [['material_type'], 'string', 'max' => 15],
             [['fileName'], 'string', 'max' => 300],

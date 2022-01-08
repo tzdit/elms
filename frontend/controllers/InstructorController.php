@@ -169,7 +169,9 @@ public $defaultAction = 'dashboard';
                             'download-submits',
                             'publish-assignment-results',
                             'get-assignment-stat',
-                            'share-link'
+                            'share-link',
+                            'toggle-panelist',
+                            'set-panelist-off'
 
                         ],
                         'allow' => true,
@@ -272,7 +274,9 @@ public $defaultAction = 'dashboard';
                             'download-submits',
                             'publish-assignment-results',
                             'get-assignment-stat',
-                            'share-link'
+                            'share-link',
+                            'toggle-panelist',
+                            'set-panelist-off'
                            
                         ],
                         'allow' => true,
@@ -1447,6 +1451,28 @@ public function actionToggleCollaboration($assignment)
     $mutex=new ClassroomMutex();
     return $this->asJson($mutex->toggleCollaborationMode($assignment));
 }
+
+//toggle between panelist mode
+
+public function actionTogglePanelist($assignment)
+{
+    $mutex=new ClassroomMutex();
+
+    try
+    {
+      $resp=$mutex->togglePanelistMode(ClassRoomSecurity::decrypt($assignment));
+      if($resp==true)
+      {
+        yii::$app->session->setFlash("success","<i class='fa fa-info-circle'></i> ".$resp);
+        return $this->redirect(yii::$app->request->referrer);
+      }
+    }
+    catch(Exception $p)
+    {
+        yii::$app->session->setFlash("error","<i class='fa fa-exclamation-triangle'></i> ".$p->getMessage());
+        return $this->redirect(yii::$app->request->referrer);
+    }
+}
 public function actionViewAssessment($assid)
 {
 
@@ -1656,6 +1682,14 @@ public function actionMark($id,$subid=null)
      $submit=[];
      $current_assignment=Assignment::findOne($id);
 
+     //if panelist mode is set up, the marking view is automatically "presentation view"
+    
+     if((new ClassroomMutex())->isPanelistActive($id))
+     {
+        yii::$app->session->set('markingmode','presentation');
+        yii::$app->session->setFlash("success","<i class='fa fa-info-circle'></i> Panelist Mode is activated"); 
+     }
+     
     //marking before the deadline is no longer allowed
 
     try
@@ -1689,6 +1723,8 @@ public function actionMark($id,$subid=null)
     {
       $this->actionReleaseAssignmentLock($id);
       yii::$app->session->set("marksessionowner",null); //he is no longer the owner
+      yii::$app->session->set("markpanelowner",null); // and no longer the owner of any marking panel
+      $this->actionSetPanelistOff($id);
     }
    
  
@@ -1751,6 +1787,19 @@ public function actionPublishAssignmentResults($assignment)
     {
         yii::$app->session->setFlash("error","unknown error occurred while publishing results, try again");
         return $this->redirect(yii::$app->request->referrer);  
+    }
+}
+
+public function actionSetPanelistOff($assignment)
+{
+    $mutexmanager=new ClassroomMutex();
+    try
+    {
+     return $mutexmanager->setPanelistOff($assignment); //clearing panelist mode
+    }
+    catch(Exception $f)
+    {
+      return false;
     }
 }
 public function actionMarkInputing()
@@ -2287,24 +2336,20 @@ public function actionStudentList(){
        
         if($model->load(Yii::$app->request->post())){
 
-            if($model->create()){
+
+            if($model->create()===true){
             Yii::$app->session->setFlash('success', 'Course added successfully');
             return $this->redirect(Yii::$app->request->referrer);
             }else{
-                Yii::$app->session->setFlash('error','something went wrong. This course may exists');
-                
-               // return $this->redirect(Yii::$app->request->referrer);
+                Yii::$app->session->setFlash('error','unable to add new course');
+                return $this->redirect(Yii::$app->request->referrer);
             }    
          } 
-         else
-         {
-              
-            
-         }
-        
+    
     }catch(\Exception $e){
-        Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+        Yii::$app->session->setFlash('error', 'Something went wrong: '.$e->getMessage());
         return $this->redirect(Yii::$app->request->referrer);
+       
     }
         return $this->render('create-course', ['model'=>$model, 'coz'=>$coz, 'courses'=>$courses, 'programs'=>$programs, 'departments'=>$departments]);
     }

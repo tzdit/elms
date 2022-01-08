@@ -54,7 +54,7 @@ class GroupGenerationTypes extends \yii\db\ActiveRecord
             [['max_groups_members', 'instructorID', 'yearID'], 'integer'],
             [['created_date', 'created_time'], 'safe'],
             [['generation_type'], 'string', 'max' => 100],
-            [['course_code'], 'string', 'max' => 10],
+            [['course_code'], 'string', 'max' => 20],
             [['creator_type'], 'string', 'max' => 20],
             [['reg_no'], 'string', 'max' => 30],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
