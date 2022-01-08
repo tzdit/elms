@@ -24,6 +24,9 @@ use yii\bootstrap4\Breadcrumbs;
 
                                 <div class="card-body">
 
+                                    <div>
+                                        <h4 class="text-warning">Your name will be added automatic in a group you create</h4>
+                                    </div>
                                     <div class="course-form">
 
                                         <?php $form = ActiveForm::begin([
@@ -43,7 +46,8 @@ use yii\bootstrap4\Breadcrumbs;
                                             ->all(),'typeID',
                                             function ($model)
                                             {
-                                                return $model->generation_type." "." ("."maximum of ".$model->max_groups_members." students".")";
+                                                $maxMember = $model->max_groups_members - 1;
+                                                return $model->generation_type." "." ("."maximum of ".$maxMember." students and you".")";
                                             }
                                         ),['prompt'=>'--Select--','class' => 'form-control inline-block'])
                                             ->label('Choose Assignment Module')
@@ -57,7 +61,7 @@ use yii\bootstrap4\Breadcrumbs;
                                             ->join('INNER JOIN', 'program', 'student.programCode = program.programCode')
                                             ->join('INNER JOIN', 'program_course', 'program.programCode = program_course.programCode')
                                             ->join('LEFT JOIN', 'student_group', 'student.reg_no = student_group.reg_no')
-                                            ->where(' program_course.course_code = :course_code', [':course_code' => $cid])
+                                            ->where(' program_course.course_code = :course_code AND student.reg_no != :reg_no', [':course_code' => $cid, ':reg_no' => Yii::$app->user->identity->username])
                                             ->orderBy(['student.fname' => SORT_ASC])
                                             ->asArray()
                                             ->all(),'reg_no',

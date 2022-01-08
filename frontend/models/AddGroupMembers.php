@@ -64,28 +64,37 @@ class AddGroupMembers extends Model
 
             $group->groupName = $this->groupName;
             $group->generation_type = $this->generation_type;
-            if($group->save()){
 
-                $errors=[];
-                foreach ($this->memberStudents as $i => $reg_no)
-                {
-                    $studentGroup = new StudentGroup();
+            $selfStudent = new StudentGroup();
 
-                    $studentGroup->groupID = $group->groupID;
-                    $studentGroup->reg_no = $reg_no;
+            $selfStudent->groupID = $group->groupID;
+            $selfStudent->reg_no = Yii::$app->user->identity->username;
 
-                    if(!$studentGroup->save()){
+            if ($selfStudent->save()){
+                if($group->save()){
 
-                        $errors[$reg_no]=!empty($studentGroup->getErrors()['SG_ID'])?$studentGroup->getErrors()['SG_ID'][0]:" ";
-                        continue;
+                    $errors=[];
+                    foreach ($this->memberStudents as $i => $reg_no)
+                    {
+                        $studentGroup = new StudentGroup();
+
+                        $studentGroup->groupID = $group->groupID;
+                        $studentGroup->reg_no = $reg_no;
+
+                        if(!$studentGroup->save()){
+
+                            $errors[$reg_no]=!empty($studentGroup->getErrors()['SG_ID'])?$studentGroup->getErrors()['SG_ID'][0]:" ";
+                            continue;
+
+                        }
 
                     }
 
+                    $transaction->commit();
+                    return $errors;
                 }
-
-                $transaction->commit();
-                return $errors;
             }
+
         }catch(\Throwable $e){
 
             $transaction->rollBack();

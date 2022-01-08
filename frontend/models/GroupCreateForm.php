@@ -51,7 +51,7 @@ class GroupCreateForm extends Model
 
         $limit = GroupGenerationTypes::find()->select(['max_groups_members'])->where('typeID = :typeID', [':typeID' => $this->generation_type])->one();
 
-        if ( $count > $limit->max_groups_members){
+        if ( $count > $limit->max_groups_members - 1){
             Yii::$app->session->setFlash('error', 'Group exceed maximum limit');
             return false;
         }
@@ -70,33 +70,40 @@ class GroupCreateForm extends Model
 //                            exit();
 
             if($group->save()){
-                $errors=[];
-                foreach ($this->memberStudents as $i => $reg_no)
-                {
-                    $studentGroup = new StudentGroup();
 
-                    $studentGroup->groupID = $group->groupID;
-                    $studentGroup->reg_no = $reg_no;
+                $selfStudent = new StudentGroup();
+
+                $selfStudent->groupID = $group->groupID;
+                $selfStudent->reg_no = Yii::$app->user->identity->username;
+
+                if ($selfStudent->save()){
+                    $errors=[];
+                    foreach ($this->memberStudents as $i => $reg_no)
+                    {
+                        $studentGroup = new StudentGroup();
+                        $studentGroup->groupID = $group->groupID;
+                        $studentGroup->reg_no = $reg_no;
 
 
-                    $studentInTwoGroup = StudentGroup::find()->select('student_group.reg_no')->join('INNER JOIN','groups','groups.groupID = student_group.groupID')->where('groups.generation_type = :gen_type AND reg_no = :reg_no',[':gen_type' => $this->generation_type, ':reg_no' => $studentGroup->reg_no])->one();
+                        $studentInTwoGroup = StudentGroup::find()->select('student_group.reg_no')->join('INNER JOIN','groups','groups.groupID = student_group.groupID')->where('groups.generation_type = :gen_type AND reg_no = :reg_no',[':gen_type' => $this->generation_type, ':reg_no' => $studentGroup->reg_no])->one();
 
-                    if ( !empty($studentInTwoGroup)){
-                        $transaction->rollBack();
-                        Yii::$app->session->setFlash('error', $studentGroup->reg_no.' '.'already added in another group');
-                        return false;
+                        if ( !empty($studentInTwoGroup)){
+                            $transaction->rollBack();
+                            Yii::$app->session->setFlash('error', $studentGroup->reg_no.' '.'already added in another group');
+                            return false;
+                        }
+
+                        if(!$studentGroup->save()){
+
+                            $errors[$reg_no]=!empty($studentGroup->getErrors()['SG_ID'])?$studentGroup->getErrors()['SG_ID'][0]:" ";
+                            continue;
+
+                        }
+
                     }
-
-                    if(!$studentGroup->save()){
-
-                        $errors[$reg_no]=!empty($studentGroup->getErrors()['SG_ID'])?$studentGroup->getErrors()['SG_ID'][0]:" ";
-                        continue;
-
-                    }
-
+                    $transaction->commit();
+                    return $errors;
                 }
-                $transaction->commit();
-                return $errors;
             }
         }catch(\Throwable $e){
             $transaction->rollBack();

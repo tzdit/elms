@@ -90,14 +90,23 @@ $this->params['breadcrumbs'] = [
                                                                                 <div class="card-header p-2" id="heading<?=$count?>">
                                                                                     <h2 class="mb-0">
                                                                                         <div class="row">
-                                                                                            <div class="col-sm-11">
+                                                                                            <div class="col-sm-8">
                                                                                                 <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$count?>" aria-expanded="true" aria-controls="collapse<?=$count?>">
                                                                                                     <h4><img src="<?= Yii::getAlias('@web/img/groupWork.png') ?>" width="40" height="40" class="mt-1"> <span class="assignment-header "><?php echo $item['generation_type']." ";?><span class="font-italic text-info font-weight-normal"><?php echo "(".$item['groupName'].")"; ?></span></span></h4>
                                                                                                 </button>
                                                                                             </div>
-                                                                                            <div class="col-sm-1">
-                                                                                                <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
-                                                                                            </div>
+                                                                                            <div class="col-sm-4">
+
+                                                                                                <?php
+
+                                                                                                $groupCreator = Groups::find()->select('group_generation_types.creator_type')->join('INNER JOIN', 'group_generation_types', 'groups.generation_type = group_generation_types.typeID')->where('groups.groupID = :groupID', [':groupID' => $item['groupID']])->asArray()->one();
+
+                                                                                                ?>
+
+                                                                                                <?php if ($groupCreator['creator_type'] == 'instructor-student'): ?>
+                                                                                                    <h4 class="text-danger"><a href="#" class="btn-delete-group float-right mr-2" id = "btn-delete-group" groupID = "<?= $item['groupID'] ?>" ><i class="fas fa-times-circle fa-lg carry-delete"></i></a></h4>
+                                                                                                <?php endif; ?>
+                                                                                                 </div>
                                                                                         </div>
                                                                                     </h2>
                                                                                 </div>
@@ -449,6 +458,10 @@ $this->params['breadcrumbs'] = [
 
                                                                         <div class="card mx-3 p-4">
 
+                                                                            <div class="mb-2">
+                                                                                <h5 class="text-warning font-italic">Your name will be added automatic in a group you create,So add  <?= $itemNoGroup['max_groups_members'] -1 ." " ?>member</h5>
+                                                                            </div>
+
                                                                             <?php $form = ActiveForm::begin();?>
 
 
@@ -458,16 +471,16 @@ $this->params['breadcrumbs'] = [
                                                                             select(['student.reg_no', 'student.fname', 'student.mname', 'student.lname'])
                                                                                 ->join('INNER JOIN', 'program', 'student.programCode = program.programCode')
                                                                                 ->join('INNER JOIN', 'program_course', 'program.programCode = program_course.programCode')
-                                                                                ->join('LEFT JOIN', 'student_group', 'student.reg_no = student_group.reg_no')
-                                                                                ->join('LEFT JOIN', 'groups', 'student_group.groupID = groups.groupID')
-                                                                                ->where('groups.generation_type != :generation_type AND program_course.course_code = :course_code', [':generation_type' => $itemNoGroup['typeID'], ':course_code' => $itemNoGroup['course_code']])
+                                                                                ->join('LEFT OUTER JOIN', 'student_group', 'student.reg_no = student_group.reg_no')
+                                                                                ->join('LEFT OUTER JOIN', 'groups', 'student_group.groupID = groups.groupID')
+                                                                                ->where('(groups.generation_type != :generation_type OR groups.generation_type IS NULL )  AND program_course.course_code = :course_code AND student.reg_no != :reg_no', [':generation_type' => $itemNoGroup['typeID'], ':course_code' => $itemNoGroup['course_code'], ':reg_no' => Yii::$app->user->identity->username])
                                                                                 ->orderBy(['student.fname' => SORT_ASC])
                                                                                 ->asArray()
                                                                                 ->all(),'reg_no',
                                                                                 function ($model){
                                                                                 return $model['fname']." ".$model['mname']." ".$model['lname']." - ".$model['reg_no'];
                                                                                 }
-                                                                                ),['data-placeholder'=>'--Search member to add --','class' => 'form-control form-control-sm','id' => 'group_members'.$noGroupAssignmentCount, 'multiple'=>true,'style'=>'width:100%'])
+                                                                                ),['data-placeholder'=>'-- Search member to add --','class' => 'form-control form-control-sm','id' => 'group_members'.$noGroupAssignmentCount, 'multiple'=>true,'style'=>'width:100%'])
 
                                                                             ?>
 
@@ -480,6 +493,19 @@ $this->params['breadcrumbs'] = [
 
                                                                             <?php ActiveForm::end(); ?>
 
+                                                                            <?php
+                                                                            $script = <<<JS
+$(document).ready(function(){
+  $('#group_members' + $noGroupAssignmentCount).select2();
+  
+});
+JS;
+
+                                                                            $this->registerJs($script);
+
+                                                                            ?>
+
+
                                                                         </div>
 
 
@@ -487,6 +513,11 @@ $this->params['breadcrumbs'] = [
 
                                                                     </div>
                                                                 <?php endif; ?>
+
+                                                                <?php
+                                                                $noGroupAssignmentCount--;
+                                                                ?>
+
                                                             <?php endforeach; ?>
                                                         </div>
 

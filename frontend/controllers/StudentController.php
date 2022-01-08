@@ -42,7 +42,7 @@ class StudentController extends \yii\web\Controller
                     [
                         'actions' => ['dashboard','error','classwork','courses',
                             'changePassword','carrycourse','add_carry','delete_carry',
-                            'student_groups','delete_group','add_group',
+                            'student_groups','delete_group', 'delete-group','add_group',
                             'student_in_login_user_course','add_to_group','list_student_in_group',
                             'remove_student_from_group','submit_assignment','view_assignment','download_assignment',
                             'resubmit','videos','announcement','group_assignment_submit',
@@ -76,6 +76,7 @@ class StudentController extends \yii\web\Controller
                     'logout' => ['post'],
                     'changePassword' => ['post'],
                     'delete_carry' => ['post'],
+                    'delete-group' => ['post'],
                 ],
             ],
        
@@ -86,8 +87,10 @@ class StudentController extends \yii\web\Controller
 
     public function beforeAction($action) {
         $this->enableCsrfValidation = ($action->id !== "delete_carry"); // <-- here
+        $this->enableCsrfValidation = ($action->id !== "delete-group");
         return parent::beforeAction($action);
     }
+
    
     //create students
   public function actionRegister(){
@@ -407,6 +410,28 @@ public function actionClasswork($cid){
         catch(\Exception $e){
             Yii::$app->session->setFlash('error', 'Fail to create group'.$e);
             return $this->redirect(Yii::$app->request->referrer);
+        }
+
+    }
+
+
+
+    /**
+     * Deletes an existing Group.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param string $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionDeleteGroup()
+    {
+        if(Yii::$app->request->isAjax){
+
+            $id = Yii::$app->request->post('groupID');
+            $group_deleted =  $this->findGroup($id)->delete();
+            if($group_deleted){
+                return $this->asJson(['message'=>'Group Deleted']);
+            }
         }
 
     }
@@ -996,7 +1021,7 @@ public function actionClasswork($cid){
      * Finds the Group model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return Course the loaded model
+     * @return StudentGroup the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findStudentGroupModel($id)
@@ -1008,6 +1033,25 @@ public function actionClasswork($cid){
         throw new NotFoundHttpException(Yii::t('app', 'Group .'));
     }
 
+
+
+
+
+    /**
+     * Finds the Group model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param string $id
+     * @return Groups the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findGroup($id)
+    {
+        if (($model = Groups::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException(Yii::t('app', 'Group do not exist!!!!!!!!!!!!!!!!'));
+    }
 
 
 
