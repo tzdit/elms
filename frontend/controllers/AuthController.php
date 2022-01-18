@@ -10,6 +10,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\VerifyEmailForm;
 use common\models\Academicyear;
+use common\models\Session;
 class AuthController extends \yii\web\Controller
 {
         /**
@@ -69,6 +70,9 @@ class AuthController extends \yii\web\Controller
     {
       if (!Yii::$app->user->isGuest) {
             //return $this->goHome();
+            $user=yii::$app->user->identity;
+            (new Session())->setDbSession($user);
+
              return $this->redirect(['/home/dashboard']);
        }
       $this->layout = 'login';
@@ -77,6 +81,10 @@ class AuthController extends \yii\web\Controller
            //setting up the current academic year
            $currentAcademicYear=Academicyear::find()->where(['status'=>'ongoing'])->one();
            yii::$app->session->set('currentAcademicYear', $currentAcademicYear);
+           //setting up a database session
+           $user=yii::$app->user->identity;
+           (new Session())->setDbSession($user);
+
 
            return $this->redirect(['/home/dashboard']);
      }
@@ -96,8 +104,9 @@ class AuthController extends \yii\web\Controller
          if ($session->isActive){
              $session->destroy();
          }
+        (new Session())->clearDbSession(); //clearing db sessions too
         Yii::$app->user->logout();
-
+        
         return $this->redirect(['auth/login']);
     }
 

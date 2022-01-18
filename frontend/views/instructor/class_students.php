@@ -84,7 +84,8 @@ $this->params['breadcrumbs'] = [
             
             </div>
             </div>
-            <table width="100%" class="table table-striped table-bordered table-hover" id="studenttable" style="font-size:12px">
+            <div class="table-responsive">
+            <table width="100%" class="table table-striped table-bordered table-hover " id="studenttable" style="font-size:12px;width:100%">
 		<thead>
 			<tr>
 				<th>
@@ -135,7 +136,7 @@ $this->params['breadcrumbs'] = [
 
 		</tbody>
 		</table>
-   
+                </div>
     </div>
     </div>
 </div>

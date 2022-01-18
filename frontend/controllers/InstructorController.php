@@ -63,6 +63,7 @@ use common\models\Academicyear;
 use frontend\models\AcademicYearManager;
 use yii\grid\GridView;
 use frontend\models\ClassroomMutex;
+use frontend\models\ClassRoomChatManager;
 
 class InstructorController extends \yii\web\Controller
 {
@@ -171,7 +172,16 @@ public $defaultAction = 'dashboard';
                             'get-assignment-stat',
                             'share-link',
                             'toggle-panelist',
-                            'set-panelist-off'
+                            'set-panelist-off',
+                            'get-online-mates',
+                            'send-text',
+                            'load-thread',
+                            'set-thread-read',
+                            'get-thread-stats',
+                            'clear-thread',
+                            'send-signal',
+                            'find-signal',
+                            'withdraw-signal'
 
                         ],
                         'allow' => true,
@@ -276,11 +286,39 @@ public $defaultAction = 'dashboard';
                             'get-assignment-stat',
                             'share-link',
                             'toggle-panelist',
-                            'set-panelist-off'
+                            'set-panelist-off',
+                            'get-online-mates',
+                            'send-text',
+                            'load-thread',
+                            'set-thread-read',
+                            'get-thread-stats',
+                            'clear-thread',
+                            'send-signal',
+                            'find-signal',
+                            'withdraw-signal'
                            
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR & HOD']
+                        
+
+                    ],
+                    [
+                        'actions' => [
+                          
+                            'get-online-mates',
+                            'send-text',
+                            'load-thread',
+                            'set-thread-read',
+                            'get-thread-stats',
+                            'clear-thread',
+                            'send-signal',
+                            'find-signal',
+                            'withdraw-signal'
+                           
+                        ],
+                        'allow' => true,
+                        'roles' => ['STUDENT']
                         
 
                     ],
@@ -302,8 +340,9 @@ public $defaultAction = 'dashboard';
    
     //getting the courses
     $courses = Yii::$app->user->identity->instructor->courses;
-    
     //traveling with all shit
+
+    //print_r((new ClassRoomChatManager())->getOnlineMatesByCourse()); return true;
     return $this->render('index', ['courses'=>$courses]);
     }
 
@@ -326,6 +365,59 @@ public $defaultAction = 'dashboard';
             return $this->redirect(yii::$app->request->referrer);
           }
       }
+
+    }
+    //chatting area
+
+    public function actionGetOnlineMates($all=null)
+    {
+        if($all==null)
+        {
+            return $this->asJson((new ClassRoomChatManager())->getAllOnlineUsers());
+        }
+        else
+        {
+            return $this->asJson((new ClassRoomChatManager())->getAllOnlineUsers(true));
+        }
+    }
+
+    public function actionSendText($text, $receiver)
+    {
+        return ClassRoomChatManager::sendText($receiver,$text);
+    }
+    public function actionGetThreadStats()
+    {
+        return $this->asJson((new ClassRoomChatManager())->getThreadsStats());
+    }
+    public function actionLoadThread($other)
+    {
+        return $this->asJson((new ClassRoomChatManager())->getThread($other));
+    }
+
+    public function actionSetThreadRead($thread)
+    {
+        return (new ClassRoomChatManager())->setThreadRead($thread);
+    }
+    public function actionClearThread($thread)
+    {
+
+       return (new ClassRoomChatManager())->clearThread($thread);
+
+    }
+
+    public function actionSendSignal($receiver,$type,$roomtype)
+    {
+      return (new ClassRoomChatManager())->signal($receiver,$type,$roomtype);
+
+    }
+    public function actionFindSignal($signaler,$roomtype=null)
+    {
+        return (new ClassRoomChatManager())->findSignal($signaler,$roomtype); 
+    }
+    public function actionWithdrawSignal($other)
+    {
+
+        return (new ClassRoomChatManager())->withdrawSignal($other); 
 
     }
     //#################### function to render instructor courses ##############################

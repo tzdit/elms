@@ -36,7 +36,7 @@ class AppAsset extends AssetBundle
         'js/student.js',
         'js/sweetalert2.all.min.js',
         'plugins/jquery-ui/jquery-ui.min.js',
-        'plugins/bootstrap/js/bootstrap.min.js',
+        'plugins/bootstrap/js/bootstrap.bundle.min.js',
         'plugins/chart.js/Chart.min.js',
         'plugins/sparklines/sparkline.js',
         'plugins/jqvmap/jquery.vmap.min.js',
@@ -63,6 +63,7 @@ class AppAsset extends AssetBundle
         'plugins/pace-progress/pace.min.js',
         'plugins/sweetalert2/sweetalert2.min.js',
         'js/tooltip.js',
+       
         
 
 

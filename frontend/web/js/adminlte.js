@@ -196,6 +196,7 @@
   var SELECTOR_DATA_REMOVE = '[data-card-widget="remove"]';
   var SELECTOR_DATA_COLLAPSE = '[data-card-widget="collapse"]';
   var SELECTOR_DATA_MAXIMIZE = '[data-card-widget="maximize"]';
+  var SELECTOR_MAKE_CARD_BIGGER='.exp';
   var SELECTOR_CARD = "." + CLASS_NAME_CARD;
   var SELECTOR_CARD_HEADER = '.card-header';
   var SELECTOR_CARD_BODY = '.card-body';
@@ -235,6 +236,8 @@
       this._parent.find("> " + SELECTOR_CARD_HEADER + " " + this._settings.collapseTrigger + " ." + this._settings.collapseIcon).addClass(this._settings.expandIcon).removeClass(this._settings.collapseIcon);
 
       this._element.trigger($__default['default'].Event(EVENT_COLLAPSED$4), this._parent);
+
+       this._parent.find(SELECTOR_MAKE_CARD_BIGGER).addClass("d-none");
     };
 
     _proto.expand = function expand() {
@@ -247,6 +250,7 @@
       this._parent.find("> " + SELECTOR_CARD_HEADER + " " + this._settings.collapseTrigger + " ." + this._settings.expandIcon).addClass(this._settings.collapseIcon).removeClass(this._settings.expandIcon);
 
       this._element.trigger($__default['default'].Event(EVENT_EXPANDED$3), this._parent);
+      this._parent.find(SELECTOR_MAKE_CARD_BIGGER).removeClass("d-none");
     };
 
     _proto.remove = function remove() {
@@ -262,6 +266,7 @@
       }
 
       this.collapse();
+     
     };
 
     _proto.maximize = function maximize() {
@@ -1487,7 +1492,7 @@
       $__default['default'](document).on('mouseup', function () {
         if (mousedown) {
           mousedown = false;
-          clearInterval(mousedownInterval);
+          clearInterval(mousedownFInterval);
           mousedownInterval = null;
         }
       });

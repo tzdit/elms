@@ -30,7 +30,8 @@
         "ruturajmaniyar/yii2-audit-log": "dev-master",
         "ext-gd": "*",
         "kartik-v/yii2-widget-fileinput": "*",
-        "kartik-v/bootstrap-fileinput": "dev-master"
+        "kartik-v/bootstrap-fileinput": "dev-master",
+        "mervick/emojionearea": "^3.4"
     
       
     },
