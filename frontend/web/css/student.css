@@ -128,5 +128,31 @@ a h5{
 }
 
 
+.qn-replay {
+  font-weight: 400;
+  font-style: italic;
+}
+
+#comment-btn {
+  background-color: rgba(153, 158, 169, 0.76);
+  border: 2px solid rgba(156, 163, 164, 0.62);
+  height: 40px;
+  margin-top: 0px;
+}
+
+.icon-color{
+  color: rgba(156, 163, 164, 0.62);
+}
+
+.icon-color-count{
+  color: rgba(0, 123, 255, 0.48);
+}
+
+
+.material-background{
+  background-color: rgba(34, 71, 133, 0.1);
+}
+
+
 
 

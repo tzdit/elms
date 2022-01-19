@@ -106,8 +106,10 @@ public $defaultAction = 'dashboard';
     public function actionCreateInstructor(){
         $model = new RegisterInstructorForm;
         $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'INSTRUCTOR & HOD'])->orwhere(['name'=>'INSTRUCTOR'])->all(), 'name', 'name');
-        try{
         $departments = ArrayHelper::map(Department::find()->where(['collegeID'=>Yii::$app->user->identity->admin->college->collegeID])->all(), 'departmentID', 'department_name');
+        
+        try{
+        
         if($model->load(Yii::$app->request->post())){
             if($model->createi()){
             Yii::$app->session->setFlash('success', 'Instructor registered successfully');
@@ -128,8 +130,9 @@ public $defaultAction = 'dashboard';
         public function actionCreateHod(){
             $model = new RegisterHodForm;
             $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'HOD'])->all(), 'name', 'name');
-            try{
             $departments = ArrayHelper::map(Department::find()->where(['collegeID'=>Yii::$app->user->identity->admin->college->collegeID])->all(), 'departmentID', 'department_name');
+            try{
+            
             if($model->load(Yii::$app->request->post())){
                 if($model->create()){
                 Yii::$app->session->setFlash('success', 'Hod registered successfully');

@@ -69,6 +69,54 @@ setTimeout(function(){
 });
 
 
+/**
+ * sweet alert for forum question delete
+ */
+
+$(document).on('click', '.btn-qn-delete', function(){
+
+    var question_id = $(this).attr('forum_qn_id');
+
+    Swal.fire({
+        title: '<small>Are you sure?</small>',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Delete'
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+            $.ajax({
+                url: '/forum/delete-forum-qn' ,
+                method:'post',
+                async:true,
+                cache: false,
+                dataType:'JSON',
+                data:{question_id:question_id},
+                success:function(data){
+                    if(data.message){
+                        Swal.fire(
+                            'Deleted!',
+                            data.message,
+                            'success'
+                        )
+                        setTimeout(function(){
+                            window.location.reload();
+                        },20);
+
+
+                    }
+                }
+            })
+
+        }
+    })
+
+});
+
+
+
 
 //submit by drug file
  const activateTag = document.querySelector('.drop-over');

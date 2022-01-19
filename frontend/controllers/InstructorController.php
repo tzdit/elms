@@ -5,6 +5,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use common\models\Course;
+use common\models\QuizThread;
 use common\models\Assignment;
 use common\models\Material;
 use common\models\Submit;
@@ -80,6 +81,7 @@ public $defaultAction = 'dashboard';
                             'dashboard',
                             'assign-course',
                             'courses',
+                            'class-quizes',
                             'enroll-course',
                             'dropcourse',
                             'classwork',
@@ -93,7 +95,7 @@ public $defaultAction = 'dashboard';
                             'upload-material',
                             'assignments',
                             'delete',
-                            
+                            'chat-index',
                             'deletelab',
                             'deletetut',
                             'materials',
@@ -174,6 +176,7 @@ public $defaultAction = 'dashboard';
                             'create-program',
                             'student-list',
                             'view-groups',
+                            'class-quizes',
                             'upload-assignment',
                             'upload-tutorial',
                             'upload-lab',
@@ -229,6 +232,7 @@ public $defaultAction = 'dashboard';
                             'class-assignments',
                             'class-labs',
                             'class-tutorials',
+                            'chat-index',
                             'class-ext-assessments',
                             'class-ca-generator',
                             'class-students',
@@ -346,6 +350,12 @@ public $defaultAction = 'dashboard';
         return $this->redirect(Yii::$app->request->referrer); 
     }
 
+  }
+
+  public function actionChatIndex($stdid)
+  {
+    
+    return $this->render('chat_index');
   }
 
 
@@ -756,11 +766,7 @@ public function actionClassAssignments($cid)
 
 public function actionClassLabs($cid)
 {
-
-    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
-
-    $assignments = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->orderBy([
+    $assignments = Assignment::find()->where(['assNature' => 'lab', 'course_code' =>ClassRoomSecurity::decrypt($cid)])->orderBy([
         'assID' => SORT_DESC ])->all();
     return $this->render('classLabAssignments', ['cid'=>$cid,'assignments'=>$assignments]);
 
@@ -814,11 +820,15 @@ public function actionClassStudents($cid)
 
 //Quizes page
 
-public function actionClassQuizes($cid)
+public function actionClassQuizes()
 {
-    $materials = Material::find()->where(['course_code' => $cid])->orderBy([
-        'material_ID' => SORT_DESC ])->all();
-    return $this->render('classmaterials', ['cid'=>$cid,'materials'=>$materials]);
+    $dataProvider = new ActiveDataProvider([
+        'query' => QuizThread::find(),
+    ]);
+
+    return $this->render('../quiz-thread/index', [
+        'dataProvider' => $dataProvider,
+    ]);
 
 }
 
@@ -1102,7 +1112,7 @@ public function actionUploadAssignment(){
         return $this->redirect(Yii::$app->request->referrer);
         }else{
           
-        Yii::$app->session->setFlash('error', 'Something went wrong');
+        Yii::$app->session->setFlash('error',"Assignment creating failed unexpectedly, please try again");
         return $this->redirect(Yii::$app->request->referrer);
     }
 }
@@ -1447,7 +1457,7 @@ public function actionAddPartner()
 
 public function actionGenerateGroups()
 {
- 
+    ini_set('max_execution_time', 200);
     $model = new StudentGroups();
     if($model->load(Yii::$app->request->post())){
       
@@ -1455,13 +1465,12 @@ public function actionGenerateGroups()
      {
 
         Yii::$app->session->setFlash('success', 'Groups generated successfully');
-        return $this->asJson(['message'=>'Groups generated successfully']);
-        //return $this->redirect(Yii::$app->request->referrer);
+        return $this->redirect(Yii::$app->request->referrer);
      }
      else{
 
         Yii::$app->session->setFlash('error', 'Groups generating failed');
-        return $this->asJson(['message'=>'failed']);
+     
         return $this->redirect(Yii::$app->request->referrer);
      }
  
@@ -1502,6 +1511,7 @@ public function actionAddStudentGentype()
 
  public function actionViewGroups()
  {
+    ini_set('max_execution_time', 200);
    $groupsModel=new GroupGenerationTypes();
    $coursecode=Yii::$app->session->get('ccode');
    $groups=$groupsModel::find()->where(['course_code'=>$coursecode])->orderBy(['typeID'=>SORT_DESC])->all();

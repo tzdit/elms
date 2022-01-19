@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Module;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
@@ -43,7 +44,7 @@ class VideosAndNotesController extends \yii\web\Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['videos','notes','download_video_and_notes','view_document'],
+                        'actions' => ['videos','notes','download_video_and_notes','view_document','modules'],
                         'allow' => true,
                         'roles'=>['STUDENT']
                     ],
@@ -51,15 +52,28 @@ class VideosAndNotesController extends \yii\web\Controller
                     
                 ],
             ],
-            // 'verbs' => [
-            //     'class' => VerbFilter::className(),
-            //     'actions' => [
-            //         'logout' => ['post'],
-            //         'changePassword' => ['post'],
-            //     ],
-            // ],
+             'verbs' => [
+                 'class' => VerbFilter::className(),
+                 'actions' => [
+                     'logout' => ['post'],
+                     'changePassword' => ['post'],
+
+                 ],
+             ],
         ];
     }
+
+
+    public function actionModules($cid){
+
+        $modules = Module::find()->where('course_code = :cid', [':cid' => $cid])->orderBy(['moduleID' => SORT_DESC])->asArray()->all();
+
+        return $this->render('materials', ['materials' => $modules, 'cid' => $cid]);
+
+    }
+
+
+
     public function actionVideos($cid)
     {
         $model = Material::find()->where('course_code = :course_code AND material_type = :material_type', [':course_code' => $cid, ':material_type' => 'videos'])->orderBy(['material_id' => SORT_DESC]);
@@ -80,8 +94,8 @@ class VideosAndNotesController extends \yii\web\Controller
 
     public function actionNotes($cid)
     {
-        $model = Material::find()->where('course_code = :course_code AND material_type = :material_type', [':course_code' => $cid, ':material_type' => 'notes'])->orderBy(['material_id' => SORT_DESC]);
 
+        $model = Material::find()->where('course_code = :course_code AND material_type = :material_type', [':course_code' => $cid, ':material_type' => 'notes'])->orderBy(['material_id' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $model,

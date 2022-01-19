@@ -109,6 +109,9 @@ $this->params['breadcrumbs'] = [
         <th>
 			   Profile
       </th>
+      <th>
+        Action
+          </th>
 				
 			</tr>
 		</thead>
@@ -120,6 +123,7 @@ $this->params['breadcrumbs'] = [
                     <td><?=Html::encode($student->fname." ".$student->mname." ".$student->lname); ?></td>
                     <td><?=Html::encode($student->gender); ?></td>
                     <td><?=Html::encode($student->YOS); ?></td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     

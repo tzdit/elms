@@ -10,7 +10,7 @@ use common\models\Material;
 use common\models\Groups;
 use common\models\Student;
 use common\models\AuthItem;
-
+use common\models\QMarks;
 use common\models\Program;
 use common\models\Announcement;
 use frontend\models\UploadStudentHodForm;
@@ -21,6 +21,7 @@ use frontend\models\GroupAssSubmit;
 use frontend\models\CarryCourseSearch;
 use common\models\StudentGroup;
 use yii\helpers\ArrayHelper;
+use yii\data\ActiveDataProvider;
 use Yii;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -45,7 +46,7 @@ class StudentController extends \yii\web\Controller
                             'resubmit','videos','announcement','group_assignment_submit',
                             'quiz_answer','quiz_view','group_resubmit','assignment',
                             'group-assignment','labs','tutorial','course-materials','returned',
-                            'course-announcement','quiz','student-group','forum'
+                            'course-announcement','quiz','student-group',
                         ],
                         
 
@@ -491,18 +492,11 @@ public function actionClasswork($cid){
 
 
     public function actionQuiz($cid){
-
         $reg_no = Yii::$app->user->identity->username;
-             return $this->render('quiz', ['cid'=>$cid, 'reg_no' => $reg_no]);
-    }
-
-
-
-
-    public function actionForum($cid){
-
-        $reg_no = Yii::$app->user->identity->username;
-        return $this->render('forum', ['cid'=>$cid, 'reg_no' => $reg_no]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => QMarks::find(),
+        ]);
+      return $this->render('../q-marks/index', ['cid'=>$cid, 'reg_no' => $reg_no, 'dataProvider' => $dataProvider]);
     }
 
 

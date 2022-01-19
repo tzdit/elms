@@ -68,6 +68,7 @@ class UploadAssignment extends Model{
         $ass->assNature = "assignment";
         $ass->instructorID = Yii::$app->user->identity->instructor->instructorID;
         $ass->total_marks = $this->totalMarks;
+        if(Yii::$app->session->get('ccode')===null){return false;}
         $ass->course_code = isset($this->ccode) ? $this->ccode : Yii::$app->session->get('ccode');
         
         if(!$ass->save()){return false;}
@@ -108,7 +109,7 @@ class UploadAssignment extends Model{
                $assq->total_marks=$this->questions_maxima[$q];
                if(!$assq->save()){return false;}
                
-             // print var_export($assq->getErrors());
+              
             }
         }
         else if($this->assType=="groups")
@@ -167,7 +168,7 @@ class UploadAssignment extends Model{
         
     }catch(\Exception $e){
     
-        return $e;
+        return $e->getMessage();
     }
     }
 
