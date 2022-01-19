@@ -29,8 +29,8 @@ AppAsset::register($this);
 
   <!-- /.login-logo -->
 
-  <div class="container">
-     <div class="row">
+  <div class="container ">
+     <div class="row mt-3 show-sm">
       <?php if(Yii::$app->session->hasFlash('success')): ?>
 
           <div class="col-md-12 text-center">
@@ -57,7 +57,7 @@ AppAsset::register($this);
        </div>
        </div>
 <?= $content ?>
-
+<?= $this->render('/includes/loginfooter') ?>
 <!-- /.login-box -->
 <?php $this->endBody() ?>
 </body>

@@ -2,6 +2,9 @@
 
 namespace frontend\controllers;
 use common\models\Submit;
+use frontend\models\AddGroupMembers;
+use frontend\models\ClassRoomSecurity;
+use frontend\models\GroupCreateForm;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use common\models\Course;
@@ -40,13 +43,13 @@ class StudentController extends \yii\web\Controller
                     [
                         'actions' => ['dashboard','error','classwork','courses',
                             'changePassword','carrycourse','add_carry','delete_carry',
-                            'student_groups','delete_group','add_group',
+                            'student_groups','delete_group', 'delete-group','add_group',
                             'student_in_login_user_course','add_to_group','list_student_in_group',
                             'remove_student_from_group','submit_assignment','view_assignment','download_assignment',
                             'resubmit','videos','announcement','group_assignment_submit',
                             'quiz_answer','quiz_view','group_resubmit','assignment',
                             'group-assignment','labs','tutorial','course-materials','returned',
-                            'course-announcement','quiz','student-group',
+                            'course-announcement','quiz','student-group','add-group-member', 'create-group'
                         ],
                         
 
@@ -74,6 +77,7 @@ class StudentController extends \yii\web\Controller
                     'logout' => ['post'],
                     'changePassword' => ['post'],
                     'delete_carry' => ['post'],
+                    'delete-group' => ['post'],
                 ],
             ],
        
@@ -84,8 +88,10 @@ class StudentController extends \yii\web\Controller
 
     public function beforeAction($action) {
         $this->enableCsrfValidation = ($action->id !== "delete_carry"); // <-- here
+        $this->enableCsrfValidation = ($action->id !== "delete-group");
         return parent::beforeAction($action);
     }
+
    
     //create students
   public function actionRegister(){
@@ -98,7 +104,7 @@ class StudentController extends \yii\web\Controller
     if($model->load(Yii::$app->request->post())){
        
         if($model->create()===true){
-        Yii::$app->session->setFlash('success', '<br>Registration Successful&nbsp&nbsp<a class="btn btn-primary" href="/auth/login">Login</a><br>username: your registration number & password: 123456<br><i class="fa fa-info-circle"></i>make sure you change your password');
+        Yii::$app->session->setFlash('success', 'Registration Successful&nbsp&nbsp<a class="btn btn-primary" href="/auth/login">Login</a><br>username: your registration number & password: 123456&nbsp&nbsp&nbsp&nbsp<i class="fa fa-info-circle"></i>Change your password afterwards');
         return $this->redirect(Yii::$app->request->referrer);
         }
    
@@ -164,7 +170,11 @@ public function actionClasswork($cid){
 
 
     public function actionAssignment($cid){
-        if(!empty($cid)){
+
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
+	     if(!empty($cid)){
             Yii::$app->session->set('ccode', $cid);
         }
 
@@ -187,12 +197,10 @@ public function actionClasswork($cid){
      */
     public function actionSubmit_assignment($assID)
     {
+        $assID = ClassRoomSecurity::decrypt($assID);
 
         $model =new AssSubmitForm;
 
-        $file = UploadedFile::getInstanceByName('document');
-        $model->document = $file;
-        $model->assinmentId = $assID;
 
 
         // echo '<pre>';
@@ -200,15 +208,18 @@ public function actionClasswork($cid){
         // echo '</pre>';
         // exit;
 
-        $reg_no = Yii::$app->user->identity->username;
-
         try{
-            if (Yii::$app->request->isPost && $model->save()) {
+            if (Yii::$app->request->isPost) {
 
-                Yii::$app->session->setFlash('success', 'Your Submit success');
+                $file = UploadedFile::getInstance($model,'document');
+                $model->document = $file;
+                $model->assinmentId = $assID;
 
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('success', 'Your Submit success');
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
 
-                return $this->redirect(Yii::$app->request->referrer);
             }
 
 
@@ -232,6 +243,10 @@ public function actionClasswork($cid){
      * return in the same page after sumit
      */
     public function actionResubmit($assID, $submit_id){
+
+        $assID = ClassRoomSecurity::decrypt($assID);
+        $submit_id = ClassRoomSecurity::decrypt($submit_id);
+
         $model = AssSubmitForm::find()->where('submitID = :submitID AND assID = :assID ', [':submitID' => $submit_id, ':assID' => $assID])->one();
 //        $submit_model = Submit::find()->where('assID = :assID', [':assID' => $submit_id])->one();
 
@@ -255,11 +270,12 @@ public function actionClasswork($cid){
 //                var_dump($oldDocumentPath);
 //                echo '</pre>';
 //                exit;
-                $file = UploadedFile::getInstanceByName('document');
+                $file = UploadedFile::getInstance($model,'document');
 
                 $model->document = $file;
                 $model->assinmentId = $assID;
                 if ($model->save()) {
+
                     Yii::$app->session->setFlash('success', 'Your Re-Submit success');
 
 
@@ -270,7 +286,7 @@ public function actionClasswork($cid){
 
         }
         catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Fail to Resubmit');
+            Yii::$app->session->setFlash('error', 'Fail to Resubmit'.$e);
         }
 
 
@@ -286,13 +302,139 @@ public function actionClasswork($cid){
 
 
     public function actionStudentGroup($cid){
+
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
         if(!empty($cid)){
             Yii::$app->session->set('ccode', $cid);
         }
 
         $reg_no = Yii::$app->user->identity->username;
-        $studentGroups = Groups::find()->joinWith('studentGroups')->where('student_group.reg_no = :reg_no', [':reg_no' => $reg_no])->orderBy(['SG_ID' => SORT_DESC ])->all();
-        return $this->render('student_groups', ['cid'=>$cid, 'reg_no' => $reg_no, 'studentGroupsList' => $studentGroups] );
+        $studentGroups = Groups::find()->select('groups.groupName, student_group.*,group_generation_types.* ')->join('INNER JOIN','student_group','groups.groupID = student_group.groupID')->join('INNER JOIN', 'group_generation_types', 'groups.generation_type = group_generation_types.typeID')->where('student_group.reg_no = :reg_no AND group_generation_types.course_code = :course_code', [':reg_no' => $reg_no, 'course_code' => $cid])->orderBy(['SG_ID' => SORT_DESC ])->asArray()->all();
+        $studentGroupsCount = Groups::find()->select('groups.groupName, student_group.*, ')->join('INNER JOIN','student_group','groups.groupID = student_group.groupID')->join('INNER JOIN', 'group_generation_types', 'groups.generation_type = group_generation_types.typeID')->where('student_group.reg_no = :reg_no AND group_generation_types.course_code = :course_code', [':reg_no' => $reg_no, 'course_code' => $cid])->count();
+        $noGroupAssignment =  Assignment::find()->select('assignment.*, group_generation_types.*, group_generation_assignment.*')->join('INNER JOIN', 'group_generation_assignment','assignment.assID = group_generation_assignment.assID')->join('INNER JOIN', 'group_generation_types', 'group_generation_assignment.gentypeID = group_generation_types.typeID ')->where('group_generation_types.course_code = :course_code', ['course_code' => $cid])->orderBy(['assignment.assID' => SORT_DESC ])->asArray()->all();
+        $noGroupAssignmentCount =  Assignment::find()->select('assignment.*, group_generation_types.*, group_generation_assignment.*')->join('INNER JOIN', 'group_generation_assignment','assignment.assID = group_generation_assignment.assID')->join('INNER JOIN', 'group_generation_types', 'group_generation_assignment.gentypeID = group_generation_types.typeID ')->where('group_generation_types.course_code = :course_code', ['course_code' => $cid])->count();
+
+        $model = new AddGroupMembers;
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            if (!$model->validate() && $model->addMember() == false){
+                Yii::$app->session->setFlash('error', 'Group creation failed');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+
+            $returned=$model->addMember();
+
+            if (empty($returned))
+            {
+
+                Yii::$app->session->setFlash('success', 'Group created successfully');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            else{
+
+                $errors="Error(s) detected during creation:";
+                foreach($returned as $member=>$error)
+                {
+                    $errors.="<br>".$member.": ".$error;
+                }
+                Yii::$app->session->setFlash('error',$errors);
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+
+        }
+
+
+
+
+        return $this->render('student_groups', ['cid'=>$cid, 'reg_no' => $reg_no, 'studentGroupsList' => $studentGroups, 'count' => $studentGroupsCount, 'noGroupAssignment' => $noGroupAssignment, 'noGroupAssignmentCount' => $noGroupAssignmentCount, 'model' => $model] );
+    }
+
+
+
+
+
+
+    /**
+     * Creates a new group model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreateGroup($cid)
+    {
+        $model= new GroupCreateForm;
+
+        try{
+
+            if ($model->load(Yii::$app->request->post()) ) {
+
+                if (!$model->validate() && $model->groupCreate() == false){
+                    Yii::$app->session->setFlash('error', 'Group creation failed');
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
+
+                $returned=$model->groupCreate();
+
+                if ($returned == false && !empty($returned)){
+//                    echo '<pre>';
+//                var_dump($returned);
+//                echo '</pre>';
+//                exit;
+                    Yii::$app->session->setFlash('success', 'Fail to create group');
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
+
+                if (empty($returned))
+                {
+
+                    Yii::$app->session->setFlash('success', 'Group created successfully');
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
+                else{
+
+                    $errors="Error(s) detected during creation:";
+                    foreach($returned as $member=>$error)
+                    {
+                        $errors.="<br>".$member.": ".$error;
+                    }
+                    Yii::$app->session->setFlash('error',$errors);
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
+            }
+
+            return $this->renderAjax('group_create', [
+                'model' => $model, 'cid' => $cid,
+            ],false,true);
+        }
+        catch(\Exception $e){
+            Yii::$app->session->setFlash('error', 'Fail to create group'.$e);
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+
+    }
+
+
+
+    /**
+     * Deletes an existing Group.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param string $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionDeleteGroup()
+    {
+        if(Yii::$app->request->isAjax){
+
+            $id = Yii::$app->request->post('groupID');
+            $group_deleted =  $this->findGroup($id)->delete();
+            if($group_deleted){
+                return $this->asJson(['message'=>'Group Deleted']);
+            }
+        }
+
     }
 
 
@@ -320,12 +462,11 @@ public function actionClasswork($cid){
     public function actionGroup_assignment_submit($assID,$groupID)
     {
 
+        $assID = ClassRoomSecurity::decrypt($assID);
+        $groupID = ClassRoomSecurity::decrypt($groupID);
+
         $model =new GroupAssSubmit;
 
-        $file = UploadedFile::getInstanceByName('document');
-        $model->document = $file;
-        $model->assinmentId = $assID;
-        $model->groupId = $groupID;
 
 
         // echo '<pre>';
@@ -334,23 +475,29 @@ public function actionClasswork($cid){
         // exit;
 
         try{
-            if (Yii::$app->request->isPost && $model->save()) {
+            if (Yii::$app->request->isPost) {
 
-                Yii::$app->session->setFlash('success', 'Your Submit successed');
+                $file = UploadedFile::getInstance($model,'document');
+                $model->document = $file;
+                $model->assinmentId = $assID;
+                $model->groupId = $groupID;
 
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('success', 'Your Submit success');
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
 
-                return $this->refresh();
             }
 
 
         }
         catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+            Yii::$app->session->setFlash('error', 'Something went wrong');
         }
 
 
         return $this->render('group_ass_submit', [
-            'model' => $model, 'assID' => $assID,'groupId' => $groupID],false,true);
+            'model' => $model],false,true);
     }
 
 
@@ -361,39 +508,59 @@ public function actionClasswork($cid){
      * Resubmision of an assinment
      * return in the same page after sumit
      */
-    public function actionGroup_resubmit($assID,$groupID){
-        $model =new AssSubmitForm;
+    public function actionGroup_resubmit($assID,$groupID,$submit_id){
 
-        $file = UploadedFile::getInstanceByName('document');
-        $model->document = $file;
-        $model->assinmentId = $assID;
+        $assID = ClassRoomSecurity::decrypt($assID);
+        $groupID = ClassRoomSecurity::decrypt($groupID);
+        $submit_id = ClassRoomSecurity::decrypt($submit_id);
 
+        $model = GroupAssSubmit::find()->where('submitID = :submitID AND assID = :assID ', [':submitID' => $submit_id, ':assID' => $assID])->one();
+//        $submit_model = Submit::find()->where('assID = :assID', [':assID' => $submit_id])->one();
 
-        // echo '<pre>';
-        //     var_dump($file);
-        // echo '</pre>';
-        // exit;
+        if (!isset($model->fileName)){
+            throw new NotFoundHttpException('file do not exist');
+        }
 
+        $file_name = $model->fileName;
+        $oldDocumentPath = Yii::getAlias('@frontend/web/storage/submit/'.$file_name);
 
 
         try{
-            if (Yii::$app->request->isPost && $model->save()) {
 
-                Yii::$app->session->setFlash('success', 'Your Re-Submit successed');
+            if (Yii::$app->request->isPost ) {
+
+                if (file_exists($oldDocumentPath)){
+                    unlink($oldDocumentPath);
+                }
+
+//                echo '<pre>';
+//                var_dump($oldDocumentPath);
+//                echo '</pre>';
+//                exit;
+                $file = UploadedFile::getInstance($model,'document');
+                $model->document = $file;
+                $model->assinmentId = $assID;
+                $model->groupId = $groupID;
+
+                if ($model->save()) {
+
+                    Yii::$app->session->setFlash('success', 'Your Re-Submit success');
 
 
-                return $this->refresh();
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
             }
 
 
         }
         catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+            Yii::$app->session->setFlash('error', 'Fail to Resubmit'.$e);
         }
 
 
+
         return $this->render('group_ass_submit', [
-            'model' => $model, 'assID' => $assID,'groupID' => $groupID],false,true);
+            'model' => $model],false,true);
     }
 
 
@@ -402,6 +569,10 @@ public function actionClasswork($cid){
 
 
     public function actionLabs($cid){
+
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
         if(!empty($cid)){
             Yii::$app->session->set('ccode', $cid);
         }
@@ -418,6 +589,10 @@ public function actionClasswork($cid){
 
 
     public function actionTutorial($cid){
+
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
         if(!empty($cid)){
             Yii::$app->session->set('ccode', $cid);
         }
@@ -434,6 +609,11 @@ public function actionClasswork($cid){
 
 
     public function actionCourseMaterials($cid){
+
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
+
         if(!empty($cid)){
             Yii::$app->session->set('ccode', $cid);
         }
@@ -450,6 +630,10 @@ public function actionClasswork($cid){
 
 
     public function actionReturned($cid){
+
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
         if(!empty($cid)){
             Yii::$app->session->set('ccode', $cid);
         }
@@ -458,17 +642,17 @@ public function actionClasswork($cid){
         $returned= Submit::find()->innerJoin('assignment','assignment.assID = submit.assID AND submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->orderBy([
             'submit.submitID' => SORT_DESC ])->all();
 
-//        $returnedGroupAss= Assignment::find()->where('submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->innerJoin('group_assignment_submit','assignment.assID = group_assignment_submit.assID')->innerJoin('')->orderBy([
-//            'submit.submitID' => SORT_DESC ])->all();
+        $returnedGroupAss = GroupAssSubmit::find()->select('group_assignment_submit.*, assignment.*, groups.*')->join('INNER JOIN', 'groups', 'group_assignment_submit.groupID = groups.groupID')->join('INNER JOIN', 'student_group', 'student_group.groupID = student_group.groupID')->join('INNER JOIN', 'assignment', 'assignment.assID = group_assignment_submit.assID')->where('student_group.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->orderBy([
+            'group_assignment_submit.submitID' => SORT_DESC ])->asArray()->all();
 
-//
+
 //         echo '<pre>';
-//             var_dump($returned);
+//             var_dump($returnedGroupAss);
 //         echo '</pre>';
 //         exit;
 
 
-        return $this->render('returned', ['cid'=>$cid, 'reg_no' => $reg_no, 'returned'=>$returned,] );
+        return $this->render('returned', ['cid'=>$cid, 'reg_no' => $reg_no, 'returned'=>$returned,'returnedGroups' => $returnedGroupAss] );
     }
 
 
@@ -476,6 +660,10 @@ public function actionClasswork($cid){
 
 
     public function actionCourseAnnouncement($cid){
+
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
         if(!empty($cid)){
             Yii::$app->session->set('ccode', $cid);
         }
@@ -836,7 +1024,7 @@ public function actionClasswork($cid){
      * Finds the Group model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return Course the loaded model
+     * @return StudentGroup the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findStudentGroupModel($id)
@@ -848,6 +1036,25 @@ public function actionClasswork($cid){
         throw new NotFoundHttpException(Yii::t('app', 'Group .'));
     }
 
+
+
+
+
+    /**
+     * Finds the Group model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param string $id
+     * @return Groups the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findGroup($id)
+    {
+        if (($model = Groups::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException(Yii::t('app', 'Group do not exist!!!!!!!!!!!!!!!!'));
+    }
 
 
 
@@ -877,6 +1084,9 @@ public function actionClasswork($cid){
      */
 
     public function actionDownload_assignment($assID) {
+
+        $assID = ClassRoomSecurity::decrypt($assID);
+
         $model = Assignment::findOne($assID);
     
         // This will need to be the path relative to the root of your app.
@@ -904,6 +1114,9 @@ public function actionClasswork($cid){
      */
     public function actionView_assignment($assID)
     {
+
+        $assID = ClassRoomSecurity::decrypt($assID);
+
         $model = Assignment::findOne($assID);
     
         // This will need to be the path relative to the root of your app.

@@ -1,4 +1,6 @@
 <?php
+
+use kartik\file\FileInput;
 use yii\bootstrap4\Breadcrumbs;
 use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
@@ -16,62 +18,68 @@ AppAsset::register($this);
 /* @var $form ActiveForm */
 
 $this->params['breadcrumbs'] = [
-    ['label'=>'Group assignmet Submission'],
+    ['label'=>'Group Assignment Submission', 'url'=>Url::to(Yii::$app->request->referrer)],
     ['label'=>$this->title]
-  ];
+];
 ?>
 <div class="changePassword">
 
-   
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-3">
-                </div>
-                <div class="col-sm-6">
-                    <div class="card shadow-lg" style="font-family:'Times New Roman', sans-serif">
-                        <div class="card-header text-center bg-primary">
-                            <h2>Submit</h2>
-                            
-                        </div>
-                        <div class="card-body">
-                                <div class="row ">
-                                    <div class="col-sm-12 d-flex flex-column justify-content-center align-items-center">
 
-                                    <p class='text-muted'>Submit by uploading the file</p>
-                                    <br>
-                                        <div class="upload-icon">
-                                            <i class="fas fa-upload"></i>
-                                        </div>
-
-                                        <br>
-                                        <h5 class='m-0'>Drag and drop a file you want to upload</h5>
-                                        <br>
-                                        <?php $form = ActiveForm::begin([
-                                            'options' => ['enctype' => 'multipart/form-data'],
-                                        ]); ?>
-                                          <?= $form->errorSummary($model) ?>
-
-                                        <button class="btn-primary btn-file">
-                                           Select File
-                                           <input type="file" name="document" id="document-file">
-                                       </button>
-                                       <?php ActiveForm::end(); ?>
-                                    </div>
-
-                                    
-                                    <div class="form-group">
-                                       
-                                    </div>
-                                </div>    
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                </div>
+    <div class="container">
+        <div class="card shadow-lg" style="font-family:'Times New Roman', sans-serif">
+            <div class="card-header text-center bg-primary">
+                <h2>Group Submit</h2>
             </div>
-           
+            <div class="card-body">
+                <h3 class='text-muted'>Submit by uploading the file</h3>
+                <h5 class='text-danger font-italic font-weight-bold'>Submit assignment and notify your member to avoid wrong submit</h5>
+                <br>
+                <!--                                        <div class="upload-icon">-->
+                <!--                                            <i class="fas fa-upload"></i>-->
+                <!--                                        </div>-->
+                <!---->
+                <!--                                        <br>-->
+                <!--                                        <span class='drag-header m-0'>Drag and drop file you want to upload</span>-->
+                <!--                                        <br>-->
+
+                <?php $form = ActiveForm::begin([
+                    'options' => ['enctype' => 'multipart/form-data'],
+                ]); ?>
+                <?= $form->errorSummary($model) ?>
+
+                <div class="form-group">
+                    <?=
+
+                    FileInput::widget([
+                        'model' => $model,
+                        'attribute' => 'document',
+                        'options' => ['multiple' => false],
+                        'pluginOptions' => [
+                            'showUpload' => true,
+                            'browseLabel' => 'Browse to choose attachment',
+                            'removeLabel' => 'Remove',
+                            'uploadClass' => ' mx-2 btn btn-primary',
+                            'browseClass' => 'btn btn-success',
+                            'removeClass' => 'btn btn-danger',
+                        ]
+
+                    ]);
+
+                    ?>
+
+                </div>
+                <?php ActiveForm::end(); ?>
+            </div>
+
+
+            <div class="form-group">
+
+            </div>
         </div>
-    
-    
+
+
+    </div>
+
+
 
 </div><!-- changePassword -->

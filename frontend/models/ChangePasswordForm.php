@@ -26,7 +26,7 @@ class ChangePasswordForm extends Model
         return [
             [['current_password', 'new_password', 'confirm_new_password'], 'required'],
             [
-                'new_password', 'compare', 'compareAttribute' => 'confirm_new_password',
+                'confirm_new_password', 'compare', 'compareAttribute' => 'new_password',
                 'message' => "Passwords don't match", 
             ],
             

@@ -26,10 +26,38 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body class="hold-transition login-page ">
+<div class="container ">
+     <div class="row mt-3 show-sm">
+      <?php if(Yii::$app->session->hasFlash('success')): ?>
+
+          <div class="col-md-12 text-center">
+            <div class="alert alert-success alert-dismissible">
+              <button class="close" data-dismiss="alert">
+                <span>&times;</span>
+              </button>
+              <strong><?= Yii::$app->session->getFlash('success') ?></strong>
+            </div>
+          </div>
+      
+      <?php endif ?>
+       <?php if(Yii::$app->session->hasFlash('error')): ?>
+          <div class="col-md-12 text-center">
+            <div class="alert alert-danger alert-dismissible">
+              <button class="close" data-dismiss="alert">
+                <span>&times;</span>
+              </button>
+              <strong><?= Yii::$app->session->getFlash('error') ?></strong>
+            </div>
+          </div>
+        
+      <?php endif ?>
+       </div>
+       </div>
 <div class="login-box text-center">
   <!-- /.login-logo -->
 <?= $content ?>
 </div>
+<?= $this->render('/includes/loginfooter') ?>
 <!-- /.login-box -->
 <?php $this->endBody() ?>
 </body>

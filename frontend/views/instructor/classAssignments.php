@@ -64,7 +64,16 @@ $this->params['breadcrumbs'] = [
 
       <div class="row">
         <div class="col-md-12">
-              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createAssignmentModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create New</a>
+              <?php
+              //creating an assignment in a finished academic year is not allowed
+              $academicyear=yii::$app->session->get('currentAcademicYear');
+              if($academicyear->isCurrent())
+              {
+              ?>
+              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createAssignmentModal" data-toggle="modal"><i class="fas fa-plus-circle" data-toggle="modal" ></i> Create New</a>
+              <?php
+              }
+              ?>
         </div>
                   
       </div>
@@ -78,7 +87,7 @@ $this->params['breadcrumbs'] = [
       <div class="row">
       <div class="col-sm-11">
       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$assign->assID?>" aria-expanded="true" aria-controls="collapse<?=$assign->assID?>">
-        <i class="fas fa-clipboard-list"></i> <?php echo $assign->assName;?>
+        <i class="fas fa-book-reader"></i> <?=Html::encode($assign->assName);?>
         </button>
       </div>
       <div class="col-sm-1" data-toggle="collapse" data-target="#collapse<?=$assign->assID?>" aria-expanded="true" aria-controls="collapse<?=$assign->assID?>">
@@ -95,71 +104,22 @@ $this->params['breadcrumbs'] = [
         <div class="row">
         
       <div class="col-md-3 col-sm-6 col-12">
-      <?php 
-      $submits=[];
-      $assigned=0;
-      if($assign->assType=="groups"){$submits=$assign->groupAssignmentSubmits;$assigned=count($assign->groupAssignments);}
-      else if($assign->assType=="allgroups"){
-        $submits=$assign->groupAssignmentSubmits;
-        $gentypes=$assign->groupGenerationAssignments;
-        for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
-      }
-      else if($assign->assType=="allstudents"){
-        $submits=$assign->submits;
-        $assigned=$assigned+count(CourseStudents::getClassStudents(ClassRoomSecurity::decrypt($cid)));
-
-        
-      }
-      else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);}
-      $subperc=0;
-      if($assigned!=0)
-      {
-      $subperc=(count($submits)/$assigned)*100;
-      }
-      ?>
       <a href="<?=Url::to(['instructor/stdwork/', 'cid'=>ClassRoomSecurity::encrypt($assign->course_code), 'id' => ClassRoomSecurity::encrypt($assign->assID)]) ?>" >
             <div class="info-box shadow">
               <div class="info-box-content">
                 <span class="info-box-text">Submitted</span>
-                <span class="info-box-number"><?=round($subperc,2)?>%</span>
+                <span class="info-box-number submited" id=<?=$assign->assID?>></span>
               </div>
         
             </div>
             </a>
           </div>
-
           <div class="col-md-3 col-sm-6 col-12">
-          <?php 
-            $submits=[];
-            $assigned=0;
-            if($assign->assType=="groups"){$submits=$assign->groupAssignmentSubmits;$assigned=count($assign->groupAssignments);}
-            else if($assign->assType=="allgroups"){
-              $submits=$assign->groupAssignmentSubmits;
-              $gentypes=$assign->groupGenerationAssignments;
-              for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
-            }
-            else if($assign->assType=="allstudents"){
-              $submits=$assign->submits;
-
-              $assigned=$assigned+count(CourseStudents::getClassStudents(ClassRoomSecurity::decrypt($cid)));
-              }
-            else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
-            
-            $missing=$assigned-count($submits);
-            $missperc=0;
-            if($assigned!=0)
-            {
-            $missperc=($missing/$assigned)*100;
-            }
-            $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-            $missedcourse=Yii::$app->getSecurity()->encryptByPassword($assign->course_code, $secretKey);
-            $id=Yii::$app->getSecurity()->encryptByPassword($assign->assID, $secretKey);
-            ?>
-            <a href="<?=Url::to(['instructor/missed-workmark/', 'cid'=>$missedcourse, 'id' =>$id]) ?>">
+            <a href="<?=Url::to(['instructor/missed-workmark/', 'cid'=>ClassRoomSecurity::encrypt($assign->course_code), 'id' =>ClassRoomSecurity::encrypt($assign->assID)]) ?>">
             <div class="info-box shadow">
               <div class="info-box-content">
                 <span class="info-box-text">Missing</span>
-                <span class="info-box-number"><?=round($missperc,2)?>%</span>
+                <span class="info-box-number missing" id=<?=$assign->assID?>></span>
               </div>
      
             </div>
@@ -167,93 +127,22 @@ $this->params['breadcrumbs'] = [
     
           </div>
           <div class="col-md-3 col-sm-6 col-12">
-            <?php   
-            $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-            $markedcourse=Yii::$app->getSecurity()->encryptByPassword($assign->course_code, $secretKey);
-            $id=Yii::$app->getSecurity()->encryptByPassword($assign->assID, $secretKey);
-            ?>
-          <a href="<?=Url::to(['instructor/stdworkmark/', 'cid'=>$markedcourse, 'id' =>$id]) ?>">
+          <a href="<?=Url::to(['instructor/stdworkmark/', 'cid'=>ClassRoomSecurity::encrypt($assign->course_code), 'id' =>ClassRoomSecurity::encrypt($assign->assID)]) ?>">
             <div class="info-box shadow">
               <div class="info-box-content">
-                <?php 
-            $submits=[];
-            $assigned=0;
-            $marked_submits=[];
-            if($assign->assType=="groups"){$submits=$assign->groupAssignmentSubmits;$assigned=count($assign->groupAssignments);}
-            else if($assign->assType=="allgroups"){
-              $submits=$assign->groupAssignmentSubmits;
-              $gentypes=$assign->groupGenerationAssignments;
-              for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
-            }
-            else if($assign->assType=="allstudents"){
-              $submits=$assign->submits;
-              $assigned=$assigned+count(CourseStudents::getClassStudents(ClassRoomSecurity::decrypt($cid)));
-          }
-            else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
-            
-            for($o=0;$o<count($submits);$o++)
-            {
-              if($submits[$o]->isMarked()){array_push($marked_submits,$submits[$o]);}
-            }
-            $marked=count($marked_submits);
-            $allsubmits=count($submits);
-            $markperc=0;
-            if($allsubmits!=0)
-            {
-            $markperc=($marked/$allsubmits)*100;
-            }
-            ?>
-                <span class="info-box-text">Marked</span>
-                <span class="info-box-number"><?=round($markperc,2)?>%</span>
+                <span class="info-box-text ">Marked</span>
+                <span class="info-box-number marked" id=<?=$assign->assID?>></span>
               </div>
       
             </div>
             </a>
           </div>
           <div class="col-md-3 col-sm-6 col-12">
-          <?php   
-            $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-            $failedcourse=Yii::$app->getSecurity()->encryptByPassword($assign->course_code, $secretKey);
-            $id=Yii::$app->getSecurity()->encryptByPassword($assign->assID, $secretKey);
-            ?>
-          <a href="<?=Url::to(['instructor/failed-assignments/', 'cid'=>$failedcourse, 'id' =>$id]) ?>">
+          <a href="<?=Url::to(['instructor/failed-assignments/', 'cid'=>ClassRoomSecurity::encrypt($assign->course_code), 'id' =>ClassRoomSecurity::encrypt($assign->assID)]) ?>">
             <div class="info-box shadow">
               <div class="info-box-content">
-              <?php 
-            $submits=[];
-            $failed_submits=[];
-            $marked_submits=[];
-            if($assign->assType=="groups"){$submits=$assign->groupAssignmentSubmits;$assigned=count($assign->groupAssignments);}
-            else if($assign->assType=="allgroups"){
-              $submits=$assign->groupAssignmentSubmits;
-              $gentypes=$assign->groupGenerationAssignments;
-              for($gen=0;$gen<count($gentypes);$gen++){$assigned=$assigned+count($gentypes[$gen]->gentype->groups);}
-            }
-            else if($assign->assType=="allstudents"){
-              $submits=$assign->submits;
-              $assigned=$assigned+count(CourseStudents::getClassStudents(ClassRoomSecurity::decrypt($cid)));
-              }
-            else{$submits=$assign->submits;$assigned=count($assign->studentAssignments);} 
-            
-            for($o=0;$o<count($submits);$o++)
-            {
-              if($submits[$o]->isMarked()){array_push($marked_submits,$submits[$o]);}
-            }
-            for($f=0;$f<count($submits);$f++)
-            {
-              if($submits[$f]->isFailed()){array_push($failed_submits,$submits[$f]);}
-            }
-            $marked=count($marked_submits);
-            $failedsubmits=count($failed_submits);
-            $failedperc=0;
-            if($marked!=0)
-            {
-            $failedperc=$marked!=0?($failedsubmits/$marked)*100:0;
-            }
-            ?>
-
                 <span class="info-box-text">Failed</span>
-                <span class="info-box-number"><?=round($failedperc,2)?>%</span>
+                <span class="info-box-number failed" id=<?=$assign->assID?> >9 %</span>
               </div>
          
             </div>
@@ -270,11 +159,20 @@ $this->params['breadcrumbs'] = [
       <i class="fas fa-clock" aria-hidden="true"></i> <b>Deadline : </b> <?= $assign -> finishDate ?>
       </div>
       <div class="col-md-3">
-        
-      <a href="#" class="btn btn-sm btn-danger float-right ml-2 assdel" assid=<?=$assign->assID ?>><span><i class="fas fa-trash"></i></span></a>
-      <?= Html::a('<i class="fas fa-edit"></i>',['update', 'id'=>ClassRoomSecurity::encrypt($assign->assID)], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
-      <a href="/storage/temp/<?= $assign -> fileName ?>" download target="_blank" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-download"></i></span></a>
-      <?= Html::a('<i class="fa fa-pen"></i>',['mark', 'id'=>ClassRoomSecurity::encrypt($assign->assID)], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
+     
+      <a href="#" class="btn btn-sm btn-danger float-right ml-2 assdel" data-toggle="tooltip" data-title="Delete" assid=<?=$assign->assID ?>><span><i class="fas fa-trash"></i></span></a>
+      <a href="/storage/temp/<?= $assign -> fileName ?>" download target="_blank" class="btn btn-sm btn-success float-right ml-2" data-toggle="tooltip" data-title="Download"><span><i class="fas fa-download"></i></span></a>
+      <?php
+      //update and marking an assignment in a finished academic year is not allowed
+      $academicyear=yii::$app->session->get('currentAcademicYear');
+      if($academicyear->isCurrent())
+      {
+      ?>
+      <?= Html::a('<i class="fas fa-edit"></i>',['update', 'id'=>ClassRoomSecurity::encrypt($assign->assID)], ['class'=>'btn btn-sm btn-warning float-right ml-2','data-toggle'=>'tooltip','data-title'=>'Update']) ?>
+      <?= Html::a('<i class="fa fa-pen"></i>',['mark', 'id'=>ClassRoomSecurity::encrypt($assign->assID)], ['class'=>'btn btn-sm btn-warning float-right ml-2','data-toggle'=>'tooltip','data-title'=>'Mark All']) ?>
+      <?php
+      }
+      ?>
       </div>
       </div>
       </div>
@@ -286,34 +184,6 @@ $this->params['breadcrumbs'] = [
         
         ?>
         
-<div class="modal fade" id="modal-danger<?= $assign -> assID ?>">
-
-        <div class="modal-dialog">
-          <div class="modal-content bg-danger">
-            <div class="modal-header">
-              <h4 class="modal-title">Deleting <b> <?= $assign -> assName ?> </b> Assignment</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            
-            <div class="modal-body">
-            
-              <p>Are you sure, you want to delete <b> <?= $assign -> assName ?> </b> assignment&hellip;?</p>
-              
-            </div>
-            <div class="modal-footer justify-content-between">
-            
-              <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
-              <?= Html::a('Delete', ['delete', 'cid'=>$assign->course_code, 'id'=>$assign -> assID], ['class'=>'btn btn-sm btn-danger float-right ml-2 btn-outline-light']) ?>
-            </div>
-            
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-        
-      </div>
       <!-- /.modal -->
   
   <?php endforeach ?>
@@ -335,36 +205,11 @@ $assmodel = new UploadAssignment();
 ?>
 <?= $this->render('assignments/create_assignment', ['assmodel'=>$assmodel, 'ccode'=>$cid]) ?>
 
-<!--  ###################################render model to Create_tutorial ##############################################-->
-<?php 
-$tutmodel = new UploadTutorial();
-?>
-<?= $this->render('tutorials/create_tutorial', ['tutmodel'=>$tutmodel, 'ccode'=>$cid]) ?>
 
-<!--  ###################################render model to Create_lab ####################################################-->
 <?php 
 $labmodel = new UploadLab();
 ?>
 <?= $this->render('labs/create_lab', ['labmodel'=>$labmodel, 'ccode'=>$cid]) ?>
-
-<!-- ############################################## the student adding modal ######################################## -->
-<?php 
-$assignstudentsmodel = new StudentAssign();
-?>
-<?= $this->render('assignstudents', ['assignstudentsmodel'=>$assignstudentsmodel, 'ccode'=>$cid]) ?>
-<!--  ###################################new assessment modal ####################################################-->
-<?php 
-$assessmodel = new External_assess();
-?>
-<?= $this->render('assessupload', ['assessmodel'=>$assessmodel, 'ccode'=>$cid]) ?>
-<!--  ###################################new announce modal ####################################################-->
-<?php 
-$announcemodel = new PostAnnouncement();
-?>
-<?= $this->render('announcementForm', ['announcemodel'=>$announcemodel]) ?>
-
-
-
 <?php 
 $script = <<<JS
 $(document).ready(function(){
@@ -784,12 +629,53 @@ $('#cadownloaderpdf').click(function(e){
     
   });
  
-
-
-
-
+  /////////////////////////
+  $(".info-box-number").each(function(i,elem)
+  {
+    var data={
+    assignment:$(elem).attr('id')
+  }
+  data[yii.getCsrfParam()]=yii.getCsrfToken();
+    if($(elem).hasClass("submited"))
+    {
+      data["stat"]="submitted";
+      $.get("/instructor/get-assignment-stat",data)
+      .done(function(an){
+       $(elem).text(an);
+      })
+    }
+    if($(elem).hasClass("missing"))
+    {
+      data["stat"]="missing";
+      $.get("/instructor/get-assignment-stat",data)
+      .done(function(an){
+       $(elem).text(an);
+      })
+    }
+    if($(elem).hasClass("marked"))
+    {
+      data["stat"]="marked";
+      $.get("/instructor/get-assignment-stat",data)
+      .done(function(an){
+       $(elem).text(an);
+      })
+    }
+    if($(elem).hasClass("failed"))
+    {
+      data["stat"]="failed";
+      $.get("/instructor/get-assignment-stat",data)
+      .done(function(an){
+       $(elem).text(an);
+      })
+    }
   
+
+  });
+  /////////////////////
+
 });
+
+
 JS;
 $this->registerJs($script);
 

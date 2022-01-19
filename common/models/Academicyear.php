@@ -164,4 +164,8 @@ public function behaviors()
     {
         return $this->hasMany(Notification::className(), ['yearID' => 'yearID']);
     }
+    public function isCurrent()
+    {
+        return $this->status=='ongoing';
+    }
 }

@@ -8,7 +8,7 @@ use common\helpers\Custom;
 /* @var $this yii\web\View */
 
 $this->title = 'Courses';
-$this->params['courseTitle'] =$this->title;
+$this->params['courseTitle'] ='<i class="fas fa-chalkboard-teacher"></i> Courses';
 $this->params['breadcrumbs'] = [
   ['label'=>$this->title]
 ];
@@ -34,7 +34,7 @@ $this->params['breadcrumbs'] = [
                   <table class="table table-bordered table-hover table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
                   <thead>
                   <tr>
-                  <th width="1%">#</th><th width="2%">Code</th><th>Name</th><th>Credit</th><th>Status</th><th>Enroll</th>
+                  <th width="1%">#</th><th width="2%">Code</th><th>Name</th><th>Credit</th><th>Status</th><th><i class="fa fa-plus-circle"></i> Assign</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -78,18 +78,18 @@ $this->params['breadcrumbs'] = [
 <div class="modal fade" role="dialog" id="EnrollModal">
 <div class="modal-dialog" role="document">
 <div class="modal-content">
-<div class="modal-header">
-<span class="modal-title">Enroll Course(s)</span>
+<div class="modal-header text-primary">
+<span class="modal-title"><i class="fa fa-question-circle"></i> Assign Course</span>
 <button class="close" data-dismiss="modal">&times;</button>
 </div>
 <div class="modal-body">
  <?= Html::beginForm(['/instructor/enroll-course'], 'post', ['id'=>'enroll-course']) ?>
- <span class="course-description mb-4"></span>
+ <span class="course-description mb-4 "></span>
  <?= Html::input('hidden', 'ccode', null, ['id'=>'ccode']) ?>
  <div class="row border-top mt-4 mb-2">
    <div class="col-md-12 mt-2">
-     <?= Html::submitButton('Enroll', ['name'=>'enroll', 'class'=>'btn btn-primary btn-sm float-right ml-2']) ?>
-      <button class="btn btn-sm btn-danger float-right" data-dismiss="modal">Close</button>
+     <?= Html::submitButton('<i class="fas fa-check"></i> Confirm', ['name'=>'enroll', 'class'=>'btn btn-primary btn-sm float-right ml-2']) ?>
+      <button class="btn btn-sm btn-default float-right" data-dismiss="modal"><i class="fa fa-times"></i> Decline</button>
    </div>
  </div>
 
@@ -106,7 +106,7 @@ $(document).ready(function(){
   });
   
   $(document).on('click', '.enroll', function(){
-      $('.course-description').text($(this).attr('ccode')+'=>'+$(this).attr('cname'));
+      $('.course-description').text($(this).attr('ccode')+' : '+$(this).attr('cname'));
       $("#ccode").val($(this).attr('ccode'));
     })
     

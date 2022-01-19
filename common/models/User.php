@@ -243,5 +243,9 @@ class User extends ActiveRecord implements IdentityInterface
       public function getHod(){
         return $this->hasOne(Hod::class, ['userID'=>'id']);
     }
+    public function hasDefaultPassword()
+    {
+        return $this->validatePassword("123456");
+    }
 
 }

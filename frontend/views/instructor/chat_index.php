@@ -1,120 +1,152 @@
-<?php
 
+<?php  
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
+use yii\widgets\Pjax;
 ?>
-<style>
-	.fileDiv {
-  position: relative;
-  overflow: hidden;
-}
-.upload_attachmentfile {
-  position: absolute;
-  opacity: 0;
-  right: 0;
-  top: 0;
-}
-.btnFileOpen {margin-top: -50px; }
-
-.direct-chat-warning .right>.direct-chat-text {
-    background: #d2d6de;
-    border-color: #d2d6de;
-    color: #444;
-	text-align: right;
-}
-.direct-chat-primary .right>.direct-chat-text {
-    background: #3c8dbc;
-    border-color: #3c8dbc;
-    color: #fff;
-	text-align: right;
-}
-.spiner{}
-.spiner .fa-spin { font-size:24px;}
-.attachmentImgCls{ width:450px; margin-left: -25px; cursor:pointer; }
-</style>
- 
-
- 
-</head>
-<body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
 
 
-<!-- Left side column. contains the logo and sidebar -->
+        <!-- =========================================================== -->
 
+        <!-- Direct Chat -->
+        <h4 class="mt-4 mb-2 d-flex justify-content-center">Classroom Chat </h4>
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-8">
+            <!-- DIRECT CHAT PRIMARY -->
+            <div class="card card-primary card-outline direct-chat direct-chat-primary">
+              <div class="card-header">
+                <h3 class="card-title">Classroom Chat with <b>[ <?php echo $username; ?> sentBy <?php echo $sender; ?> ]</b></h3>
 
-  
-  <!-- Content Header (Page header) -->
-  
-   
-  
-  <!-- Main content -->
-  
-  <section class="content">
-     <div class="row">
-           
-
-            
-            <div class="col-md-8" id="chatSection">
-              <!-- DIRECT CHAT -->
-              <div class="box box-warning direct-chat direct-chat-primary">
-                <div class="box-header with-border">
-                  <h3 class="box-title" id="ReciverName_txt">#chatTitle</h3>
-
-                  <div class="box-tools pull-right">
-                    <span data-toggle="tooltip" title="Clear Chat" class="ClearChat"><i class="fa fa-comments"></i></span>
-                    <!--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                    </button>-->
-                   <!-- <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Clear Chat"
-                            data-widget="chat-pane-toggle">
-                      <i class="fa fa-comments"></i></button>-->
-                   <!-- <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-                    </button>-->
-                  </div>
+                <div class="card-tools">
+                  <span title="3 New Messages" class="badge bg-primary">3</span>
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                      <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
+                    <i class="fas fa-comments"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
                 </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                  <!-- Conversations are loaded here -->
-                  <div class="direct-chat-messages" id="content">
-                     <!-- /.direct-chat-msg -->
-
-                     <div id="dumppy"></div>
-
-                  </div>
-                  <!--/.direct-chat-messages-->
- 
-                </div>
-                <!-- /.box-body -->
-                <div class="box-footer">
-                  <!--<form action="#" method="post">-->
-                    <div class="input-group">
-                     
-                    	
-                        <input type="hidden" id="Sender_Name" value="">
-                        <input type="hidden" id="Sender_ProfilePic" value="">
-                    	
-                    	<input type="hidden" id="ReciverId_txt">
-                        <input type="text" name="message" placeholder="Type Message ..." class="form-control message">
-                      		<span class="input-group-btn">
-                             <button type="button" class="btn btn-success btn-flat btnSend" id="nav_down">Send</button>
-                             <div class="fileDiv btn btn-info btn-flat"> <i class="fa fa-upload"></i> 
-                             <input type="file" name="file" class="upload_attachmentfile"/></div>
-                          </span>
-                    </div>
-                  <!--</form>-->
-                </div>
-                <!-- /.box-footer-->
               </div>
-              <!--/.direct-chat -->
+              <!-- /.card-header -->
+              <div class="card-body">
+                <!-- Conversations are loaded here -->
+                
+                <div class="direct-chat-messages">
+                  <!-- Message. Default to the left -->
+                  <?php foreach($chats as $chat): ?>
+                  <div class="direct-chat-msg">
+                  <?php if($sender == $chat->instructorID): ?>
+                    <div class="direct-chat-msg right">
+                    <div class="direct-chat-infos clearfix">
+                      <span class="direct-chat-name float-right">Kasimu Majaliwa</span>
+                      <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
+                    </div>
+                    <!-- /.direct-chat-infos -->
+                    <img class="direct-chat-img" src="/img/announcement.gif" alt="Message User Image">
+                    <!-- /.direct-chat-img -->
+                    <div class="direct-chat-text">
+                    <?= $chat->chatText ?>
+                    </div>
+                    <!-- /.direct-chat-text -->
+                  </div>
+                  
+                  <!-- /.direct-chat-msg -->
+                    <?php endif; ?>
+                  </div>
+                  
+                  
+                  
+                  <!-- /.direct-chat-msg -->
+
+                  <!-- Message to the right -->
+                  <?php if($sender !== $chat->instructorID): ?>
+                  <div class="direct-chat-infos clearfix">
+                      <span class="direct-chat-name float-left">Samia Suluhu</span>
+                      <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
+                    </div>
+                    <!-- /.direct-chat-infos -->
+                    <img class="direct-chat-img" src="/img/announcement.gif" alt="Message User Image">
+                    <!-- /.direct-chat-img -->
+                    <div class="direct-chat-text">
+                    <?= $chat->chatText ?>
+                    </div>
+                    <!-- /.direct-chat-text -->
+                
+                <?php endif; ?>
+
+                <?php endforeach; ?>
+                </div>
+                <!--/.direct-chat-messages-->
+
+                <!-- Contacts are loaded here -->
+                <div class="direct-chat-contacts">
+                  <ul class="contacts-list">
+                    <li>
+                      <a href="#">
+                        <img class="contacts-list-img" src="/img/announcement.gif" alt="User Avatar">
+
+                        <div class="contacts-list-info">
+                          <span class="contacts-list-name">
+                            Philip Mipango
+                            <small class="contacts-list-date float-right">2/28/2015</small>
+                          </span>
+                          <span class="contacts-list-msg">How have you been? I was...</span>
+                        </div>
+                        <!-- /.contacts-list-info -->
+                      </a>
+                    </li>
+                    <!-- End Contact Item -->
+                  </ul>
+                  <!-- /.contatcts-list -->
+                </div>
+                <!-- /.direct-chat-pane -->
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer">
+              <?php 
+                  Pjax::begin(['id'=>'sendmessage','timeout'=>'30000']);
+                  $form = ActiveForm::begin(['method'=>'post','options' => ['data-pjax' => true ], 'action'=>['/instructor/create-chat', 'stdid'=>$username]])?>
+      
+                  <!-- <form action="#" method="post"> -->
+                  <div class="">
+                  <?= $form->field($model, 'chatText')->textInput(['class'=>'form-control ', 'placeholder'=>'Type Message ...'])->label(false)?>
+                  <?= $form->field($model, 'reg_no')->hiddenInput(['value'=>$username, 'class'=>'form-control form-control-sm'])->label(false) ?>
+                  
+                  <span class="">
+                    <?= Html::submitButton('<i class="fa fa-plus-circle"></i> Send', ['class'=>'btn btn-primary btn-sm float-right ml-2']) ?>
+                    </span>
+                   
+                  </div>
+                  <?php 
+                 ActiveForm::end();
+                 
+                 Pjax::end();
+                ?>
+               <!-- </form> -->
+              </div>
+              <!-- /.card-footer-->
             </div>
-            <?php 
-
-$this->registerJsFile(
-  '@web/js/chat.js',
-  ['depends' => 'yii\web\JqueryAsset'],
-
-);
+            <!--/.direct-chat -->
+          </div>
 
 
+<?php
 
+$script = <<<JS
+    $('document').ready(function(){
+
+      $('#sendmessage').on('pjax:send', function() {
+       //$('#studloading').show();
+       })
+      $('#sendmessage').on('pjax:complete', function() {
+      //$('#studloading').hide();
+            })
+
+        })
+
+    JS;
+    $this->registerJs($script);
 ?>

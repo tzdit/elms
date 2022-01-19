@@ -47,7 +47,7 @@ class ExtAssess extends \yii\db\ActiveRecord
             [['instructorID', 'total_marks', 'yearID'], 'integer'],
             [['title', 'total_marks', 'yearID'], 'required'],
             [['date_created'], 'safe'],
-            [['course_code'], 'string', 'max' => 7],
+            [['course_code'], 'string', 'max' => 20],
             [['title'], 'string', 'max' => 20],
             [['instructorID', 'total_marks', 'course_code', 'title'], 'unique', 'targetAttribute' => ['instructorID', 'total_marks', 'course_code', 'title']],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],

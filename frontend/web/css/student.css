@@ -133,8 +133,15 @@ a h5{
   font-style: italic;
 }
 
-#comment-btn {
-  background-color: rgba(153, 158, 169, 0.76);
+.comment-btn {
+  background-color: rgba(85, 85, 85, 0.9);
+  border: 2px solid rgba(156, 163, 164, 0.62);
+  height: 40px;
+  margin-top: 0px;
+}
+
+.comment-btn-id {
+  background-color: rgba(85, 85, 85, 0.9);
   border: 2px solid rgba(156, 163, 164, 0.62);
   height: 40px;
   margin-top: 0px;
@@ -152,7 +159,5 @@ a h5{
 .material-background{
   background-color: rgba(34, 71, 133, 0.1);
 }
-
-
 
 

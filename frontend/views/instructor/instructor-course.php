@@ -34,33 +34,25 @@ $this->title = 'Instructors $ Courses';
               <div class="card-body">
             <table class="table table-bordered table-striped table-hover" id="StudentList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
             <thead>
-            <tr><th>Instructor Name</th><th>Department</th><th>Courses</th></tr>
+            <tr><th>Instructor Name</th><th>Department</th><th>Courses</th><th width="18%">Action</th></tr>
             
             </thead>
             <tbody>
 
             
-            <?php 
-            foreach($instructors as $instructor)
-            {
-                echo '<tr>';
-                echo '<td>' .$instructor->full_name.'</td>';
-                echo '<td>' .$instructor->department->depart_abbrev.'</td>';
-                
-                echo '<td>';
-                foreach($instructor->instructorCourses as $courses )
-                {
-                  echo '<b>'. $courses->course_code. ', '.'</b>';
-                  
-                }
-                echo '</td>';
             
-                
-
-            }
+            <?php foreach($instructors as $instructor): ?>
             
-            ?>
-            
+                <tr>
+                <td><?= $instructor-> full_name; ?></td>
+                <td><?= $instructor-> department->depart_abbrev ;?></td>
+                <td>
+                <?php foreach($instructor->instructorCourses as $courses ): ?>
+                  <b><?= $courses-> course_code. ','; ?></b>
+                <?php endforeach; ?>
+                </td>
+                <td> <?= Html::a('<i class="fas fa-minus-circle"> Remove Course</i>',['remove-instructor-course', 'instructorID'=>$instructor->instructorID], ['class'=>'btn btn-primary btn-sm m-0'])?> </td>
+                <?php endforeach; ?>
            
             </tbody>
             </table>

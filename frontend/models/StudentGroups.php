@@ -9,6 +9,7 @@ use common\models\StudentGroup;
 use common\models\GroupGenerationTypes;
 use common\models\Groups;
 use frontend\models\CourseStudents;
+use yii\base\Exception;
 /*
 A class that creates and manages students groups
 written by khalid hassan
@@ -35,14 +36,18 @@ class StudentGroups extends Model{
     public function generateRandomGroups()
     {
         ini_set('max_execution_time', 200);
-        //getting all student taking this course
+        
+        try
+        {
+            //getting all student taking this course
         $ccode=Yii::$app->session->get('ccode');
         $students_array=array();
-        $status=false;
-        
         $students=CourseStudents::getClassStudents($ccode);
 
-  
+        if($students==null || empty($students))
+        {
+            throw new Exception("This course still has no any students, Make sure all students are assigned");
+        }
         
         for($n=0;$n<count($students);$n++)
         {
@@ -55,12 +60,15 @@ class StudentGroups extends Model{
         shuffle($students_array);
 
         //spliting the array into groups of members
-
+       
         $groups=array_chunk($students_array,$this->membersNumber);
         $instructorID = Yii::$app->user->identity->instructor->instructorID;
         $now=date("m:d:Y h:i:s");
+
+       
         //$groupmodel->course_code=$ccode;
         //setting up the generation type
+       
         $typesmodel=new GroupGenerationTypes();
         $typesmodel->generation_type=($this->generationType!="" || $this->generationType!=null)?$this->generationType:"Generation type ".$now;
         $typesmodel->course_code=$ccode;
@@ -106,19 +114,16 @@ class StudentGroups extends Model{
 
            }
 
-
-             $status=true;
-
         }
-        else{
-
-            $status=false;
-        }
-    
+      
 
     }
-
-    return $status;
+    return true;
+}
+catch(Exception $e)
+{
+    throw new Exception($e->getMessage());
+}
 
     
 }

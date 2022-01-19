@@ -24,7 +24,7 @@ use Yii;
  * @property Chat[] $chats
  * @property ExtAssess[] $extAssesses
  * @property Groups[] $groups
- * @property Program $programCode0
+ * @property Program $program
  * @property User $user
  * @property StudentCourse[] $studentCourses
  * @property StudentGroup[] $studentGroups
@@ -62,7 +62,7 @@ class Student extends \yii\db\ActiveRecord
             [['userID', 'YOS'], 'integer'],
             [['DOR'], 'safe'],
             [['reg_no', 'f4_index_no'], 'string', 'max' => 20],
-            [['programCode', 'fname', 'mname', 'lname', 'status'], 'string', 'max' => 100],
+            [['programCode', 'fname', 'mname', 'lname', 'status'], 'string', 'max' => 60],
             [['gender'], 'string', 'max' => 7],
             [['phone'], 'string', 'max' => 30],
             [['reg_no'], 'unique'],
@@ -80,9 +80,9 @@ class Student extends \yii\db\ActiveRecord
             'reg_no' => 'Reg No',
             'userID' => 'User ID',
             'programCode' => 'Program Code',
-            'fname' => 'Fname',
-            'mname' => 'Mname',
-            'lname' => 'Lname',
+            'fname' => 'First name',
+            'mname' => 'Middle name',
+            'lname' => 'Last name',
             'gender' => 'Gender',
             'f4_index_no' => 'F4 Index No',
             'YOS' => 'Yos',

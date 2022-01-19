@@ -1,22 +1,21 @@
 <?php
 
 namespace common\models;
-use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
+
 use Yii;
 
 /**
  * This is the model class for table "chat".
  *
  * @property int $chatID
- * @property string|null $reg_no
- * @property int|null $instructorID
+ * @property int $sender
+ * @property int $receiver
  * @property string $chatText
- * @property string $chatDate
- * @property string $chatTime
+ * @property string|null $chatDateTime
  * @property string $status
  *
- * @property Student $regNo
- * @property Instructor $instructor
+ * @property User $receiver0
+ * @property User $sender0
  */
 class Chat extends \yii\db\ActiveRecord
 {
@@ -27,29 +26,20 @@ class Chat extends \yii\db\ActiveRecord
     {
         return 'chat';
     }
-    
-    public function behaviors()
-    {
-        return [
-            'auditEntryBehaviors' => [
-                'class' => AuditEntryBehaviors::class
-             ],
-        ];
-    }
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['instructorID'], 'integer'],
-            [['chatText', 'chatDate', 'chatTime', 'status'], 'required'],
-            [['chatDate', 'chatTime'], 'safe'],
-            [['reg_no'], 'string', 'max' => 20],
+            [['sender', 'receiver', 'chatText', 'status'], 'required'],
+            [['sender', 'receiver'], 'integer'],
+            [['chatDateTime'], 'safe'],
             [['chatText'], 'string', 'max' => 500],
             [['status'], 'string', 'max' => 10],
-            [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],
-            [['instructorID'], 'exist', 'skipOnError' => true, 'targetClass' => Instructor::className(), 'targetAttribute' => ['instructorID' => 'instructorID']],
+            [['receiver'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['receiver' => 'id']],
+            [['sender'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['sender' => 'id']],
         ];
     }
 
@@ -60,32 +50,31 @@ class Chat extends \yii\db\ActiveRecord
     {
         return [
             'chatID' => 'Chat ID',
-            'reg_no' => 'Reg No',
-            'instructorID' => 'Instructor ID',
+            'sender' => 'Sender',
+            'receiver' => 'Receiver',
             'chatText' => 'Chat Text',
-            'chatDate' => 'Chat Date',
-            'chatTime' => 'Chat Time',
+            'chatDateTime' => 'Chat Date Time',
             'status' => 'Status',
         ];
     }
 
     /**
-     * Gets query for [[RegNo]].
+     * Gets query for [[Receiver0]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getRegNo()
+    public function getReceiver0()
     {
-        return $this->hasOne(Student::className(), ['reg_no' => 'reg_no']);
+        return $this->hasOne(User::className(), ['id' => 'receiver']);
     }
 
     /**
-     * Gets query for [[Instructor]].
+     * Gets query for [[Sender0]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getInstructor()
+    public function getSender0()
     {
-        return $this->hasOne(Instructor::className(), ['instructorID' => 'instructorID']);
+        return $this->hasOne(User::className(), ['id' => 'sender']);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace common\models;
 use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
-
+use frontend\models\ClassRoomBehaviours;
 use Yii;
 
 /**
@@ -35,6 +35,9 @@ class Material extends \yii\db\ActiveRecord
             'auditEntryBehaviors' => [
                 'class' => AuditEntryBehaviors::class
              ],
+             'classroombehaviours' => [
+                'class' => ClassRoomBehaviours::class
+             ],
         ];
     }
     public static function tableName()
@@ -51,10 +54,10 @@ class Material extends \yii\db\ActiveRecord
             [['instructorID', 'yearID', 'moduleID'], 'integer'],
             [['upload_date', 'upload_time'], 'safe'],
             [['yearID'], 'required'],
-            [['course_code'], 'string', 'max' => 7],
+            [['course_code'], 'string', 'max' => 20],
             [['title'], 'string', 'max' => 100],
             [['material_type'], 'string', 'max' => 15],
-            [['fileName'], 'string', 'max' => 20],
+            [['fileName'], 'string', 'max' => 300],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
             [['instructorID'], 'exist', 'skipOnError' => true, 'targetClass' => Instructor::className(), 'targetAttribute' => ['instructorID' => 'instructorID']],
             [['moduleID'], 'exist', 'skipOnError' => true, 'targetClass' => Module::className(), 'targetAttribute' => ['moduleID' => 'moduleID']],

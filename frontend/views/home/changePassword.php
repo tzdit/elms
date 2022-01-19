@@ -29,8 +29,8 @@ $this->params['breadcrumbs'] = [
                 </div>
                 <div class="col-sm-6">
                     <div class="card shadow-lg" style="font-family:'Times New Roman', sans-serif">
-                        <div class="card-header text-center bg-primary">
-                            <h2>Change Password</h2>
+                        <div class="card-header text-center bg-primary pt-1 pb-1 text-md">
+                            <i class="fa fa-lock"></i> Change Password
                         </div>
                         <div class="card-body">
                                 <div class="row">
@@ -46,8 +46,8 @@ $this->params['breadcrumbs'] = [
                                         <?= $form->field($model, 'confirm_new_password')->passwordInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Confirm Password'])->label(false) ?>
                                     </div>
                                     
-                                    <div class="form-group">
-                                        <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary']) ?>
+                                    <div class="col-sm-12">
+                                        <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary btn-md float-right']) ?>
                                     </div>
                                 </div>    
                         </div>

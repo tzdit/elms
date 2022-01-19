@@ -18,6 +18,7 @@ class AppAsset extends AssetBundle
         'plugins/jqvmap/jqvmap.min.css',
         'css/adminlte.min.css',
         'plugins/overlayScrollbars/css/OverlayScrollbars.min.css',
+        'plugins/jquery-ui/jquery-ui.min.css',
         'plugins/daterangepicker/daterangepicker.css',
         'plugins/summernote/summernote-bs4.min.css',
         'plugins/fontawesome-free/css/all.min.css',
@@ -34,7 +35,8 @@ class AppAsset extends AssetBundle
     public $js = [
         'js/student.js',
         'js/sweetalert2.all.min.js',
-        'plugins/bootstrap/js/bootstrap.min.js',
+        'plugins/jquery-ui/jquery-ui.min.js',
+        'plugins/bootstrap/js/bootstrap.bundle.min.js',
         'plugins/chart.js/Chart.min.js',
         'plugins/sparklines/sparkline.js',
         'plugins/jqvmap/jquery.vmap.min.js',
@@ -61,6 +63,7 @@ class AppAsset extends AssetBundle
         'plugins/pace-progress/pace.min.js',
         'plugins/sweetalert2/sweetalert2.min.js',
         'js/tooltip.js',
+       
         
 
 

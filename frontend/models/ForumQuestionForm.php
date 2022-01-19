@@ -45,6 +45,11 @@ class ForumQuestionForm extends Model
     public function addThread()
     {
 
+        if (!$this->validate()) {
+            return false;
+        }
+
+
         /* save the new thread to the database */
         $transaction = Yii::$app->db->beginTransaction();
         try{

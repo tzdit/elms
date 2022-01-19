@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use common\models\Assignment;
 use common\models\Groups;
+use yii\web\NotFoundHttpException;
 
 /**
  * This is the model class for table "group_assignment_submit".
@@ -62,6 +63,7 @@ class GroupAssSubmit extends \yii\db\ActiveRecord
             [['comment'], 'string', 'max' => 200],
             [['groupID'], 'exist', 'skipOnError' => true, 'targetClass' => Groups::className(), 'targetAttribute' => ['groupID' => 'groupID']],
             [['assID'], 'exist', 'skipOnError' => true, 'targetClass' => Assignment::className(), 'targetAttribute' => ['assID' => 'assID']],
+            [['document'], 'file','maxSize' => 1024 * 1024 * 10 ,'message' => 'exceed maximum file size'],
         ];
     }
 
@@ -105,33 +107,35 @@ class GroupAssSubmit extends \yii\db\ActiveRecord
 
     public function save($runValidation = true, $attributeNames = null){
 
-        $isInsert = $this->isNewRecord;
-
         $this->assID = $this->assinmentId;
         $this->groupID = $this->groupId;
         $this->submit_date = date('Y-m-d');
         $this->submit_time = date('H:i:s');
-        $this->fileName = Yii::$app->security->generateRandomString(6);
+        $this->fileName = Yii::$app->security->generateRandomString(13).'.'.$this->document->extension;
 
-        if($isInsert){
-            
+
+        $saved =  parent::save($runValidation, $attributeNames);
+
+        if(!$saved)
+        {
+
+            return false;
         }
-         $saved =  parent::save($runValidation, $attributeNames);
 
-         if(!$saved)
-         {
-             return false;
-         }
+        $documentPath = Yii::getAlias('@frontend/web/storage/submit/'.$this->fileName );
+//             die($documentPath);
 
-         if($isInsert){
-             $documentPath = Yii::getAlias('@frontend/web/storage/submit/'.$this->fileName );
-
-             if(!is_dir(\dirname($documentPath))) {
-                 FileHelper::createDirectory(\dirname($documentPath));
-             }  
-
-             $this->document->saveAs($documentPath);
+        if(!is_dir(\dirname($documentPath))) {
+            FileHelper::createDirectory(\dirname($documentPath));
         }
+
+        try {
+            $this->document->saveAs($documentPath);
+        }
+        catch (\Exception $e){
+            throw new NotFoundHttpException("fail to upload, Try to use another browser");
+        }
+
 
 
         return true;

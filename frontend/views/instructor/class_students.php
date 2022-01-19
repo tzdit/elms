@@ -84,7 +84,8 @@ $this->params['breadcrumbs'] = [
             
             </div>
             </div>
-            <table width="100%" class="table table-striped table-bordered table-hover" id="studenttable" style="font-size:12px">
+            <div class="table-responsive">
+            <table width="100%" class="table table-striped table-bordered table-hover " id="studenttable" style="font-size:12px;width:100%">
 		<thead>
 			<tr>
 				<th>
@@ -125,20 +126,17 @@ $this->params['breadcrumbs'] = [
                     <td><?=Html::encode($student->YOS); ?></td>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td><?= Html::a('<i class="fas fa-envelope"> Chat</i>',['create-chat', 'stdid'=>$student->reg_no], ['class'=>'btn btn-primary btn-sm m-0']); ?>  </td>
                     
 						 			</tr>
 						 		
-									 <?php }?>
+									 <?php } ?>
 		
 			
 
 		</tbody>
 		</table>
-    <?php
-             
-          
-    ?>
+                </div>
     </div>
     </div>
 </div>

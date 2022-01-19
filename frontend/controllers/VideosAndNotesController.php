@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Module;
+use frontend\models\ClassRoomSecurity;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
@@ -66,6 +67,8 @@ class VideosAndNotesController extends \yii\web\Controller
 
     public function actionModules($cid){
 
+        $cid = ClassRoomSecurity::decrypt($cid);
+
         $modules = Module::find()->where('course_code = :cid', [':cid' => $cid])->orderBy(['moduleID' => SORT_DESC])->asArray()->all();
 
         return $this->render('materials', ['materials' => $modules, 'cid' => $cid]);
@@ -76,6 +79,9 @@ class VideosAndNotesController extends \yii\web\Controller
 
     public function actionVideos($cid)
     {
+
+        $cid = ClassRoomSecurity::decrypt($cid);
+
         $model = Material::find()->where('course_code = :course_code AND material_type = :material_type', [':course_code' => $cid, ':material_type' => 'videos'])->orderBy(['material_id' => SORT_DESC]);
 
 
@@ -94,6 +100,8 @@ class VideosAndNotesController extends \yii\web\Controller
 
     public function actionNotes($cid)
     {
+
+        $cid = ClassRoomSecurity::decrypt($cid);
 
         $model = Material::find()->where('course_code = :course_code AND material_type = :material_type', [':course_code' => $cid, ':material_type' => 'notes'])->orderBy(['material_id' => SORT_DESC]);
 
@@ -116,6 +124,9 @@ class VideosAndNotesController extends \yii\web\Controller
      */
 
     public function actionDownload_video_and_notes($material_ID) {
+
+        $material_ID = ClassRoomSecurity::decrypt($material_ID);
+
         $model = Material::findOne($material_ID);
     
         // This will need to be the path relative to the root of your app.
@@ -131,6 +142,9 @@ class VideosAndNotesController extends \yii\web\Controller
      */
     public function actionView_document($material_ID)
     {
+
+        $material_ID = ClassRoomSecurity::decrypt($material_ID);
+
         $model = Material::findOne($material_ID);
     
         // This will need to be the path relative to the root of your app.

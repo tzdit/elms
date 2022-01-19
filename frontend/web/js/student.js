@@ -21,6 +21,17 @@ $('#modal_button2').click(function(){
 });
 
 
+$(function(){
+
+    //click event of the add carry button
+    $('#group_modal_button').click(function(){
+        $('#group_modal').modal('show')
+            .find('#group_modal_content')
+            .load($(this).attr('value'));
+    });
+});
+
+
 
 /**
  * sweet alert for delete carry
@@ -114,6 +125,55 @@ $(document).on('click', '.btn-qn-delete', function(){
     })
 
 });
+
+
+
+/**
+ * sweet alert for delete carry
+ */
+
+$(document).on('click', '.btn-delete-group', function(){
+
+    var groupID = $(this).attr('groupID');
+
+    Swal.fire({
+        title: '<small>Are you sure?</small>',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Delete'
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+            $.ajax({
+                url: '/student/delete-group' ,
+                method:'post',
+                async:true,
+                cache: false,
+                dataType:'JSON',
+                data:{groupID:groupID},
+                success:function(data){
+                    if(data.message){
+                        Swal.fire(
+                            'Deleted!',
+                            data.message,
+                            'success'
+                        )
+                        setTimeout(function(){
+                            window.location.reload();
+                        },20);
+
+
+                    }
+                }
+            })
+
+        }
+    })
+
+});
+
 
 
 

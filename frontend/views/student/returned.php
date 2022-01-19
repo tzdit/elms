@@ -1,4 +1,6 @@
 <?php
+
+use frontend\models\GroupAssSubmit;
 use yii\helpers\Url;
 
 
@@ -118,7 +120,75 @@ $this->params['breadcrumbs'] = [
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="materials" role="tabpanel" aria-labelledby="custom-tabs-materials">
-                                    No Result Found;
+                                    <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">
+                                        <div class="card-body" >
+                                            <div class="tab-content" id="custom-tabs-four-tabContent">
+
+
+                                                <!-- ########################################### returned marks ######################################## -->
+
+                                                <!-- Left col -->
+                                                <section class="col-lg-12">
+<!--                                                    --><?php
+//                                                    if(empty(returnedGroups)){
+//                                                        echo "<p class='text-muted text-lg'>";
+//                                                        echo "No return found";
+//                                                        echo "</p>";
+//                                                    }
+//                                                    ?>
+
+                                                    <?php foreach($returnedGroups as $returneGroups): ?>
+
+                                                        <div class="card">
+                                                            <div class="card m-3 shadow-lg rounded result-card">
+                                                                <div class="card-body">
+                                                                    <div class="m-0">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-6">
+                                                                                <h5><i class="fas fa-clipboard-list mr-1 fa-lg" ></i><?php echo " ".ucwords($returneGroups['assName']) ?> </h5>
+                                                                                <span class="text-muted mt-0"><?= ucfirst($returneGroups['assType']) ?> Assignment</span>
+                                                                            </div>
+
+                                                                            <div class="col-sm-6">
+                                                                                <div class="float-right mr-4">
+                                                                                    <b><span class="text-muted">Total:</span> <span style="color: #007bff;"><?= $returneGroups['total_marks']  ?></span> </b><br>
+                                                                                    <b><span class="text-muted">Score:</span> <span style="color: #007bff;"><?= $returneGroups['score'] ?></span></b>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="m-0">
+                                                                        <p>File Name: <span class="m-0" style="color: #007bff;
+                                                                    font-style: italic;"><?= substr($returneGroups['fileName'], -30);  ?></span></p>
+                                                                    </div>
+
+                                                                    <div class="m-0">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-3"></div>
+                                                                            <div class="col-sm-6">
+                                                                                <p>Comment: <span class="text-muted m-0"><?php
+                                                                                        if (is_null($returneGroups['comment'])){
+                                                                                            echo "No comment";
+                                                                                        }
+                                                                                        else
+                                                                                            echo $returneGroups['comment'];
+
+                                                                                        ?></span></p>
+                                                                            </div>
+                                                                            <div class="col-sm-3"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    <?php endforeach ?>
+
+                                                </section>
+                                                <!-- ########################################### returned marks end ######################################## -->
+                                            </div>
+                                        </div>
                                 </div>
                         </div>
                     </div>

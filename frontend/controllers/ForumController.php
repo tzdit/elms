@@ -8,6 +8,7 @@ use common\models\ForumQuestion;
 use frontend\models\ForumQuestionForm;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use frontend\models\ClassRoomSecurity;
 use Yii;
 use yii\helpers\HtmlPurifier;
 use yii\web\NotFoundHttpException;
@@ -34,6 +35,22 @@ class ForumController extends \yii\web\Controller
 
                         'allow' => true,
                         'roles'=>['STUDENT']
+                    ],
+                    [
+                        'actions' => ['dashboard', 'index', 'add-thread','edit-thread','my-thread', 'delete-forum-qn','qn-conversation'
+                        ],
+
+
+                        'allow' => true,
+                        'roles'=>['INSTRUCTOR']
+                    ],
+                    [
+                        'actions' => ['dashboard', 'index', 'add-thread','edit-thread','my-thread', 'delete-forum-qn','qn-conversation'
+                        ],
+
+
+                        'allow' => true,
+                        'roles'=>['INSTRUCTOR & HOD']
                     ],
                     [
                         'actions' => [  'logout' => ['post'],],
@@ -65,9 +82,8 @@ class ForumController extends \yii\web\Controller
     public function actionIndex($cid)
     {
         $reg_no = Yii::$app->user->identity->username;
-
-        $forumTopics = ForumQuestion::find()->select('forum_question.*,forum_qn_tag.*')->join('INNER JOIN','forum_qn_tag','forum_question.question_id = forum_qn_tag.question_id')->where('forum_qn_tag.course_code = :cid',[':cid' => $cid])->orderBy(['forum_question.time_add' => SORT_DESC])->asArray()->all();
-        return $this->render('index', ['cid'=>$cid, 'topics' => $forumTopics]);
+        $forumTopics = ForumQuestion::find()->select('forum_question.*,forum_qn_tag.*')->join('INNER JOIN','forum_qn_tag','forum_question.question_id = forum_qn_tag.question_id')->where('forum_qn_tag.course_code = :cid',[':cid' => ClassRoomSecurity::decrypt($cid)])->orderBy(['forum_question.time_add' => SORT_DESC])->asArray()->all();
+        return $this->render('index', ['cid'=>ClassRoomSecurity::decrypt($cid), 'topics' => $forumTopics]);
     }
 
     public function actionAddThread()
@@ -114,7 +130,7 @@ class ForumController extends \yii\web\Controller
 
     public function actionEditThread($id)
     {
-        $model = ForumQuestion::findOne($id);
+        $model = ForumQuestion::findOne(ClassRoomSecurity::decrypt($id));
 
         if ($model->load(Yii::$app->request->post() && $model->update())) {
 
@@ -133,6 +149,7 @@ class ForumController extends \yii\web\Controller
 
     public function actionMyThread($cid)
     {
+        $cid = ClassRoomSecurity::decrypt($cid);
         $reg_no = Yii::$app->user->identity->getId();
 
         $forumTopics = ForumQuestion::find()->select('forum_question.*,forum_qn_tag.*')->join('INNER JOIN','forum_qn_tag','forum_question.question_id = forum_qn_tag.question_id')->where('forum_qn_tag.course_code = :cid AND forum_question.user_id = :reg_no',[':cid' => $cid, ':reg_no' => $reg_no])->orderBy(['forum_question.time_add' => SORT_DESC])->asArray()->all();
@@ -145,11 +162,15 @@ class ForumController extends \yii\web\Controller
      */
     public function actionQnConversation($question_id, $cid){
 
+        $question_id = ClassRoomSecurity::decrypt($question_id);
+        $cid = ClassRoomSecurity::decrypt($cid);
+
         $model = new ForumAnswer();
         $model1 = new ForumComment();
         $purifier = new HtmlPurifier();
         $question = ForumQuestion::find()->select('forum_question.*,forum_qn_tag.*')->join('INNER JOIN','forum_qn_tag','forum_question.question_id = forum_qn_tag.question_id')->where('forum_question.question_id = :question_id ',[':question_id' => $question_id])->orderBy(['forum_question.time_add' => SORT_ASC])->asArray()->one();
         $answers = ForumAnswer::find()->select('forum_answer.*')->where('forum_answer.question_id = :question_id ',[':question_id' => $question_id])->orderBy(['forum_answer.time_added' => SORT_DESC])->asArray()->all();
+        $answer_counts = ForumAnswer::find()->select('forum_answer.*')->where('forum_answer.question_id = :question_id ',[':question_id' => $question_id])->count();
 
 
         if ($model->load(Yii::$app->request->post())){
@@ -171,6 +192,10 @@ class ForumController extends \yii\web\Controller
            $model->user_id = Yii::$app->user->identity->getId();
            $model->question_id = $question_id;
            $model->code = $purifier->process($model->code);
+
+           if (empty($fileImageName)){
+               $fileImageName = "";
+           }
            $model->fileName = $fileImageName;
 
 
@@ -209,7 +234,7 @@ class ForumController extends \yii\web\Controller
 
         }
 
-        return $this->render('qn_conversation', ['cid'=>$cid, 'question' => $question,'answers' => $answers, 'model' => $model, 'model1' => $model1]);
+        return $this->render('qn_conversation', ['cid'=>$cid, 'question' => $question,'answers' => $answers, 'answer_counts' => $answer_counts, 'model' => $model, 'model1' => $model1]);
     }
 
 

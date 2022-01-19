@@ -89,11 +89,6 @@ public function actionLectureRoom()
  
     return $this->render('lectureRoom',['lectures'=>$lectures,'serverstatus'=>$serverstatus]);
 
-  
-
-
-
-
 }
 
 public function actionSession($sessionid)

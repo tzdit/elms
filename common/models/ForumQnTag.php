@@ -32,7 +32,7 @@ class ForumQnTag extends \yii\db\ActiveRecord
         return [
             [['course_code', 'question_id'], 'required'],
             [['question_id'], 'integer'],
-            [['course_code'], 'string', 'max' => 7],
+            [['course_code'], 'string', 'max' => 20],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
             [['question_id'], 'exist', 'skipOnError' => true, 'targetClass' => ForumQuestion::className(), 'targetAttribute' => ['question_id' => 'question_id']],
         ];
