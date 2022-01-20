@@ -238,6 +238,8 @@
       this._element.trigger($__default['default'].Event(EVENT_COLLAPSED$4), this._parent);
 
        this._parent.find(SELECTOR_MAKE_CARD_BIGGER).addClass("d-none");
+       this._parent.addClass('card-sm');
+       this._parent.removeClass('card-full');
     };
 
     _proto.expand = function expand() {
@@ -1911,7 +1913,7 @@
       }
 
       $bodySelector.addClass(CLASS_NAME_COLLAPSED);
-
+ 
       if (this._options.enableRemember) {
         localStorage.setItem("remember" + EVENT_KEY$2, CLASS_NAME_COLLAPSED);
       }

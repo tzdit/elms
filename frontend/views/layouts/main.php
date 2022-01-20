@@ -36,6 +36,129 @@ AppAsset::register($this);
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mediaelement-plugins/2.5.1/context-menu/context-menu.min.css" integrity="sha512-0tMNRS8a8sUxculnEHe+nBLWbSJPsiHI4YaaupqEpv7s7X6VaUxtqmqdG8WcuMvOpY1bSNSszdL8gZuJ7cGT9w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/plugins/emojionearea/dist/emojionearea.min.css" />
+    <style type="text/css">
+
+
+
+
+@media (max-width: 600px) {
+   .card-sm{
+    position:fixed!important;
+    z-index:100!important;
+    right:0!important; 
+    bottom:0!important;
+    border:none!important;
+    width:100%!important
+   }
+}
+
+@media only screen and (min-width: 600px) {
+  .card-sm{
+    position:fixed!important;
+    z-index:100!important;
+    right:0!important; 
+    bottom:0!important;
+    border:none!important;
+    width:75%!important
+   }
+}
+
+@media only screen and (min-width: 768px) {
+  .card-sm{
+    position:fixed!important;
+    z-index:100!important;
+    right:0!important; 
+    bottom:4%!important;
+    border:none!important;
+    width:70%!important
+   }
+} 
+
+@media only screen and (min-width: 992px) {
+  .card-sm{
+    position:fixed!important;
+    z-index:100!important;
+    right:0!important; 
+    bottom:5%!important;
+    border:none!important;
+    width:40%!important
+   }
+}
+
+@media only screen and (min-width: 1200px) {
+  .card-sm{
+    position:fixed!important;
+    z-index:100!important;
+    right:0!important; 
+    bottom:6%!important;
+    border:none!important;
+    width:30%!important
+   }
+}
+
+
+
+
+@media (max-width: 600px) {
+   .card-full{
+    position:fixed!important;
+    z-index:100!important;
+    right:0!important; 
+    bottom:0!important;
+    border:none!important;
+    width:100%!important;
+    height:90%!important
+   }
+}
+
+@media only screen and (min-width: 600px) {
+  .card-full{
+    position:fixed!important;
+    z-index:100!important;
+    right:0!important; 
+    bottom:0!important;
+    border:none!important;
+    width:100%!important;
+    height:90%!important
+   }
+}
+
+@media only screen and (min-width: 768px) {
+  .card-full{
+    position:fixed!important;
+    z-index:100!important;
+    right:0!important; 
+    bottom:4%!important;
+    border:none!important;
+    width:100%!important;
+    height:90%!important
+   }
+} 
+
+@media only screen and (min-width: 992px) {
+  .card-full{
+    position:fixed!important;
+    z-index:100!important;
+    right:0!important; 
+    bottom:5%!important;
+    border:none!important;
+    width:94%!important;
+    height:82%!important
+   }
+}
+
+@media only screen and (min-width: 1200px) {
+  .card-full{
+    position:fixed!important;
+    z-index:100!important;
+    right:0!important; 
+    bottom:6%!important;
+    border:none!important;
+    width:94%!important;
+    height:82%!important
+   }
+}
+    </style>
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -144,12 +267,15 @@ AppAsset::register($this);
     <!-- /.content -->
     <!-- /////////////////////////////////////// -->
     
-    <div class="card  card-success card-outline direct-chat direct-chat-primary" style="position:fixed;z-index:100;right:0; bottom:6%;border:none">
+    <div class="card  card-success card-sm card-outline direct-chat direct-chat-primary chatcard">
               <div class="card-header">
+              <audio class="d-none messageaudio">
+              <source src="/media/anxious-586.mp3"  type="audio/mpeg">
+              </audio> 
                 <div class="card-tools">
-                  <span class="text-sm mr-3 text-primary sender"></span>
-              <span class="dropdown">
-                <a data-toggle="dropdown" href="#">
+                  <span class="mr-3 text-primary sender" style="font-size:11px"></span>
+              <span class="dropdown" data-toggle="tooltip" data-title="Current Threads">
+                <a data-toggle="dropdown" href="#" >
                <i class="fa fa-envelope" style="color:gray"></i><sup class="bg-danger rounded-pill total">0</sup>
   
                </a>
@@ -160,21 +286,21 @@ AppAsset::register($this);
          
          </div>
       </span>
-
+   
                   
-                  <button type="button" class="btn btn-tool">
-                    <i class="fas fa-volume-up"></i>
+                  <button type="button" class="btn btn-tool tonebtn" data-toggle="tooltip" data-title="mute/unmute sound">
+                    <i class="fas fa-volume-up tonecontrol"></i>
                   </button>
-                  <button type="button" class="btn btn-tool exp">
+                  <button type="button" class="btn btn-tool exp" data-toggle="tooltip" data-title="Expand">
                     <i class="fa fa-expand"></i>
                   </button>
-                  <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
+                  <button type="button" class="btn btn-tool"  data-widget="chat-pane-toggle" data-toggle="tooltip" data-title="Online people">
                     <i class="fas fa-comments"></i>
                   </button>
                   <button type="button" class="btn btn-tool" data-card-widget="collapse" id="collapse">
                     <i class="fas fa-minus"></i>
                   </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                  <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" data-title="Close">
                     <i class="fas fa-times"></i>
                   </button>
                 </div>
@@ -190,6 +316,21 @@ AppAsset::register($this);
 
                 <!-- Contacts are loaded here -->
                 <div class="direct-chat-contacts">
+                <nav class="navbar" style="position:absolute;top:1%;width:100%">
+                <ul class="navbar-nav ml-auto p-0 m-0" style="height:10px">
+                <li class="nav-item p-0">
+       
+        <div class="navbar-search-block" style="height:10px">
+          <form class="form-inline">
+            <div class="input-group input-group-sm">
+              <input class="form-control form-control-navbar contactsearch" type="search" placeholder="Search" aria-label="Search">
+            </div>
+          </form>
+        </div>
+      </li></ul></nav>
+   
+          <i data-widget="navbar-search" class="btn  btn-primary btn-sm text-white round fas fa-search " style="position:absolute;bottom:60%;right:0" role="button" data-toggle="tooltip" data-title="Search"></i>
+  
                   <i class="fa fa-refresh btn-sm btn-primary" id="viewall" data-toggle="tooltip" data-title="Load All" style="position:absolute;right:0;bottom:50%;cursor:pointer"></i>
                   <ul class="contacts-list">
                     
@@ -202,9 +343,9 @@ AppAsset::register($this);
               <!-- /.card-body -->
               <div class="card-footer">
                   <div class="input-group">
-                    <span class="btn btn-sm btn-primary mr-1" id="clearthread"><i class="fa fa-trash"></i></span>
+                    <span class="btn btn-sm btn-primary mr-1" id="clearthread" data-toggle="tooltip" data-title="Clear Thread"><i class="fa fa-trash"></i></span>
                     <input type="text" name="message" rows="2" placeholder="Message ..." class="form-control mytext"> </input>
-                    <span class="btn btn-sm btn-primary ml-1" id="sendtext"><i class="fa fa-paper-plane"></i></span>
+                    <span class="btn btn-sm btn-primary ml-1" id="sendtext" data-toggle="tooltip" data-title="Send Text"><i class="fa fa-paper-plane"></i></span>
                   </div>
     
               </div>
@@ -249,8 +390,7 @@ AppAsset::register($this);
     });
 $(document).ready(function(){
   $('#collapse').CardWidget('toggle');
- //$('#collapse').toggle();
- console.log($('#collapse'));
+
 
  /////////////
 function loadOnlineMates()
@@ -322,7 +462,8 @@ $("body").on('click','.contactelem',function(e){
   e.preventDefault();
   other=$(this).attr('id');
   loadThread();
-  var sender=($(this).find('.contacts-list-name').text()) || ($(this).find('.dropdown-item-title').text());
+  $('#collapse').CardWidget('expand');
+  var sender=($(this).find('.contacts-list-name').text()) || ($(this).find('.dropdown-item-title').text()) || ($(this).parent().attr('id'));
   $('.sender').html(sender.substr(0,17));
   $('.direct-chat-messages').scrollTop($('.direct-chat-messages')[0].scrollHeight);
   var threadInterval=setInterval(loadThreadNew,1000);
@@ -352,15 +493,15 @@ function loadThread()
    if(thread.owner=="other")
    {
     elem+='<div class="direct-chat-msg"><div class="direct-chat-infos clearfix">';
-    elem+='<span class="direct-chat-name float-left text-sm">'+thread.sender_name+'</span>';
-    elem+=' <span class="direct-chat-timestamp float-right text-sm">'+thread.chat_time+'</span></div>';
+    elem+='<span class="direct-chat-name float-left " style="font-size:12px!important">'+thread.sender_name+'</span>';
+    elem+=' <span class="direct-chat-timestamp float-right" style="font-size:12px">'+thread.chat_time+'</span></div>';
     elem+='<img class="direct-chat-img" src="/img/chatuser.png" alt="">';
     elem+='<div class="direct-chat-text" >'+thread.chat_text+'</div></div>';
    }
    else
    {
     elem+='<div class="direct-chat-msg right"><div class="direct-chat-infos clearfix">';
-    elem+='<span class="direct-chat-name float-left">'+thread.sender_name+'</span><span class="direct-chat-timestamp float-right">'+thread.chat_time+'</span> </div>';
+    elem+='<span class="direct-chat-name float-left" style="font-size:12px!important">'+thread.sender_name+'</span><span class="direct-chat-timestamp float-right" style="font-size:12px">'+thread.chat_time+'</span> </div>';
     elem+='<img class="direct-chat-img" src="/img/chatuser.png" alt="">';
     elem+='<div class="direct-chat-text" >'+thread.chat_text+'</div></div>';
    }
@@ -368,7 +509,7 @@ function loadThread()
  }
   //adding signaling element
   elem+='<div class="direct-chat-msg d-none typing">';
-  elem+='<img class="direct-chat-img" src="/img/chatuser.png" alt=""><div class="direct-chat-text bg-white rounde-pill" ><img src="/img/typing3.gif" class="img-rounded img-responsive " style="height:25px"/></div></div>';
+  elem+='<img class="direct-chat-img" src="/img/chatuser.png" alt=""><div class="direct-chat-text bg-white round" style="width:40%"><img src="/img/typing3.gif" class="img-rounded img-responsive " style="height:25px"/></div></div>';
  $('.direct-chat-messages').html(elem);
  
 
@@ -404,20 +545,22 @@ console.log(an)
  if(threads["hasnew"]==false){return false;}
  for(var thread in threads)
  {
+  
    if(thread=="hasnew"){continue;}
+ 
    thread=threads[thread];
    if(thread.owner=="other")
    {
     elem+='<div class="direct-chat-msg"><div class="direct-chat-infos clearfix">';
-    elem+='<span class="direct-chat-name float-left text-sm">'+thread.sender_name+'</span>';
-    elem+=' <span class="direct-chat-timestamp float-right text-sm">'+thread.chat_time+'</span></div>';
+    elem+='<span class="direct-chat-name float-left " style="font-size:12px">'+thread.sender_name+'</span>';
+    elem+=' <span class="direct-chat-timestamp float-right" style="font-size:12px">'+thread.chat_time+'</span></div>';
     elem+='<img class="direct-chat-img" src="/img/chatuser.png" alt="">';
     elem+='<div class="direct-chat-text" >'+thread.chat_text+'</div></div>';
    }
    else
    {
     elem+='<div class="direct-chat-msg right"><div class="direct-chat-infos clearfix">';
-    elem+='<span class="direct-chat-name float-left">'+thread.sender_name+'</span><span class="direct-chat-timestamp float-right">'+thread.chat_time+'</span> </div>';
+    elem+='<span class="direct-chat-name float-left" style="font-size:12px">'+thread.sender_name+'</span><span class="direct-chat-timestamp float-right" style="font-size:12px">'+thread.chat_time+'</span> </div>';
     elem+='<img class="direct-chat-img" src="/img/chatuser.png" alt="">';
     elem+='<div class="direct-chat-text">'+thread.chat_text+'</div></div>';
    }
@@ -426,7 +569,7 @@ console.log(an)
 
  //adding signaling element
     elem+='<div class="direct-chat-msg d-none typing">';
-    elem+='<img class="direct-chat-img" src="/img/chatuser.png" alt=""><div class="direct-chat-text bg-white rounde-pill" ><img src="/img/typing3.gif" class="img-rounded img-responsive " style="height:25px"/></div></div>';
+    elem+='<img class="direct-chat-img" src="/img/chatuser.png" alt=""><div class="direct-chat-text bg-white round" style="width:40%"><img src="/img/typing3.gif" class="img-rounded img-responsive " style="height:25px"/></div></div>';
  $('.direct-chat-messages').html(elem);
  $('.direct-chat-messages').scrollTop($('.direct-chat-messages')[0].scrollHeight);
  //setting the whole thread read
@@ -444,6 +587,15 @@ console.log(an)
 }
 function sendText(rec,text)
 {
+  if(text.length>500){
+
+    Swal.fire({
+      text: "Exceeding 500 maximum  characters",
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'Ok'
+})
+   return false;
+  }
   if(other==null){return false;}
   withdrawsignal();
   var data={
@@ -504,9 +656,11 @@ $('.mytext')[0].emojioneArea.on('focus',function(){
 
 
 $('.mytext')[0].emojioneArea.on('blur',function(){
-
   withdrawsignal();
 });
+
+
+
 function signal()
 {
   var data={
@@ -536,7 +690,6 @@ function findsignal(){
    console.log(data);
    if(data==false || data==""){
      $('.typing').addClass('d-none');
-     $('.direct-chat-messages').scrollTop($('.direct-chat-messages')[0].scrollHeight);
      return false;
     }
 
@@ -566,7 +719,9 @@ var element="";
   for(th in an)
   {
   var data=an[th];
+ 
   if(th=="totalnew"){continue;}
+  if(data.isnew==true){$('.messageaudio').get(0).play();}
   element+='<a href="#" id="'+th+'" class="dropdown-item contactelem"><div class="media">';
   element+='<img src="/img/chatuser.png" alt="" class="img-size-50 mr-3 img-circle">';
   element+='<div class="media-body"><span class="dropdown-item-title text-sm">'+data.sender_name;
@@ -580,11 +735,11 @@ var loadthread=setInterval(LoadAllThreads,2000);
 
 $('body').on('click','.exp',function(){
 var width=$('.content').innerWidth();
-$('.card').css('height','82%');
-$('.direct-chat-messages').css('height','inherit');
-$('.card').width(width);
-$('#collapse').addClass("d-none");
-
+$('.chatcard').removeClass("card-sm");
+$('body').addClass("sidebar-collapse");
+$('.contactcard').hide();
+$('.chatcard').addClass("card-full");
+$(this).addClass('d-none');
 });
 
 //////clearing the thread
@@ -606,13 +761,56 @@ $('#clearthread').click(function(){
   }
   data[yii.getCsrfParam()]=yii.getCsrfToken();
   $.get("/instructor/clear-thread",data).done(function(an){
-
     loadThread();
-   
   })
 }
 })
 })
+
+$(".contactsearch").on("focus",function(){
+  clearInterval(load);
+});
+$(".contactsearch").on("blur",function(){
+
+  setTimeout(() => {
+    load=setInterval(loadOnlineMates, 1000);
+  }, 20000);
+ 
+});
+
+$(".contactsearch").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+   
+    $(".contactelem").filter(function() {
+   
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+
+  function toggleaudiomute()
+  {
+    var bool = $(".messageaudio").prop("muted");
+        $(".messageaudio").prop("muted",!bool);
+  }
+
+  $('.tonebtn').click(function(){
+
+    var toneelement=$(this).find('.tonecontrol');
+
+    if(toneelement.hasClass('fa-volume-up')){
+
+      toneelement.removeClass('fa-volume-up');
+      toneelement.addClass('fa-volume-down');
+
+      toggleaudiomute();
+    }
+    else
+    {
+      toneelement.removeClass('fa-volume-down');
+      toneelement.addClass('fa-volume-up');
+      toggleaudiomute();
+    }
+  })
 
 })
 </script>
