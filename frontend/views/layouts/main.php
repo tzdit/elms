@@ -107,7 +107,6 @@ AppAsset::register($this);
     bottom:0!important;
     border:none!important;
     width:100%!important;
-    height:90%!important
    }
 }
 
@@ -119,7 +118,6 @@ AppAsset::register($this);
     bottom:0!important;
     border:none!important;
     width:100%!important;
-    height:90%!important
    }
 }
 
@@ -131,7 +129,6 @@ AppAsset::register($this);
     bottom:4%!important;
     border:none!important;
     width:100%!important;
-    height:90%!important
    }
 } 
 
@@ -143,7 +140,6 @@ AppAsset::register($this);
     bottom:5%!important;
     border:none!important;
     width:94%!important;
-    height:82%!important
    }
 }
 
@@ -155,7 +151,6 @@ AppAsset::register($this);
     bottom:6%!important;
     border:none!important;
     width:94%!important;
-    height:82%!important
    }
 }
     </style>
@@ -308,7 +303,7 @@ AppAsset::register($this);
               <!-- /.card-header -->
               <div class="card-body">
                 <!-- Conversations are loaded here -->
-                <div class="direct-chat-messages">
+                <div class="direct-chat-messages" style="height:inherit!important">
                  
                   <div class="jumbotron" style="background:none !important"><h3 class="text-md"><small style="color:rgb(119, 119, 119)">Choose Thread</small></h3></div>
                 </div>
@@ -739,6 +734,8 @@ $('.chatcard').removeClass("card-sm");
 $('body').addClass("sidebar-collapse");
 $('.contactcard').hide();
 $('.chatcard').addClass("card-full");
+var headerHeight=$('.content-wrapper').height();
+$('.chatcard').height(headerHeight);
 $(this).addClass('d-none');
 });
 
