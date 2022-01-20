@@ -104,7 +104,7 @@ else
 
       <?php if(Yii::$app->user->can('SYS_ADMIN') || Yii::$app->user->can('INSTRUCTOR') || Yii::$app->user->can('INSTRUCTOR & HOD') || Yii::$app->user->can('SUPER_ADMIN')): ?>
         <a class="nav-link" data-toggle="dropdown" href="#" id="username"><span class="fas fa-user"></span>
-          <i><?php echo " ".Yii::$app->user->identity->username ?></i>
+          <i><?php echo " ".substr(Yii::$app->user->identity->username,0,17)?></i>
         </a>
       <?php endif ?>
         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
