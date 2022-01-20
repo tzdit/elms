@@ -734,8 +734,7 @@ $('.chatcard').removeClass("card-sm");
 $('body').addClass("sidebar-collapse");
 $('.contactcard').hide();
 $('.chatcard').addClass("card-full");
-var headerHeight=$('.content-wrapper').height();
-$('.chatcard').height(headerHeight);
+$('.chatcard').height($('.wrapper').height());
 $(this).addClass('d-none');
 });
 
