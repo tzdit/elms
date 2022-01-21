@@ -65,34 +65,35 @@ class AddGroupMembers extends Model
             $group->groupName = $this->groupName;
             $group->generation_type = $this->generation_type;
 
-            $selfStudent = new StudentGroup();
 
-            $selfStudent->groupID = $group->groupID;
-            $selfStudent->reg_no = Yii::$app->user->identity->username;
 
-            if ($selfStudent->save()){
-                if($group->save()){
+            if ($group->save()){
 
-                    $errors=[];
-                    foreach ($this->memberStudents as $i => $reg_no)
-                    {
-                        $studentGroup = new StudentGroup();
+                $selfStudent = new StudentGroup();
+                $selfStudent->groupID = $group->groupID;
+                $selfStudent->reg_no = Yii::$app->user->identity->username;
 
-                        $studentGroup->groupID = $group->groupID;
-                        $studentGroup->reg_no = $reg_no;
+                if ($selfStudent->save()){
+                        $errors=[];
+                        foreach ($this->memberStudents as $i => $reg_no)
+                        {
+                            $studentGroup = new StudentGroup();
 
-                        if(!$studentGroup->save()){
+                            $studentGroup->groupID = $group->groupID;
+                            $studentGroup->reg_no = $reg_no;
 
-                            $errors[$reg_no]=!empty($studentGroup->getErrors()['SG_ID'])?$studentGroup->getErrors()['SG_ID'][0]:" ";
-                            continue;
+                            if(!$studentGroup->save()){
+
+                                $errors[$reg_no]=!empty($studentGroup->getErrors()['SG_ID'])?$studentGroup->getErrors()['SG_ID'][0]:" ";
+                                continue;
+
+                            }
 
                         }
 
+                        $transaction->commit();
+                        return $errors;
                     }
-
-                    $transaction->commit();
-                    return $errors;
-                }
             }
 
         }catch(\Throwable $e){
