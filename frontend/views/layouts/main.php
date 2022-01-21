@@ -336,7 +336,7 @@ AppAsset::register($this);
 
                 <!-- Contacts are loaded here -->
                 <div class="direct-chat-contacts">
-                <nav class="navbar" style="position:absolute;top:1%;width:100%">
+                <nav class="navbar" style="position:absolute;width:100%">
                 <ul class="navbar-nav ml-auto p-0 m-0" style="height:10px">
                 <li class="nav-item p-0">
        
