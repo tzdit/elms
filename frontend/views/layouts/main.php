@@ -107,6 +107,11 @@ AppAsset::register($this);
     bottom:0!important;
     border:none!important;
     width:100%!important;
+  
+   }
+   .chatheight
+   {
+    height:inherit!important;
    }
 }
 
@@ -118,6 +123,11 @@ AppAsset::register($this);
     bottom:0!important;
     border:none!important;
     width:100%!important;
+   
+   }
+   .chatheight
+   {
+    height:inherit!important;
    }
 }
 
@@ -129,6 +139,11 @@ AppAsset::register($this);
     bottom:4%!important;
     border:none!important;
     width:100%!important;
+  
+   }
+   .chatheight
+   {
+    height:inherit!important;
    }
 } 
 
@@ -140,6 +155,11 @@ AppAsset::register($this);
     bottom:5%!important;
     border:none!important;
     width:94%!important;
+  
+   }
+   .chatheight
+   {
+    height:inherit!important;
    }
 }
 
@@ -151,6 +171,11 @@ AppAsset::register($this);
     bottom:6%!important;
     border:none!important;
     width:94%!important;
+   
+   }
+    .chatheight
+   {
+    height:inherit!important;
    }
 }
     </style>
@@ -303,7 +328,7 @@ AppAsset::register($this);
               <!-- /.card-header -->
               <div class="card-body">
                 <!-- Conversations are loaded here -->
-                <div class="direct-chat-messages" style="height:inherit!important">
+                <div class="direct-chat-messages">
                  
                   <div class="jumbotron" style="background:none !important"><h3 class="text-md"><small style="color:rgb(119, 119, 119)">Choose Thread</small></h3></div>
                 </div>
@@ -457,7 +482,6 @@ $("body").on('click','.contactelem',function(e){
   e.preventDefault();
   other=$(this).attr('id');
   loadThread();
-  $('#collapse').CardWidget('expand');
   var sender=($(this).find('.contacts-list-name').text()) || ($(this).find('.dropdown-item-title').text()) || ($(this).parent().attr('id'));
   $('.sender').html(sender.substr(0,17));
   $('.direct-chat-messages').scrollTop($('.direct-chat-messages')[0].scrollHeight);
@@ -735,6 +759,7 @@ $('body').addClass("sidebar-collapse");
 $('.contactcard').hide();
 $('.chatcard').addClass("card-full");
 $('.chatcard').height($('.wrapper').height());
+$('.direct-chat-messages').addClass('chatheight');
 $(this).addClass('d-none');
 });
 
