@@ -466,7 +466,7 @@ function loadAllOnline()
 }
   
 
-  var load=setInterval(loadOnlineMates, 1000);
+  var load=setInterval(loadOnlineMates, 2000);
 ///////////////////////////
 
 $('#viewall').click(function(e){
@@ -474,7 +474,7 @@ $('#viewall').click(function(e){
   e.preventDefault();
 
   clearInterval(load);
-  setInterval(loadAllOnline, 1000);
+  var loadallonline=setInterval(loadAllOnline, 2000);
 
 })
 var other=null;
@@ -796,11 +796,12 @@ $('#clearthread').click(function(){
 
 $(".contactsearch").on("focus",function(){
   clearInterval(load);
+  clearInterval(loadallonline);
 });
 $(".contactsearch").on("blur",function(){
 
   setTimeout(() => {
-    load=setInterval(loadOnlineMates, 1000);
+    load=setInterval(loadOnlineMates, 2000);
   }, 20000);
  
 });
