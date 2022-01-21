@@ -293,7 +293,7 @@ AppAsset::register($this);
               <source src="/media/anxious-586.mp3"  type="audio/mpeg">
               </audio> 
                 <div class="card-tools">
-                  <span class="mr-3 text-primary sender" style="font-size:11px"></span>
+                  <span class="mr-2 text-primary sender" style="font-size:11px"></span>
               <span class="dropdown" data-toggle="tooltip" data-title="Current Threads">
                 <a data-toggle="dropdown" href="#" >
                <i class="fa fa-envelope" style="color:gray"></i><sup class="bg-danger rounded-pill total">0</sup>
