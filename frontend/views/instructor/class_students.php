@@ -84,7 +84,8 @@ $this->params['breadcrumbs'] = [
             
             </div>
             </div>
-            <table width="100%" class="table table-striped table-bordered table-hover" id="studenttable" style="font-size:12px">
+            <div class="table-responsive">
+            <table width="100%" class="table table-striped table-bordered table-hover " id="studenttable" style="font-size:12px;width:100%">
 		<thead>
 			<tr>
 				<th>
@@ -117,7 +118,7 @@ $this->params['breadcrumbs'] = [
 		</thead>
 		<tbody>
 								<?php for($l=0;$l<count($students);$l++){ $student=$students[$l];?>
-						 			<tr>
+						 			<tr id=<?=$student->reg_no?>>
 									 	<td><?=Html::encode($student->reg_no);?></td>
                     <td><?=Html::encode($student->programCode); ?></td>
                     <td><?=Html::encode($student->fname." ".$student->mname." ".$student->lname); ?></td>
@@ -125,7 +126,7 @@ $this->params['breadcrumbs'] = [
                     <td><?=Html::encode($student->YOS); ?></td>
                     <td></td>
                     <td></td>
-                    <td>  </td>
+                    <td id=<?=$student->userID?> class="contactelem"><i class="fas fa-envelope" ></i></td>
                     
 						 			</tr>
 						 		
@@ -135,10 +136,7 @@ $this->params['breadcrumbs'] = [
 
 		</tbody>
 		</table>
-    <?php
-             
-           //   Html::a('<i class="fas fa-envelope"> Chat</i>',['create-chat', 'stdid'=>$student->reg_no], ['class'=>'btn btn-primary btn-sm m-0'])
-    ?>
+                </div>
     </div>
     </div>
 </div>

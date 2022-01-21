@@ -203,7 +203,7 @@ use yii\helpers\Url;
       </nav>
       <!-- /.sidebar-menu -->
 
-      <div class="card">
+      <div class="card contactcard">
     <div class="card-header">
       Have a feedback or need support?<span style="font-size:24px;margin-left:5px" class="text-success"><i class="fab fa-whatsapp"></i></span><span style="font-size:24px;margin-left:5px" class="text-success"><i class="fa fa-phone"></i></span><span style="font-size:24px; margin-left:5px" class="text-success"><i class="fas fa-sms"></i></span>
           </div>

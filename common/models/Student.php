@@ -24,7 +24,7 @@ use Yii;
  * @property Chat[] $chats
  * @property ExtAssess[] $extAssesses
  * @property Groups[] $groups
- * @property Program $programCode0
+ * @property Program $program
  * @property User $user
  * @property StudentCourse[] $studentCourses
  * @property StudentGroup[] $studentGroups

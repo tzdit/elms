@@ -71,7 +71,7 @@ class Assignment extends \yii\db\ActiveRecord
             [['instructorID', 'total_marks', 'yearID'], 'integer'],
             [['assName', 'assNature', 'yearID'], 'required'],
             [['startDate', 'finishDate'], 'safe'],
-            [['course_code'], 'string', 'max' => 7],
+            [['course_code'], 'string', 'max' => 20],
             [['assName'], 'string', 'max' => 100],
             [['assType'], 'string', 'max' => 15],
             [['assNature', 'submitMode'], 'string', 'max' => 10],

@@ -43,7 +43,6 @@ $this->params['courseTitle'] =$cid." Announcements";
 <div class="site-index">
     <div class="body-content ">
             <!-- Content Wrapper. Contains page content -->
-   
        <div class="container-fluid">
       
  <div class="row">
@@ -157,7 +156,7 @@ $(document).ready(function(){
       var ccode = $(this).attr('ccode');
  
 
-      Swal.fire({
+  Swal.fire({
   title: 'Are you sure?',
   text: "You won't be able to revert this!",
   icon: 'question',

@@ -48,7 +48,7 @@ class Module extends \yii\db\ActiveRecord
             [['moduleName', 'course_code'], 'required'],
             [['moduleName'], 'string', 'max' => 200],
             [['module_description'], 'string', 'max' => 400],
-            [['course_code'], 'string', 'max' => 15],
+            [['course_code'], 'string', 'max' => 20],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
         ];
     }

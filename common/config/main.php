@@ -31,10 +31,12 @@ return [
                             '@cdn'=>'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.js',
                         ]
                     ]
-                        ]
+                        ],
+                     
                       
             ],
         ],
+      
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,

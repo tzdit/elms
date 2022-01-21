@@ -46,7 +46,7 @@ class Announcement extends \yii\db\ActiveRecord
             [['instructorID', 'yearID'], 'integer'],
             [['content', 'title', 'yearID'], 'required'],
             [['ann_date', 'ann_time'], 'safe'],
-            [['course_code'], 'string', 'max' => 7],
+            [['course_code'], 'string', 'max' => 20],
             [['content'], 'string', 'max' => 500],
             [['title'], 'string', 'max' => 150],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],

@@ -63,6 +63,7 @@ use common\models\Academicyear;
 use frontend\models\AcademicYearManager;
 use yii\grid\GridView;
 use frontend\models\ClassroomMutex;
+use frontend\models\ClassRoomChatManager;
 
 class InstructorController extends \yii\web\Controller
 {
@@ -169,7 +170,18 @@ public $defaultAction = 'dashboard';
                             'download-submits',
                             'publish-assignment-results',
                             'get-assignment-stat',
-                            'share-link'
+                            'share-link',
+                            'toggle-panelist',
+                            'set-panelist-off',
+                            'get-online-mates',
+                            'send-text',
+                            'load-thread',
+                            'set-thread-read',
+                            'get-thread-stats',
+                            'clear-thread',
+                            'send-signal',
+                            'find-signal',
+                            'withdraw-signal'
 
                         ],
                         'allow' => true,
@@ -272,11 +284,41 @@ public $defaultAction = 'dashboard';
                             'download-submits',
                             'publish-assignment-results',
                             'get-assignment-stat',
-                            'share-link'
+                            'share-link',
+                            'toggle-panelist',
+                            'set-panelist-off',
+                            'get-online-mates',
+                            'send-text',
+                            'load-thread',
+                            'set-thread-read',
+                            'get-thread-stats',
+                            'clear-thread',
+                            'send-signal',
+                            'find-signal',
+                            'withdraw-signal'
                            
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR & HOD']
+                        
+
+                    ],
+                    [
+                        'actions' => [
+                          
+                            'get-online-mates',
+                            'send-text',
+                            'load-thread',
+                            'set-thread-read',
+                            'get-thread-stats',
+                            'clear-thread',
+                            'send-signal',
+                            'find-signal',
+                            'withdraw-signal'
+                           
+                        ],
+                        'allow' => true,
+                        'roles' => ['STUDENT']
                         
 
                     ],
@@ -298,8 +340,9 @@ public $defaultAction = 'dashboard';
    
     //getting the courses
     $courses = Yii::$app->user->identity->instructor->courses;
-    
     //traveling with all shit
+
+    //print_r((new ClassRoomChatManager())->getOnlineMatesByCourse()); return true;
     return $this->render('index', ['courses'=>$courses]);
     }
 
@@ -322,6 +365,59 @@ public $defaultAction = 'dashboard';
             return $this->redirect(yii::$app->request->referrer);
           }
       }
+
+    }
+    //chatting area
+
+    public function actionGetOnlineMates($all=null)
+    {
+        if($all==null)
+        {
+            return $this->asJson((new ClassRoomChatManager())->getAllOnlineUsers());
+        }
+        else
+        {
+            return $this->asJson((new ClassRoomChatManager())->getAllOnlineUsers(true));
+        }
+    }
+
+    public function actionSendText($text, $receiver)
+    {
+        return ClassRoomChatManager::sendText($receiver,$text);
+    }
+    public function actionGetThreadStats()
+    {
+        return $this->asJson((new ClassRoomChatManager())->getThreadsStats());
+    }
+    public function actionLoadThread($other)
+    {
+        return $this->asJson((new ClassRoomChatManager())->getThread($other));
+    }
+
+    public function actionSetThreadRead($thread)
+    {
+        return (new ClassRoomChatManager())->setThreadRead($thread);
+    }
+    public function actionClearThread($thread)
+    {
+
+       return (new ClassRoomChatManager())->clearThread($thread);
+
+    }
+
+    public function actionSendSignal($receiver,$type,$roomtype)
+    {
+      return (new ClassRoomChatManager())->signal($receiver,$type,$roomtype);
+
+    }
+    public function actionFindSignal($signaler,$roomtype=null)
+    {
+        return (new ClassRoomChatManager())->findSignal($signaler,$roomtype); 
+    }
+    public function actionWithdrawSignal($other)
+    {
+
+        return (new ClassRoomChatManager())->withdrawSignal($other); 
 
     }
     //#################### function to render instructor courses ##############################
@@ -410,19 +506,17 @@ public $defaultAction = 'dashboard';
        // $programs = Program::find()->all();
         try{
         
-        if($model->load(Yii::$app->request->post())){
+        //if($model->load(Yii::$app->request->post())){
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             if($model->create()){
-                //print_r(Yii::$app->request->post());
-            //Yii::$app->session->setFlash('success', 'Chat added successfully');
-            return $this->redirect(Yii::$app->request->referrer);
+                
+                return $this->redirect(Yii::$app->request->referrer);
+            return true;
             }else{
                Yii::$app->session->setFlash('error','something went wrong.');
                return $this->redirect(Yii::$app->request->referrer);
-            }
-       
-                
-         } 
-        
+            }   
+         }      
     }catch(\Exception $e){
         Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
         return $this->redirect(Yii::$app->request->referrer);
@@ -1447,6 +1541,28 @@ public function actionToggleCollaboration($assignment)
     $mutex=new ClassroomMutex();
     return $this->asJson($mutex->toggleCollaborationMode($assignment));
 }
+
+//toggle between panelist mode
+
+public function actionTogglePanelist($assignment)
+{
+    $mutex=new ClassroomMutex();
+
+    try
+    {
+      $resp=$mutex->togglePanelistMode(ClassRoomSecurity::decrypt($assignment));
+      if($resp==true)
+      {
+        yii::$app->session->setFlash("success","<i class='fa fa-info-circle'></i> ".$resp);
+        return $this->redirect(yii::$app->request->referrer);
+      }
+    }
+    catch(Exception $p)
+    {
+        yii::$app->session->setFlash("error","<i class='fa fa-exclamation-triangle'></i> ".$p->getMessage());
+        return $this->redirect(yii::$app->request->referrer);
+    }
+}
 public function actionViewAssessment($assid)
 {
 
@@ -1656,6 +1772,14 @@ public function actionMark($id,$subid=null)
      $submit=[];
      $current_assignment=Assignment::findOne($id);
 
+     //if panelist mode is set up, the marking view is automatically "presentation view"
+    
+     if((new ClassroomMutex())->isPanelistActive($id))
+     {
+        yii::$app->session->set('markingmode','presentation');
+        yii::$app->session->setFlash("success","<i class='fa fa-info-circle'></i> Panelist Mode is activated"); 
+     }
+     
     //marking before the deadline is no longer allowed
 
     try
@@ -1689,6 +1813,8 @@ public function actionMark($id,$subid=null)
     {
       $this->actionReleaseAssignmentLock($id);
       yii::$app->session->set("marksessionowner",null); //he is no longer the owner
+      yii::$app->session->set("markpanelowner",null); // and no longer the owner of any marking panel
+      $this->actionSetPanelistOff($id);
     }
    
  
@@ -1751,6 +1877,19 @@ public function actionPublishAssignmentResults($assignment)
     {
         yii::$app->session->setFlash("error","unknown error occurred while publishing results, try again");
         return $this->redirect(yii::$app->request->referrer);  
+    }
+}
+
+public function actionSetPanelistOff($assignment)
+{
+    $mutexmanager=new ClassroomMutex();
+    try
+    {
+     return $mutexmanager->setPanelistOff($assignment); //clearing panelist mode
+    }
+    catch(Exception $f)
+    {
+      return false;
     }
 }
 public function actionMarkInputing()
@@ -2287,24 +2426,20 @@ public function actionStudentList(){
        
         if($model->load(Yii::$app->request->post())){
 
-            if($model->create()){
+
+            if($model->create()===true){
             Yii::$app->session->setFlash('success', 'Course added successfully');
             return $this->redirect(Yii::$app->request->referrer);
             }else{
-                Yii::$app->session->setFlash('error','something went wrong. This course may exists');
-                
-               // return $this->redirect(Yii::$app->request->referrer);
+                Yii::$app->session->setFlash('error','unable to add new course');
+                return $this->redirect(Yii::$app->request->referrer);
             }    
          } 
-         else
-         {
-              
-            
-         }
-        
+    
     }catch(\Exception $e){
-        Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+        Yii::$app->session->setFlash('error', 'Something went wrong: '.$e->getMessage());
         return $this->redirect(Yii::$app->request->referrer);
+       
     }
         return $this->render('create-course', ['model'=>$model, 'coz'=>$coz, 'courses'=>$courses, 'programs'=>$programs, 'departments'=>$departments]);
     }
