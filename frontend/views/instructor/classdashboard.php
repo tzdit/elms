@@ -207,6 +207,21 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
           </div>
         
 
+          <!-- partners-->
+
+          <div class="col-12 col-sm-6 col-md-3">
+          <a href="<?=Url::to(['/instructor/partners'])?>">
+            <div class="info-box mb-2">
+              <span class="info-box-icon "><i class="fas fa-user-friends" aria-hidden="true"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Partners</span>
+              </div>
+            
+            </div>
+            </a>
+        
+          </div>
         </div>
       </div><!--/. container-fluid -->
 

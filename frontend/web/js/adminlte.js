@@ -237,7 +237,7 @@
 
       this._element.trigger($__default['default'].Event(EVENT_COLLAPSED$4), this._parent);
 
-       this._parent.find(SELECTOR_MAKE_CARD_BIGGER).addClass("d-none");
+      this._parent.find(SELECTOR_MAKE_CARD_BIGGER).removeClass("d-none");
        this._parent.css('height','auto');
        this._parent.addClass('card-sm');
        this._parent.removeClass('card-full');
@@ -256,7 +256,7 @@
       this._parent.find("> " + SELECTOR_CARD_HEADER + " " + this._settings.collapseTrigger + " ." + this._settings.expandIcon).addClass(this._settings.collapseIcon).removeClass(this._settings.expandIcon);
 
       this._element.trigger($__default['default'].Event(EVENT_EXPANDED$3), this._parent);
-      this._parent.find(SELECTOR_MAKE_CARD_BIGGER).removeClass("d-none");
+     // this._parent.find(SELECTOR_MAKE_CARD_BIGGER).removeClass("d-none");
      
     };
 

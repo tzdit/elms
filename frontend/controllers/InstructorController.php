@@ -181,7 +181,9 @@ public $defaultAction = 'dashboard';
                             'clear-thread',
                             'send-signal',
                             'find-signal',
-                            'withdraw-signal'
+                            'withdraw-signal',
+                            'partners',
+                            'remove-partner'
 
                         ],
                         'allow' => true,
@@ -295,7 +297,9 @@ public $defaultAction = 'dashboard';
                             'clear-thread',
                             'send-signal',
                             'find-signal',
-                            'withdraw-signal'
+                            'withdraw-signal',
+                            'partners',
+                            'remove-partner'
                            
                         ],
                         'allow' => true,
@@ -419,6 +423,28 @@ public $defaultAction = 'dashboard';
 
         return (new ClassRoomChatManager())->withdrawSignal($other); 
 
+    }
+
+    public function actionPartners()
+    {
+        $course=yii::$app->session->get('ccode');
+        $partners=InstructorCourse::find()->where(['course_code'=>$course])->all();
+        $me=yii::$app->user->id;
+        foreach($partners as $p=>$partner)
+        {
+            if($partners[$p]->instructor->userID==$me)
+            {
+                unset($partners[$p]);
+            }
+        }
+
+        return $this->render('partners',['partners'=>$partners]);
+    }
+    public function actionRemovePartner($partner)
+    {
+      $partner=InstructorCourse::find()->where(['instructorID'=>$partner,'course_code'=>yii::$app->session->get('ccode')])->one();
+      if($partner->delete()){return $this->asJson(["message"=>"deleted"]);}
+       return false;
     }
     //#################### function to render instructor courses ##############################
 

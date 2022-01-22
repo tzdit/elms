@@ -13,7 +13,7 @@ use common\models\Material;
 use common\models\Groups;
 use common\models\Student;
 use common\models\AuthItem;
-
+use common\models\ProgramCourse;
 use common\models\Program;
 use common\models\Announcement;
 use frontend\models\UploadStudentHodForm;
@@ -48,7 +48,7 @@ class StudentController extends \yii\web\Controller
                             'resubmit','videos','announcement','group_assignment_submit',
                             'quiz_answer','quiz_view','group_resubmit','assignment',
                             'group-assignment','labs','tutorial','course-materials','returned',
-                            'course-announcement','quiz','student-group','add-group-member', 'create-group'
+                            'course-announcement','quiz','student-group','add-group-member', 'create-group','classmates'
                         ],
                         
 
@@ -91,7 +91,34 @@ class StudentController extends \yii\web\Controller
         return parent::beforeAction($action);
     }
 
-   
+   public function actionClassmates()
+   {
+      $course=yii::$app->session->get('ccode');
+      //getting the whole program
+      $classmates=[];
+      $programs=ProgramCourse::find()->where(['course_code'=>$course])->all();
+
+      foreach($programs as $program)
+      {
+          $students=$program->programCode0->students;
+
+          for($s=0;$s<count($students);$s++)
+          {
+              array_push($classmates,$students[$s]);
+          }
+      }
+      //getting carried students
+
+      $carrieds=StudentCourse::find()->where(['course_code'=>$course])->all();
+
+      foreach($carrieds as $carried)
+      {
+        array_push($classmates,$carried->regNo); 
+      }
+
+      return $this->render('classmates',['classmates'=>$classmates]);
+
+   }
     //create students
   public function actionRegister(){
     $model = new UploadStudentHodForm;

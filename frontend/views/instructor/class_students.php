@@ -126,7 +126,7 @@ $this->params['breadcrumbs'] = [
                     <td><?=Html::encode($student->YOS); ?></td>
                     <td></td>
                     <td></td>
-                    <td id=<?=$student->userID?> class="contactelem"><i class="fas fa-envelope" ></i></td>
+                    <td id=<?=$student->userID?> class="contactelem" data-toggle="tooltip" data-title="Open Chat"><a href="#"><i class="fas fa-envelope fa-2x" ></i></a></td>
                     
 						 			</tr>
 						 		

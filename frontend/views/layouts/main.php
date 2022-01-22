@@ -336,7 +336,7 @@ AppAsset::register($this);
 
                 <!-- Contacts are loaded here -->
                 <div class="direct-chat-contacts">
-                <nav class="navbar" style="position:absolute;width:100%">
+                <nav class="navbar" style="position:absolute;top:1%;width:100%">
                 <ul class="navbar-nav ml-auto p-0 m-0" style="height:10px">
                 <li class="nav-item p-0">
        
@@ -482,6 +482,7 @@ $("body").on('click','.contactelem',function(e){
   e.preventDefault();
   other=$(this).attr('id');
   loadThread();
+  $('#collapse').CardWidget('expand');
   var sender=($(this).find('.contacts-list-name').text()) || ($(this).find('.dropdown-item-title').text()) || ($(this).parent().attr('id'));
   $('.sender').html(sender.substr(0,17));
   $('.direct-chat-messages').scrollTop($('.direct-chat-messages')[0].scrollHeight);
@@ -758,15 +759,18 @@ $('.chatcard').removeClass("card-sm");
 $('body').addClass("sidebar-collapse");
 $('.contactcard').hide();
 $('.chatcard').addClass("card-full");
-var windowheight=window.innerHeight;
+
+windowheight=window.innerHeight;
 var cardheight=$('.chatcard').height();
-var top=$('.chatcard').offset().top;
+var top=$('.chatcard').position().top;
 var bottom=windowheight-(top+cardheight);
 var headerheight=$('.main-header').innerHeight();
 var requiredheight=windowheight-(bottom+headerheight);
 $('.chatcard').height(requiredheight);
+$('#collapse').CardWidget('expand');
 $('.direct-chat-messages').addClass('chatheight');
 $(this).addClass('d-none');
+
 });
 
 //////clearing the thread
