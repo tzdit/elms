@@ -14,10 +14,10 @@ use frontend\models\AddPartner;
 
 /* @var $this yii\web\View */
 $cid=yii::$app->session->get('ccode');
-$this->params['courseTitle'] ="<i class='fa fa-graduation-cap'></i> ".$cid. " Partners";
+$this->params['courseTitle'] ="<i class='fa fa-user-friends'></i> ".$cid. " Partners";
 $this->title = $cid. " Partners";
 $this->params['breadcrumbs'] = [
-  ['label'=>$cid.' dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>$cid])],
+  ['label'=>$cid.' dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
   ['label'=>$this->title]
 ];
 
