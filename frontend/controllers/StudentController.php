@@ -27,6 +27,7 @@ use yii\helpers\ArrayHelper;
 use Yii;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
+use frontend\models\CourseStudents;
 
 class StudentController extends \yii\web\Controller
 {
@@ -95,27 +96,9 @@ class StudentController extends \yii\web\Controller
    {
       $course=yii::$app->session->get('ccode');
       //getting the whole program
-      $classmates=[];
-      $programs=ProgramCourse::find()->where(['course_code'=>$course])->all();
-
-      foreach($programs as $program)
-      {
-          $students=$program->programCode0->students;
-
-          for($s=0;$s<count($students);$s++)
-          {
-              array_push($classmates,$students[$s]);
-          }
-      }
-      //getting carried students
-
-      $carrieds=StudentCourse::find()->where(['course_code'=>$course])->all();
-
-      foreach($carrieds as $carried)
-      {
-        array_push($classmates,$carried->regNo); 
-      }
-
+      $classmates=CourseStudents::getClassStudents($course);
+     
+   
       return $this->render('classmates',['classmates'=>$classmates]);
 
    }

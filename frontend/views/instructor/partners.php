@@ -161,7 +161,7 @@ $('.partnerdel').click(function(w){
  w.preventDefault();
 var partner=$(this).attr('id');
   Swal.fire({
-  text: "remove this partner from this course",
+  text: "Remove this partner from this course",
   icon: 'question',
   showCancelButton: true,
   confirmButtonColor: '#3085d6',
