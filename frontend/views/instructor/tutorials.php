@@ -72,8 +72,25 @@ $this->params['breadcrumbs'] = [
       <div class="row">
       <div class="col-sm-11">
       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$tutt?>" aria-expanded="true" aria-controls="collapse<?=$tutt?>">
-        <i class="fas fa-clipboard-list"></i> <?php echo $tutorial->assName;?>
-        </button>
+      <?php if(in_array(pathinfo($tutorial->fileName,PATHINFO_EXTENSION),['MP4','mp4','mkv','MKV','AVI','avi']))
+          {
+      ?>
+      <a href="<?='/storage/temp/'.$tutorial->fileName?>" data-toggle='tooltip' data-title="View tutorial"><img src="/img/video thumb.png" style="width:4%;height:20px;margin-right:3px"/><?=Html::encode($tutorial -> assName) ?></a>
+       <?php 
+          }
+          else if(in_array(pathinfo($tutorial->fileName,PATHINFO_EXTENSION),['pdf','PDF']))
+          {
+       ?>
+      <a href="<?='/storage/temp/'.$tutorial->fileName?>" data-toggle='tooltip' data-title="View tutorial"><i class="fa fa-file-pdf-o" style="font-size:20px;color:red;margin-right:3px"></i><?=Html::encode($tutorial -> assName) ?></a>
+      <?php
+          }
+          else
+          {        
+      ?>     
+            <a href="<?='/storage/temp/'.$tutorial->fileName?>"  class="ml-2" target="_blank" data-toggle='tooltip' data-title="View tutorial"><span><i class="fa fa-files-o" style="font-size:25px;margin-right:4px"></i><?=Html::encode($tutorial -> assName) ?></span></a>
+              <?php
+          }
+          ?>
       </div>
       <div class="col-sm-1">
       <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
@@ -89,8 +106,9 @@ $this->params['breadcrumbs'] = [
       <div class="row">
       <div class="col-md-12">
       <a href="#" class="btn btn-sm btn-danger float-right ml-2" id="tutodelete" ccode="<?=$tutorial->assID?>"><span><i class="fas fa-trash"></i></span></a>
-      <?= Html::a('<i class="fas fa-edit"></i>',['updatetut', 'id'=>ClassRoomSecurity::encrypt($tutorial->assID)], ['class'=>'btn btn-sm btn-warning float-right ml-2']) ?>
-      <a href="/storage/temp/<?= $tutorial -> fileName ?>" download target="_blank" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-download"></i></span></a>
+      <?= Html::a('<i class="fas fa-edit"></i>',['updatetut', 'id'=>ClassRoomSecurity::encrypt($tutorial->assID)], ['class'=>'btn btn-sm btn-primary float-right ml-2','data-toggle'=>'tooltip','data-title'=>'Update tutorial']) ?>
+      <a href="/storage/temp/<?= $tutorial -> fileName ?>" download target="_blank" class="btn btn-sm btn-primary float-right ml-2" data-toggle='tooltip' data-title="Download tutorial"><span><i class="fas fa-download"></i></span></a>
+      <a href="/storage/temp/<?= $tutorial -> fileName ?>" class="btn btn-sm btn-primary float-right ml-2" data-toggle='tooltip' data-title="View tutorial"><span><i class="fa fa-eye"></i></span></a>
       
      
       </div>
