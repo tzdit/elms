@@ -214,7 +214,6 @@ class CA extends Model{
     private function asscumul($assign,$stud)
     {
        //getting all assignments
-
        $assignments=$assign;
        $students=$stud;
        $reduce=$this->assreduce;
@@ -240,7 +239,6 @@ class CA extends Model{
          $reducefactor=(isset($reduce) && !empty($reduce))?$reduce:$max;
     
          $assignment_scores=$this->getAssignentScores($assid);
-         
          //adding this assignment to each student in a class
          foreach($students as $reg=>$prop)
          {
@@ -249,15 +247,14 @@ class CA extends Model{
           $students[$reg]["Assignments"]["max"]=$maxheader;
          }
          //getting each student score
-        
+       
          foreach($assignment_scores as $reg=>$sc)
          {
-           
+           if(!isset($students[$reg])){continue;}
            $students[$reg]["Assignments"][$assheader]=$sc;
            $students[$reg]["Assignments"]["total"]=!empty($sc)?$students[$reg]["Assignments"]["total"]+$sc:null;
            
          }
-
         
 
        }
@@ -274,7 +271,7 @@ class CA extends Model{
 
          foreach($assignment_scores as $reg=>$sc)
          {
-           
+           if(!isset($students[$reg])){continue;}
            $students[$reg]["GrandTotal"]=(isset($students[$reg]["Assignments"]["total"]))?$students[$reg]["Assignments"]["total"]:null;
         
           
@@ -332,7 +329,7 @@ class CA extends Model{
           
            foreach($assignment_scores as $reg=>$sc)
            {
-             
+            if(!isset($students[$reg])){continue;}
              $students[$reg]["Lab Assignments"][$assheader]=$sc;
              $students[$reg]["Lab Assignments"]["total"]=!empty($sc)?$students[$reg]["Lab Assignments"]["total"]+$sc:null;
              
@@ -355,6 +352,7 @@ class CA extends Model{
           //adding the grand total
           foreach($students as $regno=>$cont)
           {
+            if(!isset($students[$regno])){continue;}
             //print($cont['GrandTotal']);
             $total=$students[$regno]["Lab Assignments"]["total"];
             $students[$regno]["GrandTotal"]=(isset($students[$regno]["GrandTotal"]))?$students[$regno]["GrandTotal"]+$total:$total;
@@ -412,7 +410,7 @@ class CA extends Model{
           
            foreach($assessment_scores as $reg=>$sc)
            {
-             
+            if(!isset($students[$reg])){continue;}
              $students[$reg]["Other Assessments"][$assheader]=$sc;
              $students[$reg]["Other Assessments"]["total"]=!empty($sc)?$students[$reg]["Other Assessments"]["total"]+$sc:null;
             
@@ -432,6 +430,7 @@ class CA extends Model{
           //adding the grand total
           foreach($students as $regno=>$cont)
           {
+            if(!isset($students[$regno])){continue;}
             //print($cont['GrandTotal']);
             $total=$students[$regno]["Other Assessments"]["total"];
             $students[$regno]["GrandTotal"]=(isset($students[$regno]["GrandTotal"]))?$students[$regno]["GrandTotal"]+$total:$total;
@@ -606,15 +605,19 @@ class CA extends Model{
     private function setallstudents()
     {
       $students_for_assessments=[];
-
-      $coursePrograms=ProgramCourse::find()->where(['course_code'=>yii::$app->session->get('ccode')])->all();
+      $levels=[1,2,3,4,5];
+      for($l=0;$l<count($levels);$l++)
+      {
+      $level=$levels[$l];
+      $coursePrograms=ProgramCourse::find()->where(['course_code'=>yii::$app->session->get('ccode'),'level'=>$level])->all();
       foreach($coursePrograms as $program)
       {
  
        $programStudents=$program->programCode0->students;
- 
+       if(empty($programStudents) || $programStudents==null){continue;}
        for($s=0;$s<count($programStudents);$s++){
-
+        if($programStudents[$s]->YOS===$level)
+        {
         $students_for_assessments[$programStudents[$s]->reg_no]=array();
         if(!empty($this->Assignments)){
           $students_for_assessments[$programStudents[$s]->reg_no]["Assignments"]["total"]=null;
@@ -628,16 +631,16 @@ class CA extends Model{
           $students_for_assessments[$programStudents[$s]->reg_no]["Other Assessments"]["total"]=null;
           $students_for_assessments[$programStudents[$s]->reg_no]["Other Assessments"]["max"]=null;
         }
-
         }
+      
+      }
  
  
       }
+    }
       $carryovers=StudentCourse::find()->where(['course_code'=>yii::$app->session->get('ccode')])->all(); 
- 
       foreach($carryovers as $carry)
       {
-       
         $students_for_assessments[$carry->regNo->reg_no]=array();
         if(!empty($this->Assignments)){
           $students_for_assessments[$carry->regNo->reg_no]["Assignments"]["total"]=null;
@@ -651,15 +654,13 @@ class CA extends Model{
           $students_for_assessments[$carry->regNo->reg_no]["Other Assessments"]["total"]=null;
           $students_for_assessments[$carry->regNo->reg_no]["Other Assessments"]["max"]=null;
         }
-
-     
-        
-       
+ 
       }
-
+     
       $this->allstudents=$students_for_assessments;
+     
+    
     }
-
     private function CA2Exceldownloader($ca)
     {
         $content=$ca;

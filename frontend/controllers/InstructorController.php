@@ -2219,7 +2219,7 @@ public function actionAddStudentGentype()
  public function actionGenerateCa()
  {
    $model=new CA();
-   
+
    $model->Assignments=yii::$app->request->post("CA")["Assignments"];
    $model->LabAssignments=yii::$app->request->post("CA")["LabAssignments"];
    $model->otherAssessments=yii::$app->request->post("CA")["otherAssessments"];
@@ -2230,7 +2230,7 @@ public function actionAddStudentGentype()
    $res=$model->generateExcelCA();
    if($res!==true){Yii::$app->session->setFlash('error',$res);}
 
-   return $this->redirect(Yii::$app->request->referrer); 
+   //return $this->redirect(Yii::$app->request->referrer); 
   
     
 
