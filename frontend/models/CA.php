@@ -900,7 +900,7 @@ class CA extends Model{
           {
           foreach($assignments as $title=>$score)
           {
-            if($assignments[$title]==null || empty($assignments[$title])){$status=true; break;}
+            if($assignments[$title]===null || empty($assignments[$title])){$status=true; break;}
             else{$status=false; continue;}
 
           }
@@ -910,7 +910,7 @@ class CA extends Model{
           foreach($labs as $title=>$score)
           {
             if($status==true){break;}
-            if($labs[$title]==null || empty($labs[$title])){$status=true; break;}
+            if($labs[$title]===null || empty($labs[$title])){$status=true; break;}
             else{$status=false; continue;}
 
           }
@@ -921,7 +921,7 @@ class CA extends Model{
           foreach($other as $title=>$score)
           {
             if($status==true){break;}
-            if($other[$title]==null || empty($other[$title])){$status=true; break;}
+            if($other[$title]===null || empty($other[$title])){$status=true; break;}
             else{$status=false; continue;}
 
           }
