@@ -183,7 +183,9 @@ public $defaultAction = 'dashboard';
                             'find-signal',
                             'withdraw-signal',
                             'partners',
-                            'remove-partner'
+                            'remove-partner',
+                            'ca-save',
+                            'ca-save-published'
 
                         ],
                         'allow' => true,
@@ -299,7 +301,9 @@ public $defaultAction = 'dashboard';
                             'find-signal',
                             'withdraw-signal',
                             'partners',
-                            'remove-partner'
+                            'remove-partner',
+                            'ca-save',
+                            'ca-save-published'
                            
                         ],
                         'allow' => true,
@@ -1096,12 +1100,25 @@ public function actionClassExtAssessments($cid)
 
 //CA generator page
 
-public function actionClassCaGenerator($cid)
+public function actionClassCaGenerator($cid,$ca=null)
 {
-        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
-    
-        return $this->render('classCAgenerator',['cid'=>$cid]);
+        $cid=ClassRoomSecurity::decrypt($cid);
+        $camodel=null;
+        $allCas=(new CA())->findAllCAs();
+        if($ca!==null)
+        {
+          //define the CA from the existing ca file
+          $ca=ClassRoomSecurity::decrypt($ca);
+          $camodel=new CA();
+          $camodel->loadCAdata($ca);
+
+      
+        }
+        else
+        {
+            $camodel=new CA(); //the CA is just a new one
+        }
+        return $this->render('classCAgenerator',['cid'=>$cid,'camodel'=>$camodel,'allcas'=>$allCas]);
 
 }
 
@@ -2236,6 +2253,22 @@ public function actionAddStudentGentype()
 
  
 
+ }
+ public function actionCaSave()
+ {
+    $ca=yii::$app->request->post();
+    (new CA)->CAsaver($ca);
+
+    return $this->redirect(yii::$app->request->referrer);
+  
+ }
+ public function actionCaSavePublished()
+ {
+    $ca=yii::$app->request->post();
+    (new CA)->CAsavePublished($ca);
+
+    return $this->redirect(yii::$app->request->referrer);
+  
  }
  public function actionGetPdfCa()
  {

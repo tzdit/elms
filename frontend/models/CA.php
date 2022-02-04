@@ -26,6 +26,8 @@ class CA extends Model{
     public $otherassessreduce;
     public $allstudents;
 
+    public $version;
+    public $caTitle;
     public $labGrandMax;
     public $assGrandMax;
     public $otherGrandMax;
@@ -843,7 +845,7 @@ class CA extends Model{
           {
           foreach($assignments as $title=>$score)
           {
-            if($assignments[$title]==null || empty($assignments[$title])){$status=true; break;}
+            if($assignments[$title]==null){$status=true; break;}
             else{$status=false; continue;}
 
           }
@@ -853,7 +855,7 @@ class CA extends Model{
           foreach($labs as $title=>$score)
           {
             if($status==true){break;}
-            if($labs[$title]==null || empty($labs[$title])){$status=true; break;}
+            if($labs[$title]==null){$status=true; break;}
             else{$status=false; continue;}
 
           }
@@ -864,7 +866,7 @@ class CA extends Model{
           foreach($other as $title=>$score)
           {
             if($status==true){break;}
-            if($other[$title]==null || empty($other[$title])){$status=true; break;}
+            if($other[$title]==null){$status=true; break;}
             else{$status=false; continue;}
 
           }
@@ -900,7 +902,7 @@ class CA extends Model{
           {
           foreach($assignments as $title=>$score)
           {
-            if($assignments[$title]===null || empty($assignments[$title]) || $assignments[$title]==""){$status=true; break;}
+            if($assignments[$title]===null){$status=true; break;}
             else{$status=false; continue;}
 
           }
@@ -910,7 +912,7 @@ class CA extends Model{
           foreach($labs as $title=>$score)
           {
             if($status===true){break;}
-            if($labs[$title]===null || empty($labs[$title]) || $labs[$title]==""){$status=true; break;}
+            if($labs[$title]===null){$status=true; break;}
             else{$status=false; continue;}
 
           }
@@ -921,7 +923,7 @@ class CA extends Model{
           foreach($other as $title=>$score)
           {
             if($status===true){break;}
-            if($other[$title]===null || empty($other[$title]) || $other[$title]==""){$status=true; break;}
+            if($other[$title]===null){$status=true; break;}
             else{$status=false; continue;}
 
           }
@@ -945,18 +947,20 @@ class CA extends Model{
         $instructor=Yii::$app->user->identity->instructor;
         $name=$instructor->full_name;
         $college=$instructor->department->college->college_name;
-        
+        $year=yii::$app->session->get('currentAcademicYear')->title;
         $mpdf = new Mpdf(['orientation' => 'L']);
         $mpdf->setFooter('{PAGENO}');
         $course=yii::$app->session->get('ccode');
+        $courseTitle=Course::findOne($course)->course_name;
         $stylesheet = file_get_contents('css/capdf.css');
         $mpdf->WriteHTML($stylesheet,1);
-        $mpdf->SetWatermarkText('classroom.udom.ac.tz',0.09);
+        $mpdf->SetWatermarkText('civeclassroom.udom.ac.tz',0.09);
         $mpdf->showWatermarkText = true;
         $mpdf->WriteHTML('<div align="center"><img src="img/logo.png" /></div>',2);
-        $mpdf->WriteHTML('<p align="center"><font size=7>The university of Dodoma</font></p>',3);
+        $mpdf->WriteHTML('<p align="center"><font size=7>The University of Dodoma</font></p>',3);
         $mpdf->WriteHTML('<p align="center"><font size=5>'.$college.'</font></p>',3);
-        $mpdf->WriteHTML('<p align="center"><font size=5>'.$course.' final course assessment results</font></p>',3);
+        $mpdf->WriteHTML('<p align="center"><font size=5>'.$course.' '.$courseTitle.'</font></p>',3);
+        $mpdf->WriteHTML('<p align="center"><font size=5>Final course assessment results ('.$year.')</font></p>',3);
         $mpdf->WriteHTML('<p align="center"><font size=3>By '.$name.'</font></p>',3);
         $mpdf->WriteHTML('<hr width="80%" align="center" color="#000000">',2);
         $mpdf->WriteHTML($content,3);
@@ -973,7 +977,143 @@ class CA extends Model{
     }
   }
 
+  private function getCAsnumber($course)
+  {
+    $cashome="storage/CAs/".$course."/";
+    $ca_number=0;
+    if(!is_dir($cashome)){return 0;}
+
+   if($opened_dir=opendir($cashome))
+   {
+     while(($ca=readdir($opened_dir))!==false)
+     {
+      if($ca!="." && $ca!="..")
+      {
+        $ca_number++;
+      }
+      
+     }
+     closedir($opened_dir);
+   }
+
    
+
+   return $ca_number;
+    
+  }
+
+  public function CAsaver($ca)
+  {
+
+    $year=(yii::$app->session->get('currentAcademicYear'))->yearID;
+    $ca['CA']['year']=$year;
+    $course=str_replace(' ','',yii::$app->session->get('ccode'));
+    $ca_version=($ca['CA']['version']!=null)?$ca['CA']['version']:($this->getCAsnumber($course)+1);
+    $ca['CA']['version']=$ca_version;
+    $ca['CA']['published']=($ca_version<=1)?false:$ca['CA']['published'];
+    $ca_data=ClassRoomSecurity::encrypt(json_encode($ca));
+
+    //preparing the ca name
+
+    try
+    {
+    $ca_name=$course.'_CA_V'.$ca_version;
+    $ca_location='storage/CAs/'.$course;
+    if(!is_dir($ca_location)){mkdir($ca_location);}
+    $ca_file=$ca_location.'/'.$ca_name.'.ca';
+
+    file_put_contents($ca_file,$ca_data,LOCK_EX);
+    
+    $message=($ca_version>1)?"CA saved successfully":"CA updated successfully";
+    yii::$app->session->setFlash('success',"<i class='fa fa-info-circle'></i> ".$message);
+    return true;
+    }
+    catch(Exception $c)
+    {
+        $message=($ca_version>1)?"Could not save CA, try again later":"Could not update CA, try again later";
+        yii::$app->session->setFlash('error',"<i class='fa fa-info-circle'></i> ".$message);
+        return false;
+    }
+
+  }
+  private function readCAdata($ca)
+  {
+    $course=str_replace(' ','',yii::$app->session->get('ccode'));
+    $ca_location='storage/CAs/'.$course.'/'.$ca;
+    $ca_data=file_get_contents($ca_location);
+
+    if($ca_data!=false){
+
+      $ca_data=json_decode(ClassRoomSecurity::decrypt($ca_data),true);
+    }
+
+    return $ca_data;
+  }
+
+  public function loadCAdata($ca)
+  {
+    $cadata=$this->readCAdata($ca);
+    $this->caTitle=basename($ca,'.ca');
+    //print_r($cadata);
+    $this->Assignments=$cadata['CA']['Assignments'];
+    $this->otherAssessments=$cadata['CA']['otherAssessments'];
+    $this->LabAssignments=$cadata['CA']['LabAssignments'];
+    $this->assreduce=$cadata['CA']['assreduce'];
+    $this->labreduce=$cadata['CA']['labreduce'];
+    $this->otherassessreduce=$cadata['CA']['otherassessreduce'];
+    $this->version=$cadata['CA']['version'];
+  
+  }
+  public function CAsavePublished($ca)
+  {
+    $year=(yii::$app->session->get('currentAcademicYear'))->yearID;
+    $ca['CA']['year']=$year;
+    $course=str_replace(' ','',yii::$app->session->get('ccode'));
+    $ca_version=($ca['CA']['version']!=null)?$ca['CA']['version']:($this->getCAsnumber($course)+1);
+    $ca['CA']['version']=$ca_version;
+    $ca['CA']['published']=true;
+    $ca_data=ClassRoomSecurity::encrypt(json_encode($ca));
+
+    //preparing the ca name
+
+    try
+    {
+    $ca_name=$course.'_CA_V'.$ca_version;
+    $ca_location='storage/CAs/'.$course;
+    if(!is_dir($ca_location)){mkdir($ca_location);}
+    $ca_file=$ca_location.'/'.$ca_name.'.ca';
+
+    file_put_contents($ca_file,$ca_data,LOCK_EX);
+    
+    $message=($ca_version>1)?"CA saved successfully":"CA updated successfully";
+    yii::$app->session->setFlash('success',"<i class='fa fa-info-circle'></i> ".$message);
+    return true;
+    }
+    catch(Exception $c)
+    {
+        $message=($ca_version>1)?"Could not save CA, try again later":"Could not update CA, try again later";
+        yii::$app->session->setFlash('error',"<i class='fa fa-info-circle'></i> ".$message);
+        return false;
+    }
+  }
+
+  public function findAllCAs()
+  {
+    $course=str_replace(' ','',yii::$app->session->get('ccode'));
+    $ca_location='storage/CAs/'.$course;
+
+    $CAs=scandir($ca_location);
+    $CAnames=array();
+    for($c=0;$c<count($CAs);$c++)
+    {
+      
+      if($CAs[$c]=="." || $CAs[$c]==".."){continue;}
+      else{$CA_name=basename($CAs[$c],".ca");}
+      $CAnames[$CAs[$c]]=$CA_name;
+    }
+    return $CAnames;
+  }
+  
     
 }
 ?>

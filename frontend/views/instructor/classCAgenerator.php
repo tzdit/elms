@@ -24,12 +24,13 @@ use frontend\models\External_assess;
 use frontend\models\StudentAssign;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
+use frontend\models\ClassRoomSecurity;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] =$cid." CA Generator";
 $this->title =$cid." CA Generator";
 $this->params['breadcrumbs'] = [
-  ['label'=>'class-dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>$cid])],
+  ['label'=>'class-dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
   ['label'=>$this->title]
 ];
 
@@ -54,20 +55,54 @@ $this->params['breadcrumbs'] = [
 
         <!--##################### the CA ######################## -->
    <?php 
+      $cas=$allcas;
       $assignments=Assignment::find()->where(['course_code'=>$cid,'assNature'=>'assignment'])->all();
       $assArray=ArrayHelper::map($assignments,'assID','assName');
       $labs=Assignment::find()->where(['course_code'=>$cid,'assNature'=>'lab'])->all();
       $labarray=ArrayHelper::map($labs,'assID','assName');
       $others=ExtAssess::find()->where(['course_code'=>$cid])->all();
       $othersarray=ArrayHelper::map($others,'assessID','title');
-      $camodel=new CA();
    ?>
    <div class="container-fluid">
     <div class="card shadow"  >
     <div class="card-header p-2" id="heading">
     <div class="row">
-    <div class="col-md-5" >
-    <span style="margin-left:10px;"><i class="fa fa-hand-o-down" style="font-size:20px"></i>Choose assessments</span>
+    <div class="col-md-2" >
+ 
+    <span class="dropdown ml-3">
+                <a data-toggle="dropdown" href="#" >
+               <i class="fa fa-folder"></i> Saved CAs
+  
+               </a>
+
+               <div class="dropdown-menu dropdown-menu-lg text-sm">
+                 <?php
+
+                
+                  foreach($cas as $ind=>$ca)
+                  {
+                 ?>
+                  <li class="dropdown-item">
+                    <?=$ca?>
+                    <span class="float-right">
+                    <a href="<?=Url::to(['/instructor/class-ca-generator','cid'=>ClassRoomSecurity::encrypt($cid),'ca'=>ClassRoomSecurity::encrypt($ind)])?>"><i class="fa fa-folder-open text-primary mr-2" data-toggle="tooltip" data-title="Open CA"></i></a>
+                    <a href="#"><i class="fa fa-plus-circle text-primary mr-2" data-toggle="tooltip" data-title="Add New Record"></i></a>
+                    <a href="#"><i class="fa fa-newspaper text-primary mr-2" data-toggle="tooltip" data-title="Publish CA"></i></a>
+                    <a href="#"><i class="fa fa-trash text-danger mr-2" data-toggle="tooltip" data-title="Delete CA"></i></a>
+                    <a href="#"><i class=""></i></a>
+                    </span>
+                  </li>
+                  <div class="dropdown-divider"></div>
+                 <?php
+                  }
+                 ?>
+              </div>
+      </span>
+   
+    
+   </div>
+   <div class="col-md-3 text-sm" >
+     <?=$camodel->caTitle?>
    </div>
    <div class="col-md-7 float-right">
    <div class="row">
@@ -108,14 +143,15 @@ $caform = ActiveForm::begin([
       -->
 
     <div class="card shadow" style="min-height:200px;max-height:400px" >
-      <div class="card-header p-2 bg-primary text-sm">
+      <div class="card-header pt-1 pb-1 bg-primary text-sm">
         Assignments
       </div>
     <div class="card-body">
   <div class="row">
     <div class="col-md-12">
-    <?= $caform->field($camodel, 'Assignments[]')->checkboxList($assArray)->label(false) ?>
-    <?= $caform->field($camodel, 'assreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm reduce','placeholder'=>'Max','id'=>'ass'])->label(false)?>
+    <?php if(empty($assArray)){print "<span class='info text-sm'>No Assignments found</span>";} ?>
+    <?= $caform->field($camodel, 'Assignments')->checkboxList($assArray)->label(false) ?>
+    <?= $caform->field($camodel, 'assreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm reduce','placeholder'=>'Reduce to','id'=>'ass'])->label(false)?>
    </div>
    </div>
  
@@ -135,14 +171,15 @@ $caform = ActiveForm::begin([
       -->
 
     <div class="card shadow" style="min-height:200px;max-height:400px" >
-    <div class="card-header p-2 bg-primary text-sm">
+    <div class="card-header pt-1 pb-1 bg-primary text-sm">
         Lab assignments
       </div>
     <div class="card-body">
   <div class="row">
     <div class="col-md-12">
-    <?= $caform->field($camodel, 'LabAssignments[]')->checkboxList($labarray)->label(false) ?>
-    <?= $caform->field($camodel, 'labreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm reduce','placeholder'=>'Max','id'=>'lab'])->label(false)?>
+    <?php if(empty($labarray)){print "<span class='info text-sm'>No Labs found</span>";} ?>
+    <?= $caform->field($camodel, 'LabAssignments')->checkboxList($labarray)->label(false) ?>
+    <?= $caform->field($camodel, 'labreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm reduce','placeholder'=>'Reduce to','id'=>'lab'])->label(false)?>
    </div>
    </div>
   
@@ -161,15 +198,16 @@ $caform = ActiveForm::begin([
       -->
 
     <div class="card shadow" style="min-height:200px;max-height:400px">
-    <div class="card-header p-2 bg-primary text-sm">
-       Other assessments
+    <div class="card-header pt-1 pb-1 bg-primary text-sm">
+       Other Assessments
       </div>
     <div class="card-body">
   <div class="row">
     <div class="col-md-12" id="assessments">
-    <?php if(empty($othersarray)){print "<span class='info'>No assessment found</span>";} ?>
-    <?= $caform->field($camodel, 'otherAssessments[]')->checkboxList($othersarray)->label(false)?>
-    <?= $caform->field($camodel, 'otherassessreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm reduce','placeholder'=>'Max','id'=>'other'])->label(false)?>
+    <?php if(empty($othersarray)){print "<span class='info text-sm'>No assessments found</span>";} ?>
+    <?= $caform->field($camodel, 'otherAssessments')->checkboxList($othersarray)->label(false)?>
+    <?= $caform->field($camodel, 'otherassessreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm reduce','placeholder'=>'Reduce to','id'=>'other'])->label(false)?>
+    <?= $caform->field($camodel, 'version')->hiddenInput(['value'=>$camodel->version])->label(false)?>
    </div>
    </div>
 
@@ -192,7 +230,9 @@ $caform = ActiveForm::begin([
      <div class="col-md-2"><span class="text-primary"><i class="fa fa-hand-o-down " style="font-size:18px"></i>Preview</span></div>
      <div class="col-md-10">
      <?= Html::submitButton('<i class="fa fa-download" style="font-size:18px"></i>Excel', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right','style'=>'margin-left:2px','id'=>'cadownloader']) ?>
-  <?=Html::Button('<i class="fa fa-download" style="font-size:18px"></i>PDF', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right','id'=>'cadownloaderpdf'])  ?>
+     <?=Html::Button('<i class="fa fa-download" style="font-size:18px"></i>PDF', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right','id'=>'cadownloaderpdf'])  ?>
+     <?=Html::Button('<i class="fa fa-save" style="font-size:18px"></i> Save & Publish', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right mr-1','id'=>'casaverpublisher'])  ?>
+     <?=Html::Button('<i class="fa fa-save" style="font-size:18px"></i> Save', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right mr-1','id'=>'casaver'])  ?>
         </div>
    </div>
    </div>
@@ -277,7 +317,7 @@ $(document).ready(function(){
     //responsive:true,
   //});
   
-  $('#studenttable').DataTable( {
+  $('#studenttable').DataTable({
         dom: 'Bfrtip',
         buttons: [
             'csv',
@@ -679,7 +719,22 @@ $('#cadownloaderpdf').click(function(e){
   
     
   });
- 
+
+
+  $('#casaver').click(function(e){
+  e.preventDefault();
+  $('#ca-form').attr('action','/instructor/ca-save');
+  $('#ca-form').submit();
+  
+    
+  });
+  $('#casaverpublisher').click(function(e){
+  e.preventDefault();
+  $('#ca-form').attr('action','/instructor/ca-save-published');
+  $('#ca-form').submit();
+  
+    
+  });
 
 
 

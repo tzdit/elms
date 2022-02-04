@@ -233,7 +233,9 @@ $script = <<<JS
 
       ///select tag
 
-   
+      $('.info-box').css('border-radius','none');
+      $('.info-box').css('box-shadow','none');
+      $('.info-box').css('color','none');
 
       //the dropdown searcn adding partner
 
