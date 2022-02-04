@@ -1101,7 +1101,8 @@ class CA extends Model{
   {
     $course=str_replace(' ','',yii::$app->session->get('ccode'));
     $ca_location='storage/CAs/'.$course;
-
+    try
+    {
     $CAs=scandir($ca_location);
     $CAnames=array();
     if($CAs=="false"){return [];}
@@ -1113,7 +1114,12 @@ class CA extends Model{
       $CAnames[$CAs[$c]]=$CA_name;
     }
     return $CAnames;
-  }
+   }
+   catch(Exception $ca)
+   {
+     return [];
+   }
+}
   
     
 }
