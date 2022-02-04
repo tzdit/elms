@@ -1103,6 +1103,7 @@ class CA extends Model{
     $ca_location='storage/CAs/'.$course;
     try
     {
+    if(!file_exists($ca_location) || !is_dir($ca_location)){ return [];}
     $CAs=scandir($ca_location);
     $CAnames=array();
     if($CAs=="false"){return [];}
