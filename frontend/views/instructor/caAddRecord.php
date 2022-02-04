@@ -27,15 +27,19 @@ use yii\helpers\ArrayHelper;
 use frontend\models\ClassRoomSecurity;
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =$cid." CA Generator";
-$this->title =$cid." CA Generator";
+$this->params['courseTitle'] =$cadata['title'];
+$this->title =$cadata['title'];
 $this->params['breadcrumbs'] = [
-  ['label'=>'class-dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
+  ['label'=>'class-dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>""])],
   ['label'=>$this->title]
 ];
 
 ?>
- 
+ <?php 
+ $assignments=$cadata['Assignments'];
+ $labs=$cadata['LabAssignments'];
+ $others=$cadata['otherAssessments'];
+  ?>
 
 <div class="site-index">
     <div class="body-content ">
@@ -44,283 +48,90 @@ $this->params['breadcrumbs'] = [
        <div class="container-fluid">
       
  <div class="row">
-          <!-- Left col -->
-          <section class="col-lg-12 ">
-     
-       
-
-
-
-
-
-        <!--##################### the CA ######################## -->
-   <?php 
-      $cas=$allcas;
-      $yearID=(yii::$app->session->get('currentAcademicYear'))->yearID;
-      $assignments=Assignment::find()->where(['course_code'=>$cid,'assNature'=>'assignment','yearID'=>$yearID])->all();
-      $assArray=ArrayHelper::map($assignments,'assID','assName');
-      $labs=Assignment::find()->where(['course_code'=>$cid,'assNature'=>'lab','yearID'=>$yearID])->all();
-      $labarray=ArrayHelper::map($labs,'assID','assName');
-      $others=ExtAssess::find()->where(['course_code'=>$cid,'yearID'=>$yearID])->all();
-      $othersarray=ArrayHelper::map($others,'assessID','title');
-   ?>
    <div class="container-fluid">
-   <?php
-       if(!(yii::$app->session->get('currentAcademicYear')->isCurrent()))
-       {
-      ?>
-      <div class="alert-success text-lg p-4 alert alert-dismissible"><i class="fa fa-info-circle"></i> CA generator is not available in this academic year
-      <button class="close" data-dismiss="alert">
-                <span>&times;</span>
-              </button>
-       </div>
-      <?php
-       }
-       else
-       {
-      ?>
     <div class="card shadow">
-
-     
     <div class="card-header p-2" id="heading">
     <div class="row">
-    <div class="col-md-2" >
- 
-    <span class="dropdown ml-3">
-                <a data-toggle="dropdown" href="#" data-toggle="tooltip" data-title="Open Saved CAs">
-               <i class="fa fa-folder"></i> Saved CAs
-  
-               </a>
-
-               <div class="dropdown-menu dropdown-menu-lg text-sm">
-                 <?php
-
-                  if($cas==null){print "<span class='text-sm text-primary m-4'>No saved CAs found</span>";}
-                  foreach($cas as $ind=>$ca)
-                  {
-                 ?>
-                  <li class="dropdown-item">
-                    <?=$ca?>
-                    <span class="float-right">
-                    <a href="<?=Url::to(['/instructor/class-ca-generator','cid'=>ClassRoomSecurity::encrypt($cid),'ca'=>ClassRoomSecurity::encrypt($ind)])?>"><i class="fa fa-folder-open text-primary mr-2" data-toggle="tooltip" data-title="Open CA"></i></a>
-                    <a href="<?=Url::to(['/instructor/ca-add-new','ca'=>ClassRoomSecurity::encrypt($ind)])?>"><i class="fa fa-plus-circle text-primary mr-2" data-toggle="tooltip" data-title="Add New Record"></i></a>
-                    <a href="<?=Url::to(['/instructor/publish-ca','ca'=>ClassRoomSecurity::encrypt($ind)])?>"><i class="fa fa-newspaper text-primary mr-2" data-toggle="tooltip" data-title="Publish CA"></i></a>
-                    <a href="<?=Url::to(['/instructor/delete-ca','ca'=>ClassRoomSecurity::encrypt($ind)])?>"><i class="fa fa-trash text-danger mr-2" data-toggle="tooltip" data-title="Delete CA"></i></a>
-                    <a href="#"><i class=""></i></a>
-                    </span>
-                  </li>
-                  <div class="dropdown-divider"></div>
-                 <?php
-                  }
-                 ?>
-              </div>
-      </span>
-   
-    
+    <span class="text-primary pl-4"><i class="fa fa-plus-circle"></i> Add New record</span>
    </div>
-  
-   <div class="col-md-2 text-sm" >
-   <a href="<?=Url::to(['/instructor/class-ca-generator','cid'=>ClassRoomSecurity::encrypt($cid)])?>" data-toggle="tooltip" data-title="Genarate New CA"><i class="fa fa-cog"></i> New CA</a>
-   </div>
-   <div class="col-md-3 text-sm font-weight-bold" >
-     <?=$camodel->caTitle?>
-   </div>
-   <div class="col-md-5 text-sm float-right">
-   <div class="row">
-  <div class="col-md-4 shadow float-right">
-     <span>Carries:</span><span id="carry" class="text-danger font-weight-bold"></span>
-  </div>
-  
-   <div class="col-md-4 shadow float-right">
-   <span>Incompletes:</span><span id="incnum" class="text-primary font-weight-bold"></span>
-</div>
-   <div class="col-md-4 shadow float-right">
-
-   <span>Total students:</span><span id="totalstud" class="text-success font-weight-bold"></span>
+    </div>
+    <div class="card-body">
+    <div class="bg-primary row mb-4 pl-2">Registration Number</div>
+    <div class="row">
+         <div class="col-md-12">
+         <input type="text" class="form-group form-control"></input>
+         </div>
+    </div>
+         <?php
+         if($assignments!=null)
+         {
+         ?>
+         <div class="bg-primary row mb-4 pl-2">Assignments</div>
+         <div class="row">
+         <div class="col-md-12">
+         <label for="assignment" class="text-sm" style="color:grey">assignment X</label><input type="text" class="form-group form-control"></input>
+           <?php
+           for($ass=0;$ass<count($assignments);$ass++)
+           {
+             ?>
+              <label for="assignment" class="text-sm" style="color:grey">assignment X</label><input type="text" class="form-group form-control"></input>
+             <?php
+           }
+           ?>
+            </div>
+            </div>
+        <?php
+         }
+        ?>
+     <!-- //////// labs /////////-->
      
-    </div>
+     <?php
+         if($labs!=null)
+         {
+         ?>
+         <div class="bg-primary row mb-4 pl-2">Lab Assignments</div>
+         <div class="row">
+         <div class="col-md-12">
+           <?php
+           for($ass=0;$ass<count($labs);$ass++)
+           {
+             ?>
+              <label for="assignment" class="text-sm" style="color:grey">assignment X</label><input type="text" class="form-group form-control"></input>
+             <?php
+           }
+           ?>
+            </div>
+            </div>
+        <?php
+         }
+        ?>
+     <!-- //////// other assessments /////////-->
 
-  </div> 
-   </div>
-   </div>
-    </div>
-    <?php     
-$caform = ActiveForm::begin([
-    'id' => 'ca-form',
-    'action'=>'/instructor/generate-ca',
-    'method'=>'post',
-    'options' => ['class' => 'form-horizontal']
-]) ?>
-    <div class="card-body">
+     <?php
+         if($others!=null)
+         {
+         ?>
+         <div class="bg-primary row mb-4 pl-2">Other Assessments</div>
+         <div class="row">
+         <div class="col-md-12">
+           <?php
+           for($ass=0;$ass<count($others);$ass++)
+           {
+             ?>
+              <label for="assignment" class="text-sm" style="color:grey">assignment X</label><input type="text" class="form-group form-control"></input>
+             <?php
+           }
+           ?>
+            </div>
+            </div>
+        <?php
+         }
+        ?>
 
-  <div class="row">
-    <div class="col-md-4">
-      <!-- 
-        ######################### the assignments
-      -->
-
-    <div class="card shadow" style="min-height:200px;max-height:400px" >
-      <div class="card-header pt-1 pb-1 bg-primary text-sm">
-        Assignments
-      </div>
-    <div class="card-body">
-  <div class="row">
-    <div class="col-md-12">
-    <?php if(empty($assArray)){print "<span class='info text-sm'>No Assignments found</span>";} ?>
-    <?= $caform->field($camodel, 'Assignments')->checkboxList($assArray)->label(false) ?>
-    <?= $caform->field($camodel, 'assreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm reduce','placeholder'=>'Reduce to','id'=>'ass'])->label(false)?>
-   </div>
-   </div>
- 
-  
-  </div>
-
-
-
-
-     </div>
-
-      <!--########################################-->
-   </div>
-   <div class="col-md-4">
-      <!-- 
-        ######################### the labs
-      -->
-
-    <div class="card shadow" style="min-height:200px;max-height:400px" >
-    <div class="card-header pt-1 pb-1 bg-primary text-sm">
-        Lab assignments
-      </div>
-    <div class="card-body">
-  <div class="row">
-    <div class="col-md-12">
-    <?php if(empty($labarray)){print "<span class='info text-sm'>No Labs found</span>";} ?>
-    <?= $caform->field($camodel, 'LabAssignments')->checkboxList($labarray)->label(false) ?>
-    <?= $caform->field($camodel, 'labreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm reduce','placeholder'=>'Reduce to','id'=>'lab'])->label(false)?>
-   </div>
-   </div>
-  
-  </div>
-
-
-
-
-     </div>
-
-      <!--########################################-->
-   </div>
-   <div class="col-md-4">
-      <!-- 
-        ######################### other assessments
-      -->
-
-    <div class="card shadow" style="min-height:200px;max-height:400px">
-    <div class="card-header pt-1 pb-1 bg-primary text-sm">
-       Other Assessments
-      </div>
-    <div class="card-body">
-  <div class="row">
-    <div class="col-md-12" id="assessments">
-    <?php if(empty($othersarray)){print "<span class='info text-sm'>No assessments found</span>";} ?>
-    <?= $caform->field($camodel, 'otherAssessments')->checkboxList($othersarray)->label(false)?>
-    <?= $caform->field($camodel, 'otherassessreduce')->textInput(['type'=>'text','class'=>'form-control form-control-sm reduce','placeholder'=>'Reduce to','id'=>'other'])->label(false)?>
-    <?= $caform->field($camodel, 'version')->hiddenInput(['value'=>$camodel->version])->label(false)?>
-   </div>
-   </div>
-
-  </div>
-
-
-
-
-     </div>
-
-      <!--########################################-->
-    
-  </div>
-
-   </div>
-
-
-   <?php ActiveForm::end() ?>
-   <div class="row">
-     <div class="col-md-2"><span class="text-primary"><i class="fa fa-hand-o-down " style="font-size:18px"></i>Preview</span></div>
-     <div class="col-md-10">
-     <?= Html::submitButton('<i class="fa fa-download" style="font-size:18px"></i>Excel', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right','style'=>'margin-left:2px','id'=>'cadownloader']) ?>
-     <?=Html::Button('<i class="fa fa-download" style="font-size:18px"></i>PDF', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right','id'=>'cadownloaderpdf'])  ?>
-     <?=Html::Button('<i class="fa fa-save" style="font-size:18px"></i> Save & Publish', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right mr-1','id'=>'casaverpublisher'])  ?>
-     <?=Html::Button('<i class="fa fa-save" style="font-size:18px"></i> Save', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right mr-1','id'=>'casaver'])  ?>
-        </div>
-   </div>
-   </div>
- 
-   
-  
-  <div class="card-footer">
-  
-  <div class="row">
-      <div class="col-md-12" id="thepreview" >
-       
-      </div>
-
-      </div>
-
-      </div>
-   
-    
-    
-   
-  
- 
-</div>
-<?php
-       }
-   ?>
 </div>
 </div>
 </div>
-  
-
-    
-<!--  ###################################render model to create_assignment ###########################################-->
-<?php 
-$assmodel = new UploadAssignment();
-?>
-<?= $this->render('assignments/create_assignment', ['assmodel'=>$assmodel, 'ccode'=>$cid]) ?>
-
-<!--  ###################################render model to Create_tutorial ##############################################-->
-<?php 
-$tutmodel = new UploadTutorial();
-?>
-<?= $this->render('tutorials/create_tutorial', ['tutmodel'=>$tutmodel, 'ccode'=>$cid]) ?>
-
-<!--  ###################################render model to Create_lab ####################################################-->
-<?php 
-$labmodel = new UploadLab();
-?>
-<?= $this->render('labs/create_lab', ['labmodel'=>$labmodel, 'ccode'=>$cid]) ?>
-
-<!-- ############################################## the student adding modal ######################################## -->
-<?php 
-$assignstudentsmodel = new StudentAssign();
-?>
-<?= $this->render('assignstudents', ['assignstudentsmodel'=>$assignstudentsmodel, 'ccode'=>$cid]) ?>
-
-<!--  ###################################render model to create_material ####################################################-->
-
-<!--  ###################################new assessment modal ####################################################-->
-<?php 
-$assessmodel = new External_assess();
-?>
-<?= $this->render('assessupload', ['assessmodel'=>$assessmodel, 'ccode'=>$cid]) ?>
-<!--  ###################################new announce modal ####################################################-->
-<?php 
-$announcemodel = new PostAnnouncement();
-?>
-<?= $this->render('announcementForm', ['announcemodel'=>$announcemodel]) ?>
-
-
-
+</div>
 <?php 
 $script = <<<JS
 $(document).ready(function(){

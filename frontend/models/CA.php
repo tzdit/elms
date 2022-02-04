@@ -979,7 +979,10 @@ class CA extends Model{
 
   private function getCAsnumber($course)
   {
-    $cashome="storage/CAs/".$course."/";
+    $year=yii::$app->session->get('currentAcademicYear');
+    $yearTitle=$year->title;
+    $ca_location='storage/CAs/'.$yearTitle.'/'.$course;
+    $cashome="storage/CAs/".$yearTitle."/".$course."/";
     $ca_number=0;
     if(!is_dir($cashome)){return 0;}
 
@@ -1004,22 +1007,23 @@ class CA extends Model{
 
   public function CAsaver($ca)
   {
-
-    $year=(yii::$app->session->get('currentAcademicYear'))->yearID;
-    $ca['CA']['year']=$year;
+    if($ca==null){return false;}
+    $year=yii::$app->session->get('currentAcademicYear');
+    $ca['CA']['year']=$year->yearID;
     $course=str_replace(' ','',yii::$app->session->get('ccode'));
     $ca_version=($ca['CA']['version']!=null)?$ca['CA']['version']:($this->getCAsnumber($course)+1);
     $ca['CA']['version']=$ca_version;
-    $ca['CA']['published']=($ca_version<=1)?false:$ca['CA']['published'];
+    if($ca_version<=1){$ca['CA']['published']=false;}
     $ca_data=ClassRoomSecurity::encrypt(json_encode($ca));
 
     //preparing the ca name
 
     try
     {
+    $yearTitle=$year->title;
     $ca_name=$course.'_CA_V'.$ca_version;
-    $ca_location='storage/CAs/'.$course;
-    if(!is_dir($ca_location)){mkdir($ca_location);}
+    $ca_location='storage/CAs/'.$yearTitle.'/'.$course;
+    if(!is_dir($ca_location)){mkdir($ca_location,0777,true);}
     $ca_file=$ca_location.'/'.$ca_name.'.ca';
 
     file_put_contents($ca_file,$ca_data,LOCK_EX);
@@ -1038,36 +1042,49 @@ class CA extends Model{
   }
   private function readCAdata($ca)
   {
+    $year=yii::$app->session->get('currentAcademicYear');
     $course=str_replace(' ','',yii::$app->session->get('ccode'));
-    $ca_location='storage/CAs/'.$course.'/'.$ca;
+    $ca_location='storage/CAs/'.$year->title.'/'.$course.'/'.$ca;
+
+    try
+    {
+    if(!file_exists($ca_location)){return null;}
     $ca_data=file_get_contents($ca_location);
 
     if($ca_data!=false){
 
       $ca_data=json_decode(ClassRoomSecurity::decrypt($ca_data),true);
     }
-
     return $ca_data;
+    }
+  catch(Exception $r)
+    {
+    return null;
+    }
+    
   }
-
+ public function getCaData($ca)
+ {
+   return $this->readCAdata($ca);
+ }
   public function loadCAdata($ca)
   {
     $cadata=$this->readCAdata($ca);
     $this->caTitle=basename($ca,'.ca');
-    //print_r($cadata);
-    $this->Assignments=$cadata['CA']['Assignments'];
-    $this->otherAssessments=$cadata['CA']['otherAssessments'];
-    $this->LabAssignments=$cadata['CA']['LabAssignments'];
-    $this->assreduce=$cadata['CA']['assreduce'];
-    $this->labreduce=$cadata['CA']['labreduce'];
-    $this->otherassessreduce=$cadata['CA']['otherassessreduce'];
-    $this->version=$cadata['CA']['version'];
+    $this->Assignments=($cadata!=null)?$cadata['CA']['Assignments']:[];
+    $this->otherAssessments=($cadata!=null)?$cadata['CA']['otherAssessments']:[];
+    $this->LabAssignments=($cadata!=null)?$cadata['CA']['LabAssignments']:[];
+    $this->assreduce=($cadata!=null)?$cadata['CA']['assreduce']:null;
+    $this->labreduce=($cadata!=null)?$cadata['CA']['labreduce']:null;
+    $this->otherassessreduce=($cadata!=null)?$cadata['CA']['otherassessreduce']:null;
+    $this->version=($cadata!=null)?$cadata['CA']['version']:null;
   
   }
   public function CAsavePublished($ca)
   {
-    $year=(yii::$app->session->get('currentAcademicYear'))->yearID;
-    $ca['CA']['year']=$year;
+    if($ca==null){return false;}
+    $year=yii::$app->session->get('currentAcademicYear');
+    $ca['CA']['year']=$year->yearID;
     $course=str_replace(' ','',yii::$app->session->get('ccode'));
     $ca_version=($ca['CA']['version']!=null)?$ca['CA']['version']:($this->getCAsnumber($course)+1);
     $ca['CA']['version']=$ca_version;
@@ -1078,9 +1095,10 @@ class CA extends Model{
 
     try
     {
+    $yearTitle=$year->title;
     $ca_name=$course.'_CA_V'.$ca_version;
-    $ca_location='storage/CAs/'.$course;
-    if(!is_dir($ca_location)){mkdir($ca_location);}
+    $ca_location='storage/CAs/'.$yearTitle.'/'.$course;
+    if(!is_dir($ca_location)){mkdir($ca_location,0777,true);}
     $ca_file=$ca_location.'/'.$ca_name.'.ca';
 
     file_put_contents($ca_file,$ca_data,LOCK_EX);
@@ -1100,7 +1118,9 @@ class CA extends Model{
   public function findAllCAs()
   {
     $course=str_replace(' ','',yii::$app->session->get('ccode'));
-    $ca_location='storage/CAs/'.$course;
+    $year=yii::$app->session->get('currentAcademicYear');
+    $yearTitle=$year->title;
+    $ca_location='storage/CAs/'.$yearTitle.'/'.$course;
     try
     {
     if(!file_exists($ca_location) || !is_dir($ca_location)){ return [];}
@@ -1111,7 +1131,10 @@ class CA extends Model{
     {
       
       if($CAs[$c]=="." || $CAs[$c]==".."){continue;}
-      else{$CA_name=basename($CAs[$c],".ca");}
+      else{
+        if(!$this->isCaCurrent($CAs[$c])){continue;}
+        $CA_name=basename($CAs[$c],".ca");
+      }
       $CAnames[$CAs[$c]]=$CA_name;
     }
     return $CAnames;
@@ -1122,6 +1145,39 @@ class CA extends Model{
    }
 }
   
-    
+  public function publishCA($ca)
+  {
+    $ca=$this->readCAdata(ClassRoomSecurity::decrypt($ca));
+    return $this->CAsavePublished($ca);
+  } 
+  
+  private function isCaCurrent($ca)
+  {
+    return ($this->readCAdata($ca))['CA']['year']==(yii::$app->session->get('currentAcademicYear'))->yearID;
+  }
+
+  public function deleteCA($ca)
+  {
+    $ca=ClassRoomSecurity::decrypt($ca);
+    $course=str_replace(' ','',yii::$app->session->get('ccode'));
+    $year=yii::$app->session->get('currentAcademicYear');
+    $yearTitle=$year->title;
+    $ca_location='storage/CAs/'.$yearTitle.'/'.$course;
+    $ca_target=$ca_location."/".$ca;
+
+    try
+    {
+      if(file_exists($ca_target))
+      {
+        unlink($ca_target);
+      }
+
+      return true;
+    }
+    catch(Exception $a)
+    {
+      return false;
+    }
+  }
 }
 ?>

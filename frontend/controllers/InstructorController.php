@@ -185,7 +185,10 @@ public $defaultAction = 'dashboard';
                             'partners',
                             'remove-partner',
                             'ca-save',
-                            'ca-save-published'
+                            'ca-save-published',
+                            'publish-ca',
+                            'delete-ca',
+                            'ca-add-new'
 
                         ],
                         'allow' => true,
@@ -303,7 +306,10 @@ public $defaultAction = 'dashboard';
                             'partners',
                             'remove-partner',
                             'ca-save',
-                            'ca-save-published'
+                            'ca-save-published',
+                            'publish-ca',
+                            'delete-ca',
+                            'ca-add-new'
                            
                         ],
                         'allow' => true,
@@ -1121,7 +1127,21 @@ public function actionClassCaGenerator($cid,$ca=null)
         return $this->render('classCAgenerator',['cid'=>$cid,'camodel'=>$camodel,'allcas'=>$allCas]);
 
 }
+public function actionPublishCa($ca)
+{
+    if((new CA)->publishCA($ca))
+    {
+        Yii::$app->session->removeFlash('success');
+        yii::$app->session->setFlash('success',"<i class='fa fa-info-circle'></i> CA published successfully");
+    }
+    else
+    {
+        Yii::$app->session->removeFlash('error');
+        yii::$app->session->setFlash('error',"<i class='fa fa-info-circle'></i> Could not publish CA, try again"); 
+    }
 
+    return $this->redirect(yii::$app->request->referrer);
+}
 //students page
 
 public function actionClassStudents($cid)
@@ -2245,9 +2265,9 @@ public function actionAddStudentGentype()
    $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
   
    $res=$model->generateExcelCA();
-   if($res!==true){Yii::$app->session->setFlash('error',$res);}
+   if($res!==true){Yii::$app->session->setFlash('error','<i class="fa fa-info-circle"></i> '.$res);}
 
-   //return $this->redirect(Yii::$app->request->referrer); 
+   return $this->redirect(Yii::$app->request->referrer); 
   
     
 
@@ -2257,14 +2277,34 @@ public function actionAddStudentGentype()
  public function actionCaSave()
  {
     $ca=yii::$app->request->post();
+    if($ca['CA']['Assignments']==null && $ca['CA']['LabAssignments']==null && $ca['CA']['otherAssessments']==null){
+        Yii::$app->session->setFlash('error','<i class="fa fa-info-circle"></i> No content'); 
+        return $this->redirect(yii::$app->request->referrer); 
+    }
+
     (new CA)->CAsaver($ca);
 
     return $this->redirect(yii::$app->request->referrer);
   
  }
+ public function actionDeleteCa($ca)
+ {
+     if((new CA)->deleteCA($ca))
+     {
+        Yii::$app->session->setFlash('success','<i class="fa fa-info-circle"></i> CA deleted successfully'); 
+        return $this->redirect(yii::$app->request->referrer);
+     }
+
+     Yii::$app->session->setFlash('error','<i class="fa fa-info-circle"></i> Could not delete CA, try again later'); 
+     return $this->redirect(yii::$app->request->referrer);
+ }
  public function actionCaSavePublished()
  {
     $ca=yii::$app->request->post();
+    if($ca['CA']['Assignments']==null && $ca['CA']['LabAssignments']==null && $ca['CA']['otherAssessments']==null){
+        Yii::$app->session->setFlash('error','<i class="fa fa-info-circle"></i> No content'); 
+        return $this->redirect(yii::$app->request->referrer); 
+    }
     (new CA)->CAsavePublished($ca);
 
     return $this->redirect(yii::$app->request->referrer);
@@ -2282,7 +2322,7 @@ public function actionAddStudentGentype()
     $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
    
     $res=$model->generatePdfCA();
-    if($res!=null){Yii::$app->session->setFlash('error',$res);}
+    if($res!=null){Yii::$app->session->setFlash('error','<i class="fa fa-info-circle"></i> '.$res);}
     return $this->redirect(Yii::$app->request->referrer); 
     
  }
@@ -2300,6 +2340,17 @@ public function actionAddStudentGentype()
     $data=$model->previewCA();
     print $data;
     }
+ }
+ public function actionCaAddNew($ca)
+ {
+     $cadata=(new CA)->getCaData(ClassRoomSecurity::decrypt($ca));
+     $title=basename(ClassRoomSecurity::decrypt($ca),'.ca');
+     if($cadata==null){
+        Yii::$app->session->setFlash('error','<i class="fa fa-info-circle"></i>An error occured while loading CA');
+        return $this->redirect(Yii::$app->request->referrer); 
+     }
+     $cadata['CA']['title']=$title;
+     return $this->render('caAddRecord',['cadata'=>$cadata['CA']]);
  }
  public function actionGetIncompletePerc()
  {
