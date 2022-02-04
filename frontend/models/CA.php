@@ -1104,6 +1104,7 @@ class CA extends Model{
 
     $CAs=scandir($ca_location);
     $CAnames=array();
+    if($CAs=="false"){return [];}
     for($c=0;$c<count($CAs);$c++)
     {
       
