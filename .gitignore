@@ -47,3 +47,4 @@ phpunit.phar
 /frontend/web/storage/submit/*
 /frontend/web/storage/temp/*
 /frontend/web/storage/CAs/*
+/frontend/web/storage
