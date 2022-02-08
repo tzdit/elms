@@ -7,21 +7,8 @@ use yii\helpers\Html;
 use common\helpers\Custom;
 use common\helpers\Security;
 use common\models\Assignment;
-use common\models\StudentCourse;
-use common\models\Submit;
-use common\models\Material;
 use common\models\ExtAssess;
-use common\models\ProgramCourse;
-use common\models\Announcement;
-use frontend\models\UploadAssignment;
 use frontend\models\CA;
-use frontend\models\UploadTutorial;
-use frontend\models\PostAnnouncement;
-use frontend\models\UploadLab;
-use frontend\models\UploadMaterial;
-use frontend\models\StudentGroups;
-use frontend\models\External_assess;
-use frontend\models\StudentAssign;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
 use frontend\models\ClassRoomSecurity;
@@ -29,8 +16,10 @@ use frontend\models\ClassRoomSecurity;
 /* @var $this yii\web\View */
 $this->params['courseTitle'] =$cadata['title'];
 $this->title =$cadata['title'];
+$cid=ClassRoomSecurity::encrypt(yii::$app->session->get('ccode'));
 $this->params['breadcrumbs'] = [
-  ['label'=>'class-dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>""])],
+  ['label'=>'class-dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>$cid])],
+  ['label'=>'CA generator', 'url'=>Url::to(['/instructor/class-ca-generator', 'cid'=>$cid])],
   ['label'=>$this->title]
 ];
 
@@ -52,7 +41,7 @@ $this->params['breadcrumbs'] = [
     <div class="card shadow">
     <div class="card-header p-2" id="heading">
     <div class="row">
-    <span class="text-primary pl-4"><i class="fa fa-plus-circle"></i> Add New record</span>
+    <span class="text-primary pl-3"><i class="fa fa-plus-circle"></i> Add New record</span>
    </div>
     </div>
     <div class="card-body">
@@ -69,12 +58,11 @@ $this->params['breadcrumbs'] = [
          <div class="bg-primary row mb-4 pl-2">Assignments</div>
          <div class="row">
          <div class="col-md-12">
-         <label for="assignment" class="text-sm" style="color:grey">assignment X</label><input type="text" class="form-group form-control"></input>
            <?php
            for($ass=0;$ass<count($assignments);$ass++)
            {
              ?>
-              <label for="assignment" class="text-sm" style="color:grey">assignment X</label><input type="text" class="form-group form-control"></input>
+              <label for="assignment" class="text-sm" style="color:grey"><?=(Assignment::findOne($assignments[$ass]))->assName?></label><input type="text" class="form-group form-control"></input>
              <?php
            }
            ?>
@@ -96,7 +84,7 @@ $this->params['breadcrumbs'] = [
            for($ass=0;$ass<count($labs);$ass++)
            {
              ?>
-              <label for="assignment" class="text-sm" style="color:grey">assignment X</label><input type="text" class="form-group form-control"></input>
+              <label for="assignment" class="text-sm" style="color:grey"><?=(Assignment::findOne($labs[$ass]))->assName?></label><input type="text" class="form-group form-control"></input>
              <?php
            }
            ?>
@@ -118,7 +106,7 @@ $this->params['breadcrumbs'] = [
            for($ass=0;$ass<count($others);$ass++)
            {
              ?>
-              <label for="assignment" class="text-sm" style="color:grey">assignment X</label><input type="text" class="form-group form-control"></input>
+              <label for="assignment" class="text-sm" style="color:grey"><?=(ExtAssess::findOne($others[$ass]))->title?></label><input type="text" class="form-group form-control"></input>
              <?php
            }
            ?>

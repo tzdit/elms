@@ -27,7 +27,7 @@ use yii\helpers\ArrayHelper;
 use frontend\models\ClassRoomSecurity;
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =$cid." CA Generator";
+$this->params['courseTitle'] ="<i class='fas fa-cogs'></i> ".$cid." CA Generator";
 $this->title =$cid." CA Generator";
 $this->params['breadcrumbs'] = [
   ['label'=>'class-dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>ClassRoomSecurity::encrypt($cid)])],

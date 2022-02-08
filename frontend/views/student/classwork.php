@@ -140,7 +140,18 @@ $this->params['breadcrumbs'] = [
                                       </a>
 
                                   </div>
-                             </div>
+
+                                  <div class="col-sm-3 col-12">
+
+                                            <a href="<?=Url::to(['student/my-ca'])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
+                                                <img src="<?=  Yii::getAlias('@web/img/ca3.png')?>" height="35px" width="35px"/>
+                                                <h5>
+                                                    My CA
+                                                </h5>
+                                            </a>
+
+                                            </div>
+                                  </div>
           <!--  ################################### classwork dashboard end ######################################################### -->
 
 

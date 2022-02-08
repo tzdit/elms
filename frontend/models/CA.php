@@ -16,6 +16,7 @@ use PhpOffice\PhpSpreadsheet\Reader\Html;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Mpdf\Mpdf;
+use common\models\Student;
 
 class CA extends Model{
     public $otherAssessments=[];
@@ -103,6 +104,97 @@ class CA extends Model{
 
    
       
+    }
+
+    private function singleCAbuilder()
+    {
+     
+      $this->setSingleCaScorer();
+      $student_with_marks=$this->allstudents;
+      $singleCa=[];
+      $caheader="<tr style='background-color:#f0fbff;text-align:center;'><td rowspan=2>Registration number</td>";
+      $ca_sub_header="<tr style='background-color:#f0fbff;text-align:center;'>";
+      $rows=[];
+      $catable="<table class='table-bordered table-hover shadow text-sm' style='width:100%' cellspacing=0 autosize=2 text-align='center' align='center'>";
+      if(!empty($this->Assignments) && !empty($this->allstudents)){
+        $student_with_marks=$this->asscumul($this->Assignments,$this->allstudents);
+        $caheader.=$this->catable_header($student_with_marks,"Assignments");
+        $ca_sub_header.=$this->ca_subheader($student_with_marks,"Assignments");
+        $rows=$this->carows($student_with_marks,"Assignments",$rows);
+      }
+      if(!empty($this->LabAssignments) && !empty($student_with_marks)){
+        $student_with_marks=$this->labcumul($this->LabAssignments,$student_with_marks);
+        $caheader.=$this->catable_header($student_with_marks,"Lab Assignments");
+        $ca_sub_header.=$this->ca_subheader($student_with_marks,"Lab Assignments");
+        $rows=$this->carows($student_with_marks,"Lab Assignments",$rows);
+      }
+      if(!empty($this->otherAssessments) && !empty($student_with_marks)){
+        $student_with_marks=$this->otherAssessCumul($this->otherAssessments,$student_with_marks);
+        $caheader.=$this->catable_header($student_with_marks,"Other Assessments");
+        $ca_sub_header.=$this->ca_subheader($student_with_marks,"Other Assessments");
+        $rows=$this->carows($student_with_marks,"Other Assessments",$rows);
+      }
+    
+      $grandtotal=$this->labGrandMax+$this->assGrandMax+$this->otherGrandMax;
+      $caheader.="<td rowspan=2>Grand Total /".$grandtotal."</td>";
+      $caheader.="</tr>";
+      $ca_sub_header.="</tr>";
+      $catable.=$caheader;
+      $catable.=$ca_sub_header;
+      //the grandtotals
+      $rows=empty($rows)?null:$this->addGrandTotals($rows,$this->addEncompletes($student_with_marks));
+      //closing the rows tags and adding them to the table
+      if($rows!=null)
+      {
+      for($r=0;$r<count($rows);$r++)
+      {
+        $rows[$r]=$rows[$r]."</tr>";
+        
+        $catable.=$rows[$r];
+      }
+      
+      
+      $catable.="</table>";
+      $singleCa['grandscore']=$this->singleCaGrandTotal($this->addEncompletes($student_with_marks));
+      $singleCa['detailed']=$catable;
+      return $singleCa;
+    }
+    else
+    {
+      return null;
+    }
+      
+    }
+
+    public function getMyCa()
+    {
+      $allcas=$this->findAllCAs();
+      if($allcas==null || empty($allcas)){return null;}
+      $mycas=[];
+      foreach($allcas as $index=>$ca)
+      {
+        if(!$this->isCaPublished($index)){continue;}
+        $this->loadCAdata($index);
+        $mycas[$ca]['details']=($this->singleCAbuilder())['detailed'];
+        $mycas[$ca]['grandscore']=($this->singleCAbuilder())['grandscore'];
+        $mycas[$ca]['grandmax']=$this->labGrandMax+$this->assGrandMax+$this->otherGrandMax;
+      }
+      if(empty($mycas)){return null;}
+      return $mycas;
+    }
+
+    private function isCaPublished($ca)
+    {
+      if($this->readCAdata($ca)==null){return false;}
+      if(!isset(($this->readCAdata($ca))['CA']['published'])){return false;}
+      if(($this->readCAdata($ca))['CA']['published']==true)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
     }
     private function ca_subheader($data,$type)
     {
@@ -201,7 +293,7 @@ class CA extends Model{
        $rec="";
       
        $grandma=$data[$reg]["GrandTotal"];
-       $rec.="<td>{$grandma}</td>"; 
+       $rec.="<td class='grandscore'>{$grandma}</td>"; 
        array_push($grandmax,$rec);
      }
      for($g=0;$g<count($prevrows);$g++)
@@ -212,6 +304,18 @@ class CA extends Model{
      }
    
      return  $prevrows;
+    }
+
+    private function singleCaGrandTotal($data)
+    {
+     $grandma=0;
+   
+     foreach($data as $reg=>$assess)
+     {
+       $grandma=$data[$reg]["GrandTotal"];
+     }
+
+     return  $grandma;
     }
     private function asscumul($assign,$stud)
     {
@@ -662,6 +766,28 @@ class CA extends Model{
       $this->allstudents=$students_for_assessments;
      
     
+    }
+
+    private function setSingleCaScorer()
+    {
+      $students_for_assessments=[];
+      $student_id=yii::$app->user->id;
+      $student=(Student::find()->where(['userID'=>$student_id])->one())->reg_no;
+
+     
+      if(!empty($this->Assignments)){
+        $students_for_assessments[$student]["Assignments"]["total"]=null;
+        $students_for_assessments[$student]["Assignments"]["max"]=null;
+      }
+      if(!empty($this->LabAssignments)){
+        $students_for_assessments[$student]["Lab Assignments"]["total"]=null;
+        $students_for_assessments[$student]["Lab Assignments"]["max"]=null;
+      }
+      if(!empty($this->otherAssessments)){
+        $students_for_assessments[$student]["Other Assessments"]["total"]=null;
+        $students_for_assessments[$student]["Other Assessments"]["max"]=null;
+      }
+      $this->allstudents=$students_for_assessments;
     }
     private function CA2Exceldownloader($ca)
     {
@@ -1178,6 +1304,13 @@ class CA extends Model{
     {
       return false;
     }
+  }
+
+  public function findStudentCaScore()
+  {
+    $allCas=$this->findAllCAs();
+
+
   }
 }
 ?>

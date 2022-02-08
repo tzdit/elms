@@ -187,12 +187,13 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrapper">
+
      <!-- Preloader -->
-  <!-- <div class="preloader flex-column justify-content-center align-items-center">
+  <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="<?php echo Yii::getAlias('@web/img/logo.png'); ?>" alt="LOGO" height="60" width="60">
-  </div> -->
+  </div> 
      <!-- Navbar -->
-  <?= $this->render('/includes/header') ?>
+     <?= $this->render('/includes/header') ?>
   <!-- /.navbar -->
     <!-- Main Sidebar Container -->
     <!-- also this you may trie these 082B45  # #0062CC
@@ -220,7 +221,7 @@ AppAsset::register($this);
     <div class="content-header border-bottom p-2 show-sm">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6 text-secondary font-weight-bold d-none d-md-block" style="font-family:'Times New Roman'; font-size:20px;">
+          <div class="col-sm-6 text-secondary font-weight-bold d-none d-md-block" style="font-family:'Times New Roman'; font-size:17px;">
            <?= Course::widget([
              'courseTitle'=>isset($this->params['courseTitle'])? $this->params['courseTitle']: ''
            ])?>

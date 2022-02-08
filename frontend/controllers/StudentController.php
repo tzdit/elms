@@ -24,6 +24,7 @@ use frontend\models\GroupAssSubmit;
 use frontend\models\CarryCourseSearch;
 use common\models\StudentGroup;
 use yii\helpers\ArrayHelper;
+use frontend\models\CA;
 use Yii;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -49,7 +50,7 @@ class StudentController extends \yii\web\Controller
                             'resubmit','videos','announcement','group_assignment_submit',
                             'quiz_answer','quiz_view','group_resubmit','assignment',
                             'group-assignment','labs','tutorial','course-materials','returned',
-                            'course-announcement','quiz','student-group','add-group-member', 'create-group','classmates'
+                            'course-announcement','quiz','student-group','add-group-member', 'create-group','classmates','my-ca'
                         ],
                         
 
@@ -151,7 +152,15 @@ class StudentController extends \yii\web\Controller
             return $this->render('index', ['courses'=>$courses]);
     }
 
+  /////////////////CA//////////////////////
 
+  public function actionMyCa()
+  {
+
+   return $this->render('myca',['myca'=>(new CA)->getMyCa()]);
+
+
+  }
 
 
  ############################## assignments in each course  #######################################################
