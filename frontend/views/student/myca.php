@@ -14,8 +14,8 @@ use frontend\models\AddPartner;
 
 /* @var $this yii\web\View */
 $cid=yii::$app->session->get('ccode');
-$this->params['courseTitle'] =$cid. " Classmates";
-$this->title = $cid. " Classmates";
+$this->params['courseTitle'] =$cid. " CAs";
+$this->title = $cid. " CAs";
 $this->params['breadcrumbs'] = [
   ['label'=>$this->title]
 ];
