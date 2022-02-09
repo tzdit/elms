@@ -607,14 +607,8 @@ public $defaultAction = 'dashboard';
    
 public function actionEditExtAssrecordView($recordid)
 {
-$secretKey=Yii::$app->params['app.dataEncryptionKey'];
-$recordid=Yii::$app->getSecurity()->decryptByPassword($recordid, $secretKey);
   $record=StudentExtAssess::findOne($recordid);
-
-  $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-  $recordid=Yii::$app->getSecurity()->encryptByPassword($recordid, $secretKey); 
-
-  return $this->render('editassessrecord',['recordid'=>$recordid,'regno'=>$record->reg_no,'score'=>$record->score]);
+  return $this->render('editassessrecord',['recordid'=>ClassRoomSecurity::encrypt($recordid),'regno'=>$record->reg_no,'score'=>$record->score]);
 }
 public function actionEditExtAssrecord($recordid)
 {

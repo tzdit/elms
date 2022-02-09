@@ -58,7 +58,7 @@
                     <td><?=  $record->reg_no; ?></td>
                     <td><?=  $record->score; ?></td>
                     <td>
-                    <?= Html::a('<i class="fa fa-edit float-right" style="font-size:18px"></i>', ['edit-ext-assrecord-view','recordid'=>ClassRoomSecurity::encrypt($record->student_assess_id)]) ?>
+                    <?= Html::a('<i class="fa fa-edit float-right" style="font-size:18px"></i>', ['edit-ext-assrecord-view','recordid'=>$record->student_assess_id]) ?>
                    <a href="#" id="deleterecord" recordid=<?=$record->student_assess_id?>><i class="fa fa-trash float-right" style="font-size:18px"></i></a>
                     
                   </td>		
@@ -79,7 +79,7 @@
       <?php 
 $recmodel= new AddAssessRecord();
 ?>
-<?= $this->render('addassrecord', ['assessmodel'=>$recmodel,'assessid'=>$assid]) ?>
+<?= $this->render('addassrecord', ['assessmodel'=>$recmodel,'assessid'=>ClassRoomSecurity::decrypt($assid)]) ?>
 
 <?php
   $script = <<<JS
