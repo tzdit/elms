@@ -17,7 +17,7 @@
      ['label'=>'External Assessments', 'url'=>Url::to(['/instructor/class-ext-assessments', 'cid'=>$cid])],
      ['label'=>'Assessment view']
    ];
-   $assessment=ExtAssess::findOne($assid)->title;
+   $assessment=ExtAssess::findOne(ClassRoomSecurity::decrypt($assid))->title;
    $this->params['courseTitle'] = $cid." ".$assessment;
    $this->title=$cid." ".$assessment;
    $no=0;
