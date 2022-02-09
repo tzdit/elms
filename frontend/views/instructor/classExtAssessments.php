@@ -24,10 +24,11 @@ use frontend\models\External_assess;
 use frontend\models\StudentAssign;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
+use frontend\models\ClassRoomSecurity;
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =$cid." External Assessments";
-$this->title =$cid." External Assessments";
+$this->params['courseTitle'] =ClassRoomSecurity::decrypt($cid)." External Assessments";
+$this->title =ClassRoomSecurity::decrypt($cid)." External Assessments";
 $this->params['breadcrumbs'] = [
   ['label'=>'class dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>$cid])],
   ['label'=>$this->title]
@@ -63,7 +64,7 @@ $this->params['breadcrumbs'] = [
             <div class="col-md-12">
             <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#external_assess" data-toggle="modal" style="margin-left:5px"><i class="fas fa-plus"  ></i>New assessment</a>
             
-            <?= Html::a('<i class="fas fa-download" ></i>Download template', ['download-extassess-template','coursecode'=>$cid],['class'=>'btn btn-sm btn-primary btn-rounded float-right mb-2']) ?>
+            <?= Html::a('<i class="fas fa-download" ></i>Download template', ['download-extassess-template','coursecode'=>ClassRoomSecurity::decrypt($cid)],['class'=>'btn btn-sm btn-primary btn-rounded float-right mb-2']) ?>
             </div>
          
                   
@@ -72,7 +73,7 @@ $this->params['breadcrumbs'] = [
    <div class="container-fluid">
    <?php
   
-   $assessments =ExtAssess::find()->where(['course_code'=>$cid])->all();
+   $assessments =ExtAssess::find()->where(['course_code'=>ClassRoomSecurity::decrypt($cid)])->all();
    foreach($assessments as $assess)
    {
      ?>
@@ -109,35 +110,11 @@ $this->params['breadcrumbs'] = [
    </div>
    </div>
     
-<!--  ###################################render model to create_assignment ###########################################-->
-<?php 
-$assmodel = new UploadAssignment();
-?>
-<?= $this->render('assignments/create_assignment', ['assmodel'=>$assmodel, 'ccode'=>$cid]) ?>
 
-<!--  ###################################render model to Create_tutorial ##############################################-->
-<?php 
-$tutmodel = new UploadTutorial();
-?>
-<?= $this->render('tutorials/create_tutorial', ['tutmodel'=>$tutmodel, 'ccode'=>$cid]) ?>
-
-<!--  ###################################render model to Create_lab ####################################################-->
-<?php 
-$labmodel = new UploadLab();
-?>
-<?= $this->render('labs/create_lab', ['labmodel'=>$labmodel, 'ccode'=>$cid]) ?>
-
-<!-- ############################################## the student adding modal ######################################## -->
-<?php 
-$assignstudentsmodel = new StudentAssign();
-?>
-<?= $this->render('assignstudents', ['assignstudentsmodel'=>$assignstudentsmodel, 'ccode'=>$cid]) ?>
-
-<!--  ###################################render model to create_material ####################################################-->
 <?php
 $assessmodel = new External_assess();
 ?>
-<?= $this->render('assessupload', ['assessmodel'=>$assessmodel, 'ccode'=>$cid]) ?>
+<?= $this->render('assessupload', ['assessmodel'=>$assessmodel, 'ccode'=>ClassRoomSecurity::decrypt($cid)]) ?>
 <!--  ###################################new announce modal ####################################################-->
 <?php 
 $announcemodel = new PostAnnouncement();

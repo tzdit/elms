@@ -1091,9 +1091,6 @@ public function actionClassTutorials($cid)
 
 public function actionClassExtAssessments($cid)
 {
-    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
-
     return $this->render('classExtAssessments',['cid'=>$cid]);
 
 }

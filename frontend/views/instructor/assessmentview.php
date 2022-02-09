@@ -14,7 +14,7 @@
    $this->title = 'assessment';
    $cid=yii::$app->session->get('ccode');
    $this->params['breadcrumbs'] = [
-     ['label'=>'External Assessments', 'url'=>Url::to(['/instructor/class-ext-assessments', 'cid'=>$cid])],
+     ['label'=>'External Assessments', 'url'=>Url::to(['/instructor/class-ext-assessments', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
      ['label'=>'Assessment view']
    ];
    $assessment=ExtAssess::findOne(ClassRoomSecurity::decrypt($assid))->title;
