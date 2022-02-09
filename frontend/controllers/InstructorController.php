@@ -1629,7 +1629,7 @@ public function actionTogglePanelist($assignment)
 public function actionViewAssessment($assid)
 {
     $records=StudentExtAssess::find()->where(['assessID'=>ClassRoomSecurity::decrypt($assid)])->all();
-    return $this->render('assessmentview',['records'=>$records]);  
+    return $this->render('assessmentview',['records'=>$records,'assid'=>$assid]);  
 
 }
 public function actionDeleteExtAssrecord($recordid)
