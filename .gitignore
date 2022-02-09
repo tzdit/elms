@@ -46,3 +46,5 @@ phpunit.phar
 #ignoring classroom uploading folder
 /frontend/web/storage/submit/*
 /frontend/web/storage/temp/*
+/frontend/web/storage/CAs/*
+/frontend/web/storage
