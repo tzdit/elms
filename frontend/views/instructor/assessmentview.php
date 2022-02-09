@@ -16,9 +16,6 @@
      ['label'=>'External Assessments', 'url'=>Url::to(['/instructor/class-ext-assessments', 'cid'=>$cid])],
      ['label'=>'Assessment view']
    ];
-   $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-   $assid=Yii::$app->getSecurity()->decryptByPassword($assid, $secretKey);
-   $records=StudentExtAssess::find()->where(['assessID'=>$assid])->all();
    $assessment=ExtAssess::findOne($assid)->title;
    $this->params['courseTitle'] = $cid." ".$assessment;
    $this->title=$cid." ".$assessment;
@@ -60,11 +57,7 @@
                     <td><?=  $record->reg_no; ?></td>
                     <td><?=  $record->score; ?></td>
                     <td>
-                    <?php 
-                    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-                    $encryptedassess =Yii::$app->getSecurity()->encryptByPassword($record->student_assess_id, $secretKey);
-                    ?>
-                    <?= Html::a('<i class="fa fa-edit float-right" style="font-size:18px"></i>', ['edit-ext-assrecord-view','recordid'=>$encryptedassess]) ?>
+                    <?= Html::a('<i class="fa fa-edit float-right" style="font-size:18px"></i>', ['edit-ext-assrecord-view','recordid'=>$record->student_assess_id]) ?>
                    <a href="#" id="deleterecord" recordid=<?=$record->student_assess_id?>><i class="fa fa-trash float-right" style="font-size:18px"></i></a>
                     
                   </td>		

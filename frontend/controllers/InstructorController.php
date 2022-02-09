@@ -1628,13 +1628,17 @@ public function actionTogglePanelist($assignment)
 }
 public function actionViewAssessment($assid)
 {
-
-    return $this->render('assessmentview',['assid'=>$assid]);  
+    $records=StudentExtAssess::find()->where(['assessID'=>ClassRoomSecurity::decrypt($assid)])->all();
+    foreach($records as $record)
+    {
+        $record->student_assess_id=ClassRoomSecurity::encrypt($record->student_assess_id);
+    }
+    return $this->render('assessmentview',['records'=>$records]);  
 
 }
 public function actionDeleteExtAssrecord($recordid)
 {
-  $record=StudentExtAssess::findOne($recordid);
+  $record=StudentExtAssess::findOne(ClassRoomSecurity::decrypt($recordid));
   if($record->delete())
   {
     Yii::$app->session->setFlash('success', 'deleted successfully');
