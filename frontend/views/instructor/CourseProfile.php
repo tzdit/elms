@@ -21,7 +21,80 @@ $this->params['breadcrumbs'] = [
             <!-- Content Wrapper. Contains page content -->
 
             <div class="container-fluid">
-                <!-- Info boxes -->
+                <!-- start -->
+            <div class="row">
+            <div class="col-md-12">
+            <!-- Widget: user widget style 1 -->
+            <div class="card card-widget widget-user">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header bg-info">
+                <h3 class="widget-user-username"><?= $courseName ;?></h3>
+                <h5 class="widget-user-desc"><?= $this->title = $cid ;?></h5>
+              </div>
+              <div class="widget-user-image">
+              <img class="animation__shake" src="<?php echo Yii::getAlias('@web/img/book4.png'); ?>" alt="book" height="60" width="60">
+              </div>
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-sm-2 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header"><?= $AssignmentCount;?></h5>
+                      <span class="description-text"><i class="fas fa-book-reader"></i> ASSIGNMENT(S)</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-2 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header"><?= $TutorialCount;?></h5>
+                      <span class="description-text"><i class="fas fa-chalkboard"></i> TUTORIAL(S)</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-2 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header"><?= $LabCount;?></h5>
+                      <span class="description-text"><i class="fas fa-microscope"></i> LAB(S)</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-2 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header"><?= $MaterialCount;?></h5>
+                      <span class="description-text"><i class="fas fa-book"></i> MATERIAL(S)</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-2 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header"><?= $InstructorCount;?></h5>
+                      <span class="description-text"><i class="fas fa-user-friends" aria-hidden="true"></i> INSTRUCTOR(S)</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-2">
+                    <div class="description-block">
+                      <h5 class="description-header"><?= $StudentCount;?></h5>
+                      <span class="description-text"><i class="fas fa-user-graduate"></i> STUDENT(S)</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  
+                </div>
+                <!-- /.row -->
+              </div>
+            </div>
+            <!-- /.widget-user -->
+          </div>
+          <!-- /.col -->
+</div>
+
+                <!-- end -->
+                
                 <div class="row">
                     <?php
                     $secretKey=Yii::$app->params['app.dataEncryptionKey'];

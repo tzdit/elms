@@ -920,15 +920,16 @@ public function actionViewCoz($cid)
     $StudentCount = count($students);
 
     // GET COZ
-    $courses = Course::find()->all();
+    $course = Course::findOne($cid);
+    $courseName = $course->course_name;
 
     
 
-    return $this->render('CourseProfile', ['cid'=>$cid, 'courses'=>$courses,'assignments'=>$assignments, 'AssignmentCount'=>$AssignmentCount,
+    return $this->render('CourseProfile', ['cid'=>$cid, 'assignments'=>$assignments, 'AssignmentCount'=>$AssignmentCount,
     'labs'=>$labs, 'LabCount'=>$LabCount, 'modules'=>$modules, 'MaterialCount'=>$MaterialCount, 'announcements'=>$announcements,
         'AnnouncementCount'=>$AnnouncementCount, 'assessments'=>$assessments, 'ExtAssessmentCount'=>$ExtAssessmentCount,
         'students'=>$students, 'StudentCount'=>$StudentCount, 'instructors'=>$instructors, 'InstructorCount'=>$InstructorCount, 
-    'TutorialCount'=>$TutorialCount]);
+    'TutorialCount'=>$TutorialCount, 'courseName'=>$courseName]);
 }
 
 public function actionCourseUpdateData($cozzid)
