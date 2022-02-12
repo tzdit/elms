@@ -30,10 +30,8 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
           <a href="<?=Url::to(['/instructor/class-announcements','cid'=>$cid])?>">
             <div class="info-box">
               <span class="info-box-icon "><i class="fa fa-bullhorn"></i></span>
-
               <div class="info-box-content">
                 <span class="info-box-text">Announcements</span>
-           
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -65,10 +63,8 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
           <a href="<?=Url::to(['/instructor/class-assignments','cid'=>$cid])?>">
             <div class="info-box mb-3">
               <span class="info-box-icon"><i class="fas fa-book-reader"></i></span>
-
               <div class="info-box-content">
                 <span class="info-box-text">Assignments</span>
-                
               </div>
               <!-- /.info-box-content -->
             </div>

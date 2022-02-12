@@ -5,11 +5,9 @@ use yii\helpers\Html;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use common\models\Program;
-
-
-
-
+use yii\helpers\Url;
 ?>
+
 <!-- <div class="col-md-6">
         </div>
             <div class="col-md-6">
@@ -111,13 +109,14 @@ use common\models\Program;
                  
                 </h3>
                 
+                <a href="<?= Url::toRoute('/instructor/assign-course') ?>" class="btn btn-sm btn-primary btn-rounded float-right m-0 col-xs-12 ml-2"><i class="fas fa-plus" ></i>Assign Course</a> 
                 <a href="#" class="btn btn-sm btn-primary btn-rounded float-right m-0 col-xs-12" data-target="#createCourseModal" data-toggle="modal"><i class="fas fa-plus" ></i>Create Course</a>
               
               </div><!-- /.card-header -->
               <div class="card-body">
             <table class="table table-bordered table-striped table-hover" id="CourseList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
             <thead>
-            <tr><th width="1%">#</th><th>Course Name</th><th>Course Code</th><th>Course Credit</th><th>Course Semester</th><th>Course Status</th><th>Programs</th><th width="10%">Action</th></tr>
+            <tr><th width="1%">#</th><th>Course Name</th><th>Course Code</th><th>Course Credit</th><th>Course Semester</th><th>Course Status</th><th>Programs</th><th width="15%">Action</th></tr>
             
             </thead>
             <tbody>
@@ -133,7 +132,7 @@ use common\models\Program;
             <td><?= $course->course_status ?></td>
             <td>
             <?php if($course -> programCourses == NULL):  ?>
-              <center><i style="color:blue;"> No Program Assigned!!! </i></center>
+              <center><span class="badge badge-primary">Not Assigned</span></center>
             <?php else: ?> 
             <?php foreach($course -> programCourses as $progcoz): ?>
              <b><?= $progcoz->programCode ?></b>,
@@ -142,12 +141,9 @@ use common\models\Program;
             </td>
             <td>
 
-                  <?php 
-                   // $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-                    //$encryptedcoz =Yii::$app->getSecurity()->encryptByPassword($course->course_code, $secretKey);
-                  ?>
                   
-                  <?= Html::a('<i class="fas fa-edit"></i>',['updatecoz', 'cozzid'=>$course->course_code], ['class'=>'btn btn-info btn-sm m-0'])?> 
+                <?= Html::a('<i class="fas fa-eye"></i>',['view-coz', 'cid'=>$course->course_code], ['class'=>'btn btn-success btn-sm m-0'])?>
+                <?= Html::a('<i class="fas fa-edit"></i>',['updatecoz', 'cozzid'=>$course->course_code], ['class'=>'btn btn-info btn-sm m-0'])?>
             <a href="#" cozid="<?=$course->course_code?>" class="btn btn-sm btn-danger float-right ml-2 coursedel"><span><i class="fas fa-trash"></i></span></a>
             
             </td>
