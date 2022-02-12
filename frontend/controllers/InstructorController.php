@@ -609,14 +609,8 @@ public $defaultAction = 'dashboard';
    
 public function actionEditExtAssrecordView($recordid)
 {
-$secretKey=Yii::$app->params['app.dataEncryptionKey'];
-$recordid=Yii::$app->getSecurity()->decryptByPassword($recordid, $secretKey);
   $record=StudentExtAssess::findOne($recordid);
-
-  $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-  $recordid=Yii::$app->getSecurity()->encryptByPassword($recordid, $secretKey); 
-
-  return $this->render('editassessrecord',['recordid'=>$recordid,'regno'=>$record->reg_no,'score'=>$record->score]);
+  return $this->render('editassessrecord',['recordid'=>ClassRoomSecurity::encrypt($recordid),'regno'=>$record->reg_no,'score'=>$record->score]);
 }
 public function actionEditExtAssrecord($recordid)
 {
@@ -1152,9 +1146,6 @@ public function actionClassTutorials($cid)
 
 public function actionClassExtAssessments($cid)
 {
-    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
-
     return $this->render('classExtAssessments',['cid'=>$cid]);
 
 }
@@ -1683,8 +1674,8 @@ public function actionTogglePanelist($assignment)
 }
 public function actionViewAssessment($assid)
 {
-
-    return $this->render('assessmentview',['assid'=>$assid]);  
+    $records=StudentExtAssess::find()->where(['assessID'=>ClassRoomSecurity::decrypt($assid)])->all();
+    return $this->render('assessmentview',['records'=>$records,'assid'=>$assid]);  
 
 }
 public function actionDeleteExtAssrecord($recordid)
