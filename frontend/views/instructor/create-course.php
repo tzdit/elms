@@ -124,7 +124,10 @@ use yii\helpers\Url;
             <?php foreach($courses as $course): ?>
             <tr>
             <td><?= ++$i; ?></td>
-            <td><?= $course->course_name ?></td>
+            <td><a href="<?=Url::toRoute(['instructor/view-coz', 'cid'=>$course->course_code])?>">
+              <?= $course->course_name ?>
+            </a>
+            </td>
             <td><?= $course->course_code ?></td>
             <td><?= $course->course_credit ?></td>
             <td><?= $course->course_semester ?></td>
