@@ -143,9 +143,8 @@ use yii\helpers\Url;
             <?php endif; ?>
             </td>
             <td>
-
                   
-                <?= Html::a('<i class="fas fa-eye"></i>',['view-coz', 'cid'=>$course->course_code], ['class'=>'btn btn-success btn-sm m-0'])?>
+                <?= Html::a('<i class="fas fa-eye inner" data-toggle="tooltip" data-title="Course Profile"></i>',['view-coz', 'cid'=>$course->course_code], ['class'=>'btn btn-success btn-sm m-0'])?>
                 <?= Html::a('<i class="fas fa-edit"></i>',['updatecoz', 'cozzid'=>$course->course_code], ['class'=>'btn btn-info btn-sm m-0'])?>
             <a href="#" cozid="<?=$course->course_code?>" class="btn btn-sm btn-danger float-right ml-2 coursedel"><span><i class="fas fa-trash"></i></span></a>
             
