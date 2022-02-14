@@ -36,6 +36,7 @@ use frontend\models\StudentGroups;
 use frontend\models\TemplateDownloader;
 use frontend\models\StudentTemplateDownload;
 use frontend\models\CA;
+use frontend\models\CourseStudents;
 use frontend\models\CreateChat;
 use frontend\models\CA_previewer;
 use frontend\models\UpdateCourse;
@@ -240,6 +241,7 @@ public $defaultAction = 'dashboard';
                             'updatelab',
                             'updateprog',
                             'updatecoz',
+                            'view-coz',
                             'add-partner',
                             'view-assessment',
                             'add-assess-record',
@@ -878,6 +880,60 @@ public function actionUpdatecoz($cozzid)
     'depts'=>$depts, 'departments'=>$departments]);
 }
 
+public function actionViewCoz($cid)
+{
+    $yearID=(yii::$app->session->get('currentAcademicYear'))->yearID;
+
+    // get Assignments
+    $assignments = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid,'yearID'=>$yearID])->orderBy([
+        'assID' => SORT_DESC ])->all();
+    $AssignmentCount = count($assignments);
+
+    // get tutorials
+    $tutorials = Assignment::find()->where(['assNature' => 'tutorial', 'course_code' => $cid, 'yearID'=>$yearID ])->orderBy([
+        'assID' => SORT_DESC ])->all();
+    $TutorialCount = count($tutorials);
+
+    // get Labs
+    $labs = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid, 'yearID'=>$yearID ])->orderBy([
+        'assID' => SORT_DESC ])->all();
+    $LabCount = count($labs);
+
+    // get Materials
+    $modules = Module::find()->where(['course_code' => $cid,'yearID'=>$yearID])->orderBy([
+        'moduleID' => SORT_DESC ])->all();
+    $MaterialCount = count($modules);
+
+    // get Announcement
+    $announcements=Announcement::find()->where(['course_code'=>$cid])->orderBy([
+        'annID' => SORT_DESC ])->all();
+    $AnnouncementCount = count($announcements);
+
+    // get Instructors
+    $instructors=InstructorCourse::find()->where(['course_code'=>$cid])->all();
+    $InstructorCount = count($instructors);
+
+    //get External Assessment
+    $assessments =ExtAssess::find()->where(['course_code'=>$cid])->all();
+    $ExtAssessmentCount = count($assessments);
+
+    // get Course Student
+    $students=CourseStudents::getClassStudents($cid);
+    $StudentCount = count($students);
+
+    // GET COZ
+    $course = Course::findOne($cid);
+    $courseName = $course->course_name;
+
+    
+
+    return $this->render('CourseProfile', ['cid'=>$cid, 'assignments'=>$assignments, 'AssignmentCount'=>$AssignmentCount,
+    'labs'=>$labs, 'LabCount'=>$LabCount, 'modules'=>$modules, 'MaterialCount'=>$MaterialCount, 'announcements'=>$announcements,
+        'AnnouncementCount'=>$AnnouncementCount, 'assessments'=>$assessments, 'ExtAssessmentCount'=>$ExtAssessmentCount,
+        'students'=>$students, 'StudentCount'=>$StudentCount, 'instructors'=>$instructors, 'InstructorCount'=>$InstructorCount, 
+    'TutorialCount'=>$TutorialCount, 'courseName'=>$courseName]);
+}
+
 public function actionCourseUpdateData($cozzid)
 {
     
@@ -939,7 +995,7 @@ public function actionClassDashboard($cid)
 
 public function actionClassAnnouncements($cid)
 {
-   
+
     return $this->render('announcements', ['cid'=>$cid]);
 
 }
