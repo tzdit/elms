@@ -12,15 +12,15 @@ $this->params['breadcrumbs'] = [
     ['label'=>$this->title]
 ];
 
+
 ?>
     <div class="site-index">
-
-
-
+   
         <div class="body-content">
             <!-- Content Wrapper. Contains page content -->
 
             <div class="container-fluid">
+              
                 <!-- start -->
             <div class="row">
             <div class="col-md-12">
@@ -36,51 +36,89 @@ $this->params['breadcrumbs'] = [
               </div>
               <div class="card-footer">
                 <div class="row">
-                  <div class="col-sm-2 border-right">
+                <?php
+                    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+                    $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
+                    ?>
+                
+                  <div class="col-sm-3 border-right">
+                  <a href="<?=Url::to(['/instructor/class-assignments','cid'=>$cid])?>">
                     <div class="description-block">
                       <h5 class="description-header"><?= $AssignmentCount;?></h5>
                       <span class="description-text"><i class="fas fa-book-reader"></i> ASSIGNMENT(S)</span>
                     </div>
+                    </a>
                     <!-- /.description-block -->
                   </div>
+                
                   <!-- /.col -->
-                  <div class="col-sm-2 border-right">
+                  <div class="col-sm-3 border-right">
+                  <a href="<?=Url::to(['/instructor/class-tutorials','cid'=>$cid])?>">
                     <div class="description-block">
                       <h5 class="description-header"><?= $TutorialCount;?></h5>
                       <span class="description-text"><i class="fas fa-chalkboard"></i> TUTORIAL(S)</span>
                     </div>
+                  </a>
                     <!-- /.description-block -->
                   </div>
                   <!-- /.col -->
-                  <div class="col-sm-2 border-right">
+                  <div class="col-sm-3 border-right">
+                  <a href="<?=Url::to(['/instructor/class-labs','cid'=>$cid])?>">
                     <div class="description-block">
                       <h5 class="description-header"><?= $LabCount;?></h5>
                       <span class="description-text"><i class="fas fa-microscope"></i> LAB(S)</span>
                     </div>
+                  </a>
                     <!-- /.description-block -->
                   </div>
                   <!-- /.col -->
-                  <div class="col-sm-2 border-right">
+                  <div class="col-sm-3 border-right">
+                  <a href="<?=Url::to(['/instructor/class-materials','cid'=>$cid])?>">
                     <div class="description-block">
                       <h5 class="description-header"><?= $MaterialCount;?></h5>
                       <span class="description-text"><i class="fas fa-book"></i> MATERIAL(S)</span>
                     </div>
+                  </a>
                     <!-- /.description-block -->
                   </div>
                   <!-- /.col -->
-                  <div class="col-sm-2 border-right">
+                  <div class="col-sm-3 border-right">
+                  <a href="<?=Url::to(['/instructor/partners'])?>">
                     <div class="description-block">
                       <h5 class="description-header"><?= $InstructorCount;?></h5>
                       <span class="description-text"><i class="fas fa-user-friends" aria-hidden="true"></i> INSTRUCTOR(S)</span>
                     </div>
+                  </a>
                     <!-- /.description-block -->
                   </div>
                   <!-- /.col -->
-                  <div class="col-sm-2">
+                  <div class="col-sm-3 border-right">
+                  <a href="<?=Url::to(['/instructor/class-announcements','cid'=>$cid])?>">
+                    <div class="description-block">
+                      <h5 class="description-header"><?= $AnnouncementCount;?></h5>
+                      <span class="description-text"><i class="fas fa-book"></i> ANNOUNCEMENT(S)</span>
+                    </div>
+                  </a>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-3 border-right">
+                  <a href="<?=Url::to(['/instructor/class-ext-assessments','cid'=>$cid])?>">
+                    <div class="description-block">
+                      <h5 class="description-header"><?= $ExtAssessmentCount;?></h5>
+                      <span class="description-text"><i class="fas fa-book"></i> EXTERNAL ASSESSMENT(S)</span>
+                    </div>
+                  </a>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-3">
+                  <a href="<?=Url::to(['/instructor/class-students','cid'=>$cid])?>">
                     <div class="description-block">
                       <h5 class="description-header"><?= $StudentCount;?></h5>
                       <span class="description-text"><i class="fas fa-user-graduate"></i> STUDENT(S)</span>
                     </div>
+                  </a>
                     <!-- /.description-block -->
                   </div>
                   
@@ -94,126 +132,6 @@ $this->params['breadcrumbs'] = [
 </div>
 
                 <!-- end -->
-                
-                <div class="row">
-                    <?php
-                    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-                    $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
-                    ?>
-
-                
-                
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <a href="<?=Url::to(['/instructor/class-assignments','cid'=>$cid])?>">
-                            <div class="info-box mb-3">
-                                <span class="info-box-icon"><i class="fas fa-book-reader"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Assignment(s): [<?= $AssignmentCount;?>]</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </a>
-                    </div>
-                    <!-- /.col -->
-
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <a href="<?=Url::to(['/instructor/class-labs','cid'=>$cid])?>">
-                            <div class="info-box mb-3">
-                                <span class="info-box-icon"><i class="fas fa-microscope"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Lab(s): [<?= $LabCount;?>]</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </a>
-                    </div>
-                    <!-- /.col -->
-
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <a href="<?=Url::to(['/instructor/class-tutorials','cid'=>$cid])?>">
-                            <div class="info-box">
-                             <span class="info-box-icon "><i class="fas fa-chalkboard"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Tutorial(s): [<?= $TutorialCount;?>]</span>
-                                </div>
-                                 <!-- /.info-box-content -->
-                            </div>
-                                   <!-- /.info-box -->
-                        </a>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <a href="<?=Url::to(['/instructor/class-materials','cid'=>$cid])?>">
-                            <div class="info-box mb-3">
-                                <span class="info-box-icon "><i class="fas fa-book"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Material(s): [<?= $MaterialCount;?>]</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </a>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <a href="<?=Url::to(['/instructor/class-announcements','cid'=>$cid])?>">
-                            <div class="info-box">
-                                <span class="info-box-icon "><i class="fa fa-bullhorn"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Announcement(s): [<?= $AnnouncementCount;?>]</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </a>
-                    </div>
-
-                    <!-- /.col -->
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <a href="<?=Url::to(['/instructor/class-ext-assessments','cid'=>$cid])?>">
-                            <div class="info-box mb-3">
-                                <span class="info-box-icon"><i class="fa fa-file-alt"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">External assessment(s): [<?= $ExtAssessmentCount;?>]</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </a>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <a href="<?=Url::to(['/instructor/class-students','cid'=>$cid])?>">
-                            <div class="info-box mb-3">
-                                <span class="info-box-icon "><i class="fas fa-user-graduate"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Student(s): [<?= $StudentCount;?>]</span>
-
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </a>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <a href="<?=Url::to(['/instructor/partners'])?>">
-                            <div class="info-box mb-2">
-                                <span class="info-box-icon "><i class="fas fa-user-friends" aria-hidden="true"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Instructor(s): [<?= $InstructorCount;?>]</span>
-                                </div>
-                            </div>
-                        </a>
-
-                    </div>
-
-                </div>
             </div><!--/. container-fluid -->
 
         </div>
