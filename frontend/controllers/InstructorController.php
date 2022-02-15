@@ -311,7 +311,9 @@ public $defaultAction = 'dashboard';
                             'ca-save-published',
                             'publish-ca',
                             'delete-ca',
-                            'ca-add-new'
+                            'ca-add-new',
+                            'mark',
+                            'mark-inputing',
                            
                         ],
                         'allow' => true,
@@ -1003,11 +1005,8 @@ public function actionClassMaterials($cid)
 {
     
     $cid=ClassRoomSecurity::decrypt($cid);
-    $yearid=yii::$app->session->get("currentAcademicYear")->yearID;
-    $modules = Module::find()->where(['course_code' => $cid,'yearID'=>$yearid])->orderBy([
+    $modules = Module::find()->where(['course_code' => $cid])->orderBy([
         'moduleID' => SORT_DESC ])->all();
-
-
     return $this->render('classmaterials', ['cid'=>$cid,'modules'=>$modules]);
 
 }
