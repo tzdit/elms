@@ -141,7 +141,7 @@ $this->params['breadcrumbs'] = [
                                                     for($g=0;$g<count($returnedGroups);$g++)
                                                     {
                                                         $returnedGroups=$returnedGroups[$g];
-                                                        $assignments=$returnedGroups->getGroupAssignmentSubmits();   
+                                                        $assignments=$returnedGroups->groupAssignmentSubmits;   
                                                     for($a=0;$a<count($assignments);$a++)
                                                     {
                                                         $returneGroups=$assignments[$a];
