@@ -153,8 +153,8 @@ $this->params['breadcrumbs'] = [
                                                                     <div class="m-0">
                                                                         <div class="row">
                                                                             <div class="col-sm-6">
-                                                                                <h5><i class="fas fa-clipboard-list mr-1 fa-lg" ></i><?php echo " ".ucwords($returneGroups->ass->assName) ?> </h5>
-                                                                                <span class="text-muted mt-0"><?= ucfirst($returneGroups->ass->assType) ?> Assignment</span>
+                                                                                <h5><i class="fas fa-clipboard-list mr-1 fa-lg" ></i><?php echo " ".ucwords($returneGroups->ass->assName)?> </h5>
+                                                                                <span class="text-muted mt-0"><?= ucfirst($returneGroups->group->generationType->generation_type)." (".$returneGroups->group->groupName.")" ?></span>
                                                                             </div>
 
                                                                             <div class="col-sm-6">
