@@ -153,13 +153,13 @@ $this->params['breadcrumbs'] = [
                                                                     <div class="m-0">
                                                                         <div class="row">
                                                                             <div class="col-sm-6">
-                                                                                <h5><i class="fas fa-clipboard-list mr-1 fa-lg" ></i><?php echo " ".ucwords($returneGroups->assName) ?> </h5>
-                                                                                <span class="text-muted mt-0"><?= ucfirst($returneGroups->assType) ?> Assignment</span>
+                                                                                <h5><i class="fas fa-clipboard-list mr-1 fa-lg" ></i><?php echo " ".ucwords($returneGroups->ass->assName) ?> </h5>
+                                                                                <span class="text-muted mt-0"><?= ucfirst($returneGroups->ass->assType) ?> Assignment</span>
                                                                             </div>
 
                                                                             <div class="col-sm-6">
                                                                                 <div class="float-right mr-4">
-                                                                                    <b><span class="text-muted">Total:</span> <span style="color: #007bff;"><?= $returneGroups->total_marks  ?></span> </b><br>
+                                                                                    <b><span class="text-muted">Total:</span> <span style="color: #007bff;"><?= $returneGroups->ass->total_marks  ?></span> </b><br>
                                                                                     <b><span class="text-muted">Score:</span> <span style="color: #007bff;"><?= $returneGroups->score?></span></b>
                                                                                 </div>
                                                                             </div>
