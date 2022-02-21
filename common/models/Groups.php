@@ -90,10 +90,14 @@ class Groups extends \yii\db\ActiveRecord
 
     public function isMember($student)
     {
+        $members=$this->studentGroups;
+        for($s=0;$s<count($members);$s++)
+        {
+            if($members[$s]->$regNo->reg_no==$student){return true;}
+            continue;
+        }
 
-        $student=Student::findOne($student);
-
-        return in_array($student,$this->studentGroups);
+        return false;
     }
 
 }
