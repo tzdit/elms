@@ -136,8 +136,12 @@ $this->params['breadcrumbs'] = [
 //                                                        echo "</p>";
 //                                                    }
 //                                                    ?>
-
-                                                    <?php foreach($returnedGroups as $returneGroups): ?>
+                                                    
+                                                    <?php 
+                                                    for($g=0;$g<count($returnedGroups);$g++)
+                                                    {
+                                                        $returnedGroups=$returnedGroups[$g];   
+                                                    foreach($returnedGroups as $returneGroups): ?>
 
                                                         <div class="card">
                                                             <div class="card m-3 shadow-lg rounded result-card">
@@ -183,7 +187,10 @@ $this->params['breadcrumbs'] = [
                                                             </div>
                                                         </div>
 
-                                                    <?php endforeach ?>
+                                                    <?php 
+                                                    endforeach;
+                                                                                    }
+                                                    ?>
 
                                                 </section>
                                                 <!-- ########################################### returned marks end ######################################## -->

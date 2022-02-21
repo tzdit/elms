@@ -88,6 +88,12 @@ class Groups extends \yii\db\ActiveRecord
         return $this->hasMany(StudentGroup::className(), ['groupID' => 'groupID']);
     }
 
+    public function isMember($student)
+    {
 
+        $student=Student::findOne($student);
+
+        return in_array($this->studentGroups,$student);
+    }
 
 }
