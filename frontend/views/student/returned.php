@@ -140,7 +140,7 @@ $this->params['breadcrumbs'] = [
                                                     <?php 
                                                     for($g=0;$g<count($studentGroups);$g++)
                                                     {
-                                                        $returnedGroups=$returnedGroups[$g];
+                                                        $returnedGroups=$studentGroups[$g];
                                                         $assignments=$returnedGroups->groupAssignmentSubmits;   
                                                     for($a=0;$a<count($assignments);$a++)
                                                     {
