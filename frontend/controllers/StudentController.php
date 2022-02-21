@@ -688,7 +688,7 @@ public function actionClasswork($cid){
 //         exit;
 
 
-        return $this->render('returned', ['cid'=>$cid, 'reg_no' => $reg_no, 'returned'=>$returned,'returnedGroups' => $groupsbuffer] );
+        return $this->render('returned', ['cid'=>$cid, 'reg_no' => $reg_no, 'returned'=>$returned,'studentGroups' => $groupsbuffer] );
     }
 
 
