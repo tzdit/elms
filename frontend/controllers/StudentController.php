@@ -663,7 +663,7 @@ public function actionClasswork($cid){
         $returned= Submit::find()->innerJoin('assignment','assignment.assID = submit.assID AND submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->orderBy([
             'submit.submitID' => SORT_DESC ])->all();
 
-        $generationtypes=GroupGenerationTypes::find()->where(['course_code'=>$cid]);
+        $generationtypes=GroupGenerationTypes::find()->where(['course_code'=>$cid])->all();
         
         $groupsbuffer=[];
         foreach($generationtypes as $gentype)
