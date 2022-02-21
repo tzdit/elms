@@ -29,6 +29,7 @@ use Yii;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 use frontend\models\CourseStudents;
+use common\models\GroupGenerationTypes;
 
 class StudentController extends \yii\web\Controller
 {
