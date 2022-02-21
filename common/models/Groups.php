@@ -93,7 +93,7 @@ class Groups extends \yii\db\ActiveRecord
         $members=$this->studentGroups;
         for($s=0;$s<count($members);$s++)
         {
-            if($members[$s]->$regNo->reg_no==$student){return true;}
+            if($members[$s]->regNo->reg_no==$student){return true;}
             continue;
         }
 
