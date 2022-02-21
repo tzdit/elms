@@ -88,7 +88,10 @@ class Groups extends \yii\db\ActiveRecord
     {
         return $this->hasMany(StudentGroup::className(), ['groupID' => 'groupID']);
     }
-
+    public function getGroupAssignmentSubmits()
+    {
+        return $this->hasMany(GroupAssignmentSubmit::className(), ['groupID' => 'groupID']);
+    }
     public function isMember($student)
     {
         $members=$this->studentGroups;
