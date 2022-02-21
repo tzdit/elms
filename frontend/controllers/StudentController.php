@@ -282,6 +282,7 @@ public function actionClasswork($cid){
 
                 if (file_exists($oldDocumentPath)){
                     unlink($oldDocumentPath);
+                    $model->delete();
                 }
 
 //                echo '<pre>';
@@ -549,6 +550,7 @@ public function actionClasswork($cid){
 
                 if (file_exists($oldDocumentPath)){
                     unlink($oldDocumentPath);
+                    $model->delete();
                 }
 
 //                echo '<pre>';
@@ -660,7 +662,7 @@ public function actionClasswork($cid){
         $returned= Submit::find()->innerJoin('assignment','assignment.assID = submit.assID AND submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->orderBy([
             'submit.submitID' => SORT_DESC ])->all();
 
-        $returnedGroupAss = GroupAssSubmit::find()->select('group_assignment_submit.*, assignment.*, groups.*')->join('INNER JOIN', 'groups', 'group_assignment_submit.groupID = groups.groupID')->join('INNER JOIN', 'student_group', 'student_group.groupID = student_group.groupID')->join('INNER JOIN', 'assignment', 'assignment.assID = group_assignment_submit.assID')->where('student_group.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->orderBy([
+        $returnedGroupAss = GroupAssSubmit::find()->select('group_assignment_submit.*, assignment.*, groups.*')->innerJoin( 'groups', 'group_assignment_submit.groupID = groups.groupID')->innerJoin('student_group', 'student_group.groupID = student_group.groupID')->innerJoin('assignment', 'assignment.assID = group_assignment_submit.assID')->where('student_group.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->orderBy([
             'group_assignment_submit.submitID' => SORT_DESC ])->asArray()->all();
 
 
