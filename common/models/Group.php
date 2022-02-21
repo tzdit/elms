@@ -1,7 +1,7 @@
 <?php
 
 namespace common\models;
-
+use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 use Yii;
 
 /**
