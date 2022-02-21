@@ -93,7 +93,7 @@ class Groups extends \yii\db\ActiveRecord
 
         $student=Student::findOne($student);
 
-        return in_array($this->studentGroups,$student);
+        return in_array($student,$this->studentGroups);
     }
 
 }
