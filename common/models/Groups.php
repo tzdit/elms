@@ -12,6 +12,7 @@ use Yii;
  * @property int $generation_type
  *
  * @property GroupAssignment[] $groupAssignments
+ * @property GroupAssignmentSubmit[] $groupSubmits
  * @property GroupGenerationTypes $generationType
  * @property StudentGroup[] $studentGroups
  */
