@@ -64,7 +64,7 @@ $instructors=ArrayHelper::map(Instructor::find()->asArray()->where(['<>','instru
               <a href="#" class=" drop " style="color:white" data-toggle="tooltip" data-title="Drop this course"  ccode="<?= $course->course_code ?>" cname="<?= $course->course_name ?>"><i class="fas fa-times-circle"></i></a>
               </div>
               <div class="col-sm-6">
-              <a href="#" class=" " style="color:white"  data-target="#myModal<?=str_replace(" ","",$course->course_code)?>" data-toggle="modal" data-tooltip="tooltip" data-title="Add partner"  ccode="<?= $course->course_code ?>" cname="<?= $course->course_name ?>"><i class="fas fa-user-plus"></i></a>
+              <a href="#" class=" " style="color:white"  data-target="#myModal<?=str_replace(" ","",$course->course_code)?>" data-toggle="modal"   ccode="<?= $course->course_code ?>" cname="<?= $course->course_name ?>"><i class="fas fa-user-plus" data-toggle="tooltip" data-title="Add partner"></i></a>
               </div>
               </div>
               </div>

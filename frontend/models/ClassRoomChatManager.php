@@ -159,7 +159,7 @@ class ClassRoomChatManager extends Model
         $userdata=[];
         foreach($mates as $mate)
         {
-            if($mate->userID==yii::$app->user->id){continue;} //removing myself
+            if($mate->userID==yii::$app->user->id || $this->isSessionExpired($mate->sessiontime)==true){continue;} //removing myself and expired sessions
             $userdata["userid"]=$mate->userID;
             $userdata["username"]=$mate->username;
             $userdata["role"]=$mate->role;
@@ -172,6 +172,20 @@ class ClassRoomChatManager extends Model
         }
 
         return $refined;
+    }
+
+    private function isSessionExpired($sessiontime)
+    {
+      date_default_timezone_set('Africa/Dar_es_Salaam');
+      $now=(new \DateTime())->getTimeStamp();
+      $sessionstamp=(new \DateTime($sessiontime))->getTimeStamp();
+      $timediff=$now-$sessionstamp;
+
+      $h = floor(($timediff%86400)/3600);
+
+      if($h>24){return true;}
+       
+      return false;
     }
 
     //now the real chatting
@@ -230,12 +244,14 @@ class ClassRoomChatManager extends Model
         if($thread->status=="new"){
           $threadsStats[$thread->sender]["num_msgs"]=isset($threadsStats[$thread->sender]["num_msgs"])?($threadsStats[$thread->sender]["num_msgs"])+1:1;
           $threadsStats[$thread->sender]["sender_name"]=isset($threadsStats[$thread->sender]["sender_name"])?($threadsStats[$thread->sender]["sender_name"]):$sender_name;
+          $threadsStats[$thread->sender]["isnew"]=$this->isMessageNew($thread->chatDateTime);
           $totalnew++;
         }
         else
         {
           $threadsStats[$thread->sender]["num_msgs"]=isset($threadsStats[$thread->sender]["num_msgs"])?$threadsStats[$thread->sender]["num_msgs"]:0;
           $threadsStats[$thread->sender]["sender_name"]=isset($threadsStats[$thread->sender]["sender_name"])?($threadsStats[$thread->sender]["sender_name"]):$sender_name;
+          $threadsStats[$thread->sender]["isnew"]=$this->isMessageNew($thread->chatDateTime);
         }
       }
 
@@ -259,6 +275,7 @@ class ClassRoomChatManager extends Model
         $tmpthreads['receiver_name']=(User::findOne($thread->receiver))->username;
         $tmpthreads['chat_text']=Html::encode($thread->chatText);
         $tmpthreads['chat_time']=($this->dateTohuman($thread->chatDateTime)=="now")?"now":$this->dateTohuman($thread->chatDateTime)." ago";
+        $tmpthreads['status']=$thread->status;
         
         $refinedThreads[$thread->chatID]=$tmpthreads;
       }
@@ -413,5 +430,16 @@ class ClassRoomChatManager extends Model
       }
 
       return true;
+    }
+
+    private function isMessageNew($messagetime)
+    {
+      date_default_timezone_set('Africa/Dar_es_Salaam');
+      $now=(new \DateTime())->getTimeStamp();
+      $messagestamp=(new \DateTime($messagetime))->getTimeStamp();
+      $timediff=$now-$messagestamp;
+      if($timediff<3){return true;}
+
+      return false;
     }
 }

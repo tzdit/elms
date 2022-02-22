@@ -16,6 +16,7 @@ use PhpOffice\PhpSpreadsheet\Reader\Html;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Mpdf\Mpdf;
+use common\models\Student;
 
 class CA extends Model{
     public $otherAssessments=[];
@@ -26,6 +27,8 @@ class CA extends Model{
     public $otherassessreduce;
     public $allstudents;
 
+    public $version;
+    public $caTitle;
     public $labGrandMax;
     public $assGrandMax;
     public $otherGrandMax;
@@ -101,6 +104,97 @@ class CA extends Model{
 
    
       
+    }
+
+    private function singleCAbuilder()
+    {
+     
+      $this->setSingleCaScorer();
+      $student_with_marks=$this->allstudents;
+      $singleCa=[];
+      $caheader="<tr style='background-color:#f0fbff;text-align:center;'><td rowspan=2>Registration number</td>";
+      $ca_sub_header="<tr style='background-color:#f0fbff;text-align:center;'>";
+      $rows=[];
+      $catable="<table class='table-bordered table-hover shadow text-sm' style='width:100%' cellspacing=0 autosize=2 text-align='center' align='center'>";
+      if(!empty($this->Assignments) && !empty($this->allstudents)){
+        $student_with_marks=$this->asscumul($this->Assignments,$this->allstudents);
+        $caheader.=$this->catable_header($student_with_marks,"Assignments");
+        $ca_sub_header.=$this->ca_subheader($student_with_marks,"Assignments");
+        $rows=$this->carows($student_with_marks,"Assignments",$rows);
+      }
+      if(!empty($this->LabAssignments) && !empty($student_with_marks)){
+        $student_with_marks=$this->labcumul($this->LabAssignments,$student_with_marks);
+        $caheader.=$this->catable_header($student_with_marks,"Lab Assignments");
+        $ca_sub_header.=$this->ca_subheader($student_with_marks,"Lab Assignments");
+        $rows=$this->carows($student_with_marks,"Lab Assignments",$rows);
+      }
+      if(!empty($this->otherAssessments) && !empty($student_with_marks)){
+        $student_with_marks=$this->otherAssessCumul($this->otherAssessments,$student_with_marks);
+        $caheader.=$this->catable_header($student_with_marks,"Other Assessments");
+        $ca_sub_header.=$this->ca_subheader($student_with_marks,"Other Assessments");
+        $rows=$this->carows($student_with_marks,"Other Assessments",$rows);
+      }
+    
+      $grandtotal=$this->labGrandMax+$this->assGrandMax+$this->otherGrandMax;
+      $caheader.="<td rowspan=2>Grand Total /".$grandtotal."</td>";
+      $caheader.="</tr>";
+      $ca_sub_header.="</tr>";
+      $catable.=$caheader;
+      $catable.=$ca_sub_header;
+      //the grandtotals
+      $rows=empty($rows)?null:$this->addGrandTotals($rows,$this->addEncompletes($student_with_marks));
+      //closing the rows tags and adding them to the table
+      if($rows!=null)
+      {
+      for($r=0;$r<count($rows);$r++)
+      {
+        $rows[$r]=$rows[$r]."</tr>";
+        
+        $catable.=$rows[$r];
+      }
+      
+      
+      $catable.="</table>";
+      $singleCa['grandscore']=$this->singleCaGrandTotal($this->addEncompletes($student_with_marks));
+      $singleCa['detailed']=$catable;
+      return $singleCa;
+    }
+    else
+    {
+      return null;
+    }
+      
+    }
+
+    public function getMyCa()
+    {
+      $allcas=$this->findAllCAs();
+      if($allcas==null || empty($allcas)){return null;}
+      $mycas=[];
+      foreach($allcas as $index=>$ca)
+      {
+        if(!$this->isCaPublished($index)){continue;}
+        $this->loadCAdata($index);
+        $mycas[$ca]['details']=($this->singleCAbuilder())['detailed'];
+        $mycas[$ca]['grandscore']=($this->singleCAbuilder())['grandscore'];
+        $mycas[$ca]['grandmax']=$this->labGrandMax+$this->assGrandMax+$this->otherGrandMax;
+      }
+      if(empty($mycas)){return null;}
+      return $mycas;
+    }
+
+    private function isCaPublished($ca)
+    {
+      if($this->readCAdata($ca)==null){return false;}
+      if(!isset(($this->readCAdata($ca))['CA']['published'])){return false;}
+      if(($this->readCAdata($ca))['CA']['published']==true)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
     }
     private function ca_subheader($data,$type)
     {
@@ -199,7 +293,7 @@ class CA extends Model{
        $rec="";
       
        $grandma=$data[$reg]["GrandTotal"];
-       $rec.="<td>{$grandma}</td>"; 
+       $rec.="<td class='grandscore'>{$grandma}</td>"; 
        array_push($grandmax,$rec);
      }
      for($g=0;$g<count($prevrows);$g++)
@@ -211,10 +305,21 @@ class CA extends Model{
    
      return  $prevrows;
     }
+
+    private function singleCaGrandTotal($data)
+    {
+     $grandma=0;
+   
+     foreach($data as $reg=>$assess)
+     {
+       $grandma=$data[$reg]["GrandTotal"];
+     }
+
+     return  $grandma;
+    }
     private function asscumul($assign,$stud)
     {
        //getting all assignments
-
        $assignments=$assign;
        $students=$stud;
        $reduce=$this->assreduce;
@@ -240,7 +345,6 @@ class CA extends Model{
          $reducefactor=(isset($reduce) && !empty($reduce))?$reduce:$max;
     
          $assignment_scores=$this->getAssignentScores($assid);
-         
          //adding this assignment to each student in a class
          foreach($students as $reg=>$prop)
          {
@@ -249,15 +353,14 @@ class CA extends Model{
           $students[$reg]["Assignments"]["max"]=$maxheader;
          }
          //getting each student score
-        
+       
          foreach($assignment_scores as $reg=>$sc)
          {
-           
+           if(!isset($students[$reg])){continue;}
            $students[$reg]["Assignments"][$assheader]=$sc;
            $students[$reg]["Assignments"]["total"]=!empty($sc)?$students[$reg]["Assignments"]["total"]+$sc:null;
            
          }
-
         
 
        }
@@ -274,7 +377,7 @@ class CA extends Model{
 
          foreach($assignment_scores as $reg=>$sc)
          {
-           
+           if(!isset($students[$reg])){continue;}
            $students[$reg]["GrandTotal"]=(isset($students[$reg]["Assignments"]["total"]))?$students[$reg]["Assignments"]["total"]:null;
         
           
@@ -332,7 +435,7 @@ class CA extends Model{
           
            foreach($assignment_scores as $reg=>$sc)
            {
-             
+            if(!isset($students[$reg])){continue;}
              $students[$reg]["Lab Assignments"][$assheader]=$sc;
              $students[$reg]["Lab Assignments"]["total"]=!empty($sc)?$students[$reg]["Lab Assignments"]["total"]+$sc:null;
              
@@ -355,6 +458,7 @@ class CA extends Model{
           //adding the grand total
           foreach($students as $regno=>$cont)
           {
+            if(!isset($students[$regno])){continue;}
             //print($cont['GrandTotal']);
             $total=$students[$regno]["Lab Assignments"]["total"];
             $students[$regno]["GrandTotal"]=(isset($students[$regno]["GrandTotal"]))?$students[$regno]["GrandTotal"]+$total:$total;
@@ -412,7 +516,7 @@ class CA extends Model{
           
            foreach($assessment_scores as $reg=>$sc)
            {
-             
+            if(!isset($students[$reg])){continue;}
              $students[$reg]["Other Assessments"][$assheader]=$sc;
              $students[$reg]["Other Assessments"]["total"]=!empty($sc)?$students[$reg]["Other Assessments"]["total"]+$sc:null;
             
@@ -432,6 +536,7 @@ class CA extends Model{
           //adding the grand total
           foreach($students as $regno=>$cont)
           {
+            if(!isset($students[$regno])){continue;}
             //print($cont['GrandTotal']);
             $total=$students[$regno]["Other Assessments"]["total"];
             $students[$regno]["GrandTotal"]=(isset($students[$regno]["GrandTotal"]))?$students[$regno]["GrandTotal"]+$total:$total;
@@ -606,15 +711,19 @@ class CA extends Model{
     private function setallstudents()
     {
       $students_for_assessments=[];
-
-      $coursePrograms=ProgramCourse::find()->where(['course_code'=>yii::$app->session->get('ccode')])->all();
+      $levels=[1,2,3,4,5];
+      for($l=0;$l<count($levels);$l++)
+      {
+      $level=$levels[$l];
+      $coursePrograms=ProgramCourse::find()->where(['course_code'=>yii::$app->session->get('ccode'),'level'=>$level])->all();
       foreach($coursePrograms as $program)
       {
  
        $programStudents=$program->programCode0->students;
- 
+       if(empty($programStudents) || $programStudents==null){continue;}
        for($s=0;$s<count($programStudents);$s++){
-
+        if($programStudents[$s]->YOS===$level)
+        {
         $students_for_assessments[$programStudents[$s]->reg_no]=array();
         if(!empty($this->Assignments)){
           $students_for_assessments[$programStudents[$s]->reg_no]["Assignments"]["total"]=null;
@@ -628,16 +737,16 @@ class CA extends Model{
           $students_for_assessments[$programStudents[$s]->reg_no]["Other Assessments"]["total"]=null;
           $students_for_assessments[$programStudents[$s]->reg_no]["Other Assessments"]["max"]=null;
         }
-
         }
+      
+      }
  
  
       }
+    }
       $carryovers=StudentCourse::find()->where(['course_code'=>yii::$app->session->get('ccode')])->all(); 
- 
       foreach($carryovers as $carry)
       {
-       
         $students_for_assessments[$carry->regNo->reg_no]=array();
         if(!empty($this->Assignments)){
           $students_for_assessments[$carry->regNo->reg_no]["Assignments"]["total"]=null;
@@ -651,15 +760,35 @@ class CA extends Model{
           $students_for_assessments[$carry->regNo->reg_no]["Other Assessments"]["total"]=null;
           $students_for_assessments[$carry->regNo->reg_no]["Other Assessments"]["max"]=null;
         }
-
-     
-        
-       
+ 
       }
-
+     
       $this->allstudents=$students_for_assessments;
+     
+    
     }
 
+    private function setSingleCaScorer()
+    {
+      $students_for_assessments=[];
+      $student_id=yii::$app->user->id;
+      $student=(Student::find()->where(['userID'=>$student_id])->one())->reg_no;
+
+     
+      if(!empty($this->Assignments)){
+        $students_for_assessments[$student]["Assignments"]["total"]=null;
+        $students_for_assessments[$student]["Assignments"]["max"]=null;
+      }
+      if(!empty($this->LabAssignments)){
+        $students_for_assessments[$student]["Lab Assignments"]["total"]=null;
+        $students_for_assessments[$student]["Lab Assignments"]["max"]=null;
+      }
+      if(!empty($this->otherAssessments)){
+        $students_for_assessments[$student]["Other Assessments"]["total"]=null;
+        $students_for_assessments[$student]["Other Assessments"]["max"]=null;
+      }
+      $this->allstudents=$students_for_assessments;
+    }
     private function CA2Exceldownloader($ca)
     {
         $content=$ca;
@@ -842,7 +971,7 @@ class CA extends Model{
           {
           foreach($assignments as $title=>$score)
           {
-            if($assignments[$title]==null || empty($assignments[$title])){$status=true; break;}
+            if($assignments[$title]==null){$status=true; break;}
             else{$status=false; continue;}
 
           }
@@ -852,7 +981,7 @@ class CA extends Model{
           foreach($labs as $title=>$score)
           {
             if($status==true){break;}
-            if($labs[$title]==null || empty($labs[$title])){$status=true; break;}
+            if($labs[$title]==null){$status=true; break;}
             else{$status=false; continue;}
 
           }
@@ -863,7 +992,7 @@ class CA extends Model{
           foreach($other as $title=>$score)
           {
             if($status==true){break;}
-            if($other[$title]==null || empty($other[$title])){$status=true; break;}
+            if($other[$title]==null){$status=true; break;}
             else{$status=false; continue;}
 
           }
@@ -899,7 +1028,7 @@ class CA extends Model{
           {
           foreach($assignments as $title=>$score)
           {
-            if($assignments[$title]==null || empty($assignments[$title])){$status=true; break;}
+            if($assignments[$title]===null){$status=true; break;}
             else{$status=false; continue;}
 
           }
@@ -908,8 +1037,8 @@ class CA extends Model{
         {
           foreach($labs as $title=>$score)
           {
-            if($status==true){break;}
-            if($labs[$title]==null || empty($labs[$title])){$status=true; break;}
+            if($status===true){break;}
+            if($labs[$title]===null){$status=true; break;}
             else{$status=false; continue;}
 
           }
@@ -919,8 +1048,8 @@ class CA extends Model{
         {
           foreach($other as $title=>$score)
           {
-            if($status==true){break;}
-            if($other[$title]==null || empty($other[$title])){$status=true; break;}
+            if($status===true){break;}
+            if($other[$title]===null){$status=true; break;}
             else{$status=false; continue;}
 
           }
@@ -944,18 +1073,20 @@ class CA extends Model{
         $instructor=Yii::$app->user->identity->instructor;
         $name=$instructor->full_name;
         $college=$instructor->department->college->college_name;
-        
+        $year=yii::$app->session->get('currentAcademicYear')->title;
         $mpdf = new Mpdf(['orientation' => 'L']);
         $mpdf->setFooter('{PAGENO}');
         $course=yii::$app->session->get('ccode');
+        $courseTitle=Course::findOne($course)->course_name;
         $stylesheet = file_get_contents('css/capdf.css');
         $mpdf->WriteHTML($stylesheet,1);
-        $mpdf->SetWatermarkText('classroom.udom.ac.tz',0.09);
+        $mpdf->SetWatermarkText('civeclassroom.udom.ac.tz',0.09);
         $mpdf->showWatermarkText = true;
         $mpdf->WriteHTML('<div align="center"><img src="img/logo.png" /></div>',2);
-        $mpdf->WriteHTML('<p align="center"><font size=7>The university of Dodoma</font></p>',3);
+        $mpdf->WriteHTML('<p align="center"><font size=7>The University of Dodoma</font></p>',3);
         $mpdf->WriteHTML('<p align="center"><font size=5>'.$college.'</font></p>',3);
-        $mpdf->WriteHTML('<p align="center"><font size=5>'.$course.' final course assessment results</font></p>',3);
+        $mpdf->WriteHTML('<p align="center"><font size=5>'.$course.' '.$courseTitle.'</font></p>',3);
+        $mpdf->WriteHTML('<p align="center"><font size=5>Final course assessment results ('.$year.')</font></p>',3);
         $mpdf->WriteHTML('<p align="center"><font size=3>By '.$name.'</font></p>',3);
         $mpdf->WriteHTML('<hr width="80%" align="center" color="#000000">',2);
         $mpdf->WriteHTML($content,3);
@@ -972,7 +1103,214 @@ class CA extends Model{
     }
   }
 
+  private function getCAsnumber($course)
+  {
+    $year=yii::$app->session->get('currentAcademicYear');
+    $yearTitle=$year->title;
+    $ca_location='storage/CAs/'.$yearTitle.'/'.$course;
+    $cashome="storage/CAs/".$yearTitle."/".$course."/";
+    $ca_number=0;
+    if(!is_dir($cashome)){return 0;}
+
+   if($opened_dir=opendir($cashome))
+   {
+     while(($ca=readdir($opened_dir))!==false)
+     {
+      if($ca!="." && $ca!="..")
+      {
+        $ca_number++;
+      }
+      
+     }
+     closedir($opened_dir);
+   }
+
    
+
+   return $ca_number;
     
+  }
+
+  public function CAsaver($ca)
+  {
+    if($ca==null){return false;}
+    $year=yii::$app->session->get('currentAcademicYear');
+    $ca['CA']['year']=$year->yearID;
+    $course=str_replace(' ','',yii::$app->session->get('ccode'));
+    $ca_version=($ca['CA']['version']!=null)?$ca['CA']['version']:($this->getCAsnumber($course)+1);
+    $ca['CA']['version']=$ca_version;
+    if($ca_version<=1){$ca['CA']['published']=false;}
+    $ca_data=ClassRoomSecurity::encrypt(json_encode($ca));
+
+    //preparing the ca name
+
+    try
+    {
+    $yearTitle=$year->title;
+    $ca_name=$course.'_CA_V'.$ca_version;
+    $ca_location='storage/CAs/'.$yearTitle.'/'.$course;
+    if(!is_dir($ca_location)){mkdir($ca_location,0777,true);}
+    $ca_file=$ca_location.'/'.$ca_name.'.ca';
+
+    file_put_contents($ca_file,$ca_data,LOCK_EX);
+    
+    $message=($ca_version>1)?"CA saved successfully":"CA updated successfully";
+    yii::$app->session->setFlash('success',"<i class='fa fa-info-circle'></i> ".$message);
+    return true;
+    }
+    catch(Exception $c)
+    {
+        $message=($ca_version>1)?"Could not save CA, try again later":"Could not update CA, try again later";
+        yii::$app->session->setFlash('error',"<i class='fa fa-info-circle'></i> ".$message);
+        return false;
+    }
+
+  }
+  private function readCAdata($ca)
+  {
+    $year=yii::$app->session->get('currentAcademicYear');
+    $course=str_replace(' ','',yii::$app->session->get('ccode'));
+    $ca_location='storage/CAs/'.$year->title.'/'.$course.'/'.$ca;
+
+    try
+    {
+    if(!file_exists($ca_location)){return null;}
+    $ca_data=file_get_contents($ca_location);
+
+    if($ca_data!=false){
+
+      $ca_data=json_decode(ClassRoomSecurity::decrypt($ca_data),true);
+    }
+    return $ca_data;
+    }
+  catch(Exception $r)
+    {
+    return null;
+    }
+    
+  }
+ public function getCaData($ca)
+ {
+   return $this->readCAdata($ca);
+ }
+  public function loadCAdata($ca)
+  {
+    $cadata=$this->readCAdata($ca);
+    $this->caTitle=basename($ca,'.ca');
+    $this->Assignments=($cadata!=null)?$cadata['CA']['Assignments']:[];
+    $this->otherAssessments=($cadata!=null)?$cadata['CA']['otherAssessments']:[];
+    $this->LabAssignments=($cadata!=null)?$cadata['CA']['LabAssignments']:[];
+    $this->assreduce=($cadata!=null)?$cadata['CA']['assreduce']:null;
+    $this->labreduce=($cadata!=null)?$cadata['CA']['labreduce']:null;
+    $this->otherassessreduce=($cadata!=null)?$cadata['CA']['otherassessreduce']:null;
+    $this->version=($cadata!=null)?$cadata['CA']['version']:null;
+  
+  }
+  public function CAsavePublished($ca)
+  {
+    if($ca==null){return false;}
+    $year=yii::$app->session->get('currentAcademicYear');
+    $ca['CA']['year']=$year->yearID;
+    $course=str_replace(' ','',yii::$app->session->get('ccode'));
+    $ca_version=($ca['CA']['version']!=null)?$ca['CA']['version']:($this->getCAsnumber($course)+1);
+    $ca['CA']['version']=$ca_version;
+    $ca['CA']['published']=true;
+    $ca_data=ClassRoomSecurity::encrypt(json_encode($ca));
+
+    //preparing the ca name
+
+    try
+    {
+    $yearTitle=$year->title;
+    $ca_name=$course.'_CA_V'.$ca_version;
+    $ca_location='storage/CAs/'.$yearTitle.'/'.$course;
+    if(!is_dir($ca_location)){mkdir($ca_location,0777,true);}
+    $ca_file=$ca_location.'/'.$ca_name.'.ca';
+
+    file_put_contents($ca_file,$ca_data,LOCK_EX);
+    
+    $message=($ca_version>1)?"CA saved successfully":"CA updated successfully";
+    yii::$app->session->setFlash('success',"<i class='fa fa-info-circle'></i> ".$message);
+    return true;
+    }
+    catch(Exception $c)
+    {
+        $message=($ca_version>1)?"Could not save CA, try again later":"Could not update CA, try again later";
+        yii::$app->session->setFlash('error',"<i class='fa fa-info-circle'></i> ".$message);
+        return false;
+    }
+  }
+
+  public function findAllCAs()
+  {
+    $course=str_replace(' ','',yii::$app->session->get('ccode'));
+    $year=yii::$app->session->get('currentAcademicYear');
+    $yearTitle=$year->title;
+    $ca_location='storage/CAs/'.$yearTitle.'/'.$course;
+    try
+    {
+    if(!file_exists($ca_location) || !is_dir($ca_location)){ return [];}
+    $CAs=scandir($ca_location);
+    $CAnames=array();
+    if($CAs=="false"){return [];}
+    for($c=0;$c<count($CAs);$c++)
+    {
+      
+      if($CAs[$c]=="." || $CAs[$c]==".."){continue;}
+      else{
+        if(!$this->isCaCurrent($CAs[$c])){continue;}
+        $CA_name=basename($CAs[$c],".ca");
+      }
+      $CAnames[$CAs[$c]]=$CA_name;
+    }
+    return $CAnames;
+   }
+   catch(Exception $ca)
+   {
+     return [];
+   }
+}
+  
+  public function publishCA($ca)
+  {
+    $ca=$this->readCAdata(ClassRoomSecurity::decrypt($ca));
+    return $this->CAsavePublished($ca);
+  } 
+  
+  private function isCaCurrent($ca)
+  {
+    return ($this->readCAdata($ca))['CA']['year']==(yii::$app->session->get('currentAcademicYear'))->yearID;
+  }
+
+  public function deleteCA($ca)
+  {
+    $ca=ClassRoomSecurity::decrypt($ca);
+    $course=str_replace(' ','',yii::$app->session->get('ccode'));
+    $year=yii::$app->session->get('currentAcademicYear');
+    $yearTitle=$year->title;
+    $ca_location='storage/CAs/'.$yearTitle.'/'.$course;
+    $ca_target=$ca_location."/".$ca;
+
+    try
+    {
+      if(file_exists($ca_target))
+      {
+        unlink($ca_target);
+      }
+
+      return true;
+    }
+    catch(Exception $a)
+    {
+      return false;
+    }
+  }
+
+  public function findStudentCaScore()
+  {
+    $allCas=$this->findAllCAs();
+
+
+  }
 }
 ?>

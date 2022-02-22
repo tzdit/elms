@@ -118,7 +118,7 @@ $this->params['breadcrumbs'] = [
 		</thead>
 		<tbody>
 								<?php for($l=0;$l<count($students);$l++){ $student=$students[$l];?>
-						 			<tr>
+						 			<tr id=<?=$student->reg_no?>>
 									 	<td><?=Html::encode($student->reg_no);?></td>
                     <td><?=Html::encode($student->programCode); ?></td>
                     <td><?=Html::encode($student->fname." ".$student->mname." ".$student->lname); ?></td>
@@ -126,7 +126,7 @@ $this->params['breadcrumbs'] = [
                     <td><?=Html::encode($student->YOS); ?></td>
                     <td></td>
                     <td></td>
-                    <td><?= Html::a('<i class="fas fa-envelope"> Chat</i>',['create-chat', 'stdid'=>$student->reg_no], ['class'=>'btn btn-primary btn-sm m-0']); ?>  </td>
+                    <td id=<?=$student->userID?> class="contactelem" data-toggle="tooltip" data-title="Open Chat"><a href="#"><i class="fas fa-envelope fa-2x" ></i></a></td>
                     
 						 			</tr>
 						 		

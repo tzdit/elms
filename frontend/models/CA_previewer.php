@@ -239,6 +239,7 @@ class CA_previewer extends Model{
          $count=0;
          foreach($assignment_scores as $reg=>$sc)
          {
+           if(!isset($students[$reg])){continue;}
            if($count>4){break;}
            $students[$reg]["Assignments"][$assheader]=$sc;
            $students[$reg]["Assignments"]["total"]=!empty($sc)?$students[$reg]["Assignments"]["total"]+$sc:null;
@@ -261,7 +262,7 @@ class CA_previewer extends Model{
 
          foreach($students as $reg=>$sc)
          {
-           
+          if(!isset($students[$reg])){continue;}
           $students[$reg]["GrandTotal"]=(isset($students[$reg]["Assignments"]["total"]) && $students[$reg]["Assignments"]["total"]!=null)?$students[$reg]["Assignments"]["total"]:null;
         
           
@@ -319,6 +320,7 @@ class CA_previewer extends Model{
            $count=0;
            foreach($assignment_scores as $reg=>$sc)
            {
+            if(!isset($students[$reg])){continue;}
             if($count>4){break;}
              $students[$reg]["Lab Assignments"][$assheader]=$sc;
              $students[$reg]["Lab Assignments"]["total"]=!empty($sc)?$students[$reg]["Lab Assignments"]["total"]+$sc:null;
@@ -343,6 +345,7 @@ class CA_previewer extends Model{
           foreach($students as $regno=>$cont)
           {
             //print($cont['GrandTotal']);
+            if(!isset($students[$regno])){continue;}
             $total=!empty($students[$regno]["Lab Assignments"]["total"])?$students[$regno]["Lab Assignments"]["total"]:null;
             $students[$regno]["GrandTotal"]=(isset($students[$regno]["GrandTotal"]) && !empty($students[$regno]["GrandTotal"]))?$students[$regno]["GrandTotal"]+$total:$total;
           }

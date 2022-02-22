@@ -98,13 +98,13 @@ else
       <li class="nav-item dropdown mr-3">
       <?php if(Yii::$app->user->can('STUDENT')): ?>
         <a class="nav-link" data-toggle="dropdown" href="#" id="username"><span class="fas fa-user"></span>
-          <i ><?php echo ucwords(Yii::$app->user->identity->student->fullName) ?></i>
+          <i ><?php echo ucwords(Yii::$app->user->identity->student->reg_no) ?></i>
         </a>
       <?php endif ?>
 
       <?php if(Yii::$app->user->can('SYS_ADMIN') || Yii::$app->user->can('INSTRUCTOR') || Yii::$app->user->can('INSTRUCTOR & HOD') || Yii::$app->user->can('SUPER_ADMIN')): ?>
         <a class="nav-link" data-toggle="dropdown" href="#" id="username"><span class="fas fa-user"></span>
-          <i><?php echo " ".Yii::$app->user->identity->username ?></i>
+          <i><?php echo " ".substr(Yii::$app->user->identity->username,0,strpos(Yii::$app->user->identity->username,"@"))?></i>
         </a>
       <?php endif ?>
         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">

@@ -7,19 +7,18 @@
    use common\models\StudentExtAssess;
    use common\models\ExtAssess;
    use frontend\models\AddAssessRecord;
+   use frontend\models\ClassRoomSecurity;
 
 
    
    $this->title = 'assessment';
    $cid=yii::$app->session->get('ccode');
    $this->params['breadcrumbs'] = [
-     ['label'=>'External Assessments', 'url'=>Url::to(['/instructor/class-ext-assessments', 'cid'=>$cid])],
+    ['label'=>'class dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
+     ['label'=>'External Assessments', 'url'=>Url::to(['/instructor/class-ext-assessments', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
      ['label'=>'Assessment view']
    ];
-   $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-   $assid=Yii::$app->getSecurity()->decryptByPassword($assid, $secretKey);
-   $records=StudentExtAssess::find()->where(['assessID'=>$assid])->all();
-   $assessment=ExtAssess::findOne($assid)->title;
+   $assessment=ExtAssess::findOne(ClassRoomSecurity::decrypt($assid))->title;
    $this->params['courseTitle'] = $cid." ".$assessment;
    $this->title=$cid." ".$assessment;
    $no=0;
@@ -60,11 +59,7 @@
                     <td><?=  $record->reg_no; ?></td>
                     <td><?=  $record->score; ?></td>
                     <td>
-                    <?php 
-                    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-                    $encryptedassess =Yii::$app->getSecurity()->encryptByPassword($record->student_assess_id, $secretKey);
-                    ?>
-                    <?= Html::a('<i class="fa fa-edit float-right" style="font-size:18px"></i>', ['edit-ext-assrecord-view','recordid'=>$encryptedassess]) ?>
+                    <?= Html::a('<i class="fa fa-edit float-right" style="font-size:18px"></i>', ['edit-ext-assrecord-view','recordid'=>$record->student_assess_id]) ?>
                    <a href="#" id="deleterecord" recordid=<?=$record->student_assess_id?>><i class="fa fa-trash float-right" style="font-size:18px"></i></a>
                     
                   </td>		
@@ -85,7 +80,7 @@
       <?php 
 $recmodel= new AddAssessRecord();
 ?>
-<?= $this->render('addassrecord', ['assessmodel'=>$recmodel,'assessid'=>$assid]) ?>
+<?= $this->render('addassrecord', ['assessmodel'=>$recmodel,'assessid'=>ClassRoomSecurity::decrypt($assid)]) ?>
 
 <?php
   $script = <<<JS

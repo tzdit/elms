@@ -37,6 +37,7 @@ use frontend\models\StudentGroups;
 use frontend\models\TemplateDownloader;
 use frontend\models\StudentTemplateDownload;
 use frontend\models\CA;
+use frontend\models\CourseStudents;
 use frontend\models\CreateChat;
 use frontend\models\CA_previewer;
 use frontend\models\UpdateCourse;
@@ -182,7 +183,14 @@ public $defaultAction = 'dashboard';
                             'clear-thread',
                             'send-signal',
                             'find-signal',
-                            'withdraw-signal'
+                            'withdraw-signal',
+                            'partners',
+                            'remove-partner',
+                            'ca-save',
+                            'ca-save-published',
+                            'publish-ca',
+                            'delete-ca',
+                            'ca-add-new'
 
                         ],
                         'allow' => true,
@@ -234,6 +242,7 @@ public $defaultAction = 'dashboard';
                             'updatelab',
                             'updateprog',
                             'updatecoz',
+                            'view-coz',
                             'add-partner',
                             'view-assessment',
                             'add-assess-record',
@@ -296,7 +305,16 @@ public $defaultAction = 'dashboard';
                             'clear-thread',
                             'send-signal',
                             'find-signal',
-                            'withdraw-signal'
+                            'withdraw-signal',
+                            'partners',
+                            'remove-partner',
+                            'ca-save',
+                            'ca-save-published',
+                            'publish-ca',
+                            'delete-ca',
+                            'ca-add-new',
+                            'mark',
+                            'mark-inputing',
                            
                         ],
                         'allow' => true,
@@ -420,6 +438,28 @@ public $defaultAction = 'dashboard';
 
         return (new ClassRoomChatManager())->withdrawSignal($other); 
 
+    }
+
+    public function actionPartners()
+    {
+        $course=yii::$app->session->get('ccode');
+        $partners=InstructorCourse::find()->where(['course_code'=>$course])->all();
+        $me=yii::$app->user->id;
+        foreach($partners as $p=>$partner)
+        {
+            if($partners[$p]->instructor->userID==$me)
+            {
+                unset($partners[$p]);
+            }
+        }
+
+        return $this->render('partners',['partners'=>$partners]);
+    }
+    public function actionRemovePartner($partner)
+    {
+      $partner=InstructorCourse::find()->where(['instructorID'=>$partner,'course_code'=>yii::$app->session->get('ccode')])->one();
+      if($partner->delete()){return $this->asJson(["message"=>"deleted"]);}
+       return false;
     }
     //#################### function to render instructor courses ##############################
 
@@ -572,14 +612,8 @@ public $defaultAction = 'dashboard';
    
 public function actionEditExtAssrecordView($recordid)
 {
-$secretKey=Yii::$app->params['app.dataEncryptionKey'];
-$recordid=Yii::$app->getSecurity()->decryptByPassword($recordid, $secretKey);
   $record=StudentExtAssess::findOne($recordid);
-
-  $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-  $recordid=Yii::$app->getSecurity()->encryptByPassword($recordid, $secretKey); 
-
-  return $this->render('editassessrecord',['recordid'=>$recordid,'regno'=>$record->reg_no,'score'=>$record->score]);
+  return $this->render('editassessrecord',['recordid'=>ClassRoomSecurity::encrypt($recordid),'regno'=>$record->reg_no,'score'=>$record->score]);
 }
 public function actionEditExtAssrecord($recordid)
 {
@@ -847,6 +881,60 @@ public function actionUpdatecoz($cozzid)
     'depts'=>$depts, 'departments'=>$departments]);
 }
 
+public function actionViewCoz($cid)
+{
+    $yearID=(yii::$app->session->get('currentAcademicYear'))->yearID;
+
+    // get Assignments
+    $assignments = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid,'yearID'=>$yearID])->orderBy([
+        'assID' => SORT_DESC ])->all();
+    $AssignmentCount = count($assignments);
+
+    // get tutorials
+    $tutorials = Assignment::find()->where(['assNature' => 'tutorial', 'course_code' => $cid, 'yearID'=>$yearID ])->orderBy([
+        'assID' => SORT_DESC ])->all();
+    $TutorialCount = count($tutorials);
+
+    // get Labs
+    $labs = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid, 'yearID'=>$yearID ])->orderBy([
+        'assID' => SORT_DESC ])->all();
+    $LabCount = count($labs);
+
+    // get Materials
+    $modules = Module::find()->where(['course_code' => $cid,'yearID'=>$yearID])->orderBy([
+        'moduleID' => SORT_DESC ])->all();
+    $MaterialCount = count($modules);
+
+    // get Announcement
+    $announcements=Announcement::find()->where(['course_code'=>$cid])->orderBy([
+        'annID' => SORT_DESC ])->all();
+    $AnnouncementCount = count($announcements);
+
+    // get Instructors
+    $instructors=InstructorCourse::find()->where(['course_code'=>$cid])->all();
+    $InstructorCount = count($instructors);
+
+    //get External Assessment
+    $assessments =ExtAssess::find()->where(['course_code'=>$cid])->all();
+    $ExtAssessmentCount = count($assessments);
+
+    // get Course Student
+    $students=CourseStudents::getClassStudents($cid);
+    $StudentCount = count($students);
+
+    // GET COZ
+    $course = Course::findOne($cid);
+    $courseName = $course->course_name;
+
+    
+
+    return $this->render('CourseProfile', ['cid'=>$cid, 'assignments'=>$assignments, 'AssignmentCount'=>$AssignmentCount,
+    'labs'=>$labs, 'LabCount'=>$LabCount, 'modules'=>$modules, 'MaterialCount'=>$MaterialCount, 'announcements'=>$announcements,
+        'AnnouncementCount'=>$AnnouncementCount, 'assessments'=>$assessments, 'ExtAssessmentCount'=>$ExtAssessmentCount,
+        'students'=>$students, 'StudentCount'=>$StudentCount, 'instructors'=>$instructors, 'InstructorCount'=>$InstructorCount, 
+    'TutorialCount'=>$TutorialCount, 'courseName'=>$courseName]);
+}
+
 public function actionCourseUpdateData($cozzid)
 {
     
@@ -908,7 +996,7 @@ public function actionClassDashboard($cid)
 
 public function actionClassAnnouncements($cid)
 {
-   
+
     return $this->render('announcements', ['cid'=>$cid]);
 
 }
@@ -918,11 +1006,8 @@ public function actionClassMaterials($cid)
 {
     
     $cid=ClassRoomSecurity::decrypt($cid);
-    $yearid=yii::$app->session->get("currentAcademicYear")->yearID;
-    $modules = Module::find()->where(['course_code' => $cid,'yearID'=>$yearid])->orderBy([
+    $modules = Module::find()->where(['course_code' => $cid])->orderBy([
         'moduleID' => SORT_DESC ])->all();
-
-
     return $this->render('classmaterials', ['cid'=>$cid,'modules'=>$modules]);
 
 }
@@ -1062,24 +1147,48 @@ public function actionClassTutorials($cid)
 
 public function actionClassExtAssessments($cid)
 {
-    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
-
     return $this->render('classExtAssessments',['cid'=>$cid]);
 
 }
 
 //CA generator page
 
-public function actionClassCaGenerator($cid)
+public function actionClassCaGenerator($cid,$ca=null)
 {
-        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
-    
-        return $this->render('classCAgenerator',['cid'=>$cid]);
+        $cid=ClassRoomSecurity::decrypt($cid);
+        $camodel=null;
+        $allCas=(new CA())->findAllCAs();
+        if($ca!==null)
+        {
+          //define the CA from the existing ca file
+          $ca=ClassRoomSecurity::decrypt($ca);
+          $camodel=new CA();
+          $camodel->loadCAdata($ca);
+
+      
+        }
+        else
+        {
+            $camodel=new CA(); //the CA is just a new one
+        }
+        return $this->render('classCAgenerator',['cid'=>$cid,'camodel'=>$camodel,'allcas'=>$allCas]);
 
 }
+public function actionPublishCa($ca)
+{
+    if((new CA)->publishCA($ca))
+    {
+        Yii::$app->session->removeFlash('success');
+        yii::$app->session->setFlash('success',"<i class='fa fa-info-circle'></i> CA published successfully");
+    }
+    else
+    {
+        Yii::$app->session->removeFlash('error');
+        yii::$app->session->setFlash('error',"<i class='fa fa-info-circle'></i> Could not publish CA, try again"); 
+    }
 
+    return $this->redirect(yii::$app->request->referrer);
+}
 //students page
 
 public function actionClassStudents($cid)
@@ -1572,8 +1681,8 @@ public function actionTogglePanelist($assignment)
 }
 public function actionViewAssessment($assid)
 {
-
-    return $this->render('assessmentview',['assid'=>$assid]);  
+    $records=StudentExtAssess::find()->where(['assessID'=>ClassRoomSecurity::decrypt($assid)])->all();
+    return $this->render('assessmentview',['records'=>$records,'assid'=>$assid]);  
 
 }
 public function actionDeleteExtAssrecord($recordid)
@@ -2200,7 +2309,7 @@ public function actionAddStudentGentype()
  public function actionGenerateCa()
  {
    $model=new CA();
-   
+
    $model->Assignments=yii::$app->request->post("CA")["Assignments"];
    $model->LabAssignments=yii::$app->request->post("CA")["LabAssignments"];
    $model->otherAssessments=yii::$app->request->post("CA")["otherAssessments"];
@@ -2209,7 +2318,7 @@ public function actionAddStudentGentype()
    $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
   
    $res=$model->generateExcelCA();
-   if($res!==true){Yii::$app->session->setFlash('error',$res);}
+   if($res!==true){Yii::$app->session->setFlash('error','<i class="fa fa-info-circle"></i> '.$res);}
 
    return $this->redirect(Yii::$app->request->referrer); 
   
@@ -2217,6 +2326,42 @@ public function actionAddStudentGentype()
 
  
 
+ }
+ public function actionCaSave()
+ {
+    $ca=yii::$app->request->post();
+    if($ca['CA']['Assignments']==null && $ca['CA']['LabAssignments']==null && $ca['CA']['otherAssessments']==null){
+        Yii::$app->session->setFlash('error','<i class="fa fa-info-circle"></i> No content'); 
+        return $this->redirect(yii::$app->request->referrer); 
+    }
+
+    (new CA)->CAsaver($ca);
+
+    return $this->redirect(yii::$app->request->referrer);
+  
+ }
+ public function actionDeleteCa($ca)
+ {
+     if((new CA)->deleteCA($ca))
+     {
+        Yii::$app->session->setFlash('success','<i class="fa fa-info-circle"></i> CA deleted successfully'); 
+        return $this->redirect(yii::$app->request->referrer);
+     }
+
+     Yii::$app->session->setFlash('error','<i class="fa fa-info-circle"></i> Could not delete CA, try again later'); 
+     return $this->redirect(yii::$app->request->referrer);
+ }
+ public function actionCaSavePublished()
+ {
+    $ca=yii::$app->request->post();
+    if($ca['CA']['Assignments']==null && $ca['CA']['LabAssignments']==null && $ca['CA']['otherAssessments']==null){
+        Yii::$app->session->setFlash('error','<i class="fa fa-info-circle"></i> No content'); 
+        return $this->redirect(yii::$app->request->referrer); 
+    }
+    (new CA)->CAsavePublished($ca);
+
+    return $this->redirect(yii::$app->request->referrer);
+  
  }
  public function actionGetPdfCa()
  {
@@ -2230,7 +2375,7 @@ public function actionAddStudentGentype()
     $model->otherassessreduce=yii::$app->request->post("CA")["otherassessreduce"];
    
     $res=$model->generatePdfCA();
-    if($res!=null){Yii::$app->session->setFlash('error',$res);}
+    if($res!=null){Yii::$app->session->setFlash('error','<i class="fa fa-info-circle"></i> '.$res);}
     return $this->redirect(Yii::$app->request->referrer); 
     
  }
@@ -2248,6 +2393,17 @@ public function actionAddStudentGentype()
     $data=$model->previewCA();
     print $data;
     }
+ }
+ public function actionCaAddNew($ca)
+ {
+     $cadata=(new CA)->getCaData(ClassRoomSecurity::decrypt($ca));
+     $title=basename(ClassRoomSecurity::decrypt($ca),'.ca');
+     if($cadata==null){
+        Yii::$app->session->setFlash('error','<i class="fa fa-info-circle"></i>An error occured while loading CA');
+        return $this->redirect(Yii::$app->request->referrer); 
+     }
+     $cadata['CA']['title']=$title;
+     return $this->render('caAddRecord',['cadata'=>$cadata['CA']]);
  }
  public function actionGetIncompletePerc()
  {

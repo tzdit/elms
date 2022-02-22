@@ -14,6 +14,7 @@ use common\models\Groups;
 use common\models\Student;
 use common\models\AuthItem;
 use common\models\QMarks;
+use common\models\ProgramCourse;
 use common\models\Program;
 use common\models\Announcement;
 use frontend\models\UploadStudentHodForm;
@@ -25,9 +26,11 @@ use frontend\models\CarryCourseSearch;
 use common\models\StudentGroup;
 use yii\helpers\ArrayHelper;
 use yii\data\ActiveDataProvider;
+use frontend\models\CA;
 use Yii;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
+use frontend\models\CourseStudents;
 
 class StudentController extends \yii\web\Controller
 {
@@ -49,7 +52,7 @@ class StudentController extends \yii\web\Controller
                             'resubmit','videos','announcement','group_assignment_submit',
                             'quiz_answer','quiz_view','group_resubmit','assignment',
                             'group-assignment','labs','tutorial','course-materials','returned',
-                            'course-announcement','quiz','student-group','add-group-member', 'create-group'
+                            'course-announcement','quiz','student-group','add-group-member', 'create-group','classmates','my-ca'
                         ],
                         
 
@@ -92,7 +95,16 @@ class StudentController extends \yii\web\Controller
         return parent::beforeAction($action);
     }
 
+   public function actionClassmates()
+   {
+      $course=yii::$app->session->get('ccode');
+      //getting the whole program
+      $classmates=CourseStudents::getClassStudents($course);
+     
    
+      return $this->render('classmates',['classmates'=>$classmates]);
+
+   }
     //create students
   public function actionRegister(){
     $model = new UploadStudentHodForm;
@@ -142,7 +154,15 @@ class StudentController extends \yii\web\Controller
             return $this->render('index', ['courses'=>$courses]);
     }
 
+  /////////////////CA//////////////////////
 
+  public function actionMyCa()
+  {
+
+   return $this->render('myca',['myca'=>(new CA)->getMyCa()]);
+
+
+  }
 
 
  ############################## assignments in each course  #######################################################
@@ -264,6 +284,7 @@ public function actionClasswork($cid){
 
                 if (file_exists($oldDocumentPath)){
                     unlink($oldDocumentPath);
+                    $model->delete();
                 }
 
 //                echo '<pre>';
@@ -531,6 +552,7 @@ public function actionClasswork($cid){
 
                 if (file_exists($oldDocumentPath)){
                     unlink($oldDocumentPath);
+                    $model->delete();
                 }
 
 //                echo '<pre>';
@@ -642,10 +664,9 @@ public function actionClasswork($cid){
         $returned= Submit::find()->innerJoin('assignment','assignment.assID = submit.assID AND submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->orderBy([
             'submit.submitID' => SORT_DESC ])->all();
 
-        $returnedGroupAss = GroupAssSubmit::find()->select('group_assignment_submit.*, assignment.*, groups.*')->join('INNER JOIN', 'groups', 'group_assignment_submit.groupID = groups.groupID')->join('INNER JOIN', 'student_group', 'student_group.groupID = student_group.groupID')->join('INNER JOIN', 'assignment', 'assignment.assID = group_assignment_submit.assID')->where('student_group.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->orderBy([
+        $returnedGroupAss = GroupAssSubmit::find()->select('group_assignment_submit.*, assignment.*, groups.*')->innerJoin( 'groups', 'group_assignment_submit.groupID = groups.groupID')->innerJoin('student_group', 'student_group.groupID = student_group.groupID')->innerJoin('assignment', 'assignment.assID = group_assignment_submit.assID')->where('student_group.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->orderBy([
             'group_assignment_submit.submitID' => SORT_DESC ])->asArray()->all();
-
-
+         
 //         echo '<pre>';
 //             var_dump($returnedGroupAss);
 //         echo '</pre>';

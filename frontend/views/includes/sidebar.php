@@ -142,36 +142,22 @@ use yii\helpers\Url;
 
               <li class="nav-item">
                 <a href="<?= Url::toRoute('/instructor/create-program') ?>" class="nav-link">
-                  <i class="fas fa-book nav-icon"></i>
+                <i class="fas fa-award"></i>
                   <p>Manage Programs</p>
                 </a>
               </li>
 
 
               <!-- ################################################ -->
-              <li class="nav-item">
-            <a href="#" class="nav-link">
-            <i class="fas fa-book nav-icon"></i>
+
+          <li class="nav-item">
+          <a href="<?= Url::toRoute('/instructor/create-course') ?>" class="nav-link">
+            <i class="fas fa-book-open"></i>
               <p>
                 Manage Courses
-                <i class="right fas fa-angle-left"></i>    
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-              <a href="<?= Url::toRoute('/instructor/create-course') ?>" class="nav-link">
-                  <i class="fas fa-plus nav-icon"></i>
-                  <p>Create Course</p>
-                </a>
-              </li>
-              <li class="nav-item">
-              <a href="<?= Url::toRoute('/instructor/assign-course') ?>" class="nav-link">
-                <i class="fas fa-tasks"></i>
-                  <p>Assign Course</p>
-                </a>
-              </li>
-             
-            </ul>
+          </li>
 
 
               <!-- ################################################ -->
@@ -203,7 +189,7 @@ use yii\helpers\Url;
       </nav>
       <!-- /.sidebar-menu -->
 
-      <div class="card">
+      <div class="card contactcard">
     <div class="card-header">
       Have a feedback or need support?<span style="font-size:24px;margin-left:5px" class="text-success"><i class="fab fa-whatsapp"></i></span><span style="font-size:24px;margin-left:5px" class="text-success"><i class="fa fa-phone"></i></span><span style="font-size:24px; margin-left:5px" class="text-success"><i class="fas fa-sms"></i></span>
           </div>

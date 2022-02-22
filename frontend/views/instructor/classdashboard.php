@@ -30,10 +30,8 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
           <a href="<?=Url::to(['/instructor/class-announcements','cid'=>$cid])?>">
             <div class="info-box">
               <span class="info-box-icon "><i class="fa fa-bullhorn"></i></span>
-
               <div class="info-box-content">
                 <span class="info-box-text">Announcements</span>
-           
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -65,10 +63,8 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
           <a href="<?=Url::to(['/instructor/class-assignments','cid'=>$cid])?>">
             <div class="info-box mb-3">
               <span class="info-box-icon"><i class="fas fa-book-reader"></i></span>
-
               <div class="info-box-content">
                 <span class="info-box-text">Assignments</span>
-                
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -207,6 +203,21 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
           </div>
         
 
+          <!-- partners-->
+
+          <div class="col-12 col-sm-6 col-md-3">
+          <a href="<?=Url::to(['/instructor/partners'])?>">
+            <div class="info-box mb-2">
+              <span class="info-box-icon "><i class="fas fa-user-friends" aria-hidden="true"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Partners</span>
+              </div>
+            
+            </div>
+            </a>
+        
+          </div>
         </div>
       </div><!--/. container-fluid -->
 
@@ -218,7 +229,9 @@ $script = <<<JS
 
       ///select tag
 
-   
+      $('.info-box').css('border-radius','none');
+      $('.info-box').css('box-shadow','none');
+      $('.info-box').css('color','none');
 
       //the dropdown searcn adding partner
 
