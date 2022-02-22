@@ -31,6 +31,7 @@ use Yii;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 use frontend\models\CourseStudents;
+use common\models\GroupGenerationTypes;
 
 class StudentController extends \yii\web\Controller
 {
@@ -664,6 +665,22 @@ public function actionClasswork($cid){
         $returned= Submit::find()->innerJoin('assignment','assignment.assID = submit.assID AND submit.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->orderBy([
             'submit.submitID' => SORT_DESC ])->all();
 
+        $generationtypes=GroupGenerationTypes::find()->where(['course_code'=>$cid])->all();
+        
+        $groupsbuffer=[];
+        foreach($generationtypes as $gentype)
+        {
+        $groups=$gentype->groups;
+        for($g=0;$g<count($groups);$g++)
+        {
+            if(!$groups[$g]->isMember($reg_no)){ 
+                continue;
+            }
+
+            array_push($groupsbuffer,$groups[$g]);
+        }
+        }
+        //////////////mine is over
         $returnedGroupAss = GroupAssSubmit::find()->select('group_assignment_submit.*, assignment.*, groups.*')->innerJoin( 'groups', 'group_assignment_submit.groupID = groups.groupID')->innerJoin('student_group', 'student_group.groupID = student_group.groupID')->innerJoin('assignment', 'assignment.assID = group_assignment_submit.assID')->where('student_group.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->orderBy([
             'group_assignment_submit.submitID' => SORT_DESC ])->asArray()->all();
          
@@ -673,7 +690,7 @@ public function actionClasswork($cid){
 //         exit;
 
 
-        return $this->render('returned', ['cid'=>$cid, 'reg_no' => $reg_no, 'returned'=>$returned,'returnedGroups' => $returnedGroupAss] );
+        return $this->render('returned', ['cid'=>$cid, 'reg_no' => $reg_no, 'returned'=>$returned,'studentGroups' => $groupsbuffer] );
     }
 
 
