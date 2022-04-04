@@ -2,6 +2,7 @@
 use yii\bootstrap4\Breadcrumbs;
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 
 $this->title = 'Admin Dashboard';
@@ -91,20 +92,25 @@ $this->title = 'Admin Dashboard';
 
               <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'logID',
-            'userID',
-            'object',
-            'activity',
-            'logdate',
-            'logtime',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            //'audit_entry_id',
+            'audit_entry_timestamp',
+            'audit_entry_model_name',
+            'audit_entry_operation',
+            'audit_entry_field_name',
+            'audit_entry_old_value:ntext',
+            'audit_entry_new_value:ntext',
+            'audit_entry_user_id',
+            'audit_entry_ip',
+            'audit_entry_affected_record_reference',
+            'audit_entry_affected_record_reference_type',
+           // ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-
+              
               </div><!-- /.card-body -->
             </div>
             <!-- /.card -->

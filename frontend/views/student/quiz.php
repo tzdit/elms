@@ -58,17 +58,19 @@ $this->params['breadcrumbs'] = [
                                                     <div class="card-body">
                                                         <table class="table table-bordered" id='table'>
                                                             <colgroup>
-                                                                <col width="10%">
-                                                                <col width="30%">
+                                                                <col width="2%">
                                                                 <col width="20%">
-                                                                <col width="20%">
+                                                                <col width="15%">
+                                                                <col width="15%">
+                                                                <col width="18%">
                                                                 <col width="20%">
                                                             </colgroup>
                                                             <thead>
                                                             <tr>
-                                                                <th>#</th>
+                                                                <th>No</th>
                                                                 <th>Quiz</th>
-                                                                <th>Score</th>
+                                                                <th>My Score</th>
+                                                                <th>Total Score</th>
                                                                 <th>Status</th>
                                                                 <th>Action</th>
                                                             </tr>
@@ -79,12 +81,10 @@ $this->params['breadcrumbs'] = [
                                                                 <td>NNNNNNN</td>
                                                                 <td>YYYYYYY</td>
                                                                 <td>MMMMMMM</td>
+                                                                <td>MMMMMMM</td>
                                                                 <td>
                                                                     <center>
                                                                         <a class="btn btn-sm btn-outline-primary" href="<?= Url::toRoute(['student/quiz_answer'])?>"><i class="fa fa-pencil"></i> Take Quiz</a>
-
-                                                                        <a class="btn btn-sm btn-outline-primary" href="<?= Url::toRoute(['student/quiz_view'])?>"><i class="fa fa-eye"></i>Results</a>
-
                                                                     </center>
                                                                 </td>
                                                             </tr>

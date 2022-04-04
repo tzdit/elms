@@ -1,37 +1,20 @@
 
 	<div class="container-fluid admin">
-		<div class="col-md-12 alert alert-primary"><?php echo 'title' ?></div>
-		<button class="btn btn-primary bt-sm" id="new_question"><i class="fa fa-plus"></i>	Add Question</button>
-		<button class="btn btn-primary bt-sm" id="new_student"><i class="fa fa-plus"></i>	Add Course</button>
+		<button class="btn btn-primary bt-sm" id="new_question"><i class="fa fa-plus"></i>	Add Questions</button>
+		<button class="btn btn-primary bt-sm" id="new_student"><i class="fa fa-plus"></i>	Create Quiz</button>
 		<br>
 		<br>
 		<div class="card col-md-6 mr-4" style="float:left">
 			<div class="card-header">
-				Questions
+				Available Quiz
 			</div>
 			<div class="card-body">
-				<ul class="list-group">
-			
-						<li class="list-group-item"><?php echo 'question' ?><br>
-							<center>
-								<button class="btn btn-sm btn-outline-primary edit_question" data-id="" type="button"><i class="fa fa-edit"></i></button>
-								<button class="btn btn-sm btn-outline-danger remove_question" data-id="" type="button"><i class="fa fa-trash"></i></button>
-							</center>
-						</li>
-				</ul>
-		</div>
-	</div>
-	<div class="card col-md-5" style="float:left">
-			<div class="card-header">
-				Students
-			</div>
-			<div class="card-body">
-				<ul class="list-group">
-						<li class="list-group-item"><?php echo 'row_name' ?>
-<button class="btn btn-sm btn-outline-danger remove_student pull-right" data-id=" " data-qid='' type="button"><i class="fa fa-trash"></i></button>
-						</li>
-				</ul>
-		</div>
+				
+
+
+
+
+		   </div>
 	</div>
 	<div class="modal fade" id="manage_question" tabindex="-1" role="dialog" >
 				<div class="modal-dialog modal-centered" role="document">
@@ -68,37 +51,6 @@
 									<label><input type="radio" name="is_right[3]" class="is_right" value="1"> <small>Question Answer</small></label>
 								</div>
 								
-							</div>
-							<div class="modal-footer">
-								<button  class="btn btn-primary" name="save"><span class="glyphicon glyphicon-save"></span> Save</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-			<div class="modal fade" id="manage_student" tabindex="-1" role="dialog" >
-				<div class="modal-dialog modal-centered" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							
-							<h4 class="modal-title" id="myModallabel">Add New Student/s</h4>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						</div>
-						<form id='student-frm'>
-							<div class ="modal-body">
-								<div id="msg"></div>
-								<div class="form-group">
-									<label>Student/s</label>
-									<br>
-									<input type="hidden" name="qid" value=" " />
-									<select rows='3' name="user_id[]" required="required" multiple class="form-control select2" style="width: 100% !important">
-							
-									<option value=" "></option>
-								</select>
-
-								</select>
-								</div>
-					
 							</div>
 							<div class="modal-footer">
 								<button  class="btn btn-primary" name="save"><span class="glyphicon glyphicon-save"></span> Save</button>

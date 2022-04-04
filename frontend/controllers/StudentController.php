@@ -13,6 +13,7 @@ use common\models\Material;
 use common\models\Groups;
 use common\models\Student;
 use common\models\AuthItem;
+use common\models\QMarks;
 use common\models\ProgramCourse;
 use common\models\Program;
 use common\models\Announcement;
@@ -24,6 +25,7 @@ use frontend\models\GroupAssSubmit;
 use frontend\models\CarryCourseSearch;
 use common\models\StudentGroup;
 use yii\helpers\ArrayHelper;
+use yii\data\ActiveDataProvider;
 use frontend\models\CA;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -719,9 +721,11 @@ public function actionClasswork($cid){
 
 
     public function actionQuiz($cid){
-
         $reg_no = Yii::$app->user->identity->username;
-             return $this->render('quiz', ['cid'=>$cid, 'reg_no' => $reg_no]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => QMarks::find(),
+        ]);
+      return $this->render('../q-marks/index', ['cid'=>$cid, 'reg_no' => $reg_no, 'dataProvider' => $dataProvider]);
     }
 
 
