@@ -3,16 +3,16 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\Logs;
+use common\models\QMarks;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * LogsController implements the CRUD actions for Logs model.
+ * QMarksController implements the CRUD actions for QMarks model.
  */
-class LogsController extends Controller
+class QMarksController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,22 +30,22 @@ class LogsController extends Controller
     }
 
     /**
-     * Lists all Logs models.
+     * Lists all QMarks models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Logs::find(),
+            'query' => QMarks::find(),
         ]);
 
-        return $this->render('admin.index', [
+        return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single Logs model.
+     * Displays a single QMarks model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,16 +58,16 @@ class LogsController extends Controller
     }
 
     /**
-     * Creates a new Logs model.
+     * Creates a new QMarks model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Logs();
+        $model = new QMarks();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->logID]);
+            return $this->redirect(['view', 'id' => $model->qmarks_id]);
         }
 
         return $this->render('create', [
@@ -76,7 +76,7 @@ class LogsController extends Controller
     }
 
     /**
-     * Updates an existing Logs model.
+     * Updates an existing QMarks model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -87,7 +87,7 @@ class LogsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->logID]);
+            return $this->redirect(['view', 'id' => $model->qmarks_id]);
         }
 
         return $this->render('update', [
@@ -96,7 +96,7 @@ class LogsController extends Controller
     }
 
     /**
-     * Deletes an existing Logs model.
+     * Deletes an existing QMarks model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +110,15 @@ class LogsController extends Controller
     }
 
     /**
-     * Finds the Logs model based on its primary key value.
+     * Finds the QMarks model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Logs the loaded model
+     * @return QMarks the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Logs::findOne($id)) !== null) {
+        if (($model = QMarks::findOne($id)) !== null) {
             return $model;
         }
 

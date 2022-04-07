@@ -136,8 +136,16 @@ $this->params['breadcrumbs'] = [
 //                                                        echo "</p>";
 //                                                    }
 //                                                    ?>
-
-                                                    <?php foreach($returnedGroups as $returneGroups): ?>
+                                                    
+                                                    <?php 
+                                                    for($g=0;$g<count($studentGroups);$g++)
+                                                    {
+                                                        $returnedGroups=$studentGroups[$g];
+                                                        $assignments=$returnedGroups->groupAssignmentSubmits;   
+                                                    for($a=0;$a<count($assignments);$a++)
+                                                    {
+                                                        $returneGroups=$assignments[$a];
+                                                    ?>
 
                                                         <div class="card">
                                                             <div class="card m-3 shadow-lg rounded result-card">
@@ -145,14 +153,14 @@ $this->params['breadcrumbs'] = [
                                                                     <div class="m-0">
                                                                         <div class="row">
                                                                             <div class="col-sm-6">
-                                                                                <h5><i class="fas fa-clipboard-list mr-1 fa-lg" ></i><?php echo " ".ucwords($returneGroups['assName']) ?> </h5>
-                                                                                <span class="text-muted mt-0"><?= ucfirst($returneGroups['assType']) ?> Assignment</span>
+                                                                                <h5><i class="fas fa-clipboard-list mr-1 fa-lg" ></i><?php echo " ".ucwords($returneGroups->ass->assName)?> </h5>
+                                                                                <span class="text-muted mt-0"><?= ucfirst($returneGroups->group->generationType->generation_type)." (".$returneGroups->group->groupName.")" ?></span>
                                                                             </div>
 
                                                                             <div class="col-sm-6">
                                                                                 <div class="float-right mr-4">
-                                                                                    <b><span class="text-muted">Total:</span> <span style="color: #007bff;"><?= $returneGroups['total_marks']  ?></span> </b><br>
-                                                                                    <b><span class="text-muted">Score:</span> <span style="color: #007bff;"><?= $returneGroups['score'] ?></span></b>
+                                                                                    <b><span class="text-muted">Total:</span> <span style="color: #007bff;"><?= $returneGroups->ass->total_marks  ?></span> </b><br>
+                                                                                    <b><span class="text-muted">Score:</span> <span style="color: #007bff;"><?= $returneGroups->score?></span></b>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -160,7 +168,7 @@ $this->params['breadcrumbs'] = [
 
                                                                     <div class="m-0">
                                                                         <p>File Name: <span class="m-0" style="color: #007bff;
-                                                                    font-style: italic;"><?= substr($returneGroups['fileName'], -30);  ?></span></p>
+                                                                    font-style: italic;"><?= substr($returneGroups->fileName, -30);  ?></span></p>
                                                                     </div>
 
                                                                     <div class="m-0">
@@ -168,11 +176,11 @@ $this->params['breadcrumbs'] = [
                                                                             <div class="col-sm-3"></div>
                                                                             <div class="col-sm-6">
                                                                                 <p>Comment: <span class="text-muted m-0"><?php
-                                                                                        if (is_null($returneGroups['comment'])){
+                                                                                        if (is_null($returneGroups->comment)){
                                                                                             echo "No comment";
                                                                                         }
                                                                                         else
-                                                                                            echo $returneGroups['comment'];
+                                                                                            echo $returneGroups->comment;
 
                                                                                         ?></span></p>
                                                                             </div>
@@ -183,7 +191,10 @@ $this->params['breadcrumbs'] = [
                                                             </div>
                                                         </div>
 
-                                                    <?php endforeach ?>
+                                                    <?php 
+                                                    }
+                                                                                    }
+                                                    ?>
 
                                                 </section>
                                                 <!-- ########################################### returned marks end ######################################## -->

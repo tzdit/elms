@@ -5,6 +5,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use common\models\Course;
+use common\models\QuizThread;
 use common\models\Assignment;
 use common\models\Material;
 use common\models\Submit;
@@ -1203,7 +1204,13 @@ public function actionClassStudents($cid)
 
 public function actionClassQuizes()
 {
-    return $this->render('quiz/quiz_view');
+    $dataProvider = new ActiveDataProvider([
+        'query' => QuizThread::find(),
+    ]);
+
+    return $this->render('../quiz-thread/index', [
+        'dataProvider' => $dataProvider,
+    ]);
 
 }
 

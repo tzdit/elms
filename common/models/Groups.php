@@ -12,6 +12,7 @@ use Yii;
  * @property int $generation_type
  *
  * @property GroupAssignment[] $groupAssignments
+ * @property GroupAssignmentSubmit[] $groupAssignmentSubmits
  * @property GroupGenerationTypes $generationType
  * @property StudentGroup[] $studentGroups
  */
@@ -87,7 +88,20 @@ class Groups extends \yii\db\ActiveRecord
     {
         return $this->hasMany(StudentGroup::className(), ['groupID' => 'groupID']);
     }
+    public function getGroupAssignmentSubmits()
+    {
+        return $this->hasMany(GroupAssignmentSubmit::className(), ['groupID' => 'groupID']);
+    }
+    public function isMember($student)
+    {
+        $members=$this->studentGroups;
+        for($s=0;$s<count($members);$s++)
+        {
+            if($members[$s]->regNo->reg_no==$student){return true;}
+            continue;
+        }
 
-
+        return false;
+    }
 
 }
