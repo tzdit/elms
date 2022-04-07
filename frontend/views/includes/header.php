@@ -33,7 +33,7 @@ use common\models\Academicyear;
     $form = ActiveForm::begin(['method'=>'post','options'=>['class'=>'form-inline form-horizontal'], 'action'=>['/instructor/switch-academicyear']]);?>
 
         <div class="row"><div class="col-md-8 col-sm-8  nav-link" style="padding-right:1;padding-left:0"><div class="form-group">
-        <?= $form->field($yearmodel, 'yearid')->dropDownList($mappedyears,['class'=>'p-1 btn-default btn-sm rounded-pill'])->label('Academic Year',['class'=>'text-md d-none d-md-block'])?>
+        <?= $form->field($yearmodel, 'yearid')->dropDownList($mappedyears,['class'=>'btn-default btn-sm rounded-pill'])->label('Academic Year',['class'=>'text-md d-none d-md-block'])?>
 </div>
 </div><div class="col-md-4 col-sm-4 nav-link" style="padding-right:0;padding-left:1"><div class="form-group" >
        <?=Html::submitButton('<i class="fa fa-refresh"></i> Switch',['class'=>'btn btn-sm  btn-default rounded-pill '])?>
