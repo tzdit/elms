@@ -4,7 +4,9 @@ use common\models\Course;
 use common\models\GroupAssignment;
 use common\models\GroupGenerationAssignment;
 use common\models\Groups;
+use common\models\Assignment;
 use common\models\Student;
+use common\models\Submit;
 use common\models\StudentGroup;
 use frontend\models\ClassRoomSecurity;
 use frontend\models\GroupAssSubmit;
@@ -18,46 +20,158 @@ use yii\helpers\VarDumper;
 
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =$cid." - Group Assignment";
-$this->title = 'Groups';
+$this->params['courseTitle'] =$cid. " - Assignments";
+$this->title = 'Assignments';
 $this->params['breadcrumbs'] = [
+    ['label'=>'Class', 'url'=>Url::to(['/student/classwork', 'cid'=>$cid])],
     ['label'=>$this->title]
 ];
 
 ?>
-
-
-
-<!--                                                    --><?php
-//                                                    echo '<pre>';
-//                                                    var_dump($studentGroupsList);
-//                                                    echo '</pre>';
-////                                                                                             exit;
-//                                                    ?>
-
 
 <div class="site-index">
     <div class="body-content">
         <!-- Content Wrapper. Contains page content -->
 
         <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- Custom Tabs -->
+            <div class="card">
+              <div class="card-header d-flex p-0">
+                
+                <ul class="nav nav-pills p-2">
+                  <li class="nav-item"  ><a class="nav-link active" href="#tab_1" data-toggle="tab"><i class="fas fa-user"></i> Individual Assignments </a></li>
+                  <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab"><i class="fas fa-users"></i>Group Assignments </a></li>
+                </ul>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="tab_1">
+                  <div class="site-index">
+    <div class="body-content">
+        <!-- Content Wrapper. Contains page content -->
+
+        <div class="container-fluid">
 
             <div class="row">
+                <!-- Left col -->
                 <section class="col-lg-12">
-                        <div class="card card-primary card-outline card-outline-tabs">
-                            <div class="card-header p-0 border-bottom-0">
-                                <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true"><img src="<?= Yii::getAlias('@web/img/upload.png') ?>" width="30" height="30" class=" mr-2">GROUP ASSIGNMENT FOR SUBMISSION</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false"><img src="<?= Yii::getAlias('@web/img/create.png') ?>" width="30" height="30" class=" mr-2">CREATE GROUP FOR ASSIGNMENT</a>
-                                    </li>
-                                </ul>
+
+
+                    <div class=" card-outline card-outline-tabs">
+                        <div class="card-body" >
+                            <div class="tab-content" id="custom-tabs-four-tabContent">
+
+                                <!-- ########################################### Assignments ######################################## -->
+                                <?php $ass = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->count(); ?>
+
+                                    <div class="accordion" id="accordionExample">
+                                        <?php $assk = "Assignment".$ass ;
+                                        $assk = "Assignment".$ass;
+                                        ?>
+                                        <?php
+                                        if(empty($assignments)){
+                                            echo "<p class='text-muted text-lg'>";
+                                            echo "No assignment found";
+                                            echo "</p>";
+                                        }
+                                        ?>
+
+                                        <?php foreach( $assignments as $assign ) : ?>
+
+                                            <div class="card">
+                                                <div class="card shadow-lg">
+                                                    <div class="card-header p-2" id="heading<?=$ass?>">
+                                                        <h2 class="mb-0">
+                                                            <div class="row">
+                                                                <div class="col-sm-11">
+                                                                    <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$ass?>" aria-expanded="true" aria-controls="collapse<?=$ass?>">
+                                                                        <h5><i class="fas fa-clipboard-list"></i><span class="assignment-auto"></span> <span class="assignment-header"><?php  echo ucwords($assign -> assName)?></span></h5>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-sm-1">
+                                                                    <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
+                                                                </div>
+                                                            </div>
+                                                        </h2>
+                                                    </div>
+
+                                                    <div id="collapse<?=$ass?>" class="collapse" aria-labelledby="heading<?=$ass?>" data-parent="#accordionExample">
+                                                        <div class="card-body">
+                                                            <p><span style="color:green"> Description: </span>  <?= $assign -> ass_desc ?> </p>
+                                                        </div>
+                                                        <div class="card-footer p-2 bg-white border-top">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+
+                                                                    <?php
+                                                                    //variable to check if there is any submission
+                                                                    $submited = Submit::find()->where('reg_no = :reg_no AND assID = :assID', [ ':reg_no' => $reg_no,':assID' => $assign->assID])->one();
+                                                                    ?>
+
+                                                                    <?php
+                                                                    // check if dead line of submit assignment is meet
+                                                                    $currentDateTime = new DateTime("now");
+                                                                    //set an date and time to work with
+                                                                    $start = $assign->finishDate;
+
+                                                                    //add 23:59 to the deadline date
+                                                                    $modified = date('Y-m-d H:i:s',strtotime('+23 hour +59 minutes',strtotime($start)));
+                                                                    $deadLineDate = new DateTime($modified);
+                                                                    $isOutOfDeadline =   $currentDateTime > $deadLineDate;
+                                                                    ?>
+
+                                                                    <b class="text-danger ml-3"><i class="fa fa-clock-o"></i> Deadline : </b><?= $deadLineDate->format('Y-m-d H:i:s') ?>
+                                                                </div>
+                                                                <div class="col-md-6">
+
+                                                                    <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> ClassRoomSecurity::encrypt($assign->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
+
+                                                                    <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> ClassRoomSecurity::encrypt($assign->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-eye"> View</i></span></a>
+
+                                                                    <?php if(empty($submited) && $isOutOfDeadline == false):?>
+                                                                        <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> ClassRoomSecurity::encrypt($assign->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
+                                                                    <?php endif ?>
+
+                                                                    <?php if(!empty($submited) && $isOutOfDeadline == false):?>
+                                                                        <a href="<?= Url::toRoute(['/student/resubmit','assID'=> ClassRoomSecurity::encrypt($assign->assID), 'submit_id' => ClassRoomSecurity::encrypt($submited->submitID)])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
+                                                                    <?php endif ?>
+
+                                                                    <?php if($isOutOfDeadline == true):?>
+                                                                        <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
+                                                                    <?php endif ?>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <?php
+                                            $ass--;
+                                            ?>
+
+                                        <?php endforeach ?>
+
+
+                                    </div>
+
+                                <?php $labb = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->count(); ?>
+                                <!-- ########################################### Assignments end ######################################## -->
 
                             </div>
-
-                            <div class="card-body">
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div><!--/. container-fluid -->
+    </div>
+</div>
+                  </div>
+                  <!-- /.tab-pane -->
+                  <div class="tab-pane" id="tab_2">
+                  <div class="card-body">
                                 <div class="tab-content" id="custom-tabs-four-tabContent">
                                     <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">
                                         <div class="card-body" >
@@ -311,16 +425,15 @@ $this->params['breadcrumbs'] = [
                                                                                     <?php endif; ?>
 
                                                                                     <?php
-                                                                                    $studentList = StudentGroup::find()->select('student.fname, student.mname, student.lname, student.reg_no, student.programCode, student.phone ')->join('INNER JOIN', 'student', 'student.reg_no = student_group.reg_no')->where('groupID = :groupID ', [':groupID' => $item['groupID']])->asArray()->all();
+                                                                                    $studentList = StudentGroup::find()->select('student.fname, student.mname, student.lname')->join('INNER JOIN', 'student', 'student.reg_no = student_group.reg_no')->where('groupID = :groupID ', [':groupID' => $item['groupID']])->asArray()->all();
                                                                                     ?>
                                                                                     <div class="p-5">
                                                                                         <div class="card-header bg-primary">
                                                                                             <h4>Group Members</h4>
                                                                                         </div>
-                                                                                        <!-- -----------------------------group member ---------------------------------------->
                                                                                         <?php foreach ($studentList as $student) : ?>
                                                                                             <div class="card-footer p-2 bg-white shadow-lg">
-                                                                                                <li class="ml-xl-5 p-1 col-md-9 text-muted" style="display: inline-block"><?= strtoupper($student['fname']) ?> &nbsp; <?= strtoupper($student['mname']) ?> &nbsp; <?= strtoupper($student['lname']) ?> &nbsp; <?= strtoupper($student['reg_no']) ?> &nbsp; <?= strtoupper($student['programCode']) ?> &nbsp; <?= strtoupper($student['phone']) ?> </li>
+                                                                                                <li class="ml-xl-5 p-1 col-md-9 text-muted" style="display: inline-block"><?= strtoupper($student['fname']) ?> &nbsp; <?= strtoupper($student['mname']) ?> &nbsp; <?= strtoupper($student['lname']) ?> </li>
                                                                                             </div>
                                                                                         <?php endforeach; ?>
                                                                                     </div>
@@ -337,205 +450,31 @@ $this->params['breadcrumbs'] = [
                                                                     <?php endforeach; ?>
                                                                 </div>
                                                             </div>
-                                                            <!-- ########################################### GROUPS END ######################################## -->
-                                                        </div>
 
-
-
-                                                </section>
-                                                <!-- ########################################### group by instructor end ######################################## -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="materials" role="tabpanel" aria-labelledby="custom-tabs-materials">
-                                        <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">
-                                            <div class="card-body" >
-                                                <div class="tab-content" id="custom-tabs-four-tabContent">
-
-
-                                                    <!-- ########################################### group by student ######################################## -->
-
-                                                    <!-- Left col -->
-                                                    <section class="col-lg-12">
-
-
-
-
-
-                                                        <div class="body-content mb-4">
-                                                            <!-- Content Wrapper. Contains page content -->
-
-                                                            <div class="container-fluid">
-
-                                                                <div class="row">
-                                                                    <!-- Left col -->
-                                                                    <section class="col-lg-12">
-                                                                        <!-- Custom tabs (Charts with tabs)-->
-
-                                                                        <div class="card">
-                                                                            <a value="<?= Url::to(['/student/create-group', 'cid' => $cid]) ?>" class="btn btn-primary btn-sm float-right m-0 col-xs-12" id = "group_modal_button">
-                                                                                <i class="fas fa-plus fa-lg"></i> CREATE GROUP
-                                                                            </a>
-                                                                            <?php
-                                                                            Modal::begin([
-                                                                                'title' => '<h2>CREATE GROUP</h2>',
-                                                                                'id' => 'group_modal',
-                                                                                'size' => 'modal-lg'
-                                                                            ]);
-
-                                                                            echo "<div id = 'group_modal_content'></div>";
-                                                                            Modal::end();
-                                                                            ?>
-                                                                        </div>
-                                                                        <!-- /.card -->
-
-                                                                    </section>
-                                                                    <!-- /.Left col -->
-                                                                    <!-- right col (We are only adding the ID to make the widgets sortable)-->
-
-                                                                    <!-- right col -->
-                                                                </div>
-
-                                                            </div><!--/. container-fluid -->
-
-                                                        </div>
-
-
-
-
-
-
-<!--                                                                                                            --><?php
-//                                                                                                            echo '<pre>';
-//                                                                                                            var_dump($noGroupAssignment);
-//                                                                                                            echo '</pre>';
-//                                                                                                                                                     exit;
-//                                                                                                            ?>
-
- 
-                                                        <div class="accordion" id="accordionExample_33">
-                                                            <?php foreach( $noGroupAssignment as $itemNoGroup ) : ?>
-
-
-                                                                 <?php
-
-                                                                    $checkGroup = Groups::find()->join('INNER JOIN','student_group','groups.groupID = student_group.groupID')->where('groups.generation_type = :typeID AND student_group.reg_no = :reg_no', [':typeID' => $itemNoGroup['typeID'], ':reg_no' => $reg_no])->count();
-
-                                                                ?>
-
-                                                                <?php if ($checkGroup == 0): ?>
-                                                                <div class="card">
-                                                                    <div class="card shadow-lg">
-                                                                        <div class="card-header p-2" id="heading<?=$noGroupAssignmentCount?>">
-                                                                            <h2 class="mb-0">
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-11">
-                                                                                        <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$noGroupAssignmentCount?>" aria-expanded="true" aria-controls="collapse<?=$noGroupAssignmentCount?>">
-
-                                                                                            <div class="row">
-                                                                                                <div class="col-sm-6">
-                                                                                                    <h4><img src="<?= Yii::getAlias('@web/img/groupWork.png') ?>" width="40" height="40" class="mt-1"> <span class="assignment-header "><?php echo $itemNoGroup['generation_type']." ";?></span></h4>
-                                                                                                    <h6><span>Assignment Name: </span><span class="assignment-header "><?php echo $itemNoGroup['assName']." ";?></span></h6>
-                                                                                                </div>
-                                                                                                <div class="col-sm-4">
-                                                                                                    <div><img src="<?= Yii::getAlias('@web/img/warning.png') ?>" width="30" height="30" class="mt-3 mr-3"><h6 class="text-danger">Your not belong to any group in this assignment, Please create group with maximum member of <?= $itemNoGroup['max_groups_members'] ?> include your self</h6></div>
-                                                                                                    <h4 class="text-danger font-italic">CLICK TO CREATE GROUP FOR THIS ASSIGNMENT</h4>
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                        </button>
-                                                                                    </div>
-                                                                                    <div class="col-sm-1">
-                                                                                        <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </h2>
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div id="collapse<?=$noGroupAssignmentCount?>" class="collapse" aria-labelledby="heading<?=$noGroupAssignmentCount?>" data-parent="#accordionExample_33">
-
-
-                                                                        <div class="card mx-3 p-4">
-
-                                                                            <div class="mb-2">
-                                                                                <h5 class="text-warning font-italic">Your name will be added automatic in a group you create,So add  <?= $itemNoGroup['max_groups_members'] -1 ." " ?>member</h5>
-                                                                            </div>
-
-                                                                            <?php $form = ActiveForm::begin();?>
-
-
-                                                                            <?= $form->field($model, 'groupName')->textInput(['class' => 'col-sm-7', 'size' => 100])->label('Group Name') ?>
-                                                                            <?php
-                                                                            echo $form->field($model,'memberStudents[]')->dropDownList(ArrayHelper::map(Student::find()->
-                                                                            select(['student.reg_no', 'student.fname', 'student.mname', 'student.lname'])
-                                                                                ->join('INNER JOIN', 'program', 'student.programCode = program.programCode')
-                                                                                ->join('INNER JOIN', 'program_course', 'program.programCode = program_course.programCode')
-                                                                                ->join('LEFT OUTER JOIN', 'student_group', 'student.reg_no = student_group.reg_no')
-                                                                                ->join('LEFT OUTER JOIN', 'groups', 'student_group.groupID = groups.groupID')
-                                                                                ->where('(groups.generation_type != :generation_type OR groups.generation_type IS NULL )  AND program_course.course_code = :course_code AND student.reg_no != :reg_no', [':generation_type' => $itemNoGroup['typeID'], ':course_code' => $itemNoGroup['course_code'], ':reg_no' => Yii::$app->user->identity->username])
-                                                                                ->orderBy(['student.fname' => SORT_ASC])
-                                                                                ->asArray()
-                                                                                ->all(),'reg_no',
-                                                                                function ($model){
-                                                                                return $model['fname']." ".$model['mname']." ".$model['lname']." - ".$model['reg_no'];
-                                                                                }
-                                                                                ),['data-placeholder'=>'-- Search member to add --','class' => 'form-control form-control-sm','id' => 'group_members'.$noGroupAssignmentCount, 'multiple'=>true,'style'=>'width:100%'])
-
-                                                                            ?>
-
-                                                                            <?=  $form->field($model, 'generation_type')->hiddenInput(['value' => $itemNoGroup['typeID']])->label(false) ?>
-
-
-                                                                            <div class="form-group">
-                                                                                <?= Html::submitButton(Yii::t('app', 'CREATE'), ['class' => 'btn btn-primary']) ?>
-                                                                            </div>
-
-                                                                            <?php ActiveForm::end(); ?>
-
-                                                                            <?php
-                                                                            $script = <<<JS
-$(document).ready(function(){
-  $('#group_members' + $noGroupAssignmentCount).select2();
-  
-});
-JS;
-
-                                                                            $this->registerJs($script);
-
-                                                                            ?>
-
-
-                                                                        </div>
-
-
-                                                                    </div>
-
-                                                                    </div>
-                                                                <?php endif; ?>
-
-                                                                <?php
-                                                                $noGroupAssignmentCount--;
-                                                                ?>
-
-                                                            <?php endforeach; ?>
-                                                        </div>
-
-                                                    </section>
-                                                    <!-- ########################################### group by student end ######################################## -->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                    </section>
+                  </div>
+                  <!-- /.tab-pane -->
+                  <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
             </div>
+            <!-- ./card -->
+          </div>
+          <!-- /.col -->
         </div>
-    </div><!--/. container-fluid -->
-</div>
-</div>
+        <!-- /.row -->
+        <!-- END CUSTOM TABS -->
 
+
+        </div>
+    </div>
+
+
+<?php 
+$script = <<<JS
+
+JS;
+$this->registerJs($script);
+?>
 
 

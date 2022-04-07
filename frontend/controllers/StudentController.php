@@ -53,7 +53,8 @@ class StudentController extends \yii\web\Controller
                             'resubmit','videos','announcement','group_assignment_submit',
                             'quiz_answer','quiz_view','group_resubmit','assignment',
                             'group-assignment','labs','tutorial','course-materials','returned',
-                            'course-announcement','quiz','student-group','add-group-member', 'create-group','classmates','my-ca'
+                            'course-announcement','quiz','student-group','add-group-member', 'create-group','classmates','my-ca',
+                            'view-normal-assignments', 'view-normal-labs'
                         ],
                         
 
@@ -267,6 +268,8 @@ public function actionClasswork($cid){
 
         $assID = ClassRoomSecurity::decrypt($assID);
         $submit_id = ClassRoomSecurity::decrypt($submit_id);
+        $submit = Submit::findOne($submit_id);
+        $exists = Submit::findOne($submit_id)->exists();
 
         $model = AssSubmitForm::find()->where('submitID = :submitID AND assID = :assID ', [':submitID' => $submit_id, ':assID' => $assID])->one();
 //        $submit_model = Submit::find()->where('assID = :assID', [':assID' => $submit_id])->one();
@@ -274,6 +277,7 @@ public function actionClasswork($cid){
         if (!isset($model->fileName)){
             throw new NotFoundHttpException('file do not exist');
         }
+        
 
         $file_name = $model->fileName;
         $oldDocumentPath = Yii::getAlias('@frontend/web/storage/submit/'.$file_name);
@@ -286,6 +290,9 @@ public function actionClasswork($cid){
                 if (file_exists($oldDocumentPath)){
                     unlink($oldDocumentPath);
                     $model->delete();
+                }
+                elseif($exists){
+                    $submit->delete();
                 }
 
 //                echo '<pre>';
@@ -1181,6 +1188,42 @@ public function actionClasswork($cid){
         {
             throw new NotFoundHttpException(Yii::t('app', 'The requested file does not exist.'));
         }
+    }
+
+    public function actionViewNormalAssignments($cid)
+    {
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
+	     if(!empty($cid)){
+            Yii::$app->session->set('ccode', $cid);
+        }
+
+        $reg_no = Yii::$app->user->identity->username;
+        $assignments = Assignment::find()->where('assNature = :assignment AND course_code = :cid AND (assType = :students OR assType = :allstudent) ',[':assignment' => 'assignment', ':cid' => $cid, ':students' => 'students', ':allstudent' => 'allstudents'])->orderBy([
+            'assID' => SORT_DESC ])->all();
+            $noGroupAssignment =  Assignment::find()->select('assignment.*, group_generation_types.*, group_generation_assignment.*')->join('INNER JOIN', 'group_generation_assignment','assignment.assID = group_generation_assignment.assID')->join('INNER JOIN', 'group_generation_types', 'group_generation_assignment.gentypeID = group_generation_types.typeID ')->where('group_generation_types.course_code = :course_code', ['course_code' => $cid])->orderBy(['assignment.assID' => SORT_DESC ])->asArray()->all();
+            $noGroupAssignmentCount =  Assignment::find()->select('assignment.*, group_generation_types.*, group_generation_assignment.*')->join('INNER JOIN', 'group_generation_assignment','assignment.assID = group_generation_assignment.assID')->join('INNER JOIN', 'group_generation_types', 'group_generation_assignment.gentypeID = group_generation_types.typeID ')->where('group_generation_types.course_code = :course_code', ['course_code' => $cid])->count();
+            $studentGroups = Groups::find()->select('groups.groupName, student_group.*,group_generation_types.* ')->join('INNER JOIN','student_group','groups.groupID = student_group.groupID')->join('INNER JOIN', 'group_generation_types', 'groups.generation_type = group_generation_types.typeID')->where('student_group.reg_no = :reg_no AND group_generation_types.course_code = :course_code', [':reg_no' => $reg_no, 'course_code' => $cid])->orderBy(['SG_ID' => SORT_DESC ])->asArray()->all();
+
+
+        return $this->render('normal_assignment', ['cid'=>$cid, 'assignments' => $assignments,  'reg_no' => $reg_no, 'noGroupAssignment' => $noGroupAssignment, 'noGroupAssignmentCount' => $noGroupAssignmentCount, 'studentGroupsList' => $studentGroups]);
+    }
+
+    public function actionViewNormalLabs($cid)
+    {
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
+        if(!empty($cid)){
+            Yii::$app->session->set('ccode', $cid);
+        }
+
+        $labs = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->orderBy([
+            'assID' => SORT_DESC ])->all();
+
+        $reg_no = Yii::$app->user->identity->username;
+        return $this->render('normal_lab', ['cid'=>$cid, 'reg_no' => $reg_no, 'labs'=>$labs] );
     }
     
 

@@ -89,6 +89,9 @@ $this->params['breadcrumbs'] = [
                                                                     //set an date and time to work with
                                                                     $start = $assign->finishDate;
 
+                                                                    // to check if assignment needs to be resubmitted or not
+                                                                    $resubmit_mode = $assign->submitMode;
+
                                                                     //add 23:59 to the deadline date
                                                                     $modified = date('Y-m-d H:i:s',strtotime('+23 hour +59 minutes',strtotime($start)));
                                                                     $deadLineDate = new DateTime($modified);
@@ -106,10 +109,11 @@ $this->params['breadcrumbs'] = [
                                                                     <?php if(empty($submited) && $isOutOfDeadline == false):?>
                                                                         <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> ClassRoomSecurity::encrypt($assign->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
                                                                     <?php endif ?>
-
-                                                                    <?php if(!empty($submited) && $isOutOfDeadline == false):?>
+                                                                        <!-- submitMode -can resubmit or cant resubmit -->
+                                                                    <?php if($resubmit_mode == "resubmit" && !empty($submited) && $isOutOfDeadline == false):?>
                                                                         <a href="<?= Url::toRoute(['/student/resubmit','assID'=> ClassRoomSecurity::encrypt($assign->assID), 'submit_id' => ClassRoomSecurity::encrypt($submited->submitID)])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
                                                                     <?php endif ?>
+                                                                    <!-- end of resubmit -->
 
                                                                     <?php if($isOutOfDeadline == true):?>
                                                                         <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
