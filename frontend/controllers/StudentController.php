@@ -694,7 +694,10 @@ public function actionClasswork($cid){
             array_push($groupsbuffer,$groups[$g]);
         }
         }
+
+        /// here we will need to add groups for individual groups, not from generation types
         //////////////mine is over
+
         $returnedGroupAss = GroupAssSubmit::find()->select('group_assignment_submit.*, assignment.*, groups.*')->innerJoin( 'groups', 'group_assignment_submit.groupID = groups.groupID')->innerJoin('student_group', 'student_group.groupID = student_group.groupID')->innerJoin('assignment', 'assignment.assID = group_assignment_submit.assID')->where('student_group.reg_no = :reg_no AND assignment.course_code = :course_code', [ ':reg_no' => $reg_no,':course_code' => $cid])->orderBy([
             'group_assignment_submit.submitID' => SORT_DESC ])->asArray()->all();
          
@@ -821,7 +824,7 @@ public function actionClasswork($cid){
             ],false,true);
     }
     catch(\Exception $e){
-        Yii::$app->session->setFlash('error', 'You have already add this course');
+        Yii::$app->session->setFlash('error', 'You have already added this course');
         return $this->redirect(Yii::$app->request->referrer);
     }
 
