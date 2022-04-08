@@ -412,7 +412,7 @@ $this->params['breadcrumbs'] = [
 //                                                                                                                                                     exit;
 //                                                                                                            ?>
 
- 
+
                                                         <div class="accordion" id="accordionExample_33">
                                                             <?php foreach( $noGroupAssignment as $itemNoGroup ) : ?>
 

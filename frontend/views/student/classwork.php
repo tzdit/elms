@@ -32,7 +32,7 @@ $this->params['breadcrumbs'] = [
                                 <a href="<?=Url::to(['student/view-normal-assignments/', 'cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 row result-card mx-1 my-2 ">
                                 <img src="<?=  Yii::getAlias('@web/img/assignment.png')?>" height="34px" width="33px"/>
                                     <h5>
-                                            Normal Assignments
+                                            Individual Assignments
                                     </h5>
                                 </a>
 
@@ -49,16 +49,7 @@ $this->params['breadcrumbs'] = [
 
                                   </div>
 
-                                  <div class="col-sm-3 col-12 ">
 
-                                            <a href="<?=Url::to(['student/view-normal-labs/', 'cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 row result-card mx-1 my-2 ">
-                                                <img src="<?=  Yii::getAlias('@web/img/assignment.png')?>" height="34px" width="33px"/>
-                                                <h5>
-                                                    Lab Assignments
-                                                </h5>
-                                            </a>
-
-                                  </div>
 
                                   <div class="col-sm-3 col-12">
 
@@ -150,17 +141,7 @@ $this->params['breadcrumbs'] = [
                                             </a>
 
                                     </div>
-                                    <div class="col-sm-3 col-12">
 
-                                        <a href="<?=Url::to(['student/my-ca'])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
-                                        <img src="<?=  Yii::getAlias('@web/img/group.png')?>" height="35px" width="35px"/>
-
-                                                <h5>
-                                                    Group Management
-                                                </h5>
-                                        </a>
-
-                                    </div>
                                   </div>
                                   
                                   

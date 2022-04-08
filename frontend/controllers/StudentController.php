@@ -54,7 +54,7 @@ class StudentController extends \yii\web\Controller
                             'quiz_answer','quiz_view','group_resubmit','assignment',
                             'group-assignment','labs','tutorial','course-materials','returned',
                             'course-announcement','quiz','student-group','add-group-member', 'create-group','classmates','my-ca',
-                            'view-normal-assignments', 'view-normal-labs'
+                            'view-normal-assignments', 'view-normal-labs', 'group-management'
                         ],
                         
 
@@ -476,6 +476,13 @@ public function actionClasswork($cid){
 
         $reg_no = Yii::$app->user->identity->username;
        return $this->render('group_assignment', ['cid'=>$cid, 'reg_no' => $reg_no, 'generationType' => $generationType, 'groupID' => $groupID] );
+    }
+
+    public function actionGroupManagement(){
+
+
+
+        return $this->render('group_management' );
     }
 
 
@@ -1199,30 +1206,16 @@ public function actionClasswork($cid){
         $reg_no = Yii::$app->user->identity->username;
         $assignments = Assignment::find()->where('assNature = :assignment AND course_code = :cid AND (assType = :students OR assType = :allstudent) ',[':assignment' => 'assignment', ':cid' => $cid, ':students' => 'students', ':allstudent' => 'allstudents'])->orderBy([
             'assID' => SORT_DESC ])->all();
+        $labs = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->orderBy([
+            'assID' => SORT_DESC ])->all();
             $noGroupAssignment =  Assignment::find()->select('assignment.*, group_generation_types.*, group_generation_assignment.*')->join('INNER JOIN', 'group_generation_assignment','assignment.assID = group_generation_assignment.assID')->join('INNER JOIN', 'group_generation_types', 'group_generation_assignment.gentypeID = group_generation_types.typeID ')->where('group_generation_types.course_code = :course_code', ['course_code' => $cid])->orderBy(['assignment.assID' => SORT_DESC ])->asArray()->all();
             $noGroupAssignmentCount =  Assignment::find()->select('assignment.*, group_generation_types.*, group_generation_assignment.*')->join('INNER JOIN', 'group_generation_assignment','assignment.assID = group_generation_assignment.assID')->join('INNER JOIN', 'group_generation_types', 'group_generation_assignment.gentypeID = group_generation_types.typeID ')->where('group_generation_types.course_code = :course_code', ['course_code' => $cid])->count();
             $studentGroups = Groups::find()->select('groups.groupName, student_group.*,group_generation_types.* ')->join('INNER JOIN','student_group','groups.groupID = student_group.groupID')->join('INNER JOIN', 'group_generation_types', 'groups.generation_type = group_generation_types.typeID')->where('student_group.reg_no = :reg_no AND group_generation_types.course_code = :course_code', [':reg_no' => $reg_no, 'course_code' => $cid])->orderBy(['SG_ID' => SORT_DESC ])->asArray()->all();
 
 
-        return $this->render('normal_assignment', ['cid'=>$cid, 'assignments' => $assignments,  'reg_no' => $reg_no, 'noGroupAssignment' => $noGroupAssignment, 'noGroupAssignmentCount' => $noGroupAssignmentCount, 'studentGroupsList' => $studentGroups]);
+        return $this->render('normal_assignment', ['cid'=>$cid, 'assignments' => $assignments,  'reg_no' => $reg_no, 'noGroupAssignment' => $noGroupAssignment, 'noGroupAssignmentCount' => $noGroupAssignmentCount, 'studentGroupsList' => $studentGroups, 'labs'=>$labs]);
     }
 
-    public function actionViewNormalLabs($cid)
-    {
-        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
-
-        if(!empty($cid)){
-            Yii::$app->session->set('ccode', $cid);
-        }
-
-        $labs = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->orderBy([
-            'assID' => SORT_DESC ])->all();
-
-        $reg_no = Yii::$app->user->identity->username;
-        return $this->render('normal_lab', ['cid'=>$cid, 'reg_no' => $reg_no, 'labs'=>$labs] );
-    }
-    
 
 
 
