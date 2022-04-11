@@ -132,7 +132,7 @@ $this->params['breadcrumbs'] = [
                                                                                     //                                                    echo '</pre>';
                                                                                     ////                                                                                             exit;
                                                                                     //                                                    ?>
-
+<!--displaying assignment-->
                                                                                     <?php if (!empty($assignments)): ?>
 
                                                                                         <?php foreach ($assignments as $assignment ): ?>
@@ -280,7 +280,6 @@ $this->params['breadcrumbs'] = [
                                                                                                         ?>
 
 
-
                                                                                                         <b class="text-danger ml-5"><i class="fa fa-clock-o"></i> Deadline : </b><?= $deadLineDate->format('Y-m-d H:i:s') ?>
                                                                                                     </div>
                                                                                                     <div class="col-md-6">
@@ -309,7 +308,7 @@ $this->params['breadcrumbs'] = [
                                                                                             <h5 class="text-danger float-right mr-4">No Assignment provided yet</h5>
                                                                                         </div>
                                                                                     <?php endif; ?>
-
+<!--end of displaying assignment-->
                                                                                     <?php
                                                                                     $studentList = StudentGroup::find()->select('student.fname, student.mname, student.lname, student.reg_no, student.programCode, student.phone ')->join('INNER JOIN', 'student', 'student.reg_no = student_group.reg_no')->where('groupID = :groupID ', [':groupID' => $item['groupID']])->asArray()->all();
                                                                                     ?>

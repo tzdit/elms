@@ -54,7 +54,8 @@ class StudentController extends \yii\web\Controller
                             'quiz_answer','quiz_view','group_resubmit','assignment',
                             'group-assignment','labs','tutorial','course-materials','returned',
                             'course-announcement','quiz','student-group','add-group-member', 'create-group','classmates','my-ca',
-                            'view-normal-assignments', 'view-normal-labs', 'group-management'
+                            'view-normal-assignments', 'view-normal-labs', 'group-management','group-management-view',
+                            'remove-student-from-group'
                         ],
                         
 
@@ -1217,6 +1218,66 @@ public function actionClasswork($cid){
 
 
         return $this->render('normal_assignment', ['cid'=>$cid, 'assignments' => $assignments,  'reg_no' => $reg_no, 'noGroupAssignment' => $noGroupAssignment, 'noGroupAssignmentCount' => $noGroupAssignmentCount, 'studentGroupsList' => $studentGroups, 'labs'=>$labs]);
+    }
+
+    public function actionGroupManagementView($cid)
+    {
+        $secretKey=Yii::$app->params['app.dataEncryptionKey'];
+        $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+
+        if(!empty($cid)){
+            Yii::$app->session->set('ccode', $cid);
+        }
+
+        $reg_no = Yii::$app->user->identity->username;
+        $studentGroups = Groups::find()->select('groups.groupName, student_group.*,group_generation_types.* ')->join('INNER JOIN','student_group','groups.groupID = student_group.groupID')->join('INNER JOIN', 'group_generation_types', 'groups.generation_type = group_generation_types.typeID')->where('student_group.reg_no = :reg_no AND group_generation_types.course_code = :course_code', [':reg_no' => $reg_no, 'course_code' => $cid])->orderBy(['SG_ID' => SORT_DESC ])->asArray()->all();
+        $studentGroupsCount = Groups::find()->select('groups.groupName, student_group.*, ')->join('INNER JOIN','student_group','groups.groupID = student_group.groupID')->join('INNER JOIN', 'group_generation_types', 'groups.generation_type = group_generation_types.typeID')->where('student_group.reg_no = :reg_no AND group_generation_types.course_code = :course_code', [':reg_no' => $reg_no, 'course_code' => $cid])->count();
+        $noGroupAssignment =  Assignment::find()->select('assignment.*, group_generation_types.*, group_generation_assignment.*')->join('INNER JOIN', 'group_generation_assignment','assignment.assID = group_generation_assignment.assID')->join('INNER JOIN', 'group_generation_types', 'group_generation_assignment.gentypeID = group_generation_types.typeID ')->where('group_generation_types.course_code = :course_code', ['course_code' => $cid])->orderBy(['assignment.assID' => SORT_DESC ])->asArray()->all();
+        $noGroupAssignmentCount =  Assignment::find()->select('assignment.*, group_generation_types.*, group_generation_assignment.*')->join('INNER JOIN', 'group_generation_assignment','assignment.assID = group_generation_assignment.assID')->join('INNER JOIN', 'group_generation_types', 'group_generation_assignment.gentypeID = group_generation_types.typeID ')->where('group_generation_types.course_code = :course_code', ['course_code' => $cid])->count();
+
+        $model = new AddGroupMembers;
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            if (!$model->validate() && $model->addMember() == false){
+                Yii::$app->session->setFlash('error', 'Group creation failed');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+
+            $returned=$model->addMember();
+
+            if (empty($returned))
+            {
+
+                Yii::$app->session->setFlash('success', 'Group created successfully');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            else{
+
+                $errors="Error(s) detected during creation:";
+                foreach($returned as $member=>$error)
+                {
+                    $errors.="<br>".$member.": ".$error;
+                }
+                Yii::$app->session->setFlash('error',$errors);
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+
+        }
+
+
+
+        return $this->render('group_management_view', ['cid'=>$cid, 'reg_no' => $reg_no, 'studentGroupsList' => $studentGroups, 'count' => $studentGroupsCount, 'noGroupAssignment' => $noGroupAssignment, 'noGroupAssignmentCount' => $noGroupAssignmentCount, 'model' => $model] );
+    }
+
+    public function actionRemoveStudentFromGroup($reg_no, $groupID)
+    {
+        $studentGroup = StudentGroup::findOne(['reg_no'=>$reg_no, 'groupID'=>$groupID])->delete();
+
+        if($studentGroup){
+            Yii::$app->session->setFlash('success', 'Student removed from Group successfully');
+        }
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
 

@@ -18,13 +18,14 @@ use yii\helpers\VarDumper;
 
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =$cid." - Group Assignment";
+$this->params['courseTitle'] =$cid." - Group Management";
 $this->title = 'Groups';
 $this->params['breadcrumbs'] = [
     ['label'=>$this->title]
 ];
 
 ?>
+
 
 
 
@@ -46,16 +47,19 @@ $this->params['breadcrumbs'] = [
                 <section class="col-lg-12">
                     <div class="card card-primary card-outline card-outline-tabs">
                         <div class="card-header p-0 border-bottom-0">
-                            <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true"><img src="<?= Yii::getAlias('@web/img/upload.png') ?>" width="30" height="30" class=" mr-2">GROUP ASSIGNMENT FOR SUBMISSION</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false"><img src="<?= Yii::getAlias('@web/img/create.png') ?>" width="30" height="30" class=" mr-2">CREATE GROUP FOR ASSIGNMENT</a>
-                                </li>
-                            </ul>
+                            <a value="<?= Url::to(['/student/create-group', 'cid' => $cid]) ?>" class="float-right" id = "group_modal_button">
+                                <button type="submit" class="btn btn-outline-primary" style="float: right;"><i class="fas fa-plus"> </i> Create Group</button>
+                            </a>
+                            <?php
+                            Modal::begin([
+                                'title' => '<h2>CREATE GROUP</h2>',
+                                'id' => 'group_modal',
+                                'size' => 'modal-lg'
+                            ]);
 
-                        </div>
+                            echo "<div id = 'group_modal_content'></div>";
+                            Modal::end();
+                            ?>
 
                         <div class="card-body">
                             <div class="tab-content" id="custom-tabs-four-tabContent">
@@ -131,8 +135,11 @@ $this->params['breadcrumbs'] = [
                                                                             //                                                    var_dump($assignmentAllItems);
                                                                             //                                                    echo '</pre>';
                                                                             ////                                                                                             exit;
+                                                                            //
+                                                                            //
+                                                                            //
                                                                             //                                                    ?>
-
+                                                                            <!--displaying assignment-->
                                                                             <?php if (!empty($assignments)): ?>
 
                                                                                 <?php foreach ($assignments as $assignment ): ?>
@@ -201,49 +208,7 @@ $this->params['breadcrumbs'] = [
                                                                                                 <p class="card-text ml-5"><span style="color:green"> Description: </span>  <?= $assignmentAllItem['ass_desc'] ?> </p>
 
                                                                                             </div>
-                                                                                            <div class="row">
-                                                                                                <div class="col-md-6">
-                                                                                                    <?php
-                                                                                                    //variable to check if there is any submission
-                                                                                                    $submitedAll = GroupAssSubmit::find()->where('groupID = :groupID AND assID = :assID', [ ':groupID' => $assignmentAllItem['groupID'],':assID' => $assignmentAllItem['assID']])->asArray()->one();
-                                                                                                    ?>
 
-
-
-                                                                                                    <?php
-                                                                                                    // check if dead line of submit assignment is meet
-                                                                                                    $currentDateTime = new DateTime("now");
-                                                                                                    //set an date and time to work with
-                                                                                                    $start = $assignmentAllItem['finishDate'];
-
-                                                                                                    //add 23:59 to the deadline date
-                                                                                                    $modified = date('Y-m-d H:i:s',strtotime('+23 hour +59 minutes',strtotime($start)));
-                                                                                                    $deadLineDate = new DateTime($modified);
-                                                                                                    $isOutOfDeadline =   $currentDateTime > $deadLineDate;
-                                                                                                    ?>
-
-
-
-                                                                                                    <b class="text-danger ml-5"><i class="fa fa-clock-o"></i> Deadline : </b><?= $deadLineDate->format('Y-m-d H:i:s') ?>
-                                                                                                </div>
-                                                                                                <div class="col-md-6">
-
-                                                                                                    <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
-
-                                                                                                    <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-eye"> View</i></span></a>
-
-                                                                                                    <?php if(empty($submitedAll) && $isOutOfDeadline == false):?>
-                                                                                                        <a href="<?= Url::toRoute(['/student/group_assignment_submit','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID']), 'groupID' => ClassRoomSecurity::encrypt($assignmentAllItem['groupID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
-                                                                                                    <?php endif ?>
-                                                                                                    <?php
-                                                                                                    if(!empty($submitedAll) && $isOutOfDeadline == false):?>
-                                                                                                        <a href="<?= Url::toRoute(['/student/group_resubmit','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID']), 'submit_id' => ClassRoomSecurity::encrypt($submitedAll['submitID']), 'groupID' => ClassRoomSecurity::encrypt($assignmentAllItem['groupID'])])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
-                                                                                                    <?php endif ?>
-                                                                                                    <?php if($isOutOfDeadline == true):?>
-                                                                                                        <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
-                                                                                                    <?php endif ?>
-                                                                                                </div>
-                                                                                            </div>
                                                                                         </div>
 
                                                                                     <?php endforeach; ?>
@@ -258,49 +223,7 @@ $this->params['breadcrumbs'] = [
                                                                                             <p class="card-text ml-5"><span style="color:green"> Description: </span>  <?= $assignmentAllItem['ass_desc'] ?> </p>
 
                                                                                         </div>
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6">
-                                                                                                <?php
-                                                                                                //variable to check if there is any submission
-                                                                                                $submitedAll = GroupAssSubmit::find()->where('groupID = :groupID AND assID = :assID', [ ':groupID' => $assignmentAllItem['groupID'],':assID' => $assignmentAllItem['assID']])->asArray()->one();
-                                                                                                ?>
 
-
-
-                                                                                                <?php
-                                                                                                // check if dead line of submit assignment is meet
-                                                                                                $currentDateTime = new DateTime("now");
-                                                                                                //set an date and time to work with
-                                                                                                $start = $assignmentAllItem['finishDate'];
-
-                                                                                                //add 23:59 to the deadline date
-                                                                                                $modified = date('Y-m-d H:i:s',strtotime('+23 hour +59 minutes',strtotime($start)));
-                                                                                                $deadLineDate = new DateTime($modified);
-                                                                                                $isOutOfDeadline =   $currentDateTime > $deadLineDate;
-                                                                                                ?>
-
-
-
-                                                                                                <b class="text-danger ml-5"><i class="fa fa-clock-o"></i> Deadline : </b><?= $deadLineDate->format('Y-m-d H:i:s') ?>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-
-                                                                                                <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
-
-                                                                                                <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-eye"> View</i></span></a>
-
-                                                                                                <?php if(empty($submitedAll) && $isOutOfDeadline == false):?>
-                                                                                                    <a href="<?= Url::toRoute(['/student/group_assignment_submit','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID']), 'groupID' => ClassRoomSecurity::encrypt($assignmentAllItem['groupID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
-                                                                                                <?php endif ?>
-                                                                                                <?php
-                                                                                                if(!empty($submitedAll) && $isOutOfDeadline == false):?>
-                                                                                                    <a href="<?= Url::toRoute(['/student/group_resubmit','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID']), 'submit_id' => ClassRoomSecurity::encrypt($submitedAll['submitID']), 'groupID' => ClassRoomSecurity::encrypt($assignmentAllItem['groupID'])])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
-                                                                                                <?php endif ?>
-                                                                                                <?php if($isOutOfDeadline == true):?>
-                                                                                                    <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
-                                                                                                <?php endif ?>
-                                                                                            </div>
-                                                                                        </div>
                                                                                     </div>
 
                                                                                 <?php endforeach; ?>
@@ -309,21 +232,68 @@ $this->params['breadcrumbs'] = [
                                                                                     <h5 class="text-danger float-right mr-4">No Assignment provided yet</h5>
                                                                                 </div>
                                                                             <?php endif; ?>
-
+                                                                            <!--end of displaying assignment-->
                                                                             <?php
                                                                             $studentList = StudentGroup::find()->select('student.fname, student.mname, student.lname, student.reg_no, student.programCode, student.phone ')->join('INNER JOIN', 'student', 'student.reg_no = student_group.reg_no')->where('groupID = :groupID ', [':groupID' => $item['groupID']])->asArray()->all();
                                                                             ?>
-                                                                            <div class="p-5">
-                                                                                <div class="card-header bg-primary">
-                                                                                    <h4>Group Members</h4>
+                                                                            <div class="card">
+                                                                                <div class="card-header p-2">
+                                                                                    <h3 class="card-title com-sm-12">
+                                                                                        <i class="fas fa-list mr-1 text-info"></i>
+                                                                                        List of Students in a group
+
+                                                                                    </h3>
+                                                                                    <a value="<?= Url::to(['/student/create-group', 'cid' => $cid]) ?>" class="float-right" id = "group_modal_button">
+                                                                                        <button type="submit" class="btn btn-outline-primary" style="float: right;"><i class="fas fa-plus"> </i> Add Student</button>
+
+                                                                                    </a>
+
+                                                                                    <?php
+                                                                                    Modal::begin([
+                                                                                        'title' => '<h2>CREATE GROUP</h2>',
+                                                                                        'id' => 'group_modal',
+                                                                                        'size' => 'modal-lg'
+                                                                                    ]);
+
+                                                                                    echo "<div id = 'group_modal_content'></div>";
+                                                                                    Modal::end();
+                                                                                    ?>
+
+
+
+                                                                                </div><!-- /.card-header -->
+
+
+                                                                                <div class="card-body">
+                                                                                    <table class="table table-bordered table-striped table-hover" id="CourseList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
+                                                                                        <thead>
+                                                                                        <tr><th width="1%">#</th><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Reg No</th><th>Program Code</th><th>Phone</th><th width="10%">Action</th></tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+
+                                                                                        <?php $i = 0; ?>
+                                                                                        <?php foreach($studentList as $student): ?>
+                                                                                            <tr>
+                                                                                                <td><?= ++$i; ?></td>
+                                                                                                <td><?= $student['fname'] ?></td>
+                                                                                                <td><?= $student['mname'] ?></td>
+                                                                                                <td><?= $student['lname'] ?></td>
+                                                                                                <td><?= $student['reg_no'] ?></td>
+                                                                                                <td><?= $student['programCode'] ?></td>
+                                                                                                <td><?= $student['phone'] ?></td>
+                                                                                                <td>
+                                                                                                    <?= Html::a('<i class="fas fa-trash inner" data-toggle="tooltip" data-title="Remove Student"></i>',['remove-student-from-group', 'reg_no'=>$student['reg_no'], 'groupID'=>$item['groupID'] ], ['class'=>'btn btn-danger btn-sm m-0'])?>
+
+                                                                                                </td>
+
+                                                                                            </tr>
+
+                                                                                            <!-- ################################################## -->
+                                                                                        <?php endforeach; ?>
+                                                                                        </tbody>
+                                                                                    </table>
+
                                                                                 </div>
-                                                                                <!-- -----------------------------group member ---------------------------------------->
-                                                                                <?php foreach ($studentList as $student) : ?>
-                                                                                    <div class="card-footer p-2 bg-white shadow-lg">
-                                                                                        <li class="ml-xl-5 p-1 col-md-9 text-muted" style="display: inline-block"><?= strtoupper($student['fname']) ?> &nbsp; <?= strtoupper($student['mname']) ?> &nbsp; <?= strtoupper($student['lname']) ?> &nbsp; <?= strtoupper($student['reg_no']) ?> &nbsp; <?= strtoupper($student['programCode']) ?> &nbsp; <?= strtoupper($student['phone']) ?> </li>
-                                                                                    </div>
-                                                                                <?php endforeach; ?>
-                                                                            </div>
 
 
                                                                         </div>
@@ -523,6 +493,7 @@ JS;
                                                     </div>
 
                                                 </section>
+
                                                 <!-- ########################################### group by student end ######################################## -->
                                             </div>
                                         </div>
@@ -536,6 +507,35 @@ JS;
     </div><!--/. container-fluid -->
 </div>
 </div>
+
+
+<?php
+$script = <<<JS
+$(document).ready(function(){
+  $("#CourseList").DataTable({
+    responsive:true,
+  });
+//Remember active tab
+$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+
+localStorage.setItem('activeTab', $(e.target).attr('href'));
+
+});
+
+var activeTab = localStorage.getItem('activeTab');
+
+if(activeTab){
+
+$('#custom-tabs-four-tab a[href="' + activeTab + '"]').tab('show');
+
+}
+  
+});
+
+JS;
+$this->registerJs($script);
+?>
+
 
 
 
