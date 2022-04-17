@@ -1307,8 +1307,10 @@ public function actionClasswork($cid){
     public function actionAddStudentsToGroup($groupID)
     {
         $students =Yii::$app->request->post();
+        $students=$students['AddGroupMembers']['memberStudents'];
+        print_r($students); return false;
         $regs = ArrayHelper::getColumn($students, 'memberStudents');
-//        print_r($regs);
+        print_r($regs);
 //        echo $groupID;
 
 //        foreach($regs as $reg)
