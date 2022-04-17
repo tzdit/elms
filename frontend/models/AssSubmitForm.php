@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use common\models\Assignment;
 use common\models\Student;
+use frontend\models\FileHelper;
 use yii\db\Exception;
 use yii\web\NotFoundHttpException;
 

@@ -1,8 +1,11 @@
 <?php
 
 namespace frontend\controllers;
+use app\models\OneStudentGroup;
 use common\models\Submit;
+use common\models\Group;
 use frontend\models\AddGroupMembers;
+use frontend\models\AssignStudentsToGroup;
 use frontend\models\ClassRoomSecurity;
 use frontend\models\GroupCreateForm;
 use yii\filters\AccessControl;
@@ -20,6 +23,7 @@ use common\models\Announcement;
 use frontend\models\UploadStudentHodForm;
 use common\models\StudentCourse;
 use frontend\models\AddGroup;
+use frontend\models\FileHelper;
 use frontend\models\AssSubmitForm;
 use frontend\models\GroupAssSubmit;
 use frontend\models\CarryCourseSearch;
@@ -55,7 +59,7 @@ class StudentController extends \yii\web\Controller
                             'group-assignment','labs','tutorial','course-materials','returned',
                             'course-announcement','quiz','student-group','add-group-member', 'create-group','classmates','my-ca',
                             'view-normal-assignments', 'view-normal-labs', 'group-management','group-management-view',
-                            'remove-student-from-group'
+                            'remove-student-from-group','add-students-to-group'
                         ],
                         
 
@@ -270,7 +274,7 @@ public function actionClasswork($cid){
         $assID = ClassRoomSecurity::decrypt($assID);
         $submit_id = ClassRoomSecurity::decrypt($submit_id);
         $submit = Submit::findOne($submit_id);
-        $exists = Submit::findOne($submit_id)->exists();
+        $exists = Submit::find()->where(['submitID'=> $submit_id])->exists();
 
         $model = AssSubmitForm::find()->where('submitID = :submitID AND assID = :assID ', [':submitID' => $submit_id, ':assID' => $assID])->one();
 //        $submit_model = Submit::find()->where('assID = :assID', [':assID' => $submit_id])->one();
@@ -292,9 +296,9 @@ public function actionClasswork($cid){
                     unlink($oldDocumentPath);
                     $model->delete();
                 }
-                elseif($exists){
-                    $submit->delete();
-                }
+
+
+                
 
 //                echo '<pre>';
 //                var_dump($oldDocumentPath);
@@ -345,7 +349,15 @@ public function actionClasswork($cid){
         $studentGroupsCount = Groups::find()->select('groups.groupName, student_group.*, ')->join('INNER JOIN','student_group','groups.groupID = student_group.groupID')->join('INNER JOIN', 'group_generation_types', 'groups.generation_type = group_generation_types.typeID')->where('student_group.reg_no = :reg_no AND group_generation_types.course_code = :course_code', [':reg_no' => $reg_no, 'course_code' => $cid])->count();
         $noGroupAssignment =  Assignment::find()->select('assignment.*, group_generation_types.*, group_generation_assignment.*')->join('INNER JOIN', 'group_generation_assignment','assignment.assID = group_generation_assignment.assID')->join('INNER JOIN', 'group_generation_types', 'group_generation_assignment.gentypeID = group_generation_types.typeID ')->where('group_generation_types.course_code = :course_code', ['course_code' => $cid])->orderBy(['assignment.assID' => SORT_DESC ])->asArray()->all();
         $noGroupAssignmentCount =  Assignment::find()->select('assignment.*, group_generation_types.*, group_generation_assignment.*')->join('INNER JOIN', 'group_generation_assignment','assignment.assID = group_generation_assignment.assID')->join('INNER JOIN', 'group_generation_types', 'group_generation_assignment.gentypeID = group_generation_types.typeID ')->where('group_generation_types.course_code = :course_code', ['course_code' => $cid])->count();
-
+        $stds = Student::find()->select(['student.reg_no', 'student.fname', 'student.mname', 'student.lname'])
+            ->join('INNER JOIN', 'program', 'student.programCode = program.programCode')
+            ->join('INNER JOIN', 'program_course', 'program.programCode = program_course.programCode')
+            ->join('LEFT OUTER JOIN', 'student_group','student.reg_no = student_group.reg_no')
+            ->join('LEFT OUTER JOIN', 'groups','student_group.groupID = groups.groupID')
+            ->where('(groups.generation_type != :generation_type OR groups.generation_type IS NULL) AND program_course.course_code = :course_code AND student.reg_no != :reg_no', [':reg_no' => $reg_no, 'course_code' => $cid])
+            ->orderBy(['student.fname' => SORT_ASC])
+            ->asArray()
+            ->all();
         $model = new AddGroupMembers;
 
         if ($model->load(Yii::$app->request->post())) {
@@ -379,7 +391,7 @@ public function actionClasswork($cid){
 
 
 
-        return $this->render('student_groups', ['cid'=>$cid, 'reg_no' => $reg_no, 'studentGroupsList' => $studentGroups, 'count' => $studentGroupsCount, 'noGroupAssignment' => $noGroupAssignment, 'noGroupAssignmentCount' => $noGroupAssignmentCount, 'model' => $model] );
+        return $this->render('student_groups', ['cid'=>$cid, 'reg_no' => $reg_no, 'studentGroupsList' => $studentGroups, 'count' => $studentGroupsCount, 'noGroupAssignment' => $noGroupAssignment, 'noGroupAssignmentCount' => $noGroupAssignmentCount, 'model' => $model, 'stds' => $stds] );
     }
 
 
@@ -1234,7 +1246,19 @@ public function actionClasswork($cid){
         $studentGroupsCount = Groups::find()->select('groups.groupName, student_group.*, ')->join('INNER JOIN','student_group','groups.groupID = student_group.groupID')->join('INNER JOIN', 'group_generation_types', 'groups.generation_type = group_generation_types.typeID')->where('student_group.reg_no = :reg_no AND group_generation_types.course_code = :course_code', [':reg_no' => $reg_no, 'course_code' => $cid])->count();
         $noGroupAssignment =  Assignment::find()->select('assignment.*, group_generation_types.*, group_generation_assignment.*')->join('INNER JOIN', 'group_generation_assignment','assignment.assID = group_generation_assignment.assID')->join('INNER JOIN', 'group_generation_types', 'group_generation_assignment.gentypeID = group_generation_types.typeID ')->where('group_generation_types.course_code = :course_code', ['course_code' => $cid])->orderBy(['assignment.assID' => SORT_DESC ])->asArray()->all();
         $noGroupAssignmentCount =  Assignment::find()->select('assignment.*, group_generation_types.*, group_generation_assignment.*')->join('INNER JOIN', 'group_generation_assignment','assignment.assID = group_generation_assignment.assID')->join('INNER JOIN', 'group_generation_types', 'group_generation_assignment.gentypeID = group_generation_types.typeID ')->where('group_generation_types.course_code = :course_code', ['course_code' => $cid])->count();
-
+        $stds = ArrayHelper::map(Student::find()->select(['student.reg_no', 'student.fname', 'student.mname', 'student.lname'])
+                                                                                ->join('INNER JOIN', 'program', 'student.programCode = program.programCode')
+                                                                                ->join('INNER JOIN', 'program_course', 'program.programCode = program_course.programCode')
+                                                                                ->join('LEFT OUTER JOIN', 'student_group', 'student.reg_no = student_group.reg_no')
+                                                                                ->join('LEFT OUTER JOIN', 'groups', 'student_group.groupID = groups.groupID')
+                                                                                ->where(['program_course.course_code'=> $cid])
+                                                                                ->orderBy(['student.fname' => SORT_ASC])
+                                                                                ->asArray()
+                                                                                ->all(),'reg_no',
+                                                                                function ($model){
+                                                                                    return $model['fname']." ".$model['mname']." ".$model['lname']." - ".$model['reg_no'];
+                                                                                });
+                                                                            
         $model = new AddGroupMembers;
 
         if ($model->load(Yii::$app->request->post())) {
@@ -1267,7 +1291,7 @@ public function actionClasswork($cid){
 
 
 
-        return $this->render('group_management_view', ['cid'=>$cid, 'reg_no' => $reg_no, 'studentGroupsList' => $studentGroups, 'count' => $studentGroupsCount, 'noGroupAssignment' => $noGroupAssignment, 'noGroupAssignmentCount' => $noGroupAssignmentCount, 'model' => $model] );
+        return $this->render('group_management_view', ['cid'=>$cid, 'reg_no' => $reg_no, 'studentGroupsList' => $studentGroups, 'count' => $studentGroupsCount, 'noGroupAssignment' => $noGroupAssignment, 'noGroupAssignmentCount' => $noGroupAssignmentCount, 'model' => $model, 'stds' => $stds] );
     }
 
     public function actionRemoveStudentFromGroup($reg_no, $groupID)
@@ -1278,6 +1302,25 @@ public function actionClasswork($cid){
             Yii::$app->session->setFlash('success', 'Student removed from Group successfully');
         }
         return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionAddStudentsToGroup($groupID)
+    {
+        $students =Yii::$app->request->post();
+        $regs = ArrayHelper::getColumn($students, 'memberStudents');
+//        print_r($regs);
+//        echo $groupID;
+
+//        foreach($regs as $reg)
+//        {
+//            $group = new StudentGroup();
+//            $group->groupID = $groupID;
+//            $group->reg_no = $reg;
+//            $group ->save();
+//            echo "Saved";
+//        }
+
+
     }
 
 
