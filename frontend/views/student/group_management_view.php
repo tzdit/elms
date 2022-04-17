@@ -27,8 +27,6 @@ $this->params['breadcrumbs'] = [
 ?>
 
 
-
-
 <!--                                                    --><?php
 //                                                    echo '<pre>';
 //                                                    var_dump($studentGroupsList);
@@ -42,14 +40,15 @@ $this->params['breadcrumbs'] = [
         <!-- Content Wrapper. Contains page content -->
 
         <div class="container-fluid">
-
+            <a value="<?= Url::to(['/student/create-group', 'cid' => $cid]) ?>"  id = "group_modal_button">
+                <button type="submit" class="btn btn-primary" style="margin-left: 2px;"><i class="fas fa-plus"> </i> Create Group</button>
+            </a>
             <div class="row">
+
                 <section class="col-lg-12">
                     <div class="card card-primary card-outline card-outline-tabs">
                         <div class="card-header p-0 border-bottom-0">
-                            <a value="<?= Url::to(['/student/create-group', 'cid' => $cid]) ?>" class="float-right" id = "group_modal_button">
-                                <button type="submit" class="btn btn-outline-primary" style="float: right;"><i class="fas fa-plus"> </i> Create Group</button>
-                            </a>
+
                             <?php
                             Modal::begin([
                                 'title' => '<h2>CREATE GROUP</h2>',
@@ -96,8 +95,9 @@ $this->params['breadcrumbs'] = [
                                                                                 <div class="row">
                                                                                     <div class="col-sm-8">
                                                                                         <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$count?>" aria-expanded="true" aria-controls="collapse<?=$count?>">
-                                                                                            <h4><img src="<?= Yii::getAlias('@web/img/groupWork.png') ?>" width="40" height="40" class="mt-1"> <span class="assignment-header "><?php echo $item['generation_type']." ";?><span class="font-italic text-info font-weight-normal"><?php echo "(".$item['groupName'].")"; ?></span></span></h4>
+                                                                                            <h3><img src="<?= Yii::getAlias('@web/img/groupWork.png') ?>" width="40" height="40" class="mt-1"> <span class="assignment-header "><?php echo $item['generation_type']." ";?><span class="font-italic text-info font-weight-normal"><?php echo "(".$item['groupName'].")"; ?></span></span></h3>
                                                                                         </button>
+
                                                                                     </div>
                                                                                     <div class="col-sm-4">
 
@@ -243,7 +243,7 @@ $this->params['breadcrumbs'] = [
                                                                                         List of Students in a group
 
                                                                                     </h3>
-                                                                                    <a href="#" class="btn btn-sm btn-outline-primary btn-rounded float-right mb-2" data-target="#addStudentModal<?= $item['groupID'] ?>" data-toggle="modal"><i class="fas fa-plus" ></i>Add Student</a>
+                                                                                    <a href="#" class="btn btn-sm btn-outline-primary btn-rounded float-right mb-2" data-target="#addStudentModal<?= $item['groupID'] ?>" data-toggle="modal"><i class="fas fa-plus" ></i>Add Students</a>
 
                                                                                 </div><!-- /.card-header -->
 
@@ -252,7 +252,7 @@ $this->params['breadcrumbs'] = [
                                                                                     <div class="modal-dialog" role="document">
                                                                                         <div class="modal-content">
                                                                                             <div class="modal-header bg-primary">
-                                                                                                <span class="modal-title" id="addStudentModal<?= $item['groupID'] ?>"><h4>Add Student to a Group</h4></span>
+                                                                                                <span class="modal-title" id="addStudentModal<?= $item['groupID'] ?>"><h4><i class="fas fa-users"></i> Add Students to a Group</h4></span>
 
                                                                                             </div>
                                                                                             <div class="modal-body">

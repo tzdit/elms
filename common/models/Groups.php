@@ -19,6 +19,11 @@ use Yii;
 class Groups extends \yii\db\ActiveRecord
 {
     /**
+     * @var mixed|null
+     */
+    public $creator;
+
+    /**
      * {@inheritdoc}
      */
     public static function tableName()
@@ -35,6 +40,7 @@ class Groups extends \yii\db\ActiveRecord
             [['groupName', 'generation_type'], 'required'],
             [['generation_type'], 'integer'],
             [['groupName'], 'string', 'max' => 10],
+            [['creator'], 'string', 'max' => 50],
             [['generation_type'], 'exist', 'skipOnError' => true, 'targetClass' => GroupGenerationTypes::className(), 'targetAttribute' => ['generation_type' => 'typeID']],
         ];
     }
@@ -56,6 +62,7 @@ class Groups extends \yii\db\ActiveRecord
             'groupID' => 'Group ID',
             'groupName' => 'Group Name',
             'generation_type' => 'Generation Type',
+            'creator' => 'Group Creator',
         ];
     }
 

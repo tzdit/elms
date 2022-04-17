@@ -1320,11 +1320,10 @@ public function actionClasswork($cid){
             $studentgroup->reg_no=$students[$m];
             $studentgroup->groupID=$groupID;
             $studentgroup->save();
-            echo "Saved";
-
 
         }
-
+        Yii::$app->session->setFlash('success', 'Student(s) added to this group successfully');
+        return $this->redirect(Yii::$app->request->referrer);
 
     }
 
