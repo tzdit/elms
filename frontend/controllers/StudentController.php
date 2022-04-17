@@ -349,15 +349,7 @@ public function actionClasswork($cid){
         $studentGroupsCount = Groups::find()->select('groups.groupName, student_group.*, ')->join('INNER JOIN','student_group','groups.groupID = student_group.groupID')->join('INNER JOIN', 'group_generation_types', 'groups.generation_type = group_generation_types.typeID')->where('student_group.reg_no = :reg_no AND group_generation_types.course_code = :course_code', [':reg_no' => $reg_no, 'course_code' => $cid])->count();
         $noGroupAssignment =  Assignment::find()->select('assignment.*, group_generation_types.*, group_generation_assignment.*')->join('INNER JOIN', 'group_generation_assignment','assignment.assID = group_generation_assignment.assID')->join('INNER JOIN', 'group_generation_types', 'group_generation_assignment.gentypeID = group_generation_types.typeID ')->where('group_generation_types.course_code = :course_code', ['course_code' => $cid])->orderBy(['assignment.assID' => SORT_DESC ])->asArray()->all();
         $noGroupAssignmentCount =  Assignment::find()->select('assignment.*, group_generation_types.*, group_generation_assignment.*')->join('INNER JOIN', 'group_generation_assignment','assignment.assID = group_generation_assignment.assID')->join('INNER JOIN', 'group_generation_types', 'group_generation_assignment.gentypeID = group_generation_types.typeID ')->where('group_generation_types.course_code = :course_code', ['course_code' => $cid])->count();
-        $stds = Student::find()->select(['student.reg_no', 'student.fname', 'student.mname', 'student.lname'])
-            ->join('INNER JOIN', 'program', 'student.programCode = program.programCode')
-            ->join('INNER JOIN', 'program_course', 'program.programCode = program_course.programCode')
-            ->join('LEFT OUTER JOIN', 'student_group','student.reg_no = student_group.reg_no')
-            ->join('LEFT OUTER JOIN', 'groups','student_group.groupID = groups.groupID')
-            ->where('(groups.generation_type != :generation_type OR groups.generation_type IS NULL) AND program_course.course_code = :course_code AND student.reg_no != :reg_no', [':reg_no' => $reg_no, 'course_code' => $cid])
-            ->orderBy(['student.fname' => SORT_ASC])
-            ->asArray()
-            ->all();
+
         $model = new AddGroupMembers;
 
         if ($model->load(Yii::$app->request->post())) {
@@ -391,7 +383,7 @@ public function actionClasswork($cid){
 
 
 
-        return $this->render('student_groups', ['cid'=>$cid, 'reg_no' => $reg_no, 'studentGroupsList' => $studentGroups, 'count' => $studentGroupsCount, 'noGroupAssignment' => $noGroupAssignment, 'noGroupAssignmentCount' => $noGroupAssignmentCount, 'model' => $model, 'stds' => $stds] );
+        return $this->render('student_groups', ['cid'=>$cid, 'reg_no' => $reg_no, 'studentGroupsList' => $studentGroups, 'count' => $studentGroupsCount, 'noGroupAssignment' => $noGroupAssignment, 'noGroupAssignmentCount' => $noGroupAssignmentCount, 'model' => $model] );
     }
 
 
@@ -1308,9 +1300,9 @@ public function actionClasswork($cid){
     {
         $students =Yii::$app->request->post();
         $students=$students['AddGroupMembers']['memberStudents'];
-        print_r($students); return false;
-        $regs = ArrayHelper::getColumn($students, 'memberStudents');
-        print_r($regs);
+        //print_r($students); return false;
+        //$regs = ArrayHelper::getColumn($students, 'memberStudents');
+        //print_r($regs);
 //        echo $groupID;
 
 //        foreach($regs as $reg)
@@ -1321,6 +1313,17 @@ public function actionClasswork($cid){
 //            $group ->save();
 //            echo "Saved";
 //        }
+        for($m=0;$m<count($students);$m++)
+        {
+
+            $studentgroup=new StudentGroup();
+            $studentgroup->reg_no=$students[$m];
+            $studentgroup->groupID=$groupID;
+            $studentgroup->save();
+            echo "Saved";
+
+
+        }
 
 
     }
