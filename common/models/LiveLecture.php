@@ -19,7 +19,7 @@ use Yii;
  * @property string $status
  * @property int $yearID
  *
- * @property Lectureroominfo[] $lectureroominfos
+ * @property Lectureroominfo $lectureroominfos
  * @property Course $courseCode
  * @property Instructor $instructor
  * @property Quiz[] $quizzes
@@ -50,7 +50,7 @@ class LiveLecture extends \yii\db\ActiveRecord
     {
         return [
             [['instructorID', 'duration', 'lateEntryMaxTime', 'yearID'], 'integer'],
-            [['title', 'description', 'lectureDate', 'lectureTime', 'duration', 'status', 'yearID'], 'required'],
+            [['title', 'lectureDate', 'lectureTime', 'duration', 'status', 'yearID'], 'required'],
             [['lectureDate', 'lectureTime'], 'safe'],
             [['course_code'], 'string', 'max' => 20],
             [['title'], 'string', 'max' => 200],
@@ -88,7 +88,7 @@ class LiveLecture extends \yii\db\ActiveRecord
      */
     public function getLectureroominfos()
     {
-        return $this->hasMany(Lectureroominfo::className(), ['lectureID' => 'lectureID']);
+        return $this->hasOne(Lectureroominfo::className(), ['lectureID' => 'lectureID']);
     }
 
     /**

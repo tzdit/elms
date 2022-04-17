@@ -8,6 +8,10 @@ use yii\helpers\ArrayHelper;
 use common\models\LiveLecture;
 use frontend\models\LectureRoom;
 
+
+if($session==null){
+  print("session not found"); return false;
+}
 $cid=yii::$app->session->get('ccode');
 $this->params['courseTitle'] ="<span class='text-primary'><i class='fa fa-chalkboard-teacher'></i> Session:</span><span class='text-sm'> ".Html::encode(substr($session->lecture->title,0,30).'...')."</span>";
 $this->title =Html::encode(substr($session->lecture->title,0,20)).'...';
