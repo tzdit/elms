@@ -35,7 +35,7 @@ class LectureRoom extends Model{
   public $allowStartStopRecording=true;
 
  
-  public $duration;
+  public $duration=0;
 
  
   public $welcomeMessage="Welcome in Our today's lecture, students are required to switch their MIC off";
@@ -79,7 +79,7 @@ class LectureRoom extends Model{
   {
       return [
           [['duration'], 'integer'],
-          [['title', 'description', 'lectureDate','lectureTime', 'duration'], 'required'],
+          [['title', 'lectureDate','lectureTime', 'duration'], 'required'],
           [['lectureDate'], 'safe'],
           [['title'], 'string', 'max' => 200],
           [['description'], 'string', 'max' => 255],
@@ -92,9 +92,10 @@ class LectureRoom extends Model{
 
    //room specs, characteristics, features, etc
 
-   $roomspecs=new CreateMeetingParameters($this->meetingId,$this->meetingName);
+   $roomspecs=new CreateMeetingParameters($this->meetingId,$this->title);
    $roomspecs=$roomspecs->setModeratorPassword($this->moderatorPassword);
    $roomspecs=$roomspecs->setAttendeePassword($this->attendeePassword);
+   $roomspecs=$roomspecs->setDuration($this->duration);
    //more specs to be added in the future as per needs
 
    //now building the classroom
@@ -130,7 +131,7 @@ class LectureRoom extends Model{
     $lecturebucket->lectureDate=$this->lectureDate;
     $lecturebucket->lectureTime=$this->lectureTime;
     $lecturebucket->duration=$this->duration;
-    $lecturebucket->yearID=1; //temporarily
+    $lecturebucket->yearID=(yii::$app->session->get("currentAcademicYear"))->yearID; //temporarily
     $lecturebucket->status='new';
 
     $connection=yii::$app->db;
@@ -145,12 +146,13 @@ class LectureRoom extends Model{
 
     if($switch)
     {
-     if(!$lecturebucket->save()){throw new Exception('An error occured, could not store lecture basic information...');} //filling the bucket
+     if(!$lecturebucket->save()){
+       throw new Exception('An error occured, could not store lecture basic information.');
+      } //filling the bucket
        // we get the room information and store them
      $classroomBuilding=new BigBlueButton();
      $roomparams=new GetMeetingInfoParameters($this->meetingId,$this->moderatorPassword);
      $roominfo=$classroomBuilding->getMeetingInfo($roomparams);
-
 
      if($roominfo->getReturnCode()=="SUCCESS")
      {

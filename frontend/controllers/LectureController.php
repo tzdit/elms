@@ -84,8 +84,8 @@ public function actionLectureRoom()
     $serverstatus=true;
     $servermaster=(new BigBlueButton())->getApiVersion();
     if(!($servermaster instanceof ApiVersionResponse)){$serverstatus=false;}
-
-    $lectures=LiveLecture::find()->where(['course_code'=>yii::$app->session->get('ccode')])->all();
+    $year=(yii::$app->session->get("currentAcademicYear"))->yearID;
+    $lectures=LiveLecture::find()->where(['course_code'=>yii::$app->session->get('ccode'),'yearID'=>$year])->all();
  
     return $this->render('lectureRoom',['lectures'=>$lectures,'serverstatus'=>$serverstatus]);
 
@@ -108,8 +108,7 @@ public function actionNewSession()
   $lectureroommanager=new LectureRoom();
   if($lectureroommanager->load(yii::$app->request->post()) && $lectureroommanager->validate())
   {
-  $lectureroommanager->meetingId=yii::$app->session->get('ccode');
-  $lectureroommanager->meetingName=yii::$app->session->get('ccode')." Lecture ".date('d-m-Y');
+  $lectureroommanager->meetingId=yii::$app->session->get('ccode').rand();
   $lectureroommanager->attendeePassword=yii::$app->session->get('ccode')."student";
   $lectureroommanager->moderatorPassword=yii::$app->session->get('ccode')."lecturer";
 

@@ -270,7 +270,7 @@ public function actionClasswork($cid){
         $assID = ClassRoomSecurity::decrypt($assID);
         $submit_id = ClassRoomSecurity::decrypt($submit_id);
         $submit = Submit::findOne($submit_id);
-        $exists = Submit::findOne($submit_id)->exists();
+        $exists = Submit::find()->where(["submitID"=>$submit_id])->exists();
 
         $model = AssSubmitForm::find()->where('submitID = :submitID AND assID = :assID ', [':submitID' => $submit_id, ':assID' => $assID])->one();
 //        $submit_model = Submit::find()->where('assID = :assID', [':assID' => $submit_id])->one();
