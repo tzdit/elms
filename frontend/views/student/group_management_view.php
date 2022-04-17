@@ -243,23 +243,7 @@ $this->params['breadcrumbs'] = [
                                                                                         List of Students in a group
 
                                                                                     </h3>
-                                                                                    <a value="<?= Url::to(['/student/create-group', 'cid' => $cid]) ?>" class="float-right" id = "group_modal_button">
-                                                                                        <button type="submit" class="btn btn-outline-primary" style="float: right;"><i class="fas fa-plus"> </i> Add Student</button>
-
-                                                                                    </a>
-
-                                                                                    <?php
-                                                                                    Modal::begin([
-                                                                                        'title' => '<h2>CREATE GROUP</h2>',
-                                                                                        'id' => 'group_modal',
-                                                                                        'size' => 'modal-lg'
-                                                                                    ]);
-
-                                                                                    echo "<div id = 'group_modal_content'></div>";
-                                                                                    Modal::end();
-                                                                                    ?>
-
-
+                                                                                    <a href="#" class="btn btn-sm btn-outline-primary btn-rounded float-right mb-2" data-target="#addStudentModal" data-toggle="modal"><i class="fas fa-plus" ></i>Add Student</a>
 
                                                                                 </div><!-- /.card-header -->
 
@@ -283,9 +267,7 @@ $this->params['breadcrumbs'] = [
                                                                                                 <td><?= $student['phone'] ?></td>
                                                                                                 <td>
                                                                                                     <?= Html::a('<i class="fas fa-trash inner" data-toggle="tooltip" data-title="Remove Student"></i>',['remove-student-from-group', 'reg_no'=>$student['reg_no'], 'groupID'=>$item['groupID'] ], ['class'=>'btn btn-danger btn-sm m-0'])?>
-
                                                                                                 </td>
-
                                                                                             </tr>
 
                                                                                             <!-- ################################################## -->
@@ -294,8 +276,6 @@ $this->params['breadcrumbs'] = [
                                                                                     </table>
 
                                                                                 </div>
-
-
                                                                         </div>
 
                                                                     </div>
@@ -303,9 +283,11 @@ $this->params['breadcrumbs'] = [
                                                                     $count--;
                                                                     ?>
                                                                 </div>
+                                                                    <?php endforeach; ?>
 
-                                                            <?php endforeach; ?>
+
                                                         </div>
+
                                                     </div>
                                                     <!-- ########################################### GROUPS END ######################################## -->
                                                 </div>
@@ -327,9 +309,6 @@ $this->params['breadcrumbs'] = [
 
                                                 <!-- Left col -->
                                                 <section class="col-lg-12">
-
-
-
 
 
                                                     <div class="body-content mb-4">
@@ -372,9 +351,6 @@ $this->params['breadcrumbs'] = [
 
 
 
-
-
-
                                                     <!--                                                                                                            --><?php
                                                     //                                                                                                            echo '<pre>';
                                                     //                                                                                                            var_dump($noGroupAssignment);
@@ -386,12 +362,12 @@ $this->params['breadcrumbs'] = [
                                                     <div class="accordion" id="accordionExample_33">
                                                         <?php foreach( $noGroupAssignment as $itemNoGroup ) : ?>
 
-
                                                             <?php
 
                                                             $checkGroup = Groups::find()->join('INNER JOIN','student_group','groups.groupID = student_group.groupID')->where('groups.generation_type = :typeID AND student_group.reg_no = :reg_no', [':typeID' => $itemNoGroup['typeID'], ':reg_no' => $reg_no])->count();
 
                                                             ?>
+
 
                                                             <?php if ($checkGroup == 0): ?>
                                                                 <div class="card">
@@ -424,6 +400,8 @@ $this->params['breadcrumbs'] = [
 
                                                                     </div>
 
+
+
                                                                     <div id="collapse<?=$noGroupAssignmentCount?>" class="collapse" aria-labelledby="heading<?=$noGroupAssignmentCount?>" data-parent="#accordionExample_33">
 
 
@@ -434,7 +412,6 @@ $this->params['breadcrumbs'] = [
                                                                             </div>
 
                                                                             <?php $form = ActiveForm::begin();?>
-
 
                                                                             <?= $form->field($model, 'groupName')->textInput(['class' => 'col-sm-7', 'size' => 100])->label('Group Name') ?>
                                                                             <?php
@@ -459,7 +436,9 @@ $this->params['breadcrumbs'] = [
 
 
                                                                             <div class="form-group">
-                                                                                <?= Html::submitButton(Yii::t('app', 'CREATE'), ['class' => 'btn btn-primary']) ?>
+                                                                                <?= Html::submitButton(Yii::t(
+
+                                                                                        'app', 'CREATE'), ['class' => 'btn btn-primary']) ?>
                                                                             </div>
 
                                                                             <?php ActiveForm::end(); ?>
@@ -471,41 +450,74 @@ $(document).ready(function(){
   
 });
 JS;
-
                                                                             $this->registerJs($script);
 
                                                                             ?>
 
-
                                                                         </div>
 
-
-                                                                    </div>
-
                                                                 </div>
+
                                                             <?php endif; ?>
 
                                                             <?php
                                                             $noGroupAssignmentCount--;
                                                             ?>
 
-                                                        <?php endforeach; ?>
-                                                    </div>
 
-                                                </section>
+
+                                                        <?php endforeach; ?>
+
+
 
                                                 <!-- ########################################### group by student end ######################################## -->
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
+                                <!--       ---- -----  ---                      another start modal-->
+                                <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-primary">
+                                                <span class="modal-title" id="addStudentModal"><h4>Add Student to a Group</h4></span>
+
+                                            </div>
+                                            <div class="modal-body">
+                                                <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/student/add-students-to-group', 'groupID'=>$item['groupID' ]]])?>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <?= $form->field($model,'memberStudents[]')->dropdownList($stds,['class'=>'form-control form-control-sm','id'=>'assignstudents3','data-placeholder'=>'Select degree Programs','multiple'=>'multiple','style'=>'width:100%'])->label('Students')?>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <?= Html::submitButton('Add', ['class'=>'btn btn-outline-primary btn-md float-right ml-2']) ?>
+                                                        <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
+
+                                                    </div>
+                                                </div>
+                                                <?php ActiveForm::end()?>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!--        -----     -----            -----                     end of modal            -->
                 </section>
+
+
+
             </div>
         </div>
     </div><!--/. container-fluid -->
-</div>
 </div>
 
 
@@ -534,6 +546,21 @@ $('#custom-tabs-four-tab a[href="' + activeTab + '"]').tab('show');
 
 JS;
 $this->registerJs($script);
+?>
+<?php 
+$this->registerCssFile('@web/plugins/select2/css/select2.min.css');
+$this->registerJsFile(
+  '@web/plugins/select2/js/select2.full.js',
+  ['depends' => 'yii\web\JqueryAsset']
+);
+$this->registerJsFile(
+  '@web/js/create-assignment.js',
+  ['depends' => 'yii\web\JqueryAsset'],
+
+);
+
+
+
 ?>
 
 

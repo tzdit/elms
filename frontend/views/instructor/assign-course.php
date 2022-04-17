@@ -119,6 +119,12 @@ use yii\helpers\Html;
 <!-- ################################################## -->
  
 <?php 
+
+
+?>
+
+<?php 
+$script = <<<JS
 $this->registerCssFile('@web/plugins/select2/css/select2.min.css');
 $this->registerJsFile(
   '@web/plugins/select2/js/select2.full.js',
@@ -131,11 +137,6 @@ $this->registerJsFile(
 );
 
 
-
-?>
-
-<?php 
-$script = <<<JS
 $(document).ready(function(){
   $("#CourseList").DataTable({
     responsive:true
@@ -182,7 +183,7 @@ Swal.fire({
   }
 })
 
-})
+});
 
 
 });
