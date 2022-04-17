@@ -243,9 +243,45 @@ $this->params['breadcrumbs'] = [
                                                                                         List of Students in a group
 
                                                                                     </h3>
-                                                                                    <a href="#" class="btn btn-sm btn-outline-primary btn-rounded float-right mb-2" data-target="#addStudentModal" data-toggle="modal"><i class="fas fa-plus" ></i>Add Student</a>
+                                                                                    <a href="#" class="btn btn-sm btn-outline-primary btn-rounded float-right mb-2" data-target="#addStudentModal<?= $item['groupID'] ?>" data-toggle="modal"><i class="fas fa-plus" ></i>Add Student</a>
 
                                                                                 </div><!-- /.card-header -->
+
+                                                                                <!--       ---- -----  ---                  another start modal-->
+                                                                                <div class="modal fade" id="addStudentModal<?= $item['groupID'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                                    <div class="modal-dialog" role="document">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header bg-primary">
+                                                                                                <span class="modal-title" id="addStudentModal<?= $item['groupID'] ?>"><h4>Add Student to a Group</h4></span>
+
+                                                                                            </div>
+                                                                                            <div class="modal-body">
+                                                                                                <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/student/add-students-to-group', 'groupID'=>$item['groupID' ]]])?>
+
+                                                                                                <div class="row">
+                                                                                                    <div class="col-md-12">
+                                                                                                        <?= $form->field($model,'memberStudents[]')->dropdownList($stds,['class'=>'form-control form-control-sm','id'=>'assignstudents3','data-placeholder'=>'Select degree Programs','multiple'=>'multiple','style'=>'width:100%'])->label('Students')?>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="row">
+                                                                                                    <div class="col-md-12">
+                                                                                                        <?= Html::submitButton('Add', ['class'=>'btn btn-outline-primary btn-md float-right ml-2']) ?>
+                                                                                                        <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
+
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <?php ActiveForm::end()?>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+
+                                                                                <!--        -----     -----            -----                     end of modal            -->
+
+
 
 
                                                                                 <div class="card-body">
@@ -478,40 +514,7 @@ JS;
                                 </div>
                             </div>
 
-                                <!--       ---- -----  ---                      another start modal-->
-                                <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header bg-primary">
-                                                <span class="modal-title" id="addStudentModal"><h4>Add Student to a Group</h4></span>
-
-                                            </div>
-                                            <div class="modal-body">
-                                                <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/student/add-students-to-group', 'groupID'=>$item['groupID' ]]])?>
-
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <?= $form->field($model,'memberStudents[]')->dropdownList($stds,['class'=>'form-control form-control-sm','id'=>'assignstudents3','data-placeholder'=>'Select degree Programs','multiple'=>'multiple','style'=>'width:100%'])->label('Students')?>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <?= Html::submitButton('Add', ['class'=>'btn btn-outline-primary btn-md float-right ml-2']) ?>
-                                                        <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
-
-                                                    </div>
-                                                </div>
-                                                <?php ActiveForm::end()?>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <!--        -----     -----            -----                     end of modal            -->
-                </section>
+                            </section>
 
 
 
