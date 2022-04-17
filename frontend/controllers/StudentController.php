@@ -274,11 +274,7 @@ public function actionClasswork($cid){
         $assID = ClassRoomSecurity::decrypt($assID);
         $submit_id = ClassRoomSecurity::decrypt($submit_id);
         $submit = Submit::findOne($submit_id);
-<<<<<<< HEAD
         $exists = Submit::find()->where(["submitID"=>$submit_id])->exists();
-=======
-        $exists = Submit::find()->where(['submitID'=> $submit_id])->exists();
->>>>>>> 913174db5e2324faf98145007e21cf48d0a83929
 
         $model = AssSubmitForm::find()->where('submitID = :submitID AND assID = :assID ', [':submitID' => $submit_id, ':assID' => $assID])->one();
 //        $submit_model = Submit::find()->where('assID = :assID', [':assID' => $submit_id])->one();
