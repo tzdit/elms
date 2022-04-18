@@ -7,6 +7,7 @@ use common\models\LiveLecture;
 use common\models\Lectureroominfo;
 use yii\base\Exception;
 use BigBlueButton\Parameters\CreateMeetingParameters;
+use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\BigBlueButton;
 
@@ -46,7 +47,7 @@ class StudentLectureroom extends Model
           if($lectureinfo==null){continue;}
           $datetime=new \DateTime($lecture->lectureDate." ".$lecture->lectureTime);
           $lectureinfo->setStartTime($datetime->getTimestamp());
-
+          $lectureinfo->setDescription($lecture->description);
           array_push($lectureinfos,$lectureinfo);
         }
         
@@ -73,7 +74,17 @@ class StudentLectureroom extends Model
     }
 
   
+    public function joinSession($session,$pw)
+    {
+      
+        $student_name=yii::$app->user->identity->username;
+        $door_open_registar=new JoinMeetingParameters($session,$student_name,$pw);
+        $door_open_registar->setRedirect(true);
+        return $door_open_registar; 
+    
+    }
 
+    
   
    
 }

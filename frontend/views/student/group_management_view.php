@@ -487,7 +487,7 @@ JS;
 
                                             </div>
                                             <div class="modal-body">
-                                                <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/student/add-students-to-group', 'groupID'=>$item['groupID' ]]])?>
+                                                <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/student/add-students-to-group', 'groupID'=>$item['groupID']]])?>
 
                                                 <div class="row">
                                                     <div class="col-md-12">
