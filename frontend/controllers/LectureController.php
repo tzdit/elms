@@ -108,7 +108,7 @@ public function actionNewSession()
   $lectureroommanager=new LectureRoom();
   if($lectureroommanager->load(yii::$app->request->post()) && $lectureroommanager->validate())
   {
-  $lectureroommanager->meetingId=yii::$app->session->get('ccode').rand();
+  $lectureroommanager->meetingId=yii::$app->session->get('ccode');
   $lectureroommanager->attendeePassword=yii::$app->session->get('ccode')."student";
   $lectureroommanager->moderatorPassword=yii::$app->session->get('ccode')."lecturer";
 

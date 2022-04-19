@@ -9,7 +9,9 @@ use yii\base\Exception;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
+use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\BigBlueButton;
+use frontend\models\ClassRoomSecurity;
 
 /*
 A model class for managing academicyear, switching to and from a specific 
@@ -26,37 +28,21 @@ class StudentLectureroom extends Model
        
     }
 
-    public function findAllLectures()
+    public function findLectureSchedule()
     {
         $course=yii::$app->session->get("ccode");
         $year=yii::$app->session->get("currentAcademicYear")->yearID;
 
         $lectures=LiveLecture::find()->where(["course_code"=>$course,"yearID"=>$year])->all();
 
-        $lectureinfos=[];
-
-        foreach($lectures as $lecture)
-        {
-          $dblectureinfo=$lecture->lectureroominfos;
-          if($dblectureinfo==null){continue;}
-          $roomID=$dblectureinfo->meetingID;
-          $pw=$dblectureinfo->attpw;
-
-          $lectureinfo=$this->getLectureInfos($roomID,$pw);
-
-          if($lectureinfo==null){continue;}
-          $datetime=new \DateTime($lecture->lectureDate." ".$lecture->lectureTime);
-          $lectureinfo->setStartTime($datetime->getTimestamp());
-          $lectureinfo->setDescription($lecture->description);
-          array_push($lectureinfos,$lectureinfo);
-        }
-        
-        return $lectureinfos; 
+        return $lectures; 
 
     }
-    public function getLectureInfos($meetingID,$pass)
+    public function getRoomInfos()
     {
-     $parameters=new GetMeetingInfoParameters($meetingID,$pass);
+     $meetingID=yii::$app->session->get("ccode");
+     $pw=yii::$app->session->get('ccode')."student";
+     $parameters=new GetMeetingInfoParameters($meetingID,$pw);
      try
      {
      $meetingInforesp=(new BigBlueButton())->getMeetingInfo($parameters);
@@ -73,10 +59,22 @@ class StudentLectureroom extends Model
      
     }
 
-  
-    public function joinSession($session,$pw)
+    public function recordings()
     {
-      
+      $service=new BigBlueButton();
+      $recordingsparam=new GetRecordingsParameters();
+      $recordingsparam->setMeetingId(yii::$app->session->get("ccode"));
+      $resp=$service->getRecordings($recordingsparam);
+      $records=$resp->getRecords();
+    
+      return $records;
+    }
+
+  
+    public function joinSession($session)
+    {
+        $session=ClassRoomSecurity::decrypt($session);
+        $pw=yii::$app->session->get('ccode')."student";
         $student_name=yii::$app->user->identity->username;
         $door_open_registar=new JoinMeetingParameters($session,$student_name,$pw);
         $door_open_registar->setRedirect(true);

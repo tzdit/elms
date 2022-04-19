@@ -119,7 +119,8 @@ $this->params['breadcrumbs'] = [
                                                   
                                                     <div class="card-body material-background">
                                                     <?php
-                                                      if(empty($lectures[$i]->recordings())){print("No any recordings found");}
+                                                      //if(empty($lectures[$i]->recordings())){print("No any recordings found");}
+                                                      print_r($lectures[$i]->recordings());
                                     
                                                     ?>
 

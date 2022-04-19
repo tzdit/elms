@@ -23,11 +23,11 @@ class LectureRoom extends Model{
 
   public $moderatorPassword;
 
-  public $logoutUrl="http://localhost:8080/";
+  public $logoutUrl="http://localhost:8080/auth/login";
 
   public $maxParticipants;
 
-  public $record;
+  public $record=true;
 
   public $autoStartRecording=false;
 
@@ -48,7 +48,7 @@ class LectureRoom extends Model{
 
   public $logo;
 
-  public $copyright;
+  public $copyright="Copyright © 2020 - 2022   The University of Dodoma.      All rights reserved.";
 
   public $muteOnStart;
 
@@ -96,10 +96,11 @@ class LectureRoom extends Model{
    $roomspecs=$roomspecs->setModeratorPassword($this->moderatorPassword);
    $roomspecs=$roomspecs->setAttendeePassword($this->attendeePassword);
    $roomspecs=$roomspecs->setDuration($this->duration);
-   $roomspecs=$roomspecs->setAutoStartRecording(true);
-   $roomspecs=$roomspecs->setAllowStartStopRecording(true);
+   $roomspecs=$roomspecs->setRecord($this->record);
+   $roomspecs=$roomspecs->setAutoStartRecording($this->autoStartRecording);
+   $roomspecs=$roomspecs->setAllowStartStopRecording($this->allowStartStopRecording);
    $roomspecs=$roomspecs->setWelcomeMessage($this->welcomeMessage);
-   $roomspecs=$roomspecs->setLogoutUrl("http://localhost:8080/auth/login");
+   $roomspecs=$roomspecs->setLogoutUrl($this->logoutUrl);
    //more specs to be added in the future as per needs
 
    //now building the classroom

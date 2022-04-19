@@ -8,7 +8,7 @@ use common\models\Student;
 use common\models\AuthItem;
 use frontend\models\StudentLectureroom;
 use BigBlueButton\BigBlueButton;
-
+use BigBlueButton\Responses\ApiVersionResponse;
 use common\models\StudentGroup;
 use yii\helpers\ArrayHelper;
 
@@ -28,7 +28,7 @@ class StudentLectureroomController extends \yii\web\Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['lectures','join-lecture'
+                        'actions' => ['lectures','join-lecture','play-recording'
                         ],
                         
 
@@ -57,18 +57,28 @@ class StudentLectureroomController extends \yii\web\Controller
 
   public function actionLectures()
   {
-      $lectures=(new StudentLectureroom)->findAllLectures();
-      return $this->render("onlinelectures",["lectures"=>$lectures]);
+      $serverstatus=true;
+      $servermaster=(new BigBlueButton())->getApiVersion();
+      if(!($servermaster instanceof ApiVersionResponse)){$serverstatus=false;}
+      $lectures=(new StudentLectureroom)->findLectureSchedule();
+      $recordings=(new StudentLectureroom)->recordings();
+      $roomstatus=(new StudentLectureroom)->getRoomInfos();
+      return $this->render("lectureRoom",["lectures"=>$lectures,"recordings"=>$recordings,"room"=>$roomstatus,"serverstatus"=>$serverstatus]);
   } 
-  public function actionJoinLecture($session,$student)
+  public function actionJoinLecture($session)
   {
     $lectureroommanager=new StudentLectureroom();
-    $door_open_registar= $lectureroommanager->joinSession($session,$student);
+    $door_open_registar= $lectureroommanager->joinSession($session);
     $rooms_master=new BigBlueButton();
       //now heading to the classroom like a boss
     header('status: 301 Moved Permanently',false,301);
     return $this->redirect($rooms_master->getJoinMeetingURL($door_open_registar));
    
+  }
+
+  public function actionPlayRecording($playbackurl)
+  {
+    return $this->redirect($playbackurl);
   }
 
 
