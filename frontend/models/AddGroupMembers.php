@@ -21,6 +21,7 @@ class AddGroupMembers extends Model
     public $memberStudents;
     public $generation_type;
     public $groupName;
+    public $creator;
 
 
     /**
@@ -39,6 +40,7 @@ class AddGroupMembers extends Model
         return [
             [['groupName', 'generation_type','memberStudents'], 'required'],
             [['generation_type'], 'integer'],
+            [['creator'], 'string', 'max' => 50],
             [['groupName'], 'string', 'max' => 10],
             [['generation_type'], 'exist', 'skipOnError' => true, 'targetClass' => GroupGenerationTypes::className(), 'targetAttribute' => ['generation_type' => 'typeID']],
         ];
@@ -64,6 +66,7 @@ class AddGroupMembers extends Model
 
             $group->groupName = $this->groupName;
             $group->generation_type = $this->generation_type;
+            $group->creator = Yii::$app->user->identity->username;
 
 
 
