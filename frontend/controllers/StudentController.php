@@ -39,6 +39,7 @@ use common\models\GroupGenerationTypes;
 
 class StudentController extends \yii\web\Controller
 {
+    public $generation_type;
 	//public $layout = 'student';
 	public $defaultAction = 'dashboard';
 
@@ -1298,6 +1299,7 @@ public function actionClasswork($cid){
 
     public function actionAddStudentsToGroup($groupID)
     {
+        
         $students =Yii::$app->request->post();
         $students=$students['AddGroupMembers']['memberStudents'];
         //print_r($students); return false;
@@ -1319,8 +1321,20 @@ public function actionClasswork($cid){
             $studentgroup=new StudentGroup();
             $studentgroup->reg_no=$students[$m];
             $studentgroup->groupID=$groupID;
-            $studentgroup->save();
 
+            $studentInTwoGroup = StudentGroup::find()->select('student_group.reg_no')
+            ->join('INNER JOIN','groups','groups.groupID = student_group.groupID')
+            ->where('groups.generation_type = :gen_type AND reg_no = :reg_no',[':gen_type' => $studentgroup->group->generation_type,':reg_no' => $studentgroup->reg_no])
+            ->exists();
+            if($studentInTwoGroup)
+            {
+                Yii::$app->session->setFlash('error', $studentgroup->reg_no.' '.'already added in another group');
+                return $this->redirect(Yii::$app->request->referrer);
+                return false;
+            }
+            else{
+                $studentgroup->save();
+            }
         }
         Yii::$app->session->setFlash('success', 'Student(s) added to this group successfully');
         return $this->redirect(Yii::$app->request->referrer);
