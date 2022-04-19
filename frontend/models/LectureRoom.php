@@ -46,7 +46,7 @@ class LectureRoom extends Model{
  
   public $webcamsOnlyForModerator=true;
 
-  public $logo;
+  public $logo="/img/logo.png";
 
   public $copyright="Copyright © 2020 - 2022   The University of Dodoma.      All rights reserved.";
 
@@ -101,6 +101,8 @@ class LectureRoom extends Model{
    $roomspecs=$roomspecs->setAllowStartStopRecording($this->allowStartStopRecording);
    $roomspecs=$roomspecs->setWelcomeMessage($this->welcomeMessage);
    $roomspecs=$roomspecs->setLogoutUrl($this->logoutUrl);
+   $roomspecs=$roomspecs->setCopyright($this->copyright);
+   $roomspecs=$roomspecs->setLogo($this->logo);
    //more specs to be added in the future as per needs
 
    //now building the classroom

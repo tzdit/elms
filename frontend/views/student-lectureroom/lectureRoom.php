@@ -69,11 +69,12 @@ $this->params['breadcrumbs'] = [
        ?>
 
        <div class="row">
-         <div class="col-sm-6 p-3 shadow">
-         <div class="spinner-grow spinner-grow-sm text-primary pt-2 "></div>Session going on...
+         <div class="col-sm-6 p-2 shadow text-danger pt-4">
+         <div class="spinner-grow spinner-grow-sm text-danger pt-2 "></div>Session going on...
          </div>
-        <div class="col-sm-6 p-3 shadow rounded">
-          <?=$room->getParticipantCount()?> Participant(s)
+        <div class="col-sm-6 p-2 shadow rounded pr-3 pl-3">
+         <span class="text-sm text-primary"> <?=$room->getParticipantCount()?> Participant(s)</span>
+         <marquee class="text-sm"><?=$room->getMeetingName()?></marquee>
         </div>
        </div>
        <?php
