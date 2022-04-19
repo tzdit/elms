@@ -96,6 +96,10 @@ class LectureRoom extends Model{
    $roomspecs=$roomspecs->setModeratorPassword($this->moderatorPassword);
    $roomspecs=$roomspecs->setAttendeePassword($this->attendeePassword);
    $roomspecs=$roomspecs->setDuration($this->duration);
+   $roomspecs=$roomspecs->setAutoStartRecording(true);
+   $roomspecs=$roomspecs->setAllowStartStopRecording(true);
+   $roomspecs=$roomspecs->setWelcomeMessage($this->welcomeMessage);
+   $roomspecs=$roomspecs->setLogoutUrl("http://localhost:8080/auth/login");
    //more specs to be added in the future as per needs
 
    //now building the classroom

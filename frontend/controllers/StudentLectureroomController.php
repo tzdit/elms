@@ -7,6 +7,7 @@ use yii\filters\VerbFilter;
 use common\models\Student;
 use common\models\AuthItem;
 use frontend\models\StudentLectureroom;
+use BigBlueButton\BigBlueButton;
 
 use common\models\StudentGroup;
 use yii\helpers\ArrayHelper;
@@ -27,7 +28,7 @@ class StudentLectureroomController extends \yii\web\Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['lectures',
+                        'actions' => ['lectures','join-lecture'
                         ],
                         
 
@@ -59,6 +60,16 @@ class StudentLectureroomController extends \yii\web\Controller
       $lectures=(new StudentLectureroom)->findAllLectures();
       return $this->render("onlinelectures",["lectures"=>$lectures]);
   } 
+  public function actionJoinLecture($session,$student)
+  {
+    $lectureroommanager=new StudentLectureroom();
+    $door_open_registar= $lectureroommanager->joinSession($session,$student);
+    $rooms_master=new BigBlueButton();
+      //now heading to the classroom like a boss
+    header('status: 301 Moved Permanently',false,301);
+    return $this->redirect($rooms_master->getJoinMeetingURL($door_open_registar));
+   
+  }
 
 
 
