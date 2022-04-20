@@ -12,6 +12,7 @@ use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\BigBlueButton;
 use frontend\models\ClassRoomSecurity;
+use BigBlueButton\Exceptions\BadResponseException;
 
 /*
 A model class for managing academicyear, switching to and from a specific 
@@ -50,7 +51,15 @@ class StudentLectureroom extends Model
      $meetingInfo=$meetingInforesp->getMeeting();
      return $meetingInfo;
      }
-     catch(Exception $m)
+     catch(\RuntimeException $m)
+     {
+         return null;
+     }
+     catch(BadResponseException $bad)
+     {
+         return null;
+     }
+     catch(Exception $e)
      {
          return null;
      }
@@ -64,15 +73,34 @@ class StudentLectureroom extends Model
       $service=new BigBlueButton();
       $recordingsparam=new GetRecordingsParameters();
       $recordingsparam->setMeetingId(yii::$app->session->get("ccode"));
+
+      try
+      {
       $resp=$service->getRecordings($recordingsparam);
       $records=$resp->getRecords();
     
       return $records;
+      }
+      catch(\RuntimeException $r)
+      {
+          return [];
+      }
+      catch(BadResponseException $bad)
+      {
+          return [];
+      }
+      catch(Exception $e)
+      {
+          return [];
+      }
     }
 
   
     public function joinSession($session)
     {
+        //is the room  open
+        if($this->getRoomInfos()==null){return null;} //room closed
+
         $session=ClassRoomSecurity::decrypt($session);
         $pw=yii::$app->session->get('ccode')."student";
         $student_name=yii::$app->user->identity->username;

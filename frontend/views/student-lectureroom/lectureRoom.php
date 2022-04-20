@@ -10,7 +10,7 @@ use frontend\models\LectureRoom;
 use frontend\models\ClassRoomSecurity;
 
 $cid=yii::$app->session->get('ccode');
-$this->params['courseTitle'] = $cid." Lecture Room";
+$this->params['courseTitle'] = "<i class='fa fa-school'></i> ".$cid." Lecture Room";
 $this->title =$cid." Lecture Room";
 $this->params['breadcrumbs'] = [
   ['label'=>'class dashboard', 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
@@ -86,9 +86,7 @@ $this->params['breadcrumbs'] = [
          <div class="col-sm-6 p-3 shadow">
          <span class="text-md"><i class="fa fa-info-circle"></i>No ongoing session</span>
          </div>
-        <div class="col-sm-6 p-3 shadow ">
-          
-        </div>
+     
        </div>
        <?php
      }

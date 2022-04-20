@@ -69,6 +69,12 @@ class StudentLectureroomController extends \yii\web\Controller
   {
     $lectureroommanager=new StudentLectureroom();
     $door_open_registar= $lectureroommanager->joinSession($session);
+
+    if($door_open_registar==null) //room closed
+    {
+      yii::$app->session->setFlash("info","<i class='fa fa-info-circle'></i> The Room is still closed, Your Instructor has to open it first !");
+      return $this->redirect(yii::$app->request->referrer);
+    }
     $rooms_master=new BigBlueButton();
       //now heading to the classroom like a boss
     header('status: 301 Moved Permanently',false,301);
