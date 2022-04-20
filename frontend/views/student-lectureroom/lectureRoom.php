@@ -109,7 +109,7 @@ $this->params['breadcrumbs'] = [
   if($room==null)
   {
   ?>
-<a class="shadow btn btn-sm btn-default p-3 rounded-pill text-md" href="<?=Url::to(['student-lectureroom/join-lecture','session'=>ClassRoomSecurity::encrypt(yii::$app->session->get('ccode'))]) ?>">
+<a class="shadow btn btn-sm btn-default p-3 rounded-pill text-md" href="<?=Url::to(['student-lectureroom/join-lecture']) ?>">
                                                             <i class="fa fa-play-circle " style="color:rgba(70,100,255,.6)"></i>Join Session</a>
                                                             <?php
   }
@@ -136,9 +136,9 @@ $this->params['breadcrumbs'] = [
       {
      ?>
      
-       <tr><td><?=$no?></td><td><?=$lecture->title?></td><td><?=$lecture->lectureDate?></td><td><?=$lecture->lectureTime?></td><td><?=$lecture->duration." min"?></td><td>
+       <tr><td><?=$no?></td><td><?=$lecture->title?></td><td><?=$lecture->lectureDate?></td><td><?=$lecture->lectureTime?></td><td><?=($lecture->duration==0)?"Endless":$lecture->duration." min"?></td><td>
          <?php
-         if($lecture->status=="new")
+         if($lecture->status=="New")
          {
          ?>
          <span class="badge badge-success"><?=$lecture->status?></span>

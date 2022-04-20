@@ -34,15 +34,16 @@ class StudentLectureroom extends Model
         $course=yii::$app->session->get("ccode");
         $year=yii::$app->session->get("currentAcademicYear")->yearID;
 
-        $lectures=LiveLecture::find()->where(["course_code"=>$course,"yearID"=>$year])->all();
+        $lectures=LiveLecture::find()->where(["course_code"=>$course,"yearID"=>$year])->orderBy(['lectureID'=>SORT_DESC])->all();
 
         return $lectures; 
 
     }
     public function getRoomInfos()
     {
-     $meetingID=yii::$app->session->get("ccode");
-     $pw=yii::$app->session->get('ccode')."student";
+     $yearid=(yii::$app->session->get("currentAcademicYear"))->yearID;
+     $meetingID=yii::$app->session->get('ccode')."@LectureRoom".$yearid;
+     $pw=yii::$app->session->get('ccode')."@Student".$yearid;
      $parameters=new GetMeetingInfoParameters($meetingID,$pw);
      try
      {
@@ -71,8 +72,10 @@ class StudentLectureroom extends Model
     public function recordings()
     {
       $service=new BigBlueButton();
+      $yearid=(yii::$app->session->get("currentAcademicYear"))->yearID;
+      $meetingID=yii::$app->session->get('ccode')."@LectureRoom".$yearid;
       $recordingsparam=new GetRecordingsParameters();
-      $recordingsparam->setMeetingId(yii::$app->session->get("ccode"));
+      $recordingsparam->setMeetingId($meetingID);
 
       try
       {
@@ -96,13 +99,14 @@ class StudentLectureroom extends Model
     }
 
   
-    public function joinSession($session)
+    public function joinSession()
     {
         //is the room  open
         if($this->getRoomInfos()==null){return null;} //room closed
 
-        $session=ClassRoomSecurity::decrypt($session);
-        $pw=yii::$app->session->get('ccode')."student";
+        $yearid=(yii::$app->session->get("currentAcademicYear"))->yearID;
+        $session=yii::$app->session->get('ccode')."@LectureRoom".$yearid;
+        $pw=yii::$app->session->get('ccode')."@Student".$yearid;
         $student_name=yii::$app->user->identity->username;
         $door_open_registar=new JoinMeetingParameters($session,$student_name,$pw);
         $door_open_registar->setRedirect(true);

@@ -65,10 +65,10 @@ class StudentLectureroomController extends \yii\web\Controller
       $roomstatus=(new StudentLectureroom)->getRoomInfos();
       return $this->render("lectureRoom",["lectures"=>$lectures,"recordings"=>$recordings,"room"=>$roomstatus,"serverstatus"=>$serverstatus]);
   } 
-  public function actionJoinLecture($session)
+  public function actionJoinLecture()
   {
     $lectureroommanager=new StudentLectureroom();
-    $door_open_registar= $lectureroommanager->joinSession($session);
+    $door_open_registar= $lectureroommanager->joinSession();
 
     if($door_open_registar==null) //room closed
     {

@@ -13,8 +13,8 @@ if($session==null){
   print("session not found"); return false;
 }
 $cid=yii::$app->session->get('ccode');
-$this->params['courseTitle'] ="<span class='text-primary'><i class='fa fa-chalkboard-teacher'></i> Session:</span><span class='text-sm'> ".Html::encode(substr($session->lecture->title,0,30).'...')."</span>";
-$this->title =Html::encode(substr($session->lecture->title,0,20)).'...';
+$this->params['courseTitle'] ="<span class='text-primary'><i class='fa fa-chalkboard-teacher'></i> Session:</span><span class='text-sm'> ".Html::encode(substr($session->title,0,30).'...')."</span>";
+$this->title =Html::encode(substr($session->title,0,20)).'...';
 $this->params['breadcrumbs'] = [
   ['label'=>'Lecture Room', 'url'=>Url::to(['/lecture/lecture-room'])],
   ['label'=>$this->title]
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'] = [
        <div class="row">
          <div class="col-md-12 d-flex justify-content-center">
 
-         <a href="<?=Url::to(['lecture/start-session','session'=>$session->lectureroomID]) ?>">
+         <a href="<?=Url::to(['lecture/start-session','session'=>""]) ?>">
          <div class="card" style="margin-right:2px">
           <div class="card-body">
          <i class="fa fa-play-circle " style="font-size:40px;color:rgba(70,100,255,.6)"></i><br><span style="text-sm">Start Lecturing</span>
