@@ -156,7 +156,7 @@ $this->params['breadcrumbs'] = [
                                   <div class="col-sm-3 col-12">
 
                                       <a href="<?=Url::to(['student-lectureroom/lectures/','cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
-                                          <img src="<?=  Yii::getAlias('@web/img/school 2.png')?>" height="37px" width="38px"/>
+                                          <img src="<?=  Yii::getAlias('@web/img/school 2.png')?>" height="37px" width="40px"/>
                                           <h5>
                                               Lecture Room
                                           </h5>
