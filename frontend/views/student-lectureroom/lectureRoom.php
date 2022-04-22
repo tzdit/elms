@@ -3,6 +3,7 @@ use yii\bootstrap4\Breadcrumbs;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use common\helpers\Security;
+use common\models\Assignment;
 use yii\helpers\ArrayHelper;
 use common\models\LiveLecture;
 use frontend\models\LectureRoom;
@@ -12,7 +13,7 @@ $cid=yii::$app->session->get('ccode');
 $this->params['courseTitle'] = "<i class='fa fa-school'></i> ".$cid." Lecture Room";
 $this->title =$cid." Lecture Room";
 $this->params['breadcrumbs'] = [
-  ['label'=>'class dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
+  ['label'=>'class dashboard', 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
   ['label'=>$this->title]
 ];
 
@@ -37,7 +38,6 @@ $this->params['breadcrumbs'] = [
           return true;
                   }
             ?>
-      
          <div class="row" >
          <div class="col-md-12 text-center" >
 
@@ -61,21 +61,75 @@ $this->params['breadcrumbs'] = [
 </div>
 <div class="row">
 <div class="col-sm-6 p-4">
-         
-         <a href="#" class='float-right btn btn-sm btn-default shadow text-md p-3 rounded-pill' data-target="#lectureModal" data-toggle="modal"><i class='fa fa-plus-circle' style="color:rgba(70,100,255,.6)"></i>New Session</a>
-</div>             
-<div class="col-sm-6 p-4">
+  <?php
+   if($room!=null)
+   {
+     if($room->isRunning())
+     {
+       ?>
+
+       <div class="row">
+         <div class="col-sm-6 p-2 shadow text-danger pt-4">
+         <div class="spinner-grow spinner-grow-sm text-danger pt-2 "></div>Session going on...
+         </div>
+        <div class="col-sm-6 p-2 shadow rounded pr-3 pl-3">
+         <span class="text-sm text-primary"> <?=$room->getParticipantCount()?> Participant(s)</span>
+         <marquee class="text-sm"><?=$room->getMeetingName()?></marquee>
+        </div>
+       </div>
+       <?php
+     }
+     else
+     {
+       ?>
+          <div class="row">
+         <div class="col-sm-6 p-3 shadow">
+         <span class="text-md"><i class="fa fa-info-circle"></i>No ongoing session</span>
+         </div>
+     
+       </div>
+       <?php
+     }
+   }
+   else
+   {
+    ?>
+    <div class="row">
+   <div class="col-sm-6 p-3 shadow">
+   <span class="text-md"><i class="fa fa-info-circle"></i>No ongoing session</span>
+   </div>
  
-<a class="shadow float-left btn btn-sm btn-default p-3 rounded-pill text-md" data-target="#sessionModal" data-toggle="modal" href="#">
-                                                          <i class="fa fa-play-circle " style="color:rgba(70,100,255,.6)"></i>Start Session</a>
-                                                        
+ </div>
+ <?php
+   }
+  ?>
+</div>              
+<div class="col-sm-6 p-4">
+  <?php
+  if($room==null)
+  {
+  ?>
+<a class="shadow btn btn-sm btn-default p-3 rounded-pill text-md" href="<?=Url::to(['student-lectureroom/join-lecture']) ?>">
+                                                            <i class="fa fa-play-circle " style="color:rgba(70,100,255,.6)"></i>Join Session</a>
+                                                            <?php
+  }
+  else
+  {
+?>
+<a class="shadow btn btn-sm btn-default p-3 rounded-pill text-md" href="<?=Url::to(['student-lectureroom/join-lecture','session'=>ClassRoomSecurity::encrypt($room->getMeetingId())]) ?>">
+                                                            <i class="fa fa-play-circle " style="color:rgba(70,100,255,.6)"></i>Join Session</a>
+<?php
+  }
+                                                            ?>
 </div> 
- </div></div>
+ </div>
+      
+    </div>
       <div class="row d-flex justify-content-center">
       <div class="col-sm-12 table-responsive pr-2 pl-2">
      <table class="table table-stripped table-hover" style="font-size:12px">
      <table-caption class="ml-2"><img src="<?= Yii::getAlias('@web/img/onlinelectures.png') ?>" width="25" height="25" class="mr-1">Sessions Schedule</table-caption>
-       <tr class="text-primary"><th>s/n</th><th>Title</th><th>Date</th><th>Time</th><th>Duration</th><th>status</th><th>Toolbar</th></tr>
+       <tr class="text-primary"><th>s/n</th><th>Title</th><th>Date</th><th>Time</th><th>Duration</th><th>status</th></tr>
      <?php
      $no=1;
       foreach($lectures as $lecture)
@@ -95,12 +149,7 @@ $this->params['breadcrumbs'] = [
            print($lecture->status);
          }
          ?>
-      </td>
-      <td>
-      <a href="<?=Url::to(['lecture/session/', 'sessionid'=>ClassRoomSecurity::encrypt($lecture->lectureID)]) ?>"><i class="fa fa-eye text-primary" data-toggle="tooltip" data-title="View Session"></i></a>
-      <a href="<?=Url::to(['lecture/delete-session/', 'sessionid'=>ClassRoomSecurity::encrypt($lecture->lectureID)]) ?>"><i class="fa fa-trash text-danger" data-toggle="tooltip" data-title="Delete from Schedule"></i></a>
-      </td>
-    </tr>
+      </td></tr>
         
         
        
@@ -126,9 +175,7 @@ $this->params['breadcrumbs'] = [
       {
      ?>
      
-       <tr><td><?=$no?></td><td><?=$recording->getName()?></td><td><?=$recording->getPlaybackLength()." min"?></td><td><?=$recording->getPlaybackType()?> </td><td><?=($recording->isPublished()==true)?"published":"Not published"?> </td><td><a href="<?=Url::to(['student-lectureroom/play-recording','playbackurl'=>$recording->getPlaybackUrl()]) ?>""><i class="fa fa-play-circle" style="font-size:22px" data-toggle="tooltip" data-title="Play"></i></a>
-       <a href="<?=Url::to(['lecture/delete-recording/', 'recording'=>ClassRoomSecurity::encrypt($recording->getRecordId())]) ?>"><i class="fa fa-trash text-danger" data-toggle="tooltip" data-title="Delete Recording" style="font-size:22px"></i></a>
-      </td></tr>
+       <tr><td><?=$no?></td><td><?=$recording->getName()?></td><td><?=$recording->getPlaybackLength()." min"?></td><td><?=$recording->getPlaybackType()?> </td><td><?=($recording->isPublished()==true)?"published":"Not published"?> </td><td><a href="<?=Url::to(['student-lectureroom/play-recording','playbackurl'=>$recording->getPlaybackUrl()]) ?>""><i class="fa fa-play-circle" style="font-size:22px" data-toggle="tooltip" data-title="Play"></i></a></td></tr>
         
         
        
@@ -147,13 +194,7 @@ $this->params['breadcrumbs'] = [
 </div>
 </div>  
 
-<?php
-//the module creating
-$lecturemodel = new LectureRoom();
-
-?>
-<?=$this->render('newsession_form', ['model'=>$lecturemodel])?>
-<?=$this->render('sessionPolicies', ['model'=>$lecturemodel])?>
+   
 
 
 <?php 

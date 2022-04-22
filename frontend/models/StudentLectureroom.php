@@ -9,7 +9,10 @@ use yii\base\Exception;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
+use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\BigBlueButton;
+use frontend\models\ClassRoomSecurity;
+use BigBlueButton\Exceptions\BadResponseException;
 
 /*
 A model class for managing academicyear, switching to and from a specific 
@@ -26,37 +29,22 @@ class StudentLectureroom extends Model
        
     }
 
-    public function findAllLectures()
+    public function findLectureSchedule()
     {
         $course=yii::$app->session->get("ccode");
         $year=yii::$app->session->get("currentAcademicYear")->yearID;
 
-        $lectures=LiveLecture::find()->where(["course_code"=>$course,"yearID"=>$year])->all();
+        $lectures=LiveLecture::find()->where(["course_code"=>$course,"yearID"=>$year])->orderBy(['lectureID'=>SORT_DESC])->all();
 
-        $lectureinfos=[];
-
-        foreach($lectures as $lecture)
-        {
-          $dblectureinfo=$lecture->lectureroominfos;
-          if($dblectureinfo==null){continue;}
-          $roomID=$dblectureinfo->meetingID;
-          $pw=$dblectureinfo->attpw;
-
-          $lectureinfo=$this->getLectureInfos($roomID,$pw);
-
-          if($lectureinfo==null){continue;}
-          $datetime=new \DateTime($lecture->lectureDate." ".$lecture->lectureTime);
-          $lectureinfo->setStartTime($datetime->getTimestamp());
-          $lectureinfo->setDescription($lecture->description);
-          array_push($lectureinfos,$lectureinfo);
-        }
-        
-        return $lectureinfos; 
+        return $lectures; 
 
     }
-    public function getLectureInfos($meetingID,$pass)
+    public function getRoomInfos()
     {
-     $parameters=new GetMeetingInfoParameters($meetingID,$pass);
+     $yearid=(yii::$app->session->get("currentAcademicYear"))->yearID;
+     $meetingID=yii::$app->session->get('ccode')."@LectureRoom".$yearid;
+     $pw=yii::$app->session->get('ccode')."@Student".$yearid;
+     $parameters=new GetMeetingInfoParameters($meetingID,$pw);
      try
      {
      $meetingInforesp=(new BigBlueButton())->getMeetingInfo($parameters);
@@ -64,7 +52,15 @@ class StudentLectureroom extends Model
      $meetingInfo=$meetingInforesp->getMeeting();
      return $meetingInfo;
      }
-     catch(Exception $m)
+     catch(\RuntimeException $m)
+     {
+         return null;
+     }
+     catch(BadResponseException $bad)
+     {
+         return null;
+     }
+     catch(Exception $e)
      {
          return null;
      }
@@ -73,10 +69,44 @@ class StudentLectureroom extends Model
      
     }
 
-  
-    public function joinSession($session,$pw)
+    public function recordings()
     {
-      
+      $service=new BigBlueButton();
+      $yearid=(yii::$app->session->get("currentAcademicYear"))->yearID;
+      $meetingID=yii::$app->session->get('ccode')."@LectureRoom".$yearid;
+      $recordingsparam=new GetRecordingsParameters();
+      $recordingsparam->setMeetingId($meetingID);
+
+      try
+      {
+      $resp=$service->getRecordings($recordingsparam);
+      $records=$resp->getRecords();
+    
+      return $records;
+      }
+      catch(\RuntimeException $r)
+      {
+          return [];
+      }
+      catch(BadResponseException $bad)
+      {
+          return [];
+      }
+      catch(Exception $e)
+      {
+          return [];
+      }
+    }
+
+  
+    public function joinSession()
+    {
+        //is the room  open
+        if($this->getRoomInfos()==null){return null;} //room closed
+
+        $yearid=(yii::$app->session->get("currentAcademicYear"))->yearID;
+        $session=yii::$app->session->get('ccode')."@LectureRoom".$yearid;
+        $pw=yii::$app->session->get('ccode')."@Student".$yearid;
         $student_name=yii::$app->user->identity->username;
         $door_open_registar=new JoinMeetingParameters($session,$student_name,$pw);
         $door_open_registar->setRedirect(true);
