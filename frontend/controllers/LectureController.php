@@ -47,7 +47,10 @@ public $defaultAction = 'dashboard';
                             'start-session',
                             'class-podium',
                             'delete-session',
-                            'delete-recording'
+                            'delete-recording',
+                            'play-recording',
+                            'close-room',
+                            'logout'
                  
 
                         ],
@@ -65,12 +68,27 @@ public $defaultAction = 'dashboard';
                             'start-session',
                             'class-podium',
                             'delete-session',
-                            'delete-recording'
+                            'delete-recording',
+                            'play-recording',
+                            'close-room',
+                            'logout'
                            
                            
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR & HOD']
+                        
+
+                    ],
+                    [
+                        'actions' => [
+                 
+                            'logout'
+                           
+                           
+                        ],
+                        'allow' => true,
+                        'roles' => ['STUDENT']
                         
 
                     ],
@@ -115,6 +133,7 @@ public function actionNewSession()
   
   $lectureroommanager=new LectureRoom();
   $lectureroommanager->lecture=0;
+ 
   if($lectureroommanager->load(yii::$app->request->post()) && $lectureroommanager->validate())
   {
   $lectureroommanager->meetingId=yii::$app->session->get('ccode');
@@ -143,13 +162,11 @@ public function actionNewSession()
 public function actionStartSession()
 {
     $lectureroommanager=new LectureRoom();
- 
-    
     $rooms_master=new BigBlueButton();
     if($lectureroommanager->load(yii::$app->request->post()))
     {
-    $door_open_registar=null;
  
+    $door_open_registar=null;
         try
         {
             $door_open_registar= $lectureroommanager->joinSession();
@@ -231,6 +248,29 @@ public function actionDeleteRecording($recording)
         yii::$app->session->setFlash("error","An error occured while deleting Recording, try again later!");
         return $this->redirect(yii::$app->request->referrer);   
     }
+}
+public function actionPlayRecording($playbackurl)
+{
+  return $this->redirect($playbackurl);
+}
+
+public function actionLogout()
+{
+    $role=Yii::$app->authManager->getRolesByUser(yii::$app->user->getId());
+    $rolename=array_keys($role)[0];
+    if($rolename=="STUDENT")
+    {
+        return $this->redirect(Url::to(["/student-lectureroom/lectures"]));
+    }
+    else
+    {
+        return $this->redirect(Url::to(["/lecture/lecture-room"])); 
+    }
+}
+public function actionCloseRoom($room)
+{
+ print($room);
+ print(ClassRoomSecurity::decrypt($room));
 }
 
 }

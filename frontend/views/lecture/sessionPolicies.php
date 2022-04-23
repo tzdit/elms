@@ -32,6 +32,7 @@ use yii\helpers\ArrayHelper;
       <?php 
       $lectures=(new LectureRoom)->findLectureSchedule();
       $lectures=ArrayHelper::map($lectures,"lectureID","title");
+      $participants_intervals=[5=>"0 to 5",10=>"5 to 10",20=>"10 to 20",30=>"20 to 30",50=>"30 to 50",70=>"50 to 70",100=>"70 to 100",150=>"100 to 150",200=>"150 to 200"];
       $form = ActiveForm::begin(['method'=>'post', 'action'=>['/lecture/start-session']])
       ?>
       <div class="row">
@@ -49,7 +50,15 @@ use yii\helpers\ArrayHelper;
         <div class="col-md-12">
   
        
-        <?= $form->field($model, 'lockSettingsDisablePublicChat')->dropDownList(['on'=>'On','off'=>'Off'],['class'=>'form-control form-control-sm', 'prompt'=>'--Public Chat--'])->label(false)?>
+        <?= $form->field($model, 'maxParticipants')->dropDownList($participants_intervals,['class'=>'form-control form-control-sm', 'prompt'=>'--Max Participants (Unlimited)--'])->label(false)?>
+       
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-md-12">
+  
+       
+        <?= $form->field($model, 'lockSettingsDisablePublicChat')->dropDownList([false=>'On',true=>'Off'],['class'=>'form-control form-control-sm', 'prompt'=>'--Public Chat--'])->label(false)?>
        
         </div>
         </div>
@@ -58,29 +67,7 @@ use yii\helpers\ArrayHelper;
         <div class="col-md-12">
   
        
-        <?= $form->field($model, 'lockSettingsDisablePrivateChat')->dropDownList(['on'=>'On','off'=>'Off'],['class'=>'form-control form-control-sm', 'prompt'=>'--Private Chat--'])->label(false)?>
-       
-        </div>
-
-
-        </div>
-
-        <div class="row">
-        <div class="col-md-12">
-  
-       
-        <?= $form->field($model, 'webcamsOnlyForModerator')->dropDownList(['on'=>'On','off'=>'Off'],['class'=>'form-control form-control-sm', 'prompt'=>'--WebCams Only For Instructor--'])->label(false)?>
-       
-        </div>
-
-
-        </div>
-
-        <div class="row">
-        <div class="col-md-12">
-  
-       
-        <?= $form->field($model, 'allowStartStopRecording')->dropDownList(['on'=>'On','off'=>'Off'],['class'=>'form-control form-control-sm', 'prompt'=>'--Allow Start-stop Recording--'])->label(false)?>
+        <?= $form->field($model, 'lockSettingsDisablePrivateChat')->dropDownList([false=>'On',true=>'Off'],['class'=>'form-control form-control-sm', 'prompt'=>'--Private Chat--'])->label(false)?>
        
         </div>
 
@@ -91,7 +78,29 @@ use yii\helpers\ArrayHelper;
         <div class="col-md-12">
   
        
-        <?= $form->field($model, 'autoStartRecording')->dropDownList(['on'=>'On','off'=>'Off'],['class'=>'form-control form-control-sm', 'prompt'=>'--AutoStart Recording--'])->label(false)?>
+        <?= $form->field($model, 'webcamsOnlyForModerator')->dropDownList([true=>'On',false=>'Off'],['class'=>'form-control form-control-sm', 'prompt'=>'--WebCams Only For Instructors/Moderators--'])->label(false)?>
+       
+        </div>
+
+
+        </div>
+
+        <div class="row">
+        <div class="col-md-12">
+  
+       
+        <?= $form->field($model, 'allowStartStopRecording')->dropDownList([true=>'On',false=>'Off'],['class'=>'form-control form-control-sm', 'prompt'=>'--Allow Start-stop Recording--'])->label(false)?>
+       
+        </div>
+
+
+        </div>
+
+        <div class="row">
+        <div class="col-md-12">
+  
+       
+        <?= $form->field($model, 'autoStartRecording')->dropDownList([1=>'On',0=>'Off'],['class'=>'form-control form-control-sm', 'prompt'=>'--AutoStart Recording--'])->label(false)?>
        
         </div>
 

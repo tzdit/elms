@@ -10,8 +10,10 @@ use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\BigBlueButton;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Exceptions\BadResponseException;
+use frontend\models\ClassRoomSecurity;
 use yii\db\Connection;
 use yii\base\Exception;
+use yii\helpers\Url;
 
 
 
@@ -26,13 +28,13 @@ class LectureRoom extends Model{
 
   public $moderatorPassword;
 
-  public $logoutUrl="http://localhost:8080/auth/login";
+  public $homeUrl="http://localhost:8080/";
 
   public $maxParticipants;
 
   public $record=true;
 
-  public $autoStartRecording=false;
+  public $autoStartRecording;
 
  
   public $allowStartStopRecording=true;
@@ -44,12 +46,12 @@ class LectureRoom extends Model{
   public $welcomeMessage="Welcome in Our today's lecture, students are required to switch their MIC off";
 
 
-  public $moderatorOnlyMessage;
+  public $moderatorOnlyMessage="You are an Instructor/Moderator";
 
  
   public $webcamsOnlyForModerator=true;
 
-  public $logo="/img/logo.png";
+  public $logo;
 
   public $copyright="Copyright © 2020 - 2022   The University of Dodoma.      All rights reserved.";
 
@@ -59,11 +61,11 @@ class LectureRoom extends Model{
 
   public $lockSettingsDisableMic;
 
-  public $lockSettingsDisablePrivateChat=true;
+  public $lockSettingsDisablePrivateChat=false;
 
   public $lockSettingsDisablePublicChat=false;
 
-  public $lockSettingsDisableNote=true;
+  public $lockSettingsDisableNote=false;
 
   private $lockSettingsLockedLayout;
 
@@ -85,7 +87,7 @@ public function __construct($config=[])
   $mpw=yii::$app->session->get('ccode')."@Instructor".$yearid;
   $attpw=yii::$app->session->get('ccode')."@Student".$yearid;
   $roomid=yii::$app->session->get('ccode')."@LectureRoom".$yearid;
-
+  $this->logo=Yii::getAlias('@web/img/logo.png');
   $this->attendeePassword=$attpw;
   $this->moderatorPassword=$mpw;
   $this->meetingId=$roomid;
@@ -99,6 +101,13 @@ public function __construct($config=[])
           [['lectureDate'], 'safe'],
           [['title'], 'string', 'max' => 200],
           [['description'], 'string', 'max' => 255],
+          ['autoStartRecording','boolean'],
+          ['maxParticipants','integer'],
+          ['allowStartStopRecording','boolean'],
+          ['webcamsOnlyForModerator','boolean'],
+          ['lockSettingsDisablePrivateChat','boolean'],
+          ['lockSettingsDisablePublicChat','boolean'],
+          
       ];
   }
 
@@ -108,6 +117,9 @@ public function __construct($config=[])
 
    //room specs, characteristics, features, etc
    $lecture=LiveLecture::findOne($this->lecture);
+   $logoutUrl=($this->homeUrl)."lecture/logout";
+   $endmeetingUrl=$this->homeUrl."lecture/close-room";
+   //$endmeetingUrl=Url::to(['lecture/close-room', 'room'=>ClassRoomSecurity::encrypt($this->meetingId)]);
    $roomspecs=new CreateMeetingParameters($this->meetingId,$lecture->title);
    $roomspecs=$roomspecs->setModeratorPassword($this->moderatorPassword);
    $roomspecs=$roomspecs->setAttendeePassword($this->attendeePassword);
@@ -116,9 +128,15 @@ public function __construct($config=[])
    $roomspecs=$roomspecs->setAutoStartRecording($this->autoStartRecording);
    $roomspecs=$roomspecs->setAllowStartStopRecording($this->allowStartStopRecording);
    $roomspecs=$roomspecs->setWelcomeMessage($this->welcomeMessage);
-   $roomspecs=$roomspecs->setLogoutUrl($this->logoutUrl);
+   $roomspecs=$roomspecs->setLogoutUrl($logoutUrl);
    $roomspecs=$roomspecs->setCopyright($this->copyright);
    $roomspecs=$roomspecs->setLogo($this->logo);
+   $roomspecs=$roomspecs->setLockSettingsDisablePublicChat($this->lockSettingsDisablePublicChat);
+   $roomspecs=$roomspecs->setLockSettingsDisablePrivateChat($this->lockSettingsDisablePrivateChat);
+   $roomspecs=$roomspecs->setLockSettingsDisableNote($this->lockSettingsDisableNote);
+   $roomspecs=$roomspecs->setModeratorOnlyMessage($this->moderatorOnlyMessage);
+   $roomspecs=$roomspecs->setMaxParticipants($this->maxParticipants);
+   $roomspecs=$roomspecs->setEndCallbackUrl($endmeetingUrl);
    //more specs to be added in the future as per needs
 
    //now building the classroom
