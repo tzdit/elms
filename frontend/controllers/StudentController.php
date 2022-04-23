@@ -23,6 +23,7 @@ use common\models\Announcement;
 use frontend\models\UploadStudentHodForm;
 use common\models\StudentCourse;
 use frontend\models\AddGroup;
+use frontend\models\StudentGroups;
 use frontend\models\FileHelper;
 use frontend\models\AssSubmitForm;
 use frontend\models\GroupAssSubmit;
@@ -1315,6 +1316,20 @@ public function actionClasswork($cid){
 //            $group ->save();
 //            echo "Saved";
 //        }
+    $counts = count($students);
+    
+    $existing_group_members_counts = StudentGroup::find()->where(['groupID'=>$groupID])->count();
+    
+    $max_group_members = Groups::findOne($groupID);
+    $number = $max_group_members->generationType->max_groups_members;
+    
+    if($counts + $existing_group_members_counts > $number)
+    {
+        Yii::$app->session->setFlash('error', 'Group exceeds maximum limit... Maximum Group Members are '.$number);
+        return $this->redirect(Yii::$app->request->referrer);
+        return false;
+    }
+    
         for($m=0;$m<count($students);$m++)
         {
 
@@ -1328,7 +1343,7 @@ public function actionClasswork($cid){
             ->exists();
             if($studentInTwoGroup)
             {
-                Yii::$app->session->setFlash('error', $studentgroup->reg_no.' '.'already added in another group');
+                Yii::$app->session->setFlash('error', $studentgroup->reg_no.' '.'exists in another group');
                 return $this->redirect(Yii::$app->request->referrer);
                 return false;
             }

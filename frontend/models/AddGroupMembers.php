@@ -57,6 +57,14 @@ class AddGroupMembers extends Model
         if (!$this->validate()) {
             return false;
         }
+        $count = count($this->memberStudents);
+
+        $limit = GroupGenerationTypes::find()->select(['max_groups_members'])->where('typeID = :typeID', [':typeID' => $this->generation_type])->one();
+
+        if ( $count > $limit->max_groups_members - 1){
+            Yii::$app->session->setFlash('error', 'Group exceed maximum limit');
+            return false;
+        }
 
 
         $transaction = Yii::$app->db->beginTransaction();
