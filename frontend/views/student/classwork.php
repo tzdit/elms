@@ -5,8 +5,8 @@ use frontend\models\ClassRoomSecurity;
 
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =$cid;
-$this->title = 'Class'; 
+$this->params['courseTitle'] ="<i class='fas fa-th'></i> ".$cid.' Dashboard'; 
+$this->title = $cid.' Dashboard'; 
 $this->params['breadcrumbs'] = [
   ['label'=>$this->title]
 ];
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'] = [
                                 <div class="col-sm-3 col-12 ">
 
                                 <a href="<?=Url::to(['student/view-normal-assignments/', 'cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 row result-card mx-1 my-2 ">
-                                <img src="<?=  Yii::getAlias('@web/img/assignment.png')?>" height="34px" width="33px"/>
+                                <img src="<?=  Yii::getAlias('@web/img/Assignment4.png')?>" height="34px" width="38px"/>
                                     <h5>
                                             Individual Assignments
                                     </h5>

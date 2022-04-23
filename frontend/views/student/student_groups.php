@@ -18,9 +18,10 @@ use yii\helpers\VarDumper;
 
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =$cid." - Group Assignment";
+$this->params['courseTitle'] = '<img src="/img/groupass.png" height="25px" width="25px"/> '.$cid." Group Assignments";
 $this->title = 'Groups';
 $this->params['breadcrumbs'] = [
+    ['label'=>$cid.' dashboard', 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
     ['label'=>$this->title]
 ];
 
@@ -48,10 +49,10 @@ $this->params['breadcrumbs'] = [
                             <div class="card-header p-0 border-bottom-0">
                                 <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true"><img src="<?= Yii::getAlias('@web/img/upload.png') ?>" width="30" height="30" class=" mr-2">GROUP ASSIGNMENT FOR SUBMISSION</a>
+                                        <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true"><i class="fa fa-upload"></i> Submit Assignment</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false"><img src="<?= Yii::getAlias('@web/img/create.png') ?>" width="30" height="30" class=" mr-2">CREATE GROUP FOR ASSIGNMENT</a>
+                                        <a class="nav-link" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false"><i class="fa fa-group"></i> My Groups</a>
                                     </li>
                                 </ul>
 
@@ -139,7 +140,9 @@ $this->params['breadcrumbs'] = [
 
                                                                                             <div class="card-footer p-2 material-background mt-3 border-top border-bottom">
                                                                                                 <div class="card-header border-0">
-                                                                                                    <h5 class="ml-3"><i class="fas fa-clipboard-list"></i> <span class="assignment-header"><?php  echo ucwords($assignment['assName'])?></span></h5>
+                                                                                                  
+                                                                                                     
+                                                                                                    <p class="card-text ml-5"><span style="color:green">Assignment: </span>  <?= ucwords($assignment['assName']) ?> </p>
                                                                                                     <p class="card-text ml-5"><span style="color:green"> Description: </span>  <?= $assignment['ass_desc'] ?> </p>
 
                                                                                                 </div>
@@ -197,7 +200,8 @@ $this->params['breadcrumbs'] = [
 
                                                                                                 <div class="card-footer p-2 material-background mt-3 border-top border-bottom">
                                                                                                     <div class="card-header border-0">
-                                                                                                        <h5 class="ml-3"><i class="fas fa-clipboard-list"></i> <span class="assignment-header"><?php  echo ucwords($assignmentAllItem['assName'])?></span></h5>
+                                                                             
+                                                                                                        <p class="card-text ml-5"><span style="color:green"> Assignment: </span>  <?= ucwords($assignmentAllItem['assName']) ?> </p>
                                                                                                         <p class="card-text ml-5"><span style="color:green"> Description: </span>  <?= $assignmentAllItem['ass_desc'] ?> </p>
 
                                                                                                     </div>
@@ -254,7 +258,8 @@ $this->params['breadcrumbs'] = [
 
                                                                                             <div class="card-footer p-2 material-background mt-3 border-top border-bottom">
                                                                                                 <div class="card-header border-0">
-                                                                                                    <h5 class="ml-3"><i class="fas fa-clipboard-list"></i> <span class="assignment-header"><?php  echo ucwords($assignmentAllItem['assName'])?></span></h5>
+                                                                        
+                                                                                                    <p class="card-text ml-5"><span style="color:green"> Assignment: </span>  <?= ucwords($assignmentAllItem['assName'])?> </p>
                                                                                                     <p class="card-text ml-5"><span style="color:green"> Description: </span>  <?= $assignmentAllItem['ass_desc'] ?> </p>
 
                                                                                                 </div>
@@ -280,7 +285,7 @@ $this->params['breadcrumbs'] = [
                                                                                                         ?>
 
 
-                                                                                                        <b class="text-danger ml-5"><i class="fa fa-clock-o"></i> Deadline : </b><?= $deadLineDate->format('Y-m-d H:i:s') ?>
+                                                                                                        <b class="text-danger ml-5"><i class="fa fa-clock-o ml-2"></i> Deadline : </b><?= $deadLineDate->format('Y-m-d H:i:s') ?>
                                                                                                     </div>
                                                                                                     <div class="col-md-6">
 
