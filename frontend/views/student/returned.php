@@ -67,7 +67,7 @@ $this->params['breadcrumbs'] = [
                                                             <?php
                                                     $assignmentDetails = \common\models\Assignment::findOne($returne->assID);
                                                     ?>
-                                                    <?php if(strtotime(date('Y-m-d h:i:s')) < strtotime($returne->ass->finishDate)):
+                                                    <?php if(strtotime(date('Y-m-d h:i:s')) < strtotime($returne->ass->finishDate) || $returne->score == NULL ):
                                                     ?>
                                                     <?php continue ?>
 
@@ -151,7 +151,7 @@ $this->params['breadcrumbs'] = [
                                                         $returneGroups=$assignments[$a];
                                                     ?>
 
-                                                    <?php if(strtotime(date('Y-m-d h:i:s')) < strtotime($returneGroups->ass->finishDate)):
+                                                    <?php if(strtotime(date('Y-m-d h:i:s')) < strtotime($returneGroups->ass->finishDate || $returneGroups->score == NULL)):
                                                     ?>
                                                     <?php continue ?>
 
