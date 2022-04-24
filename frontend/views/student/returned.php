@@ -66,8 +66,12 @@ $this->params['breadcrumbs'] = [
 
                                                             <?php
                                                     $assignmentDetails = \common\models\Assignment::findOne($returne->assID);
-
                                                     ?>
+                                                    <?php if(strtotime(date('Y-m-d h:i:s')) < strtotime($returne->ass->finishDate) || $returne->score == NULL ):
+                                                    ?>
+                                                    <?php continue ?>
+
+                                                    <?php endif ?>
                                                         <div class="card">
                                                             <div class="card m-3 shadow-lg rounded result-card">
                                                                 <div class="card-body">
@@ -147,6 +151,11 @@ $this->params['breadcrumbs'] = [
                                                         $returneGroups=$assignments[$a];
                                                     ?>
 
+                                                    <?php if(strtotime(date('Y-m-d h:i:s')) < strtotime($returneGroups->ass->finishDate || $returneGroups->score == NULL)):
+                                                    ?>
+                                                    <?php continue ?>
+
+                                                    <?php endif ?>
                                                         <div class="card">
                                                             <div class="card m-3 shadow-lg rounded result-card">
                                                                 <div class="card-body">
