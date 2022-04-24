@@ -66,8 +66,12 @@ $this->params['breadcrumbs'] = [
 
                                                             <?php
                                                     $assignmentDetails = \common\models\Assignment::findOne($returne->assID);
-
                                                     ?>
+                                                    <?php if(strtotime(date('Y-m-d h:i:s')) < strtotime($returne->ass->finishDate)):
+                                                    ?>
+                                                    <?php continue ?>
+
+                                                    <?php endif ?>
                                                         <div class="card">
                                                             <div class="card m-3 shadow-lg rounded result-card">
                                                                 <div class="card-body">
