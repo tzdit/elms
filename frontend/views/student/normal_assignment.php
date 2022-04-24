@@ -20,10 +20,10 @@ use yii\helpers\VarDumper;
 
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =$cid. " - Assignments";
-$this->title = 'Assignments';
+$this->params['courseTitle'] ='<img src="/img/Assignment4.png" height="30px" width="29px"/> '.$cid. ' Individual Assignments';
+$this->title = $cid.' Individual Assignments';
 $this->params['breadcrumbs'] = [
-    ['label'=>'Class', 'url'=>Url::to(['/student/classwork', 'cid'=>$cid])],
+    ['label'=>$cid.' dashboard', 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
     ['label'=>$this->title]
 ];
 
@@ -41,8 +41,8 @@ $this->params['breadcrumbs'] = [
               <div class="card-header d-flex p-0">
                 
                 <ul class="nav nav-pills p-2">
-                  <li class="nav-item"  ><a class="nav-link active" href="#tab_1" data-toggle="tab"><img src="<?=  Yii::getAlias('@web/img/assignment.png')?>" height="34px" width="33px"/> Normal Assignments </a></li>
-                  <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab"><img src="<?=  Yii::getAlias('@web/img/assignment.png')?>" height="34px" width="33px"/>Lab Assignments </a></li>
+                  <li class="nav-item"  ><a class="nav-link active" href="#tab_1" data-toggle="tab"> Normal Assignments </a></li>
+                  <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Lab Assignments </a></li>
                 </ul>
               </div><!-- /.card-header -->
               <div class="card-body">
@@ -87,7 +87,7 @@ $this->params['breadcrumbs'] = [
                                                             <div class="row">
                                                                 <div class="col-sm-11">
                                                                     <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$ass?>" aria-expanded="true" aria-controls="collapse<?=$ass?>">
-                                                                        <h5><i class="fas fa-clipboard-list"></i><span class="assignment-auto"></span> <span class="assignment-header"><?php  echo ucwords($assign -> assName)?></span></h5>
+                                                                        <h5><img src="<?=  Yii::getAlias('@web/img/homework.png')?>" height="40px" width="38px"/><span class="assignment-auto"></span> <span class="assignment-header"><?php  echo ucwords($assign -> assName)?></span></h5>
                                                                     </button>
                                                                 </div>
                                                                 <div class="col-sm-1">
@@ -128,7 +128,6 @@ $this->params['breadcrumbs'] = [
 
                                                                     <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> ClassRoomSecurity::encrypt($assign->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
 
-                                                                    <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> ClassRoomSecurity::encrypt($assign->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-eye"> View</i></span></a>
 
                                                                     <?php if(empty($submited) && $isOutOfDeadline == false):?>
                                                                         <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> ClassRoomSecurity::encrypt($assign->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
@@ -208,7 +207,7 @@ $this->params['breadcrumbs'] = [
                                                                               <div class="row">
                                                                                   <div class="col-sm-11">
                                                                                       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$labb?>" aria-expanded="true" aria-controls="collapse<?=$labb?>">
-                                                                                          <h5><i class="fas fa-clipboard-list"></i> <span class="assignment-header"><?php echo "Lab ".$labb;?></span></h5>
+                                                                                          <h5><img src="<?=  Yii::getAlias('@web/img/homework.png')?>" height="40px" width="38px"/> <span class="assignment-header"><?php echo "Lab ".$labb;?></span></h5>
 
                                                                                       </button>
                                                                                   </div>
@@ -242,7 +241,7 @@ $this->params['breadcrumbs'] = [
 
                                                                                       ?>
 
-                                                                                      <b> Deadline : </b><?= $deadLineDate->format('Y-m-d H:i:s') ?>
+                                                                                      <b class="text-danger"> Deadline : </b><?= $deadLineDate->format('Y-m-d H:i:s') ?>
                                                                                   </div>
                                                                                   <div class="col-md-4">
                                                                                       <?php
@@ -251,7 +250,6 @@ $this->params['breadcrumbs'] = [
 
                                                                                       <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> ClassRoomSecurity::encrypt($lab->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
 
-                                                                                      <a href="<?= Url::toRoute(['/student/view_assignment','assID'=> ClassRoomSecurity::encrypt($lab->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-eye"> View</i></span></a>
 
 
                                                                                       <?php if(empty($submited) && $isOutOfDeadline == false):?>

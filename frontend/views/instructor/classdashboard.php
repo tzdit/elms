@@ -176,10 +176,10 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
           <div class="col-12 col-sm-6 col-md-3">
           <a href="/lecture/lecture-room">
             <div class="info-box mb-2">
-              <span class="info-box-icon "><i class="fas fa-chalkboard-teacher"></i></span>
+              <span class="info-box-icon "><i class="fa fa-school"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Live lecturing</span>
+                <span class="info-box-text">Lecture Room</span>
               </div>
             
             </div>

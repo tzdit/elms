@@ -126,8 +126,8 @@ $this->params['breadcrumbs'] = [
       {
      ?>
      
-       <tr><td><?=$no?></td><td><?=$recording->getName()?></td><td><?=$recording->getPlaybackLength()." min"?></td><td><?=$recording->getPlaybackType()?> </td><td><?=($recording->isPublished()==true)?"published":"Not published"?> </td><td><a href="<?=Url::to(['student-lectureroom/play-recording','playbackurl'=>$recording->getPlaybackUrl()]) ?>""><i class="fa fa-play-circle" style="font-size:22px" data-toggle="tooltip" data-title="Play"></i></a>
-       <a href="<?=Url::to(['lecture/delete-recording/', 'recording'=>ClassRoomSecurity::encrypt($recording->getRecordId())]) ?>"><i class="fa fa-trash text-danger" data-toggle="tooltip" data-title="Delete Recording" style="font-size:22px"></i></a>
+       <tr><td><?=$no?></td><td><?=$recording->getName()?></td><td><?=$recording->getPlaybackLength()." min"?></td><td><?=$recording->getPlaybackType()?> </td><td><?=($recording->isPublished()==true)?"published":"Not published"?> </td><td><a href="<?=Url::to(['lecture/play-recording','playbackurl'=>$recording->getPlaybackUrl()]) ?>"><i class="fa fa-play-circle"  data-toggle="tooltip" data-title="Play"></i></a>
+       <a href="<?=Url::to(['lecture/delete-recording/', 'recording'=>ClassRoomSecurity::encrypt($recording->getRecordId())]) ?>"><i class="fa fa-trash text-danger" data-toggle="tooltip" data-title="Delete Recording" ></i></a>
       </td></tr>
         
         
