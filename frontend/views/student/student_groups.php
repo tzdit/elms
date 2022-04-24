@@ -291,8 +291,10 @@ $this->params['breadcrumbs'] = [
                                                                                                         <?php if(empty($submitedAll) && $isOutOfDeadline == false):?>
                                                                                                             <a href="<?= Url::toRoute(['/student/group_assignment_submit','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID']), 'groupID' => ClassRoomSecurity::encrypt($assignmentAllItem['groupID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
                                                                                                         <?php endif ?>
+
+                                                                                                        <?php if($assignmentAllItem['submitMode'] == "unresubmit"):?>
                                                                                                         <?php
-                                                                                                        if(!empty($submitedAll) && $isOutOfDeadline == false):?>
+                                                                                                        elseif(!empty($submitedAll) && $isOutOfDeadline == false):?>
                                                                                                             <a href="<?= Url::toRoute(['/student/group_resubmit','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID']), 'submit_id' => ClassRoomSecurity::encrypt($submitedAll['submitID']), 'groupID' => ClassRoomSecurity::encrypt($assignmentAllItem['groupID'])])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
                                                                                                         <?php endif ?>
                                                                                                         <?php if($isOutOfDeadline == true):?>
