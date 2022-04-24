@@ -11,7 +11,7 @@ class UploadAssignment extends Model{
     public $assTitle;
     public $submitMode;
     public $assType;
-    public $startDate;
+    public $endTime;
     public $endDate;
     public $assFile;
     public $description;
@@ -27,7 +27,7 @@ class UploadAssignment extends Model{
     public $totalMarks;
     public function rules(){
         return [
-           [['assTitle', 'submitMode', 'assType', 'startDate', 'endDate'], 'required'],
+           [['assTitle', 'submitMode', 'assType', 'endTime', 'endDate'], 'required'],
            ['description','string','max'=>1000],
            [['totalMarks'], 'required'],
            [['number_of_questions'], 'required'],
@@ -60,18 +60,20 @@ class UploadAssignment extends Model{
         $ass->assName = $this->assTitle;
         $ass->assType = $this->assType;
         $ass->submitMode = $this->submitMode;
-        $ass->startDate = $this->startDate;
-        $ass->yearID=1;
-        $ass->finishDate = $this->endDate;
+        $ass->yearID=(yii::$app->session->get("currentAcademicYear"))->yearID;
+        $ass->finishDate = $this->endDate." ".$this->endTime;
         $ass->fileName = $filefordb;
         $ass->ass_desc = $this->description;
         $ass->assNature = "assignment";
         $ass->instructorID = Yii::$app->user->identity->instructor->instructorID;
         $ass->total_marks = $this->totalMarks;
-        if(Yii::$app->session->get('ccode')===null){return false;}
-        $ass->course_code = isset($this->ccode) ? $this->ccode : Yii::$app->session->get('ccode');
+        $ass->status="notpublished";
+        $ass->course_code =Yii::$app->session->get('ccode');
         
-        if(!$ass->save()){return false;}
+        if(!$ass->save()){
+           return false;
+         }
+       
       
       
      

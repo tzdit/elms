@@ -1490,6 +1490,7 @@ public function actionUploadAssignment(){
  
     
         if($model->create_assignment()){
+    
         Yii::$app->session->setFlash('success', 'Assignment created successfully');
         return $this->redirect(Yii::$app->request->referrer);
         }else{
@@ -1498,6 +1499,7 @@ public function actionUploadAssignment(){
         return $this->redirect(Yii::$app->request->referrer);
     }
 }
+
 }
 ///update assignment
 
