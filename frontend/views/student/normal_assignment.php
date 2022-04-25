@@ -133,7 +133,7 @@ $this->params['breadcrumbs'] = [
                                                                     <?php endif ?>
 
                                                                     <?php if($assign->submitMode == "unresubmit"):?>
-                                                                        
+                                                                        <button class="btn btn-sm btn-success float-right ml-2" disabled><i class="fas fa-upload"> Already Submitted</i></button>
                                                                         <?php elseif(!empty($submited) && $isOutOfDeadline == false):?>
                                                                         <a href="<?= Url::toRoute(['/student/resubmit','assID'=> ClassRoomSecurity::encrypt($assign->assID), 'submit_id' => ClassRoomSecurity::encrypt($submited->submitID)])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
                                                                     <?php endif ?>
@@ -252,7 +252,7 @@ $this->params['breadcrumbs'] = [
                                                                                       <?php endif ?>
                                                                                         
                                                                                       <?php if($lab->submitMode == "unresubmit"):?>
-
+                                                                                        <button class="btn btn-sm btn-success float-right ml-2" disabled><i class="fas fa-upload"> Already Submitted</i></button>
                                                                                       <?php elseif(!empty($submited) && $isOutOfDeadline == false):?>
                                                                                           <a href="<?= Url::toRoute(['/student/resubmit','assID'=>  ClassRoomSecurity::encrypt($lab->assID), 'submit_id' => ClassRoomSecurity::encrypt($submited->submitID)])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
                                                                                       <?php endif ?>
