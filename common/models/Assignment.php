@@ -18,7 +18,6 @@ use Yii;
  * @property string $assNature
  * @property string|null $ass_desc
  * @property string|null $submitMode
- * @property string|null $startDate
  * @property string|null $finishDate
  * @property int|null $total_marks
  * @property string|null $fileName
@@ -70,7 +69,7 @@ class Assignment extends \yii\db\ActiveRecord
         return [
             [['instructorID', 'total_marks', 'yearID'], 'integer'],
             [['assName', 'assNature', 'yearID'], 'required'],
-            [['startDate', 'finishDate'], 'safe'],
+            [['finishDate'], 'safe'],
             [['course_code'], 'string', 'max' => 20],
             [['assName'], 'string', 'max' => 100],
             [['assType'], 'string', 'max' => 15],
@@ -96,7 +95,6 @@ class Assignment extends \yii\db\ActiveRecord
             'assNature' => 'Ass Nature',
             'ass_desc' => 'Assignment Description',
             'submitMode' => 'Submit Mode',
-            'startDate' => 'Start Date',
             'finishDate' => 'Finish Date',
             'total_marks' => 'Total Marks',
             'fileName' => 'File Name',

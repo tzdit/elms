@@ -28,10 +28,10 @@ use yii\helpers\Html;
         </div>
         <div class="row">
         <div class="col-md-3">
-        <?= $form->field($assmodel, 'startDate')->input('date', ['class'=>'form-control form-control form-control-sm'])->label('Start Date')?>
+        <?= $form->field($assmodel, 'endDate')->input('date', ['class'=>'form-control form-control form-control-sm'])->label('End Date')?>
         </div>
         <div class="col-md-3">
-        <?= $form->field($assmodel, 'endDate')->input('date', ['class'=>'form-control form-control form-control-sm'])->label('End Date')?>
+        <?= $form->field($assmodel, 'endTime')->input('time', ['class'=>'form-control form-control form-control-sm'])->label('End Time')?>
         </div>
         <div class="col-md-3">
         <?= $form->field($assmodel, 'submitMode')->dropdownList(['resubmit'=>'Can resubmit', 'unresubmit'=>'Cant resubmit'], ['class'=>'form-control form-control-sm', 'prompt'=>'--select--'])->label('Submission Mode')?>
