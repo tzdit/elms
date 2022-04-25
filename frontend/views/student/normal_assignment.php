@@ -111,14 +111,13 @@ $this->params['breadcrumbs'] = [
                                                                     ?>
 
                                                                     <?php
-                                                                    // check if deadline of submit assignment is meet
+                                                                    date_default_timezone_set('Africa/Dar_es_Salaam');
+                                                                    // check if deadline of submit assignment is met
                                                                     $currentDateTime = new DateTime("now");
                                                                     //set an date and time to work with
                                                                     $start = $assign->finishDate;
-
-                                                                    //add 23:59 to the deadline date
-                                                                    $modified = date('Y-m-d H:i:s',strtotime('+23 hour +59 minutes',strtotime($start)));
-                                                                    $deadLineDate = new DateTime($modified);
+                                                    
+                                                                    $deadLineDate = new DateTime($start);
                                                                     $isOutOfDeadline =   $currentDateTime > $deadLineDate;
                                                                     ?>
 
@@ -220,28 +219,24 @@ $this->params['breadcrumbs'] = [
 
                                                                       <div id="collapse<?=$labb?>" class="collapse" aria-labelledby="heading<?=$labb?>" data-parent="#accordionExample_3">
                                                                           <div class="card-body">
-                                                                              <p><span style="color:green"> About: </span> <?= $lab -> assName ?></p>
+                                                                              <p><span style="color:green"> Description: </span> <?= $lab -> assName ?></p>
                                                                           </div>
                                                                           <div class="card-footer p-2 bg-white border-top">
                                                                               <div class="row">
                                                                                   <div class="col-md-8 float-left">
                                                                                       <?php
-                                                                                      // check if dead line of submit assignment is meet
-                                                                                      $deadLineDate = new DateTime($lab->finishDate);
-
-                                                                                      // check if dead line of submit assignment is meet
+                                                                                      date_default_timezone_set('Africa/Dar_es_Salaam');
+                                                                                      // check if deadline of submit assignment is met
                                                                                       $currentDateTime = new DateTime("now");
                                                                                       //set an date and time to work with
                                                                                       $start = $lab->finishDate;
-
-                                                                                      //add 23:59 to the deadline date
-                                                                                      $modified = date('Y-m-d H:i:s', strtotime('+23 hour +59 minutes', strtotime($start)));
-                                                                                      $deadLineDate = new DateTime($modified);
-                                                                                      $isOutOfDeadline = $currentDateTime > $deadLineDate;
+                                                                      
+                                                                                      $deadLineDate = new DateTime($start);
+                                                                                      $isOutOfDeadline =   $currentDateTime > $deadLineDate;
 
                                                                                       ?>
 
-                                                                                      <b class="text-danger"> Deadline : </b><?= $deadLineDate->format('Y-m-d H:i:s') ?>
+                                                                                      <b class="text-danger ml-3"><i class="fa fa-clock-o"></i>Deadline : </b><?= $deadLineDate->format('Y-m-d H:i:s') ?>
                                                                                   </div>
                                                                                   <div class="col-md-4">
                                                                                       <?php

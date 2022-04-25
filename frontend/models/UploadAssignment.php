@@ -195,8 +195,7 @@ class UploadAssignment extends Model{
         $ass =Assignment::findOne($assid);
         $ass->assName = $this->assTitle;
         $ass->submitMode = $this->submitMode;
-        $ass->startDate = $this->startDate;
-        $ass->finishDate = $this->endDate;
+        $ass->finishDate = $this->endDate." ".$this->endTime;
        // $ass->fileName = $filefordb;
         $ass->ass_desc = $this->description;
         $ass->instructorID = Yii::$app->user->identity->instructor->instructorID;

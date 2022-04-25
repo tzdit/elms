@@ -11,7 +11,7 @@ class UploadLab extends Model{
     public $assTitle;
     public $submitMode;
     public $assType;
-    public $startDate;
+    public $endTime;
     public $endDate;
     public $assFile;
     public $description;
@@ -27,7 +27,7 @@ class UploadLab extends Model{
     public $totalMarks;
     public function rules(){
         return [
-           [['assTitle', 'submitMode', 'assType', 'startDate', 'endDate'], 'required'],
+           [['assTitle', 'submitMode', 'assType', 'endTime', 'endDate'], 'required'],
            ['description','string','max'=>1000],
            [['totalMarks'], 'required'],
            [['number_of_questions'], 'required'],
@@ -41,7 +41,6 @@ class UploadLab extends Model{
       if(!$this->validate()){
          return false;
      }
-     //print $this->assType;
         try{
          $filefordb="";
          if($this->assFormat=='typed')
@@ -61,17 +60,20 @@ class UploadLab extends Model{
         $ass->assName = $this->assTitle;
         $ass->assType = $this->assType;
         $ass->submitMode = $this->submitMode;
-        $ass->startDate = $this->startDate;
-        $ass->finishDate = $this->endDate;
-        $ass->yearID=1;
+        $ass->yearID=(yii::$app->session->get("currentAcademicYear"))->yearID;
+        $ass->finishDate = $this->endDate." ".$this->endTime;
         $ass->fileName = $filefordb;
         $ass->ass_desc = $this->description;
         $ass->assNature = "lab";
         $ass->instructorID = Yii::$app->user->identity->instructor->instructorID;
         $ass->total_marks = $this->totalMarks;
-        $ass->course_code = isset($this->ccode) ? $this->ccode : Yii::$app->session->get('ccode');
+        $ass->status="notpublished";
+        $ass->course_code =Yii::$app->session->get('ccode');
         
-        if(!$ass->save()){return false;}
+        if(!$ass->save()){
+           return false;
+         }
+       
       
       
      
@@ -109,7 +111,7 @@ class UploadLab extends Model{
                $assq->total_marks=$this->questions_maxima[$q];
                if(!$assq->save()){return false;}
                
-             //print var_export($assq->getErrors());
+              
             }
         }
         else if($this->assType=="groups")
@@ -142,7 +144,7 @@ class UploadLab extends Model{
              //the assignment questions and maxima
            
              for($q=0;$q<$this->number_of_questions;$q++)
-             {
+              {
          
                 $assq=new Assq();
                 $assq->assID=$ass->assID;
@@ -167,8 +169,8 @@ class UploadLab extends Model{
 
         
     }catch(\Exception $e){
-      print $e->getMessage();
-        //return false;
+    
+        return $e->getMessage();
     }
     }
 
@@ -183,6 +185,58 @@ class UploadLab extends Model{
 
       return $file;
     }
+
+    public function update($assid)
+    {
+        try
+        {
+
+        $transaction = Yii::$app->db->beginTransaction();
+        $ass =Assignment::findOne($assid);
+        $ass->assName = $this->assTitle;
+        $ass->submitMode = $this->submitMode;
+        $ass->finishDate = $this->endDate." ".$this->endTime;
+       // $ass->fileName = $filefordb;
+        $ass->ass_desc = $this->description;
+        $ass->instructorID = Yii::$app->user->identity->instructor->instructorID;
+        $ass->total_marks = $this->totalMarks;
+        $ass->course_code =Yii::$app->session->get('ccode');
+        
+        if(!$ass->save()){throw new Exception("could not update assignment");}
+
+           
+           $assqs=$ass->assqs;
+           for($q=0;$q<count($assqs);$q++)
+           {
+              $assq=Assq::findOne($assqs[$q]->assq_ID);
+              if(!$assq->delete()){throw new Exception("could not delete assignment questions");}
+           }
+
+           //re-add assignment questions 
+
+           for($q=0;$q<$this->number_of_questions;$q++)
+           {
+      
+             $assq=new Assq();
+             $assq->assID=$ass->assID;
+             $assq->qno=$q+1;
+             $assq->total_marks=$this->questions_maxima[$q];
+             if(!$assq->save()){throw new Exception("could not read assignment questions");}
+          }
+         $transaction->commit();
+         return true;
+         }
+         catch(Exception $d)
+         {
+            $transaction->rollBack();
+            throw new Exception($d);
+         }
+        
+    }
+    
+     
+    
+    
     
 }
 ?>
