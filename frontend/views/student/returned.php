@@ -155,7 +155,17 @@ $this->params['breadcrumbs'] = [
                                                     for($g=0;$g<count($studentGroups);$g++)
                                                     {
                                                         $returnedGroups=$studentGroups[$g];
-                                                        $assignments=$returnedGroups->groupAssignmentSubmits;   
+                                                        $assignments=$returnedGroups->groupAssignmentSubmits;
+                                                        
+                                                    
+                                                        if(empty($assignments)){
+                                                            echo "<p class='text-muted text-lg'>";
+                                                            echo "No submissions found";
+                                                            echo "</p>";
+
+                                                            break;
+                                                        }
+                                                     
                                                     for($a=0;$a<count($assignments);$a++)
                                                     {
                                                         $returneGroups=$assignments[$a];
