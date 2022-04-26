@@ -12,6 +12,7 @@ use common\widgets\Alert;
 use yii\helpers\Url;
 use common\widgets\Course;
 use yii\widgets\Pjax;
+use frontend\models\ClassRoomSecurity;
 //use Yii;
 
 AppAsset::register($this);
@@ -275,6 +276,20 @@ AppAsset::register($this);
           </div>
         
       <?php endif ?>
+      <?php if(Yii::$app->session->hasFlash('receipt')): ?>
+   <div class="col-md-12">
+   <div class="alert alert-success alert-dismissible col-md-12">
+     <button class="close" data-dismiss="alert">
+       <span>&times;</span>
+     </button>
+     <div class="row"><div class="col-sm-12 text-center p-2"><strong><i class="fa fa-info-circle"></i> Assignment submitted successfully</strong></div></div>
+     <div class="row"><div class="col-sm-12 text-center p-2"><span>Please make sure you download and keep your receipt for future assignment submission verification</span></div></div>
+     <div class="row"><div class="col-sm-12 text-center p-2"><a class="btn btn-sm btn-default bg-white text-primary" href="<?=Url::to(['student/download-receipt/', 'receipt' =>yii::$app->session->getFlash("receipt")]) ?>"><i class="fa fa-download"></i> Download receipt</a></div></div>
+   </div>
+ </div>
+
+
+<?php endif ?>
       </div>
       
       </div>

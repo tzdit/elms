@@ -37,6 +37,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 use frontend\models\CourseStudents;
 use common\models\GroupGenerationTypes;
+use frontend\models\ReceiptManager;
 
 class StudentController extends \yii\web\Controller
 {
@@ -61,7 +62,7 @@ class StudentController extends \yii\web\Controller
                             'group-assignment','labs','tutorial','course-materials','returned',
                             'course-announcement','quiz','student-group','add-group-member', 'create-group','classmates','my-ca',
                             'view-normal-assignments', 'view-normal-labs', 'group-management','group-management-view',
-                            'remove-student-from-group','add-students-to-group'
+                            'remove-student-from-group','add-students-to-group','download-receipt'
                         ],
                         
 
@@ -244,8 +245,21 @@ public function actionClasswork($cid){
                 $model->document = $file;
                 $model->assinmentId = $assID;
 
-                if ($model->save()) {
-                    Yii::$app->session->setFlash('success', 'Your Submit success');
+                //did he submit assignment previously?? 
+                $reg_no=yii::$app->user->identity->student->reg_no;
+                $submited = Submit::find()->where('reg_no = :reg_no AND assID = :assID', [ ':reg_no' => $reg_no,':assID' =>$assID])->one();
+
+                if($submited!=null)
+                {
+                    Yii::$app->session->setFlash('error', "<i class='fa fa-info-circle'></i> Submit failed! you previously submitted for this assignment");
+                    return $this->redirect(Yii::$app->request->referrer);  
+                }
+                $saved=$model->save();
+                if ($saved!=false) {
+                    $receiptmanager=new ReceiptManager();
+                    $receiptmanager->setType("Assignment Submission");
+                    $receipt=$receiptmanager->generateAssignmentReceipt($saved->submitID);
+                    Yii::$app->session->setFlash('receipt', $receipt);
                     return $this->redirect(Yii::$app->request->referrer);
                 }
 
@@ -261,7 +275,11 @@ public function actionClasswork($cid){
         return $this->render('submit_assignment', [
             'model' => $model, 'assID' => $assID],false,true);
     }
-
+    public function actionDownloadReceipt($receipt)
+    {
+        $receipt=ClassRoomSecurity::decrypt($receipt);
+        (new ReceiptManager)->downloadReceipt($receipt);
+    }
 
 
 
@@ -322,7 +340,7 @@ public function actionClasswork($cid){
 
         }
         catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Fail to Resubmit'.$e);
+            Yii::$app->session->setFlash('error', 'Failed to Resubmit'.$e);
         }
 
 

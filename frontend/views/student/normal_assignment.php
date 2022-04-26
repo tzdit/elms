@@ -128,19 +128,22 @@ $this->params['breadcrumbs'] = [
                                                                     <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> ClassRoomSecurity::encrypt($assign->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
 
 
-                                                                    <?php if(empty($submited) && $isOutOfDeadline == false):?>
-                                                                        <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> ClassRoomSecurity::encrypt($assign->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
-                                                                    <?php endif ?>
-
-                                                                    <?php if($assign->submitMode == "unresubmit"):?>
-                                                                        <button class="btn btn-sm btn-success float-right ml-2" disabled><i class="fas fa-upload"> Already Submitted</i></button>
-                                                                        <?php elseif(!empty($submited) && $isOutOfDeadline == false):?>
-                                                                        <a href="<?= Url::toRoute(['/student/resubmit','assID'=> ClassRoomSecurity::encrypt($assign->assID), 'submit_id' => ClassRoomSecurity::encrypt($submited->submitID)])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
-                                                                    <?php endif ?>
-
-                                                                    <?php if($isOutOfDeadline == true):?>
-                                                                        <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
-                                                                    <?php endif ?>
+                                                                 
+                                                                    <?php if($isOutOfDeadline == true){?>
+                                                                                          <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
+                                                                                      <?php }else{?>
+                                                                                        <?php if($submited==null){?>
+                                                                                          <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> ClassRoomSecurity::encrypt($assign->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
+                                                                                      <?php }else{ ?>
+  
+                                                                                        <?php if($assign->submitMode == "unresubmit"){?>
+                                                                                        <button class="btn btn-sm btn-default float-right text-danger ml-2"><i class="fa  fa-ban"> Already Submitted</i></button>
+                                                                                              <?php }else{ ?>
+                                                                    
+                                                                                          <a href="<?= Url::toRoute(['/student/resubmit','assID'=>  ClassRoomSecurity::encrypt($assign->assID), 'submit_id' => ClassRoomSecurity::encrypt($submited->submitID)])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
+                                                                                      <?php } ?>
+                                                                                        <?php } ?>
+                                                                                        <?php } ?>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -245,21 +248,24 @@ $this->params['breadcrumbs'] = [
 
                                                                                       <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> ClassRoomSecurity::encrypt($lab->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
 
-
-
-                                                                                      <?php if(empty($submited) && $isOutOfDeadline == false):?>
-                                                                                          <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> ClassRoomSecurity::encrypt($lab->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
-                                                                                      <?php endif ?>
-                                                                                        
-                                                                                      <?php if($lab->submitMode == "unresubmit"):?>
-                                                                                        <button class="btn btn-sm btn-success float-right ml-2" disabled><i class="fas fa-upload"> Already Submitted</i></button>
-                                                                                      <?php elseif(!empty($submited) && $isOutOfDeadline == false):?>
-                                                                                          <a href="<?= Url::toRoute(['/student/resubmit','assID'=>  ClassRoomSecurity::encrypt($lab->assID), 'submit_id' => ClassRoomSecurity::encrypt($submited->submitID)])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
-                                                                                      <?php endif ?>
-
-                                                                                      <?php if($isOutOfDeadline == true):?>
+                                                                                      <?php if($isOutOfDeadline == true){?>
                                                                                           <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
-                                                                                      <?php endif ?>
+                                                                                      <?php }else{?>
+                                                                                        <?php if($submited==null){?>
+                                                                                          <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> ClassRoomSecurity::encrypt($lab->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
+                                                                                      <?php }else{ ?>
+  
+                                                                                        <?php if($lab->submitMode == "unresubmit"){?>
+                                                                                        <button class="btn btn-sm btn-default text-danger float-right ml-2" ><i class="fa fa-ban"> Already Submitted</i></button>
+                                                                                              <?php }else{ ?>
+                                                                    
+                                                                                          <a href="<?= Url::toRoute(['/student/resubmit','assID'=>  ClassRoomSecurity::encrypt($lab->assID), 'submit_id' => ClassRoomSecurity::encrypt($submited->submitID)])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
+                                                                                      <?php } ?>
+                                                                                        <?php } ?>
+                                                                                        <?php } ?>
+
+                                                                                 
+                                                                             
 
 
                                                                                   </div>

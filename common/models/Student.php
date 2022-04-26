@@ -12,7 +12,7 @@ use Yii;
  * @property int|null $userID
  * @property string|null $programCode
  * @property string $fname
- * @property string $midname
+ * @property string $mname
  * @property string $lname
  * @property string $gender
  * @property string|null $f4_index_no

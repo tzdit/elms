@@ -147,7 +147,7 @@ class AssSubmitForm extends \yii\db\ActiveRecord
 
 
 
-        return true;
+        return $this;
     }
 
     
