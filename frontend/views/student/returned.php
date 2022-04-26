@@ -152,6 +152,13 @@ $this->params['breadcrumbs'] = [
 //                                                    ?>
                                                     
                                                     <?php 
+                                                                        if(empty($studentGroups)){
+                                                                            echo "<p class='text-muted text-lg'>";
+                                                                            echo "No submissions found";
+                                                                            echo "</p>";
+                
+                                                                          
+                                                                        }
                                                     for($g=0;$g<count($studentGroups);$g++)
                                                     {
                                                         $returnedGroups=$studentGroups[$g];
