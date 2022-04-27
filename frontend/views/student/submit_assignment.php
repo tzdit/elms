@@ -7,7 +7,7 @@ use yii\bootstrap4\ActiveForm;
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
-
+use frontend\models\ClassRoomSecurity;
 
 AppAsset::register($this);
 
@@ -16,10 +16,12 @@ AppAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $model common\models\User */
 /* @var $form ActiveForm */
-
+$this->params['courseTitle'] ='<img src="/img/Assignment4.png" height="30px" width="29px"/> '.yii::$app->session->get("ccode"). ' Assignment Submission';
+$this->title ='Assignment Submission';
 $this->params['breadcrumbs'] = [
-    ['label'=>'Assignment Submission', 'url'=>Url::to(['/student/submit_assignment','assID'=> $assID])],
-    ['label'=>$this->title]
+    ['label'=>yii::$app->session->get("ccode").' Dashboard', 'url'=>Url::to(['/student/classwork','cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get("ccode"))])],
+    ['label'=>yii::$app->session->get("ccode").' Assignments', 'url'=>Url::to(['/student/view-normal-assignments','cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get("ccode"))])],
+    ['label'=>"Submission"]
   ];
 ?>
 <div class="changePassword">
@@ -27,12 +29,10 @@ $this->params['breadcrumbs'] = [
    
         <div class="container">
                     <div class="card shadow-lg" style="font-family:'Times New Roman', sans-serif">
-                        <div class="card-header text-center bg-primary">
-                            <h2>Submit</h2>
+                        <div class="card-header text-center bg-primary p-1">
+                            <h5><i class="fa fa-upload"></i> Submit Assignment </h5>
                         </div>
                         <div class="card-body">
-                                        <h4 class='text-muted'>Submit by uploading the file</h4>
-                                        <br>
 <!--                                        <div class="upload-icon">-->
 <!--                                            <i class="fas fa-upload"></i>-->
 <!--                                        </div>-->

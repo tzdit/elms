@@ -2,13 +2,14 @@
 
 use frontend\models\GroupAssSubmit;
 use yii\helpers\Url;
+use frontend\models\ClassRoomSecurity;
 
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =$cid;
-$this->title = 'Class';
+$this->params['courseTitle'] ='<img src="/img/submitted 3.png" height="30px" width="30px"/>'.$cid." My Submitted";
+$this->title =$cid." My Submitted";
 $this->params['breadcrumbs'] = [
-    ['label'=>'Class', 'url'=>Url::to(['/student/classwork', 'cid'=>$cid])],
+    ['label'=>$cid." Dashboard", 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
     ['label'=>$this->title]
 ];
 
@@ -20,12 +21,7 @@ $this->params['breadcrumbs'] = [
         <!-- Content Wrapper. Contains page content -->
 
         <div class="container-fluid">
-            <section class="col-lg-12">
-                <div class="card-header p-0 border-bottom-0 ml-3">
-                    <h2>Returned</h2>
-
-                </div>
-            </section>
+         
             <div class="row">
                 <!-- Left col -->
                 <section class="col-lg-12">
@@ -33,10 +29,10 @@ $this->params['breadcrumbs'] = [
                         <div class="card-header p-0 border-bottom-0">
                             <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true">INDIVIDUAL ASSIGNMENT</a>
+                                    <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true">Individual Assignments</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false">GROUP ASSIGNMENT</a>
+                                    <a class="nav-link" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false">Group Assignments</a>
                                 </li>
                             </ul>
 
@@ -57,7 +53,7 @@ $this->params['breadcrumbs'] = [
                                                 <?php
                                                 if(empty($returned)){
                                                     echo "<p class='text-muted text-lg'>";
-                                                    echo "No return found";
+                                                    echo "No submissions found";
                                                     echo "</p>";
                                                 }
                                                 ?>
@@ -67,33 +63,47 @@ $this->params['breadcrumbs'] = [
                                                             <?php
                                                     $assignmentDetails = \common\models\Assignment::findOne($returne->assID);
                                                     ?>
-                                                    <?php if(strtotime(date('Y-m-d h:i:s')) < strtotime($returne->ass->finishDate) || $returne->score == NULL ):
-                                                    ?>
-                                                    <?php continue ?>
-
-                                                    <?php endif ?>
-                                                        <div class="card">
+                                                    
+                  
+                      
                                                             <div class="card m-3 shadow-lg rounded result-card">
                                                                 <div class="card-body">
                                                                     <div class="m-0">
                                                                         <div class="row">
                                                                             <div class="col-sm-6">
-                                                                                <h5><i class="fas fa-clipboard-list mr-1 fa-lg" ></i><?php echo " ".ucwords($assignmentDetails->assName) ?> </h5>
+                                                                                <h5><i class="fa fa-file-text text-primary mr-1 fa-lg" ></i><?php echo " ".ucwords($assignmentDetails->assName) ?> </h5>
                                                                                 <span class="text-muted mt-0"><?= ucfirst($assignmentDetails->assType) ?> Assignment</span>
                                                                             </div>
 
                                                                             <div class="col-sm-6">
                                                                                 <div class="float-right mr-4">
+                                                                                <?php 
+                                                                                 date_default_timezone_set('Africa/Dar_es_Salaam');
+                                                                                if(strtotime(date('Y-m-d h:i:s')) > strtotime($returne->ass->finishDate) && $returne->score != NULL ){
+                                                                                 ?>
+                                                                                     <div class="shadow p-3">
                                                                                     <b><span class="text-muted">Total:</span> <span style="color: #007bff;"><?= $assignmentDetails->total_marks  ?></span> </b><br>
                                                                                     <b><span class="text-muted">Score:</span> <span style="color: #007bff;"><?= $returne->score ?></span></b>
+                                                                                </div>
+                                                                                    <?php
+                                                                                }
+                                                                                      else
+                                                                                      {
+
+                                        
+                                                                                    ?>
+                                                                                        <span class="btn btn-sm btn-default text-primary p-3">Not Returned</span>
+                                                                                    <?php
+                                                                                      }
+                                                                                    ?>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="m-0">
-                                                                        <p>File Name: <span class="m-0" style="color: #007bff;
-                                                                    font-style: italic;"><?= substr($returne->fileName, -30);  ?></span></p>
+                                                                        <p>Submitted file: <a class="m-0" style="color: #007bff;
+                                                                    font-style: italic;" href="/storage/submit/<?= $returne->fileName?>" target="_blank"><i class="fa fa-eye"></i> View </a></p>
                                                                     </div>
 
                                                                     <div class="m-0">
@@ -112,7 +122,7 @@ $this->params['breadcrumbs'] = [
                                                                             <div class="col-sm-3"></div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                           
                                                             </div>
                                                         </div>
 
@@ -142,42 +152,73 @@ $this->params['breadcrumbs'] = [
 //                                                    ?>
                                                     
                                                     <?php 
+                                                                        if(empty($studentGroups)){
+                                                                            echo "<p class='text-muted text-lg'>";
+                                                                            echo "No submissions found";
+                                                                            echo "</p>";
+                
+                                                                          
+                                                                        }
                                                     for($g=0;$g<count($studentGroups);$g++)
                                                     {
                                                         $returnedGroups=$studentGroups[$g];
-                                                        $assignments=$returnedGroups->groupAssignmentSubmits;   
+                                                        $assignments=$returnedGroups->groupAssignmentSubmits;
+                                                        
+                                                    
+                                                        if(empty($assignments)){
+                                                            echo "<p class='text-muted text-lg'>";
+                                                            echo "No submissions found";
+                                                            echo "</p>";
+
+                                                            break;
+                                                        }
+                                                     
                                                     for($a=0;$a<count($assignments);$a++)
                                                     {
                                                         $returneGroups=$assignments[$a];
                                                     ?>
 
-                                                    <?php if(strtotime(date('Y-m-d h:i:s')) < strtotime($returneGroups->ass->finishDate || $returneGroups->score == NULL)):
-                                                    ?>
-                                                    <?php continue ?>
-
-                                                    <?php endif ?>
-                                                        <div class="card">
+                                                      
                                                             <div class="card m-3 shadow-lg rounded result-card">
                                                                 <div class="card-body">
                                                                     <div class="m-0">
                                                                         <div class="row">
                                                                             <div class="col-sm-6">
-                                                                                <h5><i class="fas fa-clipboard-list mr-1 fa-lg" ></i><?php echo " ".ucwords($returneGroups->ass->assName)?> </h5>
+                                                                                <h5><i class="fa fa-file-text text-primary  mr-1 fa-lg" ></i><?php echo " ".ucwords($returneGroups->ass->assName)?> </h5>
                                                                                 <span class="text-muted mt-0"><?= ucfirst($returneGroups->group->generationType->generation_type)." (".$returneGroups->group->groupName.")" ?></span>
                                                                             </div>
 
                                                                             <div class="col-sm-6">
+                                                            
                                                                                 <div class="float-right mr-4">
-                                                                                    <b><span class="text-muted">Total:</span> <span style="color: #007bff;"><?= $returneGroups->ass->total_marks  ?></span> </b><br>
-                                                                                    <b><span class="text-muted">Score:</span> <span style="color: #007bff;"><?= $returneGroups->score?></span></b>
+                                                                                <?php 
+                                                                                 date_default_timezone_set('Africa/Dar_es_Salaam');
+                                                                                if(strtotime(date('Y-m-d h:i:s')) > strtotime($returneGroups->ass->finishDate) && $returneGroups->score != NULL ){
+                                                                                 ?>
+                                                                                     <div class="shadow p-3">
+                                                                                    <b><span class="text-muted">Total:</span> <span style="color: #007bff;"><?=$returneGroups->ass->total_marks   ?></span> </b><br>
+                                                                                    <b><span class="text-muted">Score:</span> <span style="color: #007bff;"><?= $returneGroups->score ?></span></b>
                                                                                 </div>
-                                                                            </div>
+                                                                                    <?php
+                                                                                }
+                                                                                      else
+                                                                                      {
+
+                                        
+                                                                                    ?>
+                                                                                        <span class="btn btn-sm btn-default text-primary p-3">Not Returned</span>
+                                                                                    <?php
+                                                                                      }
+                                                                                    ?>
+                                                                                </div>
+                                                                          
                                                                         </div>
                                                                     </div>
 
+                                                              
                                                                     <div class="m-0">
-                                                                        <p>File Name: <span class="m-0" style="color: #007bff;
-                                                                    font-style: italic;"><?= substr($returneGroups->fileName, -30);  ?></span></p>
+                                                                        <p>Submitted file: <a class="m-0" style="color: #007bff;
+                                                                    font-style: italic;" href="/storage/submit/<?= $returneGroups->fileName?>" target="_blank"><i class="fa fa-eye"></i> View </a></p>
                                                                     </div>
 
                                                                     <div class="m-0">
