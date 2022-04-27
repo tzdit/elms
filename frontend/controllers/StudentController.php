@@ -1349,9 +1349,10 @@ public function actionClasswork($cid){
             }
             else{
                 $studentgroup->save();
+                Yii::$app->session->setFlash('success', 'Student(s) added to this group successfully');
             }
         }
-        Yii::$app->session->setFlash('success', 'Student(s) added to this group successfully');
+        
         return $this->redirect(Yii::$app->request->referrer);
 
     }
