@@ -66,6 +66,7 @@ use frontend\models\AcademicYearManager;
 use yii\grid\GridView;
 use frontend\models\ClassroomMutex;
 use frontend\models\ClassRoomChatManager;
+use frontend\models\ReceiptManager;
 
 class InstructorController extends \yii\web\Controller
 {
@@ -190,7 +191,8 @@ public $defaultAction = 'dashboard';
                             'ca-save-published',
                             'publish-ca',
                             'delete-ca',
-                            'ca-add-new'
+                            'ca-add-new',
+                            'receipt-validator'
 
                         ],
                         'allow' => true,
@@ -315,6 +317,7 @@ public $defaultAction = 'dashboard';
                             'ca-add-new',
                             'mark',
                             'mark-inputing',
+                            'receipt-validator'
                            
                         ],
                         'allow' => true,
@@ -2661,5 +2664,10 @@ public function actionStudentList(){
     {
         $instructorCoz=InstructorCourse::find()->where(['instructorID'=>$instructorID])->all();
        return $this->render('remove-instructor-course', [ 'instructorCoz'=>$instructorCoz]);
+    }
+    //will in the future add parameter
+    public function actionReceiptValidator()
+    {
+      
     }
 }

@@ -278,7 +278,8 @@ public function actionClasswork($cid){
     public function actionDownloadReceipt($receipt)
     {
         $receipt=ClassRoomSecurity::decrypt($receipt);
-        (new ReceiptManager)->downloadReceipt($receipt);
+
+        (new ReceiptManager)->getEncryptedReceipt($receipt);
     }
 
 
