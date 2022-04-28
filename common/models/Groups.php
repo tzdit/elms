@@ -10,6 +10,7 @@ use Yii;
  * @property int $groupID
  * @property string $groupName
  * @property int $generation_type
+ * @property string $creator
  *
  * @property GroupAssignment[] $groupAssignments
  * @property GroupAssignmentSubmit[] $groupAssignmentSubmits
@@ -21,7 +22,6 @@ class Groups extends \yii\db\ActiveRecord
     /**
      * @var mixed|null
      */
-    public $creator;
 
     /**
      * {@inheritdoc}
@@ -40,7 +40,7 @@ class Groups extends \yii\db\ActiveRecord
             [['groupName', 'generation_type'], 'required'],
             [['generation_type'], 'integer'],
             [['groupName'], 'string', 'max' => 10],
-            [['creator'], 'string', 'max' => 50],
+            [['creator'], 'string', 'max' => 20],
             [['generation_type'], 'exist', 'skipOnError' => true, 'targetClass' => GroupGenerationTypes::className(), 'targetAttribute' => ['generation_type' => 'typeID']],
         ];
     }
@@ -106,6 +106,15 @@ class Groups extends \yii\db\ActiveRecord
         {
             if($members[$s]->regNo->reg_no==$student){return true;}
             continue;
+        }
+
+        return false;
+    }
+
+    public function isCreator($reg)
+    {
+        if($this->creator==$reg){
+            return true;
         }
 
         return false;

@@ -231,4 +231,14 @@ public function receiptValidateWithLostData($content)
     $mpdf->Output($filename,"D");
     return null; 
 }
+
+//receipt search with lost receipt data
+//searches by specifying the assignment and find it from the database
+
+public function findReceipt($reg,$assignment)
+{
+
+}
+
+
 }
