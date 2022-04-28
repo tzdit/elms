@@ -251,16 +251,26 @@ public function actionClasswork($cid){
 
                 if($submited!=null)
                 {
-                    Yii::$app->session->setFlash('error', "<i class='fa fa-info-circle'></i> Submit failed! you previously submitted for this assignment");
+                    Yii::$app->session->setFlash('error', "<i class='fa fa-exclamation-triangle'></i> Submit failed! you previously submitted for this assignment");
                     return $this->redirect(Yii::$app->request->referrer);  
                 }
                 $saved=$model->save();
                 if ($saved!=false) {
+
+                    try
+                    {
                     $receiptmanager=new ReceiptManager();
                     $receiptmanager->setType("Assignment Submission");
                     $receipt=$receiptmanager->generateAssignmentReceipt($saved->submitID);
                     Yii::$app->session->setFlash('receipt', $receipt);
                     return $this->redirect(Yii::$app->request->referrer);
+                    }
+                    catch(\Exception $r)
+                    {
+
+                        Yii::$app->session->setFlash('success', "<i class='fa fa-info-circle'></i> Assignment Submitted Successfully" );
+                        return $this->redirect(Yii::$app->request->referrer); 
+                    }
                 }
 
             }
@@ -268,7 +278,7 @@ public function actionClasswork($cid){
 
         }
         catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Something went wrong');
+            Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> unknown error occured,Submission failed');
         }
 
 
@@ -331,7 +341,7 @@ public function actionClasswork($cid){
                 $model->assinmentId = $assID;
                 if ($model->save()) {
 
-                    Yii::$app->session->setFlash('success', 'Your Re-Submit success');
+                    Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> Assignment Re-Submission successful');
 
 
                     return $this->redirect(Yii::$app->request->referrer);
@@ -341,7 +351,7 @@ public function actionClasswork($cid){
 
         }
         catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Failed to Resubmit'.$e);
+            Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Re-submission failed');
         }
 
 
@@ -375,27 +385,25 @@ public function actionClasswork($cid){
 
         if ($model->load(Yii::$app->request->post())) {
 
-            if (!$model->validate() && $model->addMember() == false){
-                Yii::$app->session->setFlash('error', 'Group creation failed');
-                return $this->redirect(Yii::$app->request->referrer);
-            }
+     
 
             $returned=$model->addMember();
 
-            if (empty($returned))
+         
+            if ($returned===false)
             {
 
-                Yii::$app->session->setFlash('success', 'Group created successfully');
+                //Yii::$app->session->setFlash('success', $returned==true?"true":"false");
                 return $this->redirect(Yii::$app->request->referrer);
             }
             else{
 
-                $errors="Error(s) detected during creation:";
+                $errors="<i class='fa fa-info-circle'></i> Group creation successful with ".count($returned)." Error(s):";
                 foreach($returned as $member=>$error)
                 {
                     $errors.="<br>".$member.": ".$error;
                 }
-                Yii::$app->session->setFlash('error',$errors);
+                Yii::$app->session->setFlash('success',$errors);
                 return $this->redirect(Yii::$app->request->referrer);
             }
 
@@ -420,41 +428,26 @@ public function actionClasswork($cid){
     public function actionCreateGroup($cid)
     {
         $model= new GroupCreateForm;
-
+       
         try{
 
             if ($model->load(Yii::$app->request->post()) ) {
-
-                if (!$model->validate() && $model->groupCreate() == false){
-                    Yii::$app->session->setFlash('error', 'Group creation failed');
-                    return $this->redirect(Yii::$app->request->referrer);
-                }
-
                 $returned=$model->groupCreate();
-
-                if ($returned == false && !empty($returned)){
-//                    echo '<pre>';
-//                var_dump($returned);
-//                echo '</pre>';
-//                exit;
-                    Yii::$app->session->setFlash('success', 'Fail to create group');
-                    return $this->redirect(Yii::$app->request->referrer);
-                }
-
-                if (empty($returned))
+               
+                if ($returned===false)
                 {
 
-                    Yii::$app->session->setFlash('success', 'Group created successfully');
+                    //Yii::$app->session->setFlash('success', $returned==true?"true":"false");
                     return $this->redirect(Yii::$app->request->referrer);
                 }
                 else{
 
-                    $errors="Error(s) detected during creation:";
+                    $errors="<i class='fa fa-info-circle'></i> Group creation successful with ".count($returned)." Error(s):";
                     foreach($returned as $member=>$error)
                     {
                         $errors.="<br>".$member.": ".$error;
                     }
-                    Yii::$app->session->setFlash('error',$errors);
+                    Yii::$app->session->setFlash('success',$errors);
                     return $this->redirect(Yii::$app->request->referrer);
                 }
             }
@@ -464,7 +457,7 @@ public function actionClasswork($cid){
             ],false,true);
         }
         catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Fail to create group'.$e);
+            Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Group creation failed');
             return $this->redirect(Yii::$app->request->referrer);
         }
 
@@ -537,15 +530,40 @@ public function actionClasswork($cid){
         // exit;
 
         try{
-            if (Yii::$app->request->isPost) {
 
+            if (Yii::$app->request->isPost) {
+                $submited = GroupAssSubmit::find()->where('groupID = :groupID AND assID = :assID', [ ':groupID' => $groupID,':assID' => $assID])->one();
+
+                if($submited!=null)
+                {
+                    Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Could not submit twice, already submited');
+                    return $this->redirect(Yii::$app->request->referrer);  
+                }
                 $file = UploadedFile::getInstance($model,'document');
                 $model->document = $file;
                 $model->assinmentId = $assID;
                 $model->groupId = $groupID;
+                $saved=$model->save();
+                if ($saved!==false) {
 
-                if ($model->save()) {
-                    Yii::$app->session->setFlash('success', 'Your Submit success');
+                    try
+                    {
+                    $receiptmanager=new ReceiptManager();
+                    $receiptmanager->setType("Assignment Submission");
+                    $receipt=$receiptmanager->generateGroupAssignmentReceipt($model->submitID);
+                    Yii::$app->session->setFlash('receipt', $receipt);
+                    return $this->redirect(Yii::$app->request->referrer);
+                    }
+                    catch(\Exception $r)
+                    {
+
+                        Yii::$app->session->setFlash('success', "<i class='fa fa-info-circle'></i> Assignment Submitted Successfully" );
+                        return $this->redirect(Yii::$app->request->referrer); 
+                    }
+                }
+                else
+                {
+                    Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Submission failed');
                     return $this->redirect(Yii::$app->request->referrer);
                 }
 
@@ -554,7 +572,8 @@ public function actionClasswork($cid){
 
         }
         catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Something went wrong');
+            Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> unknown error occured, Submission failed'.$e);
+            return $this->redirect(Yii::$app->request->referrer);
         }
 
 
@@ -607,7 +626,7 @@ public function actionClasswork($cid){
 
                 if ($model->save()) {
 
-                    Yii::$app->session->setFlash('success', 'Your Re-Submit success');
+                    Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> Assignment Re-submission successful');
 
 
                     return $this->redirect(Yii::$app->request->referrer);
@@ -617,7 +636,7 @@ public function actionClasswork($cid){
 
         }
         catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Fail to Resubmit'.$e);
+            Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Re-submission failed');
         }
 
 

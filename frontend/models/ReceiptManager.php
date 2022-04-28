@@ -7,6 +7,7 @@ use common\models\Receipts;
 use common\models\Submit;
 use yii\base\Exception;
 use common\models\User;
+use common\models\GroupAssignmentSubmit;
 use Mpdf\Mpdf;
 /*
 A model class for managing academicyear, switching to and from a specific 
@@ -42,6 +43,34 @@ class ReceiptManager extends Model
       $this->issuedforID=$for;
     
       $this->issuer=(Submit::findOne($for))->ass->instructor->userID;
+      $receiptsdb=new Receipts;
+
+      $receiptsdb->receiptnumber=$this->number;
+      $receiptsdb->issuedto=$this->ownerid;
+      $receiptsdb->issuedfor=$this->issuedforID;
+      $receiptsdb->issuer=$this->issuer;
+      $receiptsdb->type=$this->type;
+      date_default_timezone_set('Africa/Dar_es_Salaam');
+      $receiptsdb->issuedon=date('Y-m-d H:i:s');
+      $receiptsdb->yearID=yii::$app->session->get("currentAcademicYear")->yearID;
+      $saved=$receiptsdb->save();
+      if($saved)
+      {
+        return ClassRoomSecurity::encrypt($receiptsdb->receiptnumber);
+      }
+      else
+      {
+          return null;
+      } 
+      
+    }
+    public function generateGroupAssignmentReceipt($for)
+    {
+      $this->number=rand();
+      $this->ownerid=yii::$app->user->identity->student->userID;
+      $this->issuedforID=$for;
+    
+      $this->issuer=(GroupAssignmentSubmit::findOne($for))->ass->instructor->userID;
       $receiptsdb=new Receipts;
 
       $receiptsdb->receiptnumber=$this->number;
