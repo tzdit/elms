@@ -89,7 +89,7 @@ $regno=yii::$app->user->identity->student->reg_no;
 
                                                                 <div class="accordion" id="accordionExample_3">
                                                                     <?php foreach( $studentGroupsList as $item ) : ?>
-                                                                        <div class="card">
+                                                        
                                                                             <div class="card shadow-lg">
                                                                                 <div class="card-header p-2" id="heading<?=$count?>">
                                                                                     <h2 class="mb-0">
@@ -108,7 +108,9 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                                 ?>
 
                                                                                                 <?php if($group->isCreator($regno)): ?>
-                                                                                                    <h5 class="text-danger"><a href="#" class="btn-delete-group float-right mr-2 mt-3" id = "btn-delete-group" groupID = "<?= $item['groupID'] ?>" ><i class="fas fa-times-circle fa-lg carry-delete"></i></a></h5>
+                                                                                                    <h5 class="text-danger" data-toggle="tooltip" data-title="Delete group"><a href="#" class="btn-delete-group float-right mr-2 mt-3" id = "btn-delete-group" groupID = "<?= $item['groupID'] ?>" ><i class="fas fa-times-circle fa-lg carry-delete"></i></a></h5>
+                                                                                                    <?php else: ?>
+                                                                                                        <h5 class="text-primary" data-toggle="tooltip" data-title="Exit group"><a href="#" class="exitgroup float-right mr-2 mt-3" groupID = "<?= $item['groupID'] ?>" ><i class="fa fa-sign-out-alt fa-lg "></i></a></h5>
                                                                                                 <?php endif; ?>
                                                                                                  </div>
                                                                                         </div>
@@ -147,6 +149,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                                      
                                                                                                     <p class="card-text ml-5"><span style="color:green">Assignment: </span>  <?= Html::encode(ucwords($assignment['assName'])) ?> </p>
                                                                                                     <p class="card-text ml-5"><span style="color:green"> Description: </span>  <?= Html::encode(ucwords($assignment['ass_desc'])) ?> </p>
+                                                                                                    <p class="card-text ml-5"><span style="color:green"> Type: </span>  <?= ($assignment['assNature']=="lab")?"Lab":"Normal" ?> </p>
 
                                                                                                 </div>
                                                                                                 <div class="row">
@@ -214,7 +217,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                         
                                                                                                     <p class="card-text ml-5"><span style="color:green"> Assignment: </span>  <?= ucwords($assignmentAllItem['assName'])?> </p>
                                                                                                     <p class="card-text ml-5"><span style="color:green"> Description: </span>  <?= $assignmentAllItem['ass_desc'] ?> </p>
-
+                                                                                                    <p class="card-text ml-5"><span style="color:green"> Type: </span>  <?= ($assignmentAllItem['assNature']=="lab")?"Lab":"Normal" ?> </p>
                                                                                                 </div>
                                                                                                 <div class="row">
                                                                                                     <div class="col-md-6">
@@ -298,7 +301,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                         </div>
 
                                                                     <?php endforeach; ?>
-                                                                </div>
+                                                                
                                                             </div>
                                                             <!-- ########################################### GROUPS END ######################################## -->
                                                         </div>

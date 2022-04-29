@@ -11,7 +11,7 @@ use Yii;
 use yii\base\Model;
 use yii\helpers\HtmlPurifier;
 use yii\web\NotFoundHttpException;
-
+use common\models\Student;
 /**
  * add member form
  */
@@ -82,8 +82,28 @@ class AddGroupMembers extends Model
             if ($group->save()){
 
                 $selfStudent = new StudentGroup();
+
                 $selfStudent->groupID = $group->groupID;
                 $selfStudent->reg_no = Yii::$app->user->identity->username;
+
+                //does the student have another group?
+
+                $creatorgroup=Student::findOne($selfStudent->reg_no);
+                $studentgroups=$creatorgroup->studentGroups;
+
+                foreach($studentgroups as $studentgroup)
+                {
+                if($studentgroup->group->generation_type==$this->generation_type)
+                {
+                    $transaction->rollBack();
+                    Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Could not create group! you already have another group in this assignment module');
+                    return false;
+                }
+                else
+                {
+                    continue;
+                }
+                }
 
                 if ($selfStudent->save()){
                         $errors=[];
@@ -118,7 +138,7 @@ class AddGroupMembers extends Model
         }catch(\Throwable $e){
 
             $transaction->rollBack();
-            throw new NotFoundHttpException('Fail to create group');
+            throw new \Exception('Group creation failed');
         }
         return false;
     }

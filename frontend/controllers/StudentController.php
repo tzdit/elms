@@ -62,7 +62,7 @@ class StudentController extends \yii\web\Controller
                             'group-assignment','labs','tutorial','course-materials','returned',
                             'course-announcement','quiz','student-group','add-group-member', 'create-group','classmates','my-ca',
                             'view-normal-assignments', 'view-normal-labs', 'group-management','group-management-view',
-                            'remove-student-from-group','add-students-to-group','download-receipt'
+                            'remove-student-from-group','add-students-to-group','download-receipt','exit-group'
                         ],
                         
 
@@ -477,9 +477,24 @@ public function actionClasswork($cid){
         if(Yii::$app->request->isAjax){
 
             $id = Yii::$app->request->post('groupID');
-            $group_deleted =  $this->findGroup($id)->delete();
+            $group_deleted =  Groups::findOne($id)->delete();
             if($group_deleted){
                 return $this->asJson(['message'=>'Group Deleted']);
+            }
+        }
+
+    }
+
+    public function actionExitGroup()
+    {
+        if(Yii::$app->request->isAjax){
+
+            $id = Yii::$app->request->post('groupID');
+            $regno=yii::$app->user->identity->student->reg_no;
+            $studentgroup =StudentGroup::find()->where(['reg_no'=>$regno,'groupID'=>$id])->one();
+            $deleted=$studentgroup->delete();
+            if($deleted){
+                return $this->asJson(['message'=>'Group Exit successful']);
             }
         }
 

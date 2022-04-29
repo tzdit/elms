@@ -80,14 +80,14 @@ $this->params['breadcrumbs'] = [
 
                                         <?php foreach( $assignments as $assign ) : ?>
 
-                                            <div class="card">
+                                          
                                                 <div class="card shadow-lg">
                                                     <div class="card-header p-2" id="heading<?=$ass?>">
                                                         <h2 class="mb-0">
                                                             <div class="row">
                                                                 <div class="col-sm-11">
                                                                     <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$ass?>" aria-expanded="true" aria-controls="collapse<?=$ass?>">
-                                                                        <h5><img src="<?=  Yii::getAlias('@web/img/homework.png')?>" height="40px" width="38px"/><span class="assignment-auto"></span> <span class="assignment-header"><?php  echo ucwords($assign -> assName)?></span></h5>
+                                                                        <h5><img src="<?=  Yii::getAlias('@web/img/homework.png')?>" height="30px" width="30px"/><span class="assignment-auto"></span> <span class="assignment-header"><?php  echo ucwords($assign -> assName)?></span></h5>
                                                                     </button>
                                                                 </div>
                                                                 <div class="col-sm-1">
@@ -149,8 +149,8 @@ $this->params['breadcrumbs'] = [
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-
+                                           
+                                                
                                             <?php
                                             $ass--;
                                             ?>
@@ -158,7 +158,7 @@ $this->params['breadcrumbs'] = [
                                         <?php endforeach ?>
 
 
-                                    </div>
+                                                                                              </div>
 
                                 <?php $labb = Assignment::find()->where(['assNature' => 'lab', 'course_code' => $cid])->count(); ?>
                                 <!-- ########################################### Assignments end ######################################## -->
@@ -202,14 +202,14 @@ $this->params['breadcrumbs'] = [
 
                                                       <div class="accordion" id="accordionExample_3">
                                                           <?php foreach( $labs as $lab ) : ?>
-                                                              <div class="card">
+                                                          
                                                                   <div class="card shadow-lg">
                                                                       <div class="card-header p-2" id="heading<?=$labb?>">
                                                                           <h2 class="mb-0">
                                                                               <div class="row">
                                                                                   <div class="col-sm-11">
                                                                                       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$labb?>" aria-expanded="true" aria-controls="collapse<?=$labb?>">
-                                                                                          <h5><img src="<?=  Yii::getAlias('@web/img/homework.png')?>" height="40px" width="38px"/> <span class="assignment-header"><?php echo "Lab ".$labb;?></span></h5>
+                                                                                          <h5><img src="<?=  Yii::getAlias('@web/img/homework.png')?>" height="30px" width="30px"/> <span class="assignment-header"><?php echo "Lab ".$labb;?></span></h5>
 
                                                                                       </button>
                                                                                   </div>
@@ -276,7 +276,7 @@ $this->params['breadcrumbs'] = [
                                                                       $labb--;
 
                                                                       ?>
-                                                                  </div>
+                                                                
                                                               </div>
                                                           <?php endforeach ?>
 

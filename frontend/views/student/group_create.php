@@ -19,13 +19,10 @@ use yii\bootstrap4\Breadcrumbs;
     <div class="body-content">
         <div class='container-fluid'>
             <div class="row">
-                <div class="col-sm-12">
-                            <div class="card" style="font-family:'Times New Roman', sans-serif">
+                <div class="col-sm-12 text-sm">
+                            <div class="row d-flex justify-content-center " style="font-family:'Times New Roman', sans-serif">
 
-                                <div class="card-body">
-
-                                    <div>
-                                        <h4 class="text-warning">Your name will be added automatic in a group you create</h4>
+                                        <div class="col-xs-6 text-primary text-md text-center"> <i class="fa fa-info-circle"></i> You will automatically be added to the group you create</div>
                                     </div>
                                     <div class="course-form">
 
@@ -35,7 +32,7 @@ use yii\bootstrap4\Breadcrumbs;
                                             'enableAjaxValidation'=> false,
                                         ]); ?>
 
-                                        <?= $form->field($model, 'groupName')->textInput(['class' => 'col-sm-12', 'size' => 100])->label('Group Name') ?>
+                                        <?= $form->field($model, 'groupName')->textInput(['class' => 'col-sm-12','placeholder'=>'Ex: group one, group 1', 'size' => 100])->label('Group Name') ?>
 
                                         <?php
 
@@ -49,8 +46,8 @@ use yii\bootstrap4\Breadcrumbs;
                                                 $maxMember = $model->max_groups_members - 1;
                                                 return $model->generation_type." "." ("."maximum of ".$maxMember." students and you".")";
                                             }
-                                        ),['prompt'=>'--Select--','class' => 'form-control inline-block'])
-                                            ->label('Choose Assignment Module')
+                                        ),['prompt'=>'--Select module--','class' => 'form-control inline-block'])
+                                            ->label('Assignment Module')
 
                                         ?>
 
@@ -68,12 +65,12 @@ use yii\bootstrap4\Breadcrumbs;
                                             function ($model){
                                                 return $model['fname']." ".$model['mname']." ".$model['lname']." - ".$model['reg_no'];
                                             }
-                                        ),['data-placeholder'=>'--Search member to add --','class' => 'form-control form-control-sm','id' => 'group_create', 'multiple'=>true,'style'=>'width:100%'])
+                                        ),['data-placeholder'=>'--Select group members --','class' => 'form-control form-control-sm','id' => 'group_create', 'multiple'=>true,'style'=>'width:100%'])
 
                                         ?>
 
                                         <div class="form-group">
-                                            <?= Html::submitButton(Yii::t('app', 'CREATE'), ['class' => 'btn btn-primary']) ?>
+                                            <?= Html::submitButton(Yii::t('app', '<i class="fa fa-plus-circle"></i> Create'), ['class' => 'btn btn-primary float-right']) ?>
                                         </div>
 
 
