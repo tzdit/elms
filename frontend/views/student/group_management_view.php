@@ -37,11 +37,11 @@ $this->params['breadcrumbs'] = [
             <div class="row">
 
                 <section class="col-lg-12">
-                    <div class="card card-primary p-2 card-outline card-outline-tabs">
-                        <div class="card-header">
-                    <a value="<?= Url::to(['/student/create-group', 'cid' => $cid]) ?>"  id = "group_modal_button">
-                <button type="submit" class="btn btn-default text-primary float-right mt-3 mr-5" style="margin-left: 2px;"><i class="fa fa-plus-circle"> </i> Create Group</button>
-            </a></div>
+                   <div class="card shadow p-3 d-flex justify-content-center text-center text-primary">
+                        
+                    <a href="#" value="<?= Url::to(['/student/create-group', 'cid' => $cid]) ?>"  id = "group_modal_button">
+                <i class="fa fa-plus-circle"> </i> Create Group
+            </a>
                             
                             <?php
                             Modal::begin([
@@ -54,7 +54,7 @@ $this->params['breadcrumbs'] = [
                             Modal::end();
                             ?>
 
-                        <div class="card-body">
+                        </div>
                            
                                         <div class="tab-content" id="custom-tabs-four-tabContent">
 
@@ -107,30 +107,55 @@ $this->params['breadcrumbs'] = [
                                                                                     </div>
                                                                                 </div>
                                                                             </h2>
-                                                                        </div>
+                                                                       
 
                                                                         <div id="collapse<?=$count?>" class="collapse" aria-labelledby="heading<?=$count?>" data-parent="#accordionExample_3">
                                                                             <!--end of displaying assignment-->
                                                                             <?php
                                                                             $studentList = StudentGroup::find()->select('student.fname, student.mname, student.lname, student.reg_no, student.programCode, student.phone ')->join('INNER JOIN', 'student', 'student.reg_no = student_group.reg_no')->where('groupID = :groupID ', [':groupID' => $item['groupID']])->asArray()->all();
                                                                             ?>
-                                                                            <div class="card">
-                                                                                <div class="card-header p-2">
-                                                                                    <h3 class="card-title com-sm-12">
-                                                                                        <i class="fas fa-list mr-1 text-info"></i>
-                                                                                        List of Students in a group
+                                                                     
+                                                            
 
-                                                                                    </h3>
-                                                                                    <a href="#" class="btn btn-sm btn-outline-primary btn-rounded float-right mb-2" data-target="#addStudentModal<?= $item['groupID'] ?>" data-toggle="modal"><i class="fas fa-plus" ></i>Add Students</a>
+                                                                                    <div class="p-5">
+                                                                                        <div class="row bg-primary p-2">
+                                                                                         <div class="col-sm-9"> Group Members</div>
+                                                                                         <div class="col-sm-3">
+                                                                                    <a href="#" class="btn btn-sm btn-default shadow btn-rounded float-right mb-2" data-target="#addStudentModal<?= $item['groupID'] ?>" data-toggle="modal"><i class="fa fa-plus-circle" ></i> Add member</a>
+                                                                                        </div>
+                                                                                            </div>
+                                                                                        <!-- -----------------------------group members ---------------------------------------->
+                                                                                        <?php foreach ($studentList as $student) : ?>
+                                                                                            <div class="text-sm row p-1 bg-white shadow-lg">
+                                                                                                <div class="p-1 col-sm-2 text-muted" ><?=ucfirst(strtolower($student['fname'])) ?> </div>
+                                                                                                 <div class="p-1 col-sm-1 text-muted" ><?= ucfirst(strtolower($student['mname'])) ?> </div>
+                                                                                                 <div class="p-1 col-sm-2 text-muted" > <?= ucfirst(strtolower($student['lname'])) ?> </div>
+                                                                                                 <div class="p-1 col-sm-3 text-muted" > <?= $student['reg_no'] ?> </div>
+                                                                                                 <div class="p-1 col-sm-2 text-muted" ><?= $student['programCode'] ?> </div>
+                                                                                                 <div class="p-1 col-sm-1 text-muted" > <?= $student['phone'] ?> </div>
+                                                                                                 <div class="p-1 col-sm-1 text-sm">
+                                                                                                     <?php
+                                                                                                        $regno=yii::$app->user->identity->username;
+                                                                                                        $creator=Groups::findOne($item['groupID'])->isCreator($regno);
+                                                                                                        $isme=$student['reg_no']==$regno;
 
-                                                                                </div><!-- /.card-header -->
+                                                                                                        if($creator==true && $isme==false){
+                                                                                                     ?>
+                                                                                                     <?= Html::a('<i class="fa fa-trash inner" data-toggle="tooltip" data-title="Remove Member"></i>',['remove-student-from-group', 'reg_no'=>$student['reg_no'], 'groupID'=>$item['groupID'] ], ['class'=>'text-danger  m-0'])?>
+                                                                                                     <?php
+                                                                                                        }
+                                                                                                     ?>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        <?php endforeach; ?>
+                                                                                    </div>
 
                                                                                 <!--       ---- -----  ---                  another start modal-->
                                                                                 <div class="modal fade" id="addStudentModal<?= $item['groupID'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                                     <div class="modal-dialog" role="document">
                                                                                         <div class="modal-content">
-                                                                                            <div class="modal-header bg-primary">
-                                                                                                <span class="modal-title" id="addStudentModal<?= $item['groupID'] ?>"><h4><i class="fas fa-users"></i> Add Students to a Group</h4></span>
+                                                                                            <div class="modal-header bg-primary p-2 pl-3">
+                                                                                                <span class="modal-title text-sm" id="addStudentModal<?= $item['groupID'] ?>"><i class="fa fa-plus-circle"></i> Add Member</span>
 
                                                                                             </div>
                                                                                             <div class="modal-body">
@@ -138,14 +163,14 @@ $this->params['breadcrumbs'] = [
 
                                                                                                 <div class="row">
                                                                                                     <div class="col-md-12">
-                                                                                                        <?= $form->field($model,'memberStudents[]')->dropdownList($stds,['class'=>'form-control form-control-sm','id'=>'assignstudents3','data-placeholder'=>'Select degree Programs','multiple'=>'multiple','style'=>'width:100%'])->label('Students')?>
+                                                                                                        <?= $form->field($model,'memberStudents[]')->dropdownList($stds,['class'=>'form-control form-control-sm','id'=>'assignstudents3','data-placeholder'=>'--Choose Members--','multiple'=>'multiple','style'=>'width:100%'])->label(false)?>
                                                                                                     </div>
                                                                                                 </div>
 
                                                                                                 <div class="row">
                                                                                                     <div class="col-md-12">
-                                                                                                        <?= Html::submitButton('Add', ['class'=>'btn btn-outline-primary btn-md float-right ml-2']) ?>
-                                                                                                        <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
+                                                                                                        <?= Html::submitButton('<i class="fa fa-plus-circle"></i> Add', ['class'=>'btn btn-outline-primary btn-sm float-right ml-2']) ?>
+                                                                                                        <button type="button" class="btn btn-secondary btn-sm float-right" data-dismiss="modal">Close</button>
 
                                                                                                     </div>
                                                                                                 </div>
@@ -156,47 +181,11 @@ $this->params['breadcrumbs'] = [
                                                                                     </div>
                                                                                 </div>
 
-
-                                                                                <!--        -----     -----            -----                     end of modal            -->
-
-
-
-
-                                                                                <div class="card-body">
-                                                                                    <table class="table table-bordered table-striped table-hover" id="CourseList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
-                                                                                        <thead>
-                                                                                        <tr><th width="1%">#</th><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Reg No</th><th>Program Code</th><th>Phone</th><th width="10%">Action</th></tr>
-                                                                                        </thead>
-                                                                                        <tbody>
-
-                                                                                        <?php $i = 0; ?>
-                                                                                        <?php foreach($studentList as $student): ?>
-                                                                                            <tr>
-                                                                                                <td><?= ++$i; ?></td>
-                                                                                                <td><?= $student['fname'] ?></td>
-                                                                                                <td><?= $student['mname'] ?></td>
-                                                                                                <td><?= $student['lname'] ?></td>
-                                                                                                <td><?= $student['reg_no'] ?></td>
-                                                                                                <td><?= $student['programCode'] ?></td>
-                                                                                                <td><?= $student['phone'] ?></td>
-                                                                                                <td>
-                                                                                                    <?= Html::a('<i class="fas fa-trash inner" data-toggle="tooltip" data-title="Remove Student"></i>',['remove-student-from-group', 'reg_no'=>$student['reg_no'], 'groupID'=>$item['groupID'] ], ['class'=>'btn btn-danger btn-sm m-0'])?>
-                                                                                                </td>
-                                                                                            </tr>
-
-                                                                                            <!-- ################################################## -->
-                                                                                        <?php endforeach; ?>
-                                                                                        </tbody>
-                                                                                    </table>
-
-                                                                                </div>
-                                                                        </div>
-
                                                                     </div>
                                                                     <?php
                                                                     $count--;
                                                                     ?>
-                                                                </div>
+                                                                </div></div>
                                                                     <?php endforeach; ?>
 
 
@@ -210,7 +199,7 @@ $this->params['breadcrumbs'] = [
 
                                             </section>
                                             <!-- ########################################### group by instructor end ######################################## -->
-                                        </div>
+                                    
                              
                              
 
