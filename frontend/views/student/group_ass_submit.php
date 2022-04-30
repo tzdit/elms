@@ -7,18 +7,19 @@ use yii\bootstrap4\ActiveForm;
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use frontend\models\ClassRoomSecurity;
 
 
 AppAsset::register($this);
 
-
-
+$this->title=yii::$app->session->get("ccode")." Group Assignment Submit";
+$this->params['courseTitle']='<img src="/img/groupass.png" height="25px" width="25px"/> '.yii::$app->session->get("ccode").' Group Assignment Submit';
 /* @var $this yii\web\View */
 /* @var $model common\models\User */
 /* @var $form ActiveForm */
 
 $this->params['breadcrumbs'] = [
-    ['label'=>'Group Assignment Submission', 'url'=>Url::to(Yii::$app->request->referrer)],
+    ['label'=>'Group Assignments', 'url'=>Url::to(['student-group','cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get("ccode"))])],
     ['label'=>$this->title]
 ];
 ?>
@@ -27,20 +28,12 @@ $this->params['breadcrumbs'] = [
 
     <div class="container">
         <div class="card shadow-lg" style="font-family:'Times New Roman', sans-serif">
-            <div class="card-header text-center bg-primary">
-                <h2>Group Submit</h2>
+            <div class="card-header text-center bg-primary p-1">
+                <i class="fa fa-upload"></i> Submit Assignment
             </div>
             <div class="card-body">
-                <h3 class='text-muted'>Submit by uploading the file</h3>
-                <h5 class='text-danger font-italic font-weight-bold'>Submit assignment and notify your member to avoid wrong submit</h5>
-                <br>
-                <!--                                        <div class="upload-icon">-->
-                <!--                                            <i class="fas fa-upload"></i>-->
-                <!--                                        </div>-->
-                <!---->
-                <!--                                        <br>-->
-                <!--                                        <span class='drag-header m-0'>Drag and drop file you want to upload</span>-->
-                <!--                                        <br>-->
+     
+                              
 
                 <?php $form = ActiveForm::begin([
                     'options' => ['enctype' => 'multipart/form-data'],

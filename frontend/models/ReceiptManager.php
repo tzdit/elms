@@ -7,6 +7,7 @@ use common\models\Receipts;
 use common\models\Submit;
 use yii\base\Exception;
 use common\models\User;
+use common\models\GroupAssignmentSubmit;
 use Mpdf\Mpdf;
 /*
 A model class for managing academicyear, switching to and from a specific 
@@ -42,6 +43,34 @@ class ReceiptManager extends Model
       $this->issuedforID=$for;
     
       $this->issuer=(Submit::findOne($for))->ass->instructor->userID;
+      $receiptsdb=new Receipts;
+
+      $receiptsdb->receiptnumber=$this->number;
+      $receiptsdb->issuedto=$this->ownerid;
+      $receiptsdb->issuedfor=$this->issuedforID;
+      $receiptsdb->issuer=$this->issuer;
+      $receiptsdb->type=$this->type;
+      date_default_timezone_set('Africa/Dar_es_Salaam');
+      $receiptsdb->issuedon=date('Y-m-d H:i:s');
+      $receiptsdb->yearID=yii::$app->session->get("currentAcademicYear")->yearID;
+      $saved=$receiptsdb->save();
+      if($saved)
+      {
+        return ClassRoomSecurity::encrypt($receiptsdb->receiptnumber);
+      }
+      else
+      {
+          return null;
+      } 
+      
+    }
+    public function generateGroupAssignmentReceipt($for)
+    {
+      $this->number=rand();
+      $this->ownerid=yii::$app->user->identity->student->userID;
+      $this->issuedforID=$for;
+    
+      $this->issuer=(GroupAssignmentSubmit::findOne($for))->ass->instructor->userID;
       $receiptsdb=new Receipts;
 
       $receiptsdb->receiptnumber=$this->number;
@@ -122,7 +151,123 @@ class ReceiptManager extends Model
         return null;
     
     }
+    public function getEncryptedReceipt($for)
+    {
+     
+        $receipt=$this->buildReceiptFor($for); 
+        
+        $mpdf = new Mpdf(['orientation' => 'P']);
+      
+        $mpdf->setFooter('{PAGENO}');
+        $stylesheet = file_get_contents('css/capdf.css');
+        $mpdf->WriteHTML($stylesheet,1);
+        $mpdf->SetWatermarkText('civeclassroom.udom.ac.tz',0.09);
+        $mpdf->showWatermarkText = true;
+        $mpdf->WriteHTML('<div align="center"><img src="img/logo.png" width="60px" height="60px"/></div>',2);
+        $mpdf->WriteHTML('<p align="center"><font size=6>Encrypted Receipt</font></p>',3);
+        $mpdf->WriteHTML('<hr width="80%" align="center" color="#000000">',2);
+        $mpdf->WriteHTML('<p align="center"><font size=4>'.$receipt.'</font></p>',3);
+        $filename="receipt.pdf";
+        $mpdf->Output($filename,"D");
+        return null;
+    }
 
+   public function buildReceiptFor($receiptid)
+   {
+    $receipt=Receipts::findOne($receiptid);
+    $number=$receipt->receiptnumber;
+    $receipttype=$receipt->type;
+    $receiptdate=$receipt->issuedon;
+    $receiptowner=User::findIdentity($receipt->issuedto)->student;
+    $submitted=null;
+    if($receipttype=="Assignment Submission")
+    {
+        
+        $submitted=Submit::findOne($receipt->issuedfor);
+    }
+    $ownerfullname=($receiptowner!=null)?$receiptowner->fname." ".$receiptowner->mname." ".$receiptowner->lname:"not found";
+    $ownerreg=($receiptowner!=null)?$receiptowner->reg_no:"not found";
+    $ownerprog=($receiptowner!=null)?$receiptowner->program->prog_name." (".$receiptowner->programCode.")":"not found";
+    $owneryos=($receiptowner!=null)?$receiptowner->YOS:"not found";
+    $ownercollege=($receiptowner!=null)?$receiptowner->program->department->college->college_name." (".$receiptowner->program->department->college->college_abbrev.")":"not found";
+
+    $submitdate=($submitted!=null)?$submitted->submit_date." ".$submitted->submit_time:"not found";
+    $assignment=($submitted!=null)?$submitted->ass->assName:"not found";
+    $course=($submitted!=null)?$submitted->ass->course_code." ".$submitted->ass->courseCode->course_name:"not found";
+
+    $signature1="cive classroom ".yii::$app->session->get('currentAcademicYear')->title;
+    $signature2=User::findIdentity($receipt->issuer)->instructor->full_name;
+ 
   
-   
+   $receiptbuffer= ['number'=>$number,'type'=>$receipttype,'issuedate'=>$receipttype,
+   'ownername'=>$ownerfullname,'ownerreg'=>$ownerreg,'ownerprog'=>$ownerprog,
+   'owneryos'=>$owneryos,'ownercollege'=>$ownercollege,'submitdate'=>$submitdate,
+   'assignment'=>$assignment,'course'=>$course,'signature1'=> $signature1,'signature2'=>$signature2
+];
+
+   return utf8_encode(ClassRoomSecurity::encrypt(json_encode($receiptbuffer)));
+
+}
+
+public function receiptValidator($content)
+{
+
+    $content=utf8_decode(ClassRoomSecurity::decrypt($content));
+    //check if it's json
+    $content=json_decode($content);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        throw new Exception("Invalid data");
+    }
+
+    if(!is_array($content)){throw new Exception("Invalid data");}
+    //check if it's array
+    //check if number is set
+    $receiptnumber=$content["number"];
+        
+        try
+        {
+        $receipt=Receipts::findOne($receiptnumber); 
+        if($receipt==null){throw new Exception("Invalid receipt");}
+        return $this->downloadReceipt($receiptnumber);
+        }
+        catch(Exception $r)
+        {
+            $this->receiptValidateWithLostData($content);
+        }
+    
+  
+}
+public function receiptValidateWithLostData($content)
+{
+    $mpdf = new Mpdf(['orientation' => 'P']);
+      
+    $mpdf->setFooter('{PAGENO}');
+    $stylesheet = file_get_contents('css/capdf.css');
+    $mpdf->WriteHTML($stylesheet,1);
+    $mpdf->SetWatermarkText('civeclassroom.udom.ac.tz',0.09);
+    $mpdf->showWatermarkText = true;
+    $mpdf->WriteHTML('<div align="center"><img src="img/logo.png" width="60px" height="60px"/></div>',2);
+    $mpdf->WriteHTML('<p align="center"><font size=6>Receipt Content</font></p>',3);
+    $mpdf->WriteHTML('<hr width="80%" align="center" color="#000000">',2);
+
+    foreach($content as $cont=>$value)
+    {
+        $mpdf->WriteHTML('<p align="center"><font size=4>'.$cont.':'.$value.'</font></p>',3);
+    }
+
+    
+    $filename="receipt.pdf";
+    $mpdf->Output($filename,"D");
+    return null; 
+}
+
+//receipt search with lost receipt data
+//searches by specifying the assignment and find it from the database
+
+public function findReceipt($reg,$assignment)
+{
+
+}
+
+
 }

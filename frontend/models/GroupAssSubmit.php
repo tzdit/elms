@@ -109,6 +109,7 @@ class GroupAssSubmit extends \yii\db\ActiveRecord
 
         $this->assID = $this->assinmentId;
         $this->groupID = $this->groupId;
+        date_default_timezone_set('Africa/Dar_es_Salaam');
         $this->submit_date = date('Y-m-d');
         $this->submit_time = date('H:i:s');
         $this->fileName = Yii::$app->security->generateRandomString(13).'.'.$this->document->extension;

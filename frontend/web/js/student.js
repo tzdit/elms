@@ -174,7 +174,49 @@ $(document).on('click', '.btn-delete-group', function(){
 
 });
 
+//exiting group
 
+$(document).on('click', '.exitgroup', function(){
+
+    var groupID = $(this).attr('groupID');
+
+    Swal.fire({
+        title: '<small>Are you sure?</small>',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Exit'
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+            $.ajax({
+                url: '/student/exit-group' ,
+                method:'post',
+                async:true,
+                cache: false,
+                dataType:'JSON',
+                data:{groupID:groupID},
+                success:function(data){
+                    if(data.message){
+                        Swal.fire(
+                            'Deleted!',
+                            data.message,
+                            'success'
+                        )
+                        setTimeout(function(){
+                            window.location.reload();
+                        },20);
+
+
+                    }
+                }
+            })
+
+        }
+    })
+
+});
 
 
 

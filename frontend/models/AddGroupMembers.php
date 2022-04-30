@@ -11,7 +11,7 @@ use Yii;
 use yii\base\Model;
 use yii\helpers\HtmlPurifier;
 use yii\web\NotFoundHttpException;
-
+use common\models\Student;
 /**
  * add member form
  */
@@ -55,6 +55,7 @@ class AddGroupMembers extends Model
     {
 
         if (!$this->validate()) {
+            Yii::$app->session->setFlash('error', 'Group creation failed');
             return false;
         }
         $count = count($this->memberStudents);
@@ -62,7 +63,7 @@ class AddGroupMembers extends Model
         $limit = GroupGenerationTypes::find()->select(['max_groups_members'])->where('typeID = :typeID', [':typeID' => $this->generation_type])->one();
 
         if ( $count > $limit->max_groups_members - 1){
-            Yii::$app->session->setFlash('error', 'Group exceed maximum limit');
+            Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Could not create group! Group exceeds maximum limit of '.$limit->max_groups_members.' members');
             return false;
         }
 
@@ -81,8 +82,28 @@ class AddGroupMembers extends Model
             if ($group->save()){
 
                 $selfStudent = new StudentGroup();
+
                 $selfStudent->groupID = $group->groupID;
                 $selfStudent->reg_no = Yii::$app->user->identity->username;
+
+                //does the student have another group?
+
+                $creatorgroup=Student::findOne($selfStudent->reg_no);
+                $studentgroups=$creatorgroup->studentGroups;
+
+                foreach($studentgroups as $studentgroup)
+                {
+                if($studentgroup->group->generation_type==$this->generation_type)
+                {
+                    $transaction->rollBack();
+                    Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Could not create group! you already have another group in this assignment module');
+                    return false;
+                }
+                else
+                {
+                    continue;
+                }
+                }
 
                 if ($selfStudent->save()){
                         $errors=[];
@@ -92,7 +113,14 @@ class AddGroupMembers extends Model
 
                             $studentGroup->groupID = $group->groupID;
                             $studentGroup->reg_no = $reg_no;
+                            
+                            $studentInTwoGroup = StudentGroup::find()->select('student_group.reg_no')->join('INNER JOIN','groups','groups.groupID = student_group.groupID')->where('groups.generation_type = :gen_type AND reg_no = :reg_no',[':gen_type' => $this->generation_type, ':reg_no' => $studentGroup->reg_no])->one();
 
+                            if ( !empty($studentInTwoGroup)){
+                                $transaction->rollBack();
+                                Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Could not create group! '.$studentGroup->reg_no.' already has a group');
+                                return false;
+                            }
                             if(!$studentGroup->save()){
 
                                 $errors[$reg_no]=!empty($studentGroup->getErrors()['SG_ID'])?$studentGroup->getErrors()['SG_ID'][0]:" ";
@@ -110,7 +138,7 @@ class AddGroupMembers extends Model
         }catch(\Throwable $e){
 
             $transaction->rollBack();
-            throw new NotFoundHttpException('Fail to create group');
+            throw new \Exception('Group creation failed');
         }
         return false;
     }
