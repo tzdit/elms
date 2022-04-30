@@ -42,9 +42,11 @@ $this->params['breadcrumbs'] = [
               
               </div><!-- /.card-header -->
               <div class="card-body">
+
  
              <div class="row">
              <div class="col-md-12">
+              <h4><p style="text-align: center;"> <span class="badge bg-primary">First Year Courses</span></p></h4>
 
               <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
               <thead>
@@ -53,7 +55,65 @@ $this->params['breadcrumbs'] = [
               </tr>
               </thead>
             
-              <?php foreach($data as $key =>$courses): ?>
+              <?php foreach($courses1 as $key =>$courses): ?>
+              
+                  <tbody>
+                  <?php $i=0; ?>
+                  <tr>
+                  <td><?= $key = $key + 1 ?></td>
+                  <td><?= $courses->course_code ?> </td>
+                  <td><?= $courses->course_name ?> </td>
+                  <td><?= $courses->course_credit ?> </td>
+                  <td><?= strtoupper( $courses->course_status ) ?> </td>
+                  </tr> 
+                  </tbody>
+                 
+             
+              <?php endforeach ?>
+              </table>
+              </div>
+             </div>
+
+             <div class="row">
+             <div class="col-md-12">
+             <h4><p style="text-align: center;"> <span class="badge bg-warning">Second Year Courses</span></p></h4>
+              <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+              <thead>
+              <tr>
+              <th width="1%">#</th><th width="10%">Code</th><th>Name</th><th>Credit</th><th>Status</th>
+              </tr>
+              </thead>
+            
+              <?php foreach($courses2 as $key =>$courses): ?>
+              
+                  <tbody>
+                  <?php $i=0; ?>
+                  <tr>
+                  <td><?= $key = $key + 1 ?></td>
+                  <td><?= $courses->course_code ?> </td>
+                  <td><?= $courses->course_name ?> </td>
+                  <td><?= $courses->course_credit ?> </td>
+                  <td><?= strtoupper( $courses->course_status ) ?> </td>
+                  </tr> 
+                  </tbody>
+                 
+             
+              <?php endforeach ?>
+              </table>
+              </div>
+             </div>
+
+             <div class="row">
+             <div class="col-md-12">
+             <h4><p style="text-align: center;"> <span class="badge bg-success">Third Year Courses</span></p></h4>
+              <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+              <thead>
+              <tr>
+              <th width="1%">#</th><th width="10%">Code</th><th>Name</th><th>Credit</th><th>Status</th>
+              </tr>
+              </thead>
+            
+              <?php foreach($courses3 as $key =>$courses): ?>
               
                   <tbody>
                   <?php $i=0; ?>
