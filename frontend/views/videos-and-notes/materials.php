@@ -19,10 +19,10 @@ use common\models\Submit;
 
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] = $cid;
-$this->title = 'Course Material';
+$this->params['courseTitle'] ='<img src="/img/module.png" width="25" height="25" > '.$cid.' Modules';
+$this->title = $cid.' Course Modules';
 $this->params['breadcrumbs'] = [
-    ['label'=>'Class', 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
+    ['label'=>$cid.' Dashboard', 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
     ['label'=>$this->title]
 ];
 
@@ -38,20 +38,13 @@ $this->params['breadcrumbs'] = [
             <div class="row">
                 <!-- Left col -->
                 <section class="col-lg-12">
-
-                    <div class="card-header p-0 border-bottom-0 ml-3">
-                        <h2>Course Materials</h2>
-
-                    </div>
-
-                    <div class=" card-primary card-outline card-outline-tabs">
                         <div class="card-body" >
                             <div class="tab-content" id="custom-tabs-four-tabContent">
 
                                 <?php $module_count = Module::find()->where('course_code = :course_code',[':course_code' => $cid])->count(); ?>
                                 <?php
                                 if(empty($materials)){
-                                    echo "<p class='text-muted text-lg'>";
+                                    echo "<p class='text-muted text-lg text-center'>";
                                     echo "No material found";
                                     echo "</p>";
                                 }
@@ -61,7 +54,7 @@ $this->params['breadcrumbs'] = [
 
                                 <div class="accordion" id="accordionExample_3">
                                     <?php foreach( $materials as $material ) : ?>
-                                        <div class="card">
+                                  
                                             <div class="card shadow-lg">
                                                 <div class="card-header p-2" id="heading<?=$module_count?>">
                                                     <h2 class="mb-0">
@@ -88,8 +81,8 @@ $this->params['breadcrumbs'] = [
 
                                                     <?php
                                                     if(empty($videos_notes)){
-                                                        echo "<p class='text-muted text-lg'>";
-                                                        echo "No material uploaded yet";
+                                                        echo "<p class='text-muted text-lg text-center'>";
+                                                        echo "No material found";
                                                         echo "</p>";
                                                     }
                                                     ?>
@@ -183,7 +176,7 @@ $this->params['breadcrumbs'] = [
                                 <!-- ########################################### Course materials end ######################################## -->
                             </div>
                         </div>
-                    </div>
+                 
                 </section>
             </div>
         </div><!--/. container-fluid -->

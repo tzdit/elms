@@ -115,27 +115,29 @@ class CA extends Model{
       $caheader="<tr style='background-color:#f0fbff;text-align:center;'><td rowspan=2>Registration number</td>";
       $ca_sub_header="<tr style='background-color:#f0fbff;text-align:center;'>";
       $rows=[];
-      $catable="<table class='table-bordered table-hover shadow text-sm' style='width:100%' cellspacing=0 autosize=2 text-align='center' align='center'>";
+      $grandtotal=0;
+      $catable="<table class='table-bordered table-responsive table-hover shadow text-sm' style='width:100%' cellspacing=0 autosize=2 text-align='center' align='center'>";
       if(!empty($this->Assignments) && !empty($this->allstudents)){
         $student_with_marks=$this->asscumul($this->Assignments,$this->allstudents);
         $caheader.=$this->catable_header($student_with_marks,"Assignments");
         $ca_sub_header.=$this->ca_subheader($student_with_marks,"Assignments");
         $rows=$this->carows($student_with_marks,"Assignments",$rows);
+        $grandtotal+=$this->assGrandMax;
       }
       if(!empty($this->LabAssignments) && !empty($student_with_marks)){
         $student_with_marks=$this->labcumul($this->LabAssignments,$student_with_marks);
         $caheader.=$this->catable_header($student_with_marks,"Lab Assignments");
         $ca_sub_header.=$this->ca_subheader($student_with_marks,"Lab Assignments");
         $rows=$this->carows($student_with_marks,"Lab Assignments",$rows);
+        $grandtotal+=$this->labGrandMax;
       }
       if(!empty($this->otherAssessments) && !empty($student_with_marks)){
         $student_with_marks=$this->otherAssessCumul($this->otherAssessments,$student_with_marks);
         $caheader.=$this->catable_header($student_with_marks,"Other Assessments");
         $ca_sub_header.=$this->ca_subheader($student_with_marks,"Other Assessments");
         $rows=$this->carows($student_with_marks,"Other Assessments",$rows);
+        $grandtotal+=$this->otherGrandMax;
       }
-    
-      $grandtotal=$this->labGrandMax+$this->assGrandMax+$this->otherGrandMax;
       $caheader.="<td rowspan=2>Grand Total /".$grandtotal."</td>";
       $caheader.="</tr>";
       $ca_sub_header.="</tr>";
@@ -157,6 +159,7 @@ class CA extends Model{
       $catable.="</table>";
       $singleCa['grandscore']=$this->singleCaGrandTotal($this->addEncompletes($student_with_marks));
       $singleCa['detailed']=$catable;
+      $singleCa['grandMax']=$grandtotal;
       return $singleCa;
     }
     else
@@ -175,9 +178,16 @@ class CA extends Model{
       {
         if(!$this->isCaPublished($index)){continue;}
         $this->loadCAdata($index);
+        try
+        {
         $mycas[$ca]['details']=($this->singleCAbuilder())['detailed'];
         $mycas[$ca]['grandscore']=($this->singleCAbuilder())['grandscore'];
-        $mycas[$ca]['grandmax']=$this->labGrandMax+$this->assGrandMax+$this->otherGrandMax;
+        $mycas[$ca]['grandmax']=($this->singleCAbuilder())['grandMax'];
+        }
+        catch(\Exception $d)
+        {
+          continue;
+        }
       }
       if(empty($mycas)){return null;}
       return $mycas;

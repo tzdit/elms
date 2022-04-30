@@ -17,10 +17,10 @@ use yii\bootstrap4\Modal;
 use frontend\models\ClassRoomSecurity;
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =$cid;
-$this->title = 'Class';
+$this->params['courseTitle'] ='<img src="/img/tutorials.png" height="25px" width="25px"/> '.$cid.' Tutorials';
+$this->title = $cid.' Tutorials';
 $this->params['breadcrumbs'] = [
-    ['label'=>'Class', 'url'=>Url::to(['/student/classwork', 'cid'=>$cid])],
+    ['label'=>$cid.' Dashboard', 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
     ['label'=>$this->title]
 ];
 
@@ -36,19 +36,13 @@ $this->params['breadcrumbs'] = [
             <div class="row">
                 <!-- Left col -->
                 <section class="col-lg-12">
-
-                    <div class="card-header p-0 border-bottom-0 ml-3">
-                        <h2>Tutorials</h2>
-
-                    </div>
-
-                    <div class=" card-primary card-outline card-outline-tabs">
+                   
                         <div class="card-body" >
                             <div class="tab-content" id="custom-tabs-four-tabContent">
 
                                 <?php
                                 if(empty($tutorials)){
-                                    echo "<p class='text-muted text-lg'>";
+                                    echo "<p class='text-muted text-lg text-center'>";
                                     echo "No tutorial found";
                                     echo "</p>";
                                 }
@@ -60,14 +54,14 @@ $this->params['breadcrumbs'] = [
                                     <div class="accordion" id="accordionExample_4">
 
                                         <?php foreach( $tutorials as $tutorial ) : ?>
-                                            <div class="card">
+ 
                                                 <div class="card shadow-lg">
                                                     <div class="card-header p-2" id="heading<?=$tutt?>">
                                                         <h2 class="mb-0">
                                                             <div class="row">
                                                                 <div class="col-sm-11">
                                                                     <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$tutt?>" aria-expanded="true" aria-controls="collapse<?=$tutt?>">
-                                                                        <h5> <i class="fas fa-clipboard-list"></i> <span class="assignment-header"><?php echo "Tutorial ".$tutt;?></span></h5>
+                                                                        <h5> <img src="/img/tutorials.png" height="25px" width="25px"/> <span class="assignment-header"><?php echo $tutorial -> assName;?></span></h5>
                                                                     </button>
                                                                 </div>
                                                                 <div class="col-sm-1">
@@ -79,7 +73,7 @@ $this->params['breadcrumbs'] = [
 
                                                     <div id="collapse<?=$tutt?>" class="collapse" aria-labelledby="heading<?=$tutt?>" data-parent="#accordionExample_4">
                                                         <div class="card-body">
-                                                            <p><span style="color:green"> About: </span> <?= $tutorial -> assName ?></p>
+                                                            <p><span style="color:green"> Hint: </span> <?= $tutorial -> ass_desc ?></p>
                                                         </div>
                                                         <div class="card-footer p-2 bg-white border-top">
                                                             <div class="row">
@@ -94,7 +88,7 @@ $this->params['breadcrumbs'] = [
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                              
                                             </div>
                                             <?php
                                             $tutt--;

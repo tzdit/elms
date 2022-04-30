@@ -11,9 +11,9 @@ use frontend\models\ClassRoomSecurity;
 
 $cid=yii::$app->session->get('ccode');
 $this->params['courseTitle'] = "<i class='fa fa-school'></i> ".$cid." Lecture Room";
-$this->title =$cid." Lecture Room";
+$this->title ="Lecture Room";
 $this->params['breadcrumbs'] = [
-  ['label'=>'class dashboard', 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
+  ['label'=>$cid.' dashboard', 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
   ['label'=>$this->title]
 ];
 

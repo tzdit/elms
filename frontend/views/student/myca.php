@@ -14,9 +14,10 @@ use frontend\models\AddPartner;
 
 /* @var $this yii\web\View */
 $cid=yii::$app->session->get('ccode');
-$this->params['courseTitle'] =$cid. " CAs";
+$this->params['courseTitle'] ='<img src="/img/ca3.png" height="25px" width="25px"/> '.$cid. " CAs";
 $this->title = $cid. " CAs";
 $this->params['breadcrumbs'] = [
+  ['label'=>$cid." Dashboard", 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
   ['label'=>$this->title]
 ];
 ///////////////////////////////////////
@@ -59,7 +60,7 @@ $this->params['breadcrumbs'] = [
                               ?>
                                 <div class="accordion" id="accordionExample_3">
                                     <?php foreach( $myca as $index=>$ca ) : ?>
-                                        <div class="card">
+                                      
                                             <div class="card shadow-lg">
                                                 <div class="card-header p-2" id="heading<?=$index?>" data-toggle="collapse" data-target="#collapse<?=$index?>" aria-expanded="true" aria-controls="collapse<?=$index?>">
                                                     <h2 class="mb-0">
@@ -69,9 +70,21 @@ $this->params['breadcrumbs'] = [
                                                                  <?=$index?>
                                                                 </button>
                                                                 <div class="col d-flex justify-content-center">
-                                                                <div class="card text-center" style="width:35%" data-toggle="collapse" data-target="#collapse<?=$index?>" aria-expanded="true" aria-controls="collapse<?=$index?>">
+                                                                <div class="card shadow text-center" style="width:35%" data-toggle="collapse" data-target="#collapse<?=$index?>" aria-expanded="true" aria-controls="collapse<?=$index?>">
                                                                   <div class="card-header">
-                                                                    <?=$ca['grandscore']?>
+                                                                    <?php if($ca['grandscore']=="Inc" || (($ca['grandscore']*40)/$ca['grandmax'])<15.5)
+                                                                    {
+                                                                      ?>
+                                                                        <span class="text-danger" data-toggle="tooltip" data-title="Course Failed"><?=$ca['grandscore']?></span>
+                                                                      <?php
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                      ?>
+                                                                      <span class="text-success " data-toggle="tooltip" data-title="Course succeeded"><?=$ca['grandscore']?></span>
+                                                                      <?php
+                                                                    }
+                                                                      ?>
                                                                   </div>
                                                                   <div class="card-body">
                                                                   <?=$ca['grandmax']?>
@@ -98,7 +111,7 @@ $this->params['breadcrumbs'] = [
 
             </div>
           
-        </div>
+      
 
 <?php 
 endforeach;

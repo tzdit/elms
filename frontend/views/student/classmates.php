@@ -14,9 +14,10 @@ use frontend\models\AddPartner;
 
 /* @var $this yii\web\View */
 $cid=yii::$app->session->get('ccode');
-$this->params['courseTitle'] =$cid. " Classmates";
+$this->params['courseTitle'] ='<img src="/img/student.png" height="25px" width="25px"/>'.$cid. " Classmates";
 $this->title = $cid. " Classmates";
 $this->params['breadcrumbs'] = [
+  ['label'=>$cid." Dashboard", 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
   ['label'=>$this->title]
 ];
 

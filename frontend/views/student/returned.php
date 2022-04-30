@@ -70,12 +70,37 @@ $this->params['breadcrumbs'] = [
                                                                 <div class="card-body">
                                                                     <div class="m-0">
                                                                         <div class="row">
-                                                                            <div class="col-sm-6">
+                                                        
+                                                                            <div class="col-sm-9 pl-2">
                                                                                 <h5><i class="fa fa-file-text text-primary mr-1 fa-lg" ></i><?php echo " ".ucwords($assignmentDetails->assName) ?> </h5>
                                                                                 <span class="text-muted mt-0"><?= ucfirst($assignmentDetails->assType) ?> Assignment</span>
-                                                                            </div>
+                               
 
-                                                                            <div class="col-sm-6">
+                                                                    <div class="m-0">
+                                                                        <p>Submitted file: <a class="m-0" style="color: #007bff;
+                                                                    font-style: italic;" href="/storage/submit/<?= $returne->fileName?>" target="_blank"><i class="fa fa-eye"></i> View </a></p>
+                                                                    </div>
+
+                                                                  
+                                                                    <div class="row">
+                                                                      
+                                                                      <div class="col-sm-12 text-center">
+                                                                          <p>Comment: <span class="text-muted m-0"><?php
+                                                                                  if (is_null($returne->comment)){
+                                                                                      echo "No comment";
+                                                                                  }
+                                                                                  else
+                                                                                      echo $returne->comment;
+
+                                                                                  ?></span></p>
+                                                                      </div>
+                                                                      
+                                                                  </div>
+                                                              
+                                                           
+                                                            </div>
+                                                           
+                                                            <div class="col-sm-3">
                                                                                 <div class="float-right mr-4">
                                                                                 <?php 
                                                                                  date_default_timezone_set('Africa/Dar_es_Salaam');
@@ -92,38 +117,17 @@ $this->params['breadcrumbs'] = [
 
                                         
                                                                                     ?>
-                                                                                        <span class="btn btn-sm btn-default text-primary p-3">Not Returned</span>
+                                                                                        <span class="btn btn-sm btn-xs shadow btn-default text-primary p-3">Not Returned</span>
                                                                                     <?php
                                                                                       }
                                                                                     ?>
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="m-0">
-                                                                        <p>Submitted file: <a class="m-0" style="color: #007bff;
-                                                                    font-style: italic;" href="/storage/submit/<?= $returne->fileName?>" target="_blank"><i class="fa fa-eye"></i> View </a></p>
-                                                                    </div>
-
-                                                                    <div class="m-0">
-                                                                        <div class="row">
-                                                                            <div class="col-sm-3"></div>
-                                                                            <div class="col-sm-6">
-                                                                                <p>Comment: <span class="text-muted m-0"><?php
-                                                                                        if (is_null($returne->comment)){
-                                                                                            echo "No comment";
-                                                                                        }
-                                                                                        else
-                                                                                            echo $returne->comment;
-
-                                                                                        ?></span></p>
                                                                             </div>
-                                                                            <div class="col-sm-3"></div>
-                                                                        </div>
-                                                                    </div>
-                                                           
-                                                            </div>
+                                                               
+              
+                                                        </div>
+                                                        </div>
                                                         </div>
 
                                                 <?php endforeach ?>
@@ -206,7 +210,7 @@ $this->params['breadcrumbs'] = [
 
                                         
                                                                                     ?>
-                                                                                        <span class="btn btn-sm btn-default text-primary p-3">Not Returned</span>
+                                                                                        <span class="btn btn-sm  btn-default text-primary p-3">Not Returned</span>
                                                                                     <?php
                                                                                       }
                                                                                     ?>
