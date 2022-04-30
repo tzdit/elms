@@ -830,11 +830,15 @@ public function actionClasswork($cid){
             throw new NotFoundHttpException('Year of study not found');
         }
 
-       $student_regno = Yii::$app->user->identity->student->program;
+        $student_regno = Yii::$app->user->identity->student->program;
+       //$getCoursesY1 = ProgramCourse::find()->where(['programCode' => $student_regno->programCode])->where(['level'=>1])->all();
 
        $courses = Course::find()->select('course.course_code, course.course_credit, course.course_status ')->rightJoin('program_course','program_course.course_code = course.course_code')->where('program_course.programCode = :program_code AND program_course.level = :YOS',[':program_code' => $student_regno->programCode, ':YOS' => $yos])->orderBy(['program_course.PC_ID' => SORT_ASC])->all();
+       $courses1 = Course::find()->select('course.course_code, course.course_credit, course.course_status ')->rightJoin('program_course','program_course.course_code = course.course_code')->where('program_course.programCode = :program_code AND program_course.level = :YOS',[':program_code' => $student_regno->programCode, ':YOS' => 1])->orderBy(['program_course.PC_ID' => SORT_ASC])->all();
+       $courses2 = Course::find()->select('course.course_code, course.course_credit, course.course_status ')->rightJoin('program_course','program_course.course_code = course.course_code')->where('program_course.programCode = :program_code AND program_course.level = :YOS',[':program_code' => $student_regno->programCode, ':YOS' => 2])->orderBy(['program_course.PC_ID' => SORT_ASC])->all();
+       $courses3 = Course::find()->select('course.course_code, course.course_credit, course.course_status ')->rightJoin('program_course','program_course.course_code = course.course_code')->where('program_course.programCode = :program_code AND program_course.level = :YOS',[':program_code' => $student_regno->programCode, ':YOS' => 3])->orderBy(['program_course.PC_ID' => SORT_ASC])->all();
 
-            return $this->render('courses', ['data'=>$courses]);
+            return $this->render('courses', ['data'=>$courses, 'courses1'=>$courses1, 'courses2'=>$courses2, 'courses3'=>$courses3, ]);
     }
    
 
