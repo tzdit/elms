@@ -21,7 +21,7 @@ use yii\helpers\VarDumper;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] ='<img src="/img/Assignment4.png" height="30px" width="29px"/> '.$cid. ' Individual Assignments';
-$this->title = $cid.' Individual Assignments';
+$this->title ='Individual Assignments';
 $this->params['breadcrumbs'] = [
     ['label'=>$cid.' dashboard', 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
     ['label'=>$this->title]

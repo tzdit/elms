@@ -70,7 +70,7 @@ $this->params['breadcrumbs'] = [
 
                                                         <?php
                                                         if(empty($studentGroupsList)){
-                                                            echo "<p class='text-muted text-lg'>";
+                                                            echo "<p class='text-muted text-lg text-center'>";
                                                             echo "No group found";
                                                             echo "</p>";
                                                         }
@@ -87,7 +87,7 @@ $this->params['breadcrumbs'] = [
                                                                                 <div class="row">
                                                                                     <div class="col-sm-8">
                                                                                         <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$count?>" aria-expanded="true" aria-controls="collapse<?=$count?>">
-                                                                                            <h3><img src="<?= Yii::getAlias('@web/img/groupWork.png') ?>" width="40" height="40" class="mt-1"> <span class="assignment-header "><?php echo $item['generation_type']." ";?><span class="font-italic text-info font-weight-normal"><?php echo "(".$item['groupName'].")"; ?></span></span></h3>
+                                                                                            <h3><img src="<?= Yii::getAlias('@web/img/groupWork.png') ?>" width="40" height="40" class="mt-1"> <span class="assignment-header "><?php echo $item['generation_type']." ";?><span class="font-italic text-info text-sm font-weight-normal"><?php echo "(".$item['groupName'].")"; ?></span></span></h3>
                                                                                         </button>
 
                                                                                     </div>

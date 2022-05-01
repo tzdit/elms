@@ -4,12 +4,13 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\helpers\VarDumper;
 use yii\bootstrap4\Modal;
+use frontend\models\ClassRoomSecurity;
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] =$cid;
-$this->title = 'Announcement';
+$this->params['courseTitle'] ='<img src="/img/announcement.png" height="25px" width="25px"/> '.$cid.' Announcements';
+$this->title ='Announcements';
 $this->params['breadcrumbs'] = [
-    ['label'=>'Class', 'url'=>Url::to(['/student/classwork', 'cid'=>$cid])],
+    ['label'=>$cid.' Dashboard', 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
     ['label'=>$this->title]
 ];
 
@@ -26,42 +27,29 @@ $this->params['breadcrumbs'] = [
                 <!-- Left col -->
                 <section class="col-lg-12">
 
-                    <div class="card-header p-0 border-bottom-0 ml-3">
-                        <h2>Announcement</h2>
-
-                    </div>
-
-                    <div class=" card-primary card-outline card-outline-tabs">
-                        <div class="card-body" >
                             <div class="tab-content" id="custom-tabs-four-tabContent">
 
                                 <!-- ########################################### announcements ######################################## -->
 
                                     <section class="col-lg-12">
                                         <!-- Custom tabs (Charts with tabs)-->
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h3 class="card-title com-sm-12 text-secondary">
-                                                    <i class="fas fa-book mr-1"></i>
-                                                    Announcements
-                                                </h3>
-                                            </div>
-                                            <div class="card-body">
+                                     
+                                          
                                                 <div class="row">
                                                     <!-- <?= VarDumper::dump($announcement) ?> -->
                                                     <div class="col-md-12">
                                                         <?php
                                                         if(empty($announcement)){
-                                                            echo "<p class='text-muted text-lg'>";
+                                                            echo "<p class='text-muted text-lg text-center'>";
                                                             echo "No any announcement found";
                                                             echo "</p>";
                                                         }
                                                         ?>
 
-                                                        <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+                                                        <table class="table table-bordered table-striped text-sm" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
                                                             <thead>
                                                             <tr>
-                                                                <th width="1%">PostID</th><th>Title</th><th>Posted by</th><th>Date</th><th>Action</th>
+                                                                <th width="1%">PostID</th><th>Title</th><th>Posted by</th><th>Date</th><th>View</th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
@@ -80,9 +68,10 @@ $this->params['breadcrumbs'] = [
                                                                     <td>
                                                                         <a class="model">
                                                                             <?php
+                                                                            date_default_timezone_set('Africa/Dar_es_Salaam');
                                                                             Modal::begin([
                                                                                 'title' =>  Html::tag('h2','Announcement', ['class' => 'float-center']),
-                                                                                'toggleButton' => ['label' => Html::tag('a','Click to Read', ['class' => 'fa fa-eye fa-lg '])],
+                                                                                'toggleButton' => ['label' => Html::tag('a','', ['class' => 'fa fa-eye fa-lg shadow btn-sm btn text-primary'])],
                                                                                 'size' => 'modal-lg',
                                                                                 'centerVertical' => true,
                                                                                 'footer' => Html::button('Close', ['class' => 'btn btn-primary float-right', 'data-dismiss' => 'modal']),
@@ -105,16 +94,16 @@ $this->params['breadcrumbs'] = [
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                                </div>
+                                            
                                             </div>
-                                        </div>
+                                        
                                     </section>
                                 <!-- ########################################### announcements end ####################################### -->
-                            </div>
+                          
                         </div>
                     </div>
                 </section>
-            </div>
+            
         </div><!--/. container-fluid -->
     </div>
 </div>
@@ -122,9 +111,7 @@ $this->params['breadcrumbs'] = [
 <?php
 $script = <<<JS
 $(document).ready(function(){
-  $("#CoursesTable").DataTable({
-    responsive:true,
-  });
+
 //Remember active tab
 $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
 

@@ -147,7 +147,7 @@ $this->params['breadcrumbs'] = [
                                       <a href="<?=Url::to(['student/group-management-view/','cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
                                           <img src="<?=  Yii::getAlias('@web/img/group.png')?>" height="35px" width="35px"/>
                                           <h5>
-                                              Groups
+                                              My Groups
                                           </h5>
                                       </a>
 

@@ -96,7 +96,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                         <div class="row">
                                                                                             <div class="col-sm-8">
                                                                                                 <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$count?>" aria-expanded="true" aria-controls="collapse<?=$count?>">
-                                                                                                    <h4><img src="<?= Yii::getAlias('@web/img/groupWork.png') ?>" width="40" height="40" class="mt-1"> <span class="assignment-header "><?php echo $item['generation_type']." ";?><span class="font-italic text-info font-weight-normal"><?php echo "(".$item['groupName'].")"; ?></span></span></h4>
+                                                                                                    <h4><img src="<?= Yii::getAlias('@web/img/groupWork.png') ?>" width="40" height="40" class="mt-1"> <span class="assignment-header "><?php echo $item['generation_type']." ";?><span class="font-italic text-info text-sm font-weight-normal"><?php echo "(".$item['groupName'].")"; ?></span></span></h4>
                                                                                                 </button>
                                                                                             </div>
                                                                                             <div class="col-sm-4">
