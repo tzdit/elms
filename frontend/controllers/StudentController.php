@@ -820,7 +820,7 @@ public function actionClasswork($cid){
 
          #################### Student courses lists ##############################
 
-             $session = Yii::$app->session;
+        $session = Yii::$app->session;
 
         if ($session->isActive)
         {
