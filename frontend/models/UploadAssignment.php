@@ -9,7 +9,7 @@ use common\models\GroupAssignment;
 use common\models\StudentAssignment;
 class UploadAssignment extends Model{
     public $assTitle;
-    public $submitMode;
+    public $submitMode="resubmit";
     public $assType;
     public $endTime;
     public $endDate;

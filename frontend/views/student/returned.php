@@ -187,12 +187,34 @@ $this->params['breadcrumbs'] = [
                                                                 <div class="card-body">
                                                                     <div class="m-0">
                                                                         <div class="row">
-                                                                            <div class="col-sm-6">
+                                                                            <div class="col-sm-9 pl-2">
                                                                                 <h5><i class="fa fa-file-text text-primary  mr-1 fa-lg" ></i><?php echo " ".ucwords($returneGroups->ass->assName)?> </h5>
                                                                                 <span class="text-muted mt-0"><?= ucfirst($returneGroups->group->generationType->generation_type)." (".$returneGroups->group->groupName.")" ?></span>
+
+                                                                                <div class="m-0">
+                                                                        <p>Submitted file: <a class="m-0" style="color: #007bff;
+                                                                    font-style: italic;" href="/storage/submit/<?= $returneGroups->fileName?>" target="_blank"><i class="fa fa-eye"></i> View </a></p>
+                                                                    </div>
+
+                                                                    <div class="m-0">
+                                                                        <div class="row">
+                                                                           
+                                                                            <div class="col-sm-12 text-center">
+                                                                                <p>Comment: <span class="text-muted m-0"><?php
+                                                                                        if (is_null($returneGroups->comment)){
+                                                                                            echo "No comment";
+                                                                                        }
+                                                                                        else
+                                                                                            echo $returneGroups->comment;
+
+                                                                                        ?></span></p>
+                                                                            </div>
+                                                                          
+                                                                        </div>
+                                                                    </div>
                                                                             </div>
 
-                                                                            <div class="col-sm-6">
+                                                                            <div class="col-sm-3">
                                                             
                                                                                 <div class="float-right mr-4">
                                                                                 <?php 
@@ -220,27 +242,7 @@ $this->params['breadcrumbs'] = [
                                                                     </div>
 
                                                               
-                                                                    <div class="m-0">
-                                                                        <p>Submitted file: <a class="m-0" style="color: #007bff;
-                                                                    font-style: italic;" href="/storage/submit/<?= $returneGroups->fileName?>" target="_blank"><i class="fa fa-eye"></i> View </a></p>
-                                                                    </div>
-
-                                                                    <div class="m-0">
-                                                                        <div class="row">
-                                                                            <div class="col-sm-3"></div>
-                                                                            <div class="col-sm-6">
-                                                                                <p>Comment: <span class="text-muted m-0"><?php
-                                                                                        if (is_null($returneGroups->comment)){
-                                                                                            echo "No comment";
-                                                                                        }
-                                                                                        else
-                                                                                            echo $returneGroups->comment;
-
-                                                                                        ?></span></p>
-                                                                            </div>
-                                                                            <div class="col-sm-3"></div>
-                                                                        </div>
-                                                                    </div>
+                                                               
                                                                 </div>
                                                             </div>
                                                         </div>

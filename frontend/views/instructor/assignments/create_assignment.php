@@ -34,7 +34,7 @@ use yii\helpers\Html;
         <?= $form->field($assmodel, 'endTime')->input('time', ['class'=>'form-control form-control form-control-sm'])->label('End Time (24 hrs)')?>
         </div>
         <div class="col-md-3">
-        <?= $form->field($assmodel, 'submitMode')->dropdownList(['resubmit'=>'Can resubmit', 'unresubmit'=>'Cant resubmit'], ['class'=>'form-control form-control-sm', 'prompt'=>'--select--'])->label('Submission Mode')?>
+        <?= $form->field($assmodel, 'submitMode')->dropdownList(['resubmit'=>'Resubmit', 'unresubmit'=>'Can\'t resubmit'], ['class'=>'form-control form-control-sm', 'prompt'=>'--select--'])->label('Submission Mode')?>
         </div>
         <div class="col-md-3">
         <?= $form->field($assmodel, 'number_of_questions')->textInput(['type'=>'text','class'=>'form-control form-control-sm','id'=>'qnumber'])->label('Number of questions')?>
