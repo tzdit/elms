@@ -103,7 +103,7 @@ $this->params['breadcrumbs'] = [
                                                         </div>
                                                         <div class="card-footer p-2 bg-white border-top">
                                                             <div class="row">
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-6 text-sm">
 
                                                                     <?php
                                                                     //variable to check if there is any submission
@@ -226,7 +226,7 @@ $this->params['breadcrumbs'] = [
                                                                           </div>
                                                                           <div class="card-footer p-2 bg-white border-top">
                                                                               <div class="row">
-                                                                                  <div class="col-md-8 float-left">
+                                                                                  <div class="col-md-6 float-left text-sm">
                                                                                       <?php
                                                                                       date_default_timezone_set('Africa/Dar_es_Salaam');
                                                                                       // check if deadline of submit assignment is met
@@ -241,7 +241,7 @@ $this->params['breadcrumbs'] = [
 
                                                                                       <b class="text-danger ml-3"><i class="fa fa-clock-o"></i>Deadline : </b><?= $deadLineDate->format('d-m-Y H:i:s A') ?>
                                                                                   </div>
-                                                                                  <div class="col-md-4">
+                                                                                  <div class="col-md-6">
                                                                                       <?php
                                                                                       $submited = Submit::find()->where('reg_no = :reg_no AND assID = :assID', [ ':reg_no' => $reg_no,':assID' => $lab->assID])->one();
                                                                                       ?>

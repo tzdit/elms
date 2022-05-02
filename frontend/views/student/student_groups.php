@@ -15,6 +15,7 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\helpers\VarDumper;
+use common\models\GroupAssignmentSubmit;
 
 
 /* @var $this yii\web\View */
@@ -130,34 +131,60 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                         ->join('INNER JOIN', 'assignment', 'group_generation_assignment.assID = assignment.assID')
                                                                                         ->where('groups.groupID = :groupID',[':groupID' => $item['groupID']])->asArray()->all();
 
-                                                                                    ?>
 
-                                                                                    <!--                                                    --><?php
-                                                                                    //                                                    echo '<pre>';
-                                                                                    //                                                    var_dump($assignmentAllItems);
-                                                                                    //                                                    echo '</pre>';
-                                                                                    ////                                                                                             exit;
-                                                                                    //                                                    ?>
+                                                                                        if(empty($assignments) && empty($assignmentAllItems))
+                                                                                        {
+
+                                                                                        
+
+                                                                                    ?>
+                                                                                      <div class="card-footer p-2 bg-white border-top">
+                                                                                            <h6 class="text-danger float-right mr-4"><i class="fa fa-info-circle"></i> No Assignments provided yet</h6>
+                                                                                        </div>
+
+                                                                                        <?php
+
+                                                                                 
+                                                                                        }
+
+                                                                                    ?>
+                                                                                 
 <!--displaying assignment-->
                                                                                     <?php if (!empty($assignments)): ?>
 
                                                                                         <?php foreach ($assignments as $assignment ): ?>
-
-                                                                                            <div class="card-footer p-2 material-background mt-3 border-top border-bottom">
-                                                                                                <div class="card-header border-0">
-                                                                                                  
-                                                                                                     
-                                                                                                    <p class="card-text ml-5"><span style="color:green">Assignment: </span>  <?= Html::encode(ucwords($assignment['assName'])) ?> </p>
-                                                                                                    <p class="card-text ml-5"><span style="color:green"> Description: </span>  <?= Html::encode(ucwords($assignment['ass_desc'])) ?> </p>
-                                                                                                    <p class="card-text ml-5"><span style="color:green"> Type: </span>  <?= ($assignment['assNature']=="lab")?"Lab":"Normal" ?> </p>
-
-                                                                                                </div>
-                                                                                                <div class="row">
-                                                                                                    <div class="col-md-6">
                                                                                                         <?php
                                                                                                         //variable to check if there is any submission
                                                                                                         $submited = GroupAssSubmit::find()->where('groupID = :groupID AND assID = :assID', [ ':groupID' => $assignment['groupID'],':assID' => $assignment['assID']])->asArray()->one();
                                                                                                         ?>
+                                                                                            <div class="card-footer p-2 material-background mt-3 border-top border-bottom">
+                                                                                            <?php
+                                                                                                      if($submited!=null):
+                                                                                                      if(!GroupAssignmentSubmit::findOne($submited['submitID'])->isSigned()):
+                                                                                                    ?>
+                                                                                                    <span class="text-danger float-right"><i class="fa fa-exclamation-triangle"></i> Not signed </span>
+                                                                                                    <?php
+                                                                                                    else:
+                                                                                                    ?>
+                                                                                                     <span class="text-success float-right" ><i class="fa fa-check"></i> Signed </span>
+
+                                                                                                    <?php
+                                                                                                    endif;
+                                                                                                    endif
+
+                                                                                                    ?>
+                                                                                                <div class="card-header border-0">
+                                                                                                  
+                                                                                                     
+                                                                                                    <p class="card-text ml-2"><span style="color:green">Assignment: </span>  <?= Html::encode(ucwords($assignment['assName'])) ?> </p>
+                                                                                                    
+                                                                                                    <p class="card-text ml-2"><span style="color:green"> Description: </span>  <?= Html::encode(ucwords($assignment['ass_desc'])) ?> </p>
+                                                                                                    <p class="card-text ml-2"><span style="color:green"> Type: </span>  <?= ($assignment['assNature']=="lab")?"Lab":"Normal" ?> </p>
+
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col-md-6 text-sm">
+                                                                                                  
 
 
 
@@ -166,7 +193,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                                             // check if deadline of submit assignment is met
                                                                                                             $currentDateTime = new DateTime("now");
                                                                                                             //set an date and time to work with
-                                                                                                            $start = $assignment->finishDate;
+                                                                                                            $start = $assignment['finishDate'];
                                                                                             
                                                                                                             $deadLineDate = new DateTime($start);
                                                                                                             $isOutOfDeadline =   $currentDateTime > $deadLineDate;
@@ -174,7 +201,7 @@ $regno=yii::$app->user->identity->student->reg_no;
 
 
 
-                                                                                                        <b class="text-danger ml-5"><i class="fa fa-clock-o"></i> Deadline : </b><?= $deadLineDate->format('d-m-Y H:i:s A') ?> 
+                                                                                                        <b class="text-danger ml-4"><i class="fa fa-clock-o ml-2"></i> Deadline : </b><?= $deadLineDate->format('d-m-Y H:i:s A') ?> 
                                                                                                     </div>
                                                                                                     <div class="col-md-6">
 
@@ -188,19 +215,27 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                             <a href="<?= Url::toRoute(['/student/group_assignment_submit','assID'=> ClassRoomSecurity::encrypt($assignment['assID']), 'groupID' => ClassRoomSecurity::encrypt($assignment['groupID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
                                                                                       <?php }else{ ?>
   
-                                                                                        <?php if($assignment->submitMode == "unresubmit"){?>
+                                                                                        <?php if($assignment['submitMode'] == "unresubmit"){?>
                                                                                         <button class="btn btn-sm btn-default float-right text-danger ml-2"><i class="fa  fa-ban"> Already Submitted</i></button>
                                                                                               <?php }else{ ?>
                                                                     
                                                                                                 <a href="<?= Url::toRoute(['/student/group_resubmit','assID'=> ClassRoomSecurity::encrypt($assignment['assID']), 'submit_id' => ClassRoomSecurity::encrypt($submited['submitID']), 'groupID' => ClassRoomSecurity::encrypt($assignment['groupID'])])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
                                                                                       <?php } ?>
+                                                                                      <?php
+
+                                                                                      if(!GroupAssignmentSubmit::findOne($submited['submitID'])->isSigned()):
+                                                                                      ?>
+                                                                                      <a href="<?= Url::toRoute(['/student/sign-submit', 'submit' => ClassRoomSecurity::encrypt($submited['submitID'])])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fa fa-check"> Sign</i></span></a>
+                                                                                      <?php
+                                                                                        endif
+                                                                                      ?>
                                                                                         <?php } ?>
                                                                                         <?php } ?>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
 
-                                                                                        <?php endforeach;?>
+                                                                                        <?php endforeach;endif?>
 
 
                                                                                                                                      
@@ -208,23 +243,40 @@ $regno=yii::$app->user->identity->student->reg_no;
 
 
                  
-                                                                                    <?php elseif (!empty($assignmentAllItems)): ?>
+                                                                                    <?php if (!empty($assignmentAllItems)): ?>
 
                                                                                         <?php foreach ($assignmentAllItems as $assignmentAllItem ): ?>
-
-                                                                                            <div class="card-footer p-2 material-background mt-3 border-top border-bottom">
-                                                                                                <div class="card-header border-0">
-                                                                        
-                                                                                                    <p class="card-text ml-5"><span style="color:green"> Assignment: </span>  <?= ucwords($assignmentAllItem['assName'])?> </p>
-                                                                                                    <p class="card-text ml-5"><span style="color:green"> Description: </span>  <?= $assignmentAllItem['ass_desc'] ?> </p>
-                                                                                                    <p class="card-text ml-5"><span style="color:green"> Type: </span>  <?= ($assignmentAllItem['assNature']=="lab")?"Lab":"Normal" ?> </p>
-                                                                                                </div>
-                                                                                                <div class="row">
-                                                                                                    <div class="col-md-6">
-                                                                                                        <?php
+                                                                                            <?php
                                                                                                         //variable to check if there is any submission
                                                                                                         $submitedAll = GroupAssSubmit::find()->where('groupID = :groupID AND assID = :assID', [ ':groupID' => $assignmentAllItem['groupID'],':assID' => $assignmentAllItem['assID']])->asArray()->one();
                                                                                                         ?>
+
+                                                                                            <div class="card-footer p-2 material-background mt-3 border-top border-bottom">
+                                                                                            <?php
+                                                                                                     if($submitedAll!=null):
+                                                                                                      if(!GroupAssignmentSubmit::findOne($submitedAll['submitID'])->isSigned()):
+                                                                                                    ?>
+                                                                                                    <span class="text-danger float-right"><i class="fa fa-exclamation-triangle"></i> Not signed </span>
+                                                                                                    <?php
+                                                                                                    else:
+                                                                                                    ?>
+                                                                                                     <span class="text-success float-right" ><i class="fa fa-check"></i> Signed </span>
+
+                                                                                                    <?php
+                                                                                                    endif;
+                                                                                                    endif
+
+                                                                                                    ?>
+                                                          
+                                                                                                <div class="card-header border-0">
+                                                                        
+                                                                                                    <p class="card-text ml-2"><span style="color:green"> Assignment: </span>  <?= ucwords($assignmentAllItem['assName'])?> </p>
+                                                                                                    <p class="card-text ml-2"><span style="color:green"> Description: </span>  <?= $assignmentAllItem['ass_desc'] ?> </p>
+                                                                                                    <p class="card-text ml-2"><span style="color:green"> Type: </span>  <?= ($assignmentAllItem['assNature']=="lab")?"Lab":"Normal" ?> </p>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col-md-6 text-sm">
+                                                                                                      
 
 
 
@@ -240,7 +292,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                                         ?>
 
 
-                                                                                                        <b class="text-danger ml-5"><i class="fa fa-clock-o ml-2"></i> Deadline : </b><?= $deadLineDate->format('d-m-Y H:i:s A') ?> 
+                                                                                                        <b class="text-danger ml-4"><i class="fa fa-clock-o ml-2"></i> Deadline : </b><?= $deadLineDate->format('d-m-Y H:i:s A') ?> 
                                                                                                     </div>
                                                                                                     <div class="col-md-6">
 
@@ -260,6 +312,16 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                               <?php }else{ ?>
                                                                                                 <a href="<?= Url::toRoute(['/student/group_resubmit','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID']), 'submit_id' => ClassRoomSecurity::encrypt($submitedAll['submitID']), 'groupID' => ClassRoomSecurity::encrypt($assignmentAllItem['groupID'])])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fas fa-upload"> Resubmit</i></span></a>
                                                                                       <?php } ?>
+                                                                                      <?php
+
+                                                                                            if(!GroupAssignmentSubmit::findOne($submitedAll['submitID'])->isSigned()):
+                                                                                            ?>
+                                                                                            <a href="<?= Url::toRoute(['/student/sign-submit', 'submit' => ClassRoomSecurity::encrypt($submitedAll['submitID'])])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fa fa-check"> Sign</i></span></a>
+                                                                                            <?php
+                                                                                            endif
+                                                                                            ?>
+
+
                                                                                         <?php } ?>
                                                                                         <?php } ?>
                                                                       
@@ -269,12 +331,8 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                                 </div>
                                                                                             </div>
 
-                                                                                        <?php endforeach; ?>
-                                                                                    <?php else: ?>
-                                                                                        <div class="card-footer p-2 bg-white border-top">
-                                                                                            <h6 class="text-danger float-right mr-4"><i class="fa fa-info-circle"></i> No Assignments provided yet</h6>
-                                                                                        </div>
-                                                                                    <?php endif; ?>
+                                                                                        <?php endforeach; endif;?>
+                                                                                
 <!--end of displaying assignment-->
                                                                                     <?php
                                                                                     $studentList = StudentGroup::find()->select('student.fname, student.mname, student.lname, student.reg_no, student.programCode, student.phone ')->join('INNER JOIN', 'student', 'student.reg_no = student_group.reg_no')->where('groupID = :groupID ', [':groupID' => $item['groupID']])->asArray()->all();

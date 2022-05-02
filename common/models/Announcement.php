@@ -90,4 +90,14 @@ class Announcement extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Instructor::className(), ['instructorID' => 'instructorID']);
     }
+
+    public function isNew()
+    {
+        date_default_timezone_set('Africa/Dar_es_Salaam');
+        $time=strtotime($this->ann_date.' '.$this->ann_time);
+        $lastlogin=yii::$app->user->identity->last_login;
+        $lastlogin=strtotime($lastlogin);
+
+        return $lastlogin<$time;
+    }
 }

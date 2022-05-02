@@ -55,13 +55,14 @@ class UploadAssignment extends Model{
             $this->assFile->saveAs('storage/temp/'.$filefordb);
            
          }
-        
+        date_default_timezone_set('Africa/Dar_es_Salaam');
         $ass = new Assignment();
         $ass->assName = $this->assTitle;
         $ass->assType = $this->assType;
         $ass->submitMode = $this->submitMode;
         $ass->yearID=(yii::$app->session->get("currentAcademicYear"))->yearID;
         $ass->finishDate = $this->endDate." ".$this->endTime;
+        $ass->create_time=date("Y-m-d h:i:s");
         $ass->fileName = $filefordb;
         $ass->ass_desc = $this->description;
         $ass->assNature = "assignment";

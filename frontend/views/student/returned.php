@@ -107,8 +107,9 @@ $this->params['breadcrumbs'] = [
                                                                                 if(strtotime(date('Y-m-d h:i:s')) > strtotime($returne->ass->finishDate) && $returne->score != NULL ){
                                                                                  ?>
                                                                                      <div class="shadow p-3">
-                                                                                    <b><span class="text-muted">Total:</span> <span style="color: #007bff;"><?= $assignmentDetails->total_marks  ?></span> </b><br>
-                                                                                    <b><span class="text-muted">Score:</span> <span style="color: #007bff;"><?= $returne->score ?></span></b>
+                                                                                     <b><span class="text-muted">Score:</span> <span style="color: #007bff;"><?= $returne->score ?></span></b><br>
+                                                                                    <b><span class="text-muted">Total:</span> <span style="color: #007bff;"><?= $assignmentDetails->total_marks  ?></span> </b>
+                                                                                 
                                                                                 </div>
                                                                                     <?php
                                                                                 }
@@ -220,12 +221,22 @@ $this->params['breadcrumbs'] = [
                                                                                 <?php 
                                                                                  date_default_timezone_set('Africa/Dar_es_Salaam');
                                                                                 if(strtotime(date('Y-m-d h:i:s')) > strtotime($returneGroups->ass->finishDate) && $returneGroups->score != NULL ){
+                                                                                    if($returneGroups->isSigned())
+                                                                                    {
                                                                                  ?>
                                                                                      <div class="shadow p-3">
-                                                                                    <b><span class="text-muted">Total:</span> <span style="color: #007bff;"><?=$returneGroups->ass->total_marks   ?></span> </b><br>
-                                                                                    <b><span class="text-muted">Score:</span> <span style="color: #007bff;"><?= $returneGroups->score ?></span></b>
+                                                                                     <b><span class="text-muted">Score:</span> <span style="color: #007bff;"><?= $returneGroups->score ?></span></b><br>
+                                                                                    <b><span class="text-muted">Total:</span> <span style="color: #007bff;"><?=$returneGroups->ass->total_marks   ?></span> </b>
+                                                                                    
                                                                                 </div>
                                                                                     <?php
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        ?>
+                                                                                            <span class="btn btn-sm  btn-default text-danger p-3"> <i class="fa fa-exclamation-triangle"></i> Not signed</span>
+                                                                                        <?php
+                                                                                    }
                                                                                 }
                                                                                       else
                                                                                       {

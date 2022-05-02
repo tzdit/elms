@@ -38,6 +38,7 @@ use yii\web\UploadedFile;
 use frontend\models\CourseStudents;
 use common\models\GroupGenerationTypes;
 use frontend\models\ReceiptManager;
+use common\models\SubmitSignatures;
 
 class StudentController extends \yii\web\Controller
 {
@@ -62,7 +63,7 @@ class StudentController extends \yii\web\Controller
                             'group-assignment','labs','tutorial','course-materials','returned',
                             'course-announcement','quiz','student-group','add-group-member', 'create-group','classmates','my-ca',
                             'view-normal-assignments', 'view-normal-labs', 'group-management','group-management-view',
-                            'remove-student-from-group','add-students-to-group','download-receipt','exit-group'
+                            'remove-student-from-group','add-students-to-group','download-receipt','exit-group','sign-submit'
                         ],
                         
 
@@ -566,6 +567,7 @@ public function actionClasswork($cid){
                     $receiptmanager=new ReceiptManager();
                     $receiptmanager->setType("Assignment Submission");
                     $receipt=$receiptmanager->generateGroupAssignmentReceipt($model->submitID);
+                    $sign=(new SubmitSignatures)->signSubmit($model->submitID); // automatically signing this submission
                     Yii::$app->session->setFlash('receipt', $receipt);
                     return $this->redirect(Yii::$app->request->referrer);
                     }
@@ -1412,6 +1414,22 @@ public function actionClasswork($cid){
         
         return $this->redirect(Yii::$app->request->referrer);
 
+    }
+
+    public function actionSignSubmit($submit)
+    {
+        $sign=new SubmitSignatures();
+        $submitID=ClassRoomSecurity::decrypt($submit);
+        if($sign->signSubmit($submitID))
+        {
+            Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> Assignment submission signed successfully');
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        else
+        {
+            Yii::$app->session->setFlash('error', "<i class='fa fa-exclamation-triangle'></i> Could not sign this submitted !, try again later");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
     }
 
 

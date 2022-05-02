@@ -34,6 +34,10 @@ class UploadMaterial extends Model{
         $ass->fileName =  $fileName;
         $ass->instructorID = Yii::$app->user->identity->instructor->instructorID;
         $ass->course_code =Yii::$app->session->get('ccode');
+        date_default_timezone_set('Africa/Dar_es_Salaam');
+
+        $ass->upload_time=date("h:i:s");
+        $ass->upload_date=date("Y-m-d");
         $this->assFile->saveAs('storage/temp/'.$fileName);
         if($ass->save(false))
         {
