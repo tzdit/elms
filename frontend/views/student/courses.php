@@ -22,11 +22,20 @@ $this->params['breadcrumbs'] = [
        <div class="container-fluid">
           <!-- Left col -->
           <section class="text-sm">
-             <div class="row">
-             <div class="col-md-6">
-              <h4><p style="text-align: center;"> <span class="badge bg-primary"> First Year Courses : semester 1</span></p></h4>
-
-              <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+          <div id="accordion">
+            <div class="row">
+              <div class="col-md-6">
+                  <div class="card card-default">
+                    <div class="card-header">
+                      <h4 class="card-title w-100">
+                        <a class="d-block w-100" data-toggle="collapse" href="#collapseOne">
+                        <i class="fas fa-book mr-1"> </i> First Year Semester #1
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                      <div class="card-body">
+                      <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
               <thead>
               <tr>
               <th>#</th><th>Code</th><th>Name</th><th>Credit</th><th>Status</th>
@@ -52,11 +61,22 @@ $this->params['breadcrumbs'] = [
              
               <?php endforeach ?>
               </table>
-              </div>
-              <div class="col-md-6">
-              <h4><p style="text-align: center;"> <span class="badge bg-primary">First Year Courses : semester 2</span></p></h4>
-
-              <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card card-default">
+                    <div class="card-header">
+                      <h4 class="card-title w-100">
+                        <a class="d-block w-100" data-toggle="collapse" href="#collapseOne1">
+                        <i class="fas fa-book mr-1"> </i>First Year Semester #2
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseOne1" class="collapse show" data-parent="#accordion">
+                      <div class="card-body">
+                      <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
               <thead>
               <tr>
               <th width="1%">#</th><th width="10%">Code</th><th>Name</th><th>Credit</th><th>Status</th>
@@ -82,13 +102,24 @@ $this->params['breadcrumbs'] = [
                 <?php endif; ?>
               <?php endforeach ?>
               </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-             </div>
-
-             <div class="row">
-             <div class="col-md-6">
-             <h4><p style="text-align: center;"> <span class="badge bg-warning">Second Year Courses : semester 1</span></p></h4>
-              <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+              <div class="row">
+              <div class="col-md-6">
+                  <div class="card card-default">
+                    <div class="card-header">
+                      <h4 class="card-title w-100">
+                        <a class="d-block w-100" data-toggle="collapse" href="#collapseTwo">
+                        <i class="fas fa-book mr-1"> </i>Second Year Semester #1
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseTwo" class="collapse show" data-parent="#accordion">
+                      <div class="card-body">
+                      <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
               <thead>
               <tr>
               <th width="1%">#</th><th width="10%">Code</th><th>Name</th><th>Credit</th><th>Status</th>
@@ -111,13 +142,25 @@ $this->params['breadcrumbs'] = [
                   </tr> 
                   </tbody>
                  
-                  <?php endif; ?>
+                <?php endif; ?>
               <?php endforeach ?>
               </table>
-              </div>
-              <div class="col-md-6">
-             <h4><p style="text-align: center;"> <span class="badge bg-warning">Second Year Courses : semester 2</span></p></h4>
-              <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card card-default">
+                    <div class="card-header">
+                      <h4 class="card-title w-100">
+                        <a class="d-block w-100" data-toggle="collapse" href="#collapseTwo2">
+                        <i class="fas fa-book mr-1"> </i>Second Year Semester #2
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseTwo2" class="collapse show" data-parent="#accordion">
+                      <div class="card-body">
+                      <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
               <thead>
               <tr>
               <th width="1%">#</th><th width="10%">Code</th><th>Name</th><th>Credit</th><th>Status</th>
@@ -143,13 +186,24 @@ $this->params['breadcrumbs'] = [
                   <?php endif; ?>
               <?php endforeach ?>
               </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-             </div>
-
-             <div class="row">
-             <div class="col-md-6">
-             <h4><p style="text-align: center;"> <span class="badge bg-success">Third Year Courses : semester 1</span></p></h4>
-              <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+              <div class="row">
+              <div class="col-md-6">
+                  <div class="card card-default">
+                    <div class="card-header">
+                      <h4 class="card-title w-100">
+                        <a class="d-block w-100" data-toggle="collapse" href="#collapseThree">
+                        <i class="fas fa-book mr-1"> </i>Third Year Semester #1
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseThree" class="collapse show" data-parent="#accordion">
+                      <div class="card-body">
+                      <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
               <thead>
               <tr>
               <th width="1%">#</th><th width="10%">Code</th><th>Name</th><th>Credit</th><th>Status</th>
@@ -173,12 +227,24 @@ $this->params['breadcrumbs'] = [
                   </tbody>
                  
                   <?php endif; ?>
-              <?php endforeach; ?>
+              <?php endforeach ?>
               </table>
-              </div>
-              <div class="col-md-6">
-             <h4><p style="text-align: center;"> <span class="badge bg-success">Third Year Courses : semester 2</span></p></h4>
-              <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card card-default">
+                    <div class="card-header">
+                      <h4 class="card-title w-100">
+                        <a class="d-block w-100" data-toggle="collapse" href="#collapseThree3">
+                        <i class="fas fa-book mr-1"> </i>Third Year Semester #2
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseThree3" class="collapse show" data-parent="#accordion">
+                      <div class="card-body">
+                      <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
               <thead>
               <tr>
               <th width="1%">#</th><th width="10%">Code</th><th>Name</th><th>Credit</th><th>Status</th>
@@ -202,11 +268,182 @@ $this->params['breadcrumbs'] = [
                   </tbody>
                  
                   <?php endif; ?>
-              <?php endforeach; ?>
+              <?php endforeach ?>
               </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-             </div>
-              </div><!-- /.card-body -->
+              <div class="row">
+              <div class="col-md-6">
+                  <div class="card card-default">
+                    <div class="card-header">
+                      <h4 class="card-title w-100">
+                        <a class="d-block w-100" data-toggle="collapse" href="#collapseFour">
+                        <i class="fas fa-book mr-1"> </i>Fourth Year Semester #1
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseFour" class="collapse show" data-parent="#accordion">
+                      <div class="card-body">
+                      <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+              <thead>
+              <tr>
+              <th width="1%">#</th><th width="10%">Code</th><th>Name</th><th>Credit</th><th>Status</th>
+              </tr>
+              </thead>
+            
+              <?php foreach($courses4 as $key =>$courses): ?>
+                <?php 
+                if($courses->course_semester == 1):
+                ?>
+              
+                  <tbody>
+                  <?php $i=0; ?>
+                  <tr>
+                  <td><?= $key = $key + 1 ?></td>
+                  <td><?= $courses->course_code ?> </td>
+                  <td><?= $courses->course_name ?> </td>
+                  <td><?= $courses->course_credit ?> </td>
+                  <td><?= strtoupper( $courses->course_status ) ?> </td>
+                  </tr> 
+                  </tbody>
+                 
+                  <?php endif; ?>
+              <?php endforeach ?>
+              </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card card-default">
+                    <div class="card-header">
+                      <h4 class="card-title w-100">
+                        <a class="d-block w-100" data-toggle="collapse" href="#collapseFour4">
+                        <i class="fas fa-book mr-1"> </i>Fourth Year Semester #2
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseFour4" class="collapse show" data-parent="#accordion">
+                      <div class="card-body">
+                      <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+              <thead>
+              <tr>
+              <th width="1%">#</th><th width="10%">Code</th><th>Name</th><th>Credit</th><th>Status</th>
+              </tr>
+              </thead>
+            
+              <?php foreach($courses4 as $key =>$courses): ?>
+                <?php 
+                if($courses->course_semester == 2):
+                ?>
+              
+                  <tbody>
+                  <?php $i=0; ?>
+                  <tr>
+                  <td><?= $key = $key + 1 ?></td>
+                  <td><?= $courses->course_code ?> </td>
+                  <td><?= $courses->course_name ?> </td>
+                  <td><?= $courses->course_credit ?> </td>
+                  <td><?= strtoupper( $courses->course_status ) ?> </td>
+                  </tr> 
+                  </tbody>
+                 
+                  <?php endif; ?>
+              <?php endforeach ?>
+              </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+              <div class="col-md-6">
+                  <div class="card card-default">
+                    <div class="card-header">
+                      <h4 class="card-title w-100">
+                        <a class="d-block w-100" data-toggle="collapse" href="#collapseFive">
+                        <i class="fas fa-book mr-1"> </i>Fifth Year Semester #1
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseFive" class="collapse show" data-parent="#accordion">
+                      <div class="card-body">
+                      <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+              <thead>
+              <tr>
+              <th width="1%">#</th><th width="10%">Code</th><th>Name</th><th>Credit</th><th>Status</th>
+              </tr>
+              </thead>
+            
+              <?php foreach($courses5 as $key =>$courses): ?>
+                <?php 
+                if($courses->course_semester == 1):
+                ?>
+              
+                  <tbody>
+                  <?php $i=0; ?>
+                  <tr>
+                  <td><?= $key = $key + 1 ?></td>
+                  <td><?= $courses->course_code ?> </td>
+                  <td><?= $courses->course_name ?> </td>
+                  <td><?= $courses->course_credit ?> </td>
+                  <td><?= strtoupper( $courses->course_status ) ?> </td>
+                  </tr> 
+                  </tbody>
+                 
+                  <?php endif; ?>
+              <?php endforeach ?>
+              </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card card-default">
+                    <div class="card-header">
+                      <h4 class="card-title w-100">
+                        <a class="d-block w-100" data-toggle="collapse" href="#collapseFive5">
+                        <i class="fas fa-book mr-1"> </i>Fifth Year Semester #2
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseFive5" class="collapse show" data-parent="#accordion">
+                      <div class="card-body">
+                      <table class="table table-bordered table-striped" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
+              <thead>
+              <tr>
+              <th width="1%">#</th><th width="10%">Code</th><th>Name</th><th>Credit</th><th>Status</th>
+              </tr>
+              </thead>
+            
+              <?php foreach($courses5 as $key =>$courses): ?>
+                <?php 
+                if($courses->course_semester == 2):
+                ?>
+              
+                  <tbody>
+                  <?php $i=0; ?>
+                  <tr>
+                  <td><?= $key = $key + 1 ?></td>
+                  <td><?= $courses->course_code ?> </td>
+                  <td><?= $courses->course_name ?> </td>
+                  <td><?= $courses->course_credit ?> </td>
+                  <td><?= strtoupper( $courses->course_status ) ?> </td>
+                  </tr> 
+                  </tbody>
+                 
+                  <?php endif; ?>
+              <?php endforeach ?>
+              </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                </div>
           
 
           </section>
