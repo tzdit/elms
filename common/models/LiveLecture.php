@@ -18,6 +18,7 @@ use Yii;
  * @property int|null $lateEntryMaxTime
  * @property string $status
  * @property int $yearID
+ * @property string $announcementdate
  *
  * @property Lectureroominfo $lectureroominfos
  * @property Course $courseCode
@@ -129,5 +130,15 @@ class LiveLecture extends \yii\db\ActiveRecord
     public function getStudentLectures()
     {
         return $this->hasMany(StudentLecture::className(), ['lectureID' => 'lectureID']);
+    }
+
+    public function isNew()
+    {
+        date_default_timezone_set('Africa/Dar_es_Salaam');
+        $time=strtotime($this->announcementdate);
+        $lastlogin=yii::$app->user->identity->last_login;
+        $lastlogin=strtotime($lastlogin);
+
+        return $lastlogin<$time;
     }
 }

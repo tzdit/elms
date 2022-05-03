@@ -143,7 +143,7 @@ public function actionNewSession()
   $return=$lectureroommanager->holdRoomState();
   if($return===true)
   {
-    Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i>" Session Created successfully');
+    Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> Session Created successfully');
     return $this->redirect('lecture-room');
 
 

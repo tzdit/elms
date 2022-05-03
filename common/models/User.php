@@ -26,6 +26,7 @@ use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ * @property string $last_login
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -247,5 +248,29 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->validatePassword("123456");
     }
+
+    public function saveLastLogin()
+    {
+        date_default_timezone_set('Africa/Dar_es_Salaam');
+        $this->last_login=date('Y-m-d h:i:s');
+
+        try
+        {
+            if($this->save())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch(\Exception $t)
+        {
+            throw $t;
+        }
+    }
+
+   
 
 }

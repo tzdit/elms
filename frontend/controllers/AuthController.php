@@ -85,6 +85,9 @@ class AuthController extends \yii\web\Controller
            $user=yii::$app->user->identity;
            (new Session())->setDbSession($user);
 
+           //last login
+            
+            
 
            return $this->redirect(['/home/dashboard']);
      }
@@ -105,6 +108,7 @@ class AuthController extends \yii\web\Controller
              $session->destroy();
          }
         (new Session())->clearDbSession(); //clearing db sessions too
+        $saved=yii::$app->user->identity->saveLastLogin();
         Yii::$app->user->logout();
         
         return $this->redirect(['auth/login']);

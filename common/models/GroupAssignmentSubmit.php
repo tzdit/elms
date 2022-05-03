@@ -133,4 +133,14 @@ class GroupAssignmentSubmit extends \yii\db\ActiveRecord
         }
        
     }
+
+    public function isSigned()
+    {
+        $regno=yii::$app->user->identity->student->reg_no;
+        $signed=SubmitSignatures::find()->where(['submitID'=>$this->submitID,'reg_no'=>$regno])->one();
+
+        return $signed!=null;
+    }
+
+  
 }

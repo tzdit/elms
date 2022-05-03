@@ -23,6 +23,7 @@ use Yii;
  * @property string|null $fileName
  * @property int $yearID
  * @property string $status
+ * @property string $create_time
  *
  * @property Course $courseCode
  * @property Instructor $instructor
@@ -307,6 +308,16 @@ class Assignment extends \yii\db\ActiveRecord
       $today=date('Y-m-d H:i:s');
 
       return $this->finishDate<$today;
+    }
+
+    public function isNew()
+    {
+        date_default_timezone_set('Africa/Dar_es_Salaam');
+        $time=strtotime($this->create_time);
+        $lastlogin=yii::$app->user->identity->last_login;
+        $lastlogin=strtotime($lastlogin);
+
+        return $lastlogin<$time;
     }
 
 }

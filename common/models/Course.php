@@ -222,4 +222,94 @@ class Course extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Student::className(), ['reg_no' => 'reg_no'])->viaTable('student_course', ['course_code' => 'course_code']);
     }
+
+    public function NewAnnouncemntsCount()
+    {
+        $announcements=$this->announcements;
+
+        foreach($announcements as $key=>$announcement)
+        {
+            if(!$announcement->isNew())
+            {
+              unset($announcements[$key]);
+              continue;
+            }
+            else
+            {
+                continue;
+            }
+        }
+
+        return count($announcements);
+    }
+
+    public function newAssignmentsCount()
+    {
+        $assignments=$this->assignments;
+
+        foreach($assignments as $key=>$assignment)
+        {
+            if(!$assignment->isNew())
+            {
+              unset($assignments[$key]);
+              continue;
+            }
+            else
+            {
+                continue;
+            }
+        }
+
+        return count($assignments); 
+    }
+
+    public function newLecturesCount()
+    {
+        $lectures=$this->liveLectures;
+
+        foreach($lectures as $key=>$lecture)
+        {
+            if(!$lecture->isNew())
+            {
+              unset($lectures[$key]);
+              continue;
+            }
+            else
+            {
+                continue;
+            }
+        }
+
+        return count($lectures); 
+    }
+
+    public function newMaterialsCount()
+    {
+        $modules=$this->modules;
+        $materialscount=0;
+        foreach($modules as $key=>$module)
+        {
+            $materials=$module->materials;
+
+            foreach($materials as $material)
+            {
+            if($material->isNew())
+            {
+              $materialscount++;
+              continue;
+            }
+            else
+            {
+                continue;
+            }
+            }
+        }
+
+        return $materialscount;
+}
+
+    public function getNewsCount()
+    {
+        return $this->NewAnnouncemntsCount()+$this->newAssignmentsCount()+$this->newMaterialsCount()+$this->newLecturesCount();
+    }
 }

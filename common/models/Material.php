@@ -128,7 +128,7 @@ class Material extends \yii\db\ActiveRecord
     function getVideoAndNotesLink($file_name){
 
         $document_path = Yii::getAlias('@frontend/web/storage/temp/'.$file_name );
-        $video_path = 'http://civeclassroom.udom.ac.tz/storage/temp/'.$file_name;
+        $video_path = 'https://civeclassroom.udom.ac.tz/storage/temp/'.$file_name;
         if(file_exists($document_path)){
             return $video_path;
         }
@@ -136,5 +136,15 @@ class Material extends \yii\db\ActiveRecord
         return false;
 
         
+    }
+
+    public function isNew()
+    {
+        date_default_timezone_set('Africa/Dar_es_Salaam');
+        $time=strtotime($this->upload_date.' '.$this->upload_time);
+        $lastlogin=yii::$app->user->identity->last_login;
+        $lastlogin=strtotime($lastlogin);
+
+        return $lastlogin<$time;
     }
 }
