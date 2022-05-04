@@ -168,10 +168,10 @@ $this->params['breadcrumbs'] = [
                                                 <?php
                                                 $module_count--;
                                                 ?>
-                                             </div>
-                                             </div>
+                                            </div>
                                     <?php endforeach; ?>
-                                   
+                                    
+                                             </div>
                                             
                                 </div>
                                 </div>
