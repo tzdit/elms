@@ -42,6 +42,7 @@ class AddGroup extends \yii\db\ActiveRecord
      */
     public function rules()
     {
+        date_default_timezone_set('Africa/Dar_es_Salaam');
         return [
             [['groupName'], 'required'],
             [['groupName'], 'unique'],

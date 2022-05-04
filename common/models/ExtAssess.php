@@ -110,4 +110,33 @@ class ExtAssess extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Student::className(), ['reg_no' => 'reg_no'])->viaTable('student_ext_assess', ['assessID' => 'assessID']);
     }
+
+    public function findStudentScore()
+    {
+        $student=yii::$app->user->identity->student->reg_no;
+
+        $scores=$this->studentExtAssesses;
+
+        foreach($scores as $key=>$score)
+        {
+            if($score->reg_no==$student)
+            {
+                return  $scores[$key];
+            }
+
+            continue;
+        }
+
+        return null;
+    }
+
+    public function isNew()
+    {
+        date_default_timezone_set('Africa/Dar_es_Salaam');
+        $time=strtotime($this->date_created);
+        $lastlogin=yii::$app->user->identity->last_login;
+        $lastlogin=strtotime($lastlogin);
+
+        return $lastlogin<$time;
+    }
 }

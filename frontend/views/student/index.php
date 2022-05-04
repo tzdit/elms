@@ -28,9 +28,17 @@ $this->title = 'Student Dashboard';
          
        
           <a href="<?=Url::to(['student/classwork/', 'cid'=>$cid])  ?>" class="small-box bg-info" >
+          <?php
+          $newscount=$course->getNewsCount();
+          if($newscount>0)
+          {
+          ?>
           <span class="nav-link float-right" data-toggle="dropdown" href="#" style="position:absolute;right:0">
-          <span class="badge badge-danger navbar-badge"><?=$course->getNewsCount()?></span>
+          <span class="badge badge-danger navbar-badge"><?=$newscount?></span>
         </span>
+        <?php
+          }
+        ?>
               <div class="inner">
                 <h3><?= $course->course_code ?></h3>
 

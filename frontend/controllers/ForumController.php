@@ -188,7 +188,8 @@ class ForumController extends \yii\web\Controller
             }
 
            $model->answer_content = $model->answer_content;
-           $model->time_added = date('Y-m-d H:i:s');
+           date_default_timezone_set('Africa/Dar_es_Salaam');
+           $model->time_added = date('Y-m-d h:i:s');
            $model->user_id = Yii::$app->user->identity->getId();
            $model->question_id = $question_id;
            $model->code = $purifier->process($model->code);
@@ -216,7 +217,8 @@ class ForumController extends \yii\web\Controller
         if ($model1->load(Yii::$app->request->post())){
             $model1->comment_content = $model1->comment_content;
             $model1->comment_type = 1;
-            $model1->time_added = date('Y-m-d H:i:s');
+            date_default_timezone_set('Africa/Dar_es_Salaam');
+            $model1->time_added = date('Y-m-d h:i:s');
             $model1->user_id = Yii::$app->user->identity->getId();
             $model1->answer_id = $model1->answer_id;
 

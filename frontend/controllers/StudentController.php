@@ -39,6 +39,8 @@ use frontend\models\CourseStudents;
 use common\models\GroupGenerationTypes;
 use frontend\models\ReceiptManager;
 use common\models\SubmitSignatures;
+use common\models\ExtAssess;
+use common\models\StudentExtAssess;
 
 class StudentController extends \yii\web\Controller
 {
@@ -63,7 +65,7 @@ class StudentController extends \yii\web\Controller
                             'group-assignment','labs','tutorial','course-materials','returned',
                             'course-announcement','quiz','student-group','add-group-member', 'create-group','classmates','my-ca',
                             'view-normal-assignments', 'view-normal-labs', 'group-management','group-management-view',
-                            'remove-student-from-group','add-students-to-group','download-receipt','exit-group','sign-submit'
+                            'remove-student-from-group','add-students-to-group','download-receipt','exit-group','sign-submit','externals'
                         ],
                         
 
@@ -1029,7 +1031,7 @@ public function actionClasswork($cid){
         if($model->load(Yii::$app->request->post())&& $model->save()){
        
             
-            Yii::$app->session->setFlash('success', 'group added successfully');
+            Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> Group added successfully');
 
             return $this->redirect(Yii::$app->request->referrer);
        
@@ -1038,7 +1040,7 @@ public function actionClasswork($cid){
           
         }
         catch(\Exception $e){
-    Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+    Yii::$app->session->setFlash('error', 'Something went wrong');
 
         }
 
@@ -1430,6 +1432,17 @@ public function actionClasswork($cid){
             Yii::$app->session->setFlash('error', "<i class='fa fa-exclamation-triangle'></i> Could not sign this submitted !, try again later");
             return $this->redirect(Yii::$app->request->referrer);
         }
+    }
+
+    public function actionExternals()
+    {
+        $course=yii::$app->session->get("ccode");
+        $student=yii::$app->user->identity->student->reg_no;
+        $Externals=ExtAssess::find()->where(['course_code'=>$course])->all();
+
+       
+
+        return $this->render("externals",['externals'=>$Externals]);
     }
 
 

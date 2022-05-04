@@ -30,6 +30,7 @@ use Yii;
  * @property ProgramCourse[] $programCourses
  * @property StudentCourse[] $studentCourses
  * @property Student[] $regNos
+ * @property ForumQnTag[] forumQnTags
  */
 class Course extends \yii\db\ActiveRecord
 {
@@ -121,6 +122,11 @@ class Course extends \yii\db\ActiveRecord
     public function getExtAssesses()
     {
         return $this->hasMany(ExtAssess::className(), ['course_code' => 'course_code']);
+    }
+
+    public function getForumQnTags()
+    {
+        return $this->hasMany(ForumQnTag::className(), ['course_code' => 'course_code']);
     }
 
     /**
@@ -263,6 +269,67 @@ class Course extends \yii\db\ActiveRecord
         return count($assignments); 
     }
 
+    
+    public function newGroupAssignmentsCount()
+    {
+        $assignments=$this->assignments;
+
+        foreach($assignments as $key=>$assignment)
+        {
+            if(!$assignment->isNew() || ($assignment->assType!="allgroups" && $assignment->assType!="groups" ))
+            {
+              unset($assignments[$key]);
+              continue;
+            }
+            else
+            {
+                continue;
+            }
+        }
+
+        return count($assignments); 
+    }
+
+    public function newIndividualAssignmentsCount()
+    {
+        $assignments=$this->assignments;
+
+        foreach($assignments as $key=>$assignment)
+        {
+            if(!$assignment->isNew() || ($assignment->assType!="allstudents" && $assignment->assType!="students" ))
+            {
+              unset($assignments[$key]);
+              continue;
+            }
+            else
+            {
+                continue;
+            }
+        }
+
+        return count($assignments); 
+    }
+
+    public function newtutorialsCount()
+    {
+        $assignments=$this->assignments;
+
+        foreach($assignments as $key=>$assignment)
+        {
+            if(!$assignment->isNew() || $assignment->assNature!="tutorial")
+            {
+              unset($assignments[$key]);
+              continue;
+            }
+            else
+            {
+                continue;
+            }
+        }
+
+        return count($assignments); 
+    }
+
     public function newLecturesCount()
     {
         $lectures=$this->liveLectures;
@@ -307,9 +374,101 @@ class Course extends \yii\db\ActiveRecord
 
         return $materialscount;
 }
+public function newGroupsCount()
+{
+    $groupgens=$this->groupGenerationTypes;
+    $student=yii::$app->user->identity->student->reg_no;
+    $groupscount=0;
+    foreach( $groupgens as $genkey=>$groupgen)
+    {
+ 
+     $groups=$groupgen->groups;
+    foreach($groups as $key=>$group)
+    {
+        if(!$group->isMember($student))
+        {
+          continue;
+        }
+        else
+        {
+            foreach($group->studentGroups as $gkey=>$studentGroup)
+            {
+                if(!$studentGroup->isNew() || $studentGroup->reg_no!=$student)
+                {
+                    continue;
+                }
+                else
+                {
+                    $groupscount++;
+                }
+            }
+            
+           
+        }
+    }
+  }
+
+    return $groupscount; 
+}
+
+public function NewExtAssessCount()
+{
+    $assessments=$this->extAssesses;
+
+    foreach($assessments as $key=>$assessment)
+    {
+        if(!$assessment->isNew())
+        {
+          unset($assessments[$key]);
+          continue;
+        }
+        else
+        {
+            continue;
+        }
+    }
+
+    return count($assessments);
+}
+
+public function newInForumCount()
+{
+    $forumTags=$this->forumQnTags;
+    $fcount=0;
+    foreach($forumTags as $key=>$forumTag)
+    {
+        $question=$forumTag->question;
+
+        if($question->isNew())
+        {
+          $fcount++;
+          $fcount+=$question->newComments()+$question->newAnswers();
+
+          $questionAnswers=$question->forumAnswers;
+  
+          foreach($questionAnswers as $key=>$questionAnswer)
+          {
+              $fcount+=$questionAnswer->newComments();
+          }
+
+          continue;
+        }
+
+        $fcount+=$question->newComments()+$question->newAnswers();
+
+        $questionAnswers=$question->forumAnswers;
+
+        foreach($questionAnswers as $key=>$questionAnswer)
+        {
+            $fcount+=$questionAnswer->newComments();
+        }
+    }
+
+    return $fcount;
+}
 
     public function getNewsCount()
     {
-        return $this->NewAnnouncemntsCount()+$this->newAssignmentsCount()+$this->newMaterialsCount()+$this->newLecturesCount();
+        return $this->NewAnnouncemntsCount()+$this->newAssignmentsCount()+$this->newMaterialsCount()+$this->newLecturesCount()+$this->newGroupsCount()+$this->NewExtAssessCount()+$this->newInForumCount();
     }
 }

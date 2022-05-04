@@ -9,7 +9,7 @@ use common\models\GroupAssignment;
 use common\models\StudentAssignment;
 class UploadLab extends Model{
     public $assTitle;
-    public $submitMode;
+    public $submitMode="resubmit";
     public $assType;
     public $endTime;
     public $endDate;
@@ -68,6 +68,8 @@ class UploadLab extends Model{
         $ass->instructorID = Yii::$app->user->identity->instructor->instructorID;
         $ass->total_marks = $this->totalMarks;
         $ass->status="notpublished";
+        date_default_timezone_set('Africa/Dar_es_Salaam');
+        $ass->create_time=date('Y-m-d h:i:s');
         $ass->course_code =Yii::$app->session->get('ccode');
         
         if(!$ass->save()){

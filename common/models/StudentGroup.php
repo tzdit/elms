@@ -10,6 +10,7 @@ use Yii;
  * @property int $SG_ID
  * @property string|null $reg_no
  * @property int|null $groupID
+ * @property string add_date
  *
  * @property Groups $group
  * @property Student $regNo
@@ -84,5 +85,14 @@ class StudentGroup extends \yii\db\ActiveRecord
     public static function find()
     {
         return new StudentGroupQuery(get_called_class());
+    }
+    public function isNew()
+    {
+        date_default_timezone_set('Africa/Dar_es_Salaam');
+        $time=strtotime($this->add_date);
+        $lastlogin=yii::$app->user->identity->last_login;
+        $lastlogin=strtotime($lastlogin);
+
+        return $lastlogin<$time;
     }
 }

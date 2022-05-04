@@ -105,4 +105,54 @@ class ForumQuestion extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    public function isNew()
+    {
+        date_default_timezone_set('Africa/Dar_es_Salaam');
+        $time=strtotime($this->time_add);
+        $lastlogin=yii::$app->user->identity->last_login;
+        $lastlogin=strtotime($lastlogin);
+
+        return $lastlogin<$time;
+    }
+
+    public function newAnswers()
+    {
+        $answers=$this->forumAnswers;
+
+        foreach($answers as $key=>$answer)
+        {
+            if(!$answer->isNew())
+            {
+              unset($answers[$key]);
+              continue;
+            }
+            else
+            {
+                continue;
+            }
+        }
+
+        return count($answers);
+    }
+
+    public function newComments()
+    {
+        $comments=$this->forumComments;
+
+        foreach($comments as $key=>$comment)
+        {
+            if(!$comment->isNew())
+            {
+              unset($comments[$key]);
+              continue;
+            }
+            else
+            {
+                continue;
+            }
+        }
+
+        return count($comments);
+    }
 }

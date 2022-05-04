@@ -14,13 +14,15 @@ use frontend\models\AddPartner;
 
 /* @var $this yii\web\View */
 $cid=yii::$app->session->get('ccode');
-$this->params['courseTitle'] ='<img src="/img/ca3.png" height="25px" width="25px"/> '.$cid. " CAs";
-$this->title = $cid. " CAs";
+$this->params['courseTitle'] ='<img src="/img/external.png" height="25px" width="25px"/> '.$cid. " Externals";
+$this->title ="Externals";
 $this->params['breadcrumbs'] = [
   ['label'=>$cid." Dashboard", 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
   ['label'=>$this->title]
 ];
 ///////////////////////////////////////
+
+
 ?>
  
 
@@ -49,45 +51,56 @@ $this->params['breadcrumbs'] = [
                   <div class="tab-content" id="custom-tabs-four-tabContent">
                                 <!-- ########################################### Course materials ######################################## -->
                              <?php 
-                             if($myca==null || empty($myca))
+                             if($externals==null || empty($externals))
                              {
                               ?>
-                              <div class="jumbotron"><i class="fa fa-info-circle"></i> No published CA</div>
+                              <div class="jumbotron"><i class="fa fa-info-circle"></i> No published External Assessment</div>
                               <?php
                              }
                              else
                              {
                               ?>
                                 <div class="accordion" id="accordionExample_3">
-                                    <?php foreach( $myca as $index=>$ca ) : ?>
+                                    <?php foreach( $externals as $index=>$external ) : ?>
                                       
                                             <div class="card shadow-lg">
-                                                <div class="card-header p-2" id="heading<?=$index?>" data-toggle="collapse" data-target="#collapse<?=$index?>" aria-expanded="true" aria-controls="collapse<?=$index?>">
+                                                <div class="card-header p-2">
                                                     <h2 class="mb-0">
                                                         <div class="row ">
                                                             <div class="col-sm-11">
                                                                 <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$index?>" aria-expanded="true" aria-controls="collapse<?=$index?>">
-                                                                 <?=$index?>
+                                                                 <?=$external->title?>
                                                                 </button>
                                                                 <div class="col d-flex justify-content-center">
-                                                                <div class="card shadow text-center" style="width:40%" data-toggle="collapse" data-target="#collapse<?=$index?>" aria-expanded="true" aria-controls="collapse<?=$index?>">
+                                                                <div class="card shadow text-center" style="width:40%" >
                                                                   <div class="card-header">
-                                                                    <?php if($ca['grandscore']=="Inc" || (($ca['grandscore']*40)/$ca['grandmax'])<15.5)
+                                                                    <?php 
+
+                                                                    $studentscore=$external->findStudentScore();
+                                                                    if($studentscore==null){
+                                                                    ?>
+                                                                    <span class="text-danger" data-toggle="tooltip" data-title="Assessment Failed">Inc</span>
+                                                                    <?php
+                                                                     } 
+                                                                     else
+                                                                     { 
+                                                                    if((($studentscore->score*40)/$external->total_marks)<15.5)
                                                                     {
                                                                       ?>
-                                                                        <span class="text-danger" data-toggle="tooltip" data-title="Course Failed"><?=$ca['grandscore']?></span>
+                                                                        <span class="text-danger" data-toggle="tooltip" data-title="Assessment Failed"><?=$studentscore->score?></span>
                                                                       <?php
                                                                     }
                                                                     else
                                                                     {
                                                                       ?>
-                                                                      <span class="text-success " data-toggle="tooltip" data-title="Course succeeded"><?=$ca['grandscore']?></span>
+                                                                      <span class="text-success " data-toggle="tooltip" data-title="Assessment succeeded"><?=$studentscore->score?></span>
                                                                       <?php
                                                                     }
+                                                                  }
                                                                       ?>
                                                                   </div>
                                                                   <div class="card-body">
-                                                                  <?=$ca['grandmax']?>
+                                                                  <?=$external->total_marks?>
                                                                   </div>
                                                                  </div></div>
                                                             </div>
@@ -96,20 +109,9 @@ $this->params['breadcrumbs'] = [
                                                             </div>
                                                         </div>
                                                     </h2>
-                                                </div>
+                                                </div></div>
 
-            <div id="collapse<?=$index?>" class="collapse" aria-labelledby="heading<?=$index?>" data-parent="#accordionExample_3">
-
-
-
-                <div class="card-body" >
-
-                    <?=$ca['details']?>
-                  </div>
-                        </div>
-
-
-            </div>
+          
           
       
 
@@ -160,45 +162,7 @@ $(document).ready(function(){
   //});
   
   $('#studenttable').DataTable( );
-$('.partnerdel').click(function(w){
 
- w.preventDefault();
-var partner=$(this).attr('id');
-  Swal.fire({
-  text: "remove this partner from this course",
-  icon: 'question',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes, remove!'
-}).then((result) => {
-  if (result.isConfirmed) {
- 
-    $.ajax({
-      url:'/instructor/remove-partner',
-      method:'get',
-      async:false,
-      dataType:'JSON',
-      data:{partner:partner},
-      success:function(data){
-        if(data.message){
-          Swal.fire(
-              '',
-              data.message,
-              'success'
-    )
-    setTimeout(function(){
-      window.location.reload();
-    },100);
-   
-
-        }
-      }
-    })
-   
-  }
-})
-})
 })
 
 JS;

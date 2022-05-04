@@ -10,7 +10,7 @@ class UploadTutorial extends Model{
     public $ccode;
     public function rules(){
         return [
-           [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, jpg, png, doc, pkt, ppt,MP4,mpg,avi, pptx, xls,xlsx'],
+           [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, jpg, png, doc,docx, pkt, ppt,MP4,mpg,avi, pptx, xls,xlsx'],
           ['assTitle','required'],
           ['description','string','max' => 1000]
 
@@ -32,6 +32,8 @@ class UploadTutorial extends Model{
         $tut->assNature = "tutorial";
         $tut->instructorID =Yii::$app->user->identity->instructor->instructorID;
         $tut->course_code =Yii::$app->session->get('ccode');
+        date_default_timezone_set('Africa/Dar_es_Salaam');
+        $tut->create_time=date('Y-m-d h:i:s');
         $extension=pathinfo($fileName,PATHINFO_EXTENSION);
         $filename=uniqid().'.'.$extension;
         $this->assFile->saveAs('storage/temp/'.$filename);

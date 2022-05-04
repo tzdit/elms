@@ -121,7 +121,9 @@ $this->params['breadcrumbs'] = [
                                                                                         <div class="row bg-primary p-2">
                                                                                          <div class="col-sm-9"> Group Members</div>
                                                                                          <div class="col-sm-3">
+                                                                                         <?php if ($group->isCreator($regno)): ?>
                                                                                     <a href="#" class="btn btn-sm btn-default shadow btn-rounded float-right mb-2" data-target="#addStudentModal<?= $item['groupID'] ?>" data-toggle="modal"><i class="fa fa-plus-circle" ></i> Add member</a>
+                                                                                    <?php endif ?>
                                                                                         </div>
                                                                                             </div>
                                                                                         <!-- -----------------------------group members ---------------------------------------->

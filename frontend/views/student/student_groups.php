@@ -47,35 +47,33 @@ $regno=yii::$app->user->identity->student->reg_no;
 
         <div class="container-fluid">
 
-            <div class="row">
-                <section class="col-lg-12">
-                        <div class="card card-primary card-outline card-outline-tabs">
-                            <div class="card-header p-0 border-bottom-0">
+          
+               
+                       <div class="row">
                                 <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true"><i class="fa fa-upload"></i> Submit Assignment</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-danger" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false"><i class="fa fa-exclamation-triangle"></i> Assignments Missing Groups</a>
+                                        <a class="nav-link text-danger" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false"><i class="fa fa-exclamation-triangle"></i> Missing Groups</a>
                                     </li>
                                 </ul>
+</div>
+                          
 
-                            </div>
-
-                            <div class="card-body">
                                 <div class="tab-content" id="custom-tabs-four-tabContent">
                                     <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">
-                                        <div class="card-body" >
+                                        <div class="card-body p-0" >
                                             <div class="tab-content" id="custom-tabs-four-tabContent">
 
 
                                                 <!-- ########################################### group by  instructor ######################################## -->
 
                                                 <!-- Left col -->
-                                                <section class="col-lg-12">
+                                                <section class="col-lg-12 p-0">
 
 
-                                                        <div class="card-body" >
+                                                        <div class="card-body p-1 m-1 pt-3" >
                                                             <div class="tab-content" id="custom-tabs-four-tabContent">
 
                                                                 <?php
@@ -251,7 +249,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                                         $submitedAll = GroupAssSubmit::find()->where('groupID = :groupID AND assID = :assID', [ ':groupID' => $assignmentAllItem['groupID'],':assID' => $assignmentAllItem['assID']])->asArray()->one();
                                                                                                         ?>
 
-                                                                                            <div class="card-footer p-2 material-background mt-3 border-top border-bottom">
+                                                                                            <div class=" card-footer p-2 material-background mt-3 border-top border-bottom">
                                                                                             <?php
                                                                                                      if($submitedAll!=null):
                                                                                                       if(!GroupAssignmentSubmit::findOne($submitedAll['submitID'])->isSigned()):
@@ -301,7 +299,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                                        
 
                                                                                                         <?php if($isOutOfDeadline == true){?>
-                                                                                                                <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
+                                                                                                                <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></a>
                                                                                       <?php }else{?>
                                                                                         <?php if($submitedAll==null){?>
                                                                                             <a href="<?= Url::toRoute(['/student/group_assignment_submit','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID']), 'groupID' => ClassRoomSecurity::encrypt($assignmentAllItem['groupID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
@@ -329,11 +327,12 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                                         
                                                                                                     </div>
                                                                                                 </div>
-                                                                                            </div>
+                                                                                                </div>
+                                                                                            
 
                                                                                         <?php endforeach; endif;?>
                                                                                 
-<!--end of displaying assignment-->
+                                                                                        <!--end of displaying assignment--> 
                                                                                     <?php
                                                                                     $studentList = StudentGroup::find()->select('student.fname, student.mname, student.lname, student.reg_no, student.programCode, student.phone ')->join('INNER JOIN', 'student', 'student.reg_no = student_group.reg_no')->where('groupID = :groupID ', [':groupID' => $item['groupID']])->asArray()->all();
                                                                                     ?>
@@ -348,23 +347,23 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                             </div>
                                                                                         <?php endforeach; ?>
                                                                                     </div>
-
-
+                                                                                   
+                                                                                   
                                                                                 </div>
 
                                                                             </div>
                                                                             <?php
                                                                             $count--;
                                                                             ?>
-                                                                        </div>
-
+                                                                      
+                                                                       
                                                                     <?php endforeach; ?>
-                                                                
+                                                                   
                                                             </div>
                                                             <!-- ########################################### GROUPS END ######################################## -->
                                                         </div>
-
-
+                                                        
+                                                        </div>                  
 
                                                 </section>
                                                 <!-- ########################################### group by instructor end ######################################## -->
@@ -391,19 +390,21 @@ $regno=yii::$app->user->identity->student->reg_no;
 
 
 
+                                                 
 
 
 
-<!--                                                                                                            --><?php
-//                                                                                                            echo '<pre>';
-//                                                                                                            var_dump($noGroupAssignment);
-//                                                                                                            echo '</pre>';
-//                                                                                                                                                     exit;
-//                                                                                                            ?>
+                                                                                                   
 
 
                                                         <div class="accordion" id="accordionExample_33">
-                                                            <?php foreach( $noGroupAssignment as $itemNoGroup ) : ?>
+                                                  
+
+                                                       
+                                                    
+                                                            <?php 
+                                                            $countmissing=0;
+                                                            foreach( $noGroupAssignment as $itemNoGroup ) { ?>
 
 
                                                                  <?php
@@ -425,7 +426,9 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                     );
                                                                 ?>
 
-                                                                <?php if ($checkGroup == 0): ?>
+                                                                <?php if ($checkGroup == 0){
+                                                                    $countmissing++;
+                                                                     ?>
                                                                 <div class="card">
                                                                     <div class="card shadow-lg">
                                                                         <div class="card-header p-2" id="heading<?=$noGroupAssignmentCount?>">
@@ -508,13 +511,22 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                     </div>
 
                                                                     </div>
-                                                                <?php endif; ?>
+                                                                <?php } ?>
 
                                                                 <?php
                                                                 $noGroupAssignmentCount--;
                                                                 ?>
 
-                                                            <?php endforeach; ?>
+                                                            <?php } ?>
+
+                                                            <?php if($countmissing==0)
+                                                            {
+                                                                ?>
+                                                             <span class="text-center"><i class="fa fa-info-circle"></i> No Assignments Missing Groups</div>
+
+                                                                <?php
+                                                            }
+                                                            ?>
                                                         </div>
 
                                                     </section>
@@ -525,12 +537,12 @@ $regno=yii::$app->user->identity->student->reg_no;
                                     </div>
                                 </div>
 
-                    </section>
-            </div>
+                  
+           
         </div>
     </div><!--/. container-fluid -->
 </div>
-</div>
+
 
 
 

@@ -97,4 +97,37 @@ class ForumAnswer extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ForumComment::className(), ['answer_id' => 'answer_id']);
     }
+
+    public function isNew()
+    {
+        date_default_timezone_set('Africa/Dar_es_Salaam');
+        $time=strtotime($this->time_added);
+        $lastlogin=yii::$app->user->identity->last_login;
+        $lastlogin=strtotime($lastlogin);
+
+        return $lastlogin<$time;
+    }
+
+    
+    public function newComments()
+    {
+        $comments=$this->forumComments;
+
+        foreach($comments as $key=>$comment)
+        {
+            if(!$comment->isNew())
+            {
+              unset($comments[$key]);
+              continue;
+            }
+            else
+            {
+                continue;
+            }
+        }
+
+        return count($comments);
+    }
+
+  
 }

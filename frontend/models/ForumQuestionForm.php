@@ -65,8 +65,8 @@ class ForumQuestionForm extends Model
                 $path = Yii::$app->params['uploadPath'] . $this->fileName;
                 $this->imageSave->saveAs($path);
             }
-
-            $question->time_add = date('Y-m-d H:i:s');
+            date_default_timezone_set('Africa/Dar_es_Salaam');
+            $question->time_add = date('Y-m-d h:i:s');
             $question->question_tittle = $this->question_tittle;
             $question->question_desc = $this->question_desc;
             $question->user_id = Yii::$app->user->identity->getId();
