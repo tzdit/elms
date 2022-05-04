@@ -164,13 +164,15 @@ $this->params['breadcrumbs'] = [
                                                     <?php endforeach; ?>
                                                     </div>
 
-                                                </div>
+                                                
                                                 <?php
                                                 $module_count--;
                                                 ?>
-                                            </div>
-
+                                             </div>
+                                             </div>
                                     <?php endforeach; ?>
+                                   
+                                            
                                 </div>
                                 </div>
                                 <!-- ########################################### Course materials end ######################################## -->
