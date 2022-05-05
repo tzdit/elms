@@ -439,12 +439,12 @@ $regno=yii::$app->user->identity->student->reg_no;
 
                                                                                             <div class="row">
                                                                                                 <div class="col-sm-6">
-                                                                                                    <h4><img src="<?= Yii::getAlias('@web/img/groupWork.png') ?>" width="40" height="40" class="mt-1"> <span class="assignment-header "><?php echo $itemNoGroup['generation_type']." ";?></span></h4>
-                                                                                                    <h6><span>Assignment Name: </span><span class="assignment-header "><?php echo $itemNoGroup['assName']." ";?></span></h6>
+                                                                                                    <h4><img src="<?= Yii::getAlias('@web/img/groupWork.png') ?>" width="40" height="40" class="mt-1"> <span class="assignment-header responsiveheader "><?php echo $itemNoGroup['generation_type']." ";?></span></h4>
+                                                                                                    <h6 class="responsivetext"><span>Assignment Name: </span><span class="assignment-header "><?php echo $itemNoGroup['assName']." ";?></span></h6>
                                                                                                 </div>
-                                                                                                <div class="col-sm-4">
-                                                                                                    <div><img src="<?= Yii::getAlias('@web/img/warning.png') ?>" width="30" height="30" class="mt-3 mr-3"><h6 class="text-danger">You do not belong to any group in this assignment !</h6></div>
-                                                                                                    <h4 class="btn btn-default btn-md shadow text-primary" data-toggle="collapse" data-target="#collapse<?=$noGroupAssignmentCount?>" aria-expanded="true" aria-controls="collapse<?=$noGroupAssignmentCount?>"><i class="fa fa-plus-circle"></i>Create Group</h4>
+                                                                                                <div class="col-sm-4 responsivetext">
+                                                                                                    <div class="responsivetext"><i class="fa fa-exclamation-triangle text-danger"></i><h6 class="text-danger responsivetext">You do not belong to any group in this assignment !</h6></div>
+                                                                                                    <h4 class="btn btn-default btn-sm shadow text-primary" data-toggle="collapse" data-target="#collapse<?=$noGroupAssignmentCount?>" aria-expanded="true" aria-controls="collapse<?=$noGroupAssignmentCount?>"><i class="fa fa-plus-circle"></i>Create Group</h4>
                                                                                                 </div>
                                                                                             </div>
 
