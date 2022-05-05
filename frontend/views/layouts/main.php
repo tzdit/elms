@@ -235,7 +235,7 @@ AppAsset::register($this);
            <?= Breadcrumbs::widget([
               'homeLink'=>['label'=>'Dashboard', 'url'=>['/home/dashboard']],
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [''],
-            'options'=>['class'=>'float-sm-right']
+            'options'=>['class'=>'float-sm-right responsivetext']
         ]) ?>
           </div><!-- /.col -->
         </div><!-- /.row -->
