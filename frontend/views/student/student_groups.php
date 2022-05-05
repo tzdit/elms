@@ -41,7 +41,7 @@ $regno=yii::$app->user->identity->student->reg_no;
 //                                                    ?>
 
 
-<div class="site-index">
+<div class="site-index responsivetext" >
     <div class="body-content">
         <!-- Content Wrapper. Contains page content -->
 

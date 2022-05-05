@@ -29,7 +29,8 @@ class AppAsset extends AssetBundle
         'plugins/pace-progress/themes/orange/pace-theme-flat-top.css',
         'plugins/sweetalert2/sweetalert2.min.css',
         'js/select2/css/select2.min.css',
-        'cs/buttons.css'
+        'css/buttons.css'
+      
         
     ];
     public $js = [
