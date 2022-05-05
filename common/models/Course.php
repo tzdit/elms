@@ -31,6 +31,7 @@ use Yii;
  * @property StudentCourse[] $studentCourses
  * @property Student[] $regNos
  * @property ForumQnTag[] forumQnTags
+ * @property Quiz[] quizzes
  */
 class Course extends \yii\db\ActiveRecord
 {
@@ -127,6 +128,11 @@ class Course extends \yii\db\ActiveRecord
     public function getForumQnTags()
     {
         return $this->hasMany(ForumQnTag::className(), ['course_code' => 'course_code']);
+    }
+
+    public function getQuizzes()
+    {
+        return $this->hasMany(Quiz::className(), ['course_code' => 'course_code']);
     }
 
     /**
@@ -247,6 +253,26 @@ class Course extends \yii\db\ActiveRecord
         }
 
         return count($announcements);
+    }
+
+    public function newQuizesCount()
+    {
+        $quizes=$this->quizzes;
+
+        foreach($quizes as $key=>$quiz)
+        {
+            if(!$quiz->isNew())
+            {
+              unset($quizes[$key]);
+              continue;
+            }
+            else
+            {
+                continue;
+            }
+        }
+
+        return count($quizes);
     }
 
     public function newAssignmentsCount()
@@ -469,6 +495,6 @@ public function newInForumCount()
 
     public function getNewsCount()
     {
-        return $this->NewAnnouncemntsCount()+$this->newAssignmentsCount()+$this->newMaterialsCount()+$this->newLecturesCount()+$this->newGroupsCount()+$this->NewExtAssessCount()+$this->newInForumCount();
+        return $this->NewAnnouncemntsCount()+$this->newAssignmentsCount()+$this->newMaterialsCount()+$this->newLecturesCount()+$this->newGroupsCount()+$this->NewExtAssessCount()+$this->newInForumCount()+$this->newQuizesCount();
     }
 }

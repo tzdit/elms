@@ -20,8 +20,8 @@ $this->params['courseTitle'] ='<img src="/img/Assignment4.png" height="30px" wid
 $this->title ='Assignment Submission';
 $this->params['breadcrumbs'] = [
     ['label'=>yii::$app->session->get("ccode").' Dashboard', 'url'=>Url::to(['/student/classwork','cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get("ccode"))])],
-    ['label'=>yii::$app->session->get("ccode").' Assignments', 'url'=>Url::to(['/student/view-normal-assignments','cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get("ccode"))])],
-    ['label'=>"Submission"]
+    ['label'=>'Assignments', 'url'=>Url::to(['/student/view-normal-assignments','cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get("ccode"))])],
+    ['label'=>"Submit"]
   ];
 ?>
 <div class="changePassword">

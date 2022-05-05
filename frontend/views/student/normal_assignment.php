@@ -21,7 +21,7 @@ use yii\helpers\VarDumper;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] ='<img src="/img/Assignment4.png" height="30px" width="29px"/> '.$cid. ' Individual Assignments';
-$this->title ='Individual Assignments';
+$this->title ='Indiv. Work';
 $this->params['breadcrumbs'] = [
     ['label'=>$cid.' dashboard', 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
     ['label'=>$this->title]
@@ -34,19 +34,19 @@ $this->params['breadcrumbs'] = [
         <!-- Content Wrapper. Contains page content -->
 
         <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-12">
+  
             <!-- Custom Tabs -->
-            <div class="card">
-              <div class="card-header d-flex p-0">
-                
-                <ul class="nav nav-pills p-2">
-                  <li class="nav-item"  ><a class="nav-link active" href="#tab_1" data-toggle="tab"> Normal Assignments </a></li>
-                  <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Lab Assignments </a></li>
+            
+              <div class="pl-1 row">
+              
+                <ul class="nav nav-tabs p-0" id="custom-tabs-four-tab" role="tablist">
+                  <li class="p-0 m-0"  ><a class="nav-link p-2 active" href="#tab_1" data-toggle="tab" aria-controls="tab_1" aria-selected="true"><i class="fa fa-book-reader"></i> Normal Assignments</a></li>
+                  <li class="p-0 m-0"><a class="nav-link p-2" href="#tab_2" data-toggle="tab" aria-controls="tab_2" aria-selected="false"><i class="fa fa-microscope"></i> Lab Assignments</a></li>
                 </ul>
+
               </div><!-- /.card-header -->
-              <div class="card-body">
-                <div class="tab-content">
+             
+                <div class="tab-content pt-4">
                   <div class="tab-pane active" id="tab_1">
                   <div class="site-index">
     <div class="body-content">
@@ -56,12 +56,11 @@ $this->params['breadcrumbs'] = [
 
             <div class="row">
                 <!-- Left col -->
-                <section class="col-lg-12">
+                <section class="col-lg-12 p-0">
 
 
-                    <div class=" card-outline card-outline-tabs">
-                        <div class="card-body" >
-                            <div class="tab-content" id="custom-tabs-four-tabContent">
+                   
+                            <div class="tab-content p-0" id="custom-tabs-four-tabContent">
 
                                 <!-- ########################################### Assignments ######################################## -->
                                 <?php $ass = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid])->count(); ?>
@@ -164,8 +163,7 @@ $this->params['breadcrumbs'] = [
                                 <!-- ########################################### Assignments end ######################################## -->
 
                             </div>
-                        </div>
-                    </div>
+                   
                 </section>
             </div>
         </div><!--/. container-fluid -->
@@ -182,12 +180,11 @@ $this->params['breadcrumbs'] = [
 
                                   <div class="row">
                                       <!-- Left col -->
-                                      <section class="col-lg-12">
+                                      <section class="col-lg-12 p-0">
 
 
-                                          <div class=" card-outline card-outline-tabs">
-                                              <div class="card-body" >
-                                                  <div class="tab-content" id="custom-tabs-four-tabContent">
+        
+                                                  <div class="tab-content p-0" id="custom-tabs-four-tabContent">
 
                                                       <?php
                                                       if(empty($labs)){
@@ -209,7 +206,7 @@ $this->params['breadcrumbs'] = [
                                                                               <div class="row">
                                                                                   <div class="col-sm-11">
                                                                                       <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$labb?>" aria-expanded="true" aria-controls="collapse<?=$labb?>">
-                                                                                          <h5><img src="<?=  Yii::getAlias('@web/img/homework.png')?>" height="30px" width="30px"/> <span class="assignment-header"><?php echo "Lab ".$labb;?></span></h5>
+                                                                                          <h5><img src="<?=  Yii::getAlias('@web/img/homework.png')?>" height="30px" width="30px"/> <span class="assignment-header"><?php echo $lab->assName;?></span></h5>
 
                                                                                       </button>
                                                                                   </div>
@@ -222,7 +219,7 @@ $this->params['breadcrumbs'] = [
 
                                                                       <div id="collapse<?=$labb?>" class="collapse" aria-labelledby="heading<?=$labb?>" data-parent="#accordionExample_3">
                                                                           <div class="card-body">
-                                                                              <p><span style="color:green"> Description: </span> <?= $lab -> assName ?></p>
+                                                                              <p><span style="color:green"> Description: </span> <?= $lab -> ass_desc ?></p>
                                                                           </div>
                                                                           <div class="card-footer p-2 bg-white border-top">
                                                                               <div class="row">
@@ -283,14 +280,14 @@ $this->params['breadcrumbs'] = [
                                                       </div>
                                                       <!-- ########################################### lab work end ######################################## -->
                                                   </div>
-                                              </div>
-                                          </div>
+                                             
+                                          
                                       </section>
                                   </div>
                               </div><!--/. container-fluid -->
                           </div>
                       </div>
-                  </div>
+                  
                   <!-- /.tab-pane -->
                   <!-- /.tab-pane -->
                 </div>

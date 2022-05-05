@@ -7,7 +7,7 @@ use frontend\models\ClassRoomSecurity;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] ='<img src="/img/submitted 3.png" height="30px" width="30px"/>'.$cid." My Submitted";
-$this->title =$cid." My Submitted";
+$this->title ="My Submitted";
 $this->params['breadcrumbs'] = [
     ['label'=>$cid." Dashboard", 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
     ['label'=>$this->title]
@@ -25,8 +25,8 @@ $this->params['breadcrumbs'] = [
             <div class="row">
                 <!-- Left col -->
                 <section class="col-lg-12">
-                    <div class="card card-primary card-outline card-outline-tabs">
-                        <div class="card-header p-0 border-bottom-0">
+                  
+                        <div class="row p-0 border-bottom-0">
                             <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true">Individual Assignments</a>
@@ -38,7 +38,7 @@ $this->params['breadcrumbs'] = [
 
                         </div>
 
-                        <div class="card-body">
+                 
 
                             <div class="tab-content" id="custom-tabs-four-tabContent">
                                 <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">
@@ -135,8 +135,7 @@ $this->params['breadcrumbs'] = [
 
                                             </section>
                                             <!-- ########################################### returned marks end ######################################## -->
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                                 <div class="tab-pane fade" id="materials" role="tabpanel" aria-labelledby="custom-tabs-materials">
                                     <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">

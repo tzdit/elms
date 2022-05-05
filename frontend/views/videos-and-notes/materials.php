@@ -20,7 +20,7 @@ use common\models\Submit;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] ='<img src="/img/module.png" width="25" height="25" > '.$cid.' Modules';
-$this->title = $cid.' Course Modules';
+$this->title ='Course Modules';
 $this->params['breadcrumbs'] = [
     ['label'=>$cid.' Dashboard', 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
     ['label'=>$this->title]
@@ -81,7 +81,7 @@ $this->params['breadcrumbs'] = [
 
                                                     <?php
                                                     if(empty($videos_notes)){
-                                                        echo "<p class='text-muted text-lg text-center'>";
+                                                        echo "<p class='text-muted text-lg text-center mt-2'>";
                                                         echo "No material found";
                                                         echo "</p>";
                                                     }
@@ -122,7 +122,7 @@ $this->params['breadcrumbs'] = [
 
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <a href="<?= Url::toRoute(['/videos-and-notes/download_video_and_notes','material_ID'=> ClassRoomSecurity::encrypt($videos_note['material_ID'])])?>" class="card-text  mt-0"><span><i class="fas fa-download mr-1 fa-2x"></i>Download</span></a>
+                                                                        <a href="<?= Url::toRoute(['/videos-and-notes/download_video_and_notes','material_ID'=> ClassRoomSecurity::encrypt($videos_note['material_ID'])])?>" class="card-text  mt-0"><span><i class="fas fa-download mr-1 "></i>Download</span></a>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -138,7 +138,7 @@ $this->params['breadcrumbs'] = [
                                                                 <div class="row  m-4">
 
                                                                     <div class="col-md-5 float-left mb-2">
-                                                                        <a href="<?= Url::toRoute(['/videos-and-notes/view_document','material_ID'=> ClassRoomSecurity::encrypt($videos_note['material_ID'])]) ?>"  class="document-body"><img src="<?= Yii::getAlias('@web/img/file_view.png') ?>" height="100" width="90"></a>
+                                                                        <a href="<?= Url::toRoute(['/videos-and-notes/view_document','material_ID'=> ClassRoomSecurity::encrypt($videos_note['material_ID'])]) ?>"  class="document-body"><img src="<?= Yii::getAlias('@web/img/file_view.png') ?>" height="80" width="90"></a>
                                                                     </div>
                                                                     <div class="col-md-4 m-0 mb-2">
                                                                         <h4 class=" m-0"><span style="color:green"> Name: </span> <?php echo $videos_note['title'] ?></h4>
@@ -152,8 +152,8 @@ $this->params['breadcrumbs'] = [
 
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <a href="<?= Url::toRoute(['/videos-and-notes/view_document','material_ID'=> ClassRoomSecurity::encrypt($videos_note['material_ID'])]) ?>"  class="document-body"><span><i class="fas fa-eye mr-1 fa-2x"></i>View</span></a>
-                                                                        <a href="<?= Url::toRoute(['/videos-and-notes/download_video_and_notes', 'material_ID' => ClassRoomSecurity::encrypt($videos_note['material_ID'])]) ?>"  class="card-text ml-4 mt-0"><span><i class="fas fa-download mr-1 fa-2x"></i>Download</span></a>
+                                    
+                                                                        <a data-toggle="tooltip" data-title="Download" href="<?= Url::toRoute(['/videos-and-notes/download_video_and_notes', 'material_ID' => ClassRoomSecurity::encrypt($videos_note['material_ID'])]) ?>"  class="ml-2 mt-0"><i class="fas fa-download mr-1 "></i> Download</a>
                                                                     </div>
                                                                 </div>
                                                             </div>

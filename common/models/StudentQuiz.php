@@ -8,8 +8,8 @@ use Yii;
  * This is the model class for table "student_quiz".
  *
  * @property int $SQ_ID
- * @property string|null $reg_no
- * @property int|null $quizID
+ * @property string $reg_no
+ * @property int $quizID
  * @property float|null $score
  *
  * @property Quiz $quiz
@@ -24,7 +24,6 @@ class StudentQuiz extends \yii\db\ActiveRecord
     {
         return 'student_quiz';
     }
-    
     public function behaviors()
     {
         return [
@@ -39,6 +38,7 @@ class StudentQuiz extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['reg_no', 'quizID'], 'required'],
             [['quizID'], 'integer'],
             [['score'], 'number'],
             [['reg_no'], 'string', 'max' => 20],
@@ -53,7 +53,7 @@ class StudentQuiz extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'SQ_ID' => 'Sq ID',
+            'SQ_ID' => 'Sq  ID',
             'reg_no' => 'Reg No',
             'quizID' => 'Quiz ID',
             'score' => 'Score',

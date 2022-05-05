@@ -156,6 +156,19 @@ $course=Course::findOne($cid);
                                   <div class="col-sm-3 col-12">
 
                                       <a href="<?= Url::toRoute(['/student/quiz','cid' => ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
+
+                                      <?php
+                                  
+                                  $newQuizescount=$course->newQuizesCount();
+                                  if($newQuizescount>0)
+                                  {
+                                  ?>
+                                  <span class="nav-link float-right" data-toggle="dropdown" href="#" style="position:absolute;right:0">
+                                  <span class="badge badge-danger navbar-badge"><?=$newQuizescount?></span>
+                                  </span>
+                                  <?php
+                                  }
+                                  ?>
                                           <img src="<?=  Yii::getAlias('@web/img/quiz.png')?>" height="35px" width="35px"/>
                                           <h5>
                                               Quizes

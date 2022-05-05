@@ -8,13 +8,16 @@ use Yii;
  * This is the model class for table "quiz".
  *
  * @property int $quizID
- * @property int|null $lectureID
+ * @property string $course_code
  * @property int $total_marks
  * @property int $duration
  * @property string $quiz_file
+ * @property string|null $date_created
+ * @property string $start_time
  * @property string $status
+ * @property int $yearID
  *
- * @property LiveLecture $lecture
+ * @property Course $courseCode
  * @property StudentQuiz[] $studentQuizzes
  */
 class Quiz extends \yii\db\ActiveRecord
@@ -26,7 +29,6 @@ class Quiz extends \yii\db\ActiveRecord
     {
         return 'quiz';
     }
-    
     public function behaviors()
     {
         return [
@@ -41,11 +43,13 @@ class Quiz extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['lectureID', 'total_marks', 'duration'], 'integer'],
-            [['total_marks', 'duration', 'quiz_file', 'status'], 'required'],
+            [['course_code', 'total_marks', 'duration', 'quiz_file', 'start_time', 'status', 'yearID'], 'required'],
+            [['total_marks', 'duration', 'yearID'], 'integer'],
+            [['date_created', 'start_time'], 'safe'],
+            [['course_code'], 'string', 'max' => 20],
             [['quiz_file'], 'string', 'max' => 15],
             [['status'], 'string', 'max' => 10],
-            [['lectureID'], 'exist', 'skipOnError' => true, 'targetClass' => LiveLecture::className(), 'targetAttribute' => ['lectureID' => 'lectureID']],
+            [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
         ];
     }
 
@@ -56,22 +60,25 @@ class Quiz extends \yii\db\ActiveRecord
     {
         return [
             'quizID' => 'Quiz ID',
-            'lectureID' => 'Lecture ID',
+            'course_code' => 'Course Code',
             'total_marks' => 'Total Marks',
             'duration' => 'Duration',
             'quiz_file' => 'Quiz File',
+            'date_created' => 'Date Created',
+            'start_time' => 'Start Time',
             'status' => 'Status',
+            'yearID' => 'Year ID',
         ];
     }
 
     /**
-     * Gets query for [[Lecture]].
+     * Gets query for [[CourseCode]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getLecture()
+    public function getCourseCode()
     {
-        return $this->hasOne(LiveLecture::className(), ['lectureID' => 'lectureID']);
+        return $this->hasOne(Course::className(), ['course_code' => 'course_code']);
     }
 
     /**
@@ -82,5 +89,15 @@ class Quiz extends \yii\db\ActiveRecord
     public function getStudentQuizzes()
     {
         return $this->hasMany(StudentQuiz::className(), ['quizID' => 'quizID']);
+    }
+
+    public function isNew()
+    {
+        date_default_timezone_set('Africa/Dar_es_Salaam');
+        $time=strtotime($this->date_created);
+        $lastlogin=yii::$app->user->identity->last_login;
+        $lastlogin=strtotime($lastlogin);
+
+        return $lastlogin<$time;
     }
 }

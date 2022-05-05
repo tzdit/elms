@@ -63,7 +63,7 @@ $regno=yii::$app->user->identity->student->reg_no;
 
                                 <div class="tab-content" id="custom-tabs-four-tabContent">
                                     <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">
-                                        <div class="card-body p-0" >
+                                    
                                             <div class="tab-content" id="custom-tabs-four-tabContent">
 
 
@@ -94,7 +94,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                     <h2 class="mb-0">
                                                                                         <div class="row">
                                                                                             <div class="col-sm-8">
-                                                                                                <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$count?>" aria-expanded="true" aria-controls="collapse<?=$count?>">
+                                                                                                <button class="btn btn-link btn-block text-left " type="button" data-toggle="collapse" data-target="#collapse<?=$count?>" aria-expanded="true" aria-controls="collapse<?=$count?>">
                                                                                                     <h4><img src="<?= Yii::getAlias('@web/img/groupWork.png') ?>" width="40" height="40" class="mt-1"> <span class="assignment-header "><?php echo $item['generation_type']." ";?><span class="font-italic text-info text-sm font-weight-normal"><?php echo "(".$item['groupName'].")"; ?></span></span></h4>
                                                                                                 </button>
                                                                                             </div>
@@ -368,13 +368,13 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                 </section>
                                                 <!-- ########################################### group by instructor end ######################################## -->
                                             </div>
-                                        </div>
+                                       
                                     </div>
                  
                                     <div class="tab-pane fade" id="materials" role="tabpanel" aria-labelledby="custom-tabs-materials">
                                         <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">
-                                            <div class="card-body" >
-                                                <div class="tab-content" id="custom-tabs-four-tabContent">
+                                            
+                                                <div class="tab-content pt-4" id="custom-tabs-four-tabContent">
 
 
                                                     <!-- ########################################### group by student ######################################## -->
@@ -531,7 +531,7 @@ $regno=yii::$app->user->identity->student->reg_no;
 
                                                     </section>
                                                     <!-- ########################################### group by student end ######################################## -->
-                                                </div>
+                                             
                                             </div>
                                         </div>
                                     </div>

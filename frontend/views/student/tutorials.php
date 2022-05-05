@@ -18,7 +18,7 @@ use frontend\models\ClassRoomSecurity;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] ='<img src="/img/tutorials.png" height="25px" width="25px"/> '.$cid.' Tutorials';
-$this->title = $cid.' Tutorials';
+$this->title ='Tutorials';
 $this->params['breadcrumbs'] = [
     ['label'=>$cid.' Dashboard', 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
     ['label'=>$this->title]
