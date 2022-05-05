@@ -37,7 +37,7 @@ $this->params['breadcrumbs'] = [
   
             <!-- Custom Tabs -->
             
-              <div class="pl-1 row">
+              <div class="pl-1 row responsivetext">
               
                 <ul class="nav nav-tabs p-0" id="custom-tabs-four-tab" role="tablist">
                   <li class="p-0 m-0"  ><a class="nav-link p-2 active" href="#tab_1" data-toggle="tab" aria-controls="tab_1" aria-selected="true"><i class="fa fa-book-reader"></i> Normal Assignments</a></li>

@@ -89,12 +89,12 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                 <div class="accordion" id="accordionExample_3">
                                                                     <?php foreach( $studentGroupsList as $item ) : ?>
                                                         
-                                                                            <div class="card shadow-lg">
+                                                                            <div class="card shadow-lg" data-toggle="collapse" data-target="#collapse<?=$count?>" aria-expanded="true" aria-controls="collapse<?=$count?>">
                                                                                 <div class="card-header p-2" id="heading<?=$count?>">
                                                                                     <h2 class="mb-0">
                                                                                         <div class="row">
                                                                                             <div class="col-sm-8">
-                                                                                                <button class="btn btn-link btn-block text-left " type="button" data-toggle="collapse" data-target="#collapse<?=$count?>" aria-expanded="true" aria-controls="collapse<?=$count?>">
+                                                                                                <button class="btn btn-link btn-block text-left " type="button" >
                                                                                                     <h4 class="responsiveheader"><img src="<?= Yii::getAlias('@web/img/groupWork.png') ?>" width="40" height="40" class="mt-1"> <span class="assignment-header "><?php echo $item['generation_type']." ";?><span class="font-italic text-info text-sm font-weight-normal "><?php echo "(".$item['groupName'].")"; ?></span></span></h4>
                                                                                                 </button>
                                                                                             </div>
@@ -342,7 +342,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                         </div>
                                                                                         <!-- -----------------------------group members ---------------------------------------->
                                                                                         <?php foreach ($studentList as $student) : ?>
-                                                                                            <div class="text-sm row p-1 bg-white shadow-lg">
+                                                                                            <div class="text-sm row p-1 bg-white shadow-lg responsivetext">
                                                                                                 <div class="p-1 col-sm text-muted" ><?=ucfirst(strtolower($student['fname'])) ?> </div> <div class="p-1 col-sm text-muted" ><?= ucfirst(strtolower($student['mname'])) ?> </div><div class="p-1 col-sm text-muted" > <?= ucfirst(strtolower($student['lname'])) ?> </div><div class="p-1 col-sm text-muted" > <?= $student['reg_no'] ?> </div><div class="p-1 col-sm text-muted" ><?= $student['programCode'] ?> </div><div class="p-1 col-sm text-muted" > <?= $student['phone'] ?> </div>
                                                                                             </div>
                                                                                         <?php endforeach; ?>
