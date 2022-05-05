@@ -95,7 +95,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                         <div class="row">
                                                                                             <div class="col-sm-8">
                                                                                                 <button class="btn btn-link btn-block text-left " type="button" data-toggle="collapse" data-target="#collapse<?=$count?>" aria-expanded="true" aria-controls="collapse<?=$count?>">
-                                                                                                    <h4><img src="<?= Yii::getAlias('@web/img/groupWork.png') ?>" width="40" height="40" class="mt-1"> <span class="assignment-header "><?php echo $item['generation_type']." ";?><span class="font-italic text-info text-sm font-weight-normal"><?php echo "(".$item['groupName'].")"; ?></span></span></h4>
+                                                                                                    <h4><img src="<?= Yii::getAlias('@web/img/groupWork.png') ?>" width="40" height="40" class="mt-1"> <span class="assignment-header "><?php echo $item['generation_type']." ";?><span class="font-italic text-info text-sm font-weight-normal responsiveheader"><?php echo "(".$item['groupName'].")"; ?></span></span></h4>
                                                                                                 </button>
                                                                                             </div>
                                                                                             <div class="col-sm-4">
@@ -199,7 +199,7 @@ $regno=yii::$app->user->identity->student->reg_no;
 
 
 
-                                                                                                        <b class="text-danger ml-4"><i class="fa fa-clock-o ml-2"></i> Deadline : </b><?= $deadLineDate->format('d-m-Y H:i:s A') ?> 
+                                                                                                        <b class="text-danger ml-4"><i class="fa fa-clock-o ml-2"></i> Deadline : </b><span class="responsivetext"><?= $deadLineDate->format('d-m-Y H:i:s A') ?> </span>
                                                                                                     </div>
                                                                                                     <div class="col-md-6">
 
@@ -290,7 +290,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                                         ?>
 
 
-                                                                                                        <b class="text-danger ml-4"><i class="fa fa-clock-o ml-2"></i> Deadline : </b><?= $deadLineDate->format('d-m-Y H:i:s A') ?> 
+                                                                                                        <b class="text-danger ml-4"><i class="fa fa-clock-o ml-2"></i> Deadline : </b><span class="responsivetext"><?= $deadLineDate->format('d-m-Y H:i:s A') ?> </span>
                                                                                                     </div>
                                                                                                     <div class="col-md-6">
 
@@ -429,7 +429,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                 <?php if ($checkGroup == 0){
                                                                     $countmissing++;
                                                                      ?>
-                                                                <div class="card">
+                                                                <div class="card ">
                                                                     <div class="card shadow-lg">
                                                                         <div class="card-header p-2" id="heading<?=$noGroupAssignmentCount?>">
                                                                             <h2 class="mb-0">
@@ -444,7 +444,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                                 </div>
                                                                                                 <div class="col-sm-4 responsivetext">
                                                                                                     <div class="responsivetext"><i class="fa fa-exclamation-triangle text-danger"></i><h6 class="text-danger responsivetext">You do not belong to any group in this assignment !</h6></div>
-                                                                                                    <h4 class="btn btn-default btn-sm shadow text-primary" data-toggle="collapse" data-target="#collapse<?=$noGroupAssignmentCount?>" aria-expanded="true" aria-controls="collapse<?=$noGroupAssignmentCount?>"><i class="fa fa-plus-circle"></i>Create Group</h4>
+                                                                                                    <h4 class="btn btn-default btn-sm shadow d-none d-md-block text-primary" data-toggle="collapse" data-target="#collapse<?=$noGroupAssignmentCount?>" aria-expanded="true" aria-controls="collapse<?=$noGroupAssignmentCount?>"><i class="fa fa-plus-circle"></i>Create Group</h4>
                                                                                                 </div>
                                                                                             </div>
 
