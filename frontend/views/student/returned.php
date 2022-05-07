@@ -53,7 +53,7 @@ $this->params['breadcrumbs'] = [
                                                 <?php
                                                 if(empty($returned)){
                                                     echo "<p class='text-muted text-lg p-1 text-center responsivetext'>";
-                                                    echo "No submissions found";
+                                                    echo "<i class='fa fa-info-circle'></i> No submissions found";
                                                     echo "</p>";
                                                 }
                                                 ?>
@@ -158,7 +158,7 @@ $this->params['breadcrumbs'] = [
                                                     <?php 
                                                                         if(empty($studentGroups)){
                                                                             echo "<p class='text-muted text-lg text-center p-1 responsivetext'>";
-                                                                            echo "No submissions found";
+                                                                            echo "<i class='fa fa-info-circle'></i> No submissions found";
                                                                             echo "</p>";
                 
                                                                           

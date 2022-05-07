@@ -79,7 +79,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                 <?php
                                                                 if(empty($studentGroupsList)){
                                                                     echo "<p class='text-muted text-lg text-center p-1 responsivetext'>";
-                                                                    echo "No group found";
+                                                                    echo "<i class='fa fa-info-circle'></i> No group found";
                                                                     echo "</p>";
                                                                 }
                                                                 ?>
@@ -465,7 +465,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                         <div class="card mx-3 p-4  form-group">
 
                                                                             <div class="mb-2 text-center">
-                                                                                <h5 class="text-primary text-sm"><i class="fa fa-info-circle"></i> You will automatically be added to the group you create</h5>
+                                                                                <h5 class="text-primary text-sm responsivetext"><i class="fa fa-info-circle"></i> You will automatically be added to the group you create</h5>
                                                                             </div>
                                                                             <div class="container pl-5 pr-5 text-sm text-primary">
                                                                             <?php 
@@ -477,8 +477,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                             <?= $form->field($model, 'groupName')->textInput(['class' => 'form-control form-control-sm', 'placeholder'=>'Ex: Group 1, Group one'])->label('Group Name') ?>
                                                                             <?php
                                                                         
-                                                                            echo $form->field($model,'memberStudents[]')->dropDownList($studentlist
-                                                                                ,['data-placeholder'=>'-- Search for members --','class' => 'form-control','id' => 'group_members'.$noGroupAssignmentCount, 'multiple'=>true,'style'=>"width:100%"])->label('Group Members') 
+                                                                            echo $form->field($model,'memberStudents[]')->dropDownList($studentlist,['data-placeholder'=>'-- Search for members --','class' => 'form-control','id' => 'group_members'.$noGroupAssignmentCount, 'multiple'=>true,'style'=>"width:100%"])->label('Group Members') ;
 
 
                                                                             ?>
@@ -521,7 +520,7 @@ $regno=yii::$app->user->identity->student->reg_no;
 
                                                             <?php if($countmissing==0)
                                                             {
-                                                                ?>
+                                                            ?>
                                                              <span class="text-center"><i class="fa fa-info-circle"></i> No Assignments Missing Groups</div>
 
                                                                 <?php

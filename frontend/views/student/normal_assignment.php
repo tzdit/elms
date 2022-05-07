@@ -72,7 +72,7 @@ $this->params['breadcrumbs'] = [
                                         <?php
                                         if(empty($assignments)){
                                             echo "<p class='text-muted text-lg text-center p-1 responsivetext'>";
-                                            echo "No assignment found";
+                                            echo "<i class='fa fa-info-circle'></i> No assignment found";
                                             echo "</p>";
                                         }
                                         ?>
@@ -189,7 +189,7 @@ $this->params['breadcrumbs'] = [
                                                       <?php
                                                       if(empty($labs)){
                                                           echo "<p class='text-muted text-lg text-center p-1 responsivetext'>";
-                                                          echo "No lab found";
+                                                          echo "<i class='fa fa-info-circle'></i> No lab found";
                                                           echo "</p>";
                                                       }
                                                       ?>
