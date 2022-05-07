@@ -86,7 +86,7 @@ $this->params['breadcrumbs'] = [
                                                             <div class="row">
                                                                 <div class="col-sm-11">
                                                                     <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$ass?>" aria-expanded="true" aria-controls="collapse<?=$ass?>">
-                                                                        <h5 class="responsiveheader"><img src="<?=  Yii::getAlias('@web/img/homework.png')?>" height="30px" width="30px"/><span class="assignment-auto"></span> <span class="assignment-header"><?php  echo ucwords($assign -> assName)?></span></h5>
+                                                                        <h5 class="responsiveheader"><img src="<?=  Yii::getAlias('@web/img/homework.png')?>" height="30px" width="30px"/><span class="assignment-auto"></span> <span class="responsiveheader assignment-header"><?php  echo ucwords($assign -> assName)?></span></h5>
                                                                     </button>
                                                                 </div>
                                                                 <div class="col-sm-1">
@@ -120,7 +120,7 @@ $this->params['breadcrumbs'] = [
                                                                     $isOutOfDeadline =   $currentDateTime > $deadLineDate;
                                                                     ?>
 
-                                                                    <b class="text-danger ml-3"><i class="fa fa-clock-o"></i> Deadline : </b><span class="responsivetext"><?= $deadLineDate->format('d-m-Y H:i:s A') ?> </span>
+                                                                    <b class="text-danger ml-2"><i class="fa fa-clock-o"></i> Deadline : </b><span class="responsivetext"><?= $deadLineDate->format('d-m-Y H:i:s A') ?> </span>
                                                                 </div>
                                                                 <div class="col-md-6">
 
@@ -206,7 +206,7 @@ $this->params['breadcrumbs'] = [
                                                                               <div class="row">
                                                                                   <div class="col-sm-11">
                                                                                       <button class="btn btn-link btn-block text-left" type="button" >
-                                                                                          <h5 class="responsiveheader"><img src="<?=  Yii::getAlias('@web/img/homework.png')?>" height="30px" width="30px"/> <span class="assignment-header"><?php echo $lab->assName;?></span></h5>
+                                                                                          <h5 class="responsiveheader"><img src="<?=  Yii::getAlias('@web/img/homework.png')?>" height="30px" width="30px"/> <span class="assignment-header responsiveheader"><?php echo $lab->assName;?></span></h5>
 
                                                                                       </button>
                                                                                   </div>
@@ -236,7 +236,7 @@ $this->params['breadcrumbs'] = [
 
                                                                                       ?>
 
-                                                                                      <b class="text-danger ml-3"><i class="fa fa-clock-o"></i>Deadline : </b><span class="responsivetext"><?= $deadLineDate->format('d-m-Y H:i:s A') ?></span>
+                                                                                      <b class="text-danger ml-2"><i class="fa fa-clock-o"></i>Deadline : </b><span class="responsivetext"><?= $deadLineDate->format('d-m-Y H:i:s A') ?></span>
                                                                                   </div>
                                                                                   <div class="col-md-6">
                                                                                       <?php
