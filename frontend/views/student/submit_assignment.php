@@ -28,8 +28,8 @@ $this->params['breadcrumbs'] = [
    
         <div class="container">
                     <div class="card shadow-lg" style="font-family:'Times New Roman', sans-serif">
-                        <div class="card-header text-center bg-primary p-1 pt-2">
-                            <h5 class="responsivetext"><i class="fa fa-upload"></i> Submit Assignment </h5>
+                        <div class="card-header text-center responsivetext bg-primary p-1">
+                            <i class="fa fa-upload"></i> Submit Assignment 
                         </div>
                         <div class="card-body">
 <!--                                        <div class="upload-icon">-->

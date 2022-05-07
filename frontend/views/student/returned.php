@@ -7,7 +7,7 @@ use frontend\models\ClassRoomSecurity;
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] ='<img src="/img/submitted 3.png" height="30px" width="30px"/>'.$cid." My Submitted";
-$this->title ="My Submitted";
+$this->title ="Submitted";
 $this->params['breadcrumbs'] = [
     ['label'=>$cid." Dashboard", 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
     ['label'=>$this->title]
@@ -52,7 +52,7 @@ $this->params['breadcrumbs'] = [
                                             <section class="col-lg-12">
                                                 <?php
                                                 if(empty($returned)){
-                                                    echo "<p class='text-muted text-lg p-1 text-center'>";
+                                                    echo "<p class='text-muted text-lg p-1 text-center responsivetext'>";
                                                     echo "No submissions found";
                                                     echo "</p>";
                                                 }
@@ -72,19 +72,19 @@ $this->params['breadcrumbs'] = [
                                                                         <div class="row">
                                                         
                                                                             <div class="col-sm-9 pl-2">
-                                                                                <h5><i class="fa fa-file-text text-primary mr-1 fa-lg" ></i><?php echo " ".ucwords($assignmentDetails->assName) ?> </h5>
-                                                                                <span class="text-muted mt-0"><?= ucfirst($assignmentDetails->assType) ?> Assignment</span>
+                                                                                <h5 class="responsiveheader assignment-header"><i class="fa fa-file-text text-primary mr-1 fa-lg" ></i><?php echo " ".ucwords($assignmentDetails->assName) ?> </h5>
+                                                                                <span class="text-muted mt-0 responsivetext"><?= ucfirst($assignmentDetails->assType) ?> Assignment</span>
                                
 
-                                                                    <div class="m-0">
-                                                                        <p>Submitted file: <a class="m-0" style="color: #007bff;
+                                                                    <div class="m-0 responsivetext">
+                                                                        <p class="responsivetext"> Submitted file: <a class="m-0" style="color: #007bff;
                                                                     font-style: italic;" href="/storage/submit/<?= $returne->fileName?>" target="_blank"><i class="fa fa-eye"></i> View </a></p>
                                                                     </div>
 
                                                                   
-                                                                    <div class="row">
+                                                                    <div class="row responsivetext">
                                                                       
-                                                                      <div class="col-sm-12 text-center">
+                                                                      <div class="col-sm-12 text-center responsivetext">
                                                                           <p>Comment: <span class="text-muted m-0"><?php
                                                                                   if (is_null($returne->comment)){
                                                                                       echo "No comment";
@@ -106,7 +106,7 @@ $this->params['breadcrumbs'] = [
                                                                                  date_default_timezone_set('Africa/Dar_es_Salaam');
                                                                                 if(strtotime(date('Y-m-d H:i:s')) > strtotime($returne->ass->finishDate) && $returne->score != NULL ){
                                                                                  ?>
-                                                                                     <div class="shadow p-3">
+                                                                                     <div class="shadow p-3 responsivetext">
                                                                                      <b><span class="text-muted">Score:</span> <span style="color: #007bff;"><?= $returne->score ?></span></b><br>
                                                                                     <b><span class="text-muted">Total:</span> <span style="color: #007bff;"><?= $assignmentDetails->total_marks  ?></span> </b>
                                                                                  
@@ -118,7 +118,7 @@ $this->params['breadcrumbs'] = [
 
                                         
                                                                                     ?>
-                                                                                        <span class="btn btn-sm btn-xs shadow btn-default text-primary p-3">Not Returned</span>
+                                                                                        <span class="btn btn-sm btn-xs shadow btn-default text-primary p-2 responsivetext">Not Returned</span>
                                                                                     <?php
                                                                                       }
                                                                                     ?>
@@ -157,7 +157,7 @@ $this->params['breadcrumbs'] = [
                                                     
                                                     <?php 
                                                                         if(empty($studentGroups)){
-                                                                            echo "<p class='text-muted text-lg'>";
+                                                                            echo "<p class='text-muted text-lg text-center p-1 responsivetext'>";
                                                                             echo "No submissions found";
                                                                             echo "</p>";
                 
@@ -170,7 +170,7 @@ $this->params['breadcrumbs'] = [
                                                         
                                                     
                                                         if(empty($assignments)){
-                                                            echo "<p class='text-muted text-lg'>";
+                                                            echo "<p class='text-muted text-lg text-center p-1 responsivetext'>";
                                                             echo "No submissions found";
                                                             echo "</p>";
 
@@ -188,15 +188,15 @@ $this->params['breadcrumbs'] = [
                                                                     <div class="m-0">
                                                                         <div class="row">
                                                                             <div class="col-sm-9 pl-2">
-                                                                                <h5><i class="fa fa-file-text text-primary  mr-1 fa-lg" ></i><?php echo " ".ucwords($returneGroups->ass->assName)?> </h5>
-                                                                                <span class="text-muted mt-0"><?= ucfirst($returneGroups->group->generationType->generation_type)." (".$returneGroups->group->groupName.")" ?></span>
+                                                                                <h5 class="responsiveheader assignment-header"><i class="fa fa-file-text text-primary  mr-1 fa-lg" ></i><?php echo " ".ucwords($returneGroups->ass->assName)?> </h5>
+                                                                                <span class="text-muted mt-0 responsivetext"><?= ucfirst($returneGroups->group->generationType->generation_type)." (".$returneGroups->group->groupName.")" ?></span>
 
-                                                                                <div class="m-0">
+                                                                                <div class="m-0 responsivetext">
                                                                         <p>Submitted file: <a class="m-0" style="color: #007bff;
                                                                     font-style: italic;" href="/storage/submit/<?= $returneGroups->fileName?>" target="_blank"><i class="fa fa-eye"></i> View </a></p>
                                                                     </div>
 
-                                                                    <div class="m-0">
+                                                                    <div class="m-0 responsivetext">
                                                                         <div class="row">
                                                                            
                                                                             <div class="col-sm-12 text-center">
@@ -214,16 +214,16 @@ $this->params['breadcrumbs'] = [
                                                                     </div>
                                                                             </div>
 
-                                                                            <div class="col-sm-3">
+                                                                            <div class="col-sm-3 responsivetext">
                                                             
                                                                                 <div class="float-right mr-4">
                                                                                 <?php 
                                                                                  date_default_timezone_set('Africa/Dar_es_Salaam');
-                                                                                if(strtotime(date('Y-m-d h:i:s')) > strtotime($returneGroups->ass->finishDate) && $returneGroups->score != NULL ){
+                                                                                if(strtotime(date('Y-m-d H:i:s')) > strtotime($returneGroups->ass->finishDate) && $returneGroups->score != NULL ){
                                                                                     if($returneGroups->isSigned())
                                                                                     {
                                                                                  ?>
-                                                                                     <div class="shadow p-3">
+                                                                                     <div class="shadow p-3 responsivetext">
                                                                                      <b><span class="text-muted">Score:</span> <span style="color: #007bff;"><?= $returneGroups->score ?></span></b><br>
                                                                                     <b><span class="text-muted">Total:</span> <span style="color: #007bff;"><?=$returneGroups->ass->total_marks   ?></span> </b>
                                                                                     
@@ -242,7 +242,7 @@ $this->params['breadcrumbs'] = [
 
                                         
                                                                                     ?>
-                                                                                        <span class="btn btn-sm  btn-default text-primary p-3">Not Returned</span>
+                                                                                        <span class="btn btn-sm  btn-default text-primary p-2">Not Returned</span>
                                                                                     <?php
                                                                                       }
                                                                                     ?>

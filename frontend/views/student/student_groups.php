@@ -78,7 +78,7 @@ $regno=yii::$app->user->identity->student->reg_no;
 
                                                                 <?php
                                                                 if(empty($studentGroupsList)){
-                                                                    echo "<p class='text-muted text-lg'>";
+                                                                    echo "<p class='text-muted text-lg text-center p-1 responsivetext'>";
                                                                     echo "No group found";
                                                                     echo "</p>";
                                                                 }
@@ -137,7 +137,7 @@ $regno=yii::$app->user->identity->student->reg_no;
 
                                                                                     ?>
                                                                                       <div class="card-footer p-2 bg-white border-top">
-                                                                                            <h6 class="text-danger float-right mr-4"><i class="fa fa-info-circle"></i> No Assignments provided yet</h6>
+                                                                                            <h6 class="text-danger float-right mr-4 responsivetext"><i class="fa fa-info-circle"></i> No Assignments provided yet</h6>
                                                                                         </div>
 
                                                                                         <?php
