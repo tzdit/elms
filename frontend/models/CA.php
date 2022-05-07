@@ -116,7 +116,7 @@ class CA extends Model{
       $ca_sub_header="<tr style='background-color:#f0fbff;text-align:center;'>";
       $rows=[];
       $grandtotal=0;
-      $catable="<table class='table-bordered table-responsive table-hover shadow text-sm' style='width:100%' cellspacing=0 autosize=2 text-align='center' align='center'>";
+      $catable="<table class='table-bordered table-responsive table-hover shadow text-sm responsivetext' style='width:100%' cellspacing=0 autosize=2 text-align='center' align='center'>";
       if(!empty($this->Assignments) && !empty($this->allstudents)){
         $student_with_marks=$this->asscumul($this->Assignments,$this->allstudents);
         $caheader.=$this->catable_header($student_with_marks,"Assignments");

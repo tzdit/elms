@@ -63,6 +63,10 @@ AppAsset::register($this);
    {
     font-size:3vw!important;
    }
+   .responsiveborder
+   {
+     border-left:none!important;
+   }
 }
 
 @media only screen and (min-width: 600px) {

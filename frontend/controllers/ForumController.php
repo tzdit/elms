@@ -96,7 +96,7 @@ class ForumController extends \yii\web\Controller
             $model->imageSave = $imageInstance;
 
             if (!$model->validate() && $model->addThread() == false){
-                Yii::$app->session->setFlash('error', 'Question added failed');
+                Yii::$app->session->setFlash('error', 'Question add failed');
                 return $this->redirect(Yii::$app->request->referrer);
             }
 
@@ -105,7 +105,7 @@ class ForumController extends \yii\web\Controller
             if(empty($returned))
             {
 
-                Yii::$app->session->setFlash('success', 'Question added successfully');
+                Yii::$app->session->setFlash('success', 'Question add successfully');
                 return $this->redirect(Yii::$app->request->referrer);
             }
             else{
@@ -189,7 +189,7 @@ class ForumController extends \yii\web\Controller
 
            $model->answer_content = $model->answer_content;
            date_default_timezone_set('Africa/Dar_es_Salaam');
-           $model->time_added = date('Y-m-d h:i:s');
+           $model->time_added = date('Y-m-d H:i:s');
            $model->user_id = Yii::$app->user->identity->getId();
            $model->question_id = $question_id;
            $model->code = $purifier->process($model->code);
@@ -218,7 +218,7 @@ class ForumController extends \yii\web\Controller
             $model1->comment_content = $model1->comment_content;
             $model1->comment_type = 1;
             date_default_timezone_set('Africa/Dar_es_Salaam');
-            $model1->time_added = date('Y-m-d h:i:s');
+            $model1->time_added = date('Y-m-d H:i:s');
             $model1->user_id = Yii::$app->user->identity->getId();
             $model1->answer_id = $model1->answer_id;
 
@@ -261,7 +261,7 @@ class ForumController extends \yii\web\Controller
                 return $this->asJson(['message'=>'Question Deleted']);
             }
             else{
-                return $this->asJson(['message'=>'Question Deleted Fail!!!!']);
+                return $this->asJson(['message'=>'Question Delete Failed!']);
             }
         }
 

@@ -48,12 +48,12 @@ $this->params['breadcrumbs'] = [
 
 <div class="row" style="background-color:rgba(10,30,200,.1);">
          <div class="col-sm-6" style="background-color:rgba(254,254,254,.8);">
-         <span class='float-right'><?=Html::encode(count($lectures))?> session(s)</span>
+         <span class='float-md-right'><?=Html::encode(count($lectures))?> session(s)</span>
          </div>
 
-         <div class='col-sm-6' style="background-color:rgba(254,254,254,.8);border-left:solid 2px #ccc">
+         <div class='col-sm-6 responsiveborder' style="background-color:rgba(254,254,254,.8);border-left:solid 2px #ccc">
 
-         <span class='float-left'><?=Html::encode(count($recordings))?> Recording(s)</span>
+         <span class='float-md-left'><?=Html::encode(count($recordings))?> Recording(s)</span>
          
          </div>
 

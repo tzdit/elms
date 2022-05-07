@@ -11,7 +11,7 @@ $this->title = 'Forum';
 
 $this->params['courseTitle'] ='<i class="fa fa-comments"></i> Forum';
 $this->params['breadcrumbs'] = [
-    ['label'=>'Class', 'url'=>Url::to(Yii::$app->request->referrer)],
+    ['label'=>$cid.' dashboard', 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
     ['label'=>$this->title]
 ];
 

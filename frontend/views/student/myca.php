@@ -62,16 +62,17 @@ $this->params['breadcrumbs'] = [
                                     <?php foreach( $myca as $index=>$ca ) : ?>
                                       
                                             <div class="card shadow-lg">
-                                                <div class="card-header p-2" id="heading<?=$index?>" data-toggle="collapse" data-target="#collapse<?=$index?>" aria-expanded="true" aria-controls="collapse<?=$index?>">
-                                                    <h2 class="mb-0">
+                                                <div class="card-header responsivetext p-2" id="heading<?=$index?>" data-toggle="collapse" data-target="#collapse<?=$index?>" aria-expanded="true" aria-controls="collapse<?=$index?>">
+              
                                                         <div class="row ">
                                                             <div class="col-sm-11">
-                                                                <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$index?>" aria-expanded="true" aria-controls="collapse<?=$index?>">
-                                                                 <?=$index?>
-                                                                </button>
+                                                                
+                                                                 <span class="text-primary"><?=$index?></span>
+                                                               
+                                   
                                                                 <div class="col d-flex justify-content-center">
                                                                 <div class="card shadow text-center" style="width:40%" data-toggle="collapse" data-target="#collapse<?=$index?>" aria-expanded="true" aria-controls="collapse<?=$index?>">
-                                                                  <div class="card-header">
+                                                                  <div class="card-header responsivetext">
                                                                     <?php if($ca['grandscore']=="Inc" || (($ca['grandscore']*40)/$ca['grandmax'])<15.5)
                                                                     {
                                                                       ?>
@@ -86,7 +87,7 @@ $this->params['breadcrumbs'] = [
                                                                     }
                                                                       ?>
                                                                   </div>
-                                                                  <div class="card-body">
+                                                                  <div class="card-body responsivetext">
                                                                   <?=$ca['grandmax']?>
                                                                   </div>
                                                                  </div></div>
@@ -95,14 +96,14 @@ $this->params['breadcrumbs'] = [
                                                                 <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
                                                             </div>
                                                         </div>
-                                                    </h2>
+                                                
                                                 </div>
 
             <div id="collapse<?=$index?>" class="collapse" aria-labelledby="heading<?=$index?>" data-parent="#accordionExample_3">
 
 
 
-                <div class="card-body" >
+                <div class="card-body table-responsive responsivetext" >
 
                     <?=$ca['details']?>
                   </div>

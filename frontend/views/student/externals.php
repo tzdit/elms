@@ -73,7 +73,7 @@ $this->params['breadcrumbs'] = [
                                                                 </button>
                                                                 <div class="col d-flex justify-content-center">
                                                                 <div class="card shadow text-center" style="width:40%" >
-                                                                  <div class="card-header">
+                                                                  <div class="card-header responsivetext">
                                                                     <?php 
 
                                                                     $studentscore=$external->findStudentScore();
@@ -99,7 +99,7 @@ $this->params['breadcrumbs'] = [
                                                                   }
                                                                       ?>
                                                                   </div>
-                                                                  <div class="card-body">
+                                                                  <div class="card-body responsivetext">
                                                                   <?=$external->total_marks?>
                                                                   </div>
                                                                  </div></div>
