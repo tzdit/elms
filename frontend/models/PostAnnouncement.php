@@ -32,7 +32,7 @@ class PostAnnouncement extends Model{
         $ann->course_code=yii::$app->session->get('ccode');
        // $ann->course_code=$cid;
         date_default_timezone_set('Africa/Dar_es_Salaam');
-        $ann->ann_time=date('h:i:s');
+        $ann->ann_time=date('H:i:s');
         $ann->ann_date=date('Y-m-d');
         if($ann->save()){return true;}
         else{return false;}

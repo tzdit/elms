@@ -77,7 +77,7 @@ class GroupCreateForm extends Model
                 $selfStudent->groupID = $group->groupID;
                 $selfStudent->reg_no = Yii::$app->user->identity->username;
                 date_default_timezone_set('Africa/Dar_es_Salaam');
-                $selfStudent->add_date=date('Y-m-d h:i:s');
+                $selfStudent->add_date=date('Y-m-d H:i:s');
 
                   //does the student have another group?
 
@@ -107,7 +107,7 @@ class GroupCreateForm extends Model
                         $studentGroup->groupID = $group->groupID;
                         $studentGroup->reg_no = $members[$i];
                         date_default_timezone_set('Africa/Dar_es_Salaam');
-                        $studentGroup->add_date=date('Y-m-d h:i:s');
+                        $studentGroup->add_date=date('Y-m-d H:i:s');
 
                         $studentInTwoGroup = StudentGroup::find()->select('student_group.reg_no')->join('INNER JOIN','groups','groups.groupID = student_group.groupID')->where('groups.generation_type = :gen_type AND reg_no = :reg_no',[':gen_type' => $this->generation_type, ':reg_no' => $studentGroup->reg_no])->one();
 

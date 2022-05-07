@@ -39,7 +39,7 @@ $this->params['breadcrumbs'] = [
         <?= $form->field($assmodel, 'endDate')->input('date', ['class'=>'form-control form-control form-control-sm','value'=>date($ass->finishDate)])->label('End Date')?>
         </div>
         <div class="col-md-3">
-        <?= $form->field($assmodel, 'endTime')->input('time', ['class'=>'form-control form-control form-control-sm'])->label('End Time (24 hrs)')?>
+        <?= $form->field($assmodel, 'endTime')->input('time', ['class'=>'form-control form-control form-control-sm'])->label('End Time')?>
         </div>
         <div class="col-md-3">
         <?= $form->field($assmodel, 'submitMode')->dropdownList(['resubmit'=>'Resubmit', 'unresubmit'=>'Can\'t resubmit'], ['class'=>'form-control form-control-sm', 'prompt'=>'--select--'])->label('Submission Mode')?>

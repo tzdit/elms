@@ -66,7 +66,7 @@ class ForumQuestionForm extends Model
                 $this->imageSave->saveAs($path);
             }
             date_default_timezone_set('Africa/Dar_es_Salaam');
-            $question->time_add = date('Y-m-d h:i:s');
+            $question->time_add = date('Y-m-d H:i:s');
             $question->question_tittle = $this->question_tittle;
             $question->question_desc = $this->question_desc;
             $question->user_id = Yii::$app->user->identity->getId();
@@ -116,7 +116,7 @@ class ForumQuestionForm extends Model
         }catch(\Throwable $e){
 
             $transaction->rollBack();
-            throw new NotFoundHttpException('Fail to add question');
+            throw new NotFoundHttpException('Failed to add question');
         }
         return false;
     }

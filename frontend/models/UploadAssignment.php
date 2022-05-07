@@ -62,7 +62,7 @@ class UploadAssignment extends Model{
         $ass->submitMode = $this->submitMode;
         $ass->yearID=(yii::$app->session->get("currentAcademicYear"))->yearID;
         $ass->finishDate = $this->endDate." ".$this->endTime;
-        $ass->create_time=date("Y-m-d h:i:s");
+        $ass->create_time=date("Y-m-d H:i:s");
         $ass->fileName = $filefordb;
         $ass->ass_desc = $this->description;
         $ass->assNature = "assignment";

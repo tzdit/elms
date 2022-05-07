@@ -174,7 +174,7 @@ public function __construct($config=[])
     $lecturebucket->duration=$this->duration;
     $lecturebucket->yearID=(yii::$app->session->get("currentAcademicYear"))->yearID;
     date_default_timezone_set('Africa/Dar_es_Salaam');
-    $lecturebucket->announcementdate=date("Y-m-d h:i:s");
+    $lecturebucket->announcementdate=date("Y-m-d H:i:s");
     $lecturebucket->status='New';
 
     $connection=yii::$app->db;

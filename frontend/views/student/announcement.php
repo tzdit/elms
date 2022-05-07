@@ -11,7 +11,7 @@ $this->params['courseTitle'] ='<img src="/img/announcement.png" height="25px" wi
 $this->title ='Announcements';
 $this->params['breadcrumbs'] = [
     ['label'=>$cid.' Dashboard', 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
-    ['label'=>$this->title]
+    ['label'=>"Notice board"]
 ];
 
 ?>
@@ -36,63 +36,72 @@ $this->params['breadcrumbs'] = [
                                      
                                           
                                                 <div class="row">
-                                                    <!-- <?= VarDumper::dump($announcement) ?> -->
                                                     <div class="col-md-12">
                                                         <?php
                                                         if(empty($announcement)){
-                                                            echo "<p class='text-muted text-lg text-center'>";
+                                                            echo "<p class='text-muted text-lg p-2 text-center'>";
                                                             echo "No any announcement found";
                                                             echo "</p>";
                                                         }
                                                         ?>
+                                                        <div class="accordion" id="accordionExample_4">
+            
+                                                            <?php 
+                                                            date_default_timezone_set('Africa/Dar_es_Salaam');
+                                                            foreach($announcement as $announcement):
+                                                             ?>
 
-                                                        <table class="table table-bordered table-striped text-sm" id="CoursesTable" style="width:100%; font-family: 'Times New Roman'">
-                                                            <thead>
-                                                            <tr>
-                                                                <th width="1%">PostID</th><th>Title</th><th>Posted by</th><th>Date</th><th>View</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            <?php $i=0; ?>
-                                                            <?php foreach($announcement as $announcement): ?>
-                                                                <tr>
-                                                                    <td><?= ++$i; ?></td>
-                                                                    <td><?= $announcement->title ?> </td>
-                                                                    <td>
-                                                                        <?php
-                                                                        $instractorName = Instructor::findOne($announcement->instructorID);
-                                                                        echo $instractorName->full_name;
+                                                                <div class="card shadow-lg" data-toggle="collapse" data-target="#collapse<?=$announcement->annID?>" aria-expanded="true" aria-controls="collapse<?=$announcement->annID?>">
+                                                    <div class="card-header p-2" id="heading<?=$announcement->annID?>">
+                                                        <h2 class="mb-0">
+                                                            <div class="row">
+                                                                <div class="col-sm-11">
+                                                                    <button class="btn btn-link btn-block text-left col-md-11" type="button" >
+                                                                        <h5 class="responsiveheader"><img src="/img/announcement.png" height="25px" width="25px"/> <span class="assignment-header responsiveheader"><?php echo $announcement->title ;?></span></h5>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-sm-1">
+                                                                    <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
+                                                                </div>
+                                                            </div>
+                                                        </h2>
+                                                    </div>
+
+                                                    <div id="collapse<?=$announcement->annID?>" class="collapse" aria-labelledby="heading<?=$announcement->annID?>" data-parent="#accordionExample_4">
+                                                        <div class="card-body">
+                                                            <p><span class="text-sm responsivetext text-primary"> <?= $announcement->content ?></span></p>
+                                                        </div>
+                                                        <div class="card-footer bg-white border-top">
+                                                            <div class="row p-1 textthumb">
+                                                                <div class="col-sm-12 p-0 text-muted  textthumb">
+                                                                   
+                                                                    <?php
+                                                                        $instructorName = Instructor::findOne($announcement->instructorID);
                                                                         ?>
-                                                                    </td>
-                                                                    <td><?= $announcement->ann_date. ' '.$announcement->ann_time;  ?></td>
-                                                                    <td>
-                                                                        <a class="model">
-                                                                            <?php
-                                                                            date_default_timezone_set('Africa/Dar_es_Salaam');
-                                                                            Modal::begin([
-                                                                                'title' =>  Html::tag('h2','Announcement', ['class' => 'float-center']),
-                                                                                'toggleButton' => ['label' => Html::tag('a','', ['class' => 'fa fa-eye fa-lg shadow btn-sm btn text-primary'])],
-                                                                                'size' => 'modal-lg',
-                                                                                'centerVertical' => true,
-                                                                                'footer' => Html::button('Close', ['class' => 'btn btn-primary float-right', 'data-dismiss' => 'modal']),
-                                                                            ]);
-
-                                                                            echo "    <div style='text-align:center'>";
-                                                                            echo "<P class='announcement-model'> $announcement->content </P>".'<br>'.'<br>';
-                                                                            echo "    </div>";
-                                                                            echo "<p 'class' = 'text-muted'  style='  font-style: italic;'>";
-                                                                            echo  Yii::$app->formatter->asRelativeTime($announcement->ann_date." ".$announcement->ann_time);
-                                                                            echo "    </p>";
-
-                                                                            Modal::end();
-                                                                            ?>
-                                                                        </a>
-
-                                                                    </td>
-                                                                </tr>
+                                                                        <span class="float-left"> by <?=$instructorName->full_name?></span>
+                                                                         <span class="float-right">
+                                                                             <?=
+                                                                                $announcement->ann_date.' '.$announcement->ann_time;
+                                                                         ?>
+                                                            </span>
+                                                                </div>
+                                                               
+                                                             
+                                                             
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                              
+                                            </div>
+                
+                                                             
+                                                               
+                                                                  
+                                                                    
+                                                                      
+                                                            
                                                             <?php endforeach ?>
-                                                            </tbody>
-                                                        </table>
+                                                            </div>
                                                     </div>
                                             
                                             </div>

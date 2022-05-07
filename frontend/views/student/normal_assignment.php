@@ -58,7 +58,7 @@ $this->params['breadcrumbs'] = [
                 <!-- Left col -->
                 <section class="col-lg-12 p-0">
 
-
+                            <div class="card-body">
                    
                             <div class="tab-content p-0" id="custom-tabs-four-tabContent">
 
@@ -71,7 +71,7 @@ $this->params['breadcrumbs'] = [
                                         ?>
                                         <?php
                                         if(empty($assignments)){
-                                            echo "<p class='text-muted text-lg'>";
+                                            echo "<p class='text-muted text-lg text-center p-1 responsivetext'>";
                                             echo "No assignment found";
                                             echo "</p>";
                                         }
@@ -86,7 +86,7 @@ $this->params['breadcrumbs'] = [
                                                             <div class="row">
                                                                 <div class="col-sm-11">
                                                                     <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$ass?>" aria-expanded="true" aria-controls="collapse<?=$ass?>">
-                                                                        <h5><img src="<?=  Yii::getAlias('@web/img/homework.png')?>" height="30px" width="30px"/><span class="assignment-auto"></span> <span class="assignment-header"><?php  echo ucwords($assign -> assName)?></span></h5>
+                                                                        <h5 class="responsiveheader"><img src="<?=  Yii::getAlias('@web/img/homework.png')?>" height="30px" width="30px"/><span class="assignment-auto"></span> <span class="assignment-header"><?php  echo ucwords($assign -> assName)?></span></h5>
                                                                     </button>
                                                                 </div>
                                                                 <div class="col-sm-1">
@@ -98,7 +98,7 @@ $this->params['breadcrumbs'] = [
 
                                                     <div id="collapse<?=$ass?>" class="collapse" aria-labelledby="heading<?=$ass?>" data-parent="#accordionExample">
                                                         <div class="card-body">
-                                                            <p><span style="color:green"> Description: </span>  <?= $assign -> ass_desc ?> </p>
+                                                            <p class="text-sm"><span style="color:green"> Description: </span>  <?= $assign -> ass_desc ?> </p>
                                                         </div>
                                                         <div class="card-footer p-2 bg-white border-top">
                                                             <div class="row">
@@ -120,7 +120,7 @@ $this->params['breadcrumbs'] = [
                                                                     $isOutOfDeadline =   $currentDateTime > $deadLineDate;
                                                                     ?>
 
-                                                                    <b class="text-danger ml-3"><i class="fa fa-clock-o"></i> Deadline : </b><?= $deadLineDate->format('d-m-Y H:i:s A') ?> 
+                                                                    <b class="text-danger ml-3"><i class="fa fa-clock-o"></i> Deadline : </b><span class="responsivetext"><?= $deadLineDate->format('d-m-Y H:i:s A') ?> </span>
                                                                 </div>
                                                                 <div class="col-md-6">
 
@@ -163,7 +163,7 @@ $this->params['breadcrumbs'] = [
                                 <!-- ########################################### Assignments end ######################################## -->
 
                             </div>
-                   
+                                                                                              </div>
                 </section>
             </div>
         </div><!--/. container-fluid -->
@@ -182,13 +182,13 @@ $this->params['breadcrumbs'] = [
                                       <!-- Left col -->
                                       <section class="col-lg-12 p-0">
 
-
+                                         <div class="card-body">
         
                                                   <div class="tab-content p-0" id="custom-tabs-four-tabContent">
 
                                                       <?php
                                                       if(empty($labs)){
-                                                          echo "<p class='text-muted text-lg'>";
+                                                          echo "<p class='text-muted text-lg text-center p-1 responsivetext'>";
                                                           echo "No lab found";
                                                           echo "</p>";
                                                       }
@@ -200,13 +200,13 @@ $this->params['breadcrumbs'] = [
                                                       <div class="accordion" id="accordionExample_3">
                                                           <?php foreach( $labs as $lab ) : ?>
                                                           
-                                                                  <div class="card shadow-lg">
+                                                                  <div class="card shadow-lg" data-toggle="collapse" data-target="#collapse<?=$labb?>" aria-expanded="true" aria-controls="collapse<?=$labb?>">
                                                                       <div class="card-header p-2" id="heading<?=$labb?>">
                                                                           <h2 class="mb-0">
                                                                               <div class="row">
                                                                                   <div class="col-sm-11">
-                                                                                      <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$labb?>" aria-expanded="true" aria-controls="collapse<?=$labb?>">
-                                                                                          <h5><img src="<?=  Yii::getAlias('@web/img/homework.png')?>" height="30px" width="30px"/> <span class="assignment-header"><?php echo $lab->assName;?></span></h5>
+                                                                                      <button class="btn btn-link btn-block text-left" type="button" >
+                                                                                          <h5 class="responsiveheader"><img src="<?=  Yii::getAlias('@web/img/homework.png')?>" height="30px" width="30px"/> <span class="assignment-header"><?php echo $lab->assName;?></span></h5>
 
                                                                                       </button>
                                                                                   </div>
@@ -219,7 +219,7 @@ $this->params['breadcrumbs'] = [
 
                                                                       <div id="collapse<?=$labb?>" class="collapse" aria-labelledby="heading<?=$labb?>" data-parent="#accordionExample_3">
                                                                           <div class="card-body">
-                                                                              <p><span style="color:green"> Description: </span> <?= $lab -> ass_desc ?></p>
+                                                                              <p class="text-sm"><span style="color:green"> Description: </span> <?= $lab -> ass_desc ?></p>
                                                                           </div>
                                                                           <div class="card-footer p-2 bg-white border-top">
                                                                               <div class="row">
@@ -236,7 +236,7 @@ $this->params['breadcrumbs'] = [
 
                                                                                       ?>
 
-                                                                                      <b class="text-danger ml-3"><i class="fa fa-clock-o"></i>Deadline : </b><?= $deadLineDate->format('d-m-Y H:i:s A') ?>
+                                                                                      <b class="text-danger ml-3"><i class="fa fa-clock-o"></i>Deadline : </b><span class="responsivetext"><?= $deadLineDate->format('d-m-Y H:i:s A') ?></span>
                                                                                   </div>
                                                                                   <div class="col-md-6">
                                                                                       <?php
@@ -280,7 +280,7 @@ $this->params['breadcrumbs'] = [
                                                       </div>
                                                       <!-- ########################################### lab work end ######################################## -->
                                                   </div>
-                                             
+                                                                                              </div>
                                           
                                       </section>
                                   </div>

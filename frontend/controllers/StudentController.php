@@ -1096,7 +1096,7 @@ public function actionClasswork($cid){
         }
         }
         catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Something wente wrong'.$e->getMessage());
+            Yii::$app->session->setFlash('error', 'Something went wrong');
          
         }
 
@@ -1178,7 +1178,7 @@ public function actionClasswork($cid){
             return $model;
         }
 
-        throw new NotFoundHttpException(Yii::t('app', 'Group do not exist!!!!!!!!!!!!!!!!'));
+        throw new NotFoundHttpException(Yii::t('app', 'Group do not exist!'));
     }
 
 

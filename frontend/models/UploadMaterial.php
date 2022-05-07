@@ -36,7 +36,7 @@ class UploadMaterial extends Model{
         $ass->course_code =Yii::$app->session->get('ccode');
         date_default_timezone_set('Africa/Dar_es_Salaam');
 
-        $ass->upload_time=date("h:i:s");
+        $ass->upload_time=date("H:i:s");
         $ass->upload_date=date("Y-m-d");
         $this->assFile->saveAs('storage/temp/'.$fileName);
         if($ass->save(false))

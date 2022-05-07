@@ -33,7 +33,7 @@ class UploadTutorial extends Model{
         $tut->instructorID =Yii::$app->user->identity->instructor->instructorID;
         $tut->course_code =Yii::$app->session->get('ccode');
         date_default_timezone_set('Africa/Dar_es_Salaam');
-        $tut->create_time=date('Y-m-d h:i:s');
+        $tut->create_time=date('Y-m-d H:i:s');
         $extension=pathinfo($fileName,PATHINFO_EXTENSION);
         $filename=uniqid().'.'.$extension;
         $this->assFile->saveAs('storage/temp/'.$filename);

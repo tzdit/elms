@@ -63,7 +63,7 @@ class StudentGroups extends Model{
        
         $groups=array_chunk($students_array,$this->membersNumber);
         $instructorID = Yii::$app->user->identity->instructor->instructorID;
-        $now=date("m:d:Y h:i:s");
+        $now=date("Y-m-d H:i:s");
 
        
         //$groupmodel->course_code=$ccode;
@@ -74,7 +74,7 @@ class StudentGroups extends Model{
         $typesmodel->course_code=$ccode;
         $typesmodel->creator_type="instructor";
         $typesmodel->instructorID=$instructorID;
-        $typesmodel->yearID=1;
+        $typesmodel->yearID=yii::$app->session->get("currentAcademicYear")->yearID;
         $typesmodel->max_groups_members=$this->membersNumber;
         $typesmodel->save();
 
@@ -137,7 +137,7 @@ public function addstudenttype()
 
   $ccode=Yii::$app->session->get('ccode');
   $instructorID = Yii::$app->user->identity->instructor->instructorID;
-  $now=date("m:d:Y h:i:s");
+  $now=date("Y-m-d H:i:s");
   //$groupmodel->course_code=$ccode;
   //setting up the generation type
   $typesmodel=new GroupGenerationTypes();
@@ -145,11 +145,10 @@ public function addstudenttype()
   $typesmodel->course_code=$ccode;
   $typesmodel->creator_type="instructor-student";
   $typesmodel->instructorID=$instructorID;
-  $typesmodel->yearID=1;
+  $typesmodel->yearID=yii::$app->session->get("currentAcademicYear")->yearID;
   $typesmodel->max_groups_members=$this->membersNumber;
   if($typesmodel->save()){return true;}else{return $typesmodel->getErrors();}
 
-  
 
 }
 

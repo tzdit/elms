@@ -36,13 +36,13 @@ $this->params['breadcrumbs'] = [
             <div class="row">
                 <!-- Left col -->
                 <section class="col-lg-12">
-                   
-                        <div class="card-body" >
+                    <div class="card-body">
+                     
                             <div class="tab-content" id="custom-tabs-four-tabContent">
 
                                 <?php
                                 if(empty($tutorials)){
-                                    echo "<p class='text-muted text-lg text-center'>";
+                                    echo "<p class='text-muted text-lg text-center p-1 responsivetext'>";
                                     echo "No tutorial found";
                                     echo "</p>";
                                 }
@@ -55,13 +55,13 @@ $this->params['breadcrumbs'] = [
 
                                         <?php foreach( $tutorials as $tutorial ) : ?>
  
-                                                <div class="card shadow-lg">
+                                                <div class="card shadow-lg" data-toggle="collapse" data-target="#collapse<?=$tutt?>" aria-expanded="true" aria-controls="collapse<?=$tutt?>">
                                                     <div class="card-header p-2" id="heading<?=$tutt?>">
                                                         <h2 class="mb-0">
                                                             <div class="row">
                                                                 <div class="col-sm-11">
-                                                                    <button class="btn btn-link btn-block text-left col-md-11" type="button" data-toggle="collapse" data-target="#collapse<?=$tutt?>" aria-expanded="true" aria-controls="collapse<?=$tutt?>">
-                                                                        <h5> <img src="/img/tutorials.png" height="25px" width="25px"/> <span class="assignment-header"><?php echo $tutorial -> assName;?></span></h5>
+                                                                    <button class="btn btn-link btn-block text-left col-md-11" type="button" >
+                                                                        <h5 class="responsiveheader"> <img src="/img/tutorials.png" height="25px" width="25px"/> <span class="assignment-header responsiveheader"><?php echo $tutorial -> assName;?></span></h5>
                                                                     </button>
                                                                 </div>
                                                                 <div class="col-sm-1">
@@ -73,7 +73,7 @@ $this->params['breadcrumbs'] = [
 
                                                     <div id="collapse<?=$tutt?>" class="collapse" aria-labelledby="heading<?=$tutt?>" data-parent="#accordionExample_4">
                                                         <div class="card-body">
-                                                            <p><span style="color:green"> Hint: </span> <?= $tutorial -> ass_desc ?></p>
+                                                            <p><span style="color:green"> Hint:</span> <span class="text-sm responsivetext"> <?= $tutorial -> ass_desc ?></span></p>
                                                         </div>
                                                         <div class="card-footer p-2 bg-white border-top">
                                                             <div class="row">
@@ -97,11 +97,12 @@ $this->params['breadcrumbs'] = [
                                         <?php endforeach ?>
 
 
-                                    </div>
+                                   
                                 <!-- ########################################### tutorial work end ######################################## -->
                             </div>
                         </div>
                     </div>
+                                        </div>
                 </section>
             </div>
         </div><!--/. container-fluid -->

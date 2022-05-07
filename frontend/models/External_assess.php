@@ -43,7 +43,7 @@ class External_assess extends Model{
           $assmodel->yearID=yii::$app->session->get("currentAcademicYear")->yearID;
           $assmodel->total_marks=$this->totalMarks;
           date_default_timezone_set('Africa/Dar_es_Salaam');
-          $assmodel->date_created=date("Y-m-d h:i:s");
+          $assmodel->date_created=date("Y-m-d H:i:s");
 
           if($assmodel->save())
           {

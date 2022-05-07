@@ -69,7 +69,7 @@ class UploadLab extends Model{
         $ass->total_marks = $this->totalMarks;
         $ass->status="notpublished";
         date_default_timezone_set('Africa/Dar_es_Salaam');
-        $ass->create_time=date('Y-m-d h:i:s');
+        $ass->create_time=date('Y-m-d H:i:s');
         $ass->course_code =Yii::$app->session->get('ccode');
         
         if(!$ass->save()){

@@ -252,7 +252,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function saveLastLogin()
     {
         date_default_timezone_set('Africa/Dar_es_Salaam');
-        $this->last_login=date('Y-m-d h:i:s');
+        $this->last_login=date('Y-m-d H:i:s');
 
         try
         {

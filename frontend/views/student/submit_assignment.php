@@ -17,11 +17,10 @@ AppAsset::register($this);
 /* @var $model common\models\User */
 /* @var $form ActiveForm */
 $this->params['courseTitle'] ='<img src="/img/Assignment4.png" height="30px" width="29px"/> '.yii::$app->session->get("ccode"). ' Assignment Submission';
-$this->title ='Assignment Submission';
+$this->title ='Submit';
 $this->params['breadcrumbs'] = [
-    ['label'=>yii::$app->session->get("ccode").' Dashboard', 'url'=>Url::to(['/student/classwork','cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get("ccode"))])],
-    ['label'=>'Assignments', 'url'=>Url::to(['/student/view-normal-assignments','cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get("ccode"))])],
-    ['label'=>"Submit"]
+    ['label'=>'Normal Assignments', 'url'=>Url::to(['/student/view-normal-assignments','cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get("ccode"))])],
+    ['label'=>$this->title]
   ];
 ?>
 <div class="changePassword">

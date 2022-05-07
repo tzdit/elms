@@ -53,11 +53,15 @@ AppAsset::register($this);
    }
    .responsivetext
    {
-     font-size:4vw;
+     font-size:4vw!important;
    }
    .responsiveheader
    {
-    font-size:5vw;
+    font-size:5vw!important;
+   }
+   .textthumb
+   {
+    font-size:3vw!important;
    }
 }
 

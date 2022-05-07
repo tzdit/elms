@@ -26,13 +26,13 @@ $this->params['breadcrumbs'] = [
                 <!-- Left col -->
                 <section class="col-lg-12">
                   
-                        <div class="row p-0 border-bottom-0">
-                            <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true">Individual Assignments</a>
+                        <div class="row p-0 border-bottom-0 ">
+                            <ul class="nav nav-tabs responsivetext p-0" id="custom-tabs-four-tab" role="tablist">
+                                <li class="nav-item p-0">
+                                    <a class="nav-link active p-1 pt-2" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true"><i class="fa fa-user"></i> Individual Assignments</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false">Group Assignments</a>
+                                <li class="nav-item p-0">
+                                    <a class="nav-link p-1 pt-2" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false"><i class="fa fa-group"></i> Group Assignments</a>
                                 </li>
                             </ul>
 
@@ -52,7 +52,7 @@ $this->params['breadcrumbs'] = [
                                             <section class="col-lg-12">
                                                 <?php
                                                 if(empty($returned)){
-                                                    echo "<p class='text-muted text-lg'>";
+                                                    echo "<p class='text-muted text-lg p-1 text-center'>";
                                                     echo "No submissions found";
                                                     echo "</p>";
                                                 }
@@ -104,7 +104,7 @@ $this->params['breadcrumbs'] = [
                                                                                 <div class="float-right mr-4">
                                                                                 <?php 
                                                                                  date_default_timezone_set('Africa/Dar_es_Salaam');
-                                                                                if(strtotime(date('Y-m-d h:i:s')) > strtotime($returne->ass->finishDate) && $returne->score != NULL ){
+                                                                                if(strtotime(date('Y-m-d H:i:s')) > strtotime($returne->ass->finishDate) && $returne->score != NULL ){
                                                                                  ?>
                                                                                      <div class="shadow p-3">
                                                                                      <b><span class="text-muted">Score:</span> <span style="color: #007bff;"><?= $returne->score ?></span></b><br>
@@ -136,7 +136,7 @@ $this->params['breadcrumbs'] = [
                                             </section>
                                             <!-- ########################################### returned marks end ######################################## -->
                                     
-                                </div>
+                                </div></div></div>
                                 <div class="tab-pane fade" id="materials" role="tabpanel" aria-labelledby="custom-tabs-materials">
                                     <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">
                                         <div class="card-body" >

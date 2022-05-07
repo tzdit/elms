@@ -12,7 +12,7 @@ use frontend\models\ClassRoomSecurity;
 
 AppAsset::register($this);
 
-$this->title=yii::$app->session->get("ccode")." Group Assignment Submit";
+$this->title="Submit";
 $this->params['courseTitle']='<img src="/img/groupass.png" height="25px" width="25px"/> '.yii::$app->session->get("ccode").' Group Assignment Submit';
 /* @var $this yii\web\View */
 /* @var $model common\models\User */

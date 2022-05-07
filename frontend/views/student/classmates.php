@@ -15,7 +15,7 @@ use frontend\models\AddPartner;
 /* @var $this yii\web\View */
 $cid=yii::$app->session->get('ccode');
 $this->params['courseTitle'] ='<img src="/img/student.png" height="25px" width="25px"/>'.$cid. " Classmates";
-$this->title = $cid. " Classmates";
+$this->title ="Classmates";
 $this->params['breadcrumbs'] = [
   ['label'=>$cid." Dashboard", 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
   ['label'=>$this->title]
@@ -30,9 +30,7 @@ $this->params['breadcrumbs'] = [
    
        <div class="container-fluid">
       
- <div class="row">
-          <!-- Left col -->
-          <section class="col-lg-12 ">
+
        
      <?php 
   
@@ -43,8 +41,8 @@ $this->params['breadcrumbs'] = [
        
        ?>
         
-            <div class="table-responsive">
-            <table width="100%" class="table table-striped table-bordered table-hover text-sm " id="studenttable" style="width:100%">
+            <div class="container table-responsive">
+            <table  class="table table-striped table-bordered table-hover text-sm " id="studenttable" >
 		<thead>
 			<tr>
        <th>
@@ -93,9 +91,7 @@ $this->params['breadcrumbs'] = [
     </div>
 </div>
 
-</section>
-          
-</div>
+
 
       </div><!--/. container-fluid -->
 
@@ -126,7 +122,9 @@ $(document).ready(function(){
     //responsive:true,
   //});
   
-  $('#studenttable').DataTable( );
+  $('#studenttable').DataTable({
+    responsive:true
+  } );
 $('.partnerdel').click(function(w){
 
  w.preventDefault();
