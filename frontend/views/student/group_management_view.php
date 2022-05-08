@@ -211,19 +211,12 @@ $this->params['breadcrumbs'] = [
 
                                
 
+                                            <?php $script = <<<JS
+$(document).ready(function(){
 
-
-
-
-                                                                      
-
-                                                                            <?php
-                                                                            $script = <<<JS
-                                                                            $(document).ready(function(){
-                                                                         
                                                                             
-                                                                            });
-                                                                            JS;
+});
+JS;
                                                                             $this->registerJs($script);
 
                                                                             ?>
