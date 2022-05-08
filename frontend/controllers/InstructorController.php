@@ -2674,7 +2674,7 @@ public function actionStudentList(){
     }
 
     //temporary
-
+    /*
     public function actionSignAll()
     {
         $submits=GroupAssignmentSubmit::find()->all();
@@ -2727,4 +2727,5 @@ public function actionStudentList(){
 
         return $this->render('index',['report'=>$report,'perc'=>$perc]);
     }
+    */
 }
