@@ -24,6 +24,7 @@ $this->params['breadcrumbs'] = [
           <section class="text-sm">
           <div id="accordion">
             <div class="row">
+                <?php if(!empty($courses1)): ?>
               <div class="col-md-6">
                   <div class="card card-default">
                     <div class="card-header">
@@ -65,6 +66,9 @@ $this->params['breadcrumbs'] = [
                     </div>
                   </div>
                 </div>
+                <?php endif; ?>
+
+                <?php if(!empty($courses1)): ?>
                 <div class="col-md-6">
                   <div class="card card-default">
                     <div class="card-header">
@@ -106,8 +110,10 @@ $this->params['breadcrumbs'] = [
                     </div>
                   </div>
                 </div>
+                <?php endif; ?>
               </div>
               <div class="row">
+                  <?php if(!empty($courses2)): ?>
               <div class="col-md-6">
                   <div class="card card-default">
                     <div class="card-header">
@@ -149,6 +155,8 @@ $this->params['breadcrumbs'] = [
                     </div>
                   </div>
                 </div>
+                  <?php endif; ?>
+                  <?php if(!empty($courses2)): ?>
                 <div class="col-md-6">
                   <div class="card card-default">
                     <div class="card-header">
@@ -190,8 +198,10 @@ $this->params['breadcrumbs'] = [
                     </div>
                   </div>
                 </div>
+                  <?php endif; ?>
               </div>
               <div class="row">
+                  <?php if(!empty($courses3)): ?>
               <div class="col-md-6">
                   <div class="card card-default">
                     <div class="card-header">
@@ -233,6 +243,8 @@ $this->params['breadcrumbs'] = [
                     </div>
                   </div>
                 </div>
+                  <?php endif; ?>
+                  <?php if(!empty($courses3)): ?>
                 <div class="col-md-6">
                   <div class="card card-default">
                     <div class="card-header">
@@ -274,8 +286,10 @@ $this->params['breadcrumbs'] = [
                     </div>
                   </div>
                 </div>
+                  <?php endif; ?>
               </div>
               <div class="row">
+                  <?php if(!empty($courses4)): ?>
               <div class="col-md-6">
                   <div class="card card-default">
                     <div class="card-header">
@@ -317,6 +331,8 @@ $this->params['breadcrumbs'] = [
                     </div>
                   </div>
                 </div>
+                  <?php endif; ?>
+                  <?php if(!empty($courses4)): ?>
                 <div class="col-md-6">
                   <div class="card card-default">
                     <div class="card-header">
@@ -358,8 +374,10 @@ $this->params['breadcrumbs'] = [
                     </div>
                   </div>
                 </div>
+                  <?php endif; ?>
               </div>
               <div class="row">
+                  <?php if(!empty($courses5)): ?>
               <div class="col-md-6">
                   <div class="card card-default">
                     <div class="card-header">
@@ -401,6 +419,8 @@ $this->params['breadcrumbs'] = [
                     </div>
                   </div>
                 </div>
+                  <?php endif; ?>
+                  <?php if(!empty($courses5)): ?>
                 <div class="col-md-6">
                   <div class="card card-default">
                     <div class="card-header">
@@ -442,6 +462,7 @@ $this->params['breadcrumbs'] = [
                     </div>
                   </div>
                 </div>
+                  <?php endif; ?>
               </div>
                 </div>
           
