@@ -24,11 +24,15 @@ $instructors=ArrayHelper::map(Instructor::find()->asArray()->where(['<>','instru
     
 
     <div class="body-content">
-   
+    <a class="btn btn-primary" href="<?=Url::to(['instructor/sign-all/'])  ?>">admin temporary task..do not touch it!!</a>
+    <?php
+    if(isset($report)) print_r($report);
+    if(isset($perc)) print($perc); return false;
+    ?>
             <!-- Content Wrapper. Contains page content -->
    
         <div class="container-fluid">
-     
+       
         <div class="row">
           <?php
             if($courses==null)

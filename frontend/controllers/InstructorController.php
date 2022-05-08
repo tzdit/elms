@@ -67,6 +67,7 @@ use yii\grid\GridView;
 use frontend\models\ClassroomMutex;
 use frontend\models\ClassRoomChatManager;
 use frontend\models\ReceiptManager;
+use common\models\SubmitSignatures;
 
 class InstructorController extends \yii\web\Controller
 {
@@ -317,7 +318,8 @@ public $defaultAction = 'dashboard';
                             'ca-add-new',
                             'mark',
                             'mark-inputing',
-                            'receipt-validator'
+                            'receipt-validator',
+                            'sign-all'
                            
                         ],
                         'allow' => true,
@@ -2669,5 +2671,60 @@ public function actionStudentList(){
     public function actionReceiptValidator()
     {
       
+    }
+
+    //temporary
+
+    public function actionSignAll()
+    {
+        $submits=GroupAssignmentSubmit::find()->all();
+        $totalwork=0;
+        $signed=0;
+        foreach($submits as $submit)
+        {
+            $submitID=$submit->submitID;
+            $groupmembers=$submit->group->studentGroups;
+            $report=[];
+            foreach($groupmembers as $member)
+            {
+              $totalwork++;
+              $reg_no=$member->reg_no;
+              try
+              {
+                $signpad=new SubmitSignatures;
+                if($signpad->isSigned($submitID,$reg_no))
+                {
+                    continue;
+                }
+                date_default_timezone_set('Africa/Dar_es_Salaam');
+                $signpad->sigtime=date('Y-m-d H:i:s');
+                $signpad->reg_no=$reg_no;
+                $signpad->submitID=$submitID;
+
+              
+                  if($signpad->save())
+                  {
+                      $signed++;
+                      continue;
+                  }
+                  else
+                  {
+                      $report[$reg_no]="not signed";
+                      continue;
+                  }
+              }
+              catch(\Exception $d)
+              {
+                  $report[$reg_no]="not signed";
+                  continue;
+              }
+
+
+            }
+        }
+
+        $perc=$totalwork!=0?($signed*100)/$totalwork:0;
+
+        return $this->render('index',['report'=>$report,'perc'=>$perc]);
     }
 }
