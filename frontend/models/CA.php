@@ -1092,7 +1092,7 @@ class CA extends Model{
         $mpdf->WriteHTML($stylesheet,1);
         $mpdf->SetWatermarkText('civeclassroom.udom.ac.tz',0.09);
         $mpdf->showWatermarkText = true;
-        $mpdf->WriteHTML('<div align="center"><img src="img/logo.png" /></div>',2);
+        $mpdf->WriteHTML('<div align="center"><img src="img/logo.png" width="125px" height="125px"/></div>',2);
         $mpdf->WriteHTML('<p align="center"><font size=7>The University of Dodoma</font></p>',3);
         $mpdf->WriteHTML('<p align="center"><font size=5>'.$college.'</font></p>',3);
         $mpdf->WriteHTML('<p align="center"><font size=5>'.$course.' '.$courseTitle.'</font></p>',3);

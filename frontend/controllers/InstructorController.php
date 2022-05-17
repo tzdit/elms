@@ -1207,17 +1207,7 @@ public function actionClassStudents($cid)
 
 //Quizes page
 
-public function actionClassQuizes()
-{
-    $dataProvider = new ActiveDataProvider([
-        'query' => QuizThread::find(),
-    ]);
 
-    return $this->render('../quiz-thread/index', [
-        'dataProvider' => $dataProvider,
-    ]);
-
-}
 
 //live lecturing page
 
