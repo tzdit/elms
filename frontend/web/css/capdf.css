@@ -16,3 +16,7 @@ td
 {
     color: green;
 }
+.border-success
+{
+    border:solid 2px green;
+}
