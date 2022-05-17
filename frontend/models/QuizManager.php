@@ -45,7 +45,10 @@ class QuizManager extends Model
      $this->q_bank=str_replace(" ","",yii::$app->session->get('ccode'))."_questionsBank.qb";
      FileHelper::createDirectory($this->quizzesHome);
      FileHelper::createDirectory($this->quizzesHome.'images/');
-     
+     if(!file_exists($this->quizzesHome.$this->q_bank))
+     {
+       file_put_contents($this->quizzesHome.$this->q_bank,"");
+     }
      if($question!=null)
      {
      if(isset($this->questionAnswerOptions) && !empty($this->questionAnswerOptions))
