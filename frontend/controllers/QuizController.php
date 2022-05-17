@@ -135,21 +135,18 @@ public $defaultAction = 'dashboard';
         $data['optionImage']=UploadedFile::getInstancesByName('optionImage');
         $data['questionImage']=UploadedFile::getInstancesByName('questionImage');
         $manager=new QuizManager($data);
-        try
-        {
+       
             if($manager->questionSave())
             {
               yii::$app->session->setFlash("success","<i class='fa fa-info-circle'></i> Question Added Successfully !");
               return $this->redirect(yii::$app->request->referrer); 
             } 
            
-        }
-        catch(\Exception $q)
-        {
-            yii::$app->session->setFlash("error","<i class='fa fa-exclamation-triangle'></i> ".$q->getMessage());
+       
+            yii::$app->session->setFlash("error","<i class='fa fa-exclamation-triangle'></i> ");
             return $this->redirect(yii::$app->request->referrer) ;
            
-        }
+       
       
     }
     public function actionDeleteQuestion()
