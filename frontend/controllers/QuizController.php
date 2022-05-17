@@ -115,6 +115,7 @@ public $defaultAction = 'dashboard';
     }
     public function actionQuestionsBank()
     {
+      $manager=new QuizManager();
       return $this->render('questionsBank');
     }
     public function actionQuestionsBank2()
