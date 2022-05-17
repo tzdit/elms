@@ -48,16 +48,20 @@ use frontend\models\QuizManager;
                       }
                      ?>
                      <div class="responsivetext col-sm-12">
+                     
                       <?php
                         if($options['type']=="textual")
                         {
+                          ?>
+                          <ul>
+                          <?php
                           foreach($options['choices'] as $indexc=>$choice)
                           {
             
                               if(array_key_exists($indexc,$options['true-choices']))
                               {
                           ?>
-                             <ul>
+                            
                              <li class="ml-4  responsivetext text-success"><?=$choice?></li>
                           <?php
                          
@@ -71,9 +75,15 @@ use frontend\models\QuizManager;
                               }
                             
                           }
+                          ?>
+                          </ul>
+                          <?php
                         }
                         else
                         {
+                          ?>
+                          <ul>
+                          <?php
                           foreach($options['choices'] as $indexd=>$choice)
                           {
                             if(array_key_exists($indexd,$options['true-choices']))
@@ -90,9 +100,12 @@ use frontend\models\QuizManager;
                               <?php
                             }
                           }
+                          ?>
+                          </ul>
+                          <?php
                         }
                       ?>
-                      </ul>
+                     
                      
                      </div>
                  </div>
