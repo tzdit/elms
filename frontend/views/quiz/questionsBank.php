@@ -43,7 +43,7 @@ $this->params['breadcrumbs'] = [
            <div class="card shadow">
               <div class="card-body p-2 pl-1 text-center">
                 <?php $bankfile=(new QuizManager)->getBankHome()?>
-               <a href="#" class="btn btn-default shadow text-primary" data-toggle="tooltip" data-title="Upload Questions Bank File" ><i class="fa fa-upload"></i></a>
+               <a href="#" class="btn btn-default shadow text-primary" data-toggle="modal" data-target="#uploadermodal" ><i class="fa fa-upload" data-toggle="tooltip" data-title="Upload Questions Bank File" ></i></a>
                <a href="/<?=$bankfile?>" class="btn btn-default shadow text-primary" data-toggle="tooltip" data-title="Download Questions Bank File"  ><i class="fa fa-download"></i></a>
                <a href="<?=Url::to("/quiz/download-bank")?>" class="btn btn-default shadow text-primary" data-toggle="tooltip" data-title="Download As PDF"  ><i class="fa fa-file-pdf-o text-danger"></i></a>
                </div></div></div></div></div>
@@ -144,6 +144,10 @@ $this->params['breadcrumbs'] = [
         -->
 <?=
 $this->render('newQuestion');
+
+?>
+<?=
+$this->render('questionsUploader');
 
 ?>
     </div>

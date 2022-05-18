@@ -106,13 +106,39 @@ $(document).ready(function(){
   });
   $("#CoursesTable").DataTable({
     responsive:true,
+    dom: 'Bfrtip',
+        buttons: [
+            'csv',
+            {
+                extend: 'pdfHtml5',
+                title: 'Students\' Quiz Scores'
+            },
+            {
+                extend: 'excelHtml5',
+                title: 'Students\' Quiz Scores'
+            },
+            'print',
+        ]
   });
   //$("#studenttable").DataTable({
     //responsive:true,
   //});
   
   $('#studenttable').DataTable({
-    responsive:true
+    responsive:true,
+    dom: 'Bfrtip',
+        buttons: [
+            'csv',
+            {
+                extend: 'pdfHtml5',
+                title: 'Students\' Quiz Scores'
+            },
+            {
+                extend: 'excelHtml5',
+                title: 'Students\' Quiz Scores'
+            },
+            'print',
+        ]
   } );
 $('.partnerdel').click(function(w){
 

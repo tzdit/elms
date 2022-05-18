@@ -9,11 +9,8 @@ use yii\helpers\FileHelper;
 use common\models\Quiz;
 use Mpdf\Mpdf;
 use common\models\Course;
+use common\models\StudentQuiz;
 
-/*
-A model class for managing academicyear, switching to and from a specific 
-academic year, and migrating the whole system to a new academic year
-*/
 
 class QuizManager extends Model
 {
@@ -180,7 +177,8 @@ class QuizManager extends Model
 
   public function questionSave()
   {
-      $index=rand();
+      $course=str_replace(" ","",yii::$app->session->get('ccode'));
+      $index=$course.rand();
       $question=$this->questionRestructure();
     
       $qbank=$this->q_bank;
@@ -363,6 +361,7 @@ class QuizManager extends Model
       {
         throw new Exception("Number of questions must be a number greater than 0 !");
       }
+      if($numquestions>count($this->questionsBankReader())){throw new Exception("You Do Not Have Enough Questions In The Bank !");}
       if($end==null){throw new Exception("Deadline Date And Time Must Be Specified For This Type Of Quiz !");}
          $transaction = Yii::$app->db->beginTransaction();
          $quizdb=new Quiz;
@@ -493,5 +492,110 @@ else
   return 'no content';
 }
   }
+
+  public function questionsUploader($bankfile)
+  {
+   
+   $name=$bankfile->name;
+   $ext=pathinfo($name, PATHINFO_EXTENSION);
+   $size=$bankfile->size;
+
+   
+
+   if($ext!="qb"){throw new Exception("Please Upload a Questions Bank File (.qb)");}
+   if($size==0 && $bankfile->error==0){throw new Exception("Uploaded File Is Empty!");}
+   $content=file_get_contents($bankfile->tempName);
+   $content=$this->RevealBankData($content);
+   if(!$this->isJson($content)){throw new Exception("Invalid File! File Content Corrupt or Not Supported !");}
+   
+   $content_to_array=json_decode($content,true);
+   $questionsBank=($this->questionsBankReader()!=null)?$this->questionsBankReader():[];
+   $added=0;
+   foreach($content_to_array as $index=>$question)
+   {
+     if(array_key_exists($index,$questionsBank)){continue;}
+     $questionsBank[$index]=$question;
+     $added++;
+   }
+
+   if($this->updateQuestionsBank($questionsBank))
+   {
+    return $added;
+   }
+
+ 
+
+  }
+
+  public function isJson($string) {
+    json_decode($string);
+    return json_last_error() === JSON_ERROR_NONE;
+ }
+ public function getQuizData($quiz)
+ {
+   $quiz=Quiz::findOne($quiz);
+
+   if($quiz->isExpired()){throw new Exception("Cannot Take Expired Quiz");}
+   
+   if($quiz->attempt_mode=="massive")
+   {
+     if($quiz->quiz_file==null){throw new Exception("Quiz File Not Found");}
+     $quizdata=$this->quizReader($quiz->quizID);
+
+     return $quizdata;
+   }
+   else
+   {
+    $quizdata=$this->generateRandomQuiz($quiz->quizID);
+   
+   }
+   return $quizdata;
+ }
+
+ private function generateRandomQuiz($quiz)
+ {
+    $quiz=Quiz::findOne($quiz);
+    $sessionid=yii::$app->session->get("ccode").$quiz->quizID;
+    $quizsession=yii::$app->session->get($sessionid);
+    if($quizsession!=null){return $quizsession;}
+    $randomQuiz=[];
+    $num_questions=$quiz->num_questions;
+
+    $questionsBank=$this->questionsBankReader();
+    $questionsindex=array_rand($questionsBank,$num_questions);
+    if(is_array($questionsindex))
+    {
+    foreach($questionsindex as $index=>$value)
+    {
+      $randomQuiz[$value]=$questionsBank[$value];
+    }
+    }
+    else
+    {
+      $randomQuiz[$questionsindex]=$questionsBank[$questionsindex];
+    }
+    yii::$app->session->set($sessionid,$randomQuiz);
+     return $randomQuiz;
+ }
+
+ public function registerStudent($quizID)
+ {
+   $student=yii::$app->user->identity->student->reg_no;
+   $studentquiz=new StudentQuiz();
+
+   if($studentquiz->isRegistered($student,$quizID)){ return true;}
+   $studentquiz->reg_no=$student;
+   $studentquiz->quizID=$quizID;
+   $studentquiz->score=0;
+   
+   if($studentquiz->save())
+   {
+     return true;
+   }
+   else
+   {
+     return false;
+   }
+ }
    
 }

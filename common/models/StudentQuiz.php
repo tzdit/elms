@@ -79,4 +79,11 @@ class StudentQuiz extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Student::className(), ['reg_no' => 'reg_no']);
     }
+
+    public function isRegistered($student,$quiz)
+    {
+        $registered=$this->find()->where(["reg_no"=>$student,"quizID"=>$quiz])->one();
+
+        return $registered!=null;
+    }
 }

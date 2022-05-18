@@ -112,4 +112,36 @@ class Quiz extends \yii\db\ActiveRecord
 
         return $lastlogin<$time;
     }
+    public function isExpired()
+    {
+        date_default_timezone_set('Africa/Dar_es_Salaam');
+        $now=strtotime(date("Y-m-d H:i:s"));
+        if($this->attempt_mode=="individual")
+        {
+        $end=strtotime($this->end_time);
+        return $end<$now;
+        }
+        else
+        {
+           
+
+            $start=new \DateTime($this->start_time);
+            $start->modify ("+{$this->duration} minutes");
+            $end=strtotime($start->format('Y-m-d H:i:s'));
+           
+
+            return $end<$now; 
+        }
+
+       
+    }
+    public function hasStarted()
+    {
+        date_default_timezone_set('Africa/Dar_es_Salaam');
+
+        $now=strtotime(date("Y-m-d H:i:s"));
+        $start=strtotime($this->start_time);
+
+        return $start<$now;
+    }
 }

@@ -50,7 +50,8 @@ public $defaultAction = 'dashboard';
                             'delete-quiz',
                             'quiz-preview',
                             'scores-view',
-                            'download-bank'
+                            'download-bank',
+                            'questions-uploader'
 
                         ],
                         'allow' => true,
@@ -72,7 +73,8 @@ public $defaultAction = 'dashboard';
                            'delete-quiz',
                            'quiz-preview',
                            'scores-view',
-                           'download-bank'
+                           'download-bank',
+                           'questions-uploader'
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR & HOD']
@@ -82,7 +84,10 @@ public $defaultAction = 'dashboard';
                     [
                         'actions' => [
                  
-                            'logout'
+                            'logout',
+                            'student-quizes',
+                            'quiz-take',
+                            'get-quiz-responses'
                            
                            
                         ],
@@ -132,6 +137,7 @@ public $defaultAction = 'dashboard';
     public function actionSaveQuestion()
     {
         $data=yii::$app->request->post();
+      
         $data['optionImage']=UploadedFile::getInstancesByName('optionImage');
         $data['questionImage']=UploadedFile::getInstancesByName('questionImage');
         $manager=new QuizManager($data);
@@ -139,6 +145,7 @@ public $defaultAction = 'dashboard';
         {
             if($manager->questionSave())
             {
+               
               yii::$app->session->setFlash("success","<i class='fa fa-info-circle'></i> Question Added Successfully !");
               return $this->redirect(yii::$app->request->referrer); 
             } 
@@ -230,5 +237,51 @@ public function actionDownloadBank()
     (new QuizManager)->downloadPDFbank($this->renderPartial("questionsBank2pdf"));
 }
 
+public function actionQuestionsUploader()
+{
+   try
+   {
+        $num_added=(new quizManager)->questionsUploader(UploadedFile::getInstancesByName("questionsfile")[0]);
+     
+         yii::$app->session->setFlash("success","<i class='fa fa-info-circle'></i> ".$num_added." Question(s) Uploaded To The Bank Successfully !");
+         return $this->redirect(yii::$app->request->referrer);
+
+   }
+   catch(Exception $b)
+   {
+    yii::$app->session->setFlash("error","<i class='fa fa-exclamation-triangle'></i> Could Not Upload Questions !".$b->getMessage());
+    return $this->redirect(yii::$app->request->referrer);
+   }
+     
+    
+}
+
+public function actionStudentQuizes()
+{
+    $course=yii::$app->session->get('ccode');
+    $yearid=yii::$app->session->get('currentAcademicYear')->yearID;
+    $quizzes=Quiz::find()->where(['course_code'=>$course,'yearID'=>$yearid])->orderBy(['quizID'=>SORT_DESC])->all();
+    return $this->render('studentQuizzes',['quizzes'=>$quizzes]);
+}
+public function actionQuizTake($quiz)
+{
+  $quiz=ClassRoomSecurity::decrypt($quiz);
+  try
+  {
+    $quizdata=(new QuizManager)->getQuizData($quiz);
+    return $this->render('quizBoard',['quizdata'=>$quizdata,'title'=>Quiz::findOne($quiz)->quiz_title,'total_marks'=>Quiz::findOne($quiz)->total_marks,'registered'=>(new QuizManager)->registerStudent($quiz)]);
+  }
+  catch(Exception $q)
+  {
+     yii::$app->session->setFlash("error","<i class='fa fa-exclamation-triangle'></i> Unable To Load Quiz, Try Again Later !");
+     return $this->redirect(yii::$app->request->referrer); 
+  }
+  
+}
+
+public function actionGetQuizResponses()
+{
+    print_r(yii::$app->request->post());
+}
 
 }
