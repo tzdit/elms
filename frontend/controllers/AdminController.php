@@ -56,6 +56,7 @@ public $defaultAction = 'dashboard';
                             'create-hod',
                             'create-student',
                             'student-list',
+                            'activity-logs',
                             'delete' => ['POST'],
                         ],
                         'allow' => true,
@@ -169,5 +170,12 @@ public $defaultAction = 'dashboard';
     $students = Student::find()->all();
     return $this->render('student_list', ['students'=>$students]);
 }
+
+// get Activity Logs
+    public function actionActivityLogs(){
+        $searchModel = new TblAuditEntrySearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('activity_logs', ['searchModel' => $searchModel,'dataProvider' => $dataProvider]);
+    }
 
 }

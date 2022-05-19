@@ -207,7 +207,7 @@ $regno=yii::$app->user->identity->student->reg_no;
 
 
                                                                                                         <?php if($isOutOfDeadline == true){?>
-                                                                                                            <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
+                                                                                                            <button class="btn btn-default text-danger float-right" disabled><i class="fas fa-ban">Expired</i> </button>
                                                                                       <?php }else{?>
                                                                                         <?php if($submited==null){?>
                                                                                             <a href="<?= Url::toRoute(['/student/group_assignment_submit','assID'=> ClassRoomSecurity::encrypt($assignment['assID']), 'groupID' => ClassRoomSecurity::encrypt($assignment['groupID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
@@ -299,7 +299,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                                        
 
                                                                                                         <?php if($isOutOfDeadline == true){?>
-                                                                                                                <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></a>
+                                                                                                            <button class="btn btn-default text-danger float-right" disabled><i class="fas fa-ban">Expired</i> </button>
                                                                                       <?php }else{?>
                                                                                         <?php if($submitedAll==null){?>
                                                                                             <a href="<?= Url::toRoute(['/student/group_assignment_submit','assID'=> ClassRoomSecurity::encrypt($assignmentAllItem['assID']), 'groupID' => ClassRoomSecurity::encrypt($assignmentAllItem['groupID'])])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>

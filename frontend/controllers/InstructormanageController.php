@@ -148,7 +148,8 @@ else
     //get instructor list
     public function actionInstructorList(){
         $instructors = Instructor::find()->all();
-        return $this->render('instructor_list', ['instructors'=>$instructors]);
+        $adminCollege = Yii::$app->user->identity->admin->collegeID;
+        return $this->render('instructor_list', ['instructors'=>$instructors, 'adminCollege'=>$adminCollege]);
     }
 
     //get Hod list
