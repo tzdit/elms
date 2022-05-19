@@ -96,4 +96,9 @@ class SubmitSignatures extends \yii\db\ActiveRecord
             return false;
         }
     }
+
+    public function isSigned($submitID,$regno)
+    {
+        return $this->find()->where(['submitID'=>$submitID,'reg_no'=>$regno])->one()!=null;
+    }
 }

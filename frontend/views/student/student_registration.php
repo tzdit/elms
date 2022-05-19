@@ -15,8 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="body-content">
             <!-- Content Wrapper. Contains page content -->
-            <div class="container-fluid text-center d-none d-lg-block d-md-block d-xl-block d-xxl-block">
-    <img src="/img/logo.png" class="img-circle"  style="height:60%;width:15%;margin-bottom:1%"></img>
+            <div class="container text-center d-none d-lg-block d-md-block d-xl-block d-xxl-block">
+    <img src="/img/logo 1.png" class="img-circle"  style="height:60%;width:15%;margin-bottom:1%"></img>
     </div>
         <div class="container-fluid">
 
@@ -84,12 +84,9 @@ $this->params['breadcrumbs'][] = $this->title;
                  </div>
                  </div>
                    <div class="row">
-                     <div class="col-md-4 col-sm-12 col-lg-4">
-                     <span style="font-size:16px;margin-left:5px" class="text-success">Support: <i class="fab fa-whatsapp"></i></span><span style="font-size:16px;margin-left:5px" class="text-success"><i class="fa fa-phone"></i></span><span style="font-size:16px; margin-left:5px" class="text-success"><i class="fas fa-sms"></i> +255755189736</span>
-                     </div>
-                    <div class="col-md-8 col-sm-12 col-lg-8">
+                    <div class="col-md-12 col-sm-12 col-lg-12">
                     
-                     <?= Html::submitButton('<i class="fa fa-paper-plane" aria-hidden="true"></i>  Submit', ['class'=>'btn btn-primary btn-md  float-right mr-0','style'=>'width:70%']) ?>
+                     <?= Html::submitButton('<i class="fa fa-paper-plane" aria-hidden="true"></i>  Submit', ['class'=>'btn btn-primary btn-md  float-right mr-0','style'=>'width:50%']) ?>
                 
                     </div>
                

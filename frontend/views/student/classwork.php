@@ -155,7 +155,7 @@ $course=Course::findOne($cid);
 
                                   <div class="col-sm-3 col-12">
 
-                                      <a href="<?= Url::toRoute(['/student/quiz','cid' => ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
+                                      <a href="<?= Url::toRoute('/quiz/student-quizes')  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
 
                                       <?php
                                   
@@ -171,7 +171,7 @@ $course=Course::findOne($cid);
                                   ?>
                                           <img src="<?=  Yii::getAlias('@web/img/quiz.png')?>" height="35px" width="35px"/>
                                           <h5>
-                                              Quizes
+                                              Quizzes
                                           </h5>
                                       </a>
 

@@ -28,7 +28,7 @@ $instructors=ArrayHelper::map(Instructor::find()->asArray()->where(['<>','instru
             <!-- Content Wrapper. Contains page content -->
    
         <div class="container-fluid">
-     
+       
         <div class="row">
           <?php
             if($courses==null)

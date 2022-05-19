@@ -23,7 +23,6 @@ use Yii;
  * @property Lectureroominfo $lectureroominfos
  * @property Course $courseCode
  * @property Instructor $instructor
- * @property Quiz[] $quizzes
  * @property StudentLecture[] $studentLectures
  */
 class LiveLecture extends \yii\db\ActiveRecord
@@ -112,15 +111,7 @@ class LiveLecture extends \yii\db\ActiveRecord
         return $this->hasOne(Instructor::className(), ['instructorID' => 'instructorID']);
     }
 
-    /**
-     * Gets query for [[Quizzes]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQuizzes()
-    {
-        return $this->hasMany(Quiz::className(), ['lectureID' => 'lectureID']);
-    }
+
 
     /**
      * Gets query for [[StudentLectures]].

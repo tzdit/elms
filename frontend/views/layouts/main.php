@@ -37,6 +37,7 @@ AppAsset::register($this);
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mediaelement-plugins/2.5.1/context-menu/context-menu.min.css" integrity="sha512-0tMNRS8a8sUxculnEHe+nBLWbSJPsiHI4YaaupqEpv7s7X6VaUxtqmqdG8WcuMvOpY1bSNSszdL8gZuJ7cGT9w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/emojionearea/emojionearea.min.css" />
+    
     <style type="text/css">
 
 
@@ -196,7 +197,10 @@ AppAsset::register($this);
    }
 }
     </style>
-    <?php $this->registerCsrfMetaTags() ?>
+    <?php 
+    $this->registerCsrfMetaTags() ;
+    $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => '/logo.png']);
+    ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
@@ -219,7 +223,7 @@ AppAsset::register($this);
   <aside class="main-sidebar main-sidebar-custom sidebar-light-primary  elevation-2 pace-primary " style="background-color:rgba(238,239,247,1)" >
     <!-- Brand Logo -->
     <a href="<?= Url::to(['/home/dashboard']) ?>" class="brand-link bg-primary">
-      <img src="<?= Yii::getAlias('@web/img/logo.png') ?>" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="<?= Yii::getAlias('@web/img/logo 1.png') ?>" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">UDOM CLASSROOM</span>
     </a>
 
