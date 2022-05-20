@@ -534,22 +534,43 @@ else
  public function getQuizData($quiz)
  {
    $quiz=Quiz::findOne($quiz);
-
+   $quizdata=[];
+   $sessionid=yii::$app->session->get("ccode").$quiz->quizID;
+   $quizsession=yii::$app->session->get($sessionid);
+   $student=yii::$app->user->identity->student->reg_no;
+   
+   if(!$quiz->isReadyTaking()){throw new Exception("You are not allowed to take this quiz before the due time ! This quiz starts on ".$quiz->start_time);}
+   if($quizsession==null && (new StudentQuiz)->isRegistered($student,$quiz->quizID))
+   {
+    throw new Exception("You are not allowed to do this quiz more than one time !");
+   }
    if($quiz->isExpired()){throw new Exception("Cannot Take Expired Quiz");}
    
    if($quiz->attempt_mode=="massive")
    {
      if($quiz->quiz_file==null){throw new Exception("Quiz File Not Found");}
      $quizdata=$this->quizReader($quiz->quizID);
+     $quizdata=$this->randomizeMassiveQuizType($quizdata);
+     yii::$app->session->set($sessionid,$quizdata);
 
-     return $quizdata;
    }
    else
    {
     $quizdata=$this->generateRandomQuiz($quiz->quizID);
    
    }
-   return $quizdata;
+   return $this->cleanQuizData($quizdata);
+ }
+
+ private function cleanQuizData($quizData)
+ {
+   foreach($quizData as $index=>$question)
+   {
+     unset($question['options']['true-choices']);
+     $quizData[$index]=$question;
+   }
+
+   return $quizData;
  }
 
  private function generateRandomQuiz($quiz)
@@ -577,6 +598,20 @@ else
     yii::$app->session->set($sessionid,$randomQuiz);
      return $randomQuiz;
  }
+ private function randomizeMassiveQuizType($array) {
+  $newarray=$array;
+  $keys = array_keys($newarray);
+
+  shuffle($keys);
+  $new=[];
+  foreach($keys as $key) {
+      $new[$key] = $newarray[$key];
+  }
+
+  return $new;
+
+
+}
 
  public function registerStudent($quizID)
  {
@@ -586,6 +621,7 @@ else
    if($studentquiz->isRegistered($student,$quizID)){ return true;}
    $studentquiz->reg_no=$student;
    $studentquiz->quizID=$quizID;
+   $studentquiz->status="attempted";
    $studentquiz->score=0;
    
    if($studentquiz->save())
@@ -596,6 +632,122 @@ else
    {
      return false;
    }
+ }
+
+ public function markQuiz($responsesBuffer)
+ {
+   $quiz=$responsesBuffer['quiz'];
+   if((new StudentQuiz)->isSubmitted($quiz))
+   {
+     throw new Exception("You are not allowed to submit twice !");
+   }
+   $scorecount=0;
+   foreach($responsesBuffer as $index=>$responses)
+   {
+     if($index=='quiz' || $index=='_csrf-frontend'){continue;}
+     $trueanswers=$this->loadQuestionsTrueAnswers($index);
+     if($this->isTrueResponse($trueanswers,$responses))
+     {
+      $scorecount++;
+     }
+   }
+
+   $this->updateStudentQuizScore($quiz,$scorecount);
+   $totalmarks=Quiz::findOne($quiz)->total_marks;
+   return ['score'=>$scorecount,'totalmarks'=>$totalmarks];
+
+ }
+
+ private function updateStudentQuizScore($quiz,$score)
+ {
+   $student=yii::$app->user->identity->student->reg_no;
+   $studentquiz=new StudentQuiz();
+
+   if(!$studentquiz->isRegistered($student,$quiz))
+   {
+     $this->registerStudent($quiz);
+   }
+  
+     $studentQuizUpdate=$studentquiz->find()->where(["reg_no"=>$student,"quizID"=>$quiz])->one();
+     $studentQuizUpdate->score=$score;
+     $studentQuizUpdate->status="submitted";
+     $studentQuizUpdate->save();
+   
+ }
+
+ private function loadQuestionsTrueAnswers($questionindex)
+ {
+   $bank=$this->questionsBankReader();
+
+   foreach($bank as $index=>$question)
+   {
+     if($index!=$questionindex)
+     {
+       continue;
+     }
+       return $question['options']['true-choices'];
+     
+   }
+ 
+ }
+ private function isTrueResponse($trueresponses,$studentresponses)
+ {
+   $studentresponses=array_flip($studentresponses);
+   if(count($trueresponses)!=count($studentresponses)){return false;}
+   $matches=array_intersect_key($trueresponses,$studentresponses);
+   if($matches==null){return false;}
+   if(count($matches)!=count($trueresponses)){return false;}
+   
+
+   return true;
+
+ }
+
+ public function timer($quiz)
+ {
+     date_default_timezone_set('Africa/Dar_es_Salaam');
+     $quiz=Quiz::findOne($quiz);
+     $start=null;
+     $savedstart=yii::$app->session->get("starttime".$quiz->quizID);
+     if($quiz->attempt_mode=="individual")
+     {
+      
+      $start=($savedstart!=null)?$savedstart:date("Y-m-d H:i:s");
+     }
+     else
+     {
+      $start=($savedstart!=null)?$savedstart:$quiz->start_time;
+     }
+     
+     if($start!=null){yii::$app->session->set("starttime".$quiz->quizID,$start);}
+
+        
+
+         $starttodate=new \DateTime($start);
+         $starttodate->modify ("+{$quiz->duration} minutes");
+         $end=strtotime($starttodate->format('Y-m-d H:i:s'));
+
+         $starttotime=strtotime($start);
+         
+         $nowtime=strtotime(date("Y-m-d H:i:s"));
+
+         $remain=null;
+
+         if($nowtime<$end)
+         {
+          $remain=$end-$nowtime;
+          $remain=date("Y-m-d H:i:s",$remain);
+          return (new \DateTime($remain))->format('i:s'); 
+         }
+         else
+         {
+          return null;
+         }
+         
+         
+     
+
+    
  }
    
 }

@@ -144,4 +144,14 @@ class Quiz extends \yii\db\ActiveRecord
 
         return $start<$now;
     }
+
+    public function isReadyTaking()
+    {
+        date_default_timezone_set('Africa/Dar_es_Salaam');
+
+        $now=strtotime(date("Y-m-d H:i:s"));
+        $start=strtotime($this->start_time);
+
+        return $start<=$now;
+    }
 }

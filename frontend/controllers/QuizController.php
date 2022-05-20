@@ -87,7 +87,8 @@ public $defaultAction = 'dashboard';
                             'logout',
                             'student-quizes',
                             'quiz-take',
-                            'get-quiz-responses'
+                            'get-quiz-responses',
+                            'update-quiz-timer'
                            
                            
                         ],
@@ -141,11 +142,11 @@ public $defaultAction = 'dashboard';
         $data['optionImage']=UploadedFile::getInstancesByName('optionImage');
         $data['questionImage']=UploadedFile::getInstancesByName('questionImage');
         $manager=new QuizManager($data);
+       
         try
         {
             if($manager->questionSave())
             {
-               
               yii::$app->session->setFlash("success","<i class='fa fa-info-circle'></i> Question Added Successfully !");
               return $this->redirect(yii::$app->request->referrer); 
             } 
@@ -269,11 +270,11 @@ public function actionQuizTake($quiz)
   try
   {
     $quizdata=(new QuizManager)->getQuizData($quiz);
-    return $this->render('quizBoard',['quizdata'=>$quizdata,'title'=>Quiz::findOne($quiz)->quiz_title,'total_marks'=>Quiz::findOne($quiz)->total_marks,'registered'=>(new QuizManager)->registerStudent($quiz)]);
+    return $this->render('quizBoard',['quizdata'=>$quizdata,'title'=>Quiz::findOne($quiz)->quiz_title,'total_marks'=>Quiz::findOne($quiz)->total_marks,'registered'=>(new QuizManager)->registerStudent($quiz),'quiz'=>$quiz,'inititalTimer'=>(new QuizManager)->timer($quiz)]);
   }
   catch(Exception $q)
   {
-     yii::$app->session->setFlash("error","<i class='fa fa-exclamation-triangle'></i> Unable To Load Quiz, Try Again Later !");
+     yii::$app->session->setFlash("error","<i class='fa fa-exclamation-triangle'></i> Could Not Load Quiz !".$q->getMessage());
      return $this->redirect(yii::$app->request->referrer); 
   }
   
@@ -281,7 +282,24 @@ public function actionQuizTake($quiz)
 
 public function actionGetQuizResponses()
 {
-    print_r(yii::$app->request->post());
+    //print_r(yii::$app->request->post());
+    try
+    {
+    $res=(new Quizmanager)->markQuiz(yii::$app->request->post());
+
+    return $this->asJson(["score"=>json_encode($res)]);
+    }
+    catch(Exception $s)
+    {
+        return $this->asJson(["failed"=>$s->getMessage()]);  
+    }
+}
+
+public function actionUpdateQuizTimer()
+{
+    $quiz=yii::$app->request->post('quiz');
+
+    return $this->asJson(['time'=>(new QuizManager)->timer($quiz)]);
 }
 
 }

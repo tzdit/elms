@@ -140,6 +140,11 @@ if($(this).val()=="individual")
   $('.deadlinetime').prop('disabled','');
   $('.numq').prop('disabled','');
   $('.chosenquestions').html("<div class='text-center text-lg text-muted mt-5 p-5'><i class='fa fa-info-circle'></i>Random Questions !</div>");
+  Swal.fire(
+    "Tip !",
+    "This type will allow a student to take the quiz at his favourable time within a specified deadline, students will get individual quiz/test version with randomly selected questions from your questions bank. Make sure you have enough questions in your bank to avoid some questions or versions repeating several times leading to cheating during the quiz/test.",
+    'info'
+  )
 }
 else
 {
@@ -148,7 +153,11 @@ else
   $('.deadlinedate').prop('disabled','disabled');
   $('.deadlinetime').prop('disabled','disabled');
   $('.numq').prop('disabled','disabled');
-
+  Swal.fire(
+    "Tip !",
+    "This type will constrain students to take the quiz/test all at once and at the same time, students have the same version of quiz/test as per your definition. Mind our server limit! This server may slow down in case of very big classes !",
+    'info'
+  )
 
 }
 

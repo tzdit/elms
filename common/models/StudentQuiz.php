@@ -11,7 +11,7 @@ use Yii;
  * @property string $reg_no
  * @property int $quizID
  * @property float|null $score
- *
+ * @property string|null status
  * @property Quiz $quiz
  * @property Student $regNo
  */
@@ -85,5 +85,15 @@ class StudentQuiz extends \yii\db\ActiveRecord
         $registered=$this->find()->where(["reg_no"=>$student,"quizID"=>$quiz])->one();
 
         return $registered!=null;
+    }
+
+    public function isSubmitted($quiz)
+    {
+        $student=yii::$app->user->identity->student->reg_no;
+        $submitted=$this->find()->where(["reg_no"=>$student,"quizID"=>$quiz])->one();
+        
+        if($submitted==null){return false;}
+        
+        return $submitted->status=="submitted";
     }
 }
