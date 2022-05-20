@@ -749,6 +749,43 @@ else
 
     
  }
+ public function downloadPDFQuiz($content)
+ {
+  
+   if($content!=null)
+   {
+   $instructor=Yii::$app->user->identity->instructor;
+   $name=$instructor->full_name;
+   $college=$instructor->department->college->college_name;
+   $year=yii::$app->session->get('currentAcademicYear')->title;
+   $mpdf = new Mpdf(['orientation' => 'L']);
+   $mpdf->setFooter('{PAGENO}');
+   $course=yii::$app->session->get('ccode');
+   $courseTitle=Course::findOne($course)->course_name;
+   $stylesheet = file_get_contents('css/capdf.css');
+   $mpdf->WriteHTML($stylesheet,1);
+   $mpdf->SetWatermarkText('civeclassroom.udom.ac.tz',0.09);
+   $mpdf->showWatermarkText = true;
+   $mpdf->WriteHTML('<div align="center"><img src="img/logo.png" width="125px" height="125px"/></div>',2);
+   $mpdf->WriteHTML('<p align="center"><font size=7>The University of Dodoma</font></p>',3);
+   $mpdf->WriteHTML('<p align="center"><font size=5>'.$college.'</font></p>',3);
+   $mpdf->WriteHTML('<p align="center"><font size=5>'.$course.' '.$courseTitle.'</font></p>',3);
+   $mpdf->WriteHTML('<p align="center"><font size=5>Quiz ('.$year.')</font></p>',3);
+   $mpdf->WriteHTML('<p align="center"><font size=3>By '.$name.'</font></p>',3);
+   $mpdf->WriteHTML('<hr width="80%" align="center" color="#000000">',2);
+   $mpdf->WriteHTML($content,3);
+     
+   $filename=yii::$app->session->get('ccode')."_Quiz.pdf";
+   $filename = str_replace(' ', '', $filename);
+   $mpdf->Output($filename,"D");
+
+   return null;
+}
+else
+{
+ return 'no content';
+}
+ }
 
    
 }

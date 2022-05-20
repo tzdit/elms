@@ -30,15 +30,7 @@ $this->params['breadcrumbs'] = [
         <div class="container-fluid pl-5 pr-5">
            <div class="card shadow" >
               <div class="card-body">
-                <div  class="row border-bottom text-primary text-lg p-2 m-2 d-flex justify-content-center"><div class="col-sm-11"><?=$title?></div>
-                <div class="col-sm-1">
-                <?php
-                 if(isset($quiz))
-                 {
-                ?>
-                 <a href="<?=Url::to(["/quiz/download-quiz-pdf",'quiz'=>ClassRoomSecurity::encrypt($quiz)])?>" class="btn btn-default shadow text-primary" data-toggle="tooltip" data-title="Download As PDF"  ><i class="fa fa-file-pdf-o text-danger"></i></a>
-                <?php } ?>
-              </div>
+                <div  class="row border-bottom text-primary text-lg p-2 m-2 d-flex justify-content-center"><div class="col-sm-12 text-center text-lg text-bold m-2 border-bottom"><?=$title?></div>
                  </div>
                
                <?php
@@ -64,27 +56,19 @@ $this->params['breadcrumbs'] = [
                       }
                      ?>
                      <div class="responsivetext col-sm-12">
-                       <ul>
+                       <ol type="A">
                       <?php
                         if($options['type']=="textual")
                         {
                           foreach($options['choices'] as $index=>$choice)
                           {
             
-                              if(array_key_exists($index,$options['true-choices']))
-                              {
-                          ?>
-                             <li class="ml-4  responsivetext text-success"><?=$choice?></li>
-                          <?php
-                         
-                              }
-                              else
-                              {
+                          
                                 ?>
                                 <li class="ml-4  text-muted responsivetext"><?=$choice?></li>
                              <?php
                            
-                              }
+                              
                             
                           }
                         }
@@ -92,23 +76,15 @@ $this->params['breadcrumbs'] = [
                         {
                           foreach($options['choices'] as $index=>$choice)
                           {
-                            if(array_key_exists($index,$options['true-choices']))
-                            {
-
-                      ?>
-                      <li class="ml-4 p-2 text-success"><img class="img-thumbnail border-success" src="/<?=$choice?>" width=60 height=40></li>
-                      <?php
-                            }
-                            else
-                            {
+                           
                               ?>
                               <li class="ml-4 p-2"><img class="img-thumbnail" src="/<?=$choice?>" width=60 height=40></li>
                               <?php
-                            }
+                            
                           }
                         }
                       ?>
-                      </ul>
+                      </ol>
                      </div>
                  </div>
 

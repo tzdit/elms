@@ -51,7 +51,8 @@ public $defaultAction = 'dashboard';
                             'quiz-preview',
                             'scores-view',
                             'download-bank',
-                            'questions-uploader'
+                            'questions-uploader',
+                            'download-quiz-pdf'
 
                         ],
                         'allow' => true,
@@ -74,7 +75,8 @@ public $defaultAction = 'dashboard';
                            'quiz-preview',
                            'scores-view',
                            'download-bank',
-                           'questions-uploader'
+                           'questions-uploader',
+                           'download-quiz-pdf'
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR & HOD']
@@ -213,7 +215,7 @@ public function actionQuizPreview($quiz)
         $quiz=Quiz::findOne($quiz);
         $quiz_title=($quiz!=null)?$quiz->quiz_title:null;
         $quizdata=(new QuizManager)->quizReader($quiz);
-        return $this->render('quizPreview',['quizdata'=>$quizdata,'title'=>$quiz_title]);
+        return $this->render('quizPreview',['quizdata'=>$quizdata,'title'=>$quiz_title,'quiz'=>$quiz->quizID]);
     }
     catch(Exception $e)
     {
@@ -300,6 +302,14 @@ public function actionUpdateQuizTimer()
     $quiz=yii::$app->request->post('quiz');
 
     return $this->asJson(['time'=>(new QuizManager)->timer($quiz)]);
+}
+public function actionDownloadQuizPdf($quiz)
+{
+        $quiz=ClassRoomSecurity::decrypt($quiz);
+        $quiz=Quiz::findOne($quiz);
+        $quiz_title=($quiz!=null)?$quiz->quiz_title:null;
+        $quizdata=(new QuizManager)->quizReader($quiz);
+        (new QuizManager)->downloadPDFQuiz($this->renderPartial("quiz2pdf",['quizdata'=>$quizdata,'title'=>$quiz_title]));
 }
 
 }
