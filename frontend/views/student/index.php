@@ -65,12 +65,7 @@ $script = <<<JS
 $(document).ready(function(){
 
 
-    Swal.fire({
-  icon: 'info',
-  title: 'Information!',
-  text: 'Dear student, Are you ready taking some online QUIZZES or TESTS ?',
-  footer: 'For any further information, please contact us at 0755189736'
-});
+  
 })
 JS;
 $this->registerJs($script);

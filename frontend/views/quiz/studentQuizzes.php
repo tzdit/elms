@@ -111,9 +111,26 @@ $this->params['breadcrumbs'] = [
                                                                        
 
                                                                         <div id="collapse<?=$quiz->quizID?>" class="collapse" aria-labelledby="heading<?=$quiz->quizID?>" data-parent="#accordion">
-                                                                            <!--end of displaying assignment-->
                                                                           
-                                                                     
+                                                                          <?php if($quiz->getScore()!=null){?>
+                                                                             <div class="row d-flex justify-content-center">
+                                                                                 <div class="col-sm-2">
+                                                                                  <div class="row shadow m-2 p-2">
+                                                                                 <div class="col-sm-12   border-bottom text-center ">
+                                                                                     <?php if((($quiz->getScore()*100)/$quiz->total_marks)<40){ ?>
+                                                                                   <span class="text-danger"><?=$quiz->getScore()?></span>
+                                                                                   <?php }else{ ?>
+                                                                                    <span class="text-success"><?=$quiz->getScore()?></span>
+
+                                                                                    <?php } ?>
+                                                                                 </div>
+                                                                                 <div class="col-sm-12 text-center">
+                                                                                  <?=$quiz->total_marks?>
+                                                                                 </div>
+                                                                          </div>
+                                                                              </div>
+                                                                          </div>
+                                                                          <?php }?>
                                                                           <div class="row p-3 d-flex justify-content-center border p-0" style="font-size:11px">
                                                                               <div class="col-sm-2 p-0"><span class="text-bold"><i class="far fa-calendar-plus"></i> Created on</span> <br><?=$quiz->date_created?></div>
                                                                               <div class="col-sm-2 p-0 "><span class="text-bold"><i class="far fa-calendar-check"></i> <?=$quiz->hasStarted()?"Started on":"Starts on"?></span><br><?=$quiz->start_time?></div>

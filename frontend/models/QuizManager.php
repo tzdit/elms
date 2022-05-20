@@ -549,8 +549,7 @@ else
    if($quiz->attempt_mode=="massive")
    {
      if($quiz->quiz_file==null){throw new Exception("Quiz File Not Found");}
-     $quizdata=$this->quizReader($quiz->quizID);
-     $quizdata=$this->randomizeMassiveQuizType($quizdata);
+     $quizdata=($quizsession!=null)?$quizsession:$this->randomizeMassiveQuizType($this->quizReader($quiz->quizID));
      yii::$app->session->set($sessionid,$quizdata);
 
    }
@@ -650,6 +649,7 @@ else
      {
       $scorecount++;
      }
+
    }
 
    $this->updateStudentQuizScore($quiz,$scorecount);

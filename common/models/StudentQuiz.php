@@ -96,4 +96,11 @@ class StudentQuiz extends \yii\db\ActiveRecord
         
         return $submitted->status=="submitted";
     }
+    public function getStudentScore($quiz)
+    {
+        $student=yii::$app->user->identity->student->reg_no;
+        $submitted=$this->find()->where(["reg_no"=>$student,"quizID"=>$quiz])->one();
+
+        return $submitted->score;
+    }
 }

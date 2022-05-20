@@ -3,7 +3,7 @@
 namespace common\models;
 use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 use Yii;
-
+use frontend\models\QuizManager;
 /**
  * This is the model class for table "quiz".
  *
@@ -154,4 +154,19 @@ class Quiz extends \yii\db\ActiveRecord
 
         return $start<=$now;
     }
+    public function isSubmitted()
+    {
+        return (new StudentQuiz)->isSubmitted($this->quizID);
+    }
+    public function getScore()
+    {
+        if($this->isSubmitted())
+        {
+            return (new StudentQuiz)->getStudentScore($this->quizID);
+        }
+
+        return null;
+    }
+  
+
 }
