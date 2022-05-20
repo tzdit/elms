@@ -6,7 +6,11 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 /* @var $this yii\web\View */
 
-$this->title = 'Super Administrator Dashboard';
+$this->title = 'Create Head of Department';
+$this->params['breadcrumbs'] = [
+    ['label'=>'Instructor & HODs List', 'url'=>Url::to(['/instructormanage/instructor-list'])],
+    ['label'=>$this->title]
+];
 ?>
 <div class="site-index">
 

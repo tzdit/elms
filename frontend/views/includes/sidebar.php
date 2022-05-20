@@ -92,6 +92,12 @@ use yii\helpers\Url;
                   <p>Colleges</p>
                 </a>
               </li>
+                <li class="nav-item">
+                    <a href="<?= Url::toRoute('/admin/activity-logs') ?>" class="nav-link">
+                        <i class="fas fa-history nav-icon"></i>
+                        <p>Activity Logs</p>
+                    </a>
+                </li>
           </li>
             <?php endif ?> <!-- END OF SYS_ADMIN ROLE-->
             <!-- ======================================================= -->

@@ -1,8 +1,11 @@
 <?php
 
-namespace common\models;
-use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
+namespace app\models;
+
+use common\models\Department;
+use common\models\College;
 use Yii;
+use yii\base\Exception;
 
 /**
  * This is the model class for table "department".
@@ -12,12 +15,17 @@ use Yii;
  * @property string $department_name
  * @property string|null $depart_abbrev
  *
+ * @property Course[] $courses
  * @property College $college
  * @property Instructor[] $instructors
  * @property Program[] $programs
  */
-class Department extends \yii\db\ActiveRecord
+class CreateDepartment extends \yii\db\ActiveRecord
 {
+
+
+    public $department_name;
+    public $depart_abbrev;
     /**
      * {@inheritdoc}
      */
@@ -25,15 +33,7 @@ class Department extends \yii\db\ActiveRecord
     {
         return 'department';
     }
-   
-    public function behaviors()
-    {
-        return [
-            'auditEntryBehaviors' => [
-                'class' => AuditEntryBehaviors::class
-             ],
-        ];
-    }
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +44,6 @@ class Department extends \yii\db\ActiveRecord
             [['department_name'], 'required'],
             [['department_name'], 'string', 'max' => 100],
             [['depart_abbrev'], 'string', 'max' => 10],
-            [['collegeID', 'department_name', 'depart_abbrev'], 'safe'],
             [['collegeID'], 'exist', 'skipOnError' => true, 'targetClass' => College::className(), 'targetAttribute' => ['collegeID' => 'collegeID']],
         ];
     }
@@ -60,6 +59,16 @@ class Department extends \yii\db\ActiveRecord
             'department_name' => 'Department Name',
             'depart_abbrev' => 'Depart Abbrev',
         ];
+    }
+
+    /**
+     * Gets query for [[Courses]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCourses()
+    {
+        return $this->hasMany(Course::className(), ['departmentID' => 'departmentID']);
     }
 
     /**
@@ -82,16 +91,6 @@ class Department extends \yii\db\ActiveRecord
         return $this->hasMany(Instructor::className(), ['departmentID' => 'departmentID']);
     }
 
-    public function getHod()
-    {
-        return $this->hasOne(Hod::className(), ['departmentID' => 'departmentID']);
-    }
-
-    public function getCourses()
-    {
-        return $this->hasMany(Course::className(), ['departmentID' => 'departmentID']);
-    }
-
     /**
      * Gets query for [[Programs]].
      *
@@ -101,4 +100,34 @@ class Department extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Program::className(), ['departmentID' => 'departmentID']);
     }
+    public function create(){
+        if(!$this->validate()){
+            return false;
+        }
+
+        $department = new Department();
+        $adminCollege = Yii::$app->user->identity->admin->collegeID;
+
+        try{
+
+            $department->collegeID =  $adminCollege;
+            $department->department_name = $this->department_name;
+            $department->depart_abbrev = $this->depart_abbrev;
+            $department->save();
+
+            if(!$department->save()){
+                throw new Exception("could not save Department details");
+            }
+
+            return true;
+
+
+        }catch(\Exception $e){
+
+            throw new Exception($e->getMessage());
+        }
+    }
+
+
+
 }

@@ -156,7 +156,8 @@ class StudentmanageController extends Controller
 
   public function actionStudentList(){
     $students = Student::find()->all();
-    return $this->render('student_list', ['students'=>$students]);
+    $adminCollege = Yii::$app->user->identity->admin->collegeID;
+    return $this->render('student_list', ['students'=>$students, 'adminCollege'=>$adminCollege]);
    }
     /**
      * Finds the Student model based on its primary key value.

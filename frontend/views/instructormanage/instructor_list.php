@@ -6,7 +6,11 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 /* @var $this yii\web\View */
 
-$this->title = 'Super Administrator Dashboard';
+
+$this->title = 'Instructor & HODs Lists';
+$this->params['breadcrumbs'] = [
+    ['label'=>$this->title]
+];
 ?>
 <div class="site-index">
 
@@ -40,6 +44,7 @@ $this->title = 'Super Administrator Dashboard';
             <tbody>
             <?php $i = 0; ?>
             <?php foreach($instructors as $inst): ?>
+              <?php if($inst->department->college->collegeID == $adminCollege): ?>
             <tr>
             <td><?= ++$i; ?></td>
             <td><?= $inst->full_name?></td>
@@ -50,6 +55,7 @@ $this->title = 'Super Administrator Dashboard';
             <a href="../instructormanage/view?id=<?= $inst->instructorID?>"  class="btn btn-info btn-sm m-0"><i class="fas fa-edit"></i></a> 
             </td>
             </tr>
+            <?php endif; ?>
             <?php endforeach; ?>
             </tbody>
             </table>

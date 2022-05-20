@@ -31,23 +31,25 @@ $this->title = 'Super Administrator Dashboard';
               <div class="card-body">
             <table class="table table-bordered table-striped table-hover" id="StudentList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
             <thead>
-            <tr><th width="1%">#</th><th>Full Name</th><th>Reg#</th><th>YOS</th><th>Department</th><th>College</th><th width="5%">Manage</th></tr>
+            <tr><th width="1%">#</th><th>Full Name</th><th>Reg#</th><th>YOS</th><th>Department</th><th width="5%">Manage</th></tr>
             
             </thead>
             <tbody>
             <?php $i = 0; ?>
             <?php foreach($students as $std): ?>
+              <?php if($std->program->department->collegeID == $adminCollege): ?>
             <tr>
             <td><?= ++$i; ?></td>
             <td><?= $std->fullName ?></td>
             <td><?= $std->reg_no ?></td>
             <td><?= $std->YOS ?></td>
             <td><?= $std->program->department->depart_abbrev ?></td>
-            <td><?= $std->program->department->college->college_abbrev ?></td>
+            
             <td>
             <a href="../studentmanage/view?id=<?= $std->reg_no ?>" class="btn btn-info btn-sm m-0"><i class="fas fa-edit"></i></a> 
             </td>
             </tr>
+            <?php endif ?>
             <?php endforeach ?>
             </tbody>
             </table>

@@ -2,9 +2,14 @@
 use yii\bootstrap4\Breadcrumbs;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 
-$this->title = 'Create Users';
+$this->title = 'Create Head of Department';
+$this->params['breadcrumbs'] = [
+    ['label'=>'Instructor & HODs List', 'url'=>Url::to(['/instructormanage/instructor-list'])],
+    ['label'=>$this->title]
+];
 ?>
 <div class="site-index">
 

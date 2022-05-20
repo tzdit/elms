@@ -129,7 +129,7 @@ $this->params['breadcrumbs'] = [
 
                                                                  
                                                                     <?php if($isOutOfDeadline == true){?>
-                                                                                          <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
+                                                                                          <button class="btn btn-default text-danger float-right" disabled><i class="fas fa-ban">Expired</i> </button>
                                                                                       <?php }else{?>
                                                                                         <?php if($submited==null){?>
                                                                                           <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> ClassRoomSecurity::encrypt($assign->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
@@ -246,7 +246,7 @@ $this->params['breadcrumbs'] = [
                                                                                       <a href="<?= Url::toRoute(['/student/download_assignment','assID'=> ClassRoomSecurity::encrypt($lab->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-download"> Download</i></span></a>
 
                                                                                       <?php if($isOutOfDeadline == true){?>
-                                                                                          <a href="#" class="btn btn-sm btn-danger float-right ml-2"> Expired</i></span></a>
+                                                                                          <button class="btn btn-default text-danger float-right" disabled><i class="fas fa-ban">Expired</i> </button>
                                                                                       <?php }else{?>
                                                                                         <?php if($submited==null){?>
                                                                                           <a href="<?= Url::toRoute(['/student/submit_assignment','assID'=> ClassRoomSecurity::encrypt($lab->assID)])?>" class="btn btn-sm btn-info float-right ml-2"><span><i class="fas fa-upload"> Submit</i></span></a>
