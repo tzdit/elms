@@ -11,7 +11,9 @@ use Yii;
  * @property string $reg_no
  * @property int $quizID
  * @property float|null $score
- * @property string|null status
+ * @property string|null $status
+ * @property string $attempt_time
+ * @property string|null $submit_time
  * @property Quiz $quiz
  * @property Student $regNo
  */
@@ -102,5 +104,28 @@ class StudentQuiz extends \yii\db\ActiveRecord
         $submitted=$this->find()->where(["reg_no"=>$student,"quizID"=>$quiz])->one();
 
         return $submitted->score;
+    }
+    public function isSubmitTimeOver($quiz,$submit_time)
+    {
+        $student=yii::$app->user->identity->student->reg_no;
+        $registered=$this->find()->where(["reg_no"=>$student,"quizID"=>$quiz])->one();
+        $attempt_time=null;
+        $duration=$registered->quiz->duration;
+        if($registered->quiz->attempt_mode=="massive")
+        {
+            $attempt_time=$registered->quiz->start_time;
+        }
+        else
+        {
+            $attempt_time=$registered->attempt_time;
+        }
+        $start=new \DateTime($attempt_time);
+        $start->modify ("+{$duration} minutes");
+        $legal_submitTime=strtotime($start->format('Y-m-d H:i:s'));
+        $legal_submitTime=$legal_submitTime+20; // 20 seconds for submitting
+
+        $submit_time=strtotime($submit_time);
+
+        return $submit_time>$legal_submitTime;
     }
 }

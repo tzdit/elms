@@ -620,6 +620,8 @@ else
    if($studentquiz->isRegistered($student,$quizID)){ return true;}
    $studentquiz->reg_no=$student;
    $studentquiz->quizID=$quizID;
+   date_default_timezone_set('Africa/Dar_es_Salaam');
+   $studentquiz->attempt_time=date("Y-m-d H:i:s");
    $studentquiz->status="attempted";
    $studentquiz->score=0;
    
@@ -660,16 +662,22 @@ else
 
  private function updateStudentQuizScore($quiz,$score)
  {
+   date_default_timezone_set('Africa/Dar_es_Salaam');
    $student=yii::$app->user->identity->student->reg_no;
    $studentquiz=new StudentQuiz();
-
+   $submit_time=date("Y-m-d H:i:s");
    if(!$studentquiz->isRegistered($student,$quiz))
    {
      $this->registerStudent($quiz);
    }
-  
+     if($studentquiz->isSubmitTimeOver($quiz,$submit_time))
+     {
+       throw new Exception("submitting time is over");
+     }
      $studentQuizUpdate=$studentquiz->find()->where(["reg_no"=>$student,"quizID"=>$quiz])->one();
      $studentQuizUpdate->score=$score;
+     
+     $studentQuizUpdate->submit_time=$submit_time;
      $studentQuizUpdate->status="submitted";
      $studentQuizUpdate->save();
    
