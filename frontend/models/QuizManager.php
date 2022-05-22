@@ -616,8 +616,13 @@ else
  {
    $student=yii::$app->user->identity->student->reg_no;
    $studentquiz=new StudentQuiz();
-
+   $quiz=(new Quiz)->findOne($quizID);
    if($studentquiz->isRegistered($student,$quizID)){ return true;}
+
+   if($quiz->attempt_mode=="massive" && $quiz->isAttemptingTimeOver())
+   {
+     throw new Exception("Attempting Time Is Over, Online Massive-Type Quizzes/Tests should be attempted lately 20 minutes after their starting time!");
+   }
    $studentquiz->reg_no=$student;
    $studentquiz->quizID=$quizID;
    date_default_timezone_set('Africa/Dar_es_Salaam');

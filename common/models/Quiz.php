@@ -135,6 +135,17 @@ class Quiz extends \yii\db\ActiveRecord
 
        
     }
+
+    public function isAttemptingTimeOver()
+    {
+        date_default_timezone_set('Africa/Dar_es_Salaam');
+        $start=new \DateTime($this->start_time);
+        $start->modify ("+20 minutes");
+        $latestart=strtotime($start->format('Y-m-d H:i:s'));
+        $now=strtotime(date('Y-m-d H:i:s'));
+
+        return $now>$latestart;
+    }
     public function hasStarted()
     {
         date_default_timezone_set('Africa/Dar_es_Salaam');
