@@ -76,7 +76,7 @@ $this->params['breadcrumbs'] = [
                  </div>
 
                  <div class="col-sm-3  text-sm p-3">
-                 <input type="checkbox" name="viewAnswers" class=""> View Answers After Submitting</input>
+                 <input type="checkbox" name="viewAnswers" class="text-muted" data-toggle="tooltip" data-title="N/A" disabled><span class="text-muted">View Answers After Submitting</span></input>
                  </div>
                </div>
                
