@@ -188,7 +188,7 @@ class Quiz extends \yii\db\ActiveRecord
     {
         date_default_timezone_set('Africa/Dar_es_Salaam');
         $this->start_time=$this->startdate.' '.$this->starttime;
-        $this->end_time=$this->enddate.' '.$this->endtime;
+        $this->end_time=($this->attempt_mode=="individual")?$this->enddate.' '.$this->endtime:null;
         $this->date_created=date("Y-m-d H:i:s");
         $this->viewAnswers="off";
         if($this->attempt_mode=="individual")
