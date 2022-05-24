@@ -52,7 +52,8 @@ public $defaultAction = 'dashboard';
                             'scores-view',
                             'download-bank',
                             'questions-uploader',
-                            'download-quiz-pdf'
+                            'download-quiz-pdf',
+                            'update-quiz'
 
                         ],
                         'allow' => true,
@@ -76,7 +77,8 @@ public $defaultAction = 'dashboard';
                            'scores-view',
                            'download-bank',
                            'questions-uploader',
-                           'download-quiz-pdf'
+                           'download-quiz-pdf',
+                           'update-quiz'
                         ],
                         'allow' => true,
                         'roles' => ['INSTRUCTOR & HOD']
@@ -311,5 +313,41 @@ public function actionDownloadQuizPdf($quiz)
         $quizdata=(new QuizManager)->quizReader($quiz);
         (new QuizManager)->downloadPDFQuiz($this->renderPartial("quiz2pdf",['quizdata'=>$quizdata,'title'=>$quiz_title]));
 }
+
+public function actionUpdateQuiz($quiz)
+{
+
+    $quizid=ClassRoomSecurity::decrypt($quiz);
+    $quiz=(Quiz::findOne($quizid)!=null)?Quiz::findOne($quizid):new Quiz;
+
+    //print_r($quiz);return false;
+
+    if(Yii::$app->request->isPost)
+    {
+        
+        if($quiz->load(yii::$app->request->post()))
+        {
+            if($quiz->updateQuiz())
+            {
+                yii::$app->session->setFlash("success","<i class='fa fa-info-circle'></i> Quiz Updated Successfully !");
+                return $this->redirect(yii::$app->request->referrer);
+            }
+            else
+            {
+                yii::$app->session->setFlash("error","<i class='fa fa-exclamation-triangle'></i> Quiz Updating failed !");
+                return $this->redirect(yii::$app->request->referrer);  
+            }
+        }
+        else
+        {
+            yii::$app->session->setFlash("error","<i class='fa fa-exclamation-triangle'></i> Quiz Updating failed !");
+            return $this->redirect(yii::$app->request->referrer);  
+        }
+
+    }
+
+    return $this->render("updateQuiz",['quiz'=>$quiz]);
+}
+
 
 }

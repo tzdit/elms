@@ -17,8 +17,9 @@ use frontend\models\QuizManager;
  * @property string|null $date_created
  * @property string $start_time
  * @property string|null $end_time
- * @property int|null $num_questions
+ * @property int $num_questions
  * @property string $quiz_file
+ * @property string $quiz_title
  * @property string $status
  * @property int $instructorID
  * @property int $yearID
@@ -28,6 +29,10 @@ use frontend\models\QuizManager;
  */
 class Quiz extends \yii\db\ActiveRecord
 {
+    public $startdate;
+    public $starttime;
+    public $enddate;
+    public $endtime;
     /**
      * {@inheritdoc}
      */
@@ -49,8 +54,8 @@ class Quiz extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['course_code', 'total_marks', 'duration','viewAnswers', 'start_time', 'status', 'yearID','attempt_mode'], 'required'],
-            [['total_marks', 'duration', 'yearID'], 'integer'],
+            [['course_code', 'total_marks', 'duration','viewAnswers','quiz_title', 'start_time','startdate','starttime', 'status', 'yearID','attempt_mode'], 'required'],
+            [['total_marks', 'duration','num_questions', 'yearID'], 'integer'],
             [['date_created', 'start_time'], 'safe'],
             [['course_code'], 'string', 'max' => 20],
             [['attempt_mode'], 'string', 'max' => 15],
@@ -177,6 +182,22 @@ class Quiz extends \yii\db\ActiveRecord
         }
 
         return null;
+    }
+
+    public function updateQuiz()
+    {
+        date_default_timezone_set('Africa/Dar_es_Salaam');
+        $this->start_time=$this->startdate.' '.$this->starttime;
+        $this->end_time=$this->enddate.' '.$this->endtime;
+        $this->date_created=date("Y-m-d H:i:s");
+        $this->viewAnswers="off";
+        if($this->attempt_mode=="individual")
+        {
+            $this->total_marks=$this->num_questions;
+        }
+       
+
+        return $this->save();
     }
   
 

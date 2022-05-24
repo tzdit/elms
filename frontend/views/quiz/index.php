@@ -106,6 +106,7 @@ $this->params['breadcrumbs'] = [
                                                                                             }
                                                                                             ?>
                                                                                             <a href="<?=Url::to(['/quiz/scores-view','quiz'=>ClassRoomSecurity::encrypt($quiz->quizID)])?>" data-toggle="tooltip" data-title="View Students & Scores" class="float-right mr-2"><i class="fa fa-user-graduate fa-1x"></i></a>
+                                                                                            <a href="<?=Url::to(['/quiz/update-quiz','quiz'=>ClassRoomSecurity::encrypt($quiz->quizID)])?>" data-toggle="tooltip" data-title="Update Quiz" class="float-right mr-2"><i class="fa fa-edit fa-1x"></i></a>
                                                             
                                                                                        
                                                                                 </div></div>
@@ -121,7 +122,7 @@ $this->params['breadcrumbs'] = [
                                                                               <div class="col-sm-2 p-0 "><span class="text-bold"><i class="far fa-calendar-check"></i> <?=$quiz->hasStarted()?"Started on":"Starts on"?> </span><br><?=$quiz->start_time?></div>
                                                                               <div class="col-sm-2 p-0 text-center"><span class="text-bold"><i class="far fa-clock"></i> Duration:</span> <br><?=$quiz->duration?> min</div>
                                                                               <?php
-                                                                              if($quiz->end_time!=null)
+                                                                              if($quiz->end_time!=null && $quiz->attempt_mode=="individual")
                                                                               {
                                                                               ?>
                                                                               <div class="col-sm-2 p-0 "><span class="text-bold"><i class="far fa-calendar-minus"></i> <?=$quiz->isExpired()?"Ended on":"Ends on"?> </span><br><?=$quiz->end_time?></div>

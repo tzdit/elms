@@ -41,6 +41,47 @@ class AcademicYearManager extends Model
         
     }
 
+    public function migrateForward($storageClean=false)
+    {
+      date_default_timezone_set('Africa/Dar_es_Salaam');
+      //finding the current academic year
+
+      $current=Academicyear::find(['status'=>'ongoing'])->one();
+
+      //building new academic year
+
+      $start=($current->starts_in)+1;
+      $end=($current->ends_in)+1;
+
+      $newTitle=$start." - ".$end;
+
+      $newYear=new Academicyear();
+      $newYear->starts_in=$start;
+      $newYear->ends_in=$end;
+      $newYear->title=$newTitle;
+      $newYear->duration=$this->duration;
+      $newYear->date_launched=date("Y-m-d H:i:s");
+      $newYear->status="ongoing";
+
+      // if true, delete all submits
+
+      //increment all student's YOS;
+      $current->status="finished";
+
+      if($current->save() && $newYear->save())
+      {
+          return true;
+      }
+
+      return false;
+
+    }
+
+    public function migrateBackward()
+    {
+        
+    }
+
   
    
 }

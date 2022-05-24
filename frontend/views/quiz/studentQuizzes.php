@@ -136,7 +136,7 @@ $this->params['breadcrumbs'] = [
                                                                               <div class="col-sm-2 p-0 "><span class="text-bold"><i class="far fa-calendar-check"></i> <?=$quiz->hasStarted()?"Started on":"Starts on"?></span><br><?=$quiz->start_time?></div>
                                                                               <div class="col-sm-2 p-0 "><span class="text-bold"><i class="far fa-clock"></i> Duration:</span> <br><?=$quiz->duration?> min</div>
                                                                               <?php
-                                                                              if($quiz->end_time!=null)
+                                                                              if($quiz->end_time!=null && $quiz->attempt_mode=="individual")
                                                                               {
                                                                               ?>
                                                                               <div class="col-sm-2 p-0 "><span class="text-bold"><i class="far fa-calendar-minus"></i> <?=$quiz->isExpired()?"Ended on":"Ends on"?> </span><br><?=$quiz->end_time?></div>
