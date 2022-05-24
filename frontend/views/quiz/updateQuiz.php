@@ -59,7 +59,7 @@ $this->params['breadcrumbs'] = [
      
                  </div>
                  <div class="col-sm-3">
-                 <?= $form->field($quiz, 'endtime')->textInput(['class'=>'form-control float-left deadlinetime','placeholder'=>'Deadline Time','onmouseover'=>"(this.type='date')",'onfocus'=>"(this.type='date')",'onblur'=>"(this.type='text')",'required'=>'required' ])->label(false)?>
+                 <?= $form->field($quiz, 'endtime')->textInput(['class'=>'form-control float-left deadlinetime','placeholder'=>'Deadline Time','onmouseover'=>"(this.type='time')",'onfocus'=>"(this.type='time')",'onblur'=>"(this.type='text')",'required'=>'required' ])->label(false)?>
                  </div>
                  <div class="col-sm-3">
                  <div class="row pr-1 pl-1">
