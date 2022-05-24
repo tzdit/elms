@@ -310,7 +310,7 @@ class QuizManager extends Model
 
     if(strlen($quizName)>30){throw new Exception("Quiz Title Should Not Exceed 30 Characters Long !");}
     if($duration==0 || $duration==null){throw new Exception("Duration must be a number greater than 0 !");}
-    if($start==null){throw new Exception("Staring Date And Time Must Be Specified !");}
+    if($start==null){throw new Exception("Starting Date And Time Must Be Specified !");}
   
 
     if($attemptmode=="massive")
@@ -341,11 +341,16 @@ class QuizManager extends Model
          $quizdb->status="new";
          $quizdb->yearID=yii::$app->session->get('currentAcademicYear')->yearID;
          $quizdb->instructorID=yii::$app->user->identity->instructor->instructorID;
-         $quizdb->save();
 
-         
-         $transaction->commit();
-         return true;
+         if($quizdb->save())
+         {
+          $transaction->commit();
+          return true;
+         }
+         else
+         {
+           return false;
+         }
 
      }
      catch(Exception $f)

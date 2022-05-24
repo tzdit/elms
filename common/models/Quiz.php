@@ -54,9 +54,9 @@ class Quiz extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['course_code', 'total_marks', 'duration','viewAnswers','quiz_title', 'start_time','startdate','starttime', 'status', 'yearID','attempt_mode'], 'required'],
+            [['course_code', 'total_marks', 'duration','viewAnswers','quiz_title', 'start_time', 'status', 'yearID','attempt_mode'], 'required'],
             [['total_marks', 'duration','num_questions', 'yearID'], 'integer'],
-            [['date_created', 'start_time'], 'safe'],
+            [['date_created', 'start_time','enddate','endtime','startdate','starttime'], 'safe'],
             [['course_code'], 'string', 'max' => 20],
             [['attempt_mode'], 'string', 'max' => 15],
             [['quiz_file'], 'string', 'max' => 25],

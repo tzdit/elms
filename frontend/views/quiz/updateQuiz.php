@@ -46,11 +46,11 @@ $this->params['breadcrumbs'] = [
                    <?= $form->field($quiz, 'attempt_mode')->dropdownList(['massive'=>'Massive Attempt (All Students At The Same Time)', 'individual'=>'Individual Attempt (Individual Random questions within a deadline)'], ['class'=>'form-control attempt', 'prompt'=>'--Attempt Mode--'])->label(false)?>
                  </div>
                  <div class="col-sm-3">
-                 <?= $form->field($quiz, 'startdate')->textInput(['class'=>'form-control','placeholder'=>'Starting Date','onmouseover'=>"(this.type='date')",'onblur'=>"(this.type='text')" ])->label(false)?>
+                 <?= $form->field($quiz, 'startdate')->textInput(['class'=>'form-control','placeholder'=>'Starting Date','onmouseover'=>"(this.type='date')",'onblur'=>"(this.type='text')",'required'=>'required' ])->label(false)?>
   
                  </div>
                  <div class="col-sm-3">
-                 <?= $form->field($quiz, 'starttime')->textInput(['class'=>'form-control float-left','placeholder'=>'Starting Time','onmouseover'=>"(this.type='time')",'onblur'=>"(this.type='text')" ])->label(false)?>
+                 <?= $form->field($quiz, 'starttime')->textInput(['class'=>'form-control float-left','placeholder'=>'Starting Time','onmouseover'=>"(this.type='time')",'onblur'=>"(this.type='text')",'required'=>'required' ])->label(false)?>
                  </div>
                </div>
                <div class="row mt-1">

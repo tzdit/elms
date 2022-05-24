@@ -183,6 +183,10 @@ public $defaultAction = 'dashboard';
              yii::$app->session->setFlash("success","<i class='fa fa-info-circle'></i> Quiz Created And Announced successfully !");
              return $this->redirect(yii::$app->request->referrer);
          }
+         else
+         {
+             throw new Exception("An unknown error occured, please try again or contact administrator");
+         }
         }
         catch(Exception $w)
         {
