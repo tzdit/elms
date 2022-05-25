@@ -60,7 +60,7 @@ public $defaultAction = 'dashboard';
                             'delete' => ['POST'],
                         ],
                         'allow' => true,
-                        'roles' => ['SYS_ADMIN'],
+                        'roles' => ['SYS_ADMIN','SUPER_ADMIN'],
                     ],
                 ],
             ],

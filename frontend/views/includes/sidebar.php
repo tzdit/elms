@@ -12,53 +12,13 @@ use yii\helpers\Url;
               </p>
             </a>
           </li>
-          <!--START OF SUPER ADMIN ROLE -->
-          <?php if(Yii::$app->user->can('SUPER_ADMIN')):?>
-           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
-              <p>
-                Users
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="<?=Url::toRoute('users/create')?>" class="nav-link">
-                  <i class="fas fa-plus nav-icon"></i>
-                  <p>Add</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="<?= Url::toRoute('users/admin-list') ?>" class="nav-link">
-                  <i class="fas fa-cogs nav-icon"></i>
-                  <p>Manage</p>
-                </a>
-              </li>
-             
-            </ul>
-          </li>
-           
-           
-          <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="fas fa-cog nav-icon"></i>
-                  <p>Roles</p>
-                </a>
-        </li>
-             <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="fas fa-cog nav-icon"></i>
-                  <p>Permissions</p>
-                </a>
-              </li>
-              <?php endif ?> <!---END OF SUPER ADMIN ROLE-->
+       
 
               <!-- START OF SYS_ADMIN ROLE -->
-            <?php if(Yii::$app->user->can('SYS_ADMIN')): ?>
+            <?php if(Yii::$app->user->can('SYS_ADMIN') || Yii::$app->user->can('SUPER_ADMIN')): ?>
             <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
+              <i class="nav-icon fa fa-user-edit"></i>
               <p>
                 Users
                 <i class="right fas fa-angle-left"></i>
@@ -68,7 +28,7 @@ use yii\helpers\Url;
               <li class="nav-item">
                 <a href="<?= Url::toRoute('/instructormanage/instructor-list') ?>" class="nav-link">
                  <i class="fas fa-chalkboard-teacher nav-icon"></i>
-                  <p>Instructors & Hod</p>
+                  <p>Instructors & HODs</p>
                 </a>
               </li>
               
@@ -82,24 +42,87 @@ use yii\helpers\Url;
             </ul>
             <li class="nav-item">
                 <a href="<?= Url::toRoute('/departmentmanage/index') ?>" class="nav-link">
-                  <i class="fas fa-book nav-icon"></i>
-                  <p>Departments</p>
+                  <i class="fas fa-receipt nav-icon"></i>
+                  <p>Receipts</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="<?= Url::toRoute('/collegemanage/index') ?>" class="nav-link">
-                  <i class="fas fa-home nav-icon"></i>
-                  <p>Colleges</p>
+            <li class="nav-item">
+                <a href="<?= Url::toRoute('/departmentmanage/index') ?>" class="nav-link">
+                  <i class="fas fa-book nav-icon"></i>
+                  <p>Departments</p>
                 </a>
               </li>
                 <li class="nav-item">
                     <a href="<?= Url::toRoute('/admin/activity-logs') ?>" class="nav-link">
                         <i class="fas fa-history nav-icon"></i>
-                        <p>Activity Logs</p>
+                        <p>Audit Entries</p>
                     </a>
                 </li>
           </li>
             <?php endif ?> <!-- END OF SYS_ADMIN ROLE-->
+               <!--START OF SUPER ADMIN ROLE -->
+          <?php if(Yii::$app->user->can('SUPER_ADMIN')):?>
+     
+           
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="fas fa-user-secret nav-icon"></i>
+                  <p>Admins</p>
+                </a>
+        </li>
+          <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="fas fa-cog nav-icon"></i>
+                  <p>Roles</p>
+                </a>
+        </li>
+        <li class="nav-item">
+                <a href="<?= Url::toRoute('/collegemanage/index') ?>" class="nav-link">
+                  <i class="fas fa-home nav-icon"></i>
+                  <p>Colleges</p>
+                </a>
+              </li>
+
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-calendar"></i>
+              <p>
+                 Academic Year
+              </p>
+            </a>
+       
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-cogs"></i>
+              <p>
+                Configurations
+              </p>
+            </a>
+       
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-hdd-o"></i>
+              <p>
+                Storage
+              </p>
+            </a>
+       
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-cubes"></i>
+              <p>
+                Modules
+              </p>
+            </a>
+       
+          </li>
+          
+              <?php endif ?> <!---END OF SUPER ADMIN ROLE-->
             <!-- ======================================================= -->
 
               <!-- START OF INSTRUCTOR ROLE -->   
@@ -194,24 +217,22 @@ use yii\helpers\Url;
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
-
+      <?php if(Yii::$app->user->can('INSTRUCTOR & HOD') || Yii::$app->user->can('INSTRUCTOR') || Yii::$app->user->can('STUDENT') ): ?>
       <div class="card contactcard">
-    <div class="card-header">
-      Have a feedback or need support?<span style="font-size:24px;margin-left:5px" class="text-success"><i class="fab fa-whatsapp"></i></span><span style="font-size:24px;margin-left:5px" class="text-success"><i class="fa fa-phone"></i></span><span style="font-size:24px; margin-left:5px" class="text-success"><i class="fas fa-sms"></i></span>
+    <div class="card-header text-sm">
+      Have a feedback or need support?<span class="text-success"><i class="fab fa-whatsapp"></i></span><span class="text-success"><i class="fa fa-phone"></i></span><span class="text-success"><i class="fas fa-sms"></i></span>
           </div>
           <div class="card-body">
-            <div class="row">
+            <div class="row text-sm">
               <div class="col-md-12">(+255) 755189736</div>
           </div>
-          <div class="row">
+          <div class="row text-sm">
               <div class="col-md-12">(+255) 784085190</div>
-          </div>
-          <div class="row">
-              <div class="col-md-12">(+255) 746185067</div>
           </div>
           </div>
 
           </div>
+          <?php endif ?>
     </div>
     <!-- /.sidebar -->
   

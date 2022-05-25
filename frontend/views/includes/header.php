@@ -42,7 +42,7 @@ use common\models\Academicyear;
         <?php ActiveForm::end()?>
         <?php
 }
-else
+else if(Yii::$app->user->can('STUDENT'))
 {
   ?>
   <div class="col-md-12 col-sm-12 text-sm nav-link d-none d-md-block">
@@ -50,6 +50,14 @@ else
   <?=yii::$app->user->identity->student->programCode." ".yii::$app->user->identity->student->YOS?>
 </div>
   <?php
+}
+else
+{
+?>
+  <div class="col-md-12 col-sm-12 text-sm nav-link d-none d-md-block">
+  <?=Html::Button('<i class="fa fa-clock-o"></i> '.(yii::$app->session->get('currentAcademicYear'))->title,['class'=>'btn btn-lg p-1  btn-default rounded-pill '])?>
+</div>
+<?php
 }
 ?>
 </li>
