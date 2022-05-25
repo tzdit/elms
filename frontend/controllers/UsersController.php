@@ -22,7 +22,8 @@ class UsersController extends \yii\web\Controller
                     [
                         'actions' => [
                             'create',
-                            'admin-list'
+                            'admin-list',
+                            
                         ],
                         'allow' => true,
                         'roles'=>['SUPER_ADMIN']

@@ -62,6 +62,8 @@ public $defaultAction = 'dashboard';
                         'allow' => true,
                         'roles' => ['SYS_ADMIN','SUPER_ADMIN'],
                     ],
+
+                    
                 ],
             ],
             // 'verbs' => [

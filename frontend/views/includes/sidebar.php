@@ -18,7 +18,7 @@ use yii\helpers\Url;
             <?php if(Yii::$app->user->can('SYS_ADMIN') || Yii::$app->user->can('SUPER_ADMIN')): ?>
             <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fa fa-user-edit"></i>
+              <i class="nav-icon fa fa-user-cog"></i>
               <p>
                 Users
                 <i class="right fas fa-angle-left"></i>
@@ -65,14 +65,14 @@ use yii\helpers\Url;
      
            
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="<?= Url::toRoute('/users/admin-list') ?>" class="nav-link">
                   <i class="fas fa-user-secret nav-icon"></i>
                   <p>Admins</p>
                 </a>
         </li>
           <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="fas fa-cog nav-icon"></i>
+                  <i class="fa fa-id-card nav-icon"></i>
                   <p>Roles</p>
                 </a>
         </li>

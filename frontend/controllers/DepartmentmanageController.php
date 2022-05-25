@@ -11,6 +11,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * DepartmentmanageController implements the CRUD actions for Department model.
@@ -31,6 +32,25 @@ class DepartmentmanageController extends Controller
                     'index',
                     'update-dept',
                     'deletedepartment',
+                ],
+            ],
+            
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                  
+                    [
+                        'actions' => [
+                            'index',
+                            'view',
+                            'update-dept',
+                            'delete',
+                            'delete-department',
+                            'create',
+                        ],
+                        'allow' => true,
+                        'roles' => ['SYS_ADMIN','SUPER_ADMIN'],
+                    ],
                 ],
             ],
         ];

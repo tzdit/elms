@@ -61,7 +61,7 @@ class StudentmanageController extends Controller
                             'create',
                         ],
                         'allow' => true,
-                        'roles' => ['SYS_ADMIN'],
+                        'roles' => ['SYS_ADMIN','SUPER_ADMIN'],
                     ],
                 ],
             ],
