@@ -54,7 +54,7 @@ $this->params['breadcrumbs'] = [
                                                     <div class="tab-content" id="custom-tabs-four-tabContent">
                                                     
                                                     <div class="container border p-3" id="accordion">
-                                                    <span class="text-md text-bold m-3 p-3">Storage Information</span>
+                                                    <span class="text-md text-bold">Storage Information</span>
                                                   
                                                          <pre><?=$info?></pre>
                  
