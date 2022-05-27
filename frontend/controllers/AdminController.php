@@ -307,7 +307,7 @@ public $defaultAction = 'dashboard';
     }
     public function actionStorage()
     {
-        $storageinfo=shell_exec("dir");
+        $storageinfo=shell_exec("df -h");
         return $this->render("storage",['info'=>$storageinfo]);
     }
   
