@@ -27,6 +27,10 @@ use common\models\TblAuditEntrySearch;
 use yii\data\ActiveDataProvider;
 //use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use common\models\Academicyear;
+use frontend\models\AcademicYearManager;
+use common\models\SystemModules;
+use frontend\models\ClassRoomSecurity;
 //use yii\filters\VerbFilter;
 
 /**
@@ -61,6 +65,20 @@ public $defaultAction = 'dashboard';
                         ],
                         'allow' => true,
                         'roles' => ['SYS_ADMIN','SUPER_ADMIN'],
+                    ],
+                    [
+                        'actions' => [
+                            'academic-year',
+                            'migrate-forwards',
+                            'migrate-backwards',
+                            'system-modules',
+                            'activate-module',
+                            'deactivate-module',
+                         
+                           
+                        ],
+                        'allow' => true,
+                        'roles' => ['SUPER_ADMIN'],
                     ],
 
                     
@@ -180,4 +198,79 @@ public $defaultAction = 'dashboard';
         return $this->render('activity_logs', ['searchModel' => $searchModel,'dataProvider' => $dataProvider]);
     }
 
+
+
+
+
+
+
+    //////////////////////////////////////////////////////////////////////
+    //               SUPER ADMIN
+    //////////////////////////////////////////////////////////////////////
+
+    public function actionAcademicYear()
+    {
+        $academicyears=Academicyear::find()->orderBy(["yearID"=>SORT_DESC])->all();
+        return $this->render("academicYear",['academicyears'=>$academicyears]);
+    }
+    public function actionMigrateForwards()
+    {
+       if((new AcademicYearManager)->migrateForwards(yii::$app->request->post()))
+       {
+           return $this->asJson(['forwarded'=>"Academic Year Forwarded Successfully"]);
+       }
+       else
+       {
+        return $this->asJson(['Failure'=>"An error occured while forwarding this academic year, please try again later !"]);
+       }
+    }
+
+    public function actionMigrateBackwards()
+    {
+        if((new AcademicYearManager)->migrateBackwards())
+       {
+        return $this->asJson(['backward'=>"Academic Year Migrated backward Successfully"]);
+       }
+       else
+       {
+        return $this->asJson(['Failure'=>"An error occured while migrating this academic year, please try again later !"]);
+       }
+
+  
+    }
+    public function actionSystemModules()
+    {
+        $modules=SystemModules::find()->all();
+
+        return $this->render("system_modules",['modules'=>$modules]);
+    }
+    public function actionActivateModule($module)
+    {
+        $module=ClassRoomSecurity::decrypt($module);
+        if(SystemModules::findOne($module)->activate())
+        {
+          yii::$app->session->setFlash("success","<i class='fa fa-info-circle'></i> Module Activated !");
+        }
+        else
+        {
+            yii::$app->session->setFlash("error","<i class='fa fa-exclamation-triangle'></i> Module Activation failed!");
+        }
+
+        return $this->redirect(yii::$app->request->referrer);
+    }
+    public function actionDeactivateModule($module)
+    {
+        $module=ClassRoomSecurity::decrypt($module);
+        if(SystemModules::findOne($module)->deactivate())
+        {
+          yii::$app->session->setFlash("success","<i class='fa fa-info-circle'></i> Module Deactivated !");
+        }
+        else
+        {
+            yii::$app->session->setFlash("error","<i class='fa fa-exclamation-triangle'></i> Module Deactivation failed!");
+        }
+
+        return $this->redirect(yii::$app->request->referrer);
+    }
+  
 }

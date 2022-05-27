@@ -84,7 +84,7 @@ use yii\helpers\Url;
               </li>
 
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="<?= Url::toRoute('/admin/academic-year') ?>" class="nav-link">
               <i class="nav-icon fa fa-calendar"></i>
               <p>
                  Academic Year
@@ -113,7 +113,7 @@ use yii\helpers\Url;
           </li>
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="<?= Url::toRoute('/admin/system-modules') ?>" class="nav-link">
               <i class="nav-icon fa fa-cubes"></i>
               <p>
                 Modules

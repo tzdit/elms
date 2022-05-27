@@ -98,12 +98,12 @@ $script = <<<JS
 
       ///select tag
 
-      Swal.fire({
+     /* Swal.fire({
   icon: 'info',
   title: 'Online Quizzes | Tests !',
   text: 'Dear Instructor, Multiple choices questions and True-false questions can be securely done online, and the collection of scores is automatic! go to quiz, add questions to your bank, then set up your quiz/test! ',
   footer: 'For any further information, please contact us at 0755189736'
-});
+});*/
 
       //the dropdown searcn adding partner
 
