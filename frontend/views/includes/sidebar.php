@@ -103,7 +103,7 @@ use yii\helpers\Url;
           </li>
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="<?= Url::toRoute('/admin/storage') ?>" class="nav-link">
               <i class="nav-icon fa fa-hdd-o"></i>
               <p>
                 Storage
