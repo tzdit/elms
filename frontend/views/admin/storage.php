@@ -55,7 +55,7 @@ $this->params['breadcrumbs'] = [
                                                     <div class="container border p-1 pl-3" id="accordion">
           
                                                   
-                                                         <?=$info?>
+                                                         <pre><?=$info?></pre>
                  
                                                         
 
