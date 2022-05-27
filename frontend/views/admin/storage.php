@@ -48,7 +48,7 @@ $this->params['breadcrumbs'] = [
 
                                             <!-- Left col -->
                                             <section class="col-lg-12">
-
+                                                   <span class="text-bold p-2">Storage Information</span>
 
                                                 <div class="card-body" >
                                                     <div class="tab-content" id="custom-tabs-four-tabContent">
