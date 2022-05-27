@@ -211,7 +211,7 @@ public $defaultAction = 'dashboard';
     public function actionAcademicYear()
     {
         $academicyears=Academicyear::find()->orderBy(["yearID"=>SORT_DESC])->all();
-        return $this->render("academicYear",['academicyears'=>$academicyears]);
+        return $this->render("academicyear",['academicyears'=>$academicyears]);
     }
     public function actionMigrateForwards()
     {
