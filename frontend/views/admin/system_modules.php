@@ -94,6 +94,7 @@ $this->params['breadcrumbs'] = [
                                                                 <?php 
                                                                 }
                                                                 ?>
+                                                                <a href="#" id=<?=$module->moduleID?> data-toggle="tooltip" data-title="Delete Module" class="pl-1 pt-0 m-0 del"><i class="fa fa-trash" style="font-size:13px" aria-hidden="true"></i></a>
                                                             </div>
                                                             
 
@@ -132,59 +133,60 @@ $this->params['breadcrumbs'] = [
 
                                                                            <?php $script = <<<JS
                                                                             $(document).ready(function(){
+                                                                                $('.del').click(function(){
+                                                                                    var amodule=$(this).prop("id");
 
-                                                                                $(document).on('click', '.back', function(){
-                                                                                                var quiz = $(this).attr('id');
-                                                                                                Swal.fire({
-                                                                                            title: 'Migrate Backwards?',
-                                                                                            text: "You won't be able to revert this!",
-                                                                                            icon: 'question',
-                                                                                            showCancelButton: true,
-                                                                                            confirmButtonColor: '#3085d6',
-                                                                                            cancelButtonColor: '#d33',
-                                                                                            confirmButtonText: 'Migrate'
-                                                                                            }).then((result) => {
-                                                                                            if (result.isConfirmed) {
+                                                                              
+                                                                                Swal.fire({
+                                                                                title: 'Delete Module ?',
+                                                                                text: "You won't be able to revert this!",
+                                                                                icon: 'question',
+                                                                                showCancelButton: true,
+                                                                                confirmButtonColor: '#3085d6',
+                                                                                cancelButtonColor: '#d33',
+                                                                                confirmButtonText: 'Delete'
+                                                                                }).then((result) => {
+                                                                                if (result.isConfirmed) {
 
-                                                                                            $.ajax({
-                                                                                                url:'/admin/migrate-backwards',
-                                                                                                method:'post',
-                                                                                                async:false,
-                                                                                                dataType:'JSON',
-                                                                                                data:{},
-                                                                                                success:function(data){
-                                                                                                if(data.backward){
-                                                                                                    Swal.fire(
-                                                                                                        'Migration successful !',
-                                                                                                         data.backward,
-                                                                                                        'success'
-                                                                                            )
-                                                                                            setTimeout(function(){
-                                                                                                window.location.reload();
-                                                                                            }, 100);
+                                                                                $.ajax({
+                                                                                    url:'/admin/delete-module',
+                                                                                    method:'post',
+                                                                                    async:false,
+                                                                                    dataType:'JSON',
+                                                                                    data:{module:amodule},
+                                                                                    success:function(data){
+                                                                                    if(data.deleted){
+                                                                                        Swal.fire(
+                                                                                            'Module Deleted !',
+                                                                                            data.deleted,
+                                                                                            'success'
+                                                                                )
+                                                                                setTimeout(function(){
+                                                                                    window.location.reload();
+                                                                                }, 100);
 
 
-                                                                                                }
-                                                                                                else
-                                                                                                {
-                                                                                                    Swal.fire(
-                                                                                                        'Migration Failed!',
-                                                                                                        data.failure,
-                                                                                                        'error'
-                                                                                            )
-                                                                                            setTimeout(function(){
-                                                                                                window.location.reload();
-                                                                                            }, 100);
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        Swal.fire(
+                                                                                            'Deleting Failed!',
+                                                                                            data.failure,
+                                                                                            'error'
+                                                                                )
+                                                                                setTimeout(function(){
+                                                                                    window.location.reload();
+                                                                                }, 100);
 
-                                                                                                }
-                                                                                                }
-                                                                                            })
+                                                                                    }
+                                                                                    }
+                                                                                })
 
-                                                                                            }
-                                                                                            })
+                                                                                }
+                                                                                })                                                                 
+                                                                                });
 
-                                                                                            })                                                                    
-                                                                            });
+                                                                            })
                                                                             JS;
                                                                             $this->registerJs($script);
 

@@ -28,7 +28,7 @@ class SystemModules extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['moduleName', 'status'], 'required'],
+            [['moduleName'], 'required'],
             [['moduleName'], 'string', 'max' => 30],
             [['moduleDescription'], 'string', 'max' => 150],
             [['status'], 'string', 'max' => 10],

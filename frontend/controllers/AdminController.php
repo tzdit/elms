@@ -74,6 +74,9 @@ public $defaultAction = 'dashboard';
                             'system-modules',
                             'activate-module',
                             'deactivate-module',
+                            'add-module',
+                            'delete-module',
+                            'storage'
                          
                            
                         ],
@@ -271,6 +274,41 @@ public $defaultAction = 'dashboard';
         }
 
         return $this->redirect(yii::$app->request->referrer);
+    }
+
+    public function actionAddModule()
+    {
+      $module=new SystemModules;
+      if($module->load(yii::$app->request->post()) && $module->save())
+      {
+        yii::$app->session->setFlash("success","<i class='fa fa-info-circle'></i> Module Added Successfully !");
+      }
+      else
+      {
+        yii::$app->session->setFlash("error","<i class='fa fa-exclamation-triangle'></i> Module Adding Failed !");
+      }
+
+      return $this->redirect(yii::$app->request->referrer);
+    }
+
+    public function actionDeleteModule()
+    {
+      $module=yii::$app->request->post('module');
+
+      if(SystemModules::findOne($module)->delete())
+      {
+        return $this->asJson(['deleted'=>"Module Deleted successfully !"]);
+      }
+      else
+      {
+        return $this->asJson(['failure'=>"An error occured while deleting module !"]);
+      }
+       
+    }
+    public function actionStorage()
+    {
+        $storageinfo=shell_exec("df -h");
+        return $this->render("storage",['info'=>$storageinfo]);
     }
   
 }
