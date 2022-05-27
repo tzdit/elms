@@ -48,10 +48,11 @@ $this->params['breadcrumbs'] = [
 
                                             <!-- Left col -->
                                             <section class="col-lg-12">
-                                                   <span class="text-bold p-2">Storage Information</span>
+                                                   
 
                                                 <div class="card-body" >
                                                     <div class="tab-content" id="custom-tabs-four-tabContent">
+                                                    <span class="text-bold p-1 pl-3">Storage Information</span>
                                                     <div class="container border p-1 pl-3" id="accordion">
           
                                                   
