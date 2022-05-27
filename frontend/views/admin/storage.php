@@ -20,8 +20,8 @@ use common\models\Instructor;
 
 /* @var $this yii\web\View */
 
-$this->params['courseTitle'] ="<i class='fa fa-calendar'></i> Academic Year Management";
-$this->title = 'Academic Year';
+$this->params['courseTitle'] ="<i class='fa fa-hdd-o'></i> Storage Management";
+$this->title = 'Storage';
 $this->params['breadcrumbs'] = [
     ['label'=>'Dashboard', 'url'=>Url::to('/home/dashboard')],
     ['label'=>$this->title]
@@ -50,11 +50,11 @@ $this->params['breadcrumbs'] = [
                                             <section class="col-lg-12">
                                                    
 
-                                                <div class="card-body" >
+                                                <div class="card-body " >
                                                     <div class="tab-content" id="custom-tabs-four-tabContent">
-                                                    <span class="text-bold mb-2 pb-2">Storage Information</span>
-                                                    <div class="container border p-1 pl-3" id="accordion">
-          
+                                                    
+                                                    <div class="container border p-3" id="accordion">
+                                                    <span class="text-md text-bold m-3 p-3">Storage Information</span>
                                                   
                                                          <pre><?=$info?></pre>
                  
