@@ -23,7 +23,6 @@ use common\models\Instructor;
 $this->params['courseTitle'] ="<i class='fa fa-cubes'></i> System Modules";
 $this->title = 'System Modules';
 $this->params['breadcrumbs'] = [
-    ['label'=>'Dashboard', 'url'=>Url::to('/home/dashboard')],
     ['label'=>$this->title]
 ];
 

@@ -5,8 +5,9 @@ use fedemotta\datatables\DataTables;
 use yii\helpers\Url;
 use yii\helpers\Html;
 /* @var $this yii\web\View */
-$this->params['breadcrumbs'][] = ['label' => 'Students', 'url' => ['student-list']];
-$this->title = 'Super Administrator Dashboard';
+$this->params['courseTitle']="<i class='fa fa-user-graduate'></i> Students";
+$this->params['breadcrumbs'][] = ['label' => 'Students'];
+$this->title = 'Students';
 ?>
 <div class="site-index">
 
@@ -19,37 +20,33 @@ $this->title = 'Super Administrator Dashboard';
       
  <div class="row">
           <!-- Left col -->
-          <section class="col-lg-12">
+          <section class="col-lg-12 table-responsive">
             <!-- Custom tabs (Charts with tabs)-->
-            <div class="card">
-              <div class="card-header p-2">
-                <h3 class="card-title com-sm-12">
-                  <i class="fas fa-list mr-1 text-info"></i>
-                 List of Students
-                </h3>
-              </div><!-- /.card-header -->
-              <div class="card-body">
-            <table class="table table-bordered table-striped table-hover" id="StudentList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
+       
+          
+            
+            <table class="table table-bordered table-striped table-hover" id="StudentList" style="width:100%; font-family:'Time New Roman'; font-size:11.5px;">
             <thead>
-            <tr><th width="1%">#</th><th>Full Name</th><th>Reg#</th><th>YOS</th><th>Department</th><th width="5%">Manage</th></tr>
+            <tr><th width="1%">#</th><th>Full Name</th><th>Reg#</th><th>YOS</th><th>Department</th><th width="5%">Manage</th><th></th></tr>
             
             </thead>
             <tbody>
             <?php $i = 0; ?>
             <?php foreach($students as $std): ?>
-              <?php if($std->program->department->collegeID == $adminCollege): ?>
+          
             <tr>
             <td><?= ++$i; ?></td>
-            <td><?= $std->fullName ?></td>
+            <td><?= ucwords(strtolower($std->fullName)) ?></td>
             <td><?= $std->reg_no ?></td>
             <td><?= $std->YOS ?></td>
             <td><?= $std->program->department->depart_abbrev ?></td>
+            <td><?= $std->program->department->college->college_abbrev ?></td>
             
             <td>
-            <a href="../studentmanage/view?id=<?= $std->reg_no ?>" class="btn btn-info btn-sm m-0"><i class="fas fa-edit"></i></a> 
+            <a href="../studentmanage/view?id=<?= $std->reg_no ?>" class="m-0"><i class="fas fa-edit"></i></a> 
             </td>
             </tr>
-            <?php endif ?>
+       
             <?php endforeach ?>
             </tbody>
             </table>
@@ -63,7 +60,7 @@ $this->title = 'Super Administrator Dashboard';
           <!-- right col (We are only adding the ID to make the widgets sortable)-->
          
           <!-- right col -->
-        </div>
+     
 
       </div><!--/. container-fluid -->
 

@@ -2,9 +2,15 @@
 
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\Url;
+$this->title="Update";
 
+$this->params['courseTitle']="<i class='fa fa-edit'></i> Update Department";
 
-
+$this->params['breadcrumbs'] = [
+  ['label'=>'Departments', 'url'=>Url::to(['/departmentmanage/index'])],
+  ['label'=>$this->title]
+];
 
 ?>
 <!-- <div class="col-md-6">
@@ -19,28 +25,28 @@ use yii\helpers\Html;
 
 <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header bg-primary">
-        <span class="modal-title" id="exampleModalLabel"><h4>Update Department</h4></span>
+      <div class="modal-header pt-2 pb-2">
+        <span class="modal-title" id="exampleModalLabel"><i class="fa fa-edit"></i> Update Department</span>
         
       </div>
-      <div class="modal-body">
+      <div class="modal-body " style="font-size:11px">
       <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/departmentmanage/update-dept', 'deptid'=> $dept->departmentID, 'enctype'=>'multipart/form-data']])?>
         <div class="row">                                
         <div class="col-md-12">
-        <?= $form->field($dept, 'department_name')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Department Name'])->label(false)?>
+        <?= $form->field($dept, 'department_name')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Department Name'])->label('Department Name')?>
         </div> 
         </div>
 
         <div class="row">
         <div class="col-md-12">
-        <?= $form->field($dept, 'depart_abbrev')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Department Abbreviation'])->label(false)?>
+        <?= $form->field($dept, 'depart_abbrev')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Department Abbreviation'])->label('Department Abbreviation')?>
         </div>
       </div>
 
               
         <div class="row">
         <div class="col-md-12">
-        <?= Html::submitButton('Update', ['class'=>'btn btn-primary float-right ml-2']) ?>
+        <?= Html::submitButton('<i class="fa fa-edit"></i> Update', ['class'=>'btn btn-default float-right ml-2']) ?>
         
         </div>
         </div>

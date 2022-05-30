@@ -2,31 +2,45 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\models\Department;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Instructor */
 /* @var $form yii\widgets\ActiveForm */
+
+$departments=[];
+if(yii::$app->user->can("SYS_ADMIN"))
+{
+  $departments = ArrayHelper::map(Department::find()->where(['collegeID'=>Yii::$app->user->identity->admin->college->collegeID])->all(), 'departmentID', 'department_name');
+}
+else
+{
+  $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+}
+$roles=['INSTRUCTOR'=>'INSTRUCTOR','INSTRUCTOR & HOD'=>'HOD'];
 ?>
 
-<div class="instructor-form">
+<div class="container pl-5 pr-5 pt-2 pb-3">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'userID')->textInput() ?>
+  
 
-    <?= $form->field($model, 'departmentID')->textInput() ?>
-
+    <?= $form->field($model, 'departmentID')->dropdownList($departments)->label("Department") ?>
+    <?= $form->field($model->user->role, 'item_name')->dropdownList($roles)->label("Role") ?>
     <?= $form->field($model, 'full_name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'gender')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'PP')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'PP')->textInput(['maxlength' => true])->label("Profile Picture (N/A)") ?>
 
-    <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'phone')->textInput(['maxlength' => true,'class'=>'form-group form-control']) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>
-    </div>
+        <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class' => 'btn btn-default btn-lg text-primary']) ?>
+</div>
+ 
 
     <?php ActiveForm::end(); ?>
 

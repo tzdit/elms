@@ -24,10 +24,12 @@ use common\models\Hod;
 use common\models\Program;
 use common\models\Course;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use common\models\AuthItem;
 use yii\helpers\URL;
 use common\models\Logs;
 use yii\data\ActiveDataProvider;
+use frontend\models\ClassRoomSecurity;
 //use yii\web\Controller;
 //use yii\filters\VerbFilter;
 /**
@@ -41,12 +43,7 @@ class InstructormanageController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
+        
 
             'access' => [
                 'class' => AccessControl::className(),
@@ -63,6 +60,7 @@ class InstructormanageController extends Controller
                             'reset',
                             'delete',
                             'create',
+                            'lock'
                         ],
                         'allow' => true,
                         'roles' => ['SYS_ADMIN','SUPER_ADMIN'],
@@ -80,66 +78,91 @@ class InstructormanageController extends Controller
      // password resseting
      public function actionReset($id)
     {
+ 
         $model= new User();
         $model = User::findOne($id);
         $password = 123456;
 
             $model->password= $password;
-            $model->save();
             
-            $instructors = Instructor::find()->all();
-            return $this->render('instructor_list', ['instructors'=>$instructors]);
+            if($model->save()){
+                Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> User Password Reset successful');
+             
+                }else{
+                Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> User Password Reset failed ! '.Html::errorSummary($model));
+            
+            }
+    
+            return $this->redirect("instructor-list");
+    }
+
+    public function actionLock($id)
+    {
+ 
+        $model= new User();
+        $model = User::findOne($id);
+     
+            
+            if($model->lock()){
+                Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> User Lock successful');
+             
+                }else{
+                Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> User Lock failed ! '.Html::errorSummary($model));
+            
+            }
+    
+            return $this->redirect("instructor-list");
     }
 
     //Create instructor
     public function actionCreateInstructor(){
         $model = new RegisterInstructorForm;
-        $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'INSTRUCTOR & HOD'])->orwhere(['name'=>'INSTRUCTOR'])->all(), 'name', 'name');
+       
         try{
-        $departments = ArrayHelper::map(Department::find()->where(['collegeID'=>Yii::$app->user->identity->admin->college->collegeID])->all(), 'departmentID', 'department_name');
+       
         if($model->load(Yii::$app->request->post())){
             if($model->createi()){
-            Yii::$app->session->setFlash('success', 'Instructor registered successfully');
+            Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> Instructor registered successfully');
             return $this->redirect(Yii::$app->request->referrer);
             }else{
-            Yii::$app->session->setFlash('error', 'Something went Wrong!');
+            Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Instructor registration failed ! '.Html::errorSummary($model));
+            return $this->redirect(Yii::$app->request->referrer);
         }
          } 
         
     }catch(\Exception $e){
-          Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+          Yii::$app->session->setFlash('error', 'Instructor registration failed !'.$e->getMessage());
+          return $this->redirect(Yii::$app->request->referrer);
     }
-        return $this->render('create_instructor', ['model'=>$model, 'departments'=>$departments, 'roles'=>$roles]);
+        
     }
 
 
        //Create Hods
     public function actionCreateHods(){
-        $model = new RegisterHodsForm;
-        $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'INSTRUCTOR & HOD'])->orwhere(['name'=>'INSTRUCTOR'])->all(), 'name', 'name');
-        $departments = ArrayHelper::map(Department::find()->where(['collegeID'=>Yii::$app->user->identity->admin->college->collegeID])->all(), 'departmentID', 'department_name');
+       
         if(yii::$app->request->isPost)
         {
+           
+        $model = new RegisterHodsForm;
         try{
         if($model->load(Yii::$app->request->post())){
             if($model->create()){
-            Yii::$app->session->setFlash('success', 'Hod registered successfully');
+             
+            Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> HOD registered successfully !');
             return $this->redirect(Yii::$app->request->referrer);
             }else{
-            Yii::$app->session->setFlash('error', 'Something went Wrong!');
-            return $this->redirect(Yii::$app->request->referrer);
+            Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> HOD registration failed ! '.Html::errorSummary($model));
+           return $this->redirect(Yii::$app->request->referrer);
         }
          } 
         
     }catch(\Exception $e){
-          Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+          Yii::$app->session->setFlash('error', 'HOD registration failed ! '.$e->getMessage());
           return $this->redirect(Yii::$app->request->referrer);
     }
 }
-else
-{
-    return $this->render('create_hods', ['model'=>$model, 'departments'=>$departments, 'roles'=>$roles]);
-}
+
        
     }
     
@@ -147,9 +170,16 @@ else
 
     //get instructor list
     public function actionInstructorList(){
-        $instructors = Instructor::find()->all();
-        $adminCollege = Yii::$app->user->identity->admin->collegeID;
-        return $this->render('instructor_list', ['instructors'=>$instructors, 'adminCollege'=>$adminCollege]);
+        $instructors =[];
+        if(yii::$app->user->can('SUPER_ADMIN')){
+            $instructors = Instructor::find()->all();
+        }
+        else
+        {
+            $adminCollege = Yii::$app->user->identity->admin->college; 
+            $instructors = $adminCollege->getInstructors();
+        }
+        return $this->render('instructor_list', ['instructors'=>$instructors]);
     }
 
     //get Hod list
@@ -197,10 +227,22 @@ else
      */
     public function actionUpdate($id)
     {
+    
         $model = $this->findModel($id);
+        $model2=$model->user->role;
+    
+        if ($model->load(Yii::$app->request->post()) && $model2->load(Yii::$app->request->post())) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->instructorID]);
+            if($model-> updateit($model2))
+            {
+                Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> User Updated Successfully !');
+            }
+            else
+            {
+                Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> User Updating Failed ! '.Html::errorSummary($model));
+            }
+
+            return $this->redirect(yii::$app->request->referrer);
         }
 
         return $this->render('update', [

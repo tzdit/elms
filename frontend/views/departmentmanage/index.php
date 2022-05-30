@@ -7,13 +7,13 @@ use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
-$this->title = 'List of Departments';
+$this->params['courseTitle']="<i class='far fa-building'></i> Departments";
+$this->title = 'Departments';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="">
     <div>
-        <a href="#" class="btn btn-outline-primary btn-rounded float-right m-0 col-xs-12" data-target="#createDepartmentModal" data-toggle="modal"><i class="fas fa-plus" > Create Department</i></a>
+        <a href="#" class="btn btn-default btn-sm btn-rounded float-right m-0 " data-target="#createDepartmentModal" data-toggle="modal"><i class="fa fa-plus-circle" > Add Department</i></a>
     </div>
 
     <table width="100%" class="table table-striped table-bordered table-hover" id="DepartmentTable" style="font-size:12px">
@@ -51,8 +51,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <td><?=  $departments->depart_abbrev; ?></td>
                 <td>
 
-                <?= Html::a('<i class="fas fa-edit"></i>',['update-dept', 'deptid'=>$departments->departmentID], ['class'=>'btn btn-info btn-sm m-0'])?>                 
-                <?= Html::a('<i class="fas fa-trash"> </i>',['deletedepartment', 'deptsid'=>$departments->departmentID], ['class'=>'btn btn-danger btn-sm m-0 departmentdel']) ?> </td>
+                <?= Html::a('<i class="fas fa-edit"></i>',['update-dept', 'deptid'=>$departments->departmentID], ['class'=>'m-0'])?>                 
+                <a href="#" class=' text-danger m-0 departmentdel'><i class="fas fa-trash"> </i></a></td>
             </tr>
 
 <!--         edit model-->
@@ -69,13 +69,13 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/departmentmanage/update-department', 'id'=>$departments->departmentID, 'enctype'=>'multipart/form-data']])?>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <?= $form->field($model, 'department_name')->textInput(['class'=>'form-control form-control-sm', 'value'=> $departments->department_name])->label('Department Name')?>
+                                    <?= $form->field($model, 'department_name')->textInput(['class'=>'form-control form-control-sm', 'value'=> $departments->department_name])->label(false)?>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <?= $form->field($model, 'depart_abbrev')->textInput(['class'=>'form-control form-control-sm', 'value'=>$departments->depart_abbrev])->label('Department Abbreviation')?>
+                                    <?= $form->field($model, 'depart_abbrev')->textInput(['class'=>'form-control form-control-sm', 'value'=>$departments->depart_abbrev])->label(false)?>
                                 </div>
                             </div>
 
@@ -103,8 +103,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="modal fade" id="createDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <span class="modal-title" id="exampleModalLabel"><h4>Create New Department</h4></span>
+            <div class="modal-header pt-2 pb-2">
+                <span class="modal-title" id="exampleModalLabel"><i class="fa fa-plus-circle"></i> Add New Department</span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -113,20 +113,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php $form = ActiveForm::begin(['method'=>'post', 'action'=>['/departmentmanage/index', 'enctype'=>'multipart/form-data']])?>
                 <div class="row">
                     <div class="col-md-12">
-                        <?= $form->field($model, 'department_name')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Department Name'])->label('Department Name')?>
+                        <?= $form->field($model, 'department_name')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Department Name'])->label(false)?>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-12">
-                        <?= $form->field($model, 'depart_abbrev')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Department Abbreviation'])->label('Department Abbreviation')?>
+                        <?= $form->field($model, 'depart_abbrev')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Department Abbreviation'])->label(false)?>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-12">
-                        <?= Html::submitButton('Add', ['class'=>'btn btn-primary btn-md float-right ml-2']) ?>
-                        <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
+                        <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class'=>'btn btn-default btn-md float-right ml-2']) ?>
+                      
 
                     </div>
                 </div>

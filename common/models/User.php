@@ -27,6 +27,7 @@ use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
  * @property integer $updated_at
  * @property string $password write-only password
  * @property string $last_login
+ * @property AuthAssignmnet $role
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -269,6 +270,21 @@ class User extends ActiveRecord implements IdentityInterface
         {
             throw $t;
         }
+    }
+
+    public function getRole()
+    {
+        return $this->hasOne(AuthAssignmnet::className(), ['user_id' => 'id']);
+    }
+
+    public function lock()
+    {
+        $this->status=self::STATUS_INACTIVE;
+        return $this->save();
+    }
+    public function isLocked()
+    {
+        return $this->status==9;
     }
 
    

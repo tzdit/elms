@@ -80,4 +80,56 @@ class College extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Department::className(), ['collegeID' => 'collegeID']);
     }
+
+    public function getStudents()
+    {
+        $students=[];
+        $departments=$this->departments;
+
+        foreach($departments as $d=>$department)
+        {
+            $programs=$department->programs;
+
+            foreach($programs as $d=>$program)
+            {
+               $studentsinprogram=$program->students;
+
+               foreach($studentsinprogram as $s=>$student)
+               {
+                   array_push($students,$student);
+                
+               }
+
+
+
+            }
+        }
+
+        return $students;
+    }
+
+    public function getInstructors()
+    {
+        $instructors=[];
+        $departments=$this->departments;
+
+        foreach($departments as $d=>$department)
+        {
+           
+               $dept_instructors=$department->instructors;
+                
+               foreach($dept_instructors as $i=>$instructor)
+               {
+            
+                   array_push($instructors,$instructor);
+                
+               }
+
+
+
+            
+        }
+
+        return  $instructors;
+    }
 }

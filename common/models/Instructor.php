@@ -33,6 +33,7 @@ class Instructor extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+ 
     public static function tableName()
     {
         return 'instructor';
@@ -203,6 +204,30 @@ class Instructor extends \yii\db\ActiveRecord
     public function getCourses(){
         return $this->hasMany(Course::className(), ['course_code'=>'course_code'])
                     ->viaTable('instructor_course', ['instructorID'=>'instructorID']);
+    }
+    public function updateit($role)
+    {
+        $connection=yii::$app->db;
+        $transact=$connection->beginTransaction();
+
+        try
+        {
+        if($this->save() && $role->save())
+        {
+            $transact->commit();
+            return true;
+        }
+        else
+        {
+            $transact->rollBack(); 
+            return false;
+        }
+       }
+       catch(Exception $s)
+       {
+        $transact->rollBack(); 
+        return false;
+       }
     }
     
 }

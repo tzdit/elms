@@ -134,8 +134,7 @@ class StudentmanageController extends Controller
             $model->password= $password;
             $model->save();
 
-            $students = Student::find()->all();
-            return $this->render('student_list', ['students'=>$students]);
+            return $this->redirect(['student-list']);
     }
 
     /**
@@ -155,9 +154,19 @@ class StudentmanageController extends Controller
     //get list of students
 
   public function actionStudentList(){
-    $students = Student::find()->all();
-    $adminCollege = Yii::$app->user->identity->admin->collegeID;
-    return $this->render('student_list', ['students'=>$students, 'adminCollege'=>$adminCollege]);
+
+    $students=[];
+
+    if(yii::$app->user->can('SUPER_ADMIN')){
+        $students = Student::find()->all();
+    }
+    else
+    {
+        $adminCollege = Yii::$app->user->identity->admin->college; 
+        $students = $adminCollege->getStudents();
+    }
+
+    return $this->render('student_list', ['students'=>$students]);
    }
     /**
      * Finds the Student model based on its primary key value.

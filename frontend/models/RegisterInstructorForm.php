@@ -29,7 +29,10 @@ class RegisterInstructorForm extends Model
             [['full_name', 'phone', 'department', 'role', 'gender'], 'required'],
             ['username', 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'email','message' => 'Invalid Email Address.'],
+            ['phone', 'unique', 'targetClass' => '\common\models\Instructor', 'message' => 'phone number already taken.'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This Email has already been taken.'],
+            ['phone', 'k-phone','countryValue' => 'TZ'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
 
@@ -72,11 +75,15 @@ class RegisterInstructorForm extends Model
         $transaction->commit();
         return true;
         }
+        else
+        {
+            return false;
+        }
         }
     
        }catch(\Exception $e){
             $transaction->rollBack();
-            return $e->getMessage();
+            return false;
       }
     return false;
 }
