@@ -9,15 +9,10 @@ use yii\helpers\ArrayHelper;
 /* @var $model common\models\Instructor */
 /* @var $form yii\widgets\ActiveForm */
 
-$departments=[];
-if(yii::$app->user->can("SYS_ADMIN"))
-{
-  $departments = ArrayHelper::map(Department::find()->where(['collegeID'=>Yii::$app->user->identity->admin->college->collegeID])->all(), 'departmentID', 'department_name');
-}
-else
-{
-  $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
-}
+
+  $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_Full','departCollege');
+
+
 $roles=['INSTRUCTOR'=>'INSTRUCTOR','INSTRUCTOR & HOD'=>'HOD'];
 ?>
 
@@ -30,6 +25,7 @@ $roles=['INSTRUCTOR'=>'INSTRUCTOR','INSTRUCTOR & HOD'=>'HOD'];
     <?= $form->field($model, 'departmentID')->dropdownList($departments)->label("Department") ?>
     <?= $form->field($model->user->role, 'item_name')->dropdownList($roles)->label("Role") ?>
     <?= $form->field($model, 'full_name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'gender')->textInput(['maxlength' => true]) ?>
 

@@ -3,6 +3,7 @@
 namespace common\models;
 use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 use Yii;
+use kartik\validators\PhoneValidator;
 
 /**
  * This is the model class for table "instructor".
@@ -11,6 +12,7 @@ use Yii;
  * @property int|null $userID
  * @property int|null $departmentID
  * @property string $full_name
+ * @property string $email
  * @property string $gender
  * @property string|null $PP
  * @property string|null $phone
@@ -54,12 +56,15 @@ class Instructor extends \yii\db\ActiveRecord
     {
         return [
             [['userID', 'departmentID'], 'integer'],
-            [['full_name', 'gender'], 'required'],
+            [['full_name', 'gender','email'], 'required'],
             [['full_name'], 'string', 'max' => 255],
             [['gender'], 'string', 'max' => 7],
             [['PP'], 'string', 'max' => 10],
             [['phone'], 'string', 'max' => 30],
             [['phone'], 'unique'],
+            ['phone', 'k-phone','countryValue' => 'TZ'],
+            ['email', 'email','message' => 'Invalid Email Address.'],
+            ['email', 'unique'],
             [['departmentID'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['departmentID' => 'departmentID']],
             [['userID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userID' => 'id']],
         ];
@@ -79,6 +84,20 @@ class Instructor extends \yii\db\ActiveRecord
             'PP' => 'Pp',
             'phone' => 'Phone',
         ];
+    }
+    public function beforeSave($insert)
+    {
+
+      if($insert==false && $this->isAttributeChanged('email'))
+      {
+          $userID=$this->userID;
+          $user=User::findOne($userID);
+          $user->username=$this->email;
+          $user->save();
+      }
+
+
+        return parent::beforeSave($insert);
     }
 
     /**

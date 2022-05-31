@@ -4,6 +4,7 @@ namespace common\models;
 use common\models\StudentGroup;
 use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 use Yii;
+use kartik\validators\PhoneValidator;
 
 /**
  * This is the model class for table "student".
@@ -15,6 +16,7 @@ use Yii;
  * @property string $mname
  * @property string $lname
  * @property string $gender
+ * @property string $email
  * @property string|null $f4_index_no
  * @property int $YOS
  * @property string $DOR
@@ -58,13 +60,17 @@ class Student extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['reg_no', 'fname', 'lname', 'gender', 'YOS', 'DOR', 'status'], 'required'],
+            [['reg_no', 'fname', 'lname', 'gender', 'YOS', 'DOR', 'status','email'], 'required'],
             [['userID', 'YOS'], 'integer'],
             [['DOR'], 'safe'],
             [['reg_no', 'f4_index_no'], 'string', 'max' => 20],
             [['programCode', 'fname', 'mname', 'lname', 'status'], 'string', 'max' => 60],
             [['gender'], 'string', 'max' => 7],
             [['phone'], 'string', 'max' => 30],
+            ['email', 'unique', 'targetClass' => '\common\models\Student', 'message' => 'This email has already been taken.'],
+            ['email', 'email','message' => 'Invalid Email Address.'],
+            ['phone', 'unique', 'targetClass' => '\common\models\Student', 'message' => 'phone number already taken.'],
+            ['phone', 'k-phone','countryValue' => 'TZ'],
             [['reg_no'], 'unique'],
             [['programCode'], 'exist', 'skipOnError' => true, 'targetClass' => Program::className(), 'targetAttribute' => ['programCode' => 'programCode']],
             [['userID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userID' => 'id']],
@@ -81,6 +87,7 @@ class Student extends \yii\db\ActiveRecord
             'userID' => 'User ID',
             'programCode' => 'Program Code',
             'fname' => 'First name',
+            'email'=>'E-mail',
             'mname' => 'Middle name',
             'lname' => 'Last name',
             'gender' => 'Gender',
@@ -90,6 +97,21 @@ class Student extends \yii\db\ActiveRecord
             'phone' => 'Phone',
             'status' => 'Status',
         ];
+    }
+
+    public function beforeSave($insert)
+    {
+
+      if($insert==false && $this->isAttributeChanged('reg_no'))
+      {
+          $userID=$this->userID;
+          $user=User::findOne($userID);
+          $user->username=$this->reg_no;
+          $user->save();
+      }
+
+
+        return parent::beforeSave($insert);
     }
 
     /**

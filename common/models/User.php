@@ -282,9 +282,19 @@ class User extends ActiveRecord implements IdentityInterface
         $this->status=self::STATUS_INACTIVE;
         return $this->save();
     }
+    public function unlock()
+    {
+        $this->status=self::STATUS_ACTIVE;
+        return $this->save();  
+    }
     public function isLocked()
     {
         return $this->status==9;
+    }
+    public function setDeleted()
+    {
+        $this->status=self::STATUS_DELETED;
+        return $this->save();  
     }
 
    

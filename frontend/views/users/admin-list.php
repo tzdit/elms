@@ -6,7 +6,11 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 /* @var $this yii\web\View */
 
-$this->title = 'Super Administrator Dashboard';
+$this->params['courseTitle']='<i class="fas fa-user-secret nav-icon"></i> Admins';
+$this->title = 'Admins';
+$this->params['breadcrumbs'] = [
+    ['label'=>$this->title]
+];
 ?>
 <div class="site-index">
 
@@ -21,18 +25,13 @@ $this->title = 'Super Administrator Dashboard';
           <!-- Left col -->
           <section class="col-lg-12">
             <!-- Custom tabs (Charts with tabs)-->
-            <div class="card">
-              <div class="card-header p-2">
-                <h3 class="card-title com-sm-12">
-                  <i class="fas fa-history mr-"></i>
-                 List of System Administrators
-                 
-                </h3>
-                <a href="<?= Url::toRoute('/users/create') ?>" class="btn btn-primary btn-sm float-right m-0 col-xs-12"><i class="fas fa-user-plus"></i> Create User</a>
+           
+           
+                <a href="<?= Url::toRoute('/users/create') ?>" class="btn btn-default btn-sm float-right m-0 col-xs-12"><i class="fas fa-user-plus"></i> Add Admin</a>
               
-              </div><!-- /.card-header -->
-              <div class="card-body">
-            <table class="table table-bordered table-striped table-hover" id="AdminTable" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
+              <!-- /.card-header -->
+            
+            <table class="table table-bordered table-striped table-hover" id="AdminTable" style="width:100%; font-size:11.5px;">
             <thead>
             <tr><th width="1%">#</th><th>Full Name</th><th>Email</th><th>Phone Number</th><th>College</th><th width="15%">Action</th></tr>
             
@@ -47,9 +46,8 @@ $this->title = 'Super Administrator Dashboard';
             <td><?= $user->phone?></td>
             <td><?= $user->college->college_abbrev ?></td>
             <td>
-            <a href="#" class="btn btn-info btn-sm m-0"><i class="fas fa-edit"></i></a> 
-            <a href="#" class="btn btn-success btn-sm m-0"><i class="fas fa-eye"></i></a>
-            <a href="#" class="btn btn-danger btn-sm m-0"><i class="fas fa-trash" ></i></a>
+            <a href="#" class=" m-0"><i class="fas fa-edit"></i></a> 
+            <a href="#" class=" m-0"><i class="fas fa-trash" ></i></a>
             </td>
             </tr>
             <?php endforeach ?>
@@ -65,9 +63,7 @@ $this->title = 'Super Administrator Dashboard';
           <!-- right col (We are only adding the ID to make the widgets sortable)-->
          
           <!-- right col -->
-        </div>
-
-      </div><!--/. container-fluid -->
+  
 
     </div>
 </div>

@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="">
     <div>
-        <a href="#" class="btn btn-default btn-sm btn-rounded float-right m-0 " data-target="#createDepartmentModal" data-toggle="modal"><i class="fa fa-plus-circle" > Add Department</i></a>
+        <a href="#" class="btn btn-default btn-sm  float-right m-0 " data-target="#createDepartmentModal" data-toggle="modal"><i class="fa fa-plus-circle" > </i> Add Department</a>
     </div>
 
     <table width="100%" class="table table-striped table-bordered table-hover" id="DepartmentTable" style="font-size:12px">

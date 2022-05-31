@@ -24,6 +24,8 @@ use common\models\Hod;
 use common\models\Program;
 use common\models\Course;
 use yii\helpers\ArrayHelper;
+
+use yii\helpers\Html;
 use common\models\AuthItem;
 use yii\helpers\URL;
 use common\models\Logs;
@@ -59,6 +61,8 @@ class StudentmanageController extends Controller
                             'delete',
                             'reset',
                             'create',
+                            'lock',
+                            'unlock'
                         ],
                         'allow' => true,
                         'roles' => ['SYS_ADMIN','SUPER_ADMIN'],
@@ -114,27 +118,74 @@ class StudentmanageController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->reg_no]);
+      
+        if ($model->load(Yii::$app->request->post()) ) {
+            if($model->save())
+            {
+                Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> User Updated Successfully');
+                return $this->redirect(yii::$app->request->referrer);
+            }
+            else
+            {
+                Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> User Update failed ! '.Html::errorSummary($model));
+                return $this->redirect(yii::$app->request->referrer);
+            }
+            
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model' => $model
         ]);
     }
 
 
     public function actionReset($id)
     {
-        $model= new User();
         $model = User::findOne($id);
         $password = 123456;
 
             $model->password= $password;
-            $model->save();
+            if($model->save()){
+                Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> User Password Reset successful, password defaults to 123456');
+             
+                }else{
+                Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> User Password Reset failed ! '.Html::errorSummary($model));
+            
+            }
 
             return $this->redirect(['student-list']);
+    }
+    public function actionLock($id)
+    {
+        $model = User::findOne($id);
+     
+            
+            if($model->lock()){
+                Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> User Lock successful');
+             
+                }else{
+                Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> User Lock failed ! '.Html::errorSummary($model));
+            
+            }
+    
+            return $this->redirect("student-list");
+    }
+    public function actionUnlock($id)
+    {
+ 
+        $model= new User();
+        $model = User::findOne($id);
+     
+            
+            if($model->unlock()){
+                Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> User Reactivation successful');
+             
+                }else{
+                Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> User Reactivation failed ! '.Html::errorSummary($model));
+            
+            }
+    
+            return $this->redirect("student-list");
     }
 
     /**
@@ -144,12 +195,25 @@ class StudentmanageController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
+        public function actionDelete()
+        {
+            $id=yii::$app->request->post('userid');
+            $student=$this->findModel($id);
+            if($student->delete() && User::findOne($id)->setDeleted() )
+            {
+                return $this->asJson(['deleted'=>'User Deleted Successfully !']);
+              
+            }
+            else
+            {
+                return $this->asJson(['failure'=>'User Deleting Failed ! '.Html::errorSummary($model)]);
+               
+            }
+    
+          
+        }
 
-        return $this->redirect(['student-list']);
-    }
+    
 
     //get list of students
 
@@ -177,7 +241,7 @@ class StudentmanageController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Student::findOne($id)) !== null) {
+        if (($model = Student::find()->where(['userID'=>$id])->one()) !== null) {
             return $model;
         }
 

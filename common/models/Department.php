@@ -101,4 +101,12 @@ class Department extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Program::className(), ['departmentID' => 'departmentID']);
     }
+    public function getDepartment_full()
+    {
+        return $this->department_name." (".$this->depart_abbrev.")";
+    }
+    public function getDepartCollege()
+    {
+        return $this->college->college_name;
+    }
 }

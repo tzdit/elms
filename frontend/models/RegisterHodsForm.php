@@ -19,7 +19,7 @@ class RegisterHodsForm extends Model
     public $password = "123456";
     public $role = "INSTRUCTOR & HOD";
     public $email;
-    public $country_code="+255";
+ 
 
 
     /**

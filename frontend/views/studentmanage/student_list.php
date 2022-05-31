@@ -25,25 +25,44 @@ $this->title = 'Students';
        
           
             
-            <table class="table table-bordered table-striped table-hover" id="StudentList" style="width:100%; font-family:'Time New Roman'; font-size:11.5px;">
+            <table class="table table-bordered table-striped table-hover" id="StudentList" style="width:100%;font-size:11.5px;">
             <thead>
-            <tr><th width="1%">#</th><th>Full Name</th><th>Reg#</th><th>YOS</th><th>Department</th><th width="5%">Manage</th><th></th></tr>
+            <tr><th width="1%">#</th><th>Full Name</th><th>Reg#</th><th>E-mail</th><th>Program</th><th>YOS</th><th>Department</th><th width="5%">College</th><th></th></tr>
             
             </thead>
             <tbody>
             <?php $i = 0; ?>
             <?php foreach($students as $std): ?>
           
-            <tr>
+            <tr class="<?=($std->user!=null && $std->user->isLocked())?"text-danger":""?>">
             <td><?= ++$i; ?></td>
             <td><?= ucwords(strtolower($std->fullName)) ?></td>
             <td><?= $std->reg_no ?></td>
+            <td><?= $std->email ?></td>
+            <td><?= $std->programCode ?></td>
             <td><?= $std->YOS ?></td>
             <td><?= $std->program->department->depart_abbrev ?></td>
             <td><?= $std->program->department->college->college_abbrev ?></td>
             
             <td>
-            <a href="../studentmanage/view?id=<?= $std->reg_no ?>" class="m-0"><i class="fas fa-edit"></i></a> 
+            <a href="<?=Url::to(['/studentmanage/update','id'=> $std->userID])?>" data-toggle="tooltip" data-title="Update User" class="m-0"><i class="fas fa-edit"></i></a> 
+            <a href="<?=Url::to(['/studentmanage/reset','id'=> $std->userID])?>"  data-toggle="tooltip" data-title="Reset User Password" class="mr-1"><i class="fa fa-refresh"></i></a> 
+            <?php
+            if($std->user!=null && $std->user->isLocked() )
+            {
+            ?>
+            <a href="<?=Url::to(['/studentmanage/unlock','id'=> $std->userID])?>"  data-toggle="tooltip" data-title="Reactivate/Unlock User" class="mr-1"><i class="fa fa-unlock"></i></a>  
+            <?php
+            }
+            else
+            {
+            ?>
+            <a href="<?=Url::to(['/studentmanage/lock','id'=> $std->userID])?>"  data-toggle="tooltip" data-title="Lock User" class="mr-1"><i class="fas fa-user-lock"></i></a>
+            <?php
+            }
+            ?>
+            
+            <a href="#"  id=<?=$std->userID?> data-toggle="tooltip" data-title="Delete User" class="mr-1  userdel"><i class="fa fa-trash"></i></a> 
             </td>
             </tr>
        
@@ -73,6 +92,57 @@ $(document).ready(function(){
     responsive:true
   });
   // alert("JS IS OKEY")
+
+  $(document).on('click', '.userdel', function(){
+      var user = $(this).attr('id');
+      Swal.fire({
+  title: 'Delete User?',
+  text: "You won't be able to revert to this, and the user will not be able to recover his account. consider locking the user instead, if this decision is for temporary reasons !",
+  icon: 'question',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Delete'
+}).then((result) => {
+  if (result.isConfirmed) {
+ 
+    $.ajax({
+      url:'/studentmanage/delete',
+      method:'post',
+      async:false,
+      dataType:'JSON',
+      data:{userid:user},
+      success:function(data){
+        if(data.deleted){
+          Swal.fire(
+              'Deleted !',
+              data.deleted,
+              'success'
+    )
+    setTimeout(function(){
+      window.location.reload();
+    }, 100);
+   
+
+        }
+        else
+        {
+          Swal.fire(
+              'Deleting failed !',
+              data.failure,
+              'error'
+    )
+    setTimeout(function(){
+      window.location.reload();
+    }, 100);
+        }
+      }
+    })
+   
+  }
+})
+
+})
 });
 JS;
 $this->registerJs($script);

@@ -43,7 +43,12 @@ class InstructormanageController extends Controller
     public function behaviors()
     {
         return [
-        
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
 
             'access' => [
                 'class' => AccessControl::className(),
@@ -60,7 +65,8 @@ class InstructormanageController extends Controller
                             'reset',
                             'delete',
                             'create',
-                            'lock'
+                            'lock',
+                            'unlock'
                         ],
                         'allow' => true,
                         'roles' => ['SYS_ADMIN','SUPER_ADMIN'],
@@ -79,14 +85,13 @@ class InstructormanageController extends Controller
      public function actionReset($id)
     {
  
-        $model= new User();
         $model = User::findOne($id);
         $password = 123456;
 
             $model->password= $password;
             
             if($model->save()){
-                Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> User Password Reset successful');
+                Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> User Password Reset successful, password defaults to 123456');
              
                 }else{
                 Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> User Password Reset failed ! '.Html::errorSummary($model));
@@ -108,6 +113,23 @@ class InstructormanageController extends Controller
              
                 }else{
                 Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> User Lock failed ! '.Html::errorSummary($model));
+            
+            }
+    
+            return $this->redirect("instructor-list");
+    }
+    public function actionUnlock($id)
+    {
+ 
+        $model= new User();
+        $model = User::findOne($id);
+     
+            
+            if($model->unlock()){
+                Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> User Reactivation successful');
+             
+                }else{
+                Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> User Reactivation failed ! '.Html::errorSummary($model));
             
             }
     
@@ -257,11 +279,22 @@ class InstructormanageController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete()
     {
-        $this->findModel($id)->delete();
+        $id=yii::$app->request->post('userid');
+        $instructor=(new Instructor)->find()->where(['userID'=>$id])->one();
+        if($instructor->delete() && User::findOne($id)->setDeleted() )
+        {
+            return $this->asJson(['deleted'=>'User Deleted Successfully !']);
+          
+        }
+        else
+        {
+            return $this->asJson(['failure'=>'User Deleting Failed ! '.Html::errorSummary($model)]);
+           
+        }
 
-        return $this->redirect(['instructor-list']);
+      
     }
 
     /**

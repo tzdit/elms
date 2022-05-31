@@ -102,6 +102,14 @@ class Program extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Hod::className(), ['programCode' => 'programCode']);
     }
+    public function getFullProgram()
+    {
+        return $this->prog_name." (".$this->programCode.")";
+    }
+    public function getCollege()
+    {
+        return $this->department->college->college_name;
+    }
 
     
 }

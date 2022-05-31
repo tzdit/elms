@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Student */
 
-$this->title = 'Update Student: ' . $model->reg_no;
+$this->title = 'Update Student';
+$this->params['courseTitle']='<i class="fa fa-edit"></i> Update Student' ;
 $this->params['breadcrumbs'][] = ['label' => 'Students', 'url' => ['student-list']];
-$this->params['breadcrumbs'][] = ['label' => $model->reg_no, 'url' => ['view', 'id' => $model->reg_no]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="site-index">
