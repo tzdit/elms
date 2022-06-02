@@ -3,6 +3,7 @@
 namespace common\models;
 use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 use Yii;
+use kartik\validators\PhoneValidator;
 
 /**
  * This is the model class for table "admin".
@@ -48,6 +49,7 @@ class Admin extends \yii\db\ActiveRecord
             [['phone'], 'string', 'max' => 30],
             [['email'], 'unique'],
             [['phone'], 'unique'],
+            ['phone', 'k-phone','countryValue' => 'TZ'],
             [['collegeID'], 'exist', 'skipOnError' => true, 'targetClass' => College::className(), 'targetAttribute' => ['collegeID' => 'collegeID']],
             [['userID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userID' => 'id']],
         ];
@@ -66,6 +68,20 @@ class Admin extends \yii\db\ActiveRecord
             'email' => 'Email',
             'phone' => 'Phone',
         ];
+    }
+    public function beforeSave($insert)
+    {
+
+      if($insert==false && $this->isAttributeChanged('email'))
+      {
+          $userID=$this->userID;
+          $user=User::findOne($userID);
+          $user->username=$this->email;
+          $user->save();
+      }
+
+
+        return parent::beforeSave($insert);
     }
 
     /**

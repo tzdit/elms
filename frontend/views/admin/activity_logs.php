@@ -6,6 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 
 $this->title = 'Activity Logs';
+$this->params['courseTitle']="<i class='fas fa-history'></i> Activity Logs";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-index">
@@ -17,8 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="container-fluid">
             <!-- Info boxes -->
-
-                <section class="col-lg-12">
+                <section class="col-lg-12" style="width:100%;font-size:11.5px;">
                     <!-- Custom tabs (Charts with tabs)-->
                 
 
@@ -28,18 +28,17 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'columns' => [
                                     ['class' => 'yii\grid\SerialColumn'],
 
-                                    'audit_entry_id',
+                                    //'audit_entry_id',
                                     'audit_entry_timestamp',
                                     'audit_entry_model_name',
                                     'audit_entry_operation',
                                     'audit_entry_field_name',
-                                    'audit_entry_old_value:ntext',
-                                    'audit_entry_new_value:ntext',
+                                    //'audit_entry_old_value:ntext',
+                                    //'audit_entry_new_value:ntext',
                                     'audit_entry_user_id',
-                                    'audit_entry_ip',
+                                    //'audit_entry_ip',
                                     'audit_entry_affected_record_reference',
-                                    'audit_entry_affected_record_reference_type',
-                                     ['class' => 'yii\grid\ActionColumn'],
+                                    //'audit_entry_affected_record_reference_type',
                                 ],
                             ]); ?>
 

@@ -103,8 +103,7 @@ class InstructormanageController extends Controller
 
     public function actionLock($id)
     {
- 
-        $model= new User();
+
         $model = User::findOne($id);
      
             
@@ -120,8 +119,7 @@ class InstructormanageController extends Controller
     }
     public function actionUnlock($id)
     {
- 
-        $model= new User();
+
         $model = User::findOne($id);
      
             

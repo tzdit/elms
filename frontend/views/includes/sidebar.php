@@ -55,7 +55,7 @@ use yii\helpers\Url;
                 <li class="nav-item">
                     <a href="<?= Url::toRoute('/admin/activity-logs') ?>" class="nav-link">
                         <i class="fas fa-history nav-icon"></i>
-                        <p>Audit Entries</p>
+                        <p>Activity Logs</p>
                     </a>
                 </li>
           </li>
@@ -78,7 +78,7 @@ use yii\helpers\Url;
         </li>
         <li class="nav-item">
                 <a href="<?= Url::toRoute('/collegemanage/index') ?>" class="nav-link">
-                  <i class="fas fa-home nav-icon"></i>
+                  <i class="fa fa-school nav-icon"></i>
                   <p>Colleges</p>
                 </a>
               </li>

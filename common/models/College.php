@@ -40,7 +40,9 @@ class College extends \yii\db\ActiveRecord
         return [
             [['college_name', 'college_abbrev'], 'required'],
             [['college_name'], 'string', 'max' => 50],
+            [['college_name'], 'unique','message'=>'College already exists'],
             [['college_abbrev'], 'string', 'max' => 10],
+            [['college_abbrev'], 'unique','message'=>'A college with this acronym already exists'],
         ];
     }
 

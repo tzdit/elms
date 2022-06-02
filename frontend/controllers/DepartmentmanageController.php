@@ -12,6 +12,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\Html;
 
 /**
  * DepartmentmanageController implements the CRUD actions for Department model.
@@ -31,7 +32,7 @@ class DepartmentmanageController extends Controller
                     'update-department',
                     'index',
                     'update-dept',
-                    'deletedepartment',
+                    'deletedepartment'=> ['POST'],
                 ],
             ],
             
@@ -45,7 +46,7 @@ class DepartmentmanageController extends Controller
                             'view',
                             'update-dept',
                             'delete',
-                            'delete-department',
+                            'deletedepartment',
                             'create',
                         ],
                         'allow' => true,
@@ -63,18 +64,25 @@ class DepartmentmanageController extends Controller
     public function actionIndex()
     {
         $adminCollege = Yii::$app->user->identity->admin->collegeID;
+        $collegeDepartments=[];
+        if(yii::$app->user->can('SYS_ADMIN'))
+        {
         $collegeDepartments = Department::find()->where(['collegeID'=>$adminCollege])->all();
+        }
+        else
+        {
+            $collegeDepartments = Department::find()->all(); 
+        }
         $colleges = ArrayHelper::map(College::find()->all(), 'collegeID', 'college_name');
         $model = new CreateDepartment();
-
         try{
             if($model->load(Yii::$app->request->post())){
                 if($model->create()===true){
-                    Yii::$app->session->setFlash('success', 'Department added successfully');
+                    Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> Department added successfully');
                     return $this->redirect(Yii::$app->request->referrer);
                     //print_r(Yii::$app->request->post());
                 }else{
-                    Yii::$app->session->setFlash('error','unable to add new department');
+                    Yii::$app->session->setFlash('error','<i class="fa fa-exclamation-triangle"></i> unable to add new department'.Html::errorSummary($model));
                     return $this->redirect(Yii::$app->request->referrer);
                 }
             }
@@ -153,25 +161,36 @@ class DepartmentmanageController extends Controller
         //$dept_id = Department::find('departmentID',$dept);
         //$prog ->departmentID = $dept;
         //$departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+        if(Yii::$app->request->isPost)
+        {
         if($dept->load(Yii::$app->request->post()) && $dept->save())
         {
             
-            Yii::$app->session->setFlash('success', 'Department updated successfully');
+            Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> Department updated successfully');
            return $this->redirect(['index']);
         }else{
-        return $this->render('updatedept', ['dept'=>$dept]);
+            Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Department updating failed'.Html::errorSummary($dept));
+            return $this->redirect(yii::$app->request->referrer);
         }
     }
+        return $this->render('updatedept', ['dept'=>$dept]);
+    }
 
-    public function actionDeletedepartment($deptsid)
+    public function actionDeletedepartment()
     {
         // $deptdel = Department::findOne([$id]); 
+        $deptsid=yii::$app->request->post('deptsid');
         $dept_delete = Department::findOne($deptsid)->delete();
         if($dept_delete){
-            Yii::$app->session->setFlash('success', 'Department deleted successfully');
+
+            return $this->asJson(['success'=>'Department deleted successfully']);
             
         }
-        return $this->redirect(Yii::$app->request->referrer);
+        else
+        {
+            return $this->asJson(['failure'=>'Department deleting failed']);
+        }
+
         
     }
 

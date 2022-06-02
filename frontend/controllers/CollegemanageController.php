@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\Html;
 
 /**
  * CollegemanageController implements the CRUD actions for College model.
@@ -85,12 +86,15 @@ class CollegemanageController extends Controller
         $model = new College();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->collegeID]);
+            Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> College Added Successfully !');
+        }
+        else
+        {
+            Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> College Adding Failed ! '.Html::errorSummary($model));
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        return $this->redirect(yii::$app->request->referrer);
+
     }
 
     /**
@@ -103,10 +107,20 @@ class CollegemanageController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        if(Yii::$app->request->isPost)
+        {
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->collegeID]);
+            Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> College Updated Successfully !');
+            return $this->redirect(yii::$app->request->referrer);
         }
+        else
+        {
+            Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> College Updating Failed ! '.Html::errorSummary($model));
+            return $this->redirect(yii::$app->request->referrer);
+        }
+    }
+
+       
 
         return $this->render('update', [
             'model' => $model,
@@ -122,7 +136,15 @@ class CollegemanageController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if($this->findModel($id)->delete()){
+        Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> College Deleted Successfully !');
+        return $this->redirect(yii::$app->request->referrer);
+    }
+    else
+    {
+        Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> College Deleting Failed ! '.Html::errorSummary($model));
+        return $this->redirect(yii::$app->request->referrer);
+    }
 
         return $this->redirect(['index']);
     }

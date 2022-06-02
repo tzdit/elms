@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <td>
 
                 <?= Html::a('<i class="fas fa-edit"></i>',['update-dept', 'deptid'=>$departments->departmentID], ['class'=>'m-0'])?>                 
-                <a href="#" class=' text-danger m-0 departmentdel'><i class="fas fa-trash"> </i></a></td>
+                <a href="#" deptsid=<?=$departments->departmentID?> class=' text-danger m-0 departmentdel'><i class="fas fa-trash"> </i></a></td>
             </tr>
 
 <!--         edit model-->
@@ -154,28 +154,39 @@ Swal.fire({
   showCancelButton: true,
   confirmButtonColor: '#3085d6',
   cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes, Delete it!'
+  confirmButtonText: 'Delete'
 }).then((result) => {
   if (result.isConfirmed) {
  
     $.ajax({
       url:'/departmentmanage/deletedepartment',
-      method:'get',
+      method:'post',
       async:false,
       dataType:'JSON',
       data:{deptsid:departmentid },
       success:function(data){
-        if(data.message){
+        if(data.success){
           Swal.fire(
               'Deleted!',
-              data.message,
+              data.success,
               'success'
     )
     setTimeout(function(){
       window.location.reload();
-    },1000);
+    },100);
    
 
+        }
+        else
+        {
+            Swal.fire(
+              'Deleted!',
+              data.failure,
+              'success'
+    )
+    setTimeout(function(){
+      window.location.reload();
+    },100);
         }
       }
     })

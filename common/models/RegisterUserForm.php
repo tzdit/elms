@@ -4,6 +4,7 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use common\models\User;
+use kartik\validators\PhoneValidator;
 
 /**
  * Signup form
@@ -15,7 +16,7 @@ class RegisterUserForm extends Model
     public $college;
     public $username;
     public $password = "123456";
-    public $role;
+    public $role="SYS_ADMIN";
 
 
     /**
@@ -27,6 +28,9 @@ class RegisterUserForm extends Model
             [['full_name', 'phone', 'college', 'role'], 'required'],
             ['username', 'trim'],
             ['username', 'required'],
+            ['username', 'email'],
+            ['phone', 'unique', 'targetClass' => '\common\models\Admin', 'message' => 'phone number already taken.'],
+            ['phone', 'k-phone','countryValue' => 'TZ'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
@@ -55,14 +59,20 @@ class RegisterUserForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
-        $user->save();
+        if(!$user->save())
+        {
+            throw new \Exception("Could not save user details");
+        }
         //Now insert data to admin table
         $admin->full_name = $this->full_name;
         $admin->email = $this->username;
         $admin->phone = $this->phone;
         $admin->collegeID = $this->college;
         $admin->userID = $user->getId();
-        $admin->save();
+        if(!$admin->save())
+        {
+            throw new \Exception("Could not save admin details");  
+        }
         //now assign role to this newlly created user========>>
         $userRole = $auth->getRole($this->role);
         $auth->assign($userRole, $user->getId());
@@ -71,8 +81,10 @@ class RegisterUserForm extends Model
     
 }catch(\Exception $e){
     $transaction->rollBack();
+    throw $e;
+    return false;
 }
-        return false;
+        
 
     }
 

@@ -8,7 +8,7 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="college-form">
+<div class="container pl-5 pr-5 pt-2 pb-3">
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'college_abbrev')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('<i class="fa fa-plus-circle"></i> Save', ['class' => 'btn btn-default float-right']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
