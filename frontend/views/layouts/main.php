@@ -237,7 +237,7 @@ AppAsset::register($this);
 
 
     <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="overflow-x:auto">
     <!-- Content Header (Page header) -->
     <div class="content-header border-bottom p-2 show-sm">
       <div class="container-fluid">
@@ -316,7 +316,7 @@ AppAsset::register($this);
       </div>
 
     <!-- Main content -->
-    <section class="content mt-3">
+    <section class="content mt-3" >
       <?= $content ?>
       </section>
     

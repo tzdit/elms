@@ -61,6 +61,7 @@ public $defaultAction = 'dashboard';
                             'create-student',
                             'student-list',
                             'activity-logs',
+                            'activity-logs-extended',
                             'delete' => ['POST'],
                         ],
                         'allow' => true,
@@ -199,6 +200,12 @@ public $defaultAction = 'dashboard';
         $searchModel = new TblAuditEntrySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('activity_logs', ['searchModel' => $searchModel,'dataProvider' => $dataProvider]);
+    }
+
+    public function actionActivityLogsExtended(){
+        $searchModel = new TblAuditEntrySearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('activity_logs_extended', ['searchModel' => $searchModel,'dataProvider' => $dataProvider]);
     }
 
 
