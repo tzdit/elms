@@ -40,7 +40,7 @@ class TblAuditEntrySearch extends TblAuditEntry
      */
     public function search($params)
     {
-        $query = TblAuditEntry::find();
+        $query = TblAuditEntry::find()->orderBy(['audit_entry_id'=>SORT_DESC]);
 
         // add conditions that should always apply here
 
