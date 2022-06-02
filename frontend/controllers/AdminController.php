@@ -197,8 +197,9 @@ public $defaultAction = 'dashboard';
 // get Activity Logs
     public function actionActivityLogs(){
         $searchModel = new TblAuditEntrySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->setModels(array_reverse($dataProvider->getModels()));
+        $dataProvider = $searchModel->search([Yii::$app->request->queryParams,'sort' => [
+            'defaultOrder' => ['audit_entry_timestamp' => SORT_DESC],
+          ]]);
         return $this->render('activity_logs', ['searchModel' => $searchModel,'dataProvider' => $dataProvider]);
     }
 
