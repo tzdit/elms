@@ -5,6 +5,7 @@ namespace common\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\TblAuditEntry;
+use common\models\User;
 
 /**
  * TblAuditEntrySearch represents the model behind the search form of `common\models\TblAuditEntry`.
@@ -41,7 +42,7 @@ class TblAuditEntrySearch extends TblAuditEntry
     public function search($params)
     {
         $query = TblAuditEntry::find()->orderBy(['audit_entry_id'=>SORT_DESC]);
-
+        
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -49,6 +50,8 @@ class TblAuditEntrySearch extends TblAuditEntry
         ]);
 
         $this->load($params);
+    
+        
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -71,7 +74,7 @@ class TblAuditEntrySearch extends TblAuditEntry
             ->andFilterWhere(['like', 'audit_entry_ip', $this->audit_entry_ip])
             ->andFilterWhere(['like', 'audit_entry_affected_record_reference', $this->audit_entry_affected_record_reference])
             ->andFilterWhere(['like', 'audit_entry_affected_record_reference_type', $this->audit_entry_affected_record_reference_type]);
-
+       
         return $dataProvider;
     }
 }

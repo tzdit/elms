@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use common\models\User;
 
 /**
  * This is the model class for table "tbl_audit_entry".
@@ -60,5 +61,14 @@ class TblAuditEntry extends \yii\db\ActiveRecord
             'audit_entry_affected_record_reference' => Yii::t('app', 'Affected Record Reference'),
             'audit_entry_affected_record_reference_type' => Yii::t('app', 'Affected Record Reference type')
         ];
+    }
+
+    public function afterFind()
+    {
+        parent::afterFind();
+
+        $this->audit_entry_user_id=User::findOne($this->audit_entry_user_id)->username;
+
+        return true;
     }
 }
