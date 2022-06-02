@@ -198,6 +198,7 @@ public $defaultAction = 'dashboard';
     public function actionActivityLogs(){
         $searchModel = new TblAuditEntrySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->setModels(array_reverse($dataProvider->getModels()));
         return $this->render('activity_logs', ['searchModel' => $searchModel,'dataProvider' => $dataProvider]);
     }
 
