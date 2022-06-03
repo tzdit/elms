@@ -15,10 +15,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="body-content">
         <!-- Content Wrapper. Contains page content -->
-   <a class='btn btn-default float-right mb-2 mr-2 text-danger'><i class='fa fa-trash'></i> Clear Log</a>
+
         <div class="container-fluid">
             <!-- Info boxes -->
                 <section class="col-lg-12" style="width:100%;font-size:11.5px;">
+                <?php
+                 if(yii::$app->user->can('SUPER_ADMIN'))
+                 {
+                ?>
+                <a class='btn btn-default btn-sm float-right mb-2 mr-2 text-danger logsdel'><i class='fa fa-trash'></i> Clear Logs</a>
+                <?php
+                }
+                ?>
                     <!-- Custom tabs (Charts with tabs)-->
                 
 
@@ -52,3 +60,59 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </div>
 </div>
+<?php 
+$script = <<<JS
+$(document).ready(function(){
+$(document).on('click', '.logsdel', function(){
+      Swal.fire({
+  title: 'Delete All Logs?',
+  text: "You won't be able to revert to this !",
+  icon: 'question',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Clear All'
+}).then((result) => {
+  if (result.isConfirmed) {
+ 
+    $.ajax({
+      url:'/admin/clear-logs',
+      method:'post',
+      async:false,
+      dataType:'JSON',
+      data:{},
+      success:function(data){
+        if(data.deleted){
+          Swal.fire(
+              'Deleted !',
+              data.deleted,
+              'success'
+    )
+    setTimeout(function(){
+      window.location.reload();
+    }, 100);
+   
+
+        }
+        else
+        {
+          Swal.fire(
+              'Deleting failed !',
+              data.failure,
+              'error'
+    )
+    setTimeout(function(){
+      window.location.reload();
+    }, 100);
+        }
+      }
+    })
+   
+  }
+})
+
+})
+});
+JS;
+$this->registerJs($script);
+?>

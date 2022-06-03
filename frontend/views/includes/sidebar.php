@@ -48,7 +48,7 @@ use yii\helpers\Url;
               </li>
             <li class="nav-item">
                 <a href="<?= Url::toRoute('/departmentmanage/index') ?>" class="nav-link">
-                  <i class="fas fa-book nav-icon"></i>
+                  <i class="fa fa-building nav-icon"></i>
                   <p>Departments</p>
                 </a>
               </li>
@@ -78,7 +78,7 @@ use yii\helpers\Url;
         </li>
         <li class="nav-item">
                 <a href="<?= Url::toRoute('/collegemanage/index') ?>" class="nav-link">
-                  <i class="fa fa-school nav-icon"></i>
+                  <i class="fa fa-university nav-icon"></i>
                   <p>Colleges</p>
                 </a>
               </li>

@@ -1,5 +1,6 @@
 <?php
 use yii\bootstrap4\Breadcrumbs;
+use common\models\Session;
 /* @var $this yii\web\View */
 
 $this->title = 'Super Administrator Dashboard';
@@ -66,7 +67,7 @@ $this->title = 'Super Administrator Dashboard';
 
               <div class="info-box-content">
                 <span class="info-box-text">In Active Users</span>
-                <span class="info-box-number">22</span>
+                <span class="info-box-number"><?=count(Session::find()->all())?></span>
               </div>
               <!-- /.info-box-content -->
             </div>

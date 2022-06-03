@@ -77,7 +77,8 @@ public $defaultAction = 'dashboard';
                             'deactivate-module',
                             'add-module',
                             'delete-module',
-                            'storage'
+                            'storage',
+                            'clear-logs'
                          
                            
                         ],
@@ -137,15 +138,15 @@ public $defaultAction = 'dashboard';
         
         if($model->load(Yii::$app->request->post())){
             if($model->createi()){
-            Yii::$app->session->setFlash('success', 'Instructor registered successfully');
+            Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> Instructor registered successfully');
             return $this->redirect(Yii::$app->request->referrer);
             }else{
-            Yii::$app->session->setFlash('error', 'Something went Wrong!');
+            Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Something went Wrong!'.Html::errorSummary($model));
         }
          } 
         
     }catch(\Exception $e){
-          Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+          Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Something went wrong'.$e->getMessage());
     }
         return $this->render('create_instructor', ['model'=>$model, 'departments'=>$departments, 'roles'=>$roles]);
     }
@@ -160,16 +161,16 @@ public $defaultAction = 'dashboard';
             
             if($model->load(Yii::$app->request->post())){
                 if($model->create()){
-                Yii::$app->session->setFlash('success', 'Hod registered successfully');
+                Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> Hod registered successfully');
                 }else{
-                    Yii::$app->session->setFlash('error', 'Something went Wrong!');
+                    Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Something went Wrong!'.Html::errorSummary($model));
                 }
            
                     
              } 
             
         }catch(\Exception $e){
-            Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+            Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Something went wrong '.$e->getMessage());
         }
             return $this->render('create_hod', ['model'=>$model, 'departments'=>$departments, 'roles'=>$roles]);
         }
@@ -206,6 +207,21 @@ public $defaultAction = 'dashboard';
         $searchModel = new TblAuditEntrySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('activity_logs_extended', ['searchModel' => $searchModel,'dataProvider' => $dataProvider]);
+    }
+    public function actionClearLogs()
+    {
+        try
+        {
+        $connection = Yii::$app->getDb();
+        $connection->createCommand("delete from tbl_audit_entry")->execute();
+        Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> Logs Cleared Successfully');
+        }
+        catch(\Exception $l)
+        {
+            Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Could not delete Logs '.$e->getMessage());
+        }
+
+        return $this->redirect(yii::$app->request->referrer);
     }
 
 
