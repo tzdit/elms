@@ -31,6 +31,7 @@ use common\models\Academicyear;
 use frontend\models\AcademicYearManager;
 use common\models\SystemModules;
 use frontend\models\ClassRoomSecurity;
+use frontend\models\ReceiptManager;
 //use yii\filters\VerbFilter;
 
 /**
@@ -62,6 +63,8 @@ public $defaultAction = 'dashboard';
                             'student-list',
                             'activity-logs',
                             'activity-logs-extended',
+                            'receipts',
+                            'validate-receipt',
                             'delete' => ['POST'],
                         ],
                         'allow' => true,
@@ -332,6 +335,29 @@ public $defaultAction = 'dashboard';
     {
         $storageinfo=shell_exec("df -h");
         return $this->render("storage",['info'=>$storageinfo]);
+    }
+    public function actionValidateReceipt()
+    {
+        if(yii::$app->request->isPost)
+        {
+            try
+            {
+
+             
+                $cont=trim(yii::$app->request->post("content"));
+                (new ReceiptManager)->receiptValidator($cont);
+            }
+            catch(\Exception $r)
+            {
+                yii::$app->session->setFlash("error","<i class='fa fa-exclamation-triangle'></i> ".$r->getMessage());
+                return $this->redirect(yii::$app->request->referrer);
+            }
+        }
+        
+    }
+    public function actionReceipts()
+    {
+        return $this->render('receipts');
     }
   
 }

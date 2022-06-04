@@ -20,3 +20,7 @@ td
 {
     border:solid 1px green;
 }
+.membertable td{
+
+    padding:3px;
+}

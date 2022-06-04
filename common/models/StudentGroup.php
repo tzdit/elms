@@ -2,6 +2,7 @@
 
 namespace common\models;
 use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
+use yii\helpers\ArrayHelper;
 use Yii;
 
 /**
@@ -94,5 +95,9 @@ class StudentGroup extends \yii\db\ActiveRecord
         $lastlogin=strtotime($lastlogin);
 
         return $lastlogin<$time;
+    }
+    public function getGroupMembers($group)
+    {
+        return ArrayHelper::getColumn($this->find()->where(['groupID'=>$group])->asArray()->all(),'reg_no');
     }
 }

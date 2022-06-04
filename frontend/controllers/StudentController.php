@@ -282,6 +282,7 @@ public function actionClasswork($cid){
         }
         catch(\Exception $e){
             Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> unknown error occured,Submission failed');
+            return $this->redirect(Yii::$app->request->referrer); 
         }
 
 
@@ -291,8 +292,15 @@ public function actionClasswork($cid){
     public function actionDownloadReceipt($receipt)
     {
         $receipt=ClassRoomSecurity::decrypt($receipt);
-
+         try
+         {
         (new ReceiptManager)->getEncryptedReceipt($receipt);
+         }
+         catch(\Exception $r)
+         {
+            Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Receipt Download Failed, an error occurred while downloading receipt'); 
+            return $this->redirect(Yii::$app->request->referrer); 
+         }
     }
 
 
@@ -568,7 +576,7 @@ public function actionClasswork($cid){
                     try
                     {
                     $receiptmanager=new ReceiptManager();
-                    $receiptmanager->setType("Assignment Submission");
+                    $receiptmanager->setType("Group Assignment Submission");
                     $receipt=$receiptmanager->generateGroupAssignmentReceipt($model->submitID);
                     $sign=(new SubmitSignatures)->signSubmit($model->submitID); // automatically signing this submission
                     Yii::$app->session->setFlash('receipt', $receipt);

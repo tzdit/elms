@@ -41,7 +41,7 @@ use yii\helpers\Url;
               
             </ul>
             <li class="nav-item">
-                <a href="<?= Url::toRoute('/departmentmanage/index') ?>" class="nav-link">
+                <a href="<?= Url::toRoute('/admin/receipts') ?>" class="nav-link">
                   <i class="fas fa-receipt nav-icon"></i>
                   <p>Receipts</p>
                 </a>

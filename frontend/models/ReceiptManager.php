@@ -8,6 +8,7 @@ use common\models\Submit;
 use yii\base\Exception;
 use common\models\User;
 use common\models\GroupAssignmentSubmit;
+use common\models\StudentGroup;
 use Mpdf\Mpdf;
 /*
 A model class for managing academicyear, switching to and from a specific 
@@ -103,8 +104,15 @@ class ReceiptManager extends Model
         $submitted=null;
         if($receipttype=="Assignment Submission")
         {
-            
             $submitted=Submit::findOne($receipt->issuedfor);
+        }
+        else if($receipttype=="Group Assignment Submission")
+        {
+            $submitted=GroupAssignmentSubmit::findOne($receipt->issuedfor); 
+        }
+        else
+        {
+            
         }
         $ownerfullname=($receiptowner!=null)?$receiptowner->fname." ".$receiptowner->mname." ".$receiptowner->lname:"not found";
         $ownerreg=($receiptowner!=null)?$receiptowner->reg_no:"not found";
@@ -153,11 +161,10 @@ class ReceiptManager extends Model
     }
     public function getEncryptedReceipt($for)
     {
-     
-        $receipt=$this->buildReceiptFor($for); 
         
+        $receipt=$this->buildReceiptFor($for); 
         $mpdf = new Mpdf(['orientation' => 'P']);
-      
+       
         $mpdf->setFooter('{PAGENO}');
         $stylesheet = file_get_contents('css/capdf.css');
         $mpdf->WriteHTML($stylesheet,1);
@@ -175,6 +182,7 @@ class ReceiptManager extends Model
    public function buildReceiptFor($receiptid)
    {
     $receipt=Receipts::findOne($receiptid);
+    if($receipt==null){throw new Exception("Receipt not found !");}
     $number=$receipt->receiptnumber;
     $receipttype=$receipt->type;
     $receiptdate=$receipt->issuedon;
@@ -182,8 +190,17 @@ class ReceiptManager extends Model
     $submitted=null;
     if($receipttype=="Assignment Submission")
     {
-        
+       
         $submitted=Submit::findOne($receipt->issuedfor);
+       
+    }
+    else if($receipttype=="Group Assignment Submission")
+    {
+        $submitted=GroupAssignmentSubmit::findOne($receipt->issuedfor); 
+    }
+    else
+    {
+
     }
     $ownerfullname=($receiptowner!=null)?$receiptowner->fname." ".$receiptowner->mname." ".$receiptowner->lname:"not found";
     $ownerreg=($receiptowner!=null)?$receiptowner->reg_no:"not found";
@@ -199,22 +216,29 @@ class ReceiptManager extends Model
     $signature2=User::findIdentity($receipt->issuer)->instructor->full_name;
  
   
-   $receiptbuffer= ['number'=>$number,'type'=>$receipttype,'issuedate'=>$receipttype,
+   $receiptbuffer= ['number'=>$number,'type'=>$receipttype,'issuedate'=>$receiptdate,
    'ownername'=>$ownerfullname,'ownerreg'=>$ownerreg,'ownerprog'=>$ownerprog,
    'owneryos'=>$owneryos,'ownercollege'=>$ownercollege,'submitdate'=>$submitdate,
    'assignment'=>$assignment,'course'=>$course,'signature1'=> $signature1,'signature2'=>$signature2
 ];
+if($receipttype=="Group Assignment Submission" && $submitted!=null)
+{
+    $receiptbuffer['members']=(new StudentGroup)->getGroupMembers($submitted->groupID);  
+}
 
-   return utf8_encode(ClassRoomSecurity::encrypt(json_encode($receiptbuffer)));
+   return base64_encode(ClassRoomSecurity::encrypt(json_encode($receiptbuffer)));
 
 }
 
 public function receiptValidator($content)
 {
 
-    $content=utf8_decode(ClassRoomSecurity::decrypt($content));
+    $content=ClassRoomSecurity::decrypt(base64_decode($content));
     //check if it's json
-    $content=json_decode($content);
+   
+    $content=json_decode($content,true);
+   
+
     if (json_last_error() !== JSON_ERROR_NONE) {
         throw new Exception("Invalid data");
     }
@@ -227,7 +251,7 @@ public function receiptValidator($content)
         try
         {
         $receipt=Receipts::findOne($receiptnumber); 
-        if($receipt==null){throw new Exception("Invalid receipt");}
+        if($receipt==null){throw new Exception("Invalid receipt! Receipt not found");}
         return $this->downloadReceipt($receiptnumber);
         }
         catch(Exception $r)
@@ -239,6 +263,7 @@ public function receiptValidator($content)
 }
 public function receiptValidateWithLostData($content)
 {
+
     $mpdf = new Mpdf(['orientation' => 'P']);
       
     $mpdf->setFooter('{PAGENO}');
@@ -249,12 +274,30 @@ public function receiptValidateWithLostData($content)
     $mpdf->WriteHTML('<div align="center"><img src="img/logo.png" width="60px" height="60px"/></div>',2);
     $mpdf->WriteHTML('<p align="center"><font size=6>Receipt Content</font></p>',3);
     $mpdf->WriteHTML('<hr width="80%" align="center" color="#000000">',2);
-
     foreach($content as $cont=>$value)
     {
+       
+        if(is_array($value)){continue;}
         $mpdf->WriteHTML('<p align="center"><font size=4>'.$cont.':'.$value.'</font></p>',3);
+        
+        
     }
+    if(isset($content['members']))
+    {
+        $mpdf->WriteHTML('<p align="center"><font size=4>members</font></p>',3);
+        $mpdf->WriteHTML('<table align="center" cellspacing="0" cellpadding="0" class="membertable">',3);
+        
+        
+        foreach($content['members'] as $i=>$member)
+        {
+            $i++;
+            $mpdf->WriteHTML('<tr><td>'.$i.'</td><td>'.$member.'</td></tr>',3);  
+        }
+        $mpdf->WriteHTML('</table>',3);
 
+    }
+    
+    $mpdf->WriteHTML('<p align="center"><font size=2 color="red">Receipt generated despite the lack of data in our system !</font></p>',3);
     
     $filename="receipt.pdf";
     $mpdf->Output($filename,"D");
