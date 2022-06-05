@@ -61,6 +61,38 @@ $this->params['breadcrumbs'] = [
                                                         
 
                                                             </div>
+                                                            <div class="container border p-3 mt-3">
+                                                            <span class="text-md text-bold pl-1 ml-2 mb-3">Boost Storage</span>
+                                                                <form class="form-group mt-2" id="form" method="post">
+                                                                    <div class="row">
+                                                                        <div class="col-sm-3">
+                                                                    <select class="form-control" name="type" required>
+                                                                        <option value="" disabled selected>--File type--</option>
+                                                                        <option value="material">Material</option>
+                                                                        <option value="submits">Assignments Submits</option>
+
+
+                                                                    </select>
+                                                                            </div><div class="col-sm-3">
+                                                                    <select class="form-control amount" name="amount" required>
+                                                                        <option value="all">All</option>
+                                                                        <option value="interval" selected>Within Time Interval</option>
+
+
+                                                                    </select></div><div class="col-sm-2">
+                                                                    <input type="text" class="form-control from" name="from" placeholder="From" onmouseover="(this.type='date')"  onfocus="(this.type='date')" onblur="(this.type='text')" required></input>
+                                                                    </div><div class="col-sm-2">
+                                                                    <input type="text" class="form-control to" name="to" placeholder="To" onmouseover="(this.type='date')"  onfocus="(this.type='date')" onblur="(this.type='text')" required></input>
+                                                                </div>
+                                                                <div class="col-sm-2">
+                                                                <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>" />
+                                                                    <button type="submit" class="btn btn-default text-danger del"><i class="fa fa-trash"></i> Delete Files</button>
+                                                                </div>
+                                                                  </form>
+                                                                        </div>
+                                
+
+                                                              </div>
 
                                                             </div>
 
@@ -88,26 +120,28 @@ $this->params['breadcrumbs'] = [
                                                                            <?php $script = <<<JS
                                                                             $(document).ready(function(){
 
-                                                                                $(document).on('click', '.back', function(){
-                                                                                                var quiz = $(this).attr('id');
+                                                                                $(document).on('click', '.del', function(z){
+                                                                                         z.preventDefault();
                                                                                                 Swal.fire({
-                                                                                            title: 'Migrate Backwards?',
-                                                                                            text: "You won't be able to revert this!",
+                                                                                            title: 'Delete Files? This is a terrible task,You won\'t be able to revert and deleted files are unrecoverable !',
+                                                                                            text: "you might need to take appropriate precautions, make sure files being deleted are no longer in use unless you know what you are doing!",
                                                                                             icon: 'question',
                                                                                             showCancelButton: true,
                                                                                             confirmButtonColor: '#3085d6',
                                                                                             cancelButtonColor: '#d33',
-                                                                                            confirmButtonText: 'Migrate'
+                                                                                            confirmButtonText: 'Delete Anyways'
                                                                                             }).then((result) => {
                                                                                             if (result.isConfirmed) {
-
+                                                                                                var formdata=$('#form').serialize();
+                                         
                                                                                             $.ajax({
-                                                                                                url:'/admin/migrate-backwards',
+                                                                                                url:'/admin/boost-storage',
                                                                                                 method:'post',
                                                                                                 async:false,
                                                                                                 dataType:'JSON',
-                                                                                                data:{},
+                                                                                                data:{data:formdata},
                                                                                                 success:function(data){
+                                                                                                    console.log(data);
                                                                                                 if(data.backward){
                                                                                                     Swal.fire(
                                                                                                         'Migration successful !',
@@ -138,7 +172,29 @@ $this->params['breadcrumbs'] = [
                                                                                             }
                                                                                             })
 
-                                                                                            })                                                                    
+                                                                                            })  
+                                                                                            
+                                                                                            ////////
+
+                                                                                            $('body').on('change','.amount',function(){
+
+                                                                                            if($(this).val()=="all")
+                                                                                            {
+                                                                                           
+                                                                                            $('.from').prop('disabled','disabled');
+                                                                                            $('.to').prop('disabled','disabled');
+                                                                
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                        
+                                                                                            $('.from').prop('disabled','');
+                                                                                            $('.to').prop('disabled','');
+                                                                                           
+
+                                                                                            }
+
+                                                                                            });
                                                                             });
                                                                             JS;
                                                                             $this->registerJs($script);

@@ -81,7 +81,8 @@ public $defaultAction = 'dashboard';
                             'add-module',
                             'delete-module',
                             'storage',
-                            'clear-logs'
+                            'clear-logs',
+                            'boost-storage'
                          
                            
                         ],
@@ -358,6 +359,10 @@ public $defaultAction = 'dashboard';
     public function actionReceipts()
     {
         return $this->render('receipts');
+    }
+    public function actionBoostStorage()
+    {
+        print_r(yii::$app->request->post());
     }
   
 }
