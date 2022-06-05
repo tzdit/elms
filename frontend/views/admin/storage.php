@@ -52,16 +52,7 @@ $this->params['breadcrumbs'] = [
 
                                                 <div class="card-body " >
                                                     <div class="tab-content" id="custom-tabs-four-tabContent">
-                                                    
-                                                    <div class="container border p-3" id="accordion">
-                                                    <span class="text-md text-bold pl-1 ml-2">Storage Information</span>
-                                                  
-                                                         <pre><?=$info?></pre>
-                 
-                                                        
-
-                                                            </div>
-                                                            <div class="container border p-3 mt-3">
+                                                    <div class="container border p-3 mb-3">
                                                             <span class="text-md text-bold pl-1 ml-2 mb-3">Boost Storage</span>
                                                                 <form class="form-group mt-2" id="form" method="post">
                                                                     <div class="row">
@@ -89,12 +80,21 @@ $this->params['breadcrumbs'] = [
                                                                     <button type="submit" class="btn btn-default text-danger del"><i class="fa fa-trash"></i> Delete Files</button>
                                                                 </div>
                                                                   </form>
-                                                                        </div>
+                                                                        </div></div>
+                                                    <div class="container border p-3" id="accordion">
+                                                    <span class="text-md text-bold pl-1 ml-2">Storage Information</span>
+                                                  
+                                                         <pre><?=$info?></pre>
+                 
+                                                        
+
+                                                            </div>
+                                                           
                                 
 
                                                               </div>
 
-                                                            </div>
+                                                            
 
 
                                                       

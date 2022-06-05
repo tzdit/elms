@@ -118,8 +118,8 @@ else
       <?php endif ?>
         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
             <?php if(Yii::$app->user->can('STUDENT')): ?>
-                <a href="<?= Url::to(['home/change-regno'])  ?>" class="dropdown-item">
-                    <i class="fas fa-user mr-2"></i> <span class="small">Change Registration Number</span>
+                <a href="<?= Url::to(['studentprofile/view'])  ?>" class="dropdown-item">
+                    <i class="fa fa-user-circle mr-2"></i> <span class="small">My Profile</span>
                 </a>
             <?php endif ?>
 
@@ -128,14 +128,6 @@ else
           <a href="<?= Url::to(['home/changepassword'])  ?>" class="dropdown-item">
             <i class="fas fa-lock mr-2"></i> <span class="small"> Change Password</span>
           </a>
-          
-          <div class="dropdown-divider"></div>
-
-          <?php if(Yii::$app->user->can('STUDENT')): ?>
-          <a href="<?= Url::to(['home/add_email'])  ?>" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> <span class="small"> Add Email</span>
-          </a>
-          <?php endif ?>
 
           <div class="dropdown-divider"></div>
 
