@@ -19,7 +19,7 @@ use common\models\Academicyear;
     </ul>
     
    
-    <ul class="navbar-nav ml-auto ">
+    <ul class="navbar-nav ml-auto">
     <?php if(Yii::$app->user->can('INSTRUCTOR & HOD') || Yii::$app->user->can('INSTRUCTOR') ){ ?>
    <li class="nav-item d-none d-md-block">
     <?php

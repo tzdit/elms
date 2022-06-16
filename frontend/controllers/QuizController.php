@@ -220,7 +220,7 @@ public function actionQuizPreview($quiz)
         $quiz=ClassRoomSecurity::decrypt($quiz);
         $quiz=Quiz::findOne($quiz);
         $quiz_title=($quiz!=null)?$quiz->quiz_title:null;
-        $quizdata=(new QuizManager)->quizReader($quiz);
+        $quizdata=(new QuizManager)->quizReader($quiz->quizID);
         return $this->render('quizPreview',['quizdata'=>$quizdata,'title'=>$quiz_title,'quiz'=>$quiz->quizID]);
     }
     catch(Exception $e)
