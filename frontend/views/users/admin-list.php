@@ -47,19 +47,19 @@ $this->params['breadcrumbs'] = [
             <td><?= $user->phone?></td>
             <td><?= $user->college->college_abbrev ?></td>
             <td>
-            <a href="<?=Url::to(['/users/update','admin'=>$user->adminID])?>" class=" m-0" data-toggle="tooltip" data-title="Update Admin"><i class="fas fa-edit"></i></a> 
-            <a href="<?=Url::to(['/users/reset','id'=> $user->userID])?>"  data-toggle="tooltip" data-title="Reset Admin Password" class="mr-1"><i class="fa fa-refresh"></i></a> 
+            <a href="<?=Url::to(['/users/update','admin'=>urlencode(base64_encode($user->adminID))])?>" class=" m-0" data-toggle="tooltip" data-title="Update Admin"><i class="fas fa-edit"></i></a> 
+            <a href="<?=Url::to(['/users/reset','id'=>urlencode(base64_encode($user->userID))])?>"  data-toggle="tooltip" data-title="Reset Admin Password" class="mr-1"><i class="fa fa-refresh"></i></a> 
             <?php
             if($user->user!=null && $user->user->isLocked())
             {
             ?>
-            <a href="<?=Url::to(['/users/unlock','id'=> $user->userID])?>"  data-toggle="tooltip" data-title="Reactivate/Unlock Admin" class="mr-1"><i class="fa fa-unlock"></i></a>  
+            <a href="<?=Url::to(['/users/unlock','id'=>urlencode(base64_encode($user->userID))])?>"  data-toggle="tooltip" data-title="Reactivate/Unlock Admin" class="mr-1"><i class="fa fa-unlock"></i></a>  
             <?php
             }
             else
             {
             ?>
-            <a href="<?=Url::to(['/users/lock','id'=> $user->userID])?>"  data-toggle="tooltip" data-title="Lock Admin" class="mr-1"><i class="fas fa-user-lock"></i></a>
+            <a href="<?=Url::to(['/users/lock','id'=>urlencode(base64_encode($user->userID))])?>"  data-toggle="tooltip" data-title="Lock Admin" class="mr-1"><i class="fas fa-user-lock"></i></a>
             <?php
             }
             ?>

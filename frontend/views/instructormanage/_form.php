@@ -23,7 +23,7 @@ $roles=['INSTRUCTOR'=>'INSTRUCTOR','INSTRUCTOR & HOD'=>'HOD'];
   
 
     <?= $form->field($model, 'departmentID')->dropdownList($departments)->label("Department") ?>
-    <?= $form->field($model->user->role, 'item_name')->dropdownList($roles)->label("Role") ?>
+    <?= $form->field($model->user->role, 'item_name')->dropdownList($roles)->label("Title") ?>
     <?= $form->field($model, 'full_name')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 

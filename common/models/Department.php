@@ -41,10 +41,12 @@ class Department extends \yii\db\ActiveRecord
     {
         return [
             [['collegeID'], 'integer'],
-            [['department_name'], 'required'],
+            [['department_name'], 'required','message'=>'Department name cannot be blank'],
+            [['collegeID'], 'required','message'=>'Please choose a college'],
             [['department_name'], 'string', 'max' => 100],
             [['depart_abbrev'], 'string', 'max' => 10],
             [['collegeID', 'department_name', 'depart_abbrev'], 'safe'],
+            ['department_name', 'unique', 'targetAttribute' => ['department_name', 'collegeID'],'message'=>'Department already exists in this college'],
             [['collegeID'], 'exist', 'skipOnError' => true, 'targetClass' => College::className(), 'targetAttribute' => ['collegeID' => 'collegeID']],
         ];
     }

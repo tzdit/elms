@@ -117,6 +117,7 @@ class StudentmanageController extends Controller
      */
     public function actionUpdate($id)
     {
+        $id=base64_decode(urldecode($id));
         $model = $this->findModel($id);
       
         if ($model->load(Yii::$app->request->post()) ) {
@@ -141,6 +142,7 @@ class StudentmanageController extends Controller
 
     public function actionReset($id)
     {
+        $id=base64_decode(urldecode($id));
         $model = User::findOne($id);
         $password = 123456;
 
@@ -157,6 +159,7 @@ class StudentmanageController extends Controller
     }
     public function actionLock($id)
     {
+        $id=base64_decode(urldecode($id));
         $model = User::findOne($id);
      
             
@@ -172,7 +175,7 @@ class StudentmanageController extends Controller
     }
     public function actionUnlock($id)
     {
- 
+        $id=base64_decode(urldecode($id));
         $model= new User();
         $model = User::findOne($id);
      

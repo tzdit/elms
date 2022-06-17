@@ -26,6 +26,7 @@ class CreateDepartment extends \yii\db\ActiveRecord
 
     public $department_name;
     public $depart_abbrev;
+    public $collegeID;
     /**
      * {@inheritdoc}
      */
@@ -41,9 +42,11 @@ class CreateDepartment extends \yii\db\ActiveRecord
     {
         return [
             [['collegeID'], 'integer'],
-            [['department_name'], 'required'],
+            [['collegeID'], 'required','message'=>'Please choose a college'],
+            [['department_name'], 'required','message'=>'Please Input a department name'],
             [['department_name'], 'string', 'max' => 100],
             [['depart_abbrev'], 'string', 'max' => 10],
+            ['department_name', 'unique', 'targetAttribute' => ['department_name', 'collegeID'],'message'=>'Department already exists in this college'],
             [['collegeID'], 'exist', 'skipOnError' => true, 'targetClass' => College::className(), 'targetAttribute' => ['collegeID' => 'collegeID']],
         ];
     }
@@ -110,7 +113,7 @@ class CreateDepartment extends \yii\db\ActiveRecord
 
         try{
 
-            $department->collegeID =  $adminCollege;
+            $department->collegeID =  $this->collegeID;
             $department->department_name = $this->department_name;
             $department->depart_abbrev = $this->depart_abbrev;
             $department->save();

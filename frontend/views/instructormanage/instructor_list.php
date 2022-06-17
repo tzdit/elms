@@ -52,19 +52,19 @@ $this->params['breadcrumbs'] = [
             <td><?= $inst->department->college->college_abbrev ?></td>
             <td><?= $inst->department->depart_abbrev ?></td>
             <td>
-            <a href="<?=Url::to(['/instructormanage/update','id'=>$inst->instructorID])?>" data-toggle="tooltip" data-title="Update User" class="mr-1"><i class="fas fa-edit"></i></a> 
-            <a href="<?=Url::to(['/instructormanage/reset','id'=> $inst->userID])?>"  data-toggle="tooltip" data-title="Reset User Password" class="mr-1"><i class="fa fa-refresh"></i></a> 
+            <a href="<?=Url::to(['/instructormanage/update','id'=>urlencode(base64_encode($inst->instructorID))])?>" data-toggle="tooltip" data-title="Update User" class="mr-1"><i class="fas fa-edit"></i></a> 
+            <a href="<?=Url::to(['/instructormanage/reset','id'=> urlencode(base64_encode($inst->userID))])?>"  data-toggle="tooltip" data-title="Reset User Password" class="mr-1"><i class="fa fa-refresh"></i></a> 
             <?php
             if($inst->user!=null && $inst->user->isLocked())
             {
             ?>
-            <a href="<?=Url::to(['/instructormanage/unlock','id'=> $inst->userID])?>"  data-toggle="tooltip" data-title="Reactivate/Unlock User" class="mr-1"><i class="fa fa-unlock"></i></a>  
+            <a href="<?=Url::to(['/instructormanage/unlock','id'=>urlencode(base64_encode($inst->userID))])?>"  data-toggle="tooltip" data-title="Reactivate/Unlock User" class="mr-1"><i class="fa fa-unlock"></i></a>  
             <?php
             }
             else
             {
             ?>
-            <a href="<?=Url::to(['/instructormanage/lock','id'=> $inst->userID])?>"  data-toggle="tooltip" data-title="Lock User" class="mr-1"><i class="fas fa-user-lock"></i></a>
+            <a href="<?=Url::to(['/instructormanage/lock','id'=>urlencode(base64_encode($inst->userID))])?>"  data-toggle="tooltip" data-title="Lock User" class="mr-1"><i class="fas fa-user-lock"></i></a>
             <?php
             }
             ?>

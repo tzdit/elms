@@ -45,19 +45,19 @@ $this->title = 'Students';
             <td><?= $std->program->department->college->college_abbrev ?></td>
             
             <td>
-            <a href="<?=Url::to(['/studentmanage/update','id'=> $std->userID])?>" data-toggle="tooltip" data-title="Update User" class="m-0"><i class="fas fa-edit"></i></a> 
-            <a href="<?=Url::to(['/studentmanage/reset','id'=> $std->userID])?>"  data-toggle="tooltip" data-title="Reset User Password" class="mr-1"><i class="fa fa-refresh"></i></a> 
+            <a href="<?=Url::to(['/studentmanage/update','id'=>urlencode(base64_encode($std->userID))])?>" data-toggle="tooltip" data-title="Update User" class="m-0"><i class="fas fa-edit"></i></a> 
+            <a href="<?=Url::to(['/studentmanage/reset','id'=> urlencode(base64_encode($std->userID))])?>"  data-toggle="tooltip" data-title="Reset User Password" class="mr-1"><i class="fa fa-refresh"></i></a> 
             <?php
             if($std->user!=null && $std->user->isLocked() )
             {
             ?>
-            <a href="<?=Url::to(['/studentmanage/unlock','id'=> $std->userID])?>"  data-toggle="tooltip" data-title="Reactivate/Unlock User" class="mr-1"><i class="fa fa-unlock"></i></a>  
+            <a href="<?=Url::to(['/studentmanage/unlock','id'=>urlencode(base64_encode($std->userID))])?>"  data-toggle="tooltip" data-title="Reactivate/Unlock User" class="mr-1"><i class="fa fa-unlock"></i></a>  
             <?php
             }
             else
             {
             ?>
-            <a href="<?=Url::to(['/studentmanage/lock','id'=> $std->userID])?>"  data-toggle="tooltip" data-title="Lock User" class="mr-1"><i class="fas fa-user-lock"></i></a>
+            <a href="<?=Url::to(['/studentmanage/lock','id'=>urlencode(base64_encode($std->userID))])?>"  data-toggle="tooltip" data-title="Lock User" class="mr-1"><i class="fas fa-user-lock"></i></a>
             <?php
             }
             ?>

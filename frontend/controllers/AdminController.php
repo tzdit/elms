@@ -32,6 +32,7 @@ use frontend\models\AcademicYearManager;
 use common\models\SystemModules;
 use frontend\models\ClassRoomSecurity;
 use frontend\models\ReceiptManager;
+use frontend\models\StorageManager;
 //use yii\filters\VerbFilter;
 
 /**
@@ -82,7 +83,8 @@ public $defaultAction = 'dashboard';
                             'delete-module',
                             'storage',
                             'clear-logs',
-                            'boost-storage'
+                            'boost-storage',
+                            'config'
                          
                            
                         ],
@@ -360,9 +362,26 @@ public $defaultAction = 'dashboard';
     {
         return $this->render('receipts');
     }
+    public function actionConfig()
+    {
+        return $this->render('config');
+    }
     public function actionBoostStorage()
     {
-        print_r(yii::$app->request->post());
+         try
+         {
+            $model=new StorageManager;
+            $deleted=$model->deleteFiles(yii::$app->request->post());
+            
+            return $this->asJson(['deleted'=>$deleted." file(s) deleted successfully!"]);
+            
+          
+         }
+         catch(\Exception $d)
+         {
+            return $this->asJson(['failure'=>"an error occured while deleting files! ".$d->getMessage()]);
+         }
+       
     }
   
 }

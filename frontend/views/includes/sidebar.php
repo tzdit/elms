@@ -88,7 +88,7 @@ use yii\helpers\Url;
        
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="<?= Url::toRoute('/admin/config') ?>" class="nav-link">
               <i class="nav-icon fa fa-cogs"></i>
               <p>
                 Configurations

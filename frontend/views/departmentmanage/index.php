@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <td><?=  $departments->depart_abbrev; ?></td>
                 <td>
 
-                <?= Html::a('<i class="fas fa-edit"></i>',['update-dept', 'deptid'=>$departments->departmentID], ['class'=>'m-0'])?>                 
+                <?= Html::a('<i class="fas fa-edit"></i>',['update-dept', 'deptid'=>urlencode(base64_encode($departments->departmentID))], ['class'=>'m-0'])?>                 
                 <a href="#" deptsid=<?=$departments->departmentID?> class=' text-danger m-0 departmentdel'><i class="fas fa-trash"> </i></a></td>
             </tr>
 
@@ -101,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 <div class="modal fade" id="createDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header pt-2 pb-2">
                 <span class="modal-title" id="exampleModalLabel"><i class="fa fa-plus-circle"></i> Add New Department</span>
@@ -122,7 +122,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $form->field($model, 'depart_abbrev')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Department Abbreviation'])->label(false)?>
                     </div>
                 </div>
-
+                <div class="row">
+                    <div class="col-md-12">
+                    <?= $form->field($model, 'collegeID')->dropDownList($colleges,['prompt' => '--college--'])->label(false) ?>
+                    
+                    </div>
+                </div>
+                
                 <div class="row">
                     <div class="col-md-12">
                         <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class'=>'btn btn-default btn-md float-right ml-2']) ?>

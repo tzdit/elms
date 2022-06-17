@@ -84,7 +84,7 @@ class InstructormanageController extends Controller
      // password resseting
      public function actionReset($id)
     {
- 
+        $id=base64_decode(urldecode($id));
         $model = User::findOne($id);
         $password = 123456;
 
@@ -103,7 +103,7 @@ class InstructormanageController extends Controller
 
     public function actionLock($id)
     {
-
+        $id=base64_decode(urldecode($id));
         $model = User::findOne($id);
      
             
@@ -119,7 +119,7 @@ class InstructormanageController extends Controller
     }
     public function actionUnlock($id)
     {
-
+        $id=base64_decode(urldecode($id));
         $model = User::findOne($id);
      
             
@@ -247,7 +247,7 @@ class InstructormanageController extends Controller
      */
     public function actionUpdate($id)
     {
-    
+        $id=base64_decode(urldecode($id));
         $model = $this->findModel($id);
         $model2=$model->user->role;
     

@@ -73,7 +73,16 @@ class DepartmentmanageController extends Controller
         {
             $collegeDepartments = Department::find()->all(); 
         }
-        $colleges = ArrayHelper::map(College::find()->all(), 'collegeID', 'college_name');
+        $colleges=[];
+
+        if(yii::$app->user->can('SUPER_ADMIN'))
+        {
+            $colleges=ArrayHelper::map(College::find()->all(),'collegeID','college_name');
+        }
+        else
+        {
+            $colleges=ArrayHelper::map(College::find()->where(["collegeID"=>Yii::$app->user->identity->admin->collegeID])->all(),'collegeID','college_name');
+        }
         $model = new CreateDepartment();
         try{
             if($model->load(Yii::$app->request->post())){
@@ -91,6 +100,7 @@ class DepartmentmanageController extends Controller
             return $this->redirect(Yii::$app->request->referrer);
 
         }
+ 
 
         return $this->render('index', ['collegeDepartments'=>$collegeDepartments, 'colleges'=>$colleges, 'model'=>$model]);
     }
@@ -156,11 +166,19 @@ class DepartmentmanageController extends Controller
 
     public function actionUpdateDept($deptid)
     {
+        $deptid=base64_decode(urldecode($deptid));
         $dept = Department::findOne($deptid);
-        //$dept = $prog -> departmentID;
-        //$dept_id = Department::find('departmentID',$dept);
-        //$prog ->departmentID = $dept;
-        //$departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+   
+        $colleges=[];
+
+        if(yii::$app->user->can('SUPER_ADMIN'))
+        {
+            $colleges=ArrayHelper::map(College::find()->all(),'collegeID','college_name');
+        }
+        else
+        {
+            $colleges=ArrayHelper::map(College::find()->where(["collegeID"=>Yii::$app->user->identity->admin->collegeID])->all(),'collegeID','college_name');
+        }
         if(Yii::$app->request->isPost)
         {
         if($dept->load(Yii::$app->request->post()) && $dept->save())
@@ -173,7 +191,7 @@ class DepartmentmanageController extends Controller
             return $this->redirect(yii::$app->request->referrer);
         }
     }
-        return $this->render('updatedept', ['dept'=>$dept]);
+        return $this->render('updatedept', ['dept'=>$dept,'colleges'=>$colleges]);
     }
 
     public function actionDeletedepartment()

@@ -81,7 +81,7 @@ class UsersController extends \yii\web\Controller
     }
     public function actionReset($id)
     {
- 
+        $id=base64_decode(urldecode($id));
         $model = User::findOne($id);
         $password = 123456;
 
@@ -100,6 +100,7 @@ class UsersController extends \yii\web\Controller
     
     public function actionLock($id)
     {
+        $id=base64_decode(urldecode($id));
         $model = User::findOne($id);
      
             
@@ -132,6 +133,7 @@ class UsersController extends \yii\web\Controller
     }
     public function actionUnlock($id)
     {
+        $id=base64_decode(urldecode($id));
         $model = User::findOne($id);
      
             
@@ -149,6 +151,7 @@ class UsersController extends \yii\web\Controller
 
     public function actionUpdate($admin)
     {
+        $admin=base64_decode(urldecode($admin));
         $model=Admin::findOne($admin);
         if(yii::$app->request->isPost)
         {
