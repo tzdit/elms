@@ -23,7 +23,7 @@ $colleges = ArrayHelper::map(College::find()->all(), 'collegeID', 'college_name'
 <div class="modal fade" id="adminmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-     <div class="modal-header  pl-4"><div class="modal-title ml-1"><i class='fa fa-plus-circle'></i> Add New Admin</div></div>
+     <div class="modal-header  pl-4 p-2"><div class="modal-title ml-1 text-primary"><i class='fa fa-plus-circle'></i> Add New Admin</div></div>
       <div class="modal-body">
         <div class="container-fluid">
        
@@ -63,7 +63,7 @@ $colleges = ArrayHelper::map(College::find()->all(), 'collegeID', 'college_name'
                    <div class="row">
                     <div class="col-md-12">
                         
-                     <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class'=>'btn btn-default btn-md float-right mr-0']) ?>
+                     <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class'=>'btn btn-default btn-md float-right text-primary mr-0']) ?>
                 
                     </div>
                

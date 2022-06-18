@@ -104,7 +104,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header pt-2 pb-2">
-                <span class="modal-title" id="exampleModalLabel"><i class="fa fa-plus-circle"></i> Add New Department</span>
+                <span class="modal-title text-primary" id="exampleModalLabel"><i class="fa fa-plus-circle"></i> Add New Department</span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -131,7 +131,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 
                 <div class="row">
                     <div class="col-md-12">
-                        <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class'=>'btn btn-default btn-md float-right ml-2']) ?>
+                        <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class'=>'btn btn-default text-primary btn-md float-right ml-2']) ?>
                       
 
                     </div>

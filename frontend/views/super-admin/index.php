@@ -3,7 +3,8 @@ use yii\bootstrap4\Breadcrumbs;
 use common\models\Session;
 /* @var $this yii\web\View */
 
-$this->title = 'Super Administrator Dashboard';
+$this->title = 'Dashboard';
+$this->params['courseTitle']='<i class="fas fa-th"></i> Dashboard';
 ?>
 <div class="site-index">
 
@@ -17,13 +18,12 @@ $this->title = 'Super Administrator Dashboard';
         <div class="row">
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">
-              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
+              <span class="info-box-icon elevation-0"><i class="fa fa-user-circle"></i></span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Users</span>
                 <span class="info-box-number">
-                  2300
-                
+                  <?=$users?>
                 </span>
               </div>
               <!-- /.info-box-content -->
@@ -33,11 +33,24 @@ $this->title = 'Super Administrator Dashboard';
           <!-- /.col -->
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-users"></i></span>
+            <span class="info-box-icon elevation-0"><i class="fa fa-chalkboard-teacher"></i></span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Instructors</span>
-                <span class="info-box-number">90</span>
+                <span class="info-box-number"><?=$instructors?></span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+            <span class="info-box-icon elevation-0"><i class="fa fa-user-graduate"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Students</span>
+                <span class="info-box-number"><?=$students?></span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -48,68 +61,92 @@ $this->title = 'Super Administrator Dashboard';
           <!-- fix for small devices only -->
           <div class="clearfix hidden-md-up"></div>
 
+       
+          <!-- /.col -->
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-graduation-cap"></i></span>
+            <span class="info-box-icon elevation-0"><i class="fas fa-sign-in-alt"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Administrators</span>
-                <span class="info-box-number">2210</span>
+                <span class="info-box-text">Active Sessions</span>
+                <span class="info-box-number"><?=$opensessions?></span>
               </div>
               <!-- /.info-box-content -->
             </div>
             <!-- /.info-box -->
           </div>
           <!-- /.col -->
+
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+            <span class="info-box-icon elevation-0"><i class="fa fa-list"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">In Active Users</span>
-                <span class="info-box-number"><?=count(Session::find()->all())?></span>
+                <span class="info-box-text">Courses</span>
+                <span class="info-box-number"><?=$courses?></span>
               </div>
               <!-- /.info-box-content -->
             </div>
             <!-- /.info-box -->
           </div>
-          <!-- /.col -->
+
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+            <span class="info-box-icon elevation-0"><i class="fa fa-book"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Materials</span>
+                <span class="info-box-number"><?=$materials?></span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+            <span class="info-box-icon elevation-0"><i class="fa fa-book-open"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Assignments</span>
+                <span class="info-box-number"><?=$assignments?></span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+            <span class="info-box-icon elevation-0"><i class="fa fa-pen"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Online Tests</span>
+                <span class="info-box-number"><?=$tests?></span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <div class="col-sm-6 ">
+          <div class="info-box-content">
+          <div class="info-box mb-3">
+                <span class="info-box-text">Top User (Instructor)</span>
+                <span class="info-box-number"><?=$tests?></span>
+              </div>
+              </div>
+          </div>
+         
+          <div class="col-sm-6">
+          <div class="info-box mb-3">
+          <div class="info-box-content">
+                <span class="info-box-text">Top User (student)</span>
+                <span class="info-box-number"><?=$tests?></span>
+              </div>
+              </div>
+          </div>
         </div>
         <!-- /.row -->
- <div class="row">
-          <!-- Left col -->
-          <section class="col-lg-12">
-            <!-- Custom tabs (Charts with tabs)-->
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <i class="fas fa-history mr-1"></i>
-                  User Logs
-                 
-                </h3>
-              
-              </div><!-- /.card-header -->
-              <div class="card-body">
-                <div class="tab-content p-0">
-                  <!-- Morris chart - Sales -->
-                  <div class="chart tab-pane active" id="revenue-chart"
-                       style="position: relative; height: 300px;">
-                      <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
-                   </div>
-                  <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
-                    <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
-                  </div>
-                </div>
-              </div><!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-
-          </section>
-          <!-- /.Left col -->
-          <!-- right col (We are only adding the ID to make the widgets sortable)-->
-         
-          <!-- right col -->
-        </div>
+       
 
       </div><!--/. container-fluid -->
 

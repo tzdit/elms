@@ -26,15 +26,16 @@ use common\models\SystemModules;
         <!-- Content Wrapper. Contains page content -->
   <div class="modal fade" id="modulemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
+    
     <div class="modal-content">
-  
+    <div class="modal-header p-2"><div class="modal-title text-primary pl-3 text-sm"><i class="fa fa-plus-circle"></i> Add Module</div></div>
       <div class="modal-body">
-        <div class="container-fluid p-5">
+        <div class="container-fluid pt-1">
         <?php $model=new SystemModules;$form = ActiveForm::begin(["method"=>"post","action"=>"/admin/add-module"])?>
     
                  <?= $form->field($model, 'moduleName')->textInput(['class'=>'form-control','placeholder'=>'Module Name'])->label(false) ?>
                  <?= $form->field($model, 'moduleDescription')->textInput(['class'=>'form-control','placeholder'=>'Module Description'])->label(false) ?>
-                 <?= Html::submitButton('<i class="fa fa-plus-circle"></i> Add Module', ['class'=>'btn btn-default btn-sm float-right mr-0 text-primary']) ?>
+                 <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class'=>'btn btn-default btn-sm float-right mr-0 text-primary']) ?>
                   </div>
                   </div>
                   </div>

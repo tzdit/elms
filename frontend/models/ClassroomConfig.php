@@ -68,8 +68,11 @@ class ClassroomConfig extends Model
         foreach($configs as $index=>$field)
         {
             if($index==0){continue;}
+            if(!isset($configs[$index]) || strlen(trim($configs[$index]))==0){throw new Exception("Invalid configuration data, found empty field block !");}
             $fieldout=explode(":",$configs[$index]);
             if(!is_array($fieldout)){throw new Exception("Invalid configuration data");}
+            if(!isset($fieldout[1]) || strlen(trim($fieldout[1]))==0){throw new Exception("Invalid configuration data, found field with no value(s) !");}
+            if(!isset($fieldout[0]) || strlen(trim($fieldout[0]))==0){throw new Exception("Invalid configuration data, found malformed field block !");}
             $configout[trim($fieldout[0])]=explode('|',trim($fieldout[1]));
         }
         if(!isset($configout['extensions']) || empty($configout['extensions'][0]))
