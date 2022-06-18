@@ -4,6 +4,8 @@ use yii\grid\GridView;
 use fedemotta\datatables\DataTables;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\bootstrap4\ActiveForm;
+
 /* @var $this yii\web\View */
 
 $this->params['courseTitle']='<i class="fa fa-cogs"></i> Configurations';
@@ -22,14 +24,13 @@ $this->params['breadcrumbs'] = [
        <div class="container-fluid">
       
  <div class="row">
-          <!-- Left col -->
-          <section class="col-lg-12">
           
-            <form class="form-group" action="<?=Url::to('/admin/validate-receipt')?>" method="post" accept-charset="utf-8">
-              <textarea rows=12 class="form-control text-lg" name="content" style="background:none" placeholder="Configurations" required></textarea>
-              <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>" />
-              <button type="submit" class="btn btn-lg btn-default float-right mt-2"><i class="fa fa-save"></i> Save Changes</button>
-            </form>
+          <section class="col-lg-12">
+<?php $form = ActiveForm::begin(["method"=>"post"]) ?>
+<?= $form->field($configs, 'config')->textArea(['class'=>'form-control p-4','style'=>'font-family:monospace;text-align:justify','rows'=>13])->label(false) ?>
+<?= Html::submitButton('<i class="fa fa-save"></i> Save Changes', ['class'=>'btn  btn-default float-right mt-1']) ?>
+            
+<?php ActiveForm::end() ?>
             
               </div><!-- /.card-body -->
             </div>

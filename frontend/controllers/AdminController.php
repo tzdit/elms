@@ -33,6 +33,7 @@ use common\models\SystemModules;
 use frontend\models\ClassRoomSecurity;
 use frontend\models\ReceiptManager;
 use frontend\models\StorageManager;
+use frontend\models\ClassroomConfig;
 //use yii\filters\VerbFilter;
 
 /**
@@ -364,7 +365,25 @@ public $defaultAction = 'dashboard';
     }
     public function actionConfig()
     {
-        return $this->render('config');
+        try
+        {
+            $configs=new ClassroomConfig();
+        
+            if(yii::$app->request->isPost)
+            {
+                if($configs->load(yii::$app->request->post()) &&  $configs->updateConfig())
+                {
+                    yii::$app->session->setFlash("success","<i class='fa fa-info-circle'></i> Configuration file updated Successfully !");
+                    return $this->redirect(yii::$app->request->referrer);  
+                }
+            }
+        }
+        catch(\Exception $c)
+        {
+            yii::$app->session->setFlash("error","<i class='fa fa-exclamation-triangle'></i> ".$c->getMessage());
+            return $this->redirect(yii::$app->request->referrer);  
+        }
+        return $this->render('config',['configs'=>$configs]);
     }
     public function actionBoostStorage()
     {
