@@ -22,6 +22,7 @@ use common\models\User;
  */
 class TblAuditEntry extends \yii\db\ActiveRecord
 {
+    public $frequency;
     /**
      * {@inheritdoc}
      */
@@ -38,6 +39,7 @@ class TblAuditEntry extends \yii\db\ActiveRecord
         return [
             [['audit_entry_timestamp', 'audit_entry_model_name', 'audit_entry_operation', 'audit_entry_field_name', 'audit_entry_new_value', 'audit_entry_user_id', 'audit_entry_ip', 'audit_entry_affected_record_reference', 'audit_entry_affected_record_reference_type'], 'required'],
             [['audit_entry_old_value', 'audit_entry_new_value'], 'string'],
+            ['frequency','integer'],
             [['audit_entry_timestamp', 'audit_entry_model_name', 'audit_entry_operation', 'audit_entry_field_name', 'audit_entry_user_id', 'audit_entry_ip'], 'string', 'max' => 100],
             [['audit_entry_affected_record_reference', 'audit_entry_affected_record_reference_type'], 'string', 'max' => 30],
         ];

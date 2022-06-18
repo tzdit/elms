@@ -67,6 +67,7 @@ public $defaultAction = 'dashboard';
                             'activity-logs-extended',
                             'receipts',
                             'validate-receipt',
+                            'courses',
                             'delete' => ['POST'],
                         ],
                         'allow' => true,
@@ -134,6 +135,12 @@ public $defaultAction = 'dashboard';
         return $this->render('index', ['searchModel' => $searchModel,'dataProvider' => $dataProvider,'instructorsnumber'=> $instructorsnumber,'studentsnumber'=>$studentsnumber,
             'programsnumber'=> $programsnumber,'coursesnumber'=> $coursesnumber,
         ]);
+    }
+    public function actionCourses()
+    {
+        $courses=Course::find()->all();
+
+        return $this->render('courses',['courses'=>$courses]);
     }
     //Create instructor
     public function actionCreateInstructor(){

@@ -11,6 +11,8 @@ use common\models\Course;
 use common\models\Assignment;
 use common\models\Quiz;
 use common\models\Material;
+use common\models\TblAuditEntry;
+use yii;
 class SuperAdminController extends \yii\web\Controller
 {
     public function behaviors()
@@ -49,6 +51,11 @@ class SuperAdminController extends \yii\web\Controller
         $materials=count(Material::find()->all());
         $assignments=count(Assignment::find()->all());
         $tests=count(Quiz::find()->all());
+
+        $topactivities=TblAuditEntry::findBySql("select audit_entry_user_id,audit_entry_model_name,audit_entry_operation,COUNT(audit_entry_operation) AS frequency
+   from tbl_audit_entry group by audit_entry_model_name,audit_entry_operation order by frequency DESC limit 5")->all();
+   $topusers=TblAuditEntry::findBySql("select audit_entry_user_id,COUNT(audit_entry_user_id) AS frequency
+   from tbl_audit_entry group by audit_entry_user_id order by frequency DESC limit 5")->all();
         return $this->render('index',[
             'instructors'=>$instructors,
             'admins'=>$admin,
@@ -58,7 +65,9 @@ class SuperAdminController extends \yii\web\Controller
             'courses'=>$courses,
             'materials'=>$materials,
             'assignments'=>$assignments,
-            'tests'=>$tests
+            'tests'=>$tests,
+            'topusers'=>$topusers,
+            'topactivities'=>$topactivities
         ]);
     }
 
