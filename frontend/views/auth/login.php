@@ -9,8 +9,8 @@
     
     </div>
     <div class="card card-default shadow-lg bg-white rounded" style="font-family:'Lucida Bright'">
-    <div class="card-header text-center bg-primary">
-      <span><b>UDOM-CLASSROOM</b></span>
+    <div class="card-header text-center bg-primary p-1">
+      <span>UDOM-CLASSROOM</span>
     </div>
     <div class="card-body text-center">
     <?php $form = ActiveForm::begin() ?>
@@ -34,7 +34,7 @@
   -->
             
            <div class="col-md-4 mr-auto ml-auto">
-             <?= Html::submitButton('Login', ['class'=>'btn btn-primary btn-block'])?>
+             <?= Html::submitButton('<i class="fa fa-sign-in-alt"></i> Login', ['class'=>'btn btn-primary btn-sm col p-1'])?>
            </div>
 
            </div>

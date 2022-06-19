@@ -31,8 +31,8 @@ $this->params['breadcrumbs'] = [
            
              
            
-                <a href="#" data-toggle="modal" data-target="#instructormodal" class="btn btn-default btn-sm float-right m-0 col-xs-12"><i class="fas fa-user-plus"></i> Register Instructor</a>
-                <a href="#" data-toggle="modal" data-target="#hodmodal" class="btn btn-default btn-sm float-right m-0 col-xs-12 mr-2"><i class="fas fa-user-plus"></i> Register HOD</a>
+                <a href="#"  data-toggle="modal" data-target="#instructormodal" class="btn btn-default btn-sm float-right m-0 col-xs-12"><i class="fas fa-user-plus"></i> Register Instructor</a>
+                <a href="#"  data-toggle="modal" data-target="#hodmodal" class="btn btn-default btn-sm float-right m-0 col-xs-12 mr-2"><i class="fas fa-user-plus"></i> Register HOD</a>
             
             <table class="table table-bordered table-striped table-hover " id="InstructorTable" style="width:100%;font-size:11.5px;">
             <thead>
