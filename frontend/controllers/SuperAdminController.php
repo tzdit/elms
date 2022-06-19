@@ -11,6 +11,7 @@ use common\models\Course;
 use common\models\Assignment;
 use common\models\Quiz;
 use common\models\Material;
+use common\models\Program;
 use common\models\TblAuditEntry;
 use yii;
 class SuperAdminController extends \yii\web\Controller
@@ -43,14 +44,13 @@ class SuperAdminController extends \yii\web\Controller
     public function actionDashboard()
     {
         $instructors=count(Instructor::find()->all());
-        $admin=count(Admin::find()->all());
         $students=count(Student::find()->all());
         $opensessions=count(Session::find()->all());
         $users=count(User::find()->all());
         $courses=count(Course::find()->all());
         $materials=count(Material::find()->all());
-        $assignments=count(Assignment::find()->all());
         $tests=count(Quiz::find()->all());
+        $programs=count(Program::find()->all());
 
         $topactivities=TblAuditEntry::findBySql("select audit_entry_user_id,audit_entry_model_name,audit_entry_operation,COUNT(audit_entry_operation) AS frequency
    from tbl_audit_entry group by audit_entry_model_name,audit_entry_operation order by frequency DESC limit 5")->all();
@@ -58,16 +58,15 @@ class SuperAdminController extends \yii\web\Controller
    from tbl_audit_entry group by audit_entry_user_id order by frequency DESC limit 5")->all();
         return $this->render('index',[
             'instructors'=>$instructors,
-            'admins'=>$admin,
             'students'=>$students,
             'opensessions'=>$opensessions,
             'users'=>$users,
             'courses'=>$courses,
             'materials'=>$materials,
-            'assignments'=>$assignments,
             'tests'=>$tests,
             'topusers'=>$topusers,
-            'topactivities'=>$topactivities
+            'topactivities'=>$topactivities,
+            'programs'=>$programs
         ]);
     }
 

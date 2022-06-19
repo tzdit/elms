@@ -34,6 +34,12 @@ use frontend\models\ClassRoomSecurity;
 use frontend\models\ReceiptManager;
 use frontend\models\StorageManager;
 use frontend\models\ClassroomConfig;
+use common\models\Admin;
+use common\models\Session;
+use common\models\User;
+use common\models\Material;
+use common\models\Quiz;
+
 //use yii\filters\VerbFilter;
 
 /**
@@ -68,6 +74,7 @@ public $defaultAction = 'dashboard';
                             'receipts',
                             'validate-receipt',
                             'courses',
+                            'programs',
                             'delete' => ['POST'],
                         ],
                         'allow' => true,
@@ -116,24 +123,30 @@ public $defaultAction = 'dashboard';
      */
     public function actionDashboard()
     {
-        $searchModel = new TblAuditEntrySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $instructors=count(Instructor::find()->all());
+        $students=count(Student::find()->all());
+        $opensessions=count(Session::find()->all());
+        $users=count(User::find()->all());
+        $courses=count(Course::find()->all());
+        $materials=count(Material::find()->all());
+        $tests=count(Quiz::find()->all());
+        $programs=count(Program::find()->all());
 
-         //passing the numbers of users to the admin dashboard
-         $instructors = Instructor::find()->all();
-         $instructorsnumber=count($instructors);
- 
-         $students = Student::find()->all();
-         $studentsnumber=count($students);
- 
-         $programs = Program::find()->all();
-         $programsnumber=count($programs);
- 
-         $courses = Course::find()->all();
-         $coursesnumber=count($courses);
-
-        return $this->render('index', ['searchModel' => $searchModel,'dataProvider' => $dataProvider,'instructorsnumber'=> $instructorsnumber,'studentsnumber'=>$studentsnumber,
-            'programsnumber'=> $programsnumber,'coursesnumber'=> $coursesnumber,
+        $topactivities=TblAuditEntry::findBySql("select audit_entry_user_id,audit_entry_model_name,audit_entry_operation,COUNT(audit_entry_operation) AS frequency
+   from tbl_audit_entry group by audit_entry_model_name,audit_entry_operation order by frequency DESC limit 5")->all();
+   $topusers=TblAuditEntry::findBySql("select audit_entry_user_id,COUNT(audit_entry_user_id) AS frequency
+   from tbl_audit_entry group by audit_entry_user_id order by frequency DESC limit 5")->all();
+        return $this->render('index',[
+            'instructors'=>$instructors,
+            'students'=>$students,
+            'opensessions'=>$opensessions,
+            'users'=>$users,
+            'courses'=>$courses,
+            'materials'=>$materials,
+            'tests'=>$tests,
+            'topusers'=>$topusers,
+            'topactivities'=>$topactivities,
+            'programs'=>$programs
         ]);
     }
     public function actionCourses()
@@ -141,6 +154,12 @@ public $defaultAction = 'dashboard';
         $courses=Course::find()->all();
 
         return $this->render('courses',['courses'=>$courses]);
+    }
+    public function actionPrograms()
+    {
+        $programs=Program::find()->all();
+
+        return $this->render('programs',['programs'=>$programs]);
     }
     //Create instructor
     public function actionCreateInstructor(){

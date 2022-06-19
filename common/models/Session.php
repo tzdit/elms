@@ -53,9 +53,9 @@ class Session extends \yii\db\ActiveRecord
             'sessionid' => 'Sessionid',
             'userID' => 'User ID',
             'username' => 'Username',
-            'role' => 'Role',
+            'role' => 'User Type',
             'college' => 'College',
-            'prog_or_dept' => 'Prog Or Dept',
+            'prog_or_dept' => 'Program Or Depart.',
             'year' => 'Year',
         ];
     }
