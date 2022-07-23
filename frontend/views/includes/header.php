@@ -7,12 +7,12 @@ use frontend\models\AcademicYearManager;
 use common\models\Academicyear;
 ?>
      <!-- Navbar -->
-     <nav class="main-header navbar navbar-expand navbar-primary navbar-dark">
+     <nav class="main-header navbar navbar-expand navbar-light">
     <!-- Left navbar links -->
     
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars text-info"></i></a>
       </li>
 
 
@@ -36,7 +36,7 @@ use common\models\Academicyear;
         <?= $form->field($yearmodel, 'yearid')->dropDownList($mappedyears,['class'=>'btn-default btn-sm rounded-pill'])->label('Academic Year',['class'=>'text-md d-none d-md-block'])?>
 </div>
 </div><div class="col-md-4 col-sm-4 nav-link" style="padding-right:0;padding-left:1"><div class="form-group" >
-       <?=Html::submitButton('<i class="fa fa-refresh"></i> Switch',['class'=>'btn btn-sm  btn-default rounded-pill '])?>
+       <?=Html::submitButton('<i class="fa fa-refresh text-info"></i> Switch',['class'=>'btn btn-sm  btn-default rounded-pill '])?>
 </div></div>
 
         <?php ActiveForm::end()?>
@@ -46,7 +46,7 @@ else if(Yii::$app->user->can('STUDENT'))
 {
   ?>
   <div class="col-md-12 col-sm-12 text-sm nav-link d-none d-md-block">
-  <?=Html::Button('<i class="fa fa-clock-o"></i> '.(yii::$app->session->get('currentAcademicYear'))->title,['class'=>'btn btn-lg p-1  btn-default rounded-pill '])?>
+  <?=Html::Button('<i class="fa fa-clock-o text-info"></i> '.(yii::$app->session->get('currentAcademicYear'))->title,['class'=>'btn btn-lg p-1  btn-default rounded-pill btn-info'])?>
   <?=yii::$app->user->identity->student->programCode." ".yii::$app->user->identity->student->YOS?>
 </div>
   <?php
@@ -55,7 +55,7 @@ else
 {
 ?>
   <div class="col-md-12 col-sm-12 text-sm nav-link d-none d-md-block">
-  <?=Html::Button('<i class="fa fa-clock-o"></i> '.(yii::$app->session->get('currentAcademicYear'))->title,['class'=>'btn btn-lg p-1  btn-default rounded-pill '])?>
+  <?=Html::Button('<i class="fa fa-clock-o text-info"></i> '.(yii::$app->session->get('currentAcademicYear'))->title,['class'=>'btn btn-lg p-1  btn-default rounded-pill '])?>
 </div>
 <?php
 }

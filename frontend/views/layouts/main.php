@@ -220,15 +220,15 @@ AppAsset::register($this);
     <!-- also this you may trie these 082B45  # #0062CC
     lovely background style="background:#001832"
   -->
-  <aside class="main-sidebar main-sidebar-custom sidebar-light-primary  elevation-1 pace-primary " style="background-color:rgba(238,239,247,1)" >
+  <aside class="main-sidebar main-sidebar-custom  elevation-1 pace-primary">
     <!-- Brand Logo -->
-    <a href="<?= Url::to(['/home/dashboard']) ?>" class="brand-link bg-primary">
+    <a href="<?= Url::to(['/home/dashboard']) ?>" class="brand-link bg-dark">
       <img src="<?= Yii::getAlias('@web/img/logo 1.png') ?>" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">UDOM CLASSROOM</span>
+      <span class="brand-text font-weight-light">DIT - ELMS</span>
     </a>
 
     <!-- Sidebar -->
-    <div class="sidebar text-primary" >
+    <div class="sidebar text-primary bg-dark" >
   
       <!-- Sidebar Menu -->
       <?= $this->render('/includes/sidebar') ?>

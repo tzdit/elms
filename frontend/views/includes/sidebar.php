@@ -1,10 +1,10 @@
 <?php 
 use yii\helpers\Url;
 ?>
-<nav class="mt-2 text-dark" style="height:57%;">
+<nav class="mt-2" style="height:57%;">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
            <li class="nav-item">
-            <a href="<?= Url::to(['/home/dashboard']) ?>" class="nav-link">
+            <a href="<?= Url::to(['/home/dashboard']) ?>" class="nav-link text-light">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Dashboard
@@ -17,7 +17,7 @@ use yii\helpers\Url;
               <!-- START OF SYS_ADMIN ROLE -->
             <?php if(Yii::$app->user->can('SYS_ADMIN') || Yii::$app->user->can('SUPER_ADMIN')): ?>
             <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link text-light">
               <i class="nav-icon fa fa-user-cog"></i>
               <p>
                 Users
@@ -26,14 +26,14 @@ use yii\helpers\Url;
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?= Url::toRoute('/instructormanage/instructor-list') ?>" class="nav-link">
+                <a href="<?= Url::toRoute('/instructormanage/instructor-list') ?>" class="nav-link text-light">
                  <i class="fas fa-chalkboard-teacher nav-icon"></i>
                   <p>Instructors & HODs</p>
                 </a>
               </li>
               
               <li class="nav-item">
-                <a href="<?= Url::toRoute('/studentmanage/student-list') ?>" class="nav-link">
+                <a href="<?= Url::toRoute('/studentmanage/student-list') ?>" class="nav-link text-light">
                   <i class="fas fa-user-graduate nav-icon"></i>
                   <p>Students</p>
                 </a>
@@ -41,19 +41,19 @@ use yii\helpers\Url;
               
             </ul>
             <li class="nav-item">
-                <a href="<?= Url::toRoute('/admin/receipts') ?>" class="nav-link">
+                <a href="<?= Url::toRoute('/admin/receipts') ?>" class="nav-link text-light">
                   <i class="fas fa-receipt nav-icon"></i>
                   <p>Receipts</p>
                 </a>
               </li>
             <li class="nav-item">
-                <a href="<?= Url::toRoute('/departmentmanage/index') ?>" class="nav-link">
+                <a href="<?= Url::toRoute('/departmentmanage/index') ?>" class="nav-link text-light">
                   <i class="fa fa-building nav-icon"></i>
                   <p>Departments</p>
                 </a>
               </li>
                 <li class="nav-item">
-                    <a href="<?= Url::toRoute('/admin/activity-logs') ?>" class="nav-link">
+                    <a href="<?= Url::toRoute('/admin/activity-logs') ?>" class="nav-link text-light">
                         <i class="fas fa-history nav-icon"></i>
                         <p>Activity Logs</p>
                     </a>
@@ -65,21 +65,21 @@ use yii\helpers\Url;
      
            
             <li class="nav-item">
-                <a href="<?= Url::toRoute('/users/admin-list') ?>" class="nav-link">
+                <a href="<?= Url::toRoute('/users/admin-list') ?>" class="nav-link text-light">
                   <i class="fas fa-user-secret nav-icon"></i>
                   <p>Admins</p>
                 </a>
         </li>
     
         <li class="nav-item">
-                <a href="<?= Url::toRoute('/collegemanage/index') ?>" class="nav-link">
+                <a href="<?= Url::toRoute('/collegemanage/index') ?>" class="nav-link text-light">
                   <i class="fa fa-university nav-icon"></i>
                   <p>Colleges</p>
                 </a>
               </li>
 
         <li class="nav-item">
-            <a href="<?= Url::toRoute('/admin/academic-year') ?>" class="nav-link">
+            <a href="<?= Url::toRoute('/admin/academic-year') ?>" class="nav-link text-light">
               <i class="nav-icon fa fa-calendar"></i>
               <p>
                  Academic Year
@@ -88,7 +88,7 @@ use yii\helpers\Url;
        
           </li>
           <li class="nav-item">
-            <a href="<?= Url::toRoute('/admin/config') ?>" class="nav-link">
+            <a href="<?= Url::toRoute('/admin/config') ?>" class="nav-link text-light">
               <i class="nav-icon fa fa-cogs"></i>
               <p>
                 Configurations
@@ -98,7 +98,7 @@ use yii\helpers\Url;
           </li>
 
           <li class="nav-item">
-            <a href="<?= Url::toRoute('/admin/storage') ?>" class="nav-link">
+            <a href="<?= Url::toRoute('/admin/storage') ?>" class="nav-link text-light">
               <i class="nav-icon fa fa-hdd-o"></i>
               <p>
                 Storage
@@ -108,7 +108,7 @@ use yii\helpers\Url;
           </li>
 
           <li class="nav-item">
-            <a href="<?= Url::toRoute('/admin/system-modules') ?>" class="nav-link">
+            <a href="<?= Url::toRoute('/admin/system-modules') ?>" class="nav-link text-light">
               <i class="nav-icon fa fa-cubes"></i>
               <p>
                 Modules
@@ -125,7 +125,7 @@ use yii\helpers\Url;
             <?php if(Yii::$app->user->can('INSTRUCTOR')): ?>
          
           <li class="nav-item">
-                <a href="<?= Url::toRoute('/instructor/courses') ?>" class="nav-link">
+                <a href="<?= Url::toRoute('/instructor/courses') ?>" class="nav-link text-light">
                   <i class="fas fa-chalkboard-teacher nav-icon"></i>
                   <p>Self-assign Courses</p>
                 </a>
@@ -135,13 +135,13 @@ use yii\helpers\Url;
               <!-- START OF STUDENT ROLE -->
               <?php if(Yii::$app->user->can('STUDENT')): ?>
                 <li class="nav-item">
-                <a href="<?= Url::toRoute('/student/courses') ?>" class="nav-link">
+                <a href="<?= Url::toRoute('/student/courses') ?>" class="nav-link text-light">
                   <i class="fas fa-book nav-icon"></i>
                   <p>My Curriculum</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?= Url::toRoute('/student/carrycourse') ?>" class="nav-link">
+                <a href="<?= Url::toRoute('/student/carrycourse') ?>" class="nav-link text-light">
                   <i class="fas fa-file nav-icon"></i>
                   <p>Carry Courses</p>
                 </a>
@@ -151,21 +151,21 @@ use yii\helpers\Url;
           <!--START OF HOD ROLE -->
           <?php if(Yii::$app->user->can('INSTRUCTOR & HOD')): ?>
             <li class="nav-item">
-                <a href="<?= Url::toRoute('/instructor/courses') ?>" class="nav-link">
+                <a href="<?= Url::toRoute('/instructor/courses') ?>" class="nav-link text-light">
                   <i class="fas fa-chalkboard-teacher nav-icon"></i>
                   <p>Self-assign Courses</p>
                 </a>
               </li>
           
             <li class="nav-item">
-                <a href="<?= Url::toRoute('/instructor/student-list') ?>" class="nav-link">
+                <a href="<?= Url::toRoute('/instructor/student-list') ?>" class="nav-link text-light">
                 <i class="fas fa-users"></i>
                   <p>Manage Students</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="<?= Url::toRoute('/instructor/create-program') ?>" class="nav-link">
+                <a href="<?= Url::toRoute('/instructor/create-program') ?>" class="nav-link text-light">
                 <i class="fas fa-award"></i>
                   <p>Manage Programs</p>
                 </a>
@@ -175,7 +175,7 @@ use yii\helpers\Url;
               <!-- ################################################ -->
 
           <li class="nav-item">
-          <a href="<?= Url::toRoute('/instructor/create-course') ?>" class="nav-link">
+          <a href="<?= Url::toRoute('/instructor/create-course') ?>" class="nav-link text-light">
             <i class="fas fa-book-open"></i>
               <p>
                 Manage Courses
@@ -187,20 +187,20 @@ use yii\helpers\Url;
               <!-- ################################################ -->
 
               <!-- <li class="nav-item">
-                <a href="<?= Url::toRoute('/instructor/create-course') ?>" class="nav-link">
+                <a href="<?= Url::toRoute('/instructor/create-course') ?>" class="nav-link text-light">
                   <i class="fas fa-book nav-icon"></i>
                   <p>Manage Courses</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?= Url::toRoute('/instructor/assign-course') ?>" class="nav-link">
+                <a href="<?= Url::toRoute('/instructor/assign-course') ?>" class="nav-link text-light">
                 <i class="fas fa-tasks"></i>
                   <p>Assign Course </p>
                 </a>
               </li> -->
 
               <li class="nav-item">
-                <a href="<?= Url::toRoute('/instructor/instructor-course') ?>" class="nav-link">
+                <a href="<?= Url::toRoute('/instructor/instructor-course') ?>" class="nav-link text-light">
                 <i class="fas fa-users"></i>
                   <p>Instructors </p>
                 </a>
