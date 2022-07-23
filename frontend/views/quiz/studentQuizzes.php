@@ -57,7 +57,7 @@ $this->params['breadcrumbs'] = [
                                                         
                                                         if(empty($quizzes)){
                                                         
-                                                            echo '<div style="width:91%"  class="container border p-2  d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle"></i> No Quizzes found</span></div>';
+                                                            echo '<div style="width:91%"  class="container border p-2  d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle text-warning"></i> No Quizzes found</span></div>';
                                                         
                                                         }
                                                         
@@ -93,13 +93,13 @@ $this->params['breadcrumbs'] = [
                                                                                             {
                                                                                                 
                                                                                             ?>
-                                                                                            <a href="<?=Url::to(['/quiz/quiz-take','quiz'=>ClassRoomSecurity::encrypt($quiz->quizID)])?>" data-toggle="tooltip" data-title="Take Quiz" class="float-right mr-2 btn btn-default shadow text-primary"><i class="fa fa-pen fa-1x"></i> Take Quiz</a>
+                                                                                            <a href="<?=Url::to(['/quiz/quiz-take','quiz'=>ClassRoomSecurity::encrypt($quiz->quizID)])?>" data-toggle="tooltip" data-title="Take Quiz" class="float-right mr-2 btn btn-default shadow text-primary"><i class="fa fa-pen text-info fa-1x"></i> Take Quiz</a>
                                                                                             <?php
                                                                                             }
                                                                                             else
                                                                                             {
                                                                                             ?>
-                                                                                             <a class="float-right mr-2  border p-2 text-danger"><i class="fa fa-exclamation-triangle fa-1x"></i> Expired</a>
+                                                                                             <a class="float-right mr-2  border p-2 text-danger"><i class="fa fa-exclamation-triangle text-danger fa-1x"></i> Expired</a>
                                                                                             <?php
                                                                                             }
                                                                                             ?>

@@ -20,7 +20,7 @@ use yii\helpers\VarDumper;
 
 /* @var $this yii\web\View */
 $cid=yii::$app->session->get('ccode');
-$this->params['courseTitle'] ="<i class='fa fa-plus-circle'></i> New Quiz";
+$this->params['courseTitle'] ="<i class='fa fa-plus-circle text-info'></i> New Quiz";
 $this->title = 'New Quiz';
 $this->params['breadcrumbs'] = [
     ['label'=>$cid.' Quizes', 'url'=>Url::to(['class-quizes','cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get("ccode"))])],
@@ -102,7 +102,7 @@ $this->params['breadcrumbs'] = [
          </div>
          <div class="row mb-2 shadow">
            <div class="col-sm-12 bg-white d-flex justify-content-center p-3 ">
-          <button type="submit" class="btn btn-default btn-md text-primary shadow"><i class="fa fa-save"></i> Save Quiz</button>
+          <button type="submit" class="btn btn-default btn-md bg-info shadow"><i class="fa fa-save"></i> Save Quiz</button>
           </div>
          </div>
         </div>

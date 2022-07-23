@@ -212,22 +212,7 @@ use yii\helpers\Url;
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
-      <?php if(Yii::$app->user->can('INSTRUCTOR & HOD') || Yii::$app->user->can('INSTRUCTOR') || Yii::$app->user->can('STUDENT') ): ?>
-      <div class="card contactcard">
-    <div class="card-header text-sm">
-      Have a feedback or need support?<span class="text-success"><i class="fab fa-whatsapp"></i></span><span class="text-success"><i class="fa fa-phone"></i></span><span class="text-success"><i class="fas fa-sms"></i></span>
-          </div>
-          <div class="card-body">
-            <div class="row text-sm">
-              <div class="col-md-12">(+255) 755189736</div>
-          </div>
-          <div class="row text-sm">
-              <div class="col-md-12">(+255) 784085190</div>
-          </div>
-          </div>
-
-          </div>
-          <?php endif ?>
+      
     </div>
     <!-- /.sidebar -->
   

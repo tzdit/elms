@@ -40,8 +40,8 @@ $this->params['breadcrumbs'] = [
               <div class="pl-1 row responsivetext">
               
                 <ul class="nav nav-tabs p-0" id="custom-tabs-four-tab" role="tablist">
-                  <li class="p-0 m-0"  ><a class="nav-link p-2 active" href="#tab_1" data-toggle="tab" aria-controls="tab_1" aria-selected="true"><i class="fa fa-book-reader"></i> Normal Assignments</a></li>
-                  <li class="p-0 m-0"><a class="nav-link p-2" href="#tab_2" data-toggle="tab" aria-controls="tab_2" aria-selected="false"><i class="fa fa-microscope"></i> Lab Assignments</a></li>
+                  <li class="p-0 m-0"  ><a class="nav-link p-2 active" href="#tab_1" data-toggle="tab" aria-controls="tab_1" aria-selected="true"><i class="fa fa-book-reader text-info"></i> Normal Assignments</a></li>
+                  <li class="p-0 m-0"><a class="nav-link p-2" href="#tab_2" data-toggle="tab" aria-controls="tab_2" aria-selected="false"><i class="fa fa-microscope text-info"></i> Lab Assignments</a></li>
                 </ul>
 
               </div><!-- /.card-header -->
@@ -72,7 +72,7 @@ $this->params['breadcrumbs'] = [
                                         <?php
                                         if(empty($assignments)){
                                             echo "<p class='text-muted text-lg text-center p-1 responsivetext'>";
-                                            echo "<i class='fa fa-info-circle'></i> No assignment found";
+                                            echo "<i class='fa fa-info-circle text-info'></i> No assignment found";
                                             echo "</p>";
                                         }
                                         ?>
@@ -90,7 +90,7 @@ $this->params['breadcrumbs'] = [
                                                                     </button>
                                                                 </div>
                                                                 <div class="col-sm-1">
-                                                                    <i class="fas fa-ellipsis-v float-right text-secondary text-sm"></i>
+                                                                    <i class="fas fa-ellipsis-v float-right text-secondary text-sm text-info"></i>
                                                                 </div>
                                                             </div>
                                                         </h2>
@@ -120,7 +120,7 @@ $this->params['breadcrumbs'] = [
                                                                     $isOutOfDeadline =   $currentDateTime > $deadLineDate;
                                                                     ?>
 
-                                                                    <b class="text-danger ml-2"><i class="fa fa-clock-o"></i> Deadline : </b><span class="responsivetext"><?= $deadLineDate->format('d-m-Y H:i:s A') ?> </span>
+                                                                    <b class="text-danger ml-2"><i class="fa fa-clock-o text-info"></i> Deadline : </b><span class="responsivetext"><?= $deadLineDate->format('d-m-Y H:i:s A') ?> </span>
                                                                 </div>
                                                                 <div class="col-md-6">
 
@@ -189,7 +189,7 @@ $this->params['breadcrumbs'] = [
                                                       <?php
                                                       if(empty($labs)){
                                                           echo "<p class='text-muted text-lg text-center p-1 responsivetext'>";
-                                                          echo "<i class='fa fa-info-circle'></i> No lab found";
+                                                          echo "<i class='fa fa-info-circle text-info'></i> No lab found";
                                                           echo "</p>";
                                                       }
                                                       ?>

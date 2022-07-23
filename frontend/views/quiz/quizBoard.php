@@ -12,7 +12,7 @@ use frontend\models\QuizManager;
 
 /* @var $this yii\web\View */
 $cid=yii::$app->session->get('ccode');
-$this->params['courseTitle'] ="<i class='fa fa-pen'></i> Quiz";
+$this->params['courseTitle'] ="<i class='fa fa-pen text-info'></i> Quiz";
 $this->title = 'Quiz Taking';
 
 $this->params['breadcrumbs'] = [
@@ -119,7 +119,7 @@ $this->params['breadcrumbs'] = [
                ?>
                <input type="hidden" name="quiz" value="<?= $quiz; ?>" />
                 <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>" />
-                <button type="submit" class="btn btn-default text-primary shadow p-2 mt-3 col-sm-7 float-right submitbtn"><i class="fa fa-send"></i> Submit</button>
+                <button type="submit" class="btn btn-default bg-info shadow p-2 mt-3 col-sm-7 float-right submitbtn"><i class="fa fa-send"></i> Submit</button>
              </form>
              <audio class="d-none messageaudio">
               <source src="/media/anxious-586.mp3"  type="audio/mpeg">

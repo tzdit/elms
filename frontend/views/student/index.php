@@ -43,7 +43,7 @@ $this->title = 'Student Dashboard';
                 <h3><?= $course->course_code ?></h3>
 
                 <p class="m-0">Credit <?= $course->course_credit ?></p>
-                <h5 class="m-0 p-0 text-muted"> <?= strtoupper($course->course_status) ?></h5>
+                <h5 class="m-0 p-0 "> <?= strtoupper($course->course_status) ?></h5>
               </div>
 
               <div class="icon">

@@ -211,7 +211,7 @@ AppAsset::register($this);
 
      <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="<?php echo Yii::getAlias('@web/img/logo.png'); ?>" alt="LOGO" height="60" width="60">
+    <img class="animation__shake" src="<?php echo Yii::getAlias('@web/img/dit-logo.jpeg'); ?>" alt="LOGO" height="60" width="60">
   </div> 
      <!-- Navbar -->
      <?= $this->render('/includes/header') ?>
@@ -223,7 +223,7 @@ AppAsset::register($this);
   <aside class="main-sidebar main-sidebar-custom  elevation-1 pace-primary">
     <!-- Brand Logo -->
     <a href="<?= Url::to(['/home/dashboard']) ?>" class="brand-link bg-dark">
-      <img src="<?= Yii::getAlias('@web/img/logo 1.png') ?>" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="<?= Yii::getAlias('@web/img/dit-logo.jpeg') ?>" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">DIT - ELMS</span>
     </a>
 

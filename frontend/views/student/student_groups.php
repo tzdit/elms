@@ -52,10 +52,10 @@ $regno=yii::$app->user->identity->student->reg_no;
                        <div class="row">
                                 <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true"><i class="fa fa-upload"></i> Submit Assignment</a>
+                                        <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true"><i class="fa fa-upload text-info"></i> Submit Assignment</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-danger" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false"><i class="fa fa-exclamation-triangle"></i> Missing Groups</a>
+                                        <a class="nav-link text-danger" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false"><i class="fa fa-exclamation-triangle "></i> Missing Groups</a>
                                     </li>
                                 </ul>
 </div>
@@ -79,7 +79,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                 <?php
                                                                 if(empty($studentGroupsList)){
                                                                     echo "<p class='text-muted text-lg text-center p-1 responsivetext'>";
-                                                                    echo "<i class='fa fa-info-circle'></i> No group found";
+                                                                    echo "<i class='fa fa-info-circle text-info'></i> No group found";
                                                                     echo "</p>";
                                                                 }
                                                                 ?>
@@ -137,7 +137,7 @@ $regno=yii::$app->user->identity->student->reg_no;
 
                                                                                     ?>
                                                                                       <div class="card-footer p-2 bg-white border-top">
-                                                                                            <h6 class="text-danger float-right mr-4 responsivetext"><i class="fa fa-info-circle"></i> No Assignments provided yet</h6>
+                                                                                            <h6 class="text-danger float-right mr-4 responsivetext"><i class="fa fa-info-circle text-info"></i> No Assignments provided yet</h6>
                                                                                         </div>
 
                                                                                         <?php
@@ -521,7 +521,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                             <?php if($countmissing==0)
                                                             {
                                                             ?>
-                                                             <span class="text-center"><i class="fa fa-info-circle"></i> No Assignments Missing Groups</div>
+                                                             <span class="text-center"><i class="fa fa-info-circle text-info"></i> No Assignments Missing Groups</div>
 
                                                                 <?php
                                                             }

@@ -20,7 +20,7 @@ use yii\helpers\VarDumper;
 
 /* @var $this yii\web\View */
 $cid=yii::$app->session->get('ccode');
-$this->params['courseTitle'] ="<i class='fa fa-plus-circle'></i> New Quiz";
+$this->params['courseTitle'] ="<i class='fa fa-plus-circle text-info'></i> New Quiz";
 $this->title = 'New Quiz';
 $this->params['breadcrumbs'] = [
     ['label'=>$cid.' Quizes', 'url'=>Url::to(['class-quizes','cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get("ccode"))])],
@@ -37,7 +37,7 @@ $this->params['breadcrumbs'] = [
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
     <div class="modal-header bg-primary pt-2 pb-2">
-        <span class="modal-title" id="exampleModalLabel"><h6><i class='fa fa-upload'></i> Upload Questions</h6></span>
+        <span class="modal-title" id="exampleModalLabel"><h6><i class='fa fa-upload text-warning'></i> Upload Questions</h6></span>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -48,7 +48,7 @@ $this->params['breadcrumbs'] = [
            <input type="file" name="questionsfile" class="form-control" accept=".qb" required></input>
         <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>" />
 
-        <button type="submit" class="btn btn-default shadow text-primary m-2 float-right" ><i class="fa fa-upload"></i> Upload</button>
+        <button type="submit" class="btn btn-default shadow text-primary m-2 float-right" ><i class="fa fa-upload text-info"></i> Upload</button>
         </form>
     </div>
 </div>
@@ -86,7 +86,7 @@ if($(this).val()=="individual")
  $('.deadlinedate').prop('disabled','');
   $('.deadlinetime').prop('disabled','');
   $('.numq').prop('disabled','');
-  $('.chosenquestions').html("<div class='text-center text-lg text-muted mt-5 p-5'><i class='fa fa-info-circle'></i>Random Questions !</div>");
+  $('.chosenquestions').html("<div class='text-center text-lg text-muted mt-5 p-5'><i class='fa fa-info-circle text-success'></i>Random Questions !</div>");
 }
 else
 {

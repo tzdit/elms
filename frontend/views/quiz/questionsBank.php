@@ -12,7 +12,7 @@ use frontend\models\QuizManager;
 
 /* @var $this yii\web\View */
 $cid=yii::$app->session->get('ccode');
-$this->params['courseTitle'] ="<i class='fa fa-bank'></i> Questions Bank";
+$this->params['courseTitle'] ="<i class='fa fa-bank text-info'></i> Questions Bank";
 $this->title = 'Questions Bank';
 $this->params['breadcrumbs'] = [
     ['label'=>$cid.' Quizes', 'url'=>Url::to(['class-quizes','cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get("ccode"))])],
@@ -31,7 +31,7 @@ $this->params['breadcrumbs'] = [
            <div class="card shadow">
               <div class="card-body p-3 pr-1 text-center">
                
-               <a href="#" class="text-primary" data-toggle="modal" data-target="#questionmodal"><i class="fa fa-plus-circle"></i> New Question</a>
+               <a href="#" class="text-primary" data-toggle="modal" data-target="#questionmodal"><i class="fa fa-plus-circle text-info"></i> New Question</a>
 
                 </div>      </div>
 
@@ -43,8 +43,8 @@ $this->params['breadcrumbs'] = [
            <div class="card shadow">
               <div class="card-body p-2 pl-1 text-center">
                 <?php $bankfile=(new QuizManager)->getBankHome()?>
-               <a href="#" class="btn btn-default shadow text-primary" data-toggle="modal" data-target="#uploadermodal" ><i class="fa fa-upload" data-toggle="tooltip" data-title="Upload Questions Bank File" ></i></a>
-               <a href="/<?=$bankfile?>" class="btn btn-default shadow text-primary" data-toggle="tooltip" data-title="Download Questions Bank File"  ><i class="fa fa-download"></i></a>
+               <a href="#" class="btn btn-default shadow text-primary" data-toggle="modal" data-target="#uploadermodal" ><i class="fa fa-upload text-info" data-toggle="tooltip" data-title="Upload Questions Bank File" ></i></a>
+               <a href="/<?=$bankfile?>" class="btn btn-default shadow text-primary" data-toggle="tooltip" data-title="Download Questions Bank File"  ><i class="fa fa-download text-warning"></i></a>
                <a href="<?=Url::to("/quiz/download-bank")?>" class="btn btn-default shadow text-primary" data-toggle="tooltip" data-title="Download As PDF"  ><i class="fa fa-file-pdf-o text-danger"></i></a>
                </div></div></div></div></div>
          
@@ -129,7 +129,7 @@ $this->params['breadcrumbs'] = [
                 else
                 {
                ?>
-                 <div class="container-fluid d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle"></i> Questions Bank Empty !</span></div>
+                 <div class="container-fluid d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle text-danger"></i> Questions Bank Empty !</span></div>
                <?php
                 }
                ?>

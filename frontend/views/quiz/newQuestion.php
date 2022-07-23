@@ -19,7 +19,7 @@ use yii\helpers\VarDumper;
 
 /* @var $this yii\web\View */
 $cid=yii::$app->session->get('ccode');
-$this->params['courseTitle'] ="<i class='fa fa-bank'></i> Questions Bank";
+$this->params['courseTitle'] ="<i class='fa fa-bank text-info'></i> Questions Bank";
 $this->title = 'Questions Bank';
 $this->params['breadcrumbs'] = [
     ['label'=>$cid.' Quizes', 'url'=>Url::to(['class-quizes','cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get("ccode"))])],
@@ -34,7 +34,7 @@ $this->params['breadcrumbs'] = [
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
     <div class="modal-header bg-primary pt-2 pb-2">
-        <span class="modal-title" id="exampleModalLabel"><h6><i class='fa fa-plus-circle'></i> Add New Question</h6></span>
+        <span class="modal-title" id="exampleModalLabel"><h6><i class='fa fa-plus-circle text-info'></i> Add New Question</h6></span>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -56,7 +56,7 @@ $this->params['breadcrumbs'] = [
                <div class="row  ml-2 p-0 material-background">
                
                 <div class="col-sm-1 p-0 d-flex justify-content-center m-0">
-                <i class="fa fa-image fa-3x  qimage text-primary" data-toggle="tooltip" data-title="Add Image To the Question"></i>
+                <i class="fa fa-image fa-3x  qimage text-info" data-toggle="tooltip" data-title="Add Image To the Question"></i>
                 <input type="file" name="questionImage" accept="image/*" class="d-none questionpic"></input>
                 </div>
                
@@ -74,8 +74,8 @@ $this->params['breadcrumbs'] = [
                   <div class="card-header p-2 text-primary">
                     <div class="row p-0">
                       <div class="col-sm-12 p-0">
-                    <i data-toggle="tooltip" data-title="Remove Option" class="fa fa-trash-alt fa-1x text-primary btn btn-sm btn-default float-left mr-1 p-0 remove" ></i>
-                   <i data-toggle="tooltip" data-title="Turn To An Image Option" class="fa fa-image text-primary float-left btn btn-default btn-sm p-0 img" style="font-size:20px"></i>
+                    <i data-toggle="tooltip" data-title="Remove Option" class="fa fa-trash-alt fa-1x text-danger btn btn-sm btn-default float-left mr-1 p-0 remove" ></i>
+                   <i data-toggle="tooltip" data-title="Turn To An Image Option" class="fa fa-image text-info float-left btn btn-default btn-sm p-0 img" style="font-size:20px"></i>
                    <input type="checkbox" name="" class="m-0 p-0 float-right trueq"></input>
                    <input type="file" name="optionImage[]"  accept="image/*" class="d-none thefile"></input>
                    </div>
@@ -91,8 +91,8 @@ $this->params['breadcrumbs'] = [
                   <div class="card-header p-2 text-primary">
                     <div class="row p-0">
                       <div class="col-sm-12 p-0">
-                      <i data-toggle="tooltip" data-title="Remove Option" class="fa fa-trash-alt fa-1x btn btn-sm text-primary btn-default float-left mr-1 p-0 remove" ></i>
-                   <i data-toggle="tooltip" data-title="Turn To An Image Option" class="fa fa-image float-left text-primary btn btn-default btn-sm p-0 img" style="font-size:20px"></i>
+                      <i data-toggle="tooltip" data-title="Remove Option" class="fa fa-trash-alt fa-1x btn btn-sm text-danger btn-default float-left mr-1 p-0 remove" ></i>
+                   <i data-toggle="tooltip" data-title="Turn To An Image Option" class="fa fa-image float-left text-info btn btn-default btn-sm p-0 img" style="font-size:20px"></i>
                    <input type="checkbox" name="" class="m-0 p-0 float-right trueq"></input>
                    <input type="file" name="optionImage[]"  accept="image/*" class="d-none thefile"></input>
                    </div>
@@ -107,8 +107,8 @@ $this->params['breadcrumbs'] = [
                   <div class="card-header p-2 text-primary">
                     <div class="row p-0">
                       <div class="col-sm-12 p-0">
-                      <i data-toggle="tooltip" data-title="Remove Option" class="fa fa-trash-alt fa-1x btn btn-sm btn-default text-primary float-left mr-1 p-0 remove" ></i>
-                   <i data-toggle="tooltip" data-title="Turn To An Image Option" class="fa fa-image float-left btn btn-default text-primary btn-sm p-0 img" style="font-size:20px"></i>
+                      <i data-toggle="tooltip" data-title="Remove Option" class="fa fa-trash-alt fa-1x btn btn-sm btn-default text-danger float-left mr-1 p-0 remove" ></i>
+                   <i data-toggle="tooltip" data-title="Turn To An Image Option" class="fa fa-image float-left btn btn-default text-info btn-sm p-0 img" style="font-size:20px"></i>
                    <input type="checkbox" name="" class="m-0 p-0 float-right trueq"></input>
                    <input type="file" name="optionImage[]"  accept="image/*" class="d-none thefile"></input>
                    </div>
@@ -122,8 +122,8 @@ $this->params['breadcrumbs'] = [
                   <div class="card-header p-2 text-primary">
                     <div class="row p-0 ">
                       <div class="col-sm-12 p-0 text-primary">
-                      <i data-toggle="tooltip" data-title="Remove Option" class="fa fa-trash-alt fa-1x btn btn-sm btn-default text-primary float-left mr-1 p-0 remove" ></i>
-                   <i data-toggle="tooltip" data-title="Turn To An Image Option" class="fa fa-image float-left btn btn-default text-primary btn-sm p-0 img" style="font-size:20px"></i>
+                      <i data-toggle="tooltip" data-title="Remove Option" class="fa fa-trash-alt fa-1x btn btn-sm btn-default text-danger float-left mr-1 p-0 remove" ></i>
+                   <i data-toggle="tooltip" data-title="Turn To An Image Option" class="fa fa-image float-left btn btn-default text-info btn-sm p-0 img" style="font-size:20px"></i>
                    <input type="checkbox" name="" class="m-0 p-0 float-right trueq"></input>
                    <input type="file" name="optionImage[]" accept="image/*" class="d-none thefile"></input>
                    </div>
@@ -136,7 +136,7 @@ $this->params['breadcrumbs'] = [
 
                   
                     </div>
-                    <span class="row btn btn-sm shadow btn-default addmore" data-toggle="tooltip" data-title="Add more options" style="position:absolute; right:1%; top:60%"><i class="fa fa-plus-circle fa-1x"></i></span>
+                    <span class="row btn btn-sm shadow btn-default addmore" data-toggle="tooltip" data-title="Add more options" style="position:absolute; right:1%; top:60%"><i class="fa fa-plus-circle fa-1x text-info"></i></span>
                   <div class="row p-0 ">
                     <div class="col-sm-6 form-check ">
                   <span class="form-group float-left ml-3 answerdec"><input type="checkbox" name="answerdecision" class="form-check-input" id="moreq"></input><label for="moreq">Accept More Than One Correct Answer</label></span>
@@ -144,7 +144,7 @@ $this->params['breadcrumbs'] = [
                   </div>
                   <div class="col-sm-6 ">
                   <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>" />
-                  <span class="float-right"><button type="submit"  class="btn btn-default btn-md shadow text-primary"><i class="fa fa-save"></i> Save</button></span>
+                  <span class="float-right"><button type="submit"  class="btn btn-default btn-md shadow bg-info"><i class="fa fa-save"></i> Save</button></span>
                   </div>
                   </div>
                   </div>
@@ -171,8 +171,8 @@ $(document).ready(function(){
   initialoption+='<div class="card-header p-2 text-primary">';
   initialoption+='<div class="row p-0">';
   initialoption+='<div class="col-sm-12 p-0">';
-  initialoption+='<i data-toggle="tooltip" data-title="Remove Option" class="fa fa-trash-alt fa-1x text-primary btn btn-sm btn-default float-left mr-1 p-0 remove" ></i>';
-  initialoption+='<i data-toggle="tooltip" data-title="Turn To An Image Option" class="fa fa-image text-primary float-left btn btn-default btn-sm p-0 img" style="font-size:20px"></i>';
+  initialoption+='<i data-toggle="tooltip" data-title="Remove Option" class="fa fa-trash-alt fa-1x text-danger btn btn-sm btn-default float-left mr-1 p-0 remove" ></i>';
+  initialoption+='<i data-toggle="tooltip" data-title="Turn To An Image Option" class="fa fa-image text-info float-left btn btn-default btn-sm p-0 img" style="font-size:20px"></i>';
   initialoption+=' <input type="checkbox" name="" class="m-0 p-0 float-right trueq"></input>';
   initialoption+='<input type="file" name="questionfile" accept="image/*" class="d-none thefile"></input>';
   initialoption+='</div>';

@@ -24,7 +24,7 @@ use frontend\models\QuizManager;
            <div class="card shadow">
               <div class="card-body p-2 text-center">
                
-               <a href="<?=Url::to("/quiz/questions-bank")?>"><i class="fa fa-bank"></i> Questions Bank</a>
+               <a href="<?=Url::to("/quiz/questions-bank")?>"><i class="fa fa-bank text-info"></i> Questions Bank</a>
                </div>
 
            </div>
@@ -112,7 +112,7 @@ use frontend\models\QuizManager;
                 else
                 {
                ?>
-                 <div class="container-fluid d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle"></i> Questions Bank Empty !</span></div>
+                 <div class="container-fluid d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle text-warning"></i> Questions Bank Empty !</span></div>
                <?php
                 }
                ?>

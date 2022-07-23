@@ -20,7 +20,7 @@ use common\models\Instructor;
 
 /* @var $this yii\web\View */
 $cid=yii::$app->session->get('ccode');
-$this->params['courseTitle'] ="<i class='fa fa-pen'></i> Quizzes";
+$this->params['courseTitle'] ="<i class='fa fa-pen text-info'></i> Quizzes";
 $this->title = 'Quizzes';
 $this->params['breadcrumbs'] = [
     ['label'=>$cid.' Dashboard', 'url'=>Url::to(['/instructor/class-dashboard','cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get("ccode"))])],
@@ -42,11 +42,11 @@ $this->params['breadcrumbs'] = [
                    <div class="row  d-flex text-center justify-content-center ">
                         <div class="col-sm-5 text-primary bg-white m-1 d-flex shadow p-3  text-center justify-content-center" >
                     <a href="<?= Url::to(['/quiz/new-quiz']) ?>" value=""  id = "group_modal_button">
-                <i class="fa fa-plus-circle"> </i> New Quiz
+                <i class="fa fa-plus-circle text-info"> </i> New Quiz
             </a>
 </div> <div class="col-sm-5 text-primary bg-white m-1 d-flex shadow p-3  text-center justify-content-center" >
             <a href="<?= Url::to(['/quiz/questions-bank']) ?>"  value=""  id = "group_modal_button">
-                <i class="fa fa-bank"> </i> Questions Bank
+                <i class="fa fa-bank text-info"> </i> Questions Bank
             </a></div>
 
                         </div>
@@ -67,7 +67,7 @@ $this->params['breadcrumbs'] = [
                                                         
                                                         if(empty($quizzes)){
                                                         
-                                                            echo '<div style="width:91%"  class="container border p-2  d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle"></i> No Quizzes found</span></div>';
+                                                            echo '<div style="width:91%"  class="container border p-2  d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle text-info"></i> No Quizzes found</span></div>';
                                                         
                                                         }
                                                         
@@ -87,7 +87,7 @@ $this->params['breadcrumbs'] = [
                                                                                 <div class="row">
                                                                                     <div class="col-sm-8" data-toggle="collapse" data-target="#collapse<?=$quiz->quizID?>" aria-expanded="true" aria-controls="collapse1">
                                                                                         <button class="btn btn-link btn-block text-left col-md-11" type="button" >
-                                                                                        <i class='fa fa-pen'></i> <?=$quiz->quiz_title?>
+                                                                                        <i class='fa fa-pen text-info'></i> <?=$quiz->quiz_title?>
                                                                                         </button>
 
                                                                                     </div>
@@ -96,17 +96,17 @@ $this->params['breadcrumbs'] = [
                               
 
                                                                                        
-                                                                                            <a href="#" data-toggle="tooltip" data-title="Delete Quiz" class="float-right mr-2 text-danger quizdel" id=<?=$quiz->quizID?>><i class="fa fa-trash fa-1x"></i></a>
+                                                                                            <a href="#" data-toggle="tooltip" data-title="Delete Quiz" class="float-right mr-2 text-danger quizdel" id=<?=$quiz->quizID?>><i class="fa fa-trash fa-1x text-danger"></i></a>
                                                                                             <?php
                                                                                             if($quiz->attempt_mode=="massive")
                                                                                             {
                                                                                             ?>
-                                                                                            <a href="<?=Url::to(['/quiz/quiz-preview','quiz'=>ClassRoomSecurity::encrypt($quiz->quizID)])?>" data-toggle="tooltip" data-title="View Quiz" class="float-right mr-2"><i class="fa fa-eye fa-1x"></i></a>
+                                                                                            <a href="<?=Url::to(['/quiz/quiz-preview','quiz'=>ClassRoomSecurity::encrypt($quiz->quizID)])?>" data-toggle="tooltip" data-title="View Quiz" class="float-right mr-2"><i class="fa fa-eye fa-1x text-success"></i></a>
                                                                                             <?php
                                                                                             }
                                                                                             ?>
                                                                                             <a href="<?=Url::to(['/quiz/scores-view','quiz'=>ClassRoomSecurity::encrypt($quiz->quizID)])?>" data-toggle="tooltip" data-title="View Students & Scores" class="float-right mr-2"><i class="fa fa-user-graduate fa-1x"></i></a>
-                                                                                            <a href="<?=Url::to(['/quiz/update-quiz','quiz'=>ClassRoomSecurity::encrypt($quiz->quizID)])?>" data-toggle="tooltip" data-title="Update Quiz" class="float-right mr-2"><i class="fa fa-edit fa-1x"></i></a>
+                                                                                            <a href="<?=Url::to(['/quiz/update-quiz','quiz'=>ClassRoomSecurity::encrypt($quiz->quizID)])?>" data-toggle="tooltip" data-title="Update Quiz" class="float-right mr-2"><i class="fa fa-edit fa-1x text-warning"></i></a>
                                                             
                                                                                        
                                                                                 </div></div>
@@ -129,7 +129,7 @@ $this->params['breadcrumbs'] = [
                                                                               <?php
                                                                               }
                                                                               ?>
-                                                                              <div class="col-sm-2 p-0 text-center"><span class="text-bold"><i class="fa fa-check-circle"></i> Questions: </span><br><?=$quiz->total_marks?> </div>
+                                                                              <div class="col-sm-2 p-0 text-center"><span class="text-bold"><i class="fa fa-check-circle text-info"></i> Questions: </span><br><?=$quiz->total_marks?> </div>
                                                                               <div class="col-sm-2 p-0 text-center"><span class="text-bold"><i class="fas fa-cog"></i> Attempt Mode:</span><br><?=ucfirst($quiz->attempt_mode)?></div>
                                                                           </div>
                                                                           <div class="row"><div class="col-sm-12 text-center text-muted text-sm">by <?=Instructor::findOne($quiz->instructorID)->full_name?></div></div>

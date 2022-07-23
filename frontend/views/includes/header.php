@@ -106,7 +106,7 @@ else
      
       <li class="nav-item dropdown mr-3">
       <?php if(Yii::$app->user->can('STUDENT')): ?>
-        <a class="nav-link responsivetext" data-toggle="dropdown" href="#" id="username"><span class="fas fa-user"></span>
+        <a class="nav-link responsivetext" data-toggle="dropdown" href="#" id="username"><span class="fas fa-user text-info"></span>
            <i><?php echo ucwords(Yii::$app->user->identity->student->reg_no) ?></i>
         </a>
       <?php endif ?>

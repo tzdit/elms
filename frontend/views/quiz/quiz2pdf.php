@@ -12,7 +12,7 @@ use frontend\models\QuizManager;
 
 /* @var $this yii\web\View */
 $cid=yii::$app->session->get('ccode');
-$this->params['courseTitle'] ="<i class='fa fa-pen'></i> Quiz Preview";
+$this->params['courseTitle'] ="<i class='fa fa-pen text-info'></i> Quiz Preview";
 $this->title = 'Quizs Preview';
 $this->params['breadcrumbs'] = [
     ['label'=>$cid.' Quizes', 'url'=>Url::to(['class-quizes','cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get("ccode"))])],
@@ -96,7 +96,7 @@ $this->params['breadcrumbs'] = [
                 else
                 {
                ?>
-                 <div class="container-fluid d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle"></i> Questions Bank Empty !</span></div>
+                 <div class="container-fluid d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle text-warning"></i> Questions Bank Empty !</span></div>
                <?php
                 }
                ?>

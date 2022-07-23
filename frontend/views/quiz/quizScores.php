@@ -14,7 +14,7 @@ use frontend\models\AddPartner;
 
 /* @var $this yii\web\View */
 $cid=yii::$app->session->get('ccode');
-$this->params['courseTitle'] ="<i class='fa fa-pen'></i> Quiz Scores";
+$this->params['courseTitle'] ="<i class='fa fa-pen text-info'></i> Quiz Scores";
 $this->title ="Quiz Scores";
 $this->params['breadcrumbs'] = [
   ['label'=>$cid.' Quizes', 'url'=>Url::to(['class-quizes','cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get("ccode"))])],

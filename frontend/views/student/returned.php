@@ -29,10 +29,10 @@ $this->params['breadcrumbs'] = [
                         <div class="row p-0 border-bottom-0 ">
                             <ul class="nav nav-tabs responsivetext p-0" id="custom-tabs-four-tab" role="tablist">
                                 <li class="nav-item p-0">
-                                    <a class="nav-link active p-1 pt-2" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true"><i class="fa fa-user"></i> Individual Assignments</a>
+                                    <a class="nav-link active p-1 pt-2" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true"><i class="fa fa-user text-info"></i> Individual Assignments</a>
                                 </li>
                                 <li class="nav-item p-0">
-                                    <a class="nav-link p-1 pt-2" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false"><i class="fa fa-group"></i> Group Assignments</a>
+                                    <a class="nav-link p-1 pt-2" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false"><i class="fa fa-group text-info"></i> Group Assignments</a>
                                 </li>
                             </ul>
 
@@ -53,7 +53,7 @@ $this->params['breadcrumbs'] = [
                                                 <?php
                                                 if(empty($returned)){
                                                     echo "<p class='text-muted text-lg p-1 text-center responsivetext'>";
-                                                    echo "<i class='fa fa-info-circle'></i> No submissions found";
+                                                    echo "<i class='fa fa-info-circle text-info'></i> No submissions found";
                                                     echo "</p>";
                                                 }
                                                 ?>
@@ -158,7 +158,7 @@ $this->params['breadcrumbs'] = [
                                                     <?php 
                                                                         if(empty($studentGroups)){
                                                                             echo "<p class='text-muted text-lg text-center p-1 responsivetext'>";
-                                                                            echo "<i class='fa fa-info-circle'></i> No submissions found";
+                                                                            echo "<i class='fa fa-info-circle text-info'></i> No submissions found";
                                                                             echo "</p>";
                 
                                                                           

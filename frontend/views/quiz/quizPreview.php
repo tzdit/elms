@@ -12,7 +12,7 @@ use frontend\models\QuizManager;
 
 /* @var $this yii\web\View */
 $cid=yii::$app->session->get('ccode');
-$this->params['courseTitle'] ="<i class='fa fa-pen'></i> Quiz Preview";
+$this->params['courseTitle'] ="<i class='fa fa-pen text-info'></i> Quiz Preview";
 $this->title = 'Quizs Preview';
 $this->params['breadcrumbs'] = [
     ['label'=>$cid.' Quizes', 'url'=>Url::to(['class-quizes','cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get("ccode"))])],
@@ -36,7 +36,7 @@ $this->params['breadcrumbs'] = [
                  if(isset($quiz))
                  {
                 ?>
-                 <a href="<?=Url::to(["/quiz/download-quiz-pdf",'quiz'=>ClassRoomSecurity::encrypt($quiz)])?>" class="btn btn-default shadow text-primary" data-toggle="tooltip" data-title="Download As PDF"  ><i class="fa fa-file-pdf-o text-danger"></i></a>
+                 <a href="<?=Url::to(["/quiz/download-quiz-pdf",'quiz'=>ClassRoomSecurity::encrypt($quiz)])?>" class="btn btn-default shadow bg-info" data-toggle="tooltip" data-title="Download As PDF"  ><i class="fa fa-file-pdf-o text-danger"></i></a>
                 <?php } ?>
               </div>
                  </div>
@@ -120,7 +120,7 @@ $this->params['breadcrumbs'] = [
                 else
                 {
                ?>
-                 <div class="container-fluid d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle"></i> Questions Bank Empty !</span></div>
+                 <div class="container-fluid d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle text-warning"></i> Questions Bank Empty !</span></div>
                <?php
                 }
                ?>
