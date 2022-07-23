@@ -91,7 +91,7 @@ else
       <!-- Fullscreen media -->
        <li class="nav-item ">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
+          <i class="fas fa-expand-arrows-alt text-info"></i>
         </a>
 
         
@@ -112,7 +112,7 @@ else
       <?php endif ?>
 
       <?php if(Yii::$app->user->can('SYS_ADMIN') || Yii::$app->user->can('INSTRUCTOR') || Yii::$app->user->can('INSTRUCTOR & HOD') || Yii::$app->user->can('SUPER_ADMIN')): ?>
-        <a class="nav-link" data-toggle="dropdown" href="#" id="username"><span class="fas fa-user"></span>
+        <a class="nav-link" data-toggle="dropdown" href="#" id="username"><span class="fas fa-user text-info"></span>
           <i><?php echo " ".substr(Yii::$app->user->identity->username,0,strpos(Yii::$app->user->identity->username,"@"))?></i>
         </a>
       <?php endif ?>
@@ -126,13 +126,13 @@ else
             <div class="dropdown-divider"></div>
 
           <a href="<?= Url::to(['home/changepassword'])  ?>" class="dropdown-item">
-            <i class="fas fa-lock mr-2"></i> <span class="small"> Change Password</span>
+            <i class="fas fa-lock mr-2 text-info"></i> <span class="small"> Change Password</span>
           </a>
 
           <div class="dropdown-divider"></div>
 
            <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit()">
-            <i class="fas fa-power-off"></i><span class="small"> Logout</span>
+            <i class="fas fa-power-off text-info"></i><span class="small"> Logout</span>
       
           </a>
        
