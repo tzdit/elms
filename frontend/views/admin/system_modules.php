@@ -20,7 +20,7 @@ use common\models\Instructor;
 
 /* @var $this yii\web\View */
 
-$this->params['courseTitle'] ="<i class='fa fa-cubes'></i> System Modules";
+$this->params['courseTitle'] ="<i class='fa fa-cubes text-info'></i> System Modules";
 $this->title = 'System Modules';
 $this->params['breadcrumbs'] = [
     ['label'=>$this->title]
@@ -42,7 +42,7 @@ $this->params['breadcrumbs'] = [
                                             <div class="container-fluid">
                                             <div class="row">
                                             <div class="col-lg-12">
-                                            <a href="#" class="btn btn-default btn-sm float-right mr-3" data-toggle="modal" data-target="#modulemodal"> <i class="fa fa-plus-circle"></i> New Module</a>
+                                            <a href="#" class="btn btn-default btn-sm float-right mr-3" data-toggle="modal" data-target="#modulemodal"> <i class="fa fa-plus-circle text-info"></i> New Module</a>
                                             </div>
                                             </div>
                                             <div class="row">
@@ -64,7 +64,7 @@ $this->params['breadcrumbs'] = [
                                                    
                                                         if(empty($modules)){
                                                         
-                                                            echo '<div style="width:91%"  class="container border p-2  d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle"></i> No Modules found</span></div>';
+                                                            echo '<div style="width:91%"  class="container border p-2  d-flex justify-content-center p-5"><span class="text-center text-muted text-lg "><i class="fa fa-info-circle"></i> No Modules found</span></div>';
                                                         
                                                         }
                                                     
@@ -93,7 +93,7 @@ $this->params['breadcrumbs'] = [
                                                                 <?php 
                                                                 }
                                                                 ?>
-                                                                <a href="#" id=<?=$module->moduleID?> data-toggle="tooltip" data-title="Delete Module" class="pl-1 pt-0 m-0 del"><i class="fa fa-trash" style="font-size:13px" aria-hidden="true"></i></a>
+                                                                <a href="#" id=<?=$module->moduleID?> data-toggle="tooltip" data-title="Delete Module" class="pl-1 pt-0 m-0 del"><i class="fa fa-trash text-danger" style="font-size:13px" aria-hidden="true"></i></a>
                                                             </div>
                                                             
 

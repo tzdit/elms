@@ -7,16 +7,16 @@ use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-$this->params['courseTitle']="<i class='far fa-building'></i> Departments";
+$this->params['courseTitle']="<i class='far fa-building text-info'></i> Departments";
 $this->title = 'Departments';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="">
     <div>
-        <a href="#" class="btn btn-default btn-sm  float-right m-0 " data-target="#createDepartmentModal" data-toggle="modal"><i class="fa fa-plus-circle" > </i> Add Department</a>
+        <a href="#" class="btn btn-default btn-sm  float-right m-0 " data-target="#createDepartmentModal" data-toggle="modal"><i class="fa fa-plus-circle text-info" > </i> Add Department</a>
     </div>
 
-    <table width="100%" class="table table-striped table-bordered table-hover" id="DepartmentTable" style="font-size:12px">
+    <table width="100%" class="table table-striped table-bordered table-hover card-outline card-info" id="DepartmentTable" style="font-size:12px">
         <thead>
         <tr>
             <th>
@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <td><?=  $departments->depart_abbrev; ?></td>
                 <td>
 
-                <?= Html::a('<i class="fas fa-edit"></i>',['update-dept', 'deptid'=>urlencode(base64_encode($departments->departmentID))], ['class'=>'m-0'])?>                 
+                <?= Html::a('<i class="fas fa-edit text-success"></i>',['update-dept', 'deptid'=>urlencode(base64_encode($departments->departmentID))], ['class'=>'m-0'])?>                 
                 <a href="#" deptsid=<?=$departments->departmentID?> class=' text-danger m-0 departmentdel'><i class="fas fa-trash"> </i></a></td>
             </tr>
 
@@ -104,7 +104,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header pt-2 pb-2">
-                <span class="modal-title text-primary" id="exampleModalLabel"><i class="fa fa-plus-circle"></i> Add New Department</span>
+                <span class="modal-title text-primary" id="exampleModalLabel"><i class="fa fa-plus-circle text-info"></i> Add New Department</span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -131,7 +131,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 
                 <div class="row">
                     <div class="col-md-12">
-                        <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class'=>'btn btn-default text-primary btn-md float-right ml-2']) ?>
+                        <?= Html::submitButton('<i class="fa fa-save text-primary"></i> Save', ['class'=>'btn btn-default text-primary btn-md float-right ml-2']) ?>
                       
 
                     </div>

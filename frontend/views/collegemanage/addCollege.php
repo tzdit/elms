@@ -17,7 +17,7 @@ use common\models\College;
 <div class="modal fade" id="collegemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-     <div class="modal-header pl-4 p-2"><div class="modal-title ml-1 text-primary"><i class='fa fa-plus-circle'></i> Add College</div></div>
+     <div class="modal-header pl-4 p-2 bg-info"><div class="modal-title ml-1"><i class='fa fa-plus-circle'></i> Add College</div></div>
       <div class="modal-body">
         <div class="container-fluid">
        
@@ -36,7 +36,7 @@ use common\models\College;
                 <?= $form->field($model, 'college_abbrev')->textInput(['maxlength' => true,'placeholder'=>'College Acronym (abbrev)'])->label(false) ?>
 
                 <div class="form-group">
-                <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class' => 'btn btn-default float-right text-primary']) ?>
+                <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class' => 'btn btn-default float-right bg-info']) ?>
                 </div>
 
                 <?php ActiveForm::end(); ?>

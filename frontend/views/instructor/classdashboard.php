@@ -28,7 +28,7 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
          
           <div class="col-12 col-sm-6 col-md-3">
           <a href="<?=Url::to(['/instructor/class-announcements','cid'=>$cid])?>">
-            <div class="info-box">
+            <div class="info-box  bg-info">
               <span class="info-box-icon "><i class="fa fa-bullhorn"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">Announcements</span>
@@ -46,7 +46,7 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
 
 <div class="col-12 col-sm-6 col-md-3">
 <a href="<?=Url::to(['/instructor/class-materials','cid'=>$cid])?>">
-  <div class="info-box mb-3">
+  <div class="info-box mb-3 bg-info">
     <span class="info-box-icon "><i class="fas fa-book"></i></span>
 
     <div class="info-box-content">
@@ -59,9 +59,9 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
 </div>
 
 
-          <div class="col-12 col-sm-6 col-md-3">
+          <div class="col-12 col-sm-6 col-md-3 ">
           <a href="<?=Url::to(['/instructor/class-assignments','cid'=>$cid])?>">
-            <div class="info-box mb-3">
+            <div class="info-box mb-3 bg-info">
               <span class="info-box-icon"><i class="fas fa-book-reader"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">Assignments</span>
@@ -75,9 +75,9 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
 
         
           <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
+          <div class="col-12 col-sm-6 col-md-3 ">
           <a href="<?=Url::to(['/instructor/class-labs','cid'=>$cid])?>">
-            <div class="info-box mb-3">
+            <div class="info-box mb-3 bg-info">
               <span class="info-box-icon "><i class="fas fa-microscope"></i></span>
 
               <div class="info-box-content">
@@ -90,9 +90,9 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
 </a>
           </div>
           <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
+          <div class="col-12 col-sm-6 col-md-3 ">
           <a href="<?=Url::to(['/instructor/class-tutorials','cid'=>$cid])?>">
-            <div class="info-box">
+            <div class="info-box bg-info">
               <span class="info-box-icon "><i class="fas fa-chalkboard"></i></span>
 
               <div class="info-box-content">
@@ -110,7 +110,7 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
 
 <div class="col-12 col-sm-6 col-md-3">
 <a href="<?=Url::to(['/instructor/class-ext-assessments','cid'=>$cid])?>">
-  <div class="info-box mb-3">
+  <div class="info-box mb-3  bg-info">
     <span class="info-box-icon"><i class="fa fa-file-alt"></i></span>
 
     <div class="info-box-content">
@@ -123,9 +123,9 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
 </div>
 
 
-          <div class="col-12 col-sm-6 col-md-3">
+          <div class="col-12 col-sm-6 col-md-3 ">
           <a href="<?=Url::to(['/instructor/class-ca-generator','cid'=>$cid])?>">
-            <div class="info-box mb-3">
+            <div class="info-box mb-3 bg-info">
               <span class="info-box-icon"><i class="fas fa-cogs"></i></span>
 
               <div class="info-box-content">
@@ -141,9 +141,9 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
 
         
           <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
+          <div class="col-12 col-sm-6 col-md-3 ">
           <a href="<?=Url::to(['/instructor/class-students','cid'=>$cid])?>">
-            <div class="info-box mb-3">
+            <div class="info-box mb-3 bg-info">
               <span class="info-box-icon "><i class="fas fa-user-graduate"></i></span>
 
               <div class="info-box-content">
@@ -156,9 +156,9 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
 </a>
           </div>
          
-          <div class="col-12 col-sm-6 col-md-3">
+          <div class="col-12 col-sm-6 col-md-3 ">
           <a href="<?=Url::to(['/quiz/class-quizes'])?>">
-            <div class="info-box mb-3">
+            <div class="info-box mb-3 bg-info">
               <span class="info-box-icon"><i class="fas fa-pen"></i></span>
 
               <div class="info-box-content">
@@ -173,9 +173,9 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
 
        
 
-          <div class="col-12 col-sm-6 col-md-3">
+          <div class="col-12 col-sm-6 col-md-3 ">
           <a href="/lecture/lecture-room">
-            <div class="info-box mb-2">
+            <div class="info-box mb-2 bg-info">
               <span class="info-box-icon "><i class="fa fa-school"></i></span>
 
               <div class="info-box-content">
@@ -188,9 +188,9 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
           </div>
       
 
-          <div class="col-12 col-sm-6 col-md-3">
+          <div class="col-12 col-sm-6 col-md-3 ">
           <a href="<?=Url::to(['/forum/index','cid'=>$cid])?>">
-            <div class="info-box mb-2">
+            <div class="info-box mb-2 bg-info">
               <span class="info-box-icon "><i class="fas fa-comments" aria-hidden="true"></i></span>
 
               <div class="info-box-content">
@@ -205,9 +205,9 @@ $cid=Yii::$app->getSecurity()->encryptByPassword($cid, $secretKey);
 
           <!-- partners-->
 
-          <div class="col-12 col-sm-6 col-md-3">
+          <div class="col-12 col-sm-6 col-md-3 ">
           <a href="<?=Url::to(['/instructor/partners'])?>">
-            <div class="info-box mb-2">
+            <div class="info-box mb-2 bg-info">
               <span class="info-box-icon "><i class="fas fa-user-friends" aria-hidden="true"></i></span>
 
               <div class="info-box-content">

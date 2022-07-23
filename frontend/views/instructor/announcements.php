@@ -48,7 +48,7 @@ $this->params['courseTitle'] =$cid." Announcements";
  <div class="row">
           <!-- Left col -->
           <section class="col-lg-12 ">
-          <div class="card card-primary card-outline card-outline-tabs">
+          <div class="card card-info card-outline card-outline-tabs">
               <div class="card-header p-0 border-bottom-0">
                
               
@@ -62,7 +62,7 @@ $this->params['courseTitle'] =$cid." Announcements";
                  
                   <div class="row">
             <div class="col-md-12">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#announce" data-toggle="modal" style="margin-left:5px"><i class="fas fa-plus"  ></i>New annoucement</a>
+            <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#announce" data-toggle="modal" style="margin-left:5px"><i class="fas fa-plus"  ></i>New annoucement</a>
             </div>    
           </div>
    
@@ -76,7 +76,7 @@ $this->params['courseTitle'] =$cid." Announcements";
      ?>
     
     <div class="card shadow" >
-    <div class="card-header p-1 bg-primary" id="heading">
+    <div class="card-header p-1 bg-info" id="heading">
     <div class="row ">
     <div class="col-md-10">
     <i class="fa fa-bullhorn"></i><span style="font-size:12px;margin-left:20px"><?=Html::encode($announcement->title);?></span>

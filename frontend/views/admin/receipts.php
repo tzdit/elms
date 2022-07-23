@@ -6,7 +6,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 /* @var $this yii\web\View */
 
-$this->params['courseTitle']='<i class="fa fa-receipt"></i> Receipt Validator';
+$this->params['courseTitle']='<i class="fa fa-receipt text-info"></i> Receipt Validator';
 $this->title = 'Receipts';
 $this->params['breadcrumbs'] = [
     ['label'=>$this->title]
@@ -28,7 +28,7 @@ $this->params['breadcrumbs'] = [
             <form class="form-group" action="<?=Url::to('/admin/validate-receipt')?>" method="post" accept-charset="utf-8">
               <textarea rows=8 class="form-control text-lg" name="content" style="background:none" placeholder="Paste Receipt Content Here" required></textarea>
               <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>" />
-              <button type="submit" class="btn btn-lg btn-default float-right mt-2"><i class="fa fa-check-circle"></i> Validate</button>
+              <button type="submit" class="btn btn-lg btn-default float-right mt-2"><i class="fa fa-check-circle text-success"></i> Validate</button>
             </form>
             
               </div><!-- /.card-body -->

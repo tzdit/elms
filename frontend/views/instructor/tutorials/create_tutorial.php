@@ -10,7 +10,7 @@ AppAsset::register($this);
 <div class="modal fade" id="createTutorialModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <div class="modal-header bg-primary pt-2 pb-1">
+      <div class="modal-header bg-info pt-2 pb-1">
         <span class="modal-title" id="exampleModalLabel"><h6><i class="fa fa-plus-circle"></i> New Tutorial</h6></span>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>

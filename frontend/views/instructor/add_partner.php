@@ -22,7 +22,7 @@ use yii\helpers\Html;
         </div>
         </div>
         <div class="modal-footer pt-1 pb-1">
-        <?= Html::submitButton('Add', ['class'=>'btn btn-primary btn-sm float-right ml-2']) ?>
+        <?= Html::submitButton('Add', ['class'=>'btn btn-info btn-sm float-right ml-2']) ?>
         <?php ActiveForm::end()?>
          
           <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>

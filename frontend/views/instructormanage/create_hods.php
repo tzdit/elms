@@ -28,7 +28,7 @@ else
 <div class="modal fade" id="hodmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-     <div class="modal-header text-primary pl-4"><div class="modal-title ml-1"><i class='fa fa-plus-circle'></i> Register HOD</div></div>
+     <div class="modal-header  bg-info pl-4"><div class="modal-title ml-1"><i class='fa fa-plus-circle'></i> Register HOD</div></div>
       <div class="modal-body">
         <div class="container-fluid">
        
@@ -76,7 +76,7 @@ else
                    <div class="row">
                     <div class="col-sm-12">
                         
-                     <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class'=>'btn btn-default btn-md float-right mr-0 text-primary']) ?>
+                     <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class'=>'btn btn-default btn-md float-right mr-0  bg-info']) ?>
                 
                     </div>
                

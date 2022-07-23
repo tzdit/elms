@@ -20,7 +20,7 @@ use common\models\Instructor;
 
 /* @var $this yii\web\View */
 
-$this->params['courseTitle'] ="<i class='fa fa-hdd-o'></i> Storage Management";
+$this->params['courseTitle'] ="<i class='fa fa-hdd-o text-info'></i> Storage Management";
 $this->title = 'Storage';
 $this->params['breadcrumbs'] = [
     ['label'=>'Dashboard', 'url'=>Url::to('/home/dashboard')],

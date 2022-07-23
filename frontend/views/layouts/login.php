@@ -56,11 +56,13 @@ AppAsset::register($this);
       <?php endif ?>
        </div>
        </div>
-<div class="login-box text-center">
+<div class="login-box">
   <!-- /.login-logo -->
 <?= $content ?>
-</div>
+
 <?= $this->render('/includes/loginfooter') ?>
+</div>
+
 <!-- /.login-box -->
 <?php $this->endBody() ?>
 </body>

@@ -36,7 +36,7 @@ use common\models\Academicyear;
         <?= $form->field($yearmodel, 'yearid')->dropDownList($mappedyears,['class'=>'btn-default btn-sm rounded-pill'])->label('Academic Year',['class'=>'text-md d-none d-md-block'])?>
 </div>
 </div><div class="col-md-4 col-sm-4 nav-link" style="padding-right:0;padding-left:1"><div class="form-group" >
-       <?=Html::submitButton('<i class="fa fa-refresh text-info"></i> Switch',['class'=>'btn btn-sm  btn-default rounded-pill '])?>
+       <?=Html::submitButton('<i class="fa fa-refresh text-info"></i> Switch',['class'=>'btn btn-sm  btn-default rounded-pill'])?>
 </div></div>
 
         <?php ActiveForm::end()?>

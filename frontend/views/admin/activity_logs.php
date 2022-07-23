@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 
 $this->title = 'Activity Logs';
-$this->params['courseTitle']="<i class='fas fa-history'></i> Activity Logs";
+$this->params['courseTitle']="<i class='fas fa-history text-info'></i> Activity Logs";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-index">
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php
                 }
                 ?>
-   <a href="<?=Url::to(['/admin/activity-logs-extended'])?>" class='btn btn-default btn-sm pull-right mb-2 mr-2'><i class='fa fa-eye'></i> View Extended Version</a>
+   <a href="<?=Url::to(['/admin/activity-logs-extended'])?>" class='btn btn-default btn-sm pull-right mb-2 mr-2'><i class='fa fa-eye text-success'></i> View Extended Version</a>
                     <!-- Custom tabs (Charts with tabs)-->
                 
 

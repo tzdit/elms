@@ -8,7 +8,7 @@ use yii\bootstrap4\ActiveForm;
 
 /* @var $this yii\web\View */
 
-$this->params['courseTitle']='<i class="fa fa-cogs"></i> Configurations';
+$this->params['courseTitle']='<i class="fa fa-cogs text-info"></i> Configurations';
 $this->title = 'Configurations';
 $this->params['breadcrumbs'] = [
     ['label'=>$this->title]
@@ -28,7 +28,7 @@ $this->params['breadcrumbs'] = [
           <section class="col-lg-12">
 <?php $form = ActiveForm::begin(["method"=>"post"]) ?>
 <?= $form->field($configs, 'config')->textArea(['class'=>'form-control p-4','style'=>'font-family:monospace;text-align:justify','rows'=>13])->label(false) ?>
-<?= Html::submitButton('<i class="fa fa-save"></i> Save Changes', ['class'=>'btn  btn-default float-right mt-1']) ?>
+<?= Html::submitButton('<i class="fa fa-save"></i> Save Changes', ['class'=>'btn  btn-default float-right mt-1 bg-info']) ?>
             
 <?php ActiveForm::end() ?>
             

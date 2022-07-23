@@ -20,7 +20,7 @@ use common\models\Instructor;
 
 /* @var $this yii\web\View */
 
-$this->params['courseTitle'] ="<i class='fa fa-calendar'></i> Academic Year Management";
+$this->params['courseTitle'] ="<i class='fa fa-calendar text-info'></i> Academic Year Management";
 $this->title = 'Academic Year';
 $this->params['breadcrumbs'] = [
     ['label'=>'Dashboard', 'url'=>Url::to('/home/dashboard')],

@@ -6,7 +6,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 /* @var $this yii\web\View */
 
-$this->params['courseTitle']='<i class="fas fa-user-secret nav-icon"></i> Admins';
+$this->params['courseTitle']='<i class="fas fa-user-secret nav-icon text-info"></i> Admins';
 $this->title = 'Admins';
 $this->params['breadcrumbs'] = [
     ['label'=>$this->title]
@@ -27,7 +27,7 @@ $this->params['breadcrumbs'] = [
             <!-- Custom tabs (Charts with tabs)-->
            
            
-                <a href="#" class="btn btn-default btn-sm float-right m-0 col-xs-12" data-toggle="modal" data-target="#adminmodal"><i class="fas fa-user-plus"></i> Add Admin</a>
+                <a href="#" class="btn btn-default btn-sm float-right m-0 col-xs-12" data-toggle="modal" data-target="#adminmodal"><i class="fas fa-user-plus text-info"></i> Add Admin</a>
               
               <!-- /.card-header -->
             
@@ -47,24 +47,24 @@ $this->params['breadcrumbs'] = [
             <td><?= $user->phone?></td>
             <td><?= $user->college->college_abbrev ?></td>
             <td>
-            <a href="<?=Url::to(['/users/update','admin'=>urlencode(base64_encode($user->adminID))])?>" class=" m-0" data-toggle="tooltip" data-title="Update Admin"><i class="fas fa-edit"></i></a> 
+            <a href="<?=Url::to(['/users/update','admin'=>urlencode(base64_encode($user->adminID))])?>" class=" m-0" data-toggle="tooltip" data-title="Update Admin"><i class="fas fa-edit text-success"></i></a> 
             <a href="<?=Url::to(['/users/reset','id'=>urlencode(base64_encode($user->userID))])?>"  data-toggle="tooltip" data-title="Reset Admin Password" class="mr-1"><i class="fa fa-refresh"></i></a> 
             <?php
             if($user->user!=null && $user->user->isLocked())
             {
             ?>
-            <a href="<?=Url::to(['/users/unlock','id'=>urlencode(base64_encode($user->userID))])?>"  data-toggle="tooltip" data-title="Reactivate/Unlock Admin" class="mr-1"><i class="fa fa-unlock"></i></a>  
+            <a href="<?=Url::to(['/users/unlock','id'=>urlencode(base64_encode($user->userID))])?>"  data-toggle="tooltip" data-title="Reactivate/Unlock Admin" class="mr-1"><i class="fa fa-unlock text-warning"></i></a>  
             <?php
             }
             else
             {
             ?>
-            <a href="<?=Url::to(['/users/lock','id'=>urlencode(base64_encode($user->userID))])?>"  data-toggle="tooltip" data-title="Lock Admin" class="mr-1"><i class="fas fa-user-lock"></i></a>
+            <a href="<?=Url::to(['/users/lock','id'=>urlencode(base64_encode($user->userID))])?>"  data-toggle="tooltip" data-title="Lock Admin" class="mr-1"><i class="fas fa-user-lock text-warning"></i></a>
             <?php
             }
             ?>
             
-            <a href="#"  id=<?=$user->userID?> data-toggle="tooltip" data-title="Delete Admin" class="mr-1  userdel"><i class="fa fa-trash"></i></a> 
+            <a href="#"  id=<?=$user->userID?> data-toggle="tooltip" data-title="Delete Admin" class="mr-1  userdel"><i class="fa fa-trash text-danger"></i></a> 
             </td>
             </tr>
             <?php endforeach ?>

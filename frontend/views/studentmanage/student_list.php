@@ -5,7 +5,7 @@ use fedemotta\datatables\DataTables;
 use yii\helpers\Url;
 use yii\helpers\Html;
 /* @var $this yii\web\View */
-$this->params['courseTitle']="<i class='fa fa-user-graduate'></i> Students";
+$this->params['courseTitle']="<i class='fa fa-user-graduate text-info'></i> Students";
 $this->params['breadcrumbs'][] = ['label' => 'Students'];
 $this->title = 'Students';
 ?>
@@ -25,7 +25,7 @@ $this->title = 'Students';
        
           
             
-            <table class="table table-bordered table-striped table-hover" id="StudentList" style="width:100%;font-size:11.5px;">
+            <table class="table table-bordered table-striped table-hover card-outline card-info" id="StudentList" style="width:100%;font-size:11.5px;">
             <thead>
             <tr><th width="1%">#</th><th>Full Name</th><th>Reg#</th><th>E-mail</th><th>Program</th><th>YOS</th><th>Department</th><th width="5%">College</th><th></th></tr>
             
@@ -45,24 +45,24 @@ $this->title = 'Students';
             <td><?= $std->program->department->college->college_abbrev ?></td>
             
             <td>
-            <a href="<?=Url::to(['/studentmanage/update','id'=>urlencode(base64_encode($std->userID))])?>" data-toggle="tooltip" data-title="Update User" class="m-0"><i class="fas fa-edit"></i></a> 
+            <a href="<?=Url::to(['/studentmanage/update','id'=>urlencode(base64_encode($std->userID))])?>" data-toggle="tooltip" data-title="Update User" class="m-0"><i class="fas fa-edit text-success"></i></a> 
             <a href="<?=Url::to(['/studentmanage/reset','id'=> urlencode(base64_encode($std->userID))])?>"  data-toggle="tooltip" data-title="Reset User Password" class="mr-1"><i class="fa fa-refresh"></i></a> 
             <?php
             if($std->user!=null && $std->user->isLocked() )
             {
             ?>
-            <a href="<?=Url::to(['/studentmanage/unlock','id'=>urlencode(base64_encode($std->userID))])?>"  data-toggle="tooltip" data-title="Reactivate/Unlock User" class="mr-1"><i class="fa fa-unlock"></i></a>  
+            <a href="<?=Url::to(['/studentmanage/unlock','id'=>urlencode(base64_encode($std->userID))])?>"  data-toggle="tooltip" data-title="Reactivate/Unlock User" class="mr-1"><i class="fa fa-unlock text-warning"></i></a>  
             <?php
             }
             else
             {
             ?>
-            <a href="<?=Url::to(['/studentmanage/lock','id'=>urlencode(base64_encode($std->userID))])?>"  data-toggle="tooltip" data-title="Lock User" class="mr-1"><i class="fas fa-user-lock"></i></a>
+            <a href="<?=Url::to(['/studentmanage/lock','id'=>urlencode(base64_encode($std->userID))])?>"  data-toggle="tooltip" data-title="Lock User" class="mr-1"><i class="fas fa-user-lock text-warning"></i></a>
             <?php
             }
             ?>
             
-            <a href="#"  id=<?=$std->userID?> data-toggle="tooltip" data-title="Delete User" class="mr-1  userdel"><i class="fa fa-trash"></i></a> 
+            <a href="#"  id=<?=$std->userID?> data-toggle="tooltip" data-title="Delete User" class="mr-1  userdel"><i class="fa fa-trash text-danger"></i></a> 
             </td>
             </tr>
        

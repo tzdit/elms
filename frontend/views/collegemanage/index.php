@@ -5,7 +5,7 @@ use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-$this->params['courseTitle']="<i class='fa fa-school'></i> Colleges";
+$this->params['courseTitle']="<i class='fa fa-school text-info'></i> Colleges";
 $this->title="Colleges";
 $this->params['breadcrumbs'] = [
     ['label'=>$this->title]
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'] = [
 
 
     <p>
-        <?= Html::a('<i class="fa fa-plus-circle"></i> Add College',['#'], ['class' => 'btn btn-default float-right mb-2','data-toggle'=>'modal','data-target'=>'#collegemodal']) ?>
+        <?= Html::a('<i class="fa fa-plus-circle text-info"></i> Add College',['#'], ['class' => 'btn btn-default float-right mb-2','data-toggle'=>'modal','data-target'=>'#collegemodal']) ?>
     </p>
 
 

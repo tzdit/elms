@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 
 $this->title = 'Activity Logs';
-$this->params['courseTitle']="<i class='fas fa-history'></i> Activity Logs";
+$this->params['courseTitle']="<i class='fas fa-history text-info'></i> Activity Logs";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-index">
