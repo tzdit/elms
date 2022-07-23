@@ -47,7 +47,7 @@ $this->params['breadcrumbs'] = [
  <div class="row">
           <!-- Left col -->
           <section class="col-lg-12 ">
-          <div class="card card-primary card-outline card-outline-tabs">
+          <div class="card card-info card-outline">
               <div class="card-header p-0 border-bottom-0">
               
               </div>
@@ -79,8 +79,8 @@ $this->params['breadcrumbs'] = [
           <div class="col-md-6">
          
           <a href="/instructor/view-groups" class="btn btn-sm btn-primary btn-rounded float-right mb-2"><i class="fas fa-group" ></i> Student Groups</a>
-          <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target=".remstudents" data-toggle="modal" style="margin-right:10px"><i class="fas fa-minus-circle" ></i> Remove Students</a>
-          <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#Addstudents" data-toggle="modal" style="margin-right:10px"><i class="fas fa-plus-circle" ></i> Assign Students</a>
+          <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target=".remstudents" data-toggle="modal" style="margin-right:10px"><i class="fas fa-minus-circle" ></i> Remove Students</a>
+          <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#Addstudents" data-toggle="modal" style="margin-right:10px"><i class="fas fa-plus-circle" ></i> Assign Students</a>
             
             </div>
             </div>

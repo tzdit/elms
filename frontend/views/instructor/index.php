@@ -36,7 +36,7 @@ $instructors=ArrayHelper::map(Instructor::find()->asArray()->where(['<>','instru
               ?>
               <div class="container-fluid ">
                <div class="card d-flex justify-content-center">
-                 <div class="card-body text-center"><i class="fa fa-info-circle" style="font-size:36px"></i><h5>You Currently Have no Any Course</h5><a class="btn btn-sm btn-primary" href="/instructor/courses"><i class="fas fa-chalkboard-teacher"></i> Self-assign Courses</a></div>
+                 <div class="card-body text-center"><i class="fa fa-info-circle" style="font-size:36px"></i><h5>You Currently Have no Any Course</h5><a class="btn btn-sm btn-info" href="/instructor/courses"><i class="fas fa-chalkboard-teacher"></i> Self-assign Courses</a></div>
                 </div>
             </div>
               <?php

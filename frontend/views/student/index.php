@@ -6,7 +6,7 @@ use common\helpers\Security;
 use yii\helpers\VarDumper;
 /* @var $this yii\eb\View */
 
-$this->params['courseTitle'] = '<i class="fa fa-th"></i> Dashboard';
+$this->params['courseTitle'] = '<i class="fa fa-th text-info"></i> Dashboard';
 $this->title = 'Student Dashboard';
 ?>
 <!-- <?= VarDumper::dump($courses) ?> -->

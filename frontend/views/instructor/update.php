@@ -9,7 +9,7 @@ use yii\helpers\Html;
 
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header bg-primary">
+      <div class="modal-header bg-info">
         <span class="modal-title " id="exampleModalLabel"><h3>Update Assignment</h3></span>
        
          
@@ -45,7 +45,7 @@ use yii\helpers\Html;
         </div>
         <div class="row">
         <div class="col-md-12">
-        <?= Html::submitButton('Update', ['class'=>'btn btn-primary float-right ml-2']) ?>
+        <?= Html::submitButton('Update', ['class'=>'btn btn-info float-right ml-2']) ?>
         
       
         </div>

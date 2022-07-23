@@ -1,6 +1,6 @@
 
 	<div class="container-fluid admin">
-		<div class="col-md-12 alert alert-primary">Quiz Records</div>
+		<div class="col-md-12 alert alert-info">Quiz Records</div>
 		<br>
 		<div class="col-md-4 offset-md-4 mb-4">
 			<select class="form-control select2" onchange="location.replace('history.php?quiz_id='+this.value)">

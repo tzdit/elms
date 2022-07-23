@@ -85,7 +85,7 @@ $this->params['breadcrumbs'] = [
                   <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">
                   <div class="row">
             <div class="col-md-12">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#announce" data-toggle="modal" style="margin-left:5px"><i class="fas fa-plus"  ></i>New annoucement</a>
+            <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#announce" data-toggle="modal" style="margin-left:5px"><i class="fas fa-plus"  ></i>New annoucement</a>
             </div>    
           </div>
    
@@ -245,7 +245,7 @@ $this->params['breadcrumbs'] = [
 
       <div class="row">
         <div class="col-md-12">
-              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createAssignmentModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create New</a>
+              <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#createAssignmentModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create New</a>
         </div>
                   
       </div>
@@ -529,7 +529,7 @@ $this->params['breadcrumbs'] = [
 <div class="tab-pane fade" id="labs" role="tabpanel" aria-labelledby="custom-tabs-lab">
 <div class="row">
         <div class="col-md-12">
-              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createLabModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i>Create</a>
+              <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#createLabModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i>Create</a>
         </div>
                   
       </div>
@@ -761,7 +761,7 @@ $this->params['breadcrumbs'] = [
      <div class="tab-pane fade" id="tutorials" role="tabpanel" aria-labelledby="custom-tabs-tutorials">
           <div class="row">
             <div class="col-md-12">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i> Create New</a>
+            <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i> Create New</a>
             </div>
                   
         </div>
@@ -845,7 +845,7 @@ $this->params['breadcrumbs'] = [
 <div class="tab-pane fade" id="externals" role="tabpanel" aria-labelledby="custom-tabs-externals">
           <div class="row">
             <div class="col-md-12">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#external_assess" data-toggle="modal" style="margin-left:5px"><i class="fas fa-plus"  ></i>New assessment</a>
+            <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#external_assess" data-toggle="modal" style="margin-left:5px"><i class="fas fa-plus"  ></i>New assessment</a>
             
             <?= Html::a('<i class="fas fa-download" ></i>Download template', ['download-extassess-template','coursecode'=>$cid],['class'=>'btn btn-sm btn-primary btn-rounded float-right mb-2']) ?>
             </div>
@@ -1028,7 +1028,7 @@ $caform = ActiveForm::begin([
 
    <?php ActiveForm::end() ?>
    <div class="row">
-     <div class="col-md-2"><span class="text-primary"><i class="fa fa-hand-o-down " style="font-size:18px"></i>Preview</span></div>
+     <div class="col-md-2"><span class="text-info"><i class="fa fa-hand-o-down " style="font-size:18px"></i>Preview</span></div>
      <div class="col-md-10">
      <?= Html::submitButton('<i class="fa fa-download" style="font-size:18px"></i>Excel', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right','style'=>'margin-left:2px','id'=>'cadownloader']) ?>
   <?=Html::Button('<i class="fa fa-download" style="font-size:18px"></i>PDF', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right','id'=>'cadownloaderpdf'])  ?>
@@ -1100,7 +1100,7 @@ $caform = ActiveForm::begin([
 </span>
      </div>
           <div class="col-md-6">
-          <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#Addstudents" data-toggle="modal" style="margin-left:10px"><i class="fas fa-plus" ></i>Assign Students</a>
+          <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#Addstudents" data-toggle="modal" style="margin-left:10px"><i class="fas fa-plus" ></i>Assign Students</a>
           <a href="/instructor/view-groups" class="btn btn-sm btn-primary btn-rounded float-right mb-2"><i class="fas fa-group" ></i>Student Groups</a>
             
             </div>

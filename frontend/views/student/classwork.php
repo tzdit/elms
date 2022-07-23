@@ -6,7 +6,7 @@ use common\models\Course;
 
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] ="<i class='fas fa-th'></i> ".$cid.' Dashboard'; 
+$this->params['courseTitle'] ="<i class='fas fa-th text-info'></i> ".$cid.' Dashboard'; 
 $this->title = $cid.' Dashboard'; 
 $this->params['breadcrumbs'] = [
   ['label'=>$this->title]
@@ -27,9 +27,8 @@ $course=Course::findOne($cid);
                       <div class="card-body p-0 pl-1" >
           <!--  ################################### classwork dashboard ######################################################### -->
                               <div class="row container-fluid ">
-
                                 <div class="col-sm-3 col-12 ">
-                                <a href="<?=Url::to(['student/view-normal-assignments/', 'cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 row result-card mx-1 my-2 ">
+                                <a href="<?=Url::to(['student/view-normal-assignments/', 'cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 row result-card mx-1 my-2 card-outline card-info">
                                                                 <?php
                                         $indiv_ass_count=$course->newIndividualAssignmentsCount();
                                         if($indiv_ass_count>0)
@@ -52,7 +51,7 @@ $course=Course::findOne($cid);
 
                                   <div class="col-sm-3 col-12">
 
-                                      <a href="<?=Url::to(['student/student-group/', 'cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
+                                      <a href="<?=Url::to(['student/student-group/', 'cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2 card-outline card-info">
                                       <?php
                                         $group_ass_count=$course->newGroupAssignmentsCount();
                                         if($group_ass_count>0)
@@ -76,7 +75,7 @@ $course=Course::findOne($cid);
 
                                   <div class="col-sm-3 col-12">
 
-                                      <a href="<?=Url::to(['student/tutorial/', 'cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
+                                      <a href="<?=Url::to(['student/tutorial/', 'cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2 card-outline card-info">
                                       <?php
                                         $tutorialscount=$course->newtutorialsCount();
                                         if($tutorialscount>0)
@@ -99,7 +98,7 @@ $course=Course::findOne($cid);
                                   <div class="col-sm-3 col-12">
 
 
-                                      <a href="<?=Url::to(['videos-and-notes/modules/', 'cid' => ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
+                                      <a href="<?=Url::to(['videos-and-notes/modules/', 'cid' => ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2 card-outline card-info">
                                       <?php
                                         $materialscount=$course->newMaterialsCount();
                                         if($materialscount>0)
@@ -121,7 +120,7 @@ $course=Course::findOne($cid);
 
                                   <div class="col-sm-3 col-12">
 
-                                      <a href="<?=Url::to(['student/returned/', 'cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
+                                      <a href="<?=Url::to(['student/returned/', 'cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2 card-outline card-info">
                                           <img src="<?=  Yii::getAlias('@web/img/submitted 3.png')?>" height="35px" width="35px"/>
                                           <h5>
                                               My submitted
@@ -132,7 +131,7 @@ $course=Course::findOne($cid);
 
                                   <div class="col-sm-3 col-12">
 
-                                      <a href="<?=Url::to(['student/course-announcement/', 'cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
+                                      <a href="<?=Url::to(['student/course-announcement/', 'cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2 card-outline card-info">
                                       <?php
                                         $announcementscount=$course->NewAnnouncemntsCount();
                                         if($announcementscount>0)
@@ -155,7 +154,7 @@ $course=Course::findOne($cid);
 
                                   <div class="col-sm-3 col-12">
 
-                                      <a href="<?= Url::toRoute('/quiz/student-quizes')  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
+                                      <a href="<?= Url::toRoute('/quiz/student-quizes')  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2 card-outline card-info">
 
                                       <?php
                                   
@@ -179,7 +178,7 @@ $course=Course::findOne($cid);
 
 
                                   <div class="col-sm-3 col-12">
-                                  <a href="<?=Url::to(['forum/index', 'cid'=>ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
+                                  <a href="<?=Url::to(['forum/index', 'cid'=>ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2 card-outline card-info">
                                   <?php
                                   
                                         $new_in_forum_count=$course->newInForumCount();
@@ -203,7 +202,7 @@ $course=Course::findOne($cid);
 
                                   <div class="col-sm-3 col-12">
 
-                                      <a href="<?=Url::to(['student/classmates'])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
+                                      <a href="<?=Url::to(['student/classmates'])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2 card-outline card-info">
                                           <img src="<?=  Yii::getAlias('@web/img/student.png')?>" height="35px" width="35px"/>
                                           <h5>
                                               Classmates
@@ -214,7 +213,7 @@ $course=Course::findOne($cid);
 
                                     <div class="col-sm-3 col-12">
 
-                                            <a href="<?=Url::to(['student/my-ca'])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
+                                            <a href="<?=Url::to(['student/my-ca'])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2 card-outline card-info">
                                                 <img src="<?=  Yii::getAlias('@web/img/ca3.png')?>" height="35px" width="35px"/>
                                                 <h5>
                                                     My CA
@@ -224,7 +223,7 @@ $course=Course::findOne($cid);
                                     </div>
 
                                   <div class="col-sm-3 col-12">
-                                  <a href="<?=Url::to(['student/group-management-view/','cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
+                                  <a href="<?=Url::to(['student/group-management-view/','cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2 card-outline card-info">
                                   <?php
                                   
                                   $newgroupscount=$course->newGroupsCount();
@@ -249,7 +248,7 @@ $course=Course::findOne($cid);
 
                                   <div class="col-sm-3 col-12">
 
-                                      <a href="<?=Url::to(['student-lectureroom/lectures/','cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
+                                      <a href="<?=Url::to(['student-lectureroom/lectures/','cid'=> ClassRoomSecurity::encrypt($cid)])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2 card-outline card-info">
                                       <?php
                                   
                                   $newlecturescount=$course->newLecturesCount();
@@ -272,7 +271,7 @@ $course=Course::findOne($cid);
 
                                   <div class="col-sm-3 col-12">
 
-                                    <a href="<?=Url::to(['student/externals/'])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2">
+                                    <a href="<?=Url::to(['student/externals/'])  ?>" class="card pl-2 pr-1  py-2 result-card mx-1 my-2 card-outline card-info">
                                     <?php
                                   
                                   $newExtAssesscount=$course->NewExtAssessCount();

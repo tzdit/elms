@@ -46,7 +46,7 @@ $this->params['breadcrumbs'] = [
  <div class="row">
           <!-- Left col -->
           <section class="col-lg-12 ">
-          <div class="card card-primary card-outline card-outline-tabs">
+          <div class="card card-info card-outline card-outline-tabs">
               <div class="card-header p-0 border-bottom-0">
               
               </div>
@@ -56,7 +56,7 @@ $this->params['breadcrumbs'] = [
 <!-- ########################################### tutorial work ######################################## -->
           <div class="row">
             <div class="col-md-12">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i> Create New</a>
+            <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i> Create New</a>
             </div>
                   
         </div>
@@ -107,7 +107,7 @@ $this->params['breadcrumbs'] = [
       <div class="col-md-12">
       <a href="#" class="btn btn-sm btn-danger float-right ml-2" id="tutodelete" ccode="<?=$tutorial->assID?>"><span><i class="fas fa-trash"></i></span></a>
       <?= Html::a('<i class="fas fa-edit"></i>',['updatetut', 'id'=>ClassRoomSecurity::encrypt($tutorial->assID)], ['class'=>'btn btn-sm btn-primary float-right ml-2','data-toggle'=>'tooltip','data-title'=>'Update tutorial']) ?>
-      <a href="/storage/temp/<?= $tutorial -> fileName ?>" download target="_blank" class="btn btn-sm btn-primary float-right ml-2" data-toggle='tooltip' data-title="Download tutorial"><span><i class="fas fa-download"></i></span></a>
+      <a href="/storage/temp/<?= $tutorial -> fileName ?>" download target="_blank" class="btn btn-sm btn-info float-right ml-2" data-toggle='tooltip' data-title="Download tutorial"><span><i class="fas fa-download"></i></span></a>
       <a href="/storage/temp/<?= $tutorial -> fileName ?>" class="btn btn-sm btn-primary float-right ml-2" data-toggle='tooltip' data-title="View tutorial"><span><i class="fa fa-eye"></i></span></a>
       
      

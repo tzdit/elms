@@ -1,7 +1,7 @@
 
 	<div class="container-fluid admin">
-		<button class="btn btn-primary bt-sm" id="new_question"><i class="fa fa-plus"></i>	Add Questions</button>
-		<button class="btn btn-primary bt-sm" id="new_student"><i class="fa fa-plus"></i>	Create Quiz</button>
+		<button class="btn btn-info bt-sm" id="new_question"><i class="fa fa-plus"></i>	Add Questions</button>
+		<button class="btn btn-info bt-sm" id="new_student"><i class="fa fa-plus"></i>	Create Quiz</button>
 		<br>
 		<br>
 		<div class="card col-md-6 mr-4" style="float:left">
@@ -53,7 +53,7 @@
 								
 							</div>
 							<div class="modal-footer">
-								<button  class="btn btn-primary" name="save"><span class="glyphicon glyphicon-save"></span> Save</button>
+								<button  class="btn btn-info" name="save"><span class="glyphicon glyphicon-save"></span> Save</button>
 							</div>
 						</form>
 					</div>

@@ -95,7 +95,7 @@ $this->params['breadcrumbs'] = [
                <div class="dropdown-menu dropdown-menu-lg text-sm">
                  <?php
 
-                  if($cas==null){print "<span class='text-sm text-primary m-4'>No saved CAs found</span>";}
+                  if($cas==null){print "<span class='text-sm text-info m-4'>No saved CAs found</span>";}
                   foreach($cas as $ind=>$ca)
                   {
                  ?>

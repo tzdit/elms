@@ -22,7 +22,7 @@ use common\models\Program;
 
 <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header bg-primary">
+      <div class="modal-header bg-info">
         <span class="modal-title" id="exampleModalLabel"><h4>Update Course</h4></span>
         
       </div>
@@ -83,7 +83,7 @@ use common\models\Program;
               
         <div class="row">
         <div class="col-md-12">
-        <?= Html::submitButton('Update', ['class'=>'btn btn-primary float-right ml-2']) ?>
+        <?= Html::submitButton('Update', ['class'=>'btn btn-info float-right ml-2']) ?>
         
       
         </div>

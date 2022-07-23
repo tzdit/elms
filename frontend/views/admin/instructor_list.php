@@ -9,15 +9,10 @@ use yii\helpers\Html;
 $this->title = 'Super Administrator Dashboard';
 ?>
 <div class="site-index">
-
-    
-
-    <div class="body-content">
+<div class="body-content">
             <!-- Content Wrapper. Contains page content -->
-   
-       <div class="container-fluid">
-      
- <div class="row">
+<div class="container-fluid">
+  <div class="row">
           <!-- Left col -->
           <section class="col-lg-12">
             <!-- Custom tabs (Charts with tabs)-->

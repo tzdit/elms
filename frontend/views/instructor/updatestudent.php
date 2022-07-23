@@ -80,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
                    <div class="row">
                     <div class="col-md-12">
                         
-                     <?= Html::submitButton('Save', ['class'=>'btn btn-primary btn-md float-right mr-0']) ?>
+                     <?= Html::submitButton('Save', ['class'=>'btn btn-info btn-md float-right mr-0']) ?>
                 
                     </div>
                  </div>

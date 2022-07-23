@@ -41,11 +41,11 @@ $this->params['breadcrumbs'] = [
     <div class="card shadow">
     <div class="card-header p-2" id="heading">
     <div class="row">
-    <span class="text-primary pl-3"><i class="fa fa-plus-circle"></i> Add New record</span>
+    <span class="text-info pl-3"><i class="fa fa-plus-circle"></i> Add New record</span>
    </div>
     </div>
     <div class="card-body">
-    <div class="bg-primary row mb-4 pl-2">Registration Number</div>
+    <div class="bg-info row mb-4 pl-2">Registration Number</div>
     <div class="row">
          <div class="col-md-12">
          <input type="text" class="form-group form-control"></input>
@@ -55,7 +55,7 @@ $this->params['breadcrumbs'] = [
          if($assignments!=null)
          {
          ?>
-         <div class="bg-primary row mb-4 pl-2">Assignments</div>
+         <div class="bg-info row mb-4 pl-2">Assignments</div>
          <div class="row">
          <div class="col-md-12">
            <?php

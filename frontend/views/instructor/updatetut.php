@@ -15,7 +15,7 @@ $this->params['breadcrumbs'] = [
 
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <div class="modal-header bg-primary pt-1 pb-1 ">
+      <div class="modal-header bg-info pt-1 pb-1 ">
         <span class="modal-title " id="exampleModalLabel"><i class="fa fa-edit"></i> Update Tutorial</span>
        
          
@@ -41,7 +41,7 @@ $this->params['breadcrumbs'] = [
         </div>
         <div class="row">
         <div class="col-md-12">
-        <?= Html::submitButton('<i class="fa fa-edit"></i> Update', ['class'=>'btn btn-primary btn-sm float-right ml-2']) ?>
+        <?= Html::submitButton('<i class="fa fa-edit"></i> Update', ['class'=>'btn btn-info btn-sm float-right ml-2']) ?>
         
       
         </div>

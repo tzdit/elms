@@ -43,16 +43,17 @@ $this->params['breadcrumbs'] = [
             <!-- Content Wrapper. Contains page content -->
    
        <div class="container-fluid">
-      
+       
  <div class="row">
           <!-- Left col -->
           <section class="col-lg-12 ">
-          <div class="card card-primary card-outline card-outline-tabs">
-              <div class="card-header p-0 border-bottom-0">
+          
+              <!-- <div class="card-header p-0 border-bottom-0"> -->
           
               </div>
-             
+              <!-- <div class="card card-outline card-info"> -->
               <div class="card-body" >
+              
       
 <!-- ########################################### material work ######################################## --> 
 
@@ -62,11 +63,12 @@ $this->params['breadcrumbs'] = [
 
       <div class="row">
         <div class="col-md-12">
+          
           <?php
           if(yii::$app->session->get('currentAcademicYear')->isCurrent())
           {
           ?>
-              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createModule" data-toggle="modal"><i class="fas fa-plus-circle" data-toggle="modal" ></i>New Module</a>
+              <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#createModule" data-toggle="modal"><i class="fas fa-plus-circle" data-toggle="modal" ></i>New Module</a>
               <?php
           }
           ?>
@@ -77,13 +79,27 @@ $this->params['breadcrumbs'] = [
 <div class="accordion" id="accordionExample_6">
 
 <?php 
-foreach( $modules as $module ) : 
+if($modules==null)
+{
+  ?>
+<div class="card card-outline card-info">
+<div class="row">
+  <div class="col-6 mt-3">
+  <p class="float-right">No module added</p>
+  </div>
+</div>
+</div>
+<?php
+  // return false;
+}
+else
+  foreach( $modules as $module ) : 
 
-$materials=$module->materials;
+  $materials=$module->materials;
 
 ?>
 
-  <div class="card" >
+<div class="card card-outline card-info">
     <div class="card-header p-2" id="heading<?=$mat?>">
       <h2 class="mb-0">
       <div class="row" >
@@ -92,7 +108,7 @@ $materials=$module->materials;
       </div>
       <div class="col-md-2">
       <a href="#" modid=<?=$module->moduleID?> data-toggle="tooltip" data-title="Delete Module" class="text-md text-danger float-right ml-3 moduledel"><span><i class="fas fa-trash"></i></span></a>
-      <a href="<?=Url::to(['/instructor/material-upload-form', 'moduleID'=>ClassRoomSecurity::encrypt($module->moduleID)])?>" data-toggle="tooltip" data-title="Upload Material" class="text-md float-right"><span><i class="fas fa-upload"></span></i></a>
+      <a href="<?=Url::to(['/instructor/material-upload-form', 'moduleID'=>ClassRoomSecurity::encrypt($module->moduleID)])?>" data-toggle="tooltip" data-title="Upload Material" class="text-md float-right"><span><i class="fas fa-upload "></span></i></a>
       <a href="<?=Url::to(['/instructor/share-link', 'module'=>ClassRoomSecurity::encrypt($module->moduleID)])?>" data-toggle="tooltip" data-title="Share External Link" class="text-md mr-3 float-right "><span><i class="fas fa-external-link-alt"></span></i></a>
       </div>
       </div>

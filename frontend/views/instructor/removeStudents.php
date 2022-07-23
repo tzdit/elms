@@ -41,7 +41,7 @@ $levels=[0=>'All',1=>'First Year',2=>'Second Year',3=>'Third Year',4=>'Fourth Ye
         <div class="row">
         <div class="col-md-12">
         <?= Html::submitButton('<i class="fa fa-floppy-o" aria-hidden="true"></i>
-Save changes', ['class'=>'btn btn-primary btn-md float-right ml-2']) ?>
+Save changes', ['class'=>'btn btn-info btn-md float-right ml-2']) ?>
         <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
         </div>
         </div>

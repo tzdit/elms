@@ -8,7 +8,7 @@ use common\models\QMarks;
 use common\models\Instructor;
 use yii\helpers\ArrayHelper;
 use frontend\models\ClassRoomSecurity;
-$this->params['courseTitle'] = "Marking:<span class='text-primary text-sm'>".substr(yii::$app->session->get('ccode')." ".$assignment->assName,0,30)."<span>...";
+$this->params['courseTitle'] = "Marking:<span class='text-info text-sm'>".substr(yii::$app->session->get('ccode')." ".$assignment->assName,0,30)."<span>...";
 $this->title = 'Assignment Marking';
 
 $this->params['breadcrumbs'] = [
@@ -67,7 +67,7 @@ else
 </div>
 </div>
 <div class="col-md-6 col-ms-6 d-flex justify-content-center" >
-  <span class=" text-primary text-center" id="currentass"></span>
+  <span class=" text-info text-center" id="currentass"></span>
 </div>
 <div class="col-md-3 col-ms-3 ">
   <div class="row"><a href="<?=Url::to(['/instructor/change-marking-mode','mode'=>'ordinary'])?>" class="col-md-2" data-toggle="tooltip" data-title="Ordinary Mode"><img src="/img/normal.png" width="73%" height="73%"></img></a><a href="<?=Url::to(['/instructor/change-marking-mode','mode'=>'presentation'])?>" class="col-md-2" data-toggle="tooltip" data-title="Presentation Mode"><img src="/img/pres.png" width="80%" height="80%"></img></a><a href="<?=Url::to(['/instructor/toggle-panelist','assignment'=>ClassRoomSecurity::encrypt($assignment->assID)])?>" class="col-md-2" data-toggle="tooltip" data-title="Panelist Mode"><img src="/img/panel1.png" width="85%" height="80%"></img></a><a href="<?=Url::to(['/instructor/publish-assignment-results','assignment'=>ClassRoomSecurity::encrypt($assignment->assID)])?>" class="col-md-2"><i class="fa fa-newspaper-o text-dark fa-1x" data-toggle="tooltip" data-title="Publish Results"></i></a><a href="" class="col-md-2" id="collabo"><i class="fas fa-user-friends text-dark " data-toggle="tooltip" data-title="RealTime collaboration"></i></a><a href="<?=Url::to(['/instructor/download-submits','assignment'=>ClassRoomSecurity::encrypt($assignment->assID)])?>" class="col-md-2"><i class="fas fa-download text-dark " data-toggle="tooltip" data-title="Download all submits"></i></a>
@@ -94,7 +94,7 @@ for($sub=0;$sub<count($submits);$sub++)
   if($submits[$sub]->score!=null || $submits[$sub]->score!="")
   {
 ?>
-<tr class="d-flex text-primary"><td id="<?=$submits[$sub]->submitID;?>"><?=$sub+1?><td id="<?=$submits[$sub]->fileName;?>"><?php if($asstype=="class"){print $submits[$sub]->reg_no;}else{ print $submits[$sub]->group->groupName;}?></td></tr>
+<tr class="d-flex text-info"><td id="<?=$submits[$sub]->submitID;?>"><?=$sub+1?><td id="<?=$submits[$sub]->fileName;?>"><?php if($asstype=="class"){print $submits[$sub]->reg_no;}else{ print $submits[$sub]->group->groupName;}?></td></tr>
 <?php
   }
   else
@@ -110,7 +110,7 @@ for($sub=0;$sub<count($submits);$sub++)
 </table>
 </div>
   <div class="col-md-8 shadow d-flex justify-content-center">
-    <span class="d-none savespin bg-primary overlay p-4 opacity-75 rounded-pill" style="position:absolute;z-index:2;bottom:50%;opacity:.7"><i class="fas fa-sync-alt fa-spin fa-2x " ></i>Saving...</span>
+    <span class="d-none savespin bg-info overlay p-4 opacity-75 rounded-pill" style="position:absolute;z-index:2;bottom:50%;opacity:.7"><i class="fas fa-sync-alt fa-spin fa-2x " ></i>Saving...</span>
     <iframe src="" style="position: relative; height: 100%; width: 100%;border:none" frameborder="0" height="426" id="fileobj"  type="application/pdf">
     file not found or could not be read
 
@@ -165,7 +165,7 @@ for($q=0;$q<count($questions);$q++)
 }
 else
 {
-  print '<div class="container-fluid text-primary text-center p-5">No any submits</div>';
+  print '<div class="container-fluid text-info text-center p-5">No any submits</div>';
 }
 }
 else
@@ -271,7 +271,7 @@ for($q=0;$q<count($questions);$q++)
 </table>
 </div>
   <div class="shadow d-none justify-content-center pt-4 bg-white" style="position:fixed;z-index:5;min-height:40%;width:50%;right:0;top:40%" id="presentationmodeviewer">
-    <span class="d-none savespin bg-primary overlay p-4 opacity-75 rounded-pill" style="position:absolute;z-index:2;bottom:50%;opacity:.7"><i class="fas fa-sync-alt fa-spin fa-2x " ></i>Saving...</span>
+    <span class="d-none savespin bg-info overlay p-4 opacity-75 rounded-pill" style="position:absolute;z-index:2;bottom:50%;opacity:.7"><i class="fas fa-sync-alt fa-spin fa-2x " ></i>Saving...</span>
     <iframe src="" style="position: absolute;height:100%;width: 100%;border:none" frameborder="0" height="426" id="fileobj"  type="application/pdf">
     file not found or could not be read
     </iframe>
@@ -283,7 +283,7 @@ for($q=0;$q<count($questions);$q++)
 }
 else
 {
-  print '<div class="container-fluid text-primary text-center p-5">No any submits</div>';
+  print '<div class="container-fluid text-info text-center p-5">No any submits</div>';
 }
 ?>
 <?php

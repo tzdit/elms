@@ -19,7 +19,7 @@ use yii\helpers\Html;
 <div class="modal fade" id="createProgramModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header bg-primary">
+      <div class="modal-header bg-info">
         <span class="modal-title" id="exampleModalLabel"><h4>Create New Program</h4></span>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -84,7 +84,7 @@ use yii\helpers\Html;
                  
                 </h3>
                 
-                <a href="#" class="btn btn-sm btn-primary btn-rounded float-right m-0 col-xs-12" data-target="#createProgramModal" data-toggle="modal"><i class="fas fa-plus" ></i>Create Program</a>
+                <a href="#" class="btn btn-sm btn-info btn-rounded float-right m-0 col-xs-12" data-target="#createProgramModal" data-toggle="modal"><i class="fas fa-plus" ></i>Create Program</a>
               
               </div><!-- /.card-header -->
               <div class="card-body">

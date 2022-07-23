@@ -47,7 +47,7 @@ $this->params['breadcrumbs'] = [
  <div class="row">
           <!-- Left col -->
           <section class="col-lg-12 ">
-          <div class="card card-primary card-outline card-outline-tabs">
+          
               <div class="card-header p-0 border-bottom-0">
               
               </div>
@@ -62,6 +62,8 @@ $this->params['breadcrumbs'] = [
 
 <?php $ass = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid]); ?>      
 
+
+
       <div class="row">
         <div class="col-md-12">
               <?php
@@ -70,7 +72,7 @@ $this->params['breadcrumbs'] = [
               if($academicyear->isCurrent())
               {
               ?>
-              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createAssignmentModal" data-toggle="modal"><i class="fas fa-plus-circle" data-toggle="modal" ></i> Create New</a>
+              <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#createAssignmentModal" data-toggle="modal"><i class="fas fa-plus-circle" data-toggle="modal" ></i> Create New</a>
               <?php
               }
               ?>
@@ -79,8 +81,26 @@ $this->params['breadcrumbs'] = [
       </div>
 
 <div class="accordion" id="accordionExample">
-<?php foreach( $assignments as $assign ) : ?>
+  
+<?php 
+if($assignments==null)
+{
+  ?>
+<div class="card card-outline card-info">
+<div class="row">
+  <div class="col-6 mt-3">
+  <p class="float-right">No module added</p>
+  </div>
+</div>
+</div>
+<?php
+  // return false;
+}
+else
 
+
+foreach( $assignments as $assign ) : ?>
+  <div class="card card-outline card-info">
   <div class="card headcard">
     <div class="card-header p-2 shadow" id="heading<?=$assign->assID?>">
       <h2 class="mb-0">

@@ -50,7 +50,7 @@ $this->params['breadcrumbs'] = [
                     <?php if(Custom::isEnrolled($course->course_code)): ?>
                       <a href="#" class="btn btn-sm btn-danger drop" style="cursor:no-drop" data-title="course already taken"  ccode="<?= $course->course_code ?>" cname="<?= $course->course_name ?>"><i class="fas fa-ban "></i></a>
                       <?php else:?>
-                  <a href="#" class="btn btn-sm btn-primary enroll" data-toggle="modal" data-target="#EnrollModal" ccode="<?= $course->course_code ?>" cname="<?= $course->course_name ?>"><i class="fas fa-check" data-toggle="tooltip" data-title="Take this course"></i></a>
+                  <a href="#" class="btn btn-sm btn-info enroll" data-toggle="modal" data-target="#EnrollModal" ccode="<?= $course->course_code ?>" cname="<?= $course->course_name ?>"><i class="fas fa-check" data-toggle="tooltip" data-title="Take this course"></i></a>
                  <?php endif ?>
                   </td>
                   </tr>

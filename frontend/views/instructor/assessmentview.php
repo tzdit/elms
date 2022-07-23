@@ -26,7 +26,7 @@
 <div id="container-fluid">
 <div class="row">
             <div class="col-md-12">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#addrecord" data-toggle="modal"><i class="fas fa-plus" ></i>Add a record</a>
+            <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#addrecord" data-toggle="modal"><i class="fas fa-plus" ></i>Add a record</a>
             </div>
             </div>
             <div id="row">

@@ -33,13 +33,13 @@ $this->params['breadcrumbs'] = [
  <div class="row">
           <!-- Left col -->
           <section class="col-lg-12 ">
-          <div class="card card-primary card-outline card-outline-tabs">
+          <div class="card card-info card-outline card-outline-tabs">
               <div class="card-header p-0 border-bottom-0">
               
               </div>
              
               <div class="card-body" >
-                <div class="row"><div class="col-md-12"><a href="#"  class="btn btn-sm btn-primary float-right" data-target="#myModal<?=str_replace(" ","",yii::$app->session->get('ccode'))?>" data-toggle="modal"  ccode="<?= yii::$app->session->get('ccode') ?>" ><i class="fas fa-user-plus float-right" data-toggle="tooltip" data-title="Add New partner" > Add New </i></a></div></div>
+                <div class="row"><div class="col-md-12"><a href="#"  class="btn btn-sm btn-info float-right" data-target="#myModal<?=str_replace(" ","",yii::$app->session->get('ccode'))?>" data-toggle="modal"  ccode="<?= yii::$app->session->get('ccode') ?>" ><i class="fas fa-user-plus float-right" data-toggle="tooltip" data-title="Add New partner" > Add New </i></a></div></div>
      <?php 
   
 

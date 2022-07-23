@@ -47,12 +47,8 @@ $this->params['breadcrumbs'] = [
  <div class="row">
           <!-- Left col -->
           <section class="col-lg-12 ">
-          <div class="card card-primary card-outline card-outline-tabs">
-              <div class="card-header p-0 border-bottom-0">
+        
               
-              </div>
-             
-              <div class="card-body" >
        
 
 
@@ -62,6 +58,8 @@ $this->params['breadcrumbs'] = [
 
 <?php $ass = Assignment::find()->where(['assNature' => 'assignment', 'course_code' => $cid]); ?>      
 
+
+
       <div class="row">
         <div class="col-md-12">
               <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#createLabModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create New Lab</a>
@@ -70,8 +68,27 @@ $this->params['breadcrumbs'] = [
       </div>
 
 <div class="accordion" id="accordionExample">
-<?php foreach( $assignments as $assign ) : ?>
+<?php 
+if($assignments==null)
+{
+  ?>
+<div class="card card-outline card-info">
+<div class="row">
+  <div class="col-6 mt-3">
+  <p class="float-right">No module added</p>
+  </div>
+</div>
+</div>
+<?php
+  // return false;
+}
+else
+foreach( $assignments as $assign ) : 
 
+?>
+
+
+<div class="card card-outline card-info">
   <div class="card headcard">
     <div class="card-header p-2 shadow" id="heading<?=$assign->assID?>">
       <h2 class="mb-0">
@@ -140,6 +157,7 @@ $this->params['breadcrumbs'] = [
             </a>
           </div>
 </div>
+
           <!--################################################################################################################ -->
         
       </div>

@@ -26,7 +26,7 @@ use frontend\models\CreateProgram;
           <div class="col-md-6">
             </div>
             <div class="col-md-6">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createProgramModal" data-toggle="modal"><i class="fas fa-plus" ></i>Create Program</a>
+            <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#createProgramModal" data-toggle="modal"><i class="fas fa-plus" ></i>Create Program</a>
             </div>
             </div>
              

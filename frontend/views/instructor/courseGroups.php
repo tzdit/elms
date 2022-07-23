@@ -26,8 +26,8 @@ $this->params['breadcrumbs'] = [
 
       <div class="row">
         <div class="col-md-12">
-        <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#studentmodal" data-toggle="modal"><i class="fas fa-plus-circle" ></i> Students groups type</a>
-        <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#mymodal" data-toggle="modal" style="margin-right:10px"><i class="fa fa-cog" ></i> Generate New Groups</a>
+        <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#studentmodal" data-toggle="modal"><i class="fas fa-plus-circle" ></i> Students groups type</a>
+        <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#mymodal" data-toggle="modal" style="margin-right:10px"><i class="fa fa-cog" ></i> Generate New Groups</a>
      
         </div>
                   
@@ -100,10 +100,6 @@ $this->params['breadcrumbs'] = [
   }
 }
         ?>
-       
-      <!-- /.modal -->
-  
-  <?php// endforeach ?>
 <!-- ################################################## model for new groups################################  -->
 
 <?php 

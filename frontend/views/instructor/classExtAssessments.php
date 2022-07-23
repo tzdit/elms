@@ -46,7 +46,7 @@ $this->params['breadcrumbs'] = [
  <div class="row">
           <!-- Left col -->
           <section class="col-lg-12 ">
-          <div class="card card-primary card-outline card-outline-tabs">
+          <div class="card card-info card-outline card-outline-tabs">
               <div class="card-header p-0 border-bottom-0">
               
               </div>
@@ -62,9 +62,9 @@ $this->params['breadcrumbs'] = [
 
           <div class="row">
             <div class="col-md-12">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#external_assess" data-toggle="modal" style="margin-left:5px"><i class="fas fa-plus"  ></i>New assessment</a>
+            <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#external_assess" data-toggle="modal" style="margin-left:5px"><i class="fas fa-plus"  ></i>New assessment</a>
             
-            <?= Html::a('<i class="fas fa-download" ></i>Download template', ['download-extassess-template','coursecode'=>ClassRoomSecurity::decrypt($cid)],['class'=>'btn btn-sm btn-primary btn-rounded float-right mb-2']) ?>
+            <?= Html::a('<i class="fas fa-download" ></i>Download template', ['download-extassess-template','coursecode'=>ClassRoomSecurity::decrypt($cid)],['class'=>'btn btn-sm btn-info btn-rounded float-right mb-2']) ?>
             </div>
          
                   

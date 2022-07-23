@@ -26,7 +26,7 @@ use yii\helpers\Html;
               
         <div class="row">
         <div class="col-md-12">
-        <?= Html::submitButton('Submit', ['class'=>'btn btn-primary btn-md float-right ml-2']) ?>
+        <?= Html::submitButton('Submit', ['class'=>'btn btn-info btn-md float-right ml-2']) ?>
         <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
       
         </div>

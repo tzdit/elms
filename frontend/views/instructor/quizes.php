@@ -45,7 +45,7 @@ $this->params['breadcrumbs'] = [
  <div class="row">
           <!-- Left col -->
           <section class="col-lg-12 ">
-          <div class="card card-primary card-outline card-outline-tabs">
+          <div class="card card-info card-outline card-outline-tabs">
               <div class="card-header p-0 border-bottom-0">
                 <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                   <li class="nav-item">
@@ -88,7 +88,7 @@ $this->params['breadcrumbs'] = [
                   <div class="tab-pane fade show active" id="forum" role="tabpanel" aria-labelledby="custom-tabs-forum">
                   <div class="row">
             <div class="col-md-12">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#announce" data-toggle="modal" style="margin-left:5px"><i class="fas fa-plus"  ></i>New annoucement</a>
+            <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#announce" data-toggle="modal" style="margin-left:5px"><i class="fas fa-plus"  ></i>New annoucement</a>
             </div>    
           </div>
    
@@ -150,7 +150,7 @@ $this->params['breadcrumbs'] = [
 <div class="row">
 <div class="container-fluid admin">
 		<div class="col-md-12 alert alert-primary">Quiz List</div>
-		<button class="btn btn-primary bt-sm" id="new_quiz"><i class="fa fa-plus"></i>	Add New</button>
+		<button class="btn btn-info bt-sm" id="new_quiz"><i class="fa fa-plus"></i>	Add New</button>
 		<br>
 		<br>
 		<div class="card">
@@ -175,7 +175,7 @@ $this->params['breadcrumbs'] = [
 						<td><?php echo "fname" ?></td>
 						<td>
 							<center>
-							 <a class="btn btn-sm btn-outline-primary edit_quiz" href="<?= Url::toRoute(['instructor/quiz_edit'])?>"><i class="fa fa-task"></i> Manage</a>
+							 <a class="btn btn-sm btn-outline-info edit_quiz" href="<?= Url::toRoute(['instructor/quiz_edit'])?>"><i class="fa fa-task"></i> Manage</a>
 							 <button class="btn btn-sm btn-outline-primary edit_quiz" data-id="" type="button"><i class="fa fa-edit"></i> Edit</button>
 							<button class="btn btn-sm btn-outline-danger remove_quiz" data-id="" type="button"><i class="fa fa-trash"></i> Delete</button>
 							</center>
@@ -219,7 +219,7 @@ $this->params['breadcrumbs'] = [
 								<?php endif; ?>
 							</div>
 							<div class="modal-footer">
-								<button  class="btn btn-primary" name="save"><span class="glyphicon glyphicon-save"></span> Save</button>
+								<button  class="btn btn-info" name="save"><span class="glyphicon glyphicon-save"></span> Save</button>
 							</div>
 						</form>
             </div>
@@ -316,7 +316,7 @@ $this->params['breadcrumbs'] = [
 
       <div class="row">
         <div class="col-md-12">
-              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createMaterialModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create</a>
+              <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#createMaterialModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create</a>
         </div>
                   
       </div>
@@ -413,7 +413,7 @@ $this->params['breadcrumbs'] = [
 
       <div class="row">
         <div class="col-md-12">
-              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createAssignmentModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create New</a>
+              <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#createAssignmentModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i> Create New</a>
         </div>
                   
       </div>
@@ -697,7 +697,7 @@ $this->params['breadcrumbs'] = [
 <div class="tab-pane fade" id="labs" role="tabpanel" aria-labelledby="custom-tabs-lab">
 <div class="row">
         <div class="col-md-12">
-              <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createLabModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i>Create</a>
+              <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#createLabModal" data-toggle="modal"><i class="fas fa-plus" data-toggle="modal" ></i>Create</a>
         </div>
                   
       </div>
@@ -929,7 +929,7 @@ $this->params['breadcrumbs'] = [
      <div class="tab-pane fade" id="tutorials" role="tabpanel" aria-labelledby="custom-tabs-tutorials">
           <div class="row">
             <div class="col-md-12">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i> Create New</a>
+            <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#createTutorialModal" data-toggle="modal"><i class="fas fa-plus"  ></i> Create New</a>
             </div>
                   
         </div>
@@ -1013,9 +1013,9 @@ $this->params['breadcrumbs'] = [
 <div class="tab-pane fade" id="externals" role="tabpanel" aria-labelledby="custom-tabs-externals">
           <div class="row">
             <div class="col-md-12">
-            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#external_assess" data-toggle="modal" style="margin-left:5px"><i class="fas fa-plus"  ></i>New assessment</a>
+            <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#external_assess" data-toggle="modal" style="margin-left:5px"><i class="fas fa-plus"  ></i>New assessment</a>
             
-            <?= Html::a('<i class="fas fa-download" ></i>Download template', ['download-extassess-template','coursecode'=>$cid],['class'=>'btn btn-sm btn-primary btn-rounded float-right mb-2']) ?>
+            <?= Html::a('<i class="fas fa-download" ></i>Download template', ['download-extassess-template','coursecode'=>$cid],['class'=>'btn btn-sm btn-info btn-rounded float-right mb-2']) ?>
             </div>
          
                   
@@ -1168,7 +1168,7 @@ $caform = ActiveForm::begin([
       -->
 
     <div class="card shadow" style="min-height:200px;max-height:400px">
-    <div class="card-header p-2 bg-primary text-sm">
+    <div class="card-header p-2 bg-info text-sm">
        Other assessments
       </div>
     <div class="card-body">
@@ -1254,7 +1254,7 @@ $caform = ActiveForm::begin([
        ?>
           <div class="row">
           <div class="col-md-6">
-            <span class='bg-primary'>Assigned Programs:
+            <span class='bg-info'>Assigned Programs:
             <?php
      
             for($p=0;$p<count($coursePrograms);$p++)
@@ -1269,7 +1269,7 @@ $caform = ActiveForm::begin([
      </div>
           <div class="col-md-6">
           <a href="#" class="btn btn-sm btn-primary btn-rounded float-right mb-2" data-target="#Addstudents" data-toggle="modal" style="margin-left:10px"><i class="fas fa-plus" ></i>Assign Students</a>
-          <a href="/instructor/view-groups" class="btn btn-sm btn-primary btn-rounded float-right mb-2"><i class="fas fa-group" ></i>Student Groups</a>
+          <a href="/instructor/view-groups" class="btn btn-sm btn-info btn-rounded float-right mb-2"><i class="fas fa-group" ></i>Student Groups</a>
             
             </div>
             </div>

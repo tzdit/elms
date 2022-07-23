@@ -28,7 +28,7 @@ $this->params['breadcrumbs'] = [
 ?>
 <div class="container col d-flex justify-content-center">
 <div class="card" style="width:80%">
-      <div class="card-header bg-primary pt-2 pb-2">
+      <div class="card-header bg-info pt-2 pb-2">
         <span><h6><i class="fa fa-upload"></i> Upload New Material</h6></span>
       </div>
       <div class="card-body justify-content-center">

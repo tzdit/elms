@@ -18,7 +18,7 @@ $this->params['breadcrumbs'] = [
 
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <div class="modal-header bg-primary">
+      <div class="modal-header bg-info">
         <span class="modal-title" id="exampleModalLabel"><h6>Update Assignment</h6></span>
       </div>
       <div class="modal-body">

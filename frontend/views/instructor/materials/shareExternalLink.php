@@ -27,7 +27,7 @@ $this->params['breadcrumbs'] = [
 ?>
 <div class="container col d-flex justify-content-center">
 <div class="card" style="width:80%">
-      <div class="card-header bg-primary pt-2 pb-2">
+      <div class="card-header bg-info pt-2 pb-2">
         <span><h6><i class="fas fa-external-link-alt"></i> Share External Material Link</h6></span>
       </div>
       <div class="card-body justify-content-center">
@@ -49,7 +49,7 @@ $this->params['breadcrumbs'] = [
         </div>
         <div class="row">
         <div class="col-md-12">
-        <?=Html::submitButton('<i class="fa fa-plus-circle"></i> Share', ['class' => 'btn btn-primary float-right']) ?>
+        <?=Html::submitButton('<i class="fa fa-plus-circle"></i> Share', ['class' => 'btn btn-info float-right']) ?>
         </div> 
         </div>
       <div class="row">
