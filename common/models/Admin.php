@@ -49,7 +49,7 @@ class Admin extends \yii\db\ActiveRecord
             [['phone'], 'string', 'max' => 30],
             [['email'], 'unique'],
             [['phone'], 'unique'],
-            ['phone', 'k-phone','countryValue' => 'TZ'],
+            // ['phone', 'k-phone','countryValue' => 'TZ'],
             [['collegeID'], 'exist', 'skipOnError' => true, 'targetClass' => College::className(), 'targetAttribute' => ['collegeID' => 'collegeID']],
             [['userID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userID' => 'id']],
         ];
