@@ -72,7 +72,11 @@ $this->params['breadcrumbs'] = [
    
    <div class="container-fluid">
    <?php
-  
+  if($assessments==null)
+
+    echo '<div style="width:91%"  class="container border p-2  d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle text-warning"></i> No Assesments found</span></div>';
+
+  else
    $assessments =ExtAssess::find()->where(['course_code'=>ClassRoomSecurity::decrypt($cid)])->all();
    foreach($assessments as $assess)
    {

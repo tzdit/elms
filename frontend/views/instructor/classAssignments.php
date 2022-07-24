@@ -85,14 +85,9 @@ $this->params['breadcrumbs'] = [
 <?php 
 if($assignments==null)
 {
+  echo '<div style="width:91%"  class="container border p-2  d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle text-warning"></i> No Quizzes found</span></div>';
   ?>
-<div class="card card-outline card-info">
-<div class="row">
-  <div class="col-6 mt-3">
-  <p class="float-right">No module added</p>
-  </div>
-</div>
-</div>
+
 <?php
   // return false;
 }
@@ -101,7 +96,6 @@ else
 
 foreach( $assignments as $assign ) : ?>
   <div class="card card-outline card-info">
-  <div class="card headcard">
     <div class="card-header p-2 shadow" id="heading<?=$assign->assID?>">
       <h2 class="mb-0">
       <div class="row">

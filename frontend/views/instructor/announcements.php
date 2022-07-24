@@ -43,12 +43,12 @@ $this->params['courseTitle'] =$cid." Announcements";
 <div class="site-index">
     <div class="body-content ">
             <!-- Content Wrapper. Contains page content -->
-       <div class="container-fluid">
+
       
  <div class="row">
           <!-- Left col -->
           <section class="col-lg-12 ">
-          <div class="card card-info card-outline card-outline-tabs">
+          
               <div class="card-header p-0 border-bottom-0">
                
               
@@ -71,11 +71,16 @@ $this->params['courseTitle'] =$cid." Announcements";
   
    $announcements=Announcement::find()->where(['course_code'=>$cid])->orderBy([
     'annID' => SORT_DESC ])->all();
+    if($announcements==null){
+      echo '<div style="width:91%"  class="container border p-2  d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle text-warning"></i> No Quizzes found</span></div>';
+    }
+  
+    else
    foreach($announcements as $announcement)
    {
      ?>
     
-    <div class="card shadow" >
+    <div class=" card card-outline card-info">
     <div class="card-header p-1 bg-info" id="heading">
     <div class="row ">
     <div class="col-md-10">

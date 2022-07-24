@@ -88,7 +88,7 @@ $this->params['breadcrumbs'] = [
  
     <span class="dropdown ml-3">
                 <a data-toggle="dropdown" href="#" data-toggle="tooltip" data-title="Open Saved CAs">
-               <i class="fa fa-folder"></i> Saved CAs
+                <span class="text-info"> <i class="fa fa-folder text-info"></i> Saved CAs</span>
   
                </a>
 
@@ -102,9 +102,9 @@ $this->params['breadcrumbs'] = [
                   <li class="dropdown-item">
                     <?=$ca?>
                     <span class="float-right">
-                    <a href="<?=Url::to(['/instructor/class-ca-generator','cid'=>ClassRoomSecurity::encrypt($cid),'ca'=>ClassRoomSecurity::encrypt($ind)])?>"><i class="fa fa-folder-open text-primary mr-2" data-toggle="tooltip" data-title="Open CA"></i></a>
-                    <a href="<?=Url::to(['/instructor/ca-add-new','ca'=>ClassRoomSecurity::encrypt($ind)])?>"><i class="fa fa-plus-circle text-primary mr-2" data-toggle="tooltip" data-title="Add New Record"></i></a>
-                    <a href="<?=Url::to(['/instructor/publish-ca','ca'=>ClassRoomSecurity::encrypt($ind)])?>"><i class="fa fa-newspaper text-primary mr-2" data-toggle="tooltip" data-title="Publish CA"></i></a>
+                    <a href="<?=Url::to(['/instructor/class-ca-generator','cid'=>ClassRoomSecurity::encrypt($cid),'ca'=>ClassRoomSecurity::encrypt($ind)])?>"><i class="fa fa-folder-open text-info mr-2" data-toggle="tooltip" data-title="Open CA"></i></a>
+                    <a href="<?=Url::to(['/instructor/ca-add-new','ca'=>ClassRoomSecurity::encrypt($ind)])?>"><i class="fa fa-plus-circle text-info mr-2" data-toggle="tooltip" data-title="Add New Record"></i></a>
+                    <a href="<?=Url::to(['/instructor/publish-ca','ca'=>ClassRoomSecurity::encrypt($ind)])?>"><i class="fa fa-newspaper text-info mr-2" data-toggle="tooltip" data-title="Publish CA"></i></a>
                     <a href="<?=Url::to(['/instructor/delete-ca','ca'=>ClassRoomSecurity::encrypt($ind)])?>"><i class="fa fa-trash text-danger mr-2" data-toggle="tooltip" data-title="Delete CA"></i></a>
                     <a href="#"><i class=""></i></a>
                     </span>
@@ -120,7 +120,7 @@ $this->params['breadcrumbs'] = [
    </div>
   
    <div class="col-md-2 text-sm" >
-   <a href="<?=Url::to(['/instructor/class-ca-generator','cid'=>ClassRoomSecurity::encrypt($cid)])?>" data-toggle="tooltip" data-title="Genarate New CA"><i class="fa fa-cog"></i> New CA</a>
+   <a href="<?=Url::to(['/instructor/class-ca-generator','cid'=>ClassRoomSecurity::encrypt($cid)])?>" data-toggle="tooltip" data-title="Genarate New CA"><span class="text-info"><i class="fa fa-cog text-info"></i> New CA</span></a>
    </div>
    <div class="col-md-3 text-sm font-weight-bold" >
      <?=$camodel->caTitle?>
@@ -132,7 +132,7 @@ $this->params['breadcrumbs'] = [
   </div>
   
    <div class="col-md-4 shadow float-right">
-   <span>Incompletes:</span><span id="incnum" class="text-primary font-weight-bold"></span>
+   <span>Incompletes:</span><span id="incnum" class="text-info font-weight-bold"></span>
 </div>
    <div class="col-md-4 shadow float-right">
 
@@ -160,7 +160,7 @@ $caform = ActiveForm::begin([
       -->
 
     <div class="card shadow" style="min-height:200px;max-height:400px" >
-      <div class="card-header pt-1 pb-1 bg-primary text-sm">
+      <div class="card-header pt-1 pb-1 bg-info text-sm">
         Assignments
       </div>
     <div class="card-body">
@@ -188,7 +188,7 @@ $caform = ActiveForm::begin([
       -->
 
     <div class="card shadow" style="min-height:200px;max-height:400px" >
-    <div class="card-header pt-1 pb-1 bg-primary text-sm">
+    <div class="card-header pt-1 pb-1 bg-info text-sm">
         Lab assignments
       </div>
     <div class="card-body">
@@ -215,7 +215,7 @@ $caform = ActiveForm::begin([
       -->
 
     <div class="card shadow" style="min-height:200px;max-height:400px">
-    <div class="card-header pt-1 pb-1 bg-primary text-sm">
+    <div class="card-header pt-1 pb-1 bg-info text-sm">
        Other Assessments
       </div>
     <div class="card-body">
@@ -244,12 +244,12 @@ $caform = ActiveForm::begin([
 
    <?php ActiveForm::end() ?>
    <div class="row">
-     <div class="col-md-2"><span class="text-primary"><i class="fa fa-hand-o-down " style="font-size:18px"></i>Preview</span></div>
+     <div class="col-md-2"><span class="text-info"><i class="fa fa-hand-o-down " style="font-size:18px"></i>Preview</span></div>
      <div class="col-md-10">
-     <?= Html::submitButton('<i class="fa fa-download" style="font-size:18px"></i>Excel', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right','style'=>'margin-left:2px','id'=>'cadownloader']) ?>
-     <?=Html::Button('<i class="fa fa-download" style="font-size:18px"></i>PDF', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right','id'=>'cadownloaderpdf'])  ?>
-     <?=Html::Button('<i class="fa fa-save" style="font-size:18px"></i> Save & Publish', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right mr-1','id'=>'casaverpublisher'])  ?>
-     <?=Html::Button('<i class="fa fa-save" style="font-size:18px"></i> Save', ['class'=>'btn btn-primary btn-rounded btn-sm shadow float-right mr-1','id'=>'casaver'])  ?>
+     <?= Html::submitButton('<i class="fa fa-download" style="font-size:18px"></i>Excel', ['class'=>'btn btn-info btn-rounded btn-sm shadow float-right','style'=>'margin-left:2px','id'=>'cadownloader']) ?>
+     <?=Html::Button('<i class="fa fa-download" style="font-size:18px"></i>PDF', ['class'=>'btn btn-info btn-rounded btn-sm shadow float-right','id'=>'cadownloaderpdf'])  ?>
+     <?=Html::Button('<i class="fa fa-save" style="font-size:18px"></i> Save & Publish', ['class'=>'btn btn-info btn-rounded btn-sm shadow float-right mr-1','id'=>'casaverpublisher'])  ?>
+     <?=Html::Button('<i class="fa fa-save" style="font-size:18px"></i> Save', ['class'=>'btn btn-info btn-rounded btn-sm shadow float-right mr-1','id'=>'casaver'])  ?>
         </div>
    </div>
    </div>

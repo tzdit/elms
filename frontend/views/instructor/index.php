@@ -36,7 +36,7 @@ $instructors=ArrayHelper::map(Instructor::find()->asArray()->where(['<>','instru
               ?>
               <div class="container-fluid ">
                <div class="card d-flex justify-content-center">
-                 <div class="card-body text-center"><i class="fa fa-info-circle" style="font-size:36px"></i><h5>You Currently Have no Any Course</h5><a class="btn btn-sm btn-info" href="/instructor/courses"><i class="fas fa-chalkboard-teacher"></i> Self-assign Courses</a></div>
+                 <div class="card-body text-center"><i class="fa fa-info-circle" style="font-size:36px"></i><h5>You Currently Have no Any Course</h5><a class="btn btn-sm" href="/instructor/courses"><i class="fas fa-chalkboard-teacher"></i> Self-assign Courses</a></div>
                 </div>
             </div>
               <?php
@@ -83,8 +83,7 @@ $instructors=ArrayHelper::map(Instructor::find()->asArray()->where(['<>','instru
         <!-- Main row -->
         
         <!-- /.row (main row) -->
-      </div><!-- /.container-fluid -->
-       <!-- add partner modal -->
+      </div>
 
         
     </div>
@@ -96,14 +95,7 @@ $instructors=ArrayHelper::map(Instructor::find()->asArray()->where(['<>','instru
 $script = <<<JS
     $('document').ready(function(){
 
-      ///select tag
-
-     /* Swal.fire({
-  icon: 'info',
-  title: 'Online Quizzes | Tests !',
-  text: 'Dear Instructor, Multiple choices questions and True-false questions can be securely done online, and the collection of scores is automatic! go to quiz, add questions to your bank, then set up your quiz/test! ',
-  footer: 'For any further information, please contact us at 0755189736'
-});*/
+   
 
       //the dropdown searcn adding partner
 

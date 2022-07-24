@@ -49,7 +49,7 @@ $this->params['breadcrumbs'] = [
        
        ?>
         
-            <div class="table-responsive">
+            <div class="table-responsive mt-3">
             <table width="100%" class="table table-striped table-bordered table-hover text-sm " id="studenttable" style="width:100%">
 		<thead>
 			<tr>

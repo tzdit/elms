@@ -1,7 +1,3 @@
-<footer style="position:fixed;bottom:0;color:grey" class=" d-none d-lg-block d-md-block d-xl-block d-xxl-block">
-Copyright &copy; 2020 - <?=date('Y')?> &nbsp Dar es Salaam Institute of Technology.
-
-    
-
-    
+<footer  class=" d-none d-lg-block d-md-block d-xl-block d-xxl-block">
+Copyright &copy; <?=date('Y')?> &nbsp DIT eLearning Management System.
   </footer>

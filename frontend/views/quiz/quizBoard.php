@@ -28,7 +28,7 @@ $this->params['breadcrumbs'] = [
          <span class="d-none quiz"><?=$quiz?></span>
            <div class="card shadow" >
               <div class="card-body">
-                <div  class="row border-bottom text-primary text-lg p-2 m-2 d-flex justify-content-center"><div class="col-sm-2 text-danger text-md p-0"><marquee><?=($registered==true)?"You Are Already Registered To This Quiz, Make Sure You Submit Your Answers Otherwise Your Score Is By Default 0 (zero) !":"You Are Not Registered To This Quiz,You will be registered during submission !"?></marquee></div><div class="col-sm-8 text-center"><?=$title?> <span class="text-muted pl-1"> <?=" (".$total_marks." Marks)"?></span></div><div class="col-sm-2 border-white p-2 " style="position:fixed; top:15%;right:0%"><div class="container p-2 bg-black text-center"><span class="float-left p-0"><img src="/img/loader.gif" class="img-circle" width="17px" height="17px" /></span><span class='timing'><?=($inititalTimer!=null)?$inititalTimer:"Time is Over!"?></span><br><span class='text-sm subinfo'></span></div></div></div>
+                <div  class="row border-bottom text-info text-lg p-2 m-2 d-flex justify-content-center"><div class="col-sm-2 text-danger text-md p-0"><marquee><?=($registered==true)?"You Are Already Registered To This Quiz, Make Sure You Submit Your Answers Otherwise Your Score Is By Default 0 (zero) !":"You Are Not Registered To This Quiz,You will be registered during submission !"?></marquee></div><div class="col-sm-8 text-center"><?=$title?> <span class="text-muted pl-1"> <?=" (".$total_marks." Marks)"?></span></div><div class="col-sm-2 border-white p-2 " style="position:fixed; top:15%;right:0%"><div class="container p-2 bg-black text-center"><span class="float-left p-0"><img src="/img/loader.gif" class="img-circle" width="17px" height="17px" /></span><span class='timing'><?=($inititalTimer!=null)?$inititalTimer:"Time is Over!"?></span><br><span class='text-sm subinfo'></span></div></div></div>
                 <form action="/quiz/get-quiz-responses" id="form" method="post">
                <?php
                  $quizdata=$quizdata;
@@ -119,7 +119,7 @@ $this->params['breadcrumbs'] = [
                ?>
                <input type="hidden" name="quiz" value="<?= $quiz; ?>" />
                 <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>" />
-                <button type="submit" class="btn btn-default bg-info shadow p-2 mt-3 col-sm-7 float-right submitbtn"><i class="fa fa-send"></i> Submit</button>
+                <button type="submit" class="btn btn-default text-info shadow p-2 mt-3 col-sm-7 float-right submitbtn"><i class="fa fa-send"></i> Submit</button>
              </form>
              <audio class="d-none messageaudio">
               <source src="/media/anxious-586.mp3"  type="audio/mpeg">

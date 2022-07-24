@@ -93,13 +93,13 @@ $this->params['breadcrumbs'] = [
                                                                                             {
                                                                                                 
                                                                                             ?>
-                                                                                            <a href="<?=Url::to(['/quiz/quiz-take','quiz'=>ClassRoomSecurity::encrypt($quiz->quizID)])?>" data-toggle="tooltip" data-title="Take Quiz" class="float-right mr-2 btn btn-default shadow text-primary"><i class="fa fa-pen text-info fa-1x"></i> Take Quiz</a>
+                                                                                            <a href="<?=Url::to(['/quiz/quiz-take','quiz'=>ClassRoomSecurity::encrypt($quiz->quizID)])?>" data-toggle="tooltip" data-title="Take Quiz" class="float-right mr-2 btn btn-default shadow text-primary"><i class="fa fa-pen fa-1x"></i> Take Quiz</a>
                                                                                             <?php
                                                                                             }
                                                                                             else
                                                                                             {
                                                                                             ?>
-                                                                                             <a class="float-right mr-2  border p-2 text-danger"><i class="fa fa-exclamation-triangle text-danger fa-1x"></i> Expired</a>
+                                                                                             <a class="float-right mr-2  border p-2 text-danger"><i class="fa fa-exclamation-triangle fa-1x text-info"></i> Expired</a>
                                                                                             <?php
                                                                                             }
                                                                                             ?>
@@ -132,9 +132,9 @@ $this->params['breadcrumbs'] = [
                                                                           </div>
                                                                           <?php }?>
                                                                           <div class="row p-3 d-flex justify-content-center border p-0" style="font-size:11px">
-                                                                              <div class="col-sm-2 p-0"><span class="text-bold"><i class="far fa-calendar-plus"></i> Created on</span> <br><?=$quiz->date_created?></div>
-                                                                              <div class="col-sm-2 p-0 "><span class="text-bold"><i class="far fa-calendar-check"></i> <?=$quiz->hasStarted()?"Started on":"Starts on"?></span><br><?=$quiz->start_time?></div>
-                                                                              <div class="col-sm-2 p-0 "><span class="text-bold"><i class="far fa-clock"></i> Duration:</span> <br><?=$quiz->duration?> min</div>
+                                                                              <div class="col-sm-2 p-0"><span class="text-bold"><i class="far fa-calendar-plus text-info"></i> Created on</span> <br><?=$quiz->date_created?></div>
+                                                                              <div class="col-sm-2 p-0 "><span class="text-bold"><i class="far fa-calendar-check text-info"></i> <?=$quiz->hasStarted()?"Started on":"Starts on"?></span><br><?=$quiz->start_time?></div>
+                                                                              <div class="col-sm-2 p-0 "><span class="text-bold"><i class="far fa-clock text-info"></i> Duration:</span> <br><?=$quiz->duration?> min</div>
                                                                               <?php
                                                                               if($quiz->end_time!=null && $quiz->attempt_mode=="individual")
                                                                               {
@@ -143,8 +143,8 @@ $this->params['breadcrumbs'] = [
                                                                               <?php
                                                                               }
                                                                               ?>
-                                                                              <div class="col-sm-2 p-0 "><span class="text-bold"><i class="fa fa-check-circle"></i> Questions: </span><br><?=$quiz->total_marks?> </div>
-                                                                              <div class="col-sm-2 p-0 "><span class="text-bold"><i class="fas fa-cog"></i> Attempt Mode:</span><br><?=ucfirst($quiz->attempt_mode)?></div>
+                                                                              <div class="col-sm-2 p-0 "><span class="text-bold"><i class="fa fa-check-circle text-info"></i> Questions: </span><br><?=$quiz->total_marks?> </div>
+                                                                              <div class="col-sm-2 p-0 "><span class="text-bold"><i class="fas fa-cog text-info"></i> Attempt Mode:</span><br><?=ucfirst($quiz->attempt_mode)?></div>
                                                                           </div>
                                                                           <div class="row"><div class="col-sm-12 text-center text-muted text-sm">by <?=Instructor::findOne($quiz->instructorID)->full_name?></div></div>
 

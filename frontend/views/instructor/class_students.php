@@ -64,7 +64,7 @@ $this->params['breadcrumbs'] = [
           <div class="row" style="margin-bottom:10px">
           <div class="col-md-6">
             <span>
-            <span class='bg-primary'>Assigned Programs:</span>
+            <span class='text-info'>Assigned Programs:</span>
             <?php
             $assignedprog=ProgramCourse::find()->where(['course_code'=>$cid])->all();
             for($p=0;$p<count($assignedprog);$p++)
@@ -78,7 +78,7 @@ $this->params['breadcrumbs'] = [
      </div>
           <div class="col-md-6">
          
-          <a href="/instructor/view-groups" class="btn btn-sm btn-primary btn-rounded float-right mb-2"><i class="fas fa-group" ></i> Student Groups</a>
+          <a href="/instructor/view-groups" class="btn btn-sm btn-info btn-rounded float-right mb-2"><i class="fas fa-group" ></i> Student Groups</a>
           <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target=".remstudents" data-toggle="modal" style="margin-right:10px"><i class="fas fa-minus-circle" ></i> Remove Students</a>
           <a href="#" class="btn btn-sm btn-info btn-rounded float-right mb-2" data-target="#Addstudents" data-toggle="modal" style="margin-right:10px"><i class="fas fa-plus-circle" ></i> Assign Students</a>
             

@@ -43,15 +43,6 @@ $this->params['breadcrumbs'] = [
             <!-- Content Wrapper. Contains page content -->
    
        <div class="container-fluid">
-       
- <div class="row">
-          <!-- Left col -->
-          <section class="col-lg-12 ">
-          
-              <!-- <div class="card-header p-0 border-bottom-0"> -->
-          
-              </div>
-              <!-- <div class="card card-outline card-info"> -->
               <div class="card-body" >
               
       
@@ -81,14 +72,9 @@ $this->params['breadcrumbs'] = [
 <?php 
 if($modules==null)
 {
+  echo '<div style="width:91%"  class="container border p-2  d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle text-warning"></i> No Material found</span></div>'
   ?>
-<div class="card card-outline card-info">
-<div class="row">
-  <div class="col-6 mt-3">
-  <p class="float-right">No module added</p>
-  </div>
-</div>
-</div>
+
 <?php
   // return false;
 }
@@ -104,12 +90,12 @@ else
       <h2 class="mb-0">
       <div class="row" >
       <div class="col-md-10 pointer" data-toggle="collapse" data-target="#collapse<?=$mat?>" aria-expanded="true" aria-controls="collapse<?=$mat?>" >
-      <i class="fas fa-book-open" style="font-size:18px"></i><span style="font-size:22px"> <?=Html::encode($module->moduleName)?>:</span><span class="text-md"><?=Html::encode($module->module_description)?></span>
+      <i class="fas fa-book-open text-info" style="font-size:18px"></i><span style="font-size:22px"> <?=Html::encode($module->moduleName)?>:</span><span class="text-md"><?=Html::encode($module->module_description)?></span>
       </div>
       <div class="col-md-2">
       <a href="#" modid=<?=$module->moduleID?> data-toggle="tooltip" data-title="Delete Module" class="text-md text-danger float-right ml-3 moduledel"><span><i class="fas fa-trash"></i></span></a>
-      <a href="<?=Url::to(['/instructor/material-upload-form', 'moduleID'=>ClassRoomSecurity::encrypt($module->moduleID)])?>" data-toggle="tooltip" data-title="Upload Material" class="text-md float-right"><span><i class="fas fa-upload "></span></i></a>
-      <a href="<?=Url::to(['/instructor/share-link', 'module'=>ClassRoomSecurity::encrypt($module->moduleID)])?>" data-toggle="tooltip" data-title="Share External Link" class="text-md mr-3 float-right "><span><i class="fas fa-external-link-alt"></span></i></a>
+      <a href="<?=Url::to(['/instructor/material-upload-form', 'moduleID'=>ClassRoomSecurity::encrypt($module->moduleID)])?>" data-toggle="tooltip" data-title="Upload Material" class="text-md float-right"><span><i class="fas fa-upload text-info"></span></i></a>
+      <a href="<?=Url::to(['/instructor/share-link', 'module'=>ClassRoomSecurity::encrypt($module->moduleID)])?>" data-toggle="tooltip" data-title="Share External Link" class="text-md mr-3 float-right "><span><i class="fas fa-external-link-alt text-info"></span></i></a>
       </div>
       </div>
          

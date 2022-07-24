@@ -20,7 +20,7 @@ use yii\helpers\VarDumper;
 
 /* @var $this yii\web\View */
 $cid=yii::$app->session->get('ccode');
-$this->params['courseTitle'] ="<i class='fa fa-edit text-info'></i> Update Quiz";
+$this->params['courseTitle'] ="<i class='fa fa-edit'></i> Update Quiz";
 $this->title = 'Update Quiz';
 $this->params['breadcrumbs'] = [
     ['label'=>$cid.' Quizes', 'url'=>Url::to(['class-quizes','cid'=>ClassRoomSecurity::encrypt(yii::$app->session->get("ccode"))])],
@@ -74,7 +74,7 @@ $this->params['breadcrumbs'] = [
                </div>
                
                
-               <?= Html::submitButton('<i class="fa fa-save"></i> Update Quiz', ['class'=>'btn btn-default btn-sm bg-info shadow float-right m-3 col-sm-3 p-2']) ?>
+               <?= Html::submitButton('<i class="fa fa-save text-info"></i> Update Quiz', ['class'=>'btn btn-default btn-sm text-info shadow float-right m-3 col-sm-3 p-2']) ?>
            </div>
            </div>
           
@@ -111,7 +111,7 @@ if($(this).val()=="individual")
  $('.deadlinedate').prop('disabled','');
   $('.deadlinetime').prop('disabled','');
   $('.numq').prop('disabled','');
-  $('.chosenquestions').html("<div class='text-center text-lg text-muted mt-5 p-5'><i class='fa fa-info-circle text-success'></i>Random Questions !</div>");
+  $('.chosenquestions').html("<div class='text-center text-lg text-muted mt-5 p-5'><i class='fa fa-info-circle'></i>Random Questions !</div>");
   Swal.fire(
     "Tip !",
     "This type will allow a student to take the quiz at his favourable time within a specified deadline, students will get individual quiz/test version with randomly selected questions from your questions bank. Make sure you have enough questions in your bank to avoid some questions or versions repeating several times leading to cheating during the quiz/test.",
@@ -154,7 +154,7 @@ else
  $('.deadlinedate').prop('disabled','');
   $('.deadlinetime').prop('disabled','');
   $('.numq').prop('disabled','');
-  $('.chosenquestions').html("<div class='text-center text-lg text-muted mt-5 p-5'><i class='fa fa-info-circle text-success'></i>Random Questions !</div>");
+  $('.chosenquestions').html("<div class='text-center text-lg text-muted mt-5 p-5'><i class='fa fa-info-circle'></i>Random Questions !</div>");
   Swal.fire(
     "Tip !",
     "This type will allow a student to take the quiz at his favourable time within a specified deadline, students will get individual quiz/test version with randomly selected questions from your questions bank. Make sure you have enough questions in your bank to avoid some questions or versions repeating several times leading to cheating during the quiz/test.",

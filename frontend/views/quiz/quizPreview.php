@@ -30,13 +30,13 @@ $this->params['breadcrumbs'] = [
         <div class="container-fluid pl-5 pr-5">
            <div class="card shadow" >
               <div class="card-body">
-                <div  class="row border-bottom text-primary text-lg p-2 m-2 d-flex justify-content-center"><div class="col-sm-11"><?=$title?></div>
+                <div  class="row border-bottom text-info text-lg p-2 m-2 d-flex justify-content-center"><div class="col-sm-11"><?=$title?></div>
                 <div class="col-sm-1">
                 <?php
                  if(isset($quiz))
                  {
                 ?>
-                 <a href="<?=Url::to(["/quiz/download-quiz-pdf",'quiz'=>ClassRoomSecurity::encrypt($quiz)])?>" class="btn btn-default shadow bg-info" data-toggle="tooltip" data-title="Download As PDF"  ><i class="fa fa-file-pdf-o text-danger"></i></a>
+                 <a href="<?=Url::to(["/quiz/download-quiz-pdf",'quiz'=>ClassRoomSecurity::encrypt($quiz)])?>" class="btn btn-default shadow text-info" data-toggle="tooltip" data-title="Download As PDF"  ><i class="fa fa-file-pdf-o text-danger"></i></a>
                 <?php } ?>
               </div>
                  </div>
@@ -120,7 +120,7 @@ $this->params['breadcrumbs'] = [
                 else
                 {
                ?>
-                 <div class="container-fluid d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle text-warning"></i> Questions Bank Empty !</span></div>
+                 <div class="container-fluid d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle"></i> Questions Bank Empty !</span></div>
                <?php
                 }
                ?>

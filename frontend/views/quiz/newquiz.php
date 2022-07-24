@@ -35,7 +35,7 @@ $this->params['breadcrumbs'] = [
         <!-- Content Wrapper. Contains page content -->
        
         <div class="container-fluid">
-           <div class="card shadow">
+           <div class="card card-outline card-info shadow">
               <div class="card-body">
               <form action="/quiz/create-quiz" method="post">
               <div class="row">
@@ -85,8 +85,9 @@ $this->params['breadcrumbs'] = [
            </div>
           
       
-        <div class="row p-2 ">
-           <div class="col-sm-7 shadow bg-white p-5" style="max-height:500px!important;overflow:auto">
+        <div class="card card-outline card-info shadow">
+          <div class="row p-2 ">
+           <div class="col-sm-7 bg-white p-5" style="max-height:500px!important;overflow:auto">
            <div class="container mb-4 text-lg text-muted border-bottom">Chosen Questions Appear Here</div>
              <div class="container chosenquestions">
               
@@ -96,16 +97,18 @@ $this->params['breadcrumbs'] = [
            <div class="col-sm-5 p-3 m-0 bg-white " style="max-height:500px!important;overflow:auto">
              <?=$this->render("/quiz/questionsBank2")?>
 
-
+             
 
            </div>
-         </div>
-         <div class="row mb-2 shadow">
-           <div class="col-sm-12 bg-white d-flex justify-content-center p-3 ">
-          <button type="submit" class="btn btn-default btn-md bg-info shadow"><i class="fa fa-save"></i> Save Quiz</button>
+         <div class="row">
+          <div class="col-10"></div>
+          <div class="col-2">
+          <button type="submit" class="btn btn-block mb-4 bg-info"><i class="fa fa-save"></i> Save Quiz</button>
           </div>
          </div>
         </div>
+        </div>
+        
         <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>" />
 </form>
     </div>

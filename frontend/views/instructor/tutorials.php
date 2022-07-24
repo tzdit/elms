@@ -27,7 +27,7 @@ use yii\helpers\ArrayHelper;
 use frontend\models\ClassRoomSecurity;
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] ="<i class='fa fa-chalkboard-teacher'></i> ".$cid. " Tutorials";
+$this->params['courseTitle'] ="<i class='fa fa-chalkboard-teacher text-info'></i> ".$cid. " Tutorials";
 $this->title =$cid. " Tutorials";
 $this->params['breadcrumbs'] = [
   ['label'=>'class-dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
@@ -46,10 +46,7 @@ $this->params['breadcrumbs'] = [
  <div class="row">
           <!-- Left col -->
           <section class="col-lg-12 ">
-          <div class="card card-info card-outline card-outline-tabs">
-              <div class="card-header p-0 border-bottom-0">
-              
-              </div>
+          
              
               <div class="card-body" >    
   <?php $tutt = Assignment::find()->where(['assNature' => 'tutorial', 'course_code' => $cid])->count(); ?>
@@ -63,10 +60,18 @@ $this->params['breadcrumbs'] = [
 
    <div class="accordion" id="accordionExample_4">
                  
-              
-             
-   <?php foreach($tutorials as $tutorial) : ?>
-  <div class="card">
+   <?php 
+if($tutorials==null)
+{
+  echo '<div style="width:91%"  class="container border p-2  d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle text-warning"></i> No Tutorial found</span></div>';
+  ?>
+
+<?php
+  // return false;
+}
+else
+foreach($tutorials as $tutorial) : ?>
+  <div class="card card-outline card-info">
     <div class="card-header p-2" id="heading<?=$tutt?>">
       <h2 class="mb-0">
       <div class="row">
@@ -81,13 +86,13 @@ $this->params['breadcrumbs'] = [
           else if(in_array(pathinfo($tutorial->fileName,PATHINFO_EXTENSION),['pdf','PDF']))
           {
        ?>
-      <a href="<?='/storage/temp/'.$tutorial->fileName?>" data-toggle='tooltip' data-title="View tutorial"><i class="fa fa-file-pdf-o" style="font-size:20px;color:red;margin-right:3px"></i><?=Html::encode($tutorial -> assName) ?></a>
+      <a href="<?='/storage/temp/'.$tutorial->fileName?>" data-toggle='tooltip' data-title="View tutorial"><i class="fa fa-file-pdf-o text-info" style="font-size:20px;color:red;margin-right:3px"></i><?=Html::encode($tutorial -> assName) ?></a>
       <?php
           }
           else
           {        
       ?>     
-            <a href="<?='/storage/temp/'.$tutorial->fileName?>"  class="ml-2" target="_blank" data-toggle='tooltip' data-title="View tutorial"><span><i class="fa fa-files-o" style="font-size:25px;margin-right:4px"></i><?=Html::encode($tutorial -> assName) ?></span></a>
+            <a href="<?='/storage/temp/'.$tutorial->fileName?>"  class="ml-2" target="_blank" data-toggle='tooltip' data-title="View tutorial"><span><i class="fa fa-files-o text-info" style="font-size:25px;margin-right:4px"></i><?=Html::encode($tutorial -> assName) ?></span></a>
               <?php
           }
           ?>
@@ -106,9 +111,9 @@ $this->params['breadcrumbs'] = [
       <div class="row">
       <div class="col-md-12">
       <a href="#" class="btn btn-sm btn-danger float-right ml-2" id="tutodelete" ccode="<?=$tutorial->assID?>"><span><i class="fas fa-trash"></i></span></a>
-      <?= Html::a('<i class="fas fa-edit"></i>',['updatetut', 'id'=>ClassRoomSecurity::encrypt($tutorial->assID)], ['class'=>'btn btn-sm btn-primary float-right ml-2','data-toggle'=>'tooltip','data-title'=>'Update tutorial']) ?>
-      <a href="/storage/temp/<?= $tutorial -> fileName ?>" download target="_blank" class="btn btn-sm btn-info float-right ml-2" data-toggle='tooltip' data-title="Download tutorial"><span><i class="fas fa-download"></i></span></a>
-      <a href="/storage/temp/<?= $tutorial -> fileName ?>" class="btn btn-sm btn-primary float-right ml-2" data-toggle='tooltip' data-title="View tutorial"><span><i class="fa fa-eye"></i></span></a>
+      <?= Html::a('<i class="fas fa-edit"></i>',['updatetut', 'id'=>ClassRoomSecurity::encrypt($tutorial->assID)], ['class'=>'btn btn-sm btn-info float-right ml-2','data-toggle'=>'tooltip','data-title'=>'Update tutorial']) ?>
+      <a href="/storage/temp/<?= $tutorial -> fileName ?>" download target="_blank" class="btn btn-sm btn-info float-right ml-2" data-toggle='tooltip' data-title="Download tutorial"><span ><i class="fas fa-download"></i></span></a>
+      <a href="/storage/temp/<?= $tutorial -> fileName ?>" class="btn btn-sm btn-info float-right ml-2" data-toggle='tooltip' data-title="View tutorial"><span><i class="fa fa-eye"></i></span></a>
       
      
       </div>
