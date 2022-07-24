@@ -16,7 +16,7 @@ $levels=[1=>'First Year',2=>'Second Year',3=>'Third Year',4=>'Fourth Year',5=>'F
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header bg-info pt-2 pb-2">
-        <span class="modal-title" id="exampleModalLabel"><h6><i class="fa fa-graduation-cap"></i> Add Students</h6></span>
+        <span class="modal-title" id="exampleModalLabel"><h6><i class="fa fa-graduation-cap  text-info"></i> Add Students</h6></span>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

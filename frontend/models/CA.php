@@ -812,12 +812,12 @@ class CA extends Model{
         
         //the logo
 
-        $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
-        $drawing->setName('UDOM Logo');
-        $drawing->setDescription('UDOM Logo');
-        $drawing->setPath('img/logo.png');
-        $drawing->setHeight(25);
-        $drawing->setWorksheet($sheet);
+        // $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+        // $drawing->setName('DIT Logo');
+        // $drawing->setDescription('DIT Logo');
+        // $drawing->setPath('img/logo.png');
+        // $drawing->setHeight(25);
+        // $drawing->setWorksheet($sheet);
         //setting autoresize and styles
         $styleArray = [
           'font' => [
@@ -1090,10 +1090,10 @@ class CA extends Model{
         $courseTitle=Course::findOne($course)->course_name;
         $stylesheet = file_get_contents('css/capdf.css');
         $mpdf->WriteHTML($stylesheet,1);
-        $mpdf->SetWatermarkText('civeclassroom.udom.ac.tz',0.09);
+        $mpdf->SetWatermarkText('elms.ditnet.ac.tz',0.09);
         $mpdf->showWatermarkText = true;
         $mpdf->WriteHTML('<div align="center"><img src="img/logo.png" width="125px" height="125px"/></div>',2);
-        $mpdf->WriteHTML('<p align="center"><font size=7>The University of Dodoma</font></p>',3);
+        $mpdf->WriteHTML('<p align="center"><font size=7>The Dar es Salaam Institute of Technology</font></p>',3);
         $mpdf->WriteHTML('<p align="center"><font size=5>'.$college.'</font></p>',3);
         $mpdf->WriteHTML('<p align="center"><font size=5>'.$course.' '.$courseTitle.'</font></p>',3);
         $mpdf->WriteHTML('<p align="center"><font size=5>Final course assessment results ('.$year.')</font></p>',3);
@@ -1165,13 +1165,13 @@ class CA extends Model{
     file_put_contents($ca_file,$ca_data,LOCK_EX);
     
     $message=($ca_version>1)?"CA saved successfully":"CA updated successfully";
-    yii::$app->session->setFlash('success',"<i class='fa fa-info-circle'></i> ".$message);
+    yii::$app->session->setFlash('success',"<i class='fa fa-info-circle text-info'></i> ".$message);
     return true;
     }
     catch(Exception $c)
     {
         $message=($ca_version>1)?"Could not save CA, try again later":"Could not update CA, try again later";
-        yii::$app->session->setFlash('error',"<i class='fa fa-info-circle'></i> ".$message);
+        yii::$app->session->setFlash('error',"<i class='fa fa-info-circle text-danger'></i> ".$message);
         return false;
     }
 
@@ -1240,13 +1240,13 @@ class CA extends Model{
     file_put_contents($ca_file,$ca_data,LOCK_EX);
     
     $message=($ca_version>1)?"CA saved successfully":"CA updated successfully";
-    yii::$app->session->setFlash('success',"<i class='fa fa-info-circle'></i> ".$message);
+    yii::$app->session->setFlash('success',"<i class='fa fa-info-circle text-success'></i> ".$message);
     return true;
     }
     catch(Exception $c)
     {
         $message=($ca_version>1)?"Could not save CA, try again later":"Could not update CA, try again later";
-        yii::$app->session->setFlash('error',"<i class='fa fa-info-circle'></i> ".$message);
+        yii::$app->session->setFlash('error',"<i class='fa fa-info-circle text-danger'></i> ".$message);
         return false;
     }
   }

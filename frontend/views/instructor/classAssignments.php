@@ -28,7 +28,7 @@ use frontend\models\ClassRoomSecurity;
 use frontend\models\CourseStudents;
 
 /* @var $this yii\web\View */
-$this->params['courseTitle'] ="<i class='fas fa-book-reader'></i> ".ClassRoomSecurity::decrypt($cid)." Assignments";
+$this->params['courseTitle'] ="<i class='fas fa-book-reader text-info'></i> ".ClassRoomSecurity::decrypt($cid)." Assignments";
 $this->title = ClassRoomSecurity::decrypt($cid)." Assignments";
 $this->params['breadcrumbs'] = [
   ['label'=>'class Dashboard', 'url'=>Url::to(['/instructor/class-dashboard', 'cid'=>$cid])],

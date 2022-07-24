@@ -41,7 +41,7 @@ $this->params['breadcrumbs'] = [
     <div class="card shadow">
     <div class="card-header p-2" id="heading">
     <div class="row">
-    <span class="text-info pl-3"><i class="fa fa-plus-circle"></i> Add New record</span>
+    <span class="text-info pl-3"><i class="fa fa-plus-circle text-info"></i> Add New record</span>
    </div>
     </div>
     <div class="card-body">
