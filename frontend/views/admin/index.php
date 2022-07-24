@@ -71,7 +71,7 @@ $this->params['courseTitle']='<i class="fas fa-th"></i> Dashboard';
           <!-- /.col -->
           <div class="col-12 col-sm-6 col-md-3">
           <a href="<?= Url::toRoute('/session/index') ?>" class="text-dark">
-            <div class="info-box mb-3">
+            <div class="info-box mb-3 bg-info">
             <span class="info-box-icon elevation-0"><i class="fas fa-sign-in-alt"></i></span>
 
               <div class="info-box-content">
@@ -87,7 +87,7 @@ $this->params['courseTitle']='<i class="fas fa-th"></i> Dashboard';
 
           <div class="col-12 col-sm-6 col-md-3">
           <a href="<?= Url::toRoute('/admin/courses') ?>" class="text-dark">
-            <div class="info-box mb-3">
+            <div class="info-box mb-3 bg-info">
             <span class="info-box-icon elevation-0"><i class="fa fa-list"></i></span>
 
               <div class="info-box-content">
@@ -101,7 +101,7 @@ $this->params['courseTitle']='<i class="fas fa-th"></i> Dashboard';
           </div>
           <div class="col-12 col-sm-6 col-md-3">
           <a href="<?= Url::toRoute('/admin/programs') ?>" class="text-dark">
-            <div class="info-box mb-3">
+            <div class="info-box mb-3 bg-info">
             <span class="info-box-icon elevation-0"><i class="fa fa-graduation-cap"></i></span>
 
               <div class="info-box-content">
@@ -114,7 +114,7 @@ $this->params['courseTitle']='<i class="fas fa-th"></i> Dashboard';
             <!-- /.info-box -->
           </div>
           <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
+            <div class="info-box mb-3 bg-info">
             <span class="info-box-icon elevation-0"><i class="fa fa-book"></i></span>
 
               <div class="info-box-content">
@@ -128,7 +128,7 @@ $this->params['courseTitle']='<i class="fas fa-th"></i> Dashboard';
 
          
           <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
+            <div class="info-box mb-3 bg-info">
             <span class="info-box-icon elevation-0"><i class="fa fa-pen"></i></span>
 
               <div class="info-box-content">
@@ -141,7 +141,7 @@ $this->params['courseTitle']='<i class="fas fa-th"></i> Dashboard';
           </div>
           <div class="col-sm-6 ">
           <a href="<?= Url::toRoute('/admin/activity-logs') ?>" class="text-dark">
-          <div class="info-box mb-3">
+          <div class="info-box mb-3 bg-info">
           <div class="info-box-content">
           
                 <span class="info-box-text text-bold">Top Users</span>

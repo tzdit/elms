@@ -85,7 +85,7 @@ $this->params['breadcrumbs'] = [
 <?php 
 if($assignments==null)
 {
-  echo '<div style="width:91%"  class="container border p-2  d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle text-warning"></i> No Quizzes found</span></div>';
+  echo '<div style="width:91%"  class="container border p-2  d-flex justify-content-center p-5"><span class="text-center text-muted text-lg"><i class="fa fa-info-circle text-warning"></i> No Assignments found</span></div>';
   ?>
 
 <?php
