@@ -16,10 +16,12 @@ class CreateCourse extends Model{
     public $course_semester;
     public $course_duration;
     public $course_status;
+    public $sew;
+    public $caw;
     public $YOS;
     public function rules(){
         return [
-            [['course_code', 'course_name', 'course_status', 'course_credit', 'YOS', 'course_semester', 'departments'], 'required'],
+            [['course_code', 'course_name', 'course_credit', 'YOS','caw','sew', 'course_semester', 'departments'], 'required'],
             [[ 'course_semester', 'course_duration'], 'integer'],
             [['course_code'], 'string', 'max' =>20],
             ['course_code', 'unique', 'targetClass' => '\common\models\Course', 'message' => 'This course already exists.'],
@@ -46,7 +48,10 @@ class CreateCourse extends Model{
         $coz->course_duration = $this->course_duration;
         $coz->course_status = $this->course_status;
         $coz->departmentID = $this->departments;
+        $coz->caw=$this->caw;
+        $coz->sew=$this->sew;
         $coz->YOS = $this->YOS;
+      
 
         if(!$coz->save()){ 
             throw new Exception("could not save course details");

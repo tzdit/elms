@@ -17,16 +17,8 @@ class StudentTemplateDownload extends Model{
     
      $stringforexcel="<table>
      <tr>
-     <td>First Name</td>
-     <td>Middle Name</td>
-     <td>Last Name</td>
      <td>Registration Number</td>
-     <td>Student Email</td>
-     <td>Phone Number</td>
-     <td>Gender</td>
-     <td>Student Program</td>
-     <td>Registration Status</td>
-     <td>YOS</td>
+     <td>Registration Status<br> (1=complete, 2=partial, 3=not registered)</td>
      </tr>";
        
 
@@ -95,7 +87,7 @@ class StudentTemplateDownload extends Model{
         ob_clean();
         $writer=IOFactory::createWriter($spreadsheet, 'Xlsx');
         
-        $filename="_AssessmentTemplate.Xlsx";
+        $filename="dit_elems_students_upload_template.Xlsx";
         $filename = str_replace(' ', '', $filename);
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="'. urlencode($filename).'"');

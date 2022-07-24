@@ -22,7 +22,7 @@ class UploadStudentHodForm extends Model
     public $username;
     public $password = "123456";
     public $role = 'STUDENT';
-    public $status = 'REGISTERED';
+    public $status;
     public $department;
 
 
@@ -32,7 +32,7 @@ class UploadStudentHodForm extends Model
     public function rules()
     {
         return [
-            [['fname','lname','program', 'YOS', 'role', 'gender'], 'required'],
+            [['fname','lname','program', 'YOS', 'gender'], 'required'],
             [['fname', 'mname', 'lname', 'status'], 'string', 'max' => 60],
             ['username', 'trim'],
             ['username', 'required'],
@@ -59,10 +59,6 @@ class UploadStudentHodForm extends Model
          if (!$this->validate()) {
              throw new Exception("Registration failed, Please verify your data then resubmit");
         }
-        $patt="/^(T[0-9]{2})[-]([0-9]{2})[-](([0-9]{4})|([0-9]{5}))$/";
-        $patt1="/^((T)[\/](UDOM))[\/]([0-9]{4})[\/]([0-9]{5})$/";
-        $patt2="/^((HD)[\/](UDOM))[\/]([0-9]{4})[\/](T\.([0-9]{4}))$/";
-        if(!preg_match($patt,$this->username) && !preg_match($patt1,$this->username) && !preg_match($patt2,$this->username)){throw new Exception("Invalid registration number");}
         $user = new User();
         $student = new Student();
         
@@ -75,11 +71,12 @@ class UploadStudentHodForm extends Model
            
         //Now insert data to student table
         $student->fname = $this->fname;
-        //$student->mname =($this->mname!==null)?$this->mname:null;
-        $student->mname =$this->mname;
         $student->lname = $this->lname;
+         $student->mname = $this->mname;
+        //$student->mname =($this->mname!==null)?$this->mname:null;
+      
         $student->reg_no = $this->username;
-        $student->email = $this->email;
+        $student->email =$this->email;
         $student->phone = $this->phone;
         $student->gender = $this->gender;
         $student->programCode = $this->program;

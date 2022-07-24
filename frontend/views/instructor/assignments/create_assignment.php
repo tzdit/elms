@@ -27,12 +27,19 @@ use yii\helpers\Html;
         </div>
         </div>
         <div class="row">
+          <div class="col-md-3">
+        <?= $form->field($assmodel, 'startDate')->input('date', ['class'=>'form-control form-control form-control-sm'])->label('start Date')?>
+        </div>
+        <div class="col-md-3">
+        <?= $form->field($assmodel, 'startTime')->input('time', ['class'=>'form-control form-control form-control-sm'])->label('start Time')?>
+        </div>
         <div class="col-md-3">
         <?= $form->field($assmodel, 'endDate')->input('date', ['class'=>'form-control form-control form-control-sm'])->label('End Date')?>
         </div>
         <div class="col-md-3">
         <?= $form->field($assmodel, 'endTime')->input('time', ['class'=>'form-control form-control form-control-sm'])->label('End Time')?>
         </div>
+
         <div class="col-md-3">
         <?= $form->field($assmodel, 'submitMode')->dropdownList(['resubmit'=>'Allow Resubmission', 'unresubmit'=>'Disallow Resubmission'], ['class'=>'form-control form-control-sm', 'prompt'=>'--select--'])->label('Submission Mode')?>
         </div>
@@ -72,7 +79,7 @@ use yii\helpers\Html;
   
         <div class="row">
         <div class="col-md-12">
-        <?= Html::submitButton('Create', ['class'=>'btn btn-primary btn-md float-right ml-2']) ?>
+        <?= Html::submitButton('Create', ['class'=>'btn btn-info btn-md float-right ml-2']) ?>
         <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
         </div>
         </div>

@@ -41,6 +41,7 @@ class Student extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    /*
     public function behaviors()
     {
         return [
@@ -49,6 +50,8 @@ class Student extends \yii\db\ActiveRecord
              ],
         ];
     }
+    */
+    
     public static function tableName()
     {
         return 'student';
@@ -70,7 +73,6 @@ class Student extends \yii\db\ActiveRecord
             ['email', 'unique', 'targetClass' => '\common\models\Student', 'message' => 'This email has already been taken.'],
             ['email', 'email','message' => 'Invalid Email Address.'],
             ['phone', 'unique', 'targetClass' => '\common\models\Student', 'message' => 'phone number already taken.'],
-            ['phone', 'k-phone','countryValue' => 'TZ'],
             [['reg_no'], 'unique'],
             [['programCode'], 'exist', 'skipOnError' => true, 'targetClass' => Program::className(), 'targetAttribute' => ['programCode' => 'programCode']],
             [['userID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userID' => 'id']],
@@ -113,6 +115,7 @@ class Student extends \yii\db\ActiveRecord
 
         return parent::beforeSave($insert);
     }
+  
 
     /**
      * Gets query for [[Chats]].
@@ -245,6 +248,22 @@ class Student extends \yii\db\ActiveRecord
     public static function findReg_no($reg_no)
     {
         return static::findOne(['reg_no' => $reg_no]);
+    }
+
+    public function getregstatus()
+    {
+        if($this->status=="1-status")
+        {
+            return "complete";
+        }
+        else if($this->status=="0-status")
+        {
+           return "Not registered";
+        }
+        else
+        {
+           return "Partial"; 
+        }
     }
 
     

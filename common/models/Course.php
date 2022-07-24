@@ -14,6 +14,8 @@ use Yii;
  * @property int|null $course_duration
  * @property string|null $course_status
  * @property int $departmentID
+ * @property int $caw
+ * @property int $sew
  * @property int $YOS
  *
  * @property Announcement[] $announcements
@@ -57,12 +59,12 @@ class Course extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['course_code', 'course_name', 'course_credit', 'course_semester', 'departmentID', 'YOS'], 'required'],
+            [['course_code', 'course_name', 'course_credit','caw','sew', 'course_semester', 'departmentID', 'YOS'], 'required'],
             [['course_credit'], 'number'],
             [['course_semester', 'course_duration', 'departmentID', 'YOS'], 'integer'],
             [['course_code'], 'string', 'max' => 20],
             [['course_name'], 'string', 'max' => 150],
-            [['course_status'], 'string', 'max' => 10],
+          [['course_status'], 'string', 'max' => 10],
             [['course_code'], 'unique'],
             [['departmentID'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['departmentID' => 'departmentID']],
         ];

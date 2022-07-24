@@ -25,7 +25,7 @@ class UploadStudentForm extends Model
     public $username;
     public $password;
     public $role;
-    public $status = 'REGISTERED';
+    public $status;
 
 
     /**
@@ -63,16 +63,16 @@ class UploadStudentForm extends Model
         $transaction = Yii::$app->db->beginTransaction();
         try{
         $user->username = $this->username;
-        $user->email = $this->email;
+        $user->email = "not set";
         $user->setPassword("123456");
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
         if($user->save()){
            
         //Now insert data to student table
-        $student->fname = $this->fname;
-        $student->mname = isset($this->mname)?$this->mname:null;
-        $student->lname = $this->lname;
+        $student->fname =$this->fname;
+        $student->mname = $this->mname;
+        $student->lname =$this->lname;
         $student->reg_no = $this->username;
         $student->email = $this->email;
         $student->phone = $this->phone;
@@ -121,19 +121,8 @@ public function excelstd_importer(){
            if($std==0){continue;}
            else
            {
-           
-           $fname=$data[$std][0];
-           $mname=$data[$std][1];
-           $lname=$data[$std][2];
-           $username=$data[$std][3];
-           $email=$data[$std][4];
-           $phone=$data[$std][5];
-           $gender=$data[$std][6];
-           $program=$data[$std][7];
-           $status=$data[$std][8];
-           $YOS=$data[$std][9];
-           
-        
+           $username=$data[$std][0];
+           $status=$data[$std][1];
            $usermodel=new User();
           
            try
@@ -149,16 +138,16 @@ public function excelstd_importer(){
            }
         
            $stdmodel=new Student();
-           $stdmodel->fname=$fname;
-           $stdmodel->mname=$mname;
-           $stdmodel->lname=$lname;
-           $stdmodel->email=$email;
-           $stdmodel->gender=$gender;
+           $stdmodel->fname="Not set";
+           $stdmodel->mname="Not set";
+           $stdmodel->lname="Not set";
+           $stdmodel->email=uniqid()."@example.com";
+           $stdmodel->gender="Not set";
            $stdmodel->reg_no=$username;
-           $stdmodel->phone=($phone!==null)?strval($phone):strval(rand());
-           $stdmodel->programCode=$program;
-           $stdmodel->status=$status;
-           $stdmodel->YOS=$YOS;
+           //$stdmodel->phone="0777000000";
+           $stdmodel->programCode=$this->program;
+           $stdmodel->status=$status."-status";
+           $stdmodel->YOS=1;
            $stdmodel->DOR=date('Y-m-d H:i:s');
            $stdmodel->userID = $usermodel->getId();
            

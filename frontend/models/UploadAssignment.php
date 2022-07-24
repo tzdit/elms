@@ -13,6 +13,8 @@ class UploadAssignment extends Model{
     public $assType;
     public $endTime;
     public $endDate;
+    public $startTime;
+    public $startDate;
     public $assFile;
     public $description;
     public $ccode;
@@ -27,7 +29,7 @@ class UploadAssignment extends Model{
     public $totalMarks;
     public function rules(){
         return [
-           [['assTitle', 'submitMode', 'assType', 'endTime', 'endDate'], 'required'],
+           [['assTitle', 'submitMode', 'assType', 'endTime', 'endDate','startTime', 'startDate'], 'required'],
            ['description','string','max'=>1000],
            [['totalMarks'], 'required'],
            [['number_of_questions'], 'required'],
@@ -62,6 +64,7 @@ class UploadAssignment extends Model{
         $ass->submitMode = $this->submitMode;
         $ass->yearID=(yii::$app->session->get("currentAcademicYear"))->yearID;
         $ass->finishDate = $this->endDate." ".$this->endTime;
+        $ass->startDate = $this->startDate." ".$this->startTime;
         $ass->create_time=date("Y-m-d H:i:s");
         $ass->fileName = $filefordb;
         $ass->ass_desc = $this->description;
@@ -197,6 +200,7 @@ class UploadAssignment extends Model{
         $ass->assName = $this->assTitle;
         $ass->submitMode = $this->submitMode;
         $ass->finishDate = $this->endDate." ".$this->endTime;
+        $ass->startDate = $this->startDate." ".$this->startTime;
        // $ass->fileName = $filefordb;
         $ass->ass_desc = $this->description;
         $ass->instructorID = Yii::$app->user->identity->instructor->instructorID;

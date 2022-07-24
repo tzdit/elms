@@ -32,7 +32,7 @@ class RegisterInstructorForm extends Model
             ['username', 'email','message' => 'Invalid Email Address.'],
             ['phone', 'unique', 'targetClass' => '\common\models\Instructor', 'message' => 'phone number already taken.'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This Email has already been taken.'],
-            ['phone', 'k-phone','countryValue' => 'TZ'],
+            //['phone', 'k-phone','countryValue' => 'TZ'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
 

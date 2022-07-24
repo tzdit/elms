@@ -34,7 +34,7 @@ $roles=['INSTRUCTOR'=>'INSTRUCTOR','INSTRUCTOR & HOD'=>'HOD'];
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true,'class'=>'form-group form-control']) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class' => 'btn btn-default btn-lg text-primary']) ?>
+        <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class' => 'btn btn-default btn-lg text-info']) ?>
 </div>
  
 

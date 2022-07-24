@@ -52,10 +52,10 @@ $regno=yii::$app->user->identity->student->reg_no;
                        <div class="row">
                                 <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true"><i class="fa fa-upload text-info"></i> Submit Assignment</a>
+                                        <a class="nav-link active" id="custom-tabs-forum" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="true"><i class="fa fa-upload"></i> Submit Assignment</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-danger" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false"><i class="fa fa-exclamation-triangle text-info "></i> Missing Groups</a>
+                                        <a class="nav-link text-danger" id="custom-tabs-materials" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false"><i class="fa fa-exclamation-triangle"></i> Missing Groups</a>
                                     </li>
                                 </ul>
 </div>
@@ -79,7 +79,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                 <?php
                                                                 if(empty($studentGroupsList)){
                                                                     echo "<p class='text-muted text-lg text-center p-1 responsivetext'>";
-                                                                    echo "<i class='fa fa-info-circle text-info'></i> No group found";
+                                                                    echo "<i class='fa fa-info-circle'></i> No group found";
                                                                     echo "</p>";
                                                                 }
                                                                 ?>
@@ -109,7 +109,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                                 <?php if($group->isCreator($regno)): ?>
                                                                                                     <h5 class="text-danger" data-toggle="tooltip" data-title="Delete group"><a href="#" class="btn-delete-group float-right mr-2 mt-3" id = "btn-delete-group" groupID = "<?= $item['groupID'] ?>" ><i class="fas fa-times-circle fa-lg carry-delete"></i></a></h5>
                                                                                                     <?php else: ?>
-                                                                                                        <h5 class="text-primary" data-toggle="tooltip" data-title="Exit group"><a href="#" class="exitgroup float-right mr-2 mt-3" groupID = "<?= $item['groupID'] ?>" ><i class="fa fa-sign-out-alt fa-lg  text-danger"></i></a></h5>
+                                                                                                        <h5 class="text-info" data-toggle="tooltip" data-title="Exit group"><a href="#" class="exitgroup float-right mr-2 mt-3" groupID = "<?= $item['groupID'] ?>" ><i class="fa fa-sign-out-alt fa-lg "></i></a></h5>
                                                                                                 <?php endif; ?>
                                                                                                  </div>
                                                                                         </div>
@@ -137,7 +137,7 @@ $regno=yii::$app->user->identity->student->reg_no;
 
                                                                                     ?>
                                                                                       <div class="card-footer p-2 bg-white border-top">
-                                                                                            <h6 class="text-danger float-right mr-4 responsivetext"><i class="fa fa-info-circle text-warning"></i> No Assignments provided yet</h6>
+                                                                                            <h6 class="text-danger float-right mr-4 responsivetext"><i class="fa fa-info-circle"></i> No Assignments provided yet</h6>
                                                                                         </div>
 
                                                                                         <?php
@@ -151,6 +151,8 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                     <?php if (!empty($assignments)): ?>
 
                                                                                         <?php foreach ($assignments as $assignment ): ?>
+
+                                                                                           <?php if($assignment->isStart()): ?>
                                                                                                         <?php
                                                                                                         //variable to check if there is any submission
                                                                                                         $submited = GroupAssSubmit::find()->where('groupID = :groupID AND assID = :assID', [ ':groupID' => $assignment['groupID'],':assID' => $assignment['assID']])->asArray()->one();
@@ -160,11 +162,11 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                                       if($submited!=null):
                                                                                                       if(!GroupAssignmentSubmit::findOne($submited['submitID'])->isSigned()):
                                                                                                     ?>
-                                                                                                    <span class="text-danger float-right"><i class="fa fa-exclamation-triangle  text-warning"></i> Not signed </span>
+                                                                                                    <span class="text-danger float-right"><i class="fa fa-exclamation-triangle"></i> Not signed </span>
                                                                                                     <?php
                                                                                                     else:
                                                                                                     ?>
-                                                                                                     <span class="text-success float-right" ><i class="fa fa-check  text-success"></i> Signed </span>
+                                                                                                     <span class="text-success float-right" ><i class="fa fa-check"></i> Signed </span>
 
                                                                                                     <?php
                                                                                                     endif;
@@ -199,7 +201,7 @@ $regno=yii::$app->user->identity->student->reg_no;
 
 
 
-                                                                                                        <b class="text-danger ml-4"><i class="fa fa-clock-o ml-2 text-danger"></i> Deadline : </b><span class="responsivetext"><?= $deadLineDate->format('d-m-Y H:i:s A') ?> </span>
+                                                                                                        <b class="text-danger ml-4"><i class="fa fa-clock-o ml-2"></i> Deadline : </b><span class="responsivetext"><?= $deadLineDate->format('d-m-Y H:i:s A') ?> </span>
                                                                                                     </div>
                                                                                                     <div class="col-md-6">
 
@@ -223,7 +225,7 @@ $regno=yii::$app->user->identity->student->reg_no;
 
                                                                                       if(!GroupAssignmentSubmit::findOne($submited['submitID'])->isSigned()):
                                                                                       ?>
-                                                                                      <a href="<?= Url::toRoute(['/student/sign-submit', 'submit' => ClassRoomSecurity::encrypt($submited['submitID'])])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fa fa-check text-success"> Sign</i></span></a>
+                                                                                      <a href="<?= Url::toRoute(['/student/sign-submit', 'submit' => ClassRoomSecurity::encrypt($submited['submitID'])])?>" class="btn btn-sm btn-success float-right ml-2"><span><i class="fa fa-check"> Sign</i></span></a>
                                                                                       <?php
                                                                                         endif
                                                                                       ?>
@@ -233,7 +235,11 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                                 </div>
                                                                                             </div>
 
-                                                                                        <?php endforeach;endif?>
+                                                                                        <?php 
+                                                                                        endif;
+                                                                                    endforeach;
+                                                                                        endif
+                                                                                        ?>
 
 
                                                                                                                                      
@@ -254,11 +260,11 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                                      if($submitedAll!=null):
                                                                                                       if(!GroupAssignmentSubmit::findOne($submitedAll['submitID'])->isSigned()):
                                                                                                     ?>
-                                                                                                    <span class="text-danger float-right"><i class="fa fa-exclamation-triangle  text-warning"></i> Not signed </span>
+                                                                                                    <span class="text-danger float-right"><i class="fa fa-exclamation-triangle"></i> Not signed </span>
                                                                                                     <?php
                                                                                                     else:
                                                                                                     ?>
-                                                                                                     <span class="text-success float-right" ><i class="fa fa-check text-success"></i> Signed </span>
+                                                                                                     <span class="text-success float-right" ><i class="fa fa-check"></i> Signed </span>
 
                                                                                                     <?php
                                                                                                     endif;
@@ -290,7 +296,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                                         ?>
 
 
-                                                                                                        <b class="text-danger ml-4"><i class="fa fa-clock-o ml-2 text-danger"></i> Deadline : </b><span class="responsivetext"><?= $deadLineDate->format('d-m-Y H:i:s A') ?> </span>
+                                                                                                        <b class="text-danger ml-4"><i class="fa fa-clock-o ml-2"></i> Deadline : </b><span class="responsivetext"><?= $deadLineDate->format('d-m-Y H:i:s A') ?> </span>
                                                                                                     </div>
                                                                                                     <div class="col-md-6">
 
@@ -337,7 +343,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                     $studentList = StudentGroup::find()->select('student.fname, student.mname, student.lname, student.reg_no, student.programCode, student.phone ')->join('INNER JOIN', 'student', 'student.reg_no = student_group.reg_no')->where('groupID = :groupID ', [':groupID' => $item['groupID']])->asArray()->all();
                                                                                     ?>
                                                                                     <div class="p-5">
-                                                                                        <div class="row bg-primary p-2">
+                                                                                        <div class="row bg-info p-2">
                                                                                             Group Members
                                                                                         </div>
                                                                                         <!-- -----------------------------group members ---------------------------------------->
@@ -444,7 +450,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                                                 </div>
                                                                                                 <div class="col-sm-4 responsivetext">
                                                                                                     <div class="responsivetext"><i class="fa fa-exclamation-triangle text-danger"></i><h6 class="text-danger responsivetext">You do not belong to any group in this assignment !</h6></div>
-                                                                                                    <h4 class="btn btn-default btn-sm shadow d-none d-md-block text-primary" data-toggle="collapse" data-target="#collapse<?=$noGroupAssignmentCount?>" aria-expanded="true" aria-controls="collapse<?=$noGroupAssignmentCount?>"><i class="fa fa-plus-circle text-info"></i>Create Group</h4>
+                                                                                                    <h4 class="btn btn-default btn-sm shadow d-none d-md-block text-info" data-toggle="collapse" data-target="#collapse<?=$noGroupAssignmentCount?>" aria-expanded="true" aria-controls="collapse<?=$noGroupAssignmentCount?>"><i class="fa fa-plus-circle"></i>Create Group</h4>
                                                                                                 </div>
                                                                                             </div>
 
@@ -465,9 +471,9 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                                         <div class="card mx-3 p-4  form-group">
 
                                                                             <div class="mb-2 text-center">
-                                                                                <h5 class="text-primary text-sm responsivetext"><i class="fa fa-info-circle text-info"></i> You will automatically be added to the group you create</h5>
+                                                                                <h5 class="text-info text-sm responsivetext"><i class="fa fa-info-circle"></i> You will automatically be added to the group you create</h5>
                                                                             </div>
-                                                                            <div class="container pl-5 pr-5 text-sm text-primary">
+                                                                            <div class="container pl-5 pr-5 text-sm text-info">
                                                                             <?php 
                                                                            
                                                                             $form = ActiveForm::begin();
@@ -521,7 +527,7 @@ $regno=yii::$app->user->identity->student->reg_no;
                                                             <?php if($countmissing==0)
                                                             {
                                                             ?>
-                                                             <span class="text-center"><i class="fa fa-info-circle text-warning"></i> No Assignments Missing Groups</div>
+                                                             <span class="text-center"><i class="fa fa-info-circle"></i> No Assignments Missing Groups</div>
 
                                                                 <?php
                                                             }

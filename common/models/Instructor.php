@@ -62,7 +62,6 @@ class Instructor extends \yii\db\ActiveRecord
             [['PP'], 'string', 'max' => 10],
             [['phone'], 'string', 'max' => 30],
             [['phone'], 'unique'],
-            ['phone', 'k-phone','countryValue' => 'TZ'],
             ['email', 'email','message' => 'Invalid Email Address.'],
             ['email', 'unique'],
             [['departmentID'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['departmentID' => 'departmentID']],

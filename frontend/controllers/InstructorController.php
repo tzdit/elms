@@ -57,6 +57,7 @@ use yii\web\Response;
 use yii\web\BadRequestHttpException;
 use Yii;
 use yii\helpers\Url;
+use yii\helpers\Html;
 use yii\web\UploadedFile;
 use common\helpers\Security;
 use yii\base\Exception;
@@ -793,16 +794,16 @@ public function actionEditExtAssrecord($recordid)
         return $this->redirect(Yii::$app->request->referrer);
     }
 
-    public function actionDeletestudent($id)
+    public function actionDeletestudent()
     {
-        $stddel = User::findOne(['username'=>$id]);
-        $std_id = $stddel->id; 
-        $std_delete = User::findOne($std_id)->delete();
+        $id=yii::$app->request->post('id');
+        $std_delete = Student::findOne($id)->delete();
         if($std_delete){
-            $std_tbl = Student::findOne($id)->delete();
+            $stddel = User::find()->where(['username'=> $id])->one();
+         $stddel->delete();
             Yii::$app->session->setFlash('success', 'Student deleted successfully');
         }
-        return $this->redirect(Yii::$app->request->referrer);
+        return $this->asJson(['message'=>'user deleted successfully']);
     }
 
     public function actionDeletetut($id)
@@ -1801,7 +1802,7 @@ public function actionUploadTutorial(){
         Yii::$app->session->setFlash('success', 'Tutorial created successfully');
         return $this->redirect(Yii::$app->request->referrer);
         }else{
-        Yii::$app->session->setFlash('error', 'Unable to upload tutorial now, try again letter');
+        Yii::$app->session->setFlash('error', 'Unable to upload tutorial now, try again later');
        
         return $this->redirect(Yii::$app->request->referrer);
     }
@@ -2527,7 +2528,7 @@ public function actionAddStudentGentype()
      } 
     
 }catch(\Exception $e){
-    Yii::$app->session->setFlash('error', 'Something went wrong'.$e->getMessage());
+    Yii::$app->session->setFlash('error', 'Something went wrong '.$e->getMessage());
 }
     return $this->render('create_student', ['model'=>$model, 'programs'=>$programs, 'departments'=>$departments, 'roles'=>$roles]);
 }
@@ -2579,7 +2580,7 @@ public function actionStudentList(){
         $model = new CreateCourse;
         $coz = ArrayHelper::map(Course::find()->all(), 'course_code', 'course_code');
         $courses = Course::find()->all();
-        $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
+        $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name','collegename');
         $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
         try{
         //$departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
@@ -2591,7 +2592,7 @@ public function actionStudentList(){
             Yii::$app->session->setFlash('success', 'Course added successfully');
             return $this->redirect(Yii::$app->request->referrer);
             }else{
-                Yii::$app->session->setFlash('error','unable to add new course');
+                Yii::$app->session->setFlash('error','unable to add new course'.Html::errorSummary($model));
                 return $this->redirect(Yii::$app->request->referrer);
             }    
          } 

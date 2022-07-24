@@ -24,6 +24,7 @@ use Yii;
  * @property int $yearID
  * @property string $status
  * @property string $create_time
+ * @property string $startDate
  *
  * @property Course $courseCode
  * @property Instructor $instructor
@@ -71,6 +72,7 @@ class Assignment extends \yii\db\ActiveRecord
             [['instructorID', 'total_marks', 'yearID'], 'integer'],
             [['assName', 'assNature', 'yearID'], 'required'],
             [['finishDate'], 'safe'],
+            [['startDate'], 'safe'],
             [['course_code'], 'string', 'max' => 20],
             [['assName'], 'string', 'max' => 100],
             [['assType'], 'string', 'max' => 15],
@@ -318,6 +320,14 @@ class Assignment extends \yii\db\ActiveRecord
         $lastlogin=strtotime($lastlogin);
 
         return $lastlogin<$time;
+    }
+    public function isStart()
+    {
+      date_default_timezone_set('Africa/Dar_es_Salaam');
+       $time=strtotime($this->startDate);
+       $currenttime=strtotime(date('Y-m-d H:i:s'));
+
+       return $time<$currenttime;
     }
 
 }

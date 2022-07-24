@@ -111,4 +111,8 @@ class Department extends \yii\db\ActiveRecord
     {
         return $this->college->college_name;
     }
+public function getCollegename()
+{
+    return $this->college->college_name;
+}
 }

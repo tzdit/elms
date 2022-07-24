@@ -34,7 +34,7 @@ class RegisterHodsForm extends Model
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email has already been taken.'],
             ['username', 'email','message' => 'Invalid Email Address.'],
             ['phone', 'unique', 'targetClass' => '\common\models\Instructor', 'message' => 'phone number already taken.'],
-            ['phone', 'k-phone','countryValue' => 'TZ'],
+            //['phone', 'k-phone','countryValue' => 'TZ'],
             ['username', 'string', 'min' => 2, 'max' => 255],
         ];
     }

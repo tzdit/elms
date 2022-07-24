@@ -32,7 +32,7 @@ $this->params['breadcrumbs'] = [
                  List of Hods
                  
                 </h3>
-                <a href="<?= Url::toRoute('/admin/create-hod') ?>" class="btn btn-primary btn-sm float-right m-0 col-xs-12"><i class="fas fa-user-plus"></i> Create User</a>
+                <a href="<?= Url::toRoute('/admin/create-hod') ?>" class="btn btn-info btn-sm float-right m-0 col-xs-12"><i class="fas fa-user-plus"></i> Create User</a>
               
               </div><!-- /.card-header -->
               <div class="card-body">

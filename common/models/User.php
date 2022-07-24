@@ -57,6 +57,7 @@ class User extends ActiveRecord implements IdentityInterface
              ],
         ];
     }
+    
 
     //  /**
     //  * {@inheritdoc}
