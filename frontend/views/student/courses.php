@@ -9,7 +9,7 @@ use yii\helpers\VarDumper;
 /* @var $this yii\web\View */
 
 $this->title = 'My Curriculum';
-$this->params['courseTitle']='<i class="fas fa-book mr-1"></i>My Curriculum';
+$this->params['courseTitle']='<i class="fas fa-book mr-1 text-info"></i>My Curriculum';
 $this->params['breadcrumbs'] = [
   ['label'=>$this->title]
 ];
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'] = [
                     <div class="card-header">
                       <h4 class="card-title w-100">
                         <a class="d-block w-100" data-toggle="collapse" href="#collapseOne">
-                        <i class="fas fa-book mr-1"> </i> First Year Semester #1
+                        <i class="fas fa-book mr-1 text-info"> </i> First Year Semester #1
                         </a>
                       </h4>
                     </div>
@@ -74,7 +74,7 @@ $this->params['breadcrumbs'] = [
                     <div class="card-header">
                       <h4 class="card-title w-100">
                         <a class="d-block w-100" data-toggle="collapse" href="#collapseOne1">
-                        <i class="fas fa-book mr-1"> </i>First Year Semester #2
+                        <i class="fas fa-book mr-1 text-info"> </i>First Year Semester #2
                         </a>
                       </h4>
                     </div>
@@ -119,7 +119,7 @@ $this->params['breadcrumbs'] = [
                     <div class="card-header">
                       <h4 class="card-title w-100">
                         <a class="d-block w-100" data-toggle="collapse" href="#collapseTwo">
-                        <i class="fas fa-book mr-1"> </i>Second Year Semester #1
+                        <i class="fas fa-book mr-1 text-info"> </i>Second Year Semester #1
                         </a>
                       </h4>
                     </div>
@@ -162,7 +162,7 @@ $this->params['breadcrumbs'] = [
                     <div class="card-header">
                       <h4 class="card-title w-100">
                         <a class="d-block w-100" data-toggle="collapse" href="#collapseTwo2">
-                        <i class="fas fa-book mr-1"> </i>Second Year Semester #2
+                        <i class="fas fa-book mr-1 text-info"> </i>Second Year Semester #2
                         </a>
                       </h4>
                     </div>
@@ -207,7 +207,7 @@ $this->params['breadcrumbs'] = [
                     <div class="card-header">
                       <h4 class="card-title w-100">
                         <a class="d-block w-100" data-toggle="collapse" href="#collapseThree">
-                        <i class="fas fa-book mr-1"> </i>Third Year Semester #1
+                        <i class="fas fa-book mr-1 text-info"> </i>Third Year Semester #1
                         </a>
                       </h4>
                     </div>
@@ -250,7 +250,7 @@ $this->params['breadcrumbs'] = [
                     <div class="card-header">
                       <h4 class="card-title w-100">
                         <a class="d-block w-100" data-toggle="collapse" href="#collapseThree3">
-                        <i class="fas fa-book mr-1"> </i>Third Year Semester #2
+                        <i class="fas fa-book mr-1 text-info"> </i>Third Year Semester #2
                         </a>
                       </h4>
                     </div>
@@ -295,7 +295,7 @@ $this->params['breadcrumbs'] = [
                     <div class="card-header">
                       <h4 class="card-title w-100">
                         <a class="d-block w-100" data-toggle="collapse" href="#collapseFour">
-                        <i class="fas fa-book mr-1"> </i>Fourth Year Semester #1
+                        <i class="fas fa-book mr-1 text-info"> </i>Fourth Year Semester #1
                         </a>
                       </h4>
                     </div>
@@ -338,7 +338,7 @@ $this->params['breadcrumbs'] = [
                     <div class="card-header">
                       <h4 class="card-title w-100">
                         <a class="d-block w-100" data-toggle="collapse" href="#collapseFour4">
-                        <i class="fas fa-book mr-1"> </i>Fourth Year Semester #2
+                        <i class="fas fa-book mr-1 text-info"> </i>Fourth Year Semester #2
                         </a>
                       </h4>
                     </div>
@@ -383,7 +383,7 @@ $this->params['breadcrumbs'] = [
                     <div class="card-header">
                       <h4 class="card-title w-100">
                         <a class="d-block w-100" data-toggle="collapse" href="#collapseFive">
-                        <i class="fas fa-book mr-1"> </i>Fifth Year Semester #1
+                        <i class="fas fa-book mr-1 text-info"> </i>Fifth Year Semester #1
                         </a>
                       </h4>
                     </div>
@@ -426,7 +426,7 @@ $this->params['breadcrumbs'] = [
                     <div class="card-header">
                       <h4 class="card-title w-100">
                         <a class="d-block w-100" data-toggle="collapse" href="#collapseFive5">
-                        <i class="fas fa-book mr-1"> </i>Fifth Year Semester #2
+                        <i class="fas fa-book mr-1 text-info"> </i>Fifth Year Semester #2
                         </a>
                       </h4>
                     </div>

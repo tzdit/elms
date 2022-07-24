@@ -22,7 +22,7 @@ use yii\bootstrap4\Breadcrumbs;
                 <div class="col-sm-12 text-sm">
                             <div class="row d-flex justify-content-center " style="font-family:'Times New Roman', sans-serif">
 
-                                        <div class="col-xs-6 text-success text-md text-center"> <i class="fa fa-info-circle"></i> You will automatically be added to the group you create</div>
+                                        <div class="col-xs-6 text-success text-md text-center"> <i class="fa fa-info-circle text-info"></i> You will automatically be added to the group you create</div>
                                     </div>
                                     <div class="course-form">
 

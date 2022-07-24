@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model common\models\Student */
 
 $this->title = 'Update Student';
-$this->params['courseTitle']='<i class="fa fa-edit"></i> Update Student' ;
+$this->params['courseTitle']='<i class="fa fa-edit text-info"></i> Update Student' ;
 $this->params['breadcrumbs'][] = ['label' => 'Students', 'url' => ['student-list']];
 $this->params['breadcrumbs'][] = 'Update';
 ?>

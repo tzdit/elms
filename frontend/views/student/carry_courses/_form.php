@@ -38,7 +38,7 @@ use yii\bootstrap4\Breadcrumbs;
 
 
                                 <div class="form-group">
-                                    <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-primary']) ?>
+                                    <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-info']) ?>
                                 </div>
 
                                 <?php ActiveForm::end(); ?>

@@ -10,7 +10,7 @@ use frontend\models\LectureRoom;
 use frontend\models\ClassRoomSecurity;
 
 $cid=yii::$app->session->get('ccode');
-$this->params['courseTitle'] = "<i class='fa fa-school'></i> ".$cid." Lecture Room";
+$this->params['courseTitle'] = "<i class='fa fa-school text-info'></i> ".$cid." Lecture Room";
 $this->title ="Lecture Room";
 $this->params['breadcrumbs'] = [
   ['label'=>$cid.' dashboard', 'url'=>Url::to(['/student/classwork', 'cid'=>ClassRoomSecurity::encrypt($cid)])],
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'] = [
            ?>
               <div class="row text-center">
                 <div class="col-md-12">
-              <i class="fa fa-info-circle" style="font-size:30px"></i>  Connection could not be established
+              <i class="fa fa-info-circle text-danger" style="font-size:30px"></i>  Connection could not be established
               </div>
          </div>
          
@@ -84,7 +84,7 @@ $this->params['breadcrumbs'] = [
        ?>
           <div class="row">
          <div class="col-sm-6 p-3 shadow">
-         <span class="text-md"><i class="fa fa-info-circle"></i>No ongoing session</span>
+         <span class="text-md"><i class="fa fa-info-circle text-success"></i>No ongoing session</span>
          </div>
      
        </div>
@@ -96,7 +96,7 @@ $this->params['breadcrumbs'] = [
     ?>
     <div class="row">
    <div class="col-sm-6 p-3 shadow">
-   <span class="text-md"><i class="fa fa-info-circle"></i>No ongoing session</span>
+   <span class="text-md"><i class="fa fa-info-circle text-info"></i>No ongoing session</span>
    </div>
  
  </div>
@@ -110,7 +110,7 @@ $this->params['breadcrumbs'] = [
   {
   ?>
 <a class="shadow btn btn-sm btn-default p-3 rounded-pill text-md" href="<?=Url::to(['student-lectureroom/join-lecture']) ?>">
-                                                            <i class="fa fa-play-circle " style="color:rgba(70,100,255,.6)"></i>Join Session</a>
+                                                            <i class="fa fa-play-circle" style="color:rgba(70,100,255,.6)"></i>Join Session</a>
                                                             <?php
   }
   else

@@ -29,7 +29,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('<i class="fa fa-save"></i> Save Changes', ['class' => 'btn btn-default col-sm-6 mb-2 float-right']) ?>
+        <?= Html::submitButton('<i class="fa fa-save"></i> Save Changes', ['class' => 'btn btn-default col-sm-6 mb-2 float-right bg-info']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

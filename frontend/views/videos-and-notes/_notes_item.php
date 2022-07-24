@@ -10,7 +10,7 @@ use yii\helpers\Url;
 
 
     <a href="<?= Url::toRoute(['/videos-and-notes/view_document','material_ID'=> ClassRoomSecurity::encrypt($model->material_ID)]) ?>"  class="document-body">
-    <i class="fa fa-file fa-7x document-icon"></i>
+    <i class="fa fa-file fa-7x document-icon text-info"></i>
       <div class="document  success">
   
         <div class="document-footer ">

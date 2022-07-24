@@ -53,7 +53,7 @@ $this->params['breadcrumbs'] = [
                                                 <?php
                                                 if(empty($returned)){
                                                     echo "<p class='text-muted text-lg p-1 text-center responsivetext'>";
-                                                    echo "<i class='fa fa-info-circle text-info'></i> No submissions found";
+                                                    echo "<i class='fa fa-info-circle text-warning'></i> No submissions found";
                                                     echo "</p>";
                                                 }
                                                 ?>
@@ -72,13 +72,13 @@ $this->params['breadcrumbs'] = [
                                                                         <div class="row">
                                                         
                                                                             <div class="col-sm-9 pl-2">
-                                                                                <h5 class="responsiveheader assignment-header"><i class="fa fa-file-text text-primary mr-1 fa-lg" ></i><?php echo " ".ucwords($assignmentDetails->assName) ?> </h5>
+                                                                                <h5 class="responsiveheader assignment-header"><i class="fa fa-file-text text-info mr-1 fa-lg" ></i><?php echo " ".ucwords($assignmentDetails->assName) ?> </h5>
                                                                                 <span class="text-muted mt-0 responsivetext"><?= ucfirst($assignmentDetails->assType) ?> Assignment</span>
                                
 
                                                                     <div class="m-0 responsivetext">
                                                                         <p class="responsivetext"> Submitted file: <a class="m-0" style="color: #007bff;
-                                                                    font-style: italic;" href="/storage/submit/<?= $returne->fileName?>" target="_blank"><i class="fa fa-eye"></i> View </a></p>
+                                                                    font-style: italic;" href="/storage/submit/<?= $returne->fileName?>" target="_blank"><i class="fa fa-eye text-success"></i> View </a></p>
                                                                     </div>
 
                                                                   
@@ -158,7 +158,7 @@ $this->params['breadcrumbs'] = [
                                                     <?php 
                                                                         if(empty($studentGroups)){
                                                                             echo "<p class='text-muted text-lg text-center p-1 responsivetext'>";
-                                                                            echo "<i class='fa fa-info-circle text-info'></i> No submissions found";
+                                                                            echo "<i class='fa fa-info-circle text-warning'></i> No submissions found";
                                                                             echo "</p>";
                 
                                                                           
@@ -188,12 +188,12 @@ $this->params['breadcrumbs'] = [
                                                                     <div class="m-0">
                                                                         <div class="row">
                                                                             <div class="col-sm-9 pl-2">
-                                                                                <h5 class="responsiveheader assignment-header"><i class="fa fa-file-text text-primary  mr-1 fa-lg" ></i><?php echo " ".ucwords($returneGroups->ass->assName)?> </h5>
+                                                                                <h5 class="responsiveheader assignment-header"><i class="fa fa-file-text text-info  mr-1 fa-lg" ></i><?php echo " ".ucwords($returneGroups->ass->assName)?> </h5>
                                                                                 <span class="text-muted mt-0 responsivetext"><?= ucfirst($returneGroups->group->generationType->generation_type)." (".$returneGroups->group->groupName.")" ?></span>
 
                                                                                 <div class="m-0 responsivetext">
                                                                         <p>Submitted file: <a class="m-0" style="color: #007bff;
-                                                                    font-style: italic;" href="/storage/submit/<?= $returneGroups->fileName?>" target="_blank"><i class="fa fa-eye"></i> View </a></p>
+                                                                    font-style: italic;" href="/storage/submit/<?= $returneGroups->fileName?>" target="_blank"><i class="fa fa-eye text-success"></i> View </a></p>
                                                                     </div>
 
                                                                     <div class="m-0 responsivetext">

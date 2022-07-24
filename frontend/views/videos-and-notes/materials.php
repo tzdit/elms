@@ -140,7 +140,7 @@ $this->params['breadcrumbs'] = [
                                                                 <div class="row  m-2 p-2 bg-white shadow-lg">
 
                                                                     <div class="col-md-5 float-left mb-1 ">
-                                                                        <a class="responsiveheader" href="<?= Url::toRoute(['/videos-and-notes/view_document','material_ID'=> ClassRoomSecurity::encrypt($videos_note['material_ID'])]) ?>"  class="document-body"><i class="fa fa-file-text text-primary"></i> <?php echo $videos_note['title'] ?></a>
+                                                                        <a class="responsiveheader" href="<?= Url::toRoute(['/videos-and-notes/view_document','material_ID'=> ClassRoomSecurity::encrypt($videos_note['material_ID'])]) ?>"  class="document-body"><i class="fa fa-file-text text-info"></i> <?php echo $videos_note['title'] ?></a>
                                                                     </div>
                                                                     <div class="col-md-4 m-0 mb-2 ">
                                                         

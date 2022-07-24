@@ -92,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
                               <h5 class="m-0 p-0 text-muted"> <?= strtoupper($course->course_status) ?></h5>
 
                               <div class="icon ">
-                                <i class="fa fa-book"></i>
+                                <i class="fa fa-book text-info"></i>
                               </div>
                           </div>
 

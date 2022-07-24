@@ -38,7 +38,7 @@ $years=['1'=>"First Year",'2'=>'Second Year','3'=>'Third Year','4'=>"Fourth Year
     <?= $form->field($model, 'status')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-    <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class' => 'btn btn-default btn-lg text-primary']) ?>
+    <?= Html::submitButton('<i class="fa fa-save"></i> Save', ['class' => 'btn btn-default btn-info text-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

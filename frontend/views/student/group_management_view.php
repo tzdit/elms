@@ -40,12 +40,12 @@ $this->params['breadcrumbs'] = [
                    <div class="card shadow p-3 d-flex justify-content-center text-center text-primary">
                         
                     <a href="#" value="<?= Url::to(['/student/create-group', 'cid' => $cid]) ?>"  id = "group_modal_button">
-                <i class="fa fa-plus-circle"> </i> Create Group
+                <i class="fa fa-plus-circle text-info"> </i> Create Group
             </a>
                             
                             <?php
                             Modal::begin([
-                                'title'=>'<span class="text-primary text-md"><i class="fa fa-plus-circle"></i> Create Group</span>',
+                                'title'=>'<span class="text-info text-md"><i class="fa fa-plus-circle"></i> Create Group</span>',
                                 'id' => 'group_modal',
                                 'size' => 'modal-lg'
                             ]);
@@ -102,7 +102,7 @@ $this->params['breadcrumbs'] = [
                                                                                         <?php if ($group->isCreator($regno)): ?>
                                                                                             <h5 class="text-danger mt-3" data-toggle="tooltip" data-title="Delete group"><a href="#" class="btn-delete-group float-right mr-2" id = "btn-delete-group" groupID = "<?= $item['groupID'] ?>" ><i class="fas fa-times-circle fa-lg carry-delete"></i></a></h5>
                                                                                             <?php else: ?>
-                                                                                                        <h5 class="text-primary" data-toggle="tooltip" data-title="Exit group"><a href="#" class="exitgroup float-right mr-2 mt-3" groupID = "<?= $item['groupID'] ?>" ><i class="fa fa-sign-out-alt fa-lg "></i></a></h5>
+                                                                                                        <h5 class="text-primary" data-toggle="tooltip" data-title="Exit group"><a href="#" class="exitgroup float-right mr-2 mt-3" groupID = "<?= $item['groupID'] ?>" ><i class="fa fa-sign-out-alt fa-lg text-danger"></i></a></h5>
                                                                                         <?php endif; ?>
                                                                                     </div>
                                                                                 </div>
@@ -122,7 +122,7 @@ $this->params['breadcrumbs'] = [
                                                                                          <div class="col-sm-9"> Group Members</div>
                                                                                          <div class="col-sm-3">
                                                                                          <?php if ($group->isCreator($regno)): ?>
-                                                                                    <a href="#" class="btn btn-sm btn-default shadow btn-rounded float-right mb-2" data-target="#addStudentModal<?= $item['groupID'] ?>" data-toggle="modal"><i class="fa fa-plus-circle" ></i> Add member</a>
+                                                                                    <a href="#" class="btn btn-sm btn-default shadow btn-rounded float-right mb-2" data-target="#addStudentModal<?= $item['groupID'] ?>" data-toggle="modal"><i class="fa fa-plus-circle text-info" ></i> Add member</a>
                                                                                     <?php endif ?>
                                                                                         </div>
                                                                                             </div>
@@ -143,7 +143,7 @@ $this->params['breadcrumbs'] = [
 
                                                                                                         if($creator==true && $isme==false){
                                                                                                      ?>
-                                                                                                     <?= Html::a('<i class="fa fa-trash inner" data-toggle="tooltip" data-title="Remove Member"></i>',['remove-student-from-group', 'reg_no'=>$student['reg_no'], 'groupID'=>$item['groupID'] ], ['class'=>'text-danger  m-0'])?>
+                                                                                                     <?= Html::a('<i class="fa fa-trash inner text-danger" data-toggle="tooltip" data-title="Remove Member"></i>',['remove-student-from-group', 'reg_no'=>$student['reg_no'], 'groupID'=>$item['groupID'] ], ['class'=>'text-danger  m-0'])?>
                                                                                                      <?php
                                                                                                         }
                                                                                                      ?>
@@ -157,7 +157,7 @@ $this->params['breadcrumbs'] = [
                                                                                     <div class="modal-dialog" role="document">
                                                                                         <div class="modal-content">
                                                                                             <div class="modal-header bg-primary p-2 pl-3">
-                                                                                                <span class="modal-title text-sm" id="addStudentModal<?= $item['groupID'] ?>"><i class="fa fa-plus-circle"></i> Add Member</span>
+                                                                                                <span class="modal-title text-sm" id="addStudentModal<?= $item['groupID'] ?>"><i class="fa fa-plus-circle text-info"></i> Add Member</span>
 
                                                                                             </div>
                                                                                             <div class="modal-body">

@@ -52,7 +52,7 @@ $this->params['breadcrumbs'] = [
                              if($myca==null || empty($myca))
                              {
                               ?>
-                              <div class="jumbotron"><i class="fa fa-info-circle"></i> No published CA</div>
+                              <div class="jumbotron"><i class="fa fa-info-circle text-warning"></i> No published CA</div>
                               <?php
                              }
                              else

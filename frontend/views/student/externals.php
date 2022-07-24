@@ -54,7 +54,7 @@ $this->params['breadcrumbs'] = [
                              if($externals==null || empty($externals))
                              {
                               ?>
-                              <div class="jumbotron"><i class="fa fa-info-circle"></i> No published External Assessment</div>
+                              <div class="jumbotron"><i class="fa fa-info-circle text-warning"></i> No published External Assessment</div>
                               <?php
                              }
                              else

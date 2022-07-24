@@ -84,7 +84,7 @@ $this->params['breadcrumbs'] = [
                                                                 <td>MMMMMMM</td>
                                                                 <td>
                                                                     <center>
-                                                                        <a class="btn btn-sm btn-outline-primary" href="<?= Url::toRoute(['student/quiz_answer'])?>"><i class="fa fa-pencil"></i> Take Quiz</a>
+                                                                        <a class="btn btn-sm btn-outline-primary" href="<?= Url::toRoute(['student/quiz_answer'])?>"><i class="fa fa-pencil text-info"></i> Take Quiz</a>
                                                                     </center>
                                                                 </td>
                                                             </tr>
