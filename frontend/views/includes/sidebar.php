@@ -74,7 +74,7 @@ use yii\helpers\Url;
         <li class="nav-item">
                 <a href="<?= Url::toRoute('/collegemanage/index') ?>" class="nav-link text-light">
                   <i class="fa fa-university nav-icon"></i>
-                  <p>Colleges</p>
+                  <p>Campuses</p>
                 </a>
               </li>
 
