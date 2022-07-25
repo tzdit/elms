@@ -5,7 +5,7 @@ use yii\helpers\Url;
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
            <li class="nav-item">
             <a href="<?= Url::to(['/home/dashboard']) ?>" class="nav-link text-light">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-th text-info"></i>
               <p>
                 Dashboard
                 
@@ -167,7 +167,7 @@ use yii\helpers\Url;
               <li class="nav-item">
                 <a href="<?= Url::toRoute('/instructor/create-program') ?>" class="nav-link text-light">
                 <i class="fas fa-award"></i>
-                  <p>Manage Programs</p>
+                  <p>Manage Programmes</p>
                 </a>
               </li>
 
@@ -178,7 +178,7 @@ use yii\helpers\Url;
           <a href="<?= Url::toRoute('/instructor/create-course') ?>" class="nav-link text-light">
             <i class="fas fa-book-open"></i>
               <p>
-                Manage Courses
+                Manage Modules
               </p>
             </a>
           </li>

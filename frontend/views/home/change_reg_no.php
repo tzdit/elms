@@ -21,7 +21,7 @@ $this->params['breadcrumbs'] = [
             </div>
             <div class="col-sm-6">
                 <div class="card shadow-lg" style="font-family:'Times New Roman', sans-serif">
-                    <div class="card-header text-center bg-primary">
+                    <div class="card-header text-center bg-info">
                         <h2>Change Registration Number</h2>
                          </div>
                     <div class="card-body">
@@ -31,7 +31,7 @@ $this->params['breadcrumbs'] = [
                                 <?= $form->field($model, 'username')->input('username',['class'=>'form-control form-control-sm', 'placeholder'=>'Correct Reg Number'])->label(false) ?>
                             </div>
                             <div class="form-group">
-                                <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary']) ?>
+                                <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-info']) ?>
                             </div>
                         </div>
                     </div>

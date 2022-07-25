@@ -29,7 +29,7 @@ $this->params['breadcrumbs'] = [
                 </div>
                 <div class="col-sm-6">
                     <div class="card shadow-lg" style="font-family:'Times New Roman', sans-serif">
-                        <div class="card-header text-center bg-primary pt-1 pb-1 text-md">
+                        <div class="card-header text-center bg-info pt-1 pb-1 text-md">
                             <i class="fa fa-lock"></i> Change Password
                         </div>
                         <div class="card-body">
@@ -47,8 +47,8 @@ $this->params['breadcrumbs'] = [
                                     </div>
                                     
                                     <div class="col-sm-12">
-                                        <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary btn-md float-right']) ?>
-                                        <a href="<?=Url::to(['/home/password-change-cancel'])?>" class="btn btn-md btn-primary">Cancel</a>
+                                        <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-info btn-md float-right']) ?>
+                                        <a href="<?=Url::to(['/home/password-change-cancel'])?>" class="btn btn-md btn-danger">Cancel</a>
                                     </div>
                                 </div>    
                         </div>

@@ -127,8 +127,8 @@ $this->params['courseTitle']='<i class="fas fa-th"></i> Dashboard';
           </div>
 
          
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3 bg-info">
+          <div class="col-12 col-sm-6 col-md-3 ">
+            <div class="info-box mb-3">
             <span class="info-box-icon elevation-0"><i class="fa fa-pen"></i></span>
 
               <div class="info-box-content">
