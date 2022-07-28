@@ -1551,7 +1551,7 @@ public function actionImportExternalAssessment()
     }
     else
     {
-        Yii::$app->session->setFlash('error', 'Importing failed, you may need to download the standard format or change the assessment title');
+        Yii::$app->session->setFlash('error', 'Importing failed, you may need to download the standard format or change the assessment title'.Html::errorSummary($importmodel));
         return $this->redirect(Yii::$app->request->referrer);
     }
   }
@@ -1798,13 +1798,14 @@ public function actionUploadTutorial(){
     if($model->load(Yii::$app->request->post())){
         $model->assFile = UploadedFile::getInstance($model, 'assFile');
         $upload=$model->upload();
-        if($upload===true){
+        
+        if($upload==true){
         Yii::$app->session->setFlash('success', 'Tutorial created successfully');
         return $this->redirect(Yii::$app->request->referrer);
         }else{
-        Yii::$app->session->setFlash('error', 'Unable to upload tutorial now, try again later');
+        Yii::$app->session->setFlash('error', 'Unable to upload tutorial now, try again later'.$upload);
        
-        return $this->redirect(Yii::$app->request->referrer);
+       // return $this->redirect(Yii::$app->request->referrer);
     }
 }
 }

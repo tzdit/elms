@@ -3,11 +3,12 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use common\models\Assignment;
+use yii\helpers\Html;
 class UploadTutorial extends Model{
     public $assTitle;
     public $assFile;
     public $description;
-    public $ccode;
+    
     public function rules(){
         return [
            [['assFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, jpg, png, doc,docx, pkt, ppt,MP4,mpg,avi, pptx, xls,xlsx'],
@@ -18,10 +19,7 @@ class UploadTutorial extends Model{
 
     }
     public function upload(){
-        if(!$this->validate()){
-            return false;
-
-        }
+     
         try{
         
         $fileName = $this->assFile->baseName.'.'.$this->assFile->extension;
@@ -38,7 +36,7 @@ class UploadTutorial extends Model{
         $this->assFile->saveAs('storage/temp/'.$filename);
         $tut->fileName =$filename;
         $tut->create_time=date('Y-m-d H:i:s');
-        $tut->status="not published";
+        $tut->status="notpublished";
 
         if($tut->save())
         {
@@ -48,7 +46,7 @@ class UploadTutorial extends Model{
         {
 
             //check if the file is already upload and destroy it
-          return $tut->getErrors();
+          return Html::errorSummary($tut);
             if(file_exists('storage/temp/'.$filename)){unlink('storage/temp/'.$filename);}
             return false;
         }

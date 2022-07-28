@@ -89,9 +89,9 @@ if($assignments==null)
   ?>
 
 <?php
-  // return false;
+   return false;
 }
-else
+
 
 
 foreach( $assignments as $assign ) : ?>
@@ -193,10 +193,7 @@ foreach( $assignments as $assign ) : ?>
     </div>
   </div>
 
-  <?php 
-         $ass--;
-        
-        ?>
+ 
         
       <!-- /.modal -->
   

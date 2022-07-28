@@ -24,7 +24,7 @@ use Yii;
  * @property int $yearID
  * @property string $status
  * @property string $create_time
- * @property string $startDate
+ * @property string|null $startDate
  *
  * @property Course $courseCode
  * @property Instructor $instructor
@@ -58,11 +58,7 @@ class Assignment extends \yii\db\ActiveRecord
            ]
         ];
     }
-    public function __construct($config = [])
-   {
- 
-    parent::__construct($config);
-   }
+
     /**
      * {@inheritdoc}
      */
