@@ -541,7 +541,6 @@ public $defaultAction = 'dashboard';
     return $this->render('chat_index',['username'=>$username,'sender'=>$sender, 'model'=>$model]);
   }
 
-
      //Create chat
      public function actionCreateChat($stdid){
         $model = new CreateChat;
