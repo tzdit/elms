@@ -111,11 +111,12 @@ use yii\helpers\Url;
             <a href="<?= Url::toRoute('/admin/system-modules') ?>" class="nav-link text-light">
               <i class="nav-icon fa fa-cubes"></i>
               <p>
-                Modules
+                System Modules
               </p>
             </a>
        
           </li>
+          
           
               <?php endif ?> <!---END OF SUPER ADMIN ROLE-->
             <!-- ======================================================= -->
@@ -179,6 +180,14 @@ use yii\helpers\Url;
             <i class="fas fa-book-open"></i>
               <p>
                 Manage Modules
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+          <a href="<?= Url::toRoute('/instructor/create-short-course') ?>" class="nav-link text-light">
+            <i class="fas fa-book"></i>
+              <p>
+                Short Courses
               </p>
             </a>
           </li>

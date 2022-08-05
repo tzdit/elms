@@ -28,6 +28,7 @@ use frontend\models\UploadLab;
 use frontend\models\UploadStudentHodForm;
 use frontend\models\UploadStudentForm;
 use frontend\models\CreateCourse;
+use frontend\models\CreateShortCourse;
 use frontend\models\CreateProgram;
 use frontend\models\UploadMaterial;
 use frontend\models\PostAnnouncement;
@@ -213,6 +214,7 @@ public $defaultAction = 'dashboard';
                             'classwork',
                             'create-student',
                             'create-course',
+                            'create-short-course',
                             'create-program',
                             'student-list',
                             'view-groups',
@@ -2578,9 +2580,10 @@ public function actionStudentList(){
      public function actionCreateCourse(){
         //print_r(Yii::$app->request->post());
         $model = new CreateCourse;
+        $userdepat=yii::$app->user->identity->instructor->departmentID;
         $coz = ArrayHelper::map(Course::find()->all(), 'course_code', 'course_code');
-        $courses = Course::find()->all();
-        $departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name','collegename');
+        $courses = Course::find()->where(['type'=>'normal','departmentID'=>$userdepat])->all();
+        $departments = ArrayHelper::map(Department::find()->where(['departmentID'=>$userdepat])->all(), 'departmentID', 'department_name','collegename');
         $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
         try{
         //$departments = ArrayHelper::map(Department::find()->all(), 'departmentID', 'department_name');
@@ -2603,6 +2606,36 @@ public function actionStudentList(){
        
     }
         return $this->render('create-course', ['model'=>$model, 'coz'=>$coz, 'courses'=>$courses, 'programs'=>$programs, 'departments'=>$departments]);
+    }
+
+    //creating and manage short courses
+
+    public function actionCreateShortCourse(){
+        //print_r(Yii::$app->request->post());
+        $model = new CreateShortCourse;
+        $userdepat=yii::$app->user->identity->instructor->departmentID;
+        $courses = Course::find()->where(['type'=>'short_course','departmentID'=>$userdepat])->all();
+        $departments = ArrayHelper::map(Department::find()->where(['departmentID'=>$userdepat])->all(), 'departmentID', 'department_name','collegename');
+
+        try{
+        if($model->load(Yii::$app->request->post())){
+
+
+            if($model->create()===true){
+            Yii::$app->session->setFlash('success', 'Course added successfully');
+            return $this->redirect(Yii::$app->request->referrer);
+            }else{
+                Yii::$app->session->setFlash('error','unable to add new course'.Html::errorSummary($model));
+                return $this->redirect(Yii::$app->request->referrer);
+            }    
+         } 
+    
+    }catch(\Exception $e){
+        Yii::$app->session->setFlash('error', 'An unknown error occurred'.$e->getMessage());
+        return $this->redirect(Yii::$app->request->referrer);
+       
+    }
+        return $this->render('create-short-course', ['model'=>$model,'courses'=>$courses,'departments'=>$departments]);
     }
 
     public function actionAssignCourse(){

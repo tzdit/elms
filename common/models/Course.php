@@ -16,6 +16,7 @@ use Yii;
  * @property int $departmentID
  * @property int $caw
  * @property int $sew
+ * @property string $type
  * @property int $YOS
  *
  * @property Announcement[] $announcements
@@ -64,8 +65,10 @@ class Course extends \yii\db\ActiveRecord
             [['course_semester', 'course_duration', 'departmentID', 'YOS'], 'integer'],
             [['course_code'], 'string', 'max' => 20],
             [['course_name'], 'string', 'max' => 150],
-          [['course_status'], 'string', 'max' => 10],
+            [['type'], 'string', 'max' => 20],
+            [['course_status'], 'string', 'max' => 10],
             [['course_code'], 'unique'],
+            [['type'], 'default', 'value'=>"normal"],
             [['departmentID'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['departmentID' => 'departmentID']],
         ];
     }
@@ -498,5 +501,10 @@ public function newInForumCount()
     public function getNewsCount()
     {
         return $this->NewAnnouncemntsCount()+$this->newAssignmentsCount()+$this->newMaterialsCount()+$this->newLecturesCount()+$this->newGroupsCount()+$this->NewExtAssessCount()+$this->newInForumCount()+$this->newQuizesCount();
+    }
+
+    public function isShort()
+    {
+      return $this->type=="short_course";
     }
 }
