@@ -104,7 +104,7 @@ class ShortCourseStudentRegister extends Model
         {
         $transaction->commit();
         
-        return true;
+        return $student->reg_no;
         }
         else
         {

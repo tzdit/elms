@@ -7,6 +7,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 
 $this->title = 'Students List';
+$this->params['courseTitle']="<i class='fa fa-graduation-cap'></i> Students";
 ?>
 <div class="site-index">
 
@@ -21,17 +22,11 @@ $this->title = 'Students List';
           <!-- Left col -->
           <section class="col-lg-12">
             <!-- Custom tabs (Charts with tabs)-->
-            <div class="card">
-              <div class="card-header p-2">
-                <h3 class="card-title com-sm-12">
-                  <i class="fas fa-list mr-1 text-info"></i>
-                 List of Students
-                 
-                </h3>
+                
                 <a href="<?= Url::toRoute('/instructor/create-student') ?>" class="btn btn-info btn-sm float-right m-0 col-xs-12"><i class="fas fa-user-plus"></i> Create User</a>
               
-              </div><!-- /.card-header -->
-              <div class="card-body">
+         
+           
             <table class="table table-bordered table-striped table-hover" id="StudentList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
             <thead>
             <tr><th>Full Name</th><th>Reg#</th><th>YOS</th><th>Department</th><th width="15%">Action</th></tr>
@@ -46,17 +41,20 @@ $this->title = 'Students List';
 
               for($b=0;$b<count($current_students); $b++)
               {
-                echo '<tr>';
-                echo '<td>' .$current_students[$b]->fullName.'</td>';
-                echo '<td>' .$current_students[$b]->reg_no.'</td>';
-                echo '<td>' .$current_students[$b]->YOS. '</td>';
-                echo '<td>' .$current_students[$b]->program->department->depart_abbrev.'</td>';
-                echo   '<td>' .
-                Html::a('<i class="fas fa-edit"> </i>',['updatestudent', 'id'=>$current_students[$b]->reg_no], ['class'=>'btn btn-info btn-sm m-0']) ,
-                Html::a('<i class="fas fa-trash"> </i>',['deletestudent', 'id'=>$current_students[$b]->reg_no], ['class'=>'btn btn-danger btn-sm m-0 studentdel'])
-               
-                .'</tr>';
-                 
+                ?>
+                <tr>
+                <td><?=ucwords(strtolower($current_students[$b]->fullName))?></td>
+                <td><?=$current_students[$b]->reg_no?></td>
+                <td><?=$current_students[$b]->YOS?></td>
+                <td><?=$current_students[$b]->program->department->depart_abbrev?></td>
+                <td>
+                  <?=Html::a("<i class='fas fa-edit'> </i>",["updatestudent", "id"=>$current_students[$b]->reg_no], ["class"=>"text-info btn-sm m-0"])?>
+                <a href="#" id=<?= $current_students[$b]->reg_no ?> class="text-danger btn-sm m-0 studentdel"><i class="fas fa-trash"></i></a>
+              </td>
+               </tr>
+
+
+                <?php 
               }
               
             }
@@ -67,16 +65,13 @@ $this->title = 'Students List';
             </tbody>
             </table>
              
-              </div><!-- /.card-body -->
-            </div>
-            <!-- /.card -->
+          
 
           </section>
           <!-- /.Left col -->
           <!-- right col (We are only adding the ID to make the widgets sortable)-->
          
-          <!-- right col -->
-        </div>
+     
 
       </div><!--/. container-fluid -->
 
@@ -86,14 +81,27 @@ $this->title = 'Students List';
 $script = <<<JS
 $(document).ready(function(){
   $("#StudentList").DataTable({
-    responsive:true
+    responsive:true,
+    dom: 'Bfrtip',
+        buttons: [
+            'csv',
+            {
+                extend: 'pdfHtml5',
+                title: 'students list'
+            },
+            {
+                extend: 'excelHtml5',
+                title: 'students list'
+            },
+            'print',
+        ]
   });
   // alert("JS IS OKAY")
 });
 
 //Deleting Student 
 $(document).on('click', '.studentdel', function(){
-var studentid = $(this).attr('stdid');
+var studentid = $(this).attr('id');
 Swal.fire({
   title: 'Are you sure?',
   text: "You won't be able to revert this!",
@@ -107,7 +115,7 @@ Swal.fire({
  
     $.ajax({
       url:'/instructor/deletestudent',
-      method:'get',
+      method:'post',
       async:false,
       dataType:'JSON',
       data:{id:studentid },

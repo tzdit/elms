@@ -134,7 +134,7 @@ use yii\helpers\Url;
             <?php  endif ?>  <!-- END OF INSTRUCTOR ROLE -->
 
               <!-- START OF STUDENT ROLE -->
-              <?php if(Yii::$app->user->can('STUDENT')): ?>
+              <?php if(Yii::$app->user->can('STUDENT') && !Yii::$app->user->identity->student->isShort()): ?>
                 <li class="nav-item">
                 <a href="<?= Url::toRoute('/student/courses') ?>" class="nav-link text-light">
                   <i class="fas fa-book nav-icon"></i>
@@ -145,6 +145,15 @@ use yii\helpers\Url;
                 <a href="<?= Url::toRoute('/student/carrycourse') ?>" class="nav-link text-light">
                   <i class="fas fa-file nav-icon"></i>
                   <p>Carry Courses</p>
+                </a>
+              </li>
+              <?php endif ?> <!-- END OF STUDENT ROLE -->
+
+              <?php if(Yii::$app->user->can('STUDENT') && Yii::$app->user->identity->student->isShort()): ?>
+              <li class="nav-item">
+                <a href="<?= Url::toRoute('/student/shortcourse') ?>" class="nav-link text-light">
+                  <i class="fa fa-book nav-icon"></i>
+                  <p>Short Courses</p>
                 </a>
               </li>
               <?php endif ?> <!-- END OF STUDENT ROLE -->
@@ -160,9 +169,25 @@ use yii\helpers\Url;
           
             <li class="nav-item">
                 <a href="<?= Url::toRoute('/instructor/student-list') ?>" class="nav-link text-light">
-                <i class="fas fa-users"></i>
+                <i class="fas fa-user-graduate"></i>
                   <p>Manage Students</p>
                 </a>
+                <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="<?= Url::toRoute('/instructor/student-list') ?>" class="nav-link text-light">
+                 <i class="fas fa-user-graduate nav-icon"></i>
+                  <p>Regular Students</p>
+                </a>
+              </li>
+              
+              <li class="nav-item">
+                <a href="<?= Url::toRoute('/instructor/shortcoursestudents') ?>" class="nav-link text-light">
+                  <i class="fas fa-user-graduate nav-icon"></i>
+                  <p>Short Course Students</p>
+                </a>
+              </li>
+              
+            </ul>
               </li>
 
               <li class="nav-item">

@@ -42,6 +42,8 @@ use common\models\SubmitSignatures;
 use common\models\ExtAssess;
 use common\models\StudentExtAssess;
 use frontend\models\ShortCourseStudentRegister;
+use common\models\StudentShortCourse;
+use yii\helpers\Html;
 
 class StudentController extends \yii\web\Controller
 {
@@ -66,7 +68,7 @@ class StudentController extends \yii\web\Controller
                             'group-assignment','labs','tutorial','course-materials','returned',
                             'course-announcement','quiz','student-group','add-group-member', 'create-group','classmates','my-ca',
                             'view-normal-assignments', 'view-normal-labs', 'group-management','group-management-view',
-                            'remove-student-from-group','add-students-to-group','download-receipt','exit-group','sign-submit','externals'
+                            'remove-student-from-group','removeshortcourse','registershortcourse','shortcourse','add-students-to-group','download-receipt','exit-group','sign-submit','externals'
                         ],
                         
 
@@ -125,10 +127,10 @@ class StudentController extends \yii\web\Controller
     try{
     if($model->load(Yii::$app->request->post())){
        
-        if($model->create($course)===true){
-        Yii::$app->session->setFlash('success', 'Registration Successful&nbsp&nbsp<a class="btn btn-primary" href="/auth/login">Login</a><br>username: your registration number & password: 123456&nbsp&nbsp&nbsp&nbsp<i class="fa fa-info-circle"></i>Change your password afterwards');
+        $return=$model->create($course);
+        Yii::$app->session->setFlash('success', 'Registration Successful&nbsp&nbsp<a class="btn btn-primary" href="/auth/login">Login</a><br>username: '.$return.' & password: 123456&nbsp&nbsp&nbsp&nbsp<i class="fa fa-info-circle"></i>Change your password afterwards');
         return $this->redirect(Yii::$app->request->referrer);
-        }
+        
    
             
      } 
@@ -158,9 +160,16 @@ class StudentController extends \yii\web\Controller
         }
 
        $student_regno = Yii::$app->user->identity->student->program;
-
+       $student=Yii::$app->user->identity->student;
+       $courses=[];
+       if($student->isShort())
+       {
+        $courses=$student->shortCourses();
+       }
+       else
+       {
        $courses = Course::find()->select('course.course_code, course.course_credit, course.course_status ')->rightJoin('program_course','program_course.course_code = course.course_code')->where('program_course.programCode = :program_code AND program_course.level = :YOS',[':program_code' => $student_regno->programCode, ':YOS' => $yos])->orderBy(['program_course.PC_ID' => SORT_ASC])->all();
-
+       }
             return $this->render('index', ['courses'=>$courses]);
     }
 
@@ -873,6 +882,30 @@ public function actionClasswork($cid){
         return $this->render('carry_courses/index', ['data'=> $model]);
     }
 
+    public function actionShortcourse()
+    {
+        $student=yii::$app->user->identity->student;
+        $courses=$student->shortCourses();
+        return $this->render('short_courses/index',['courses'=>$courses]);
+    }
+    public function actionRemoveshortcourse()
+    {
+        $ccode=yii::$app->request->post('ccode');
+        $regno=yii::$app->user->identity->student->reg_no;
+        $course=StudentShortCourse::find()->where(['course_code'=>$ccode,'reg_no'=>$regno])->one();
+
+        if($course!=null)
+        {
+           if($course->delete())
+           {
+            return $this->asJson(['message'=>'Course Removed Successfully']);
+           }
+
+
+        }
+
+    }
+
 
 
 
@@ -905,6 +938,39 @@ public function actionClasswork($cid){
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    }
+
+    public function actionRegistershortcourse()
+    {
+        $model =new StudentShortCourse; 
+        $model->reg_no=Yii::$app->user->identity->student->reg_no;
+    if(yii::$app->request->isPost)
+    {
+    try{
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            
+            Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> Course Registered successfully');
+            $id = Yii::$app->user->identity->username;
+
+        
+            return $this->redirect('dashboard');
+        }
+        else
+        {
+            Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Course Registration failed! '.Html::errorSummary($model)); 
+            return $this->redirect(yii::$app->request->referrer);
+        }
+
+         
+    }
+    catch(\Exception $e){
+        Yii::$app->session->setFlash('error', 'Unknown error occurred');
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+}
+    return $this->renderAjax('short_courses/addshortcourse', [
+        'model' => $model,
+    ],false,true);
     }
 
 

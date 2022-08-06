@@ -23,6 +23,7 @@ use Yii;
  * @property Assignment[] $assignments
  * @property Department $department
  * @property ExtAssess[] $extAssesses
+ * @property StudentShortCourse[] studentshortcourses
  * @property GroupGenerationTypes[] $groupGenerationTypes
  * @property GroupGenerationTypes[] $groupGenerationTypes0
  * @property InstructorCourse[] $instructorCourses
@@ -128,6 +129,10 @@ class Course extends \yii\db\ActiveRecord
     public function getExtAssesses()
     {
         return $this->hasMany(ExtAssess::className(), ['course_code' => 'course_code']);
+    }
+    public function getStudentshortcourses()
+    {
+        return $this->hasMany(StudentShortCourse::className(), ['course_code' => 'course_code']);
     }
 
     public function getForumQnTags()

@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
                    <div class="row">
                     <div class="col-md-12 col-sm-12 col-lg-12">
                     
-                     <?= Html::submitButton('<i class="fa fa-paper-plane" aria-hidden="true"></i>  Submit', ['class'=>'btn btn-info btn-md  float-right mr-0','style'=>'width:30%']) ?>
+                     <?= Html::submitButton('<i class="fa fa-user-plus" aria-hidden="true"></i>  Register', ['class'=>'btn btn-info btn-md  float-right mr-0','style'=>'width:30%']) ?>
                 
                     </div>
                

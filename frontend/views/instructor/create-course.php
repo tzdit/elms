@@ -189,7 +189,20 @@ $this->params['courseTitle']="<i class='fa fa-book text-info'></i> Modules List"
 $script = <<<JS
 $(document).ready(function(){
   $("#CourseList").DataTable({
-    responsive:true
+    responsive:true,
+    dom: 'Bfrtip',
+        buttons: [
+            'csv',
+            {
+                extend: 'pdfHtml5',
+                title: 'Modules list'
+            },
+            {
+                extend: 'excelHtml5',
+                title: 'Modules list'
+            },
+            'print',
+        ]
   });
   // alert("JS IS OKAY")
 

@@ -322,6 +322,7 @@ public $defaultAction = 'dashboard';
                             'mark',
                             'mark-inputing',
                             'receipt-validator',
+                            'shortcoursestudents',
                             'sign-all'
                            
                         ],
@@ -2545,12 +2546,31 @@ public function actionStudentList(){
     $students=[];
     for($p=0;$p<count($programs);$p++)
     {
+        if($programs[$p]->programCode=="DITSH"){continue;}
         $program_students=$programs[$p]->students;
         array_push($students,$program_students);
     }
     return $this->render('student_list', ['students'=>$students]);
 }
 
+public function actionShortcoursestudents(){
+    $instructorid = Yii::$app->user->identity->instructor->instructorID;
+    $myinstructor=Instructor::findOne($instructorid);
+    $instructor_department= $myinstructor->department;
+    $courses=Course::find()->where(['departmentID'=>$instructor_department,'type'=>'short_course'])->all();
+    $students=[];
+    for($p=0;$p<count($courses);$p++)
+    {
+        $studentshortcourses=$courses[$p]->studentshortcourses;
+
+        foreach($studentshortcourses as $studentshortcourse)
+        {
+            array_push($students,$studentshortcourse->regNo);
+        }
+        
+    }
+    return $this->render('shortcourse_student_list', ['students'=>$students]);
+}
 
      //Create program
      public function actionCreateProgram(){
