@@ -22,6 +22,7 @@ use kartik\validators\PhoneValidator;
  * @property string $DOR
  * @property string|null $phone
  * @property string $status
+ * @property string $type
  *
  * @property Chat[] $chats
  * @property ExtAssess[] $extAssesses
@@ -63,13 +64,15 @@ class Student extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['reg_no', 'fname', 'lname', 'gender', 'YOS', 'DOR', 'status','email'], 'required'],
+            [['reg_no', 'fname', 'lname', 'gender','type', 'YOS', 'DOR', 'status','email'], 'required'],
             [['userID', 'YOS'], 'integer'],
             [['DOR'], 'safe'],
             [['reg_no', 'f4_index_no'], 'string', 'max' => 20],
             [['programCode', 'fname', 'mname', 'lname', 'status'], 'string', 'max' => 60],
             [['gender'], 'string', 'max' => 7],
             [['phone'], 'string', 'max' => 30],
+            ['type','default','value'=>'permanent'],
+            ['type','string','max'=>15],
             ['email', 'unique', 'targetClass' => '\common\models\Student', 'message' => 'This email has already been taken.'],
             ['email', 'email','message' => 'Invalid Email Address.'],
             ['phone', 'unique', 'targetClass' => '\common\models\Student', 'message' => 'phone number already taken.'],

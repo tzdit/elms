@@ -41,6 +41,7 @@ use frontend\models\ReceiptManager;
 use common\models\SubmitSignatures;
 use common\models\ExtAssess;
 use common\models\StudentExtAssess;
+use frontend\models\ShortCourseStudentRegister;
 
 class StudentController extends \yii\web\Controller
 {
@@ -119,16 +120,12 @@ class StudentController extends \yii\web\Controller
 
    }
     //create students
-  public function actionRegister(){
-    $model = new UploadStudentHodForm;
-    $roles = ArrayHelper::map(AuthItem::find()->where(['name'=>'STUDENT'])->all(), 'name', 'name');
-    // $departments = Yii::$app->user->identity->hod->department;
-   
+  public function actionRegister($course){
+    $model = new ShortCourseStudentRegister;
     try{
-    $programs = ArrayHelper::map(Program::find()->all(), 'programCode', 'programCode');
     if($model->load(Yii::$app->request->post())){
        
-        if($model->create()===true){
+        if($model->create($course)===true){
         Yii::$app->session->setFlash('success', 'Registration Successful&nbsp&nbsp<a class="btn btn-primary" href="/auth/login">Login</a><br>username: your registration number & password: 123456&nbsp&nbsp&nbsp&nbsp<i class="fa fa-info-circle"></i>Change your password afterwards');
         return $this->redirect(Yii::$app->request->referrer);
         }
@@ -140,7 +137,7 @@ class StudentController extends \yii\web\Controller
     Yii::$app->session->setFlash('error', $e->getMessage());
 }
     $this->layout = 'register';
-    return $this->render('student_registration', ['model'=>$model, 'programs'=>$programs, 'roles'=>$roles]);
+    return $this->render('student_registration', ['model'=>$model]);
 }
 
     public function actionDashboard()

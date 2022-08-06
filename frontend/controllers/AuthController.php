@@ -11,6 +11,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\VerifyEmailForm;
 use common\models\Academicyear;
 use common\models\Session;
+
 class AuthController extends \yii\web\Controller
 {
         /**
@@ -91,6 +92,9 @@ class AuthController extends \yii\web\Controller
 
            return $this->redirect(['/home/dashboard']);
      }
+
+     //any ads
+
 
        return $this->render('login', ['model'=>$model]);
         

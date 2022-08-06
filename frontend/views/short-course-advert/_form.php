@@ -30,10 +30,10 @@ $courses =ArrayHelper::map(Course::find()->where(['type'=>'short_course','depart
     <?= $form->field($model, 'description')->textArea(['maxlength' => true,'placeholder'=>'Ad description'])->label(false) ?>
     <div class="row">
         <div class="col-sm-6">
-    <?= $form->field($model, 'deadlinedate')->textInput(['placeholder'=>'Deadline Date','onmouseover'=>'this.type="date"','onmouseout'=>'this.type="text"'])->label(false) ?>
+    <?= $form->field($model, 'deadlinedate')->textInput(['placeholder'=>'Deadline Date','onmouseover'=>'this.type="date"','onblur'=>'this.type="text"'])->label(false) ?>
     </div>
     <div class="col-sm-6">
-    <?= $form->field($model, 'deadlinetime')->textInput(['placeholder'=>'Deadline Time','onmouseover'=>'this.type="time"','onmouseout'=>'this.type="text"'])->label(false) ?>
+    <?= $form->field($model, 'deadlinetime')->textInput(['placeholder'=>'Deadline Time','onmouseover'=>'this.type="time"','onblur'=>'this.type="text"'])->label(false) ?>
     </div>
     </div>
 

@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="body-content">
             <!-- Content Wrapper. Contains page content -->
             <div class="container text-center d-none d-lg-block d-md-block d-xl-block d-xxl-block">
-    <img src="/img/logo 1.png" class="img-circle"  style="height:60%;width:15%;margin-bottom:1%"></img>
+    <img src="/img/dit-logo.png" class=""  style="height:60%;width:15%;margin-bottom:1%"></img>
     </div>
         <div class="container-fluid">
 
@@ -29,14 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
    
     </div>
               <div class="card" style="font-family:'Times New Roman', sans-serif;width:100%">
-              <div class="card-header bg-primary text-center">
+              <div class="card-header bg-info text-center p-1">
                 <div class="row">
-                  <div class="col-md-6 col-sm-6 col-lg-6">
-                  <img src="/img/logo.png" class="img-circle d-lg-none d-md-none d-xl-none d-xxl-none d-sm-block"  style="height:45%;width:10%;margin-bottom:1%"></img>
-                 <h5 class="text-md">UDOM CLASSROOM</h5>
-                </div>
-                <div class="col-md-6 col-sm-6 col-lg-6">
-                 <h5 class="text-md"><span><i class="fa fa-user-plus text-info"></i></span><span> Student Registration</span></h5>
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                 <h5 class="text-md"><span><i class="fa fa-user-plus"></i></span><span> Student Registration</span></h5>
                 </div>
                 </div>
                 </div>
@@ -47,46 +43,34 @@ $this->params['breadcrumbs'][] = $this->title;
              
                   <div class="row">
                   <div class="col-md-4">
-                   <?= $form->field($model, 'fname')->textInput(['class'=>'form-control form-control-sm'])->label('First Name',['class'=>'text-sm']) ?>
+                   <?= $form->field($model, 'fname')->textInput(['class'=>'form-control form-control-sm','placeholder'=>'First Name'])->label(false) ?>
                   </div> 
                   <div class="col-md-4">
-                   <?= $form->field($model, 'mname')->textInput(['class'=>'form-control form-control-sm'])->label('Middle Name',['class'=>'text-sm']) ?>
+                   <?= $form->field($model, 'mname')->textInput(['class'=>'form-control form-control-sm','placeholder'=>'Middle Name'])->label(false) ?>
                   </div> 
                   <div class="col-md-4">
-                   <?= $form->field($model, 'lname')->textInput(['class'=>'form-control form-control-sm'])->label('Last Name',['class'=>'text-sm']) ?>
+                   <?= $form->field($model, 'lname')->textInput(['class'=>'form-control form-control-sm','placeholder'=>'Last Name'])->label(false) ?>
                   </div>  
                  </div> 
-
-                   <div class="row">
-                   <div class="col-md-6">
-                   <?= $form->field($model, 'username')->textInput(['class'=>'form-control form-control-sm','id'=>'regno'])->label('Registration Number',['class'=>'text-sm']) ?>
-                  </div>
-                  <div class="col-md-6">
-                  <?= $form->field($model, 'YOS')->dropdownList(['1'=>'First Year', '2'=>'Second Year', '3'=>'Third Year', '4'=>'Fourth year'], ['prompt'=>'--Select--', 'class'=>'form-control form-control-sm'])->label(' Year of Study',['class'=>'text-sm']) ?>
-                  </div>  
-                 </div>
                  <div class="row">
                    <div class="col-md-6">
-                   <?= $form->field($model, 'email')->input('email', ['class'=>'form-control form-control-sm'])->label('Email',['class'=>'text-sm']) ?>
+                   <?= $form->field($model, 'email')->input('email', ['class'=>'form-control form-control-sm','placeholder'=>'email address'])->label(false) ?>
                   </div>
                   <div class="col-md-6">
-                   <?= $form->field($model, 'phone')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'optional'])->label('Phone Number',['class'=>'text-sm']) ?>
+                   <?= $form->field($model, 'phone')->textInput(['class'=>'form-control form-control-sm', 'placeholder'=>'Phone number'])->label(false) ?>
                   </div>  
                  </div>
                  <div class="row"> 
-                 <div class="col-md-6">
-                   <?= $form->field($model, 'program')->dropdownList($programs, ['prompt'=>'--Select--','class'=>'form-control form-control-sm'])->label(' Program',['class'=>'text-sm']) ?>
-                  </div>
-                  <div class="col-md-6">
+                  <div class="col-md-12">
                 
-                  <?= $form->field($model, 'gender')->dropdownList(['M'=>'MALE', 'F'=>'FEMALE'], ['prompt'=>'--select--', 'class'=>'form-control form-control-sm'] )->label('Gender',['class'=>'text-sm']) ?>
+                  <?= $form->field($model, 'gender')->dropdownList(['M'=>'MALE', 'F'=>'FEMALE'], ['prompt'=>'--Gender--', 'class'=>'form-control form-control-sm'] )->label(false) ?>
              
                  </div>
                  </div>
                    <div class="row">
                     <div class="col-md-12 col-sm-12 col-lg-12">
                     
-                     <?= Html::submitButton('<i class="fa fa-paper-plane" aria-hidden="true"></i>  Submit', ['class'=>'btn btn-info btn-md  float-right mr-0','style'=>'width:50%']) ?>
+                     <?= Html::submitButton('<i class="fa fa-paper-plane" aria-hidden="true"></i>  Submit', ['class'=>'btn btn-info btn-md  float-right mr-0','style'=>'width:30%']) ?>
                 
                     </div>
                

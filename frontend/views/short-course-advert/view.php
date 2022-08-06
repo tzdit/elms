@@ -9,7 +9,7 @@ use yii\widgets\DetailView;
 $this->title = $model->title;
 $this->params['courseTitle']="<i class='fa fa-bullhorn text-info'></i> ".$model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Shortcourse Adverts', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = "view course";
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="shortcourse-advert-view">
