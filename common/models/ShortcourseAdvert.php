@@ -51,8 +51,8 @@ class ShortcourseAdvert extends \yii\db\ActiveRecord
             'course_code' => 'Course Code',
             'title' => 'Title',
             'description' => 'Description',
-            'deadlinedate' => 'Deadlinedate',
-            'deadlinetime' => 'Deadlinetime',
+            'deadlinedate' => 'Deadline Date',
+            'deadlinetime' => 'Deadline Time',
         ];
     }
 

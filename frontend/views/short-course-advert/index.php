@@ -7,15 +7,15 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Shortcourse Adverts';
+$this->params['courseTitle']="<i class='fa fa-bullhorn text-info'></i> Course advertisements";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="shortcourse-advert-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Shortcourse Advert', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+
+        <?= Html::a('<i class="fa fa-bullhorn"></i> Advertise Course', ['create'], ['class' => 'btn btn-info float-right mb-2']) ?>
 
     <?php Pjax::begin(); ?>
 
