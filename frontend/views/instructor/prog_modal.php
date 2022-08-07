@@ -5,7 +5,7 @@ use yii\helpers\Html;
 
 
 
-
+$this->params['courseTitle']="<i class='fa fa-graduation-cap'></i> Programmes ";
 ?>
 <!-- <div class="col-md-6">
         </div>
@@ -19,8 +19,8 @@ use yii\helpers\Html;
 <div class="modal fade" id="createProgramModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header bg-info">
-        <span class="modal-title" id="exampleModalLabel"><h4>Create New Program</h4></span>
+      <div class="modal-header bg-info p-1">
+        <span class="modal-title" id="exampleModalLabel"><i class='fa fa-plus-circle'></i> Create New Program</span>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -55,7 +55,7 @@ use yii\helpers\Html;
               
         <div class="row">
         <div class="col-md-12">
-        <?= Html::submitButton('Submit', ['class'=>'btn btn-primary btn-md float-right ml-2']) ?>
+        <?= Html::submitButton('<i class="fa fa-plus-circle"></i> Create', ['class'=>'btn btn-info btn-md float-right ml-2']) ?>
         <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
       
         </div>
@@ -76,18 +76,11 @@ use yii\helpers\Html;
           <!-- Left col -->
           <section class="col-lg-12">
             <!-- Custom tabs (Charts with tabs)-->
-            <div class="card">
-              <div class="card-header p-2">
-                <h3 class="card-title com-sm-12">
-                  <i class="fas fa-list mr-1 text-info"></i>
-                 List of Programs
-                 
-                </h3>
+          
                 
-                <a href="#" class="btn btn-sm btn-info btn-rounded float-right m-0 col-xs-12" data-target="#createProgramModal" data-toggle="modal"><i class="fas fa-plus" ></i>Create Program</a>
+                <a href="#" class="btn btn-sm btn-info btn-rounded float-right m-0 col-xs-12" data-target="#createProgramModal" data-toggle="modal"><i class="fa fa-plus-circle" ></i> Create Program</a>
               
-              </div><!-- /.card-header -->
-              <div class="card-body">
+      
             <table class="table table-bordered table-striped table-hover" id="ProgramList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
             <thead>
             <tr><th width="1%">#</th><th>Program Code</th><th>Department</th><th>Program Name</th><th>Program Duration</th><th>Program Capacity</th><th width="10%">Action</th></tr>
@@ -104,18 +97,16 @@ use yii\helpers\Html;
             <td><?= $program->prog_duration ?></td>
             <td><?= $program->capacity ?></td>
             <td>
-           
-             <?= Html::a('<i class="fas fa-edit"></i>',['updateprog', 'progid'=>$program->programCode], ['class'=>'btn btn-info btn-sm m-0'])?>      
-             <a href="#" progid=<?=$program->programCode?> class="btn btn-sm btn-danger float-right ml-2 programdel"><span><i class="fas fa-trash"></i></span></a>
+            
+             <?= Html::a('<i class="fas fa-edit"></i>',['updateprog', 'progid'=>$program->programCode], ['class'=>'textr-info btn-sm m-0'])?>      
+             <a href="#" progid="<?=$program->programCode?>" class="text-danger  programdel"><span><i class="fas fa-trash"></i></span></a>
             </td>
             </tr>
             <?php endforeach; ?>
             </tbody>
             </table>
              
-              </div><!-- /.card-body -->
-            </div>
-            <!-- /.card -->
+        
 
           </section>
           <!-- /.Left col -->
@@ -132,7 +123,20 @@ use yii\helpers\Html;
 $script = <<<JS
 $(document).ready(function(){
   $("#ProgramList").DataTable({
-    responsive:true
+    responsive:true,
+    dom: 'Bfrtip',
+        buttons: [
+            'csv',
+            {
+                extend: 'pdfHtml5',
+                title: 'Program list'
+            },
+            {
+                extend: 'excelHtml5',
+                title: 'Program list'
+            },
+            'print',
+        ]
   });
   // alert("JS IS OKAY")
 });

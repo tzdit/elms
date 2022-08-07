@@ -19,8 +19,8 @@ use yii\helpers\Html;
 
 <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header bg-info">
-        <span class="modal-title" id="exampleModalLabel"><h4>Create New Program</h4></span>
+      <div class="modal-header bg-info p-1">
+        <span class="modal-title ml-1" id="exampleModalLabel"><i class="fa fa-edit"></i> Update Program</span>
         
       </div>
       <div class="modal-body">
@@ -60,7 +60,7 @@ use yii\helpers\Html;
               
         <div class="row">
         <div class="col-md-12">
-        <?= Html::submitButton('Update', ['class'=>'btn btn-info float-right ml-2']) ?>
+        <?= Html::submitButton('<i class="fa fa-edit"></i> Update', ['class'=>'btn btn-info float-right ml-2']) ?>
         
       
         </div>

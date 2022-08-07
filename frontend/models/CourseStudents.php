@@ -15,7 +15,7 @@ use Yii;
 use yii\base\Model;
 use common\models\StudentCourse;
 use common\models\ProgramCourse;
-
+use common\models\StudentShortCourse;
 
 
 
@@ -58,6 +58,13 @@ class CourseStudents extends Model
     }
 
 
+    //add short course students in case of short course
+
+    $shortcoursestudents=StudentShortCourse::find()->where(['course_code'=>$course])->all(); 
+    foreach($shortcoursestudents as $shortcoursestudent)
+    {
+     array_push($students,$shortcoursestudent->regNo);
+    }
      return $students;
 
  }

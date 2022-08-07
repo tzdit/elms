@@ -5,7 +5,7 @@ use fedemotta\datatables\DataTables;
 use yii\helpers\Url;
 use yii\helpers\Html;
 /* @var $this yii\web\View */
-
+$this->params['courseTitle']="<i class='fa fa-chalkboard-teacher'></i> Instructors & courses";
 $this->title = 'Instructors $ Courses';
 ?>
 <div class="site-index">
@@ -21,17 +21,7 @@ $this->title = 'Instructors $ Courses';
           <!-- Left col -->
           <section class="col-lg-12">
             <!-- Custom tabs (Charts with tabs)-->
-            <div class="card">
-              <div class="card-header p-2">
-                <h3 class="card-title com-sm-12">
-                  <i class="fas fa-list mr-1 text-info"></i>
-                 List of Instructors with their respective courses 
-                 
-                </h3>
-        
-              
-              </div><!-- /.card-header -->
-              <div class="card-body">
+    
             <table class="table table-bordered table-striped table-hover" id="StudentList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
             <thead>
             <tr><th>Instructor Name</th><th>Department</th><th>Courses</th><th width="18%">Action</th></tr>
@@ -51,15 +41,13 @@ $this->title = 'Instructors $ Courses';
                   <b><?= $courses-> course_code. ','; ?></b>
                 <?php endforeach; ?>
                 </td>
-                <td> <?= Html::a('<i class="fas fa-minus-circle"> Remove Course</i>',['remove-instructor-course', 'instructorID'=>$instructor->instructorID], ['class'=>'btn btn-primary btn-sm m-0'])?> </td>
+                <td> <?= Html::a('<i class="fas fa-minus-circle"></i>',['remove-instructor-course', 'instructorID'=>$instructor->instructorID], ['class'=>'btn btn-info btn-sm m-0','data-toggle'=>'tooltip','data-title'=>'Go to remove courses'])?> </td>
                 <?php endforeach; ?>
            
             </tbody>
             </table>
              
-              </div><!-- /.card-body -->
-            </div>
-            <!-- /.card -->
+       
 
           </section>
           <!-- /.Left col -->
@@ -76,7 +64,20 @@ $this->title = 'Instructors $ Courses';
 $script = <<<JS
 $(document).ready(function(){
   $("#StudentList").DataTable({
-    responsive:true
+    responsive:true,
+    dom: 'Bfrtip',
+        buttons: [
+            'csv',
+            {
+                extend: 'pdfHtml5',
+                title: 'Instructors list'
+            },
+            {
+                extend: 'excelHtml5',
+                title: 'Instructors list'
+            },
+            'print',
+        ]
   });
   // alert("JS IS OKAY")
 });

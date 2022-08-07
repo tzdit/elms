@@ -5,7 +5,7 @@ use yii\helpers\Url;
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
            <li class="nav-item">
             <a href="<?= Url::to(['/home/dashboard']) ?>" class="nav-link text-light">
-              <i class="nav-icon fas fa-th text-info"></i>
+              <i class="nav-icon fas fa-th "></i>
               <p>
                 Dashboard
                 
@@ -127,7 +127,7 @@ use yii\helpers\Url;
          
           <li class="nav-item">
                 <a href="<?= Url::toRoute('/instructor/courses') ?>" class="nav-link text-light">
-                  <i class="fas fa-chalkboard-teacher nav-icon"></i>
+                  <i class="fas fa-chalkboard-teacher  nav-icon"></i>
                   <p>Self-assign Courses</p>
                 </a>
               </li>
@@ -162,7 +162,7 @@ use yii\helpers\Url;
           <?php if(Yii::$app->user->can('INSTRUCTOR & HOD')): ?>
             <li class="nav-item">
                 <a href="<?= Url::toRoute('/instructor/courses') ?>" class="nav-link text-light">
-                  <i class="fas fa-chalkboard-teacher nav-icon"></i>
+                <i class="fas fa-pen-alt nav-icon"></i>
                   <p>Self-assign Courses</p>
                 </a>
               </li>
@@ -192,7 +192,7 @@ use yii\helpers\Url;
 
               <li class="nav-item">
                 <a href="<?= Url::toRoute('/instructor/create-program') ?>" class="nav-link text-light">
-                <i class="fas fa-award"></i>
+                <i class="fa fa-graduation-cap"></i>
                   <p>Manage Programmes</p>
                 </a>
               </li>
@@ -220,22 +220,9 @@ use yii\helpers\Url;
 
               <!-- ################################################ -->
 
-              <!-- <li class="nav-item">
-                <a href="<?= Url::toRoute('/instructor/create-course') ?>" class="nav-link text-light">
-                  <i class="fas fa-book nav-icon"></i>
-                  <p>Manage Courses</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="<?= Url::toRoute('/instructor/assign-course') ?>" class="nav-link text-light">
-                <i class="fas fa-tasks"></i>
-                  <p>Assign Course </p>
-                </a>
-              </li> -->
-
               <li class="nav-item">
                 <a href="<?= Url::toRoute('/instructor/instructor-course') ?>" class="nav-link text-light">
-                <i class="fas fa-users"></i>
+                <i class="fa fa-chalkboard-teacher"></i>
                   <p>Instructors </p>
                 </a>
               </li>

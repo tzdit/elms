@@ -783,6 +783,7 @@ public function actionEditExtAssrecord($recordid)
         $progcozdel = ProgramCourse::findOne($id)->delete(); 
         if($progcozdel){
            Yii::$app->session->setFlash('success', 'Program removed from course successfully');
+           
         }
         return $this->redirect(Yii::$app->request->referrer);
     } 
@@ -791,9 +792,9 @@ public function actionEditExtAssrecord($recordid)
     {
         $progdel = Program::findOne($id)->delete(); 
         if($progdel){
-           Yii::$app->session->setFlash('success', 'Program deleted successfully');
+            return $this->asJson(['message'=>'Program deleted successfully']);
         }
-        return $this->redirect(Yii::$app->request->referrer);
+     
     }
 
     public function actionDeletestudent()
@@ -2180,10 +2181,9 @@ public function actionAddStudentGentype()
    $groupsModel=new GroupGenerationTypes();
    $coursecode=Yii::$app->session->get('ccode');
    $groups=$groupsModel::find()->where(['course_code'=>$coursecode])->orderBy(['typeID'=>SORT_DESC])->all();
-   if($groups==null){ Yii::$app->session->setFlash('success', 'No groups found');return $this->render('courseGroups', ['groups'=>$groups,'cid'=>$coursecode]);}
-   else{
+ 
    return $this->render('courseGroups', ['groups'=>$groups,'cid'=>$coursecode]);
-   }
+   
 
  }
 
