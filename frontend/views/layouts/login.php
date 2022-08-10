@@ -111,7 +111,7 @@ $ads=ShortcourseAdvert::find()->all();
                       <div class="row"><div class="col-sm-12 text-bold" style="font-size:40px"><?=$ad->title?></div></div>
                       <div class="row"><div class="col-sm-12 text-bold" style="font-size:30px"><?=$ad->description?></div></div>
                       <div class="row"><div class="col-sm-12 text-bold" style="font-size:25px">Registration Deadline: <?=date_format(date_create($ad->deadlinedate),'d-m-Y')?> <?=$ad->deadlinetime?></div></div>
-                      <div class="row mt-3"><div class="col-sm-12 text-bold" style="font-size:25px"><a href="#" class="btn btn-default border" ><i class="fa fa-graduation-cap"></i> Register Now</a></div></div>
+                      <div class="row mt-3"><div class="col-sm-12 text-bold" style="font-size:25px"><a href="<?=Url::to(['/student/register','course'=>ClassRoomSecurity::encrypt($ad->course_code)])?>" class="btn btn-default border" ><i class="fa fa-graduation-cap"></i> Register Now</a></div></div>
 
                    </div>
               </div>
