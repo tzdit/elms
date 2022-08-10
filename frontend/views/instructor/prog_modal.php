@@ -98,8 +98,15 @@ $this->params['courseTitle']="<i class='fa fa-graduation-cap'></i> Programmes ";
             <td><?= $program->capacity ?></td>
             <td>
             
-             <?= Html::a('<i class="fas fa-edit"></i>',['updateprog', 'progid'=>$program->programCode], ['class'=>'textr-info btn-sm m-0'])?>      
+             <?= Html::a('<i class="fas fa-edit"></i>',['updateprog', 'progid'=>$program->programCode], ['class'=>'textr-info btn-sm m-0'])?> 
+             <?php
+             if($program->programCode!="DITSH")
+             {
+             ?>     
              <a href="#" progid="<?=$program->programCode?>" class="text-danger  programdel"><span><i class="fas fa-trash"></i></span></a>
+             <?php
+             }
+             ?> 
             </td>
             </tr>
             <?php endforeach; ?>
