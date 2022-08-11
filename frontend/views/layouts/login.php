@@ -27,7 +27,7 @@ $ads=ShortcourseAdvert::find()->all();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php 
     $this->registerCsrfMetaTags();
-    $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => '/logo.png']);
+    $this->registerLinkTag(['rel' => 'icon', 'type' => '/image/png', 'href' => '/logo.png']);
      ?>
     <title><?= Html::encode($this->title) ?></title>
     
@@ -36,7 +36,7 @@ $ads=ShortcourseAdvert::find()->all();
 <body>
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
         <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <h2 class="m-0 text-info"><img src="img/dit-logo.png" style="width:13%;height:5%;"><snap >DIT|eLMS</snap></h2>
+            <h2 class="m-0 text-info"><img src="/img/dit-logo.png" style="width:13%;height:5%;"><snap >DIT|eLMS</snap></h2>
         </a>
     </nav>
   <div class="card card-outline card-info">
@@ -67,7 +67,7 @@ $ads=ShortcourseAdvert::find()->all();
      </div>
        
       </div>
-       <div class="row d-flex justify-content-center" style="background-image:url(img/landing_page1.jpg);background-repeat: no-repeat; width:100%" >
+       <div class="row d-flex justify-content-center" style="background-image:url(/img/landing_page1.jpg);background-repeat: no-repeat; width:100%" >
      
         <div class="col-sm-8 d-flex justify-content-center text-info" style="overflow-wrap: break-word; ">
 
@@ -188,7 +188,7 @@ $ads=ShortcourseAdvert::find()->all();
             <div class="row g-5">
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
                     <div class="position-relative h-100">
-                        <img class="img-fluid position-absolute w-100 h-100" src="img/icon.jpg" alt="" style="object-fit: cover;">
+                        <img class="img-fluid position-absolute w-100 h-100" src="/img/icon.jpg" alt="" style="object-fit: cover;">
                     </div>
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
@@ -221,22 +221,22 @@ $ads=ShortcourseAdvert::find()->all();
                     <h4 class="text-white mb-3">Gallery</h4>
                     <div class="row g-2 pt-2">
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/online-courses-concept_23-2148524391.webp" alt="">
+                            <img class="img-fluid bg-light p-1" src="/img/online-courses-concept_23-2148524391.webp" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/online.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="/img/online.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/online.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="/img/online.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/online-courses-concept_23-2148524391.webp" alt="">
+                            <img class="img-fluid bg-light p-1" src="/img/online-courses-concept_23-2148524391.webp" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/online.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="/img/online.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/course-1.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="/img/course-1.jpg" alt="">
                         </div>
                     </div>
                 </div>
