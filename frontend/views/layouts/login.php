@@ -100,9 +100,9 @@ $ads=ShortcourseAdvert::find()->all();
             <img src="/img/newblink.gif" class="img-circle"  style="width:100px;height:100px;margin-bottom:1%"></img>
                </div>
                    <div class="container text-center">
-                      <div class="row"><div class="col-sm-12 text-bold text-light" style="font-size:40px"><?=$ad->title?></div></div>
+                      <div class="row"><div class="col-sm-12 text-bold text-light text-sm-sm" style="font-size:35px"><?=$ad->title?></div></div>
                       <div class="row"><div class="col-sm-12 text-bold text-light" style="font-size:30px"><?=$ad->description?></div></div>
-                      <div class="row"><div class="col-sm-12 text-bold text-light" style="font-size:25px">Registration Deadline: <?=date_format(date_create($ad->deadlinedate),'d-m-Y')?> <?=$ad->deadlinetime?></div></div>
+                      <div class="row"><div class="col-sm-12 text-bold text-light" style="font-size:25px">Mwisho wa usajili (Registration Deadline): <?=date_format(date_create($ad->deadlinedate),'d-m-Y')?> <?=$ad->deadlinetime?></div></div>
                       <div class="row mt-3" ><div class="col-sm-12 text-bold text-light" style="font-size:25px"><a href="<?=Url::to(['/student/register','course'=>ClassRoomSecurity::encrypt($ad->course_code)])?>" class="btn btn-default border" ><i class="fa fa-graduation-cap text-info"></i> Register Now</a></div></div>
 
                    </div>
@@ -115,8 +115,8 @@ $ads=ShortcourseAdvert::find()->all();
           <div class="container text-center">
                       <div class="row"><div class="col-sm-12 text-bold text-light" style="font-size:40px"><?=$ad->title?></div></div>
                       <div class="row"><div class="col-sm-12 text-bold text-light" style="font-size:30px"><?=$ad->description?></div></div>
-                      <div class="row"><div class="col-sm-12 text-bold text-light" style="font-size:25px">Registration Deadline: <?=date_format(date_create($ad->deadlinedate),'d-m-Y')?> <?=$ad->deadlinetime?></div></div>
-                      <div class="row mt-3"><div class="col-sm-12 text-bold text-light" style="font-size:25px"><a href="<?=Url::to(['/student/register','course'=>ClassRoomSecurity::encrypt($ad->course_code)])?>" class="btn btn-default border" ><i class="fa fa-graduation-cap"></i> Register Now</a></div></div>
+                      <div class="row"><div class="col-sm-12 text-bold text-light" style="font-size:25px">Mwisho wa usajili (Registration Deadline): <?=date_format(date_create($ad->deadlinedate),'d-m-Y')?> <?=$ad->deadlinetime?></div></div>
+                      <div class="row mt-3"><div class="col-sm-12 text-bold text-light" style="font-size:25px"><a href="<?=Url::to(['/student/register','course'=>ClassRoomSecurity::encrypt($ad->course_code)])?>" class="btn btn-default border" ><i class="fa fa-graduation-cap text-info"></i> Register Now</a></div></div>
 
                    </div>
               </div>
@@ -135,7 +135,7 @@ $ads=ShortcourseAdvert::find()->all();
         </div>
        
 <div class="col-sm-4">
-<div class="login-box mt-5">
+<div class="login-box mt-5 ml-3">
   <!-- /.login-logo -->
 <?= $content ?>
 </div>
