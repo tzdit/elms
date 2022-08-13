@@ -46,9 +46,9 @@ class Backgroundinfo extends \yii\db\ActiveRecord
     {
         return [
             'bi_info' => 'Bi Info',
-            'theory' => 'Theory',
-            'prac' => 'Prac',
-            'employstatus' => 'Employstatus',
+            'theory' => 'Theoretical knowledge',
+            'prac' => 'Practical knowledge',
+            'employstatus' => 'Employment status',
             'reg_no' => 'Reg No',
         ];
     }

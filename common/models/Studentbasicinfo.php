@@ -10,7 +10,7 @@ use Yii;
  * @property int $infoID
  * @property string|null $profil
  * @property string|null $birthdate
- * @property string|null $nida
+ * @property string $nida
  * @property string $region
  * @property string $district
  * @property string|null $ward
@@ -23,6 +23,7 @@ use Yii;
  */
 class Studentbasicinfo extends \yii\db\ActiveRecord
 {
+    public $file;
     /**
      * {@inheritdoc}
      */
@@ -38,9 +39,10 @@ class Studentbasicinfo extends \yii\db\ActiveRecord
     {
         return [
             [['birthdate'], 'safe'],
-            [['region', 'district', 'maritalstatus', 'reg_no'], 'required'],
+            [['region','birthdate', 'district','ward','nida','maritalstatus', 'reg_no'], 'required'],
             [['profil', 'ward', 'maritalstatus', 'reg_no', 'spouseaddress'], 'string', 'max' => 20],
             [['nida', 'region', 'district'], 'string', 'max' => 25],
+            [['file'], 'file', 'skipOnEmpty' =>true,'extensions'=>['jpg','png']],
             [['spousephone'], 'string', 'max' => 15],
             [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],
         ];
@@ -54,15 +56,15 @@ class Studentbasicinfo extends \yii\db\ActiveRecord
         return [
             'infoID' => 'Info ID',
             'profil' => 'Profil',
-            'birthdate' => 'Birthdate',
-            'nida' => 'Nida',
+            'birthdate' => 'Birth Date',
+            'nida' => 'NIDA',
             'region' => 'Region',
             'district' => 'District',
             'ward' => 'Ward',
-            'maritalstatus' => 'Maritalstatus',
+            'maritalstatus' => 'Marital status',
             'reg_no' => 'Reg No',
-            'spouseaddress' => 'Spouseaddress',
-            'spousephone' => 'Spousephone',
+            'spouseaddress' => 'Spouse address',
+            'spousephone' => 'Spouse phone',
         ];
     }
 

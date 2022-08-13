@@ -8,9 +8,9 @@ use Yii;
  * This is the model class for table "studenteducation".
  *
  * @property int $educID
- * @property string|null $level
- * @property string|null $type
- * @property string|null $intake
+ * @property string $level
+ * @property string $type
+ * @property string $intake
  * @property string $reg_no
  *
  * @property Student $regNo
@@ -31,7 +31,7 @@ class Studenteducation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['reg_no'], 'required'],
+            [['reg_no','level','type','intake'], 'required'],
             [['level'], 'string', 'max' => 30],
             [['type', 'intake', 'reg_no'], 'string', 'max' => 20],
             [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],

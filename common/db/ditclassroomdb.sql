@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2022 at 10:22 AM
+-- Generation Time: Aug 13, 2022 at 09:38 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -3696,8 +3696,17 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('STUDENT', '6371', 1659788764),
 ('STUDENT', '6373', 1659790753),
 ('STUDENT', '6374', 1659791177),
+('STUDENT', '6375', 1660324606),
+('STUDENT', '6376', 1660326716),
+('STUDENT', '6378', 1660327259),
 ('STUDENT', '638', 1636639116),
+('STUDENT', '6380', 1660413730),
+('STUDENT', '6383', 1660414065),
+('STUDENT', '6386', 1660414500),
 ('STUDENT', '639', 1636639142),
+('STUDENT', '6391', 1660417686),
+('STUDENT', '6392', 1660417807),
+('STUDENT', '6393', 1660418369),
 ('STUDENT', '640', 1636639225),
 ('STUDENT', '641', 1636639288),
 ('STUDENT', '642', 1636639309),
@@ -4076,6 +4085,30 @@ CREATE TABLE `auth_rule` (
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `backgroundinfo`
+--
+
+CREATE TABLE `backgroundinfo` (
+  `bi_info` int(11) NOT NULL,
+  `theory` int(11) DEFAULT 0,
+  `prac` int(11) DEFAULT 0,
+  `employstatus` varchar(15) NOT NULL,
+  `reg_no` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `backgroundinfo`
+--
+
+INSERT INTO `backgroundinfo` (`bi_info`, `theory`, `prac`, `employstatus`, `reg_no`) VALUES
+(1, 1, 0, 'unemployed', 'DIT07771897321'),
+(2, 1, 0, 'unemployed', 'DIT07771897321'),
+(3, 1, 1, 'employed', 'loresa'),
+(4, 1, 1, 'employed', 'loresa');
 
 -- --------------------------------------------------------
 
@@ -4909,8 +4942,7 @@ CREATE TABLE `material` (
 --
 
 INSERT INTO `material` (`material_ID`, `instructorID`, `course_code`, `title`, `material_type`, `upload_date`, `upload_time`, `fileName`, `yearID`, `moduleID`) VALUES
-(605, 2, 'CP 111', 'programming', 'Notes', '2022-07-27', '21:37:55', '62e18603caeba.pdf', 29, 354),
-(606, 112, 'SH112', 'programming', 'Notes', '2022-08-06', '16:40:01', '62ee6f31756e6.png', 29, 355);
+(605, 2, 'CP 111', 'programming', 'Notes', '2022-07-27', '21:37:55', '62e18603caeba.pdf', 29, 354);
 
 -- --------------------------------------------------------
 
@@ -4955,8 +4987,7 @@ CREATE TABLE `module` (
 --
 
 INSERT INTO `module` (`moduleID`, `moduleName`, `module_description`, `course_code`, `yearID`) VALUES
-(354, 'good  morning', 'niggaz', 'CP 111', 29),
-(355, 'good  morning', 'niggaz', 'SH112', 29);
+(354, 'good  morning', 'niggaz', 'CP 111', 29);
 
 -- --------------------------------------------------------
 
@@ -5287,7 +5318,7 @@ INSERT INTO `session` (`id`, `sessionid`, `userID`, `username`, `role`, `college
 (792, 'os7d2s43pcqjkvuqu7ioducj8h', 6366, 'winw3@gmail.com', NULL, NULL, NULL, NULL, '2022-06-01 14:41:12'),
 (820, 'q7ij23go4jfu4ji07q4sjp7ddd', 36, 'mselleofficial@gmail.com', 'Instructor', 'CIVE', 'CSE', NULL, '2022-07-27 22:06:31'),
 (849, 'rrj1d214mmaadoeutavif58mlh', 6370, 'mimi22@gmail.com', 'Student', 'CIVE', 'DITSH', 1, '2022-08-06 15:22:16'),
-(860, 'pvrjie0su4f7q6fg56uei6tkg2', 6367, 'dit@gmail.com', 'Instructor', 'CIVE', 'CSE', NULL, '2022-08-07 09:32:09');
+(866, 'lve4cqfcpqi7hn58ovt0ejd80b', 6393, 'loresa', 'Student', 'CIVE', 'DITSH', 1, '2022-08-13 22:22:08');
 
 -- --------------------------------------------------------
 
@@ -5340,6 +5371,7 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lname`, `email`, `gender`, `f4_index_no`, `YOS`, `DOR`, `phone`, `status`, `type`) VALUES
+('@gmail.com', 6391, 'DITSH', 'khalid', 'hassan', 'thewinner', 'godfrey12@gmail.com', 'M', NULL, 1, '2022-08-13', '077718973626', 'REGISTERED', 'shorttime'),
 ('A/UD0M/2021/001025', 2674, 'BSc - CSDFE', 'ISSA', 'ABEDI', 'HEMEDI', 'issahemedi36@gmail.com', 'M', NULL, 2, '2021-11-17', NULL, 'REGISTERED', ''),
 ('A/UDOM/2021/001025', 2819, 'BSc - CSDFE', 'ISSA', 'ABEDI', 'HEMEDI', 'mvungihemedi12@gmail.com', 'M', NULL, 2, '2021-11-19', NULL, 'REGISTERED', ''),
 ('A/UDOM/2021/001753', 3586, 'MEMA', 'MARGRET', 'NZISA', 'MATHUKI', 'margretmathuki28@gmail.com', 'F', NULL, 2, '2021-12-02', NULL, 'REGISTERED', ''),
@@ -5413,13 +5445,21 @@ INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lna
 ('A\\UDOM\\2021\\004069', 1900, 'BSc - TE', 'SAMWEL', 'TONNY', 'LAIZER', 'samwellaizer1945@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
 ('A\\UDOM\\2021\\011686', 1922, 'BSc - SE', 'CUTHBERT', 'JUDYSEN', 'KWEKA', 'headieboy790@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
 ('A\\UDOM\\2021\\066465', 1801, 'BSc - CSDFE', 'Adventina', 'Charles', 'Mtimba', 'adventinamtimba@gmail.com', 'F', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
+('B123', 6375, 'BSc – CE', 'khalid', 'h', 'winner', 'thewinner016@gmail.com', 'M', NULL, 1, '2022-08-12', NULL, '1-status', 'permanent'),
+('DIT07771897321', 6378, 'DITSH', 'khalid', 'hassan', 'thewinner', 'mimi212@gmail.com', 'M', NULL, 1, '2022-08-12', '07771897321', 'REGISTERED', 'shorttime'),
 ('DIT0777189733', 6373, 'DITSH', 'khalid', 'hassan', 'thewinner', 'mimi224@gmail.com', 'M', NULL, 1, '2022-08-06', '0777189733', 'REGISTERED', 'permanent'),
 ('DIT0777189735', 6371, 'DITSH', 'khalid', 'hassan', 'thewinner', 'mimi222@gmail.com', 'M', NULL, 1, '2022-08-06', '0777189735', 'REGISTERED', 'shorttime'),
 ('DIT0777189736', 6370, 'DITSH', 'khalid', 'hassan', 'thewinner', 'mimi22@gmail.com', 'M', NULL, 1, '2022-08-06', '0777189736', 'REGISTERED', 'shorttime'),
+('DIT07771897362', 6383, 'DITSH', 'khalid', 'hassan', 'thewinner', 'mimi22ss@gmail.com', 'M', NULL, 1, '2022-08-13', '07771897362', 'REGISTERED', 'shorttime'),
+('DIT077718973622', 6386, 'DITSH', 'khalid', 'hassan', 'thewinner', 'mimi223s@gmail.com', 'M', NULL, 1, '2022-08-13', '077718973622', 'REGISTERED', 'shorttime'),
+('DIT07771897363', 6380, 'DITSH', 'khalid', 'hassan', 'thewinner', 'mimi22s@gmail.com', 'M', NULL, 1, '2022-08-13', '07771897363', 'REGISTERED', 'shorttime'),
+('DIT09933333', 6376, 'DITSH', 'hh', 'hh', 'hh', 'the@gmail.com', 'M', NULL, 1, '2022-08-12', '09933333', 'REGISTERED', 'shorttime'),
 ('E21-03-03796', 1600, 'BSc - SE', 'JEHOSHAPHAT', 'L', 'OBOL', 'jeholo5464@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
 ('frank', 2488, 'BSc - SE', 'frank', '', 'john', 'frank1@udom.ac.tz', 'M', NULL, 2, '2021-11-16', NULL, 'REGISTERED', ''),
 ('HD/UDOM/0443/T.2020', 3300, 'MSc - TE', 'PAUL', '', 'MANOTA', 'yusuphp3@gmail.com', 'M', NULL, 2, '2021-11-29', NULL, 'REGISTERED', ''),
 ('L/UDOM/2018/00133', 2760, 'BSc - SE', 'Beatrice', 'Mabee', 'Gbanlon', 'beatricegbanlon1996@gmail.com', 'F', NULL, 2, '2021-11-18', NULL, 'REGISTERED', ''),
+('loresa', 6393, 'DITSH', 'khalid', 'hassan', 'thewinner', 'loresa@gmail.com', 'M', NULL, 1, '2022-08-13', '077718973611', 'REGISTERED', 'shorttime'),
+('mimimars', 6392, 'DITSH', 'khalid', 'hassan', 'thewinner', 'mimimars@gmail.com', 'M', NULL, 1, '2022-08-13', '077718973644', 'REGISTERED', 'shorttime'),
 ('s.2748.7600.1720', 3581, 'BSc - CNISE', ' think', 'out', 'loud', 'thinkoutloud@gmail.com', 'F', NULL, 2, '2021-12-02', NULL, 'REGISTERED', ''),
 ('T 21-03-04972', 559, 'BSc - SE', 'MENGWA', 'KATAMBI', 'NIGO', 'katambiflorah@gmail.com', 'F', NULL, 2, '2021-11-11', NULL, 'REGISTERED', ''),
 ('T-21-03-02038', 2714, 'BSc - TE', 'LILIAN', 'MOREMI', 'WAMBURA', 'moremililian101@gmail.com', 'F', NULL, 2, '2021-11-18', NULL, 'REGISTERED', ''),
@@ -5666,7 +5706,8 @@ INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lna
 ('T/UDOM/2019/00586', 2836, 'BSc - SE', 'REGNALD ', 'EXAUD', 'MTEI', 'regimtei1@gmail.com', 'M', NULL, 2, '2021-11-19', NULL, 'REGISTERED', ''),
 ('T/UDOM/2019/00587', 2421, 'BSc - SE', 'MAFIU', 'AHMED', 'KHATIBU', 'maammsenior@gmail.com', 'M', NULL, 2, '2021-11-16', NULL, 'REGISTERED', ''),
 ('T/UDOM/2019/00588', 2140, 'BSc - SE', 'KELVIN', 'ROBERT', 'ALEX', 'lilkevinrobert@gmail.com', 'M', NULL, 2, '2021-11-14', NULL, 'REGISTERED', ''),
-('T/UDOM/2019/00589', 2353, 'BSc - SE', 'AZIZI', 'MOHAMEDI', 'SUNGITA', 'azizisungita5@gmail.com', 'M', NULL, 2, '2021-11-16', NULL, 'REGISTERED', ''),
+('T/UDOM/2019/00589', 2353, 'BSc - SE', 'AZIZI', 'MOHAMEDI', 'SUNGITA', 'azizisungita5@gmail.com', 'M', NULL, 2, '2021-11-16', NULL, 'REGISTERED', '');
+INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lname`, `email`, `gender`, `f4_index_no`, `YOS`, `DOR`, `phone`, `status`, `type`) VALUES
 ('T/UDOM/2019/00590', 2341, 'BSc - SE', 'INNOCENT ', 'CHARLES', 'NYAKANA', 'innocentcharles217@gmail.com', 'M', NULL, 2, '2021-11-15', NULL, 'REGISTERED', ''),
 ('T/UDOM/2019/00592', 3323, 'BSc - SE', 'DAVID', 'BUHURU', 'KAPARASO', 'davidkaparaso2019@gmail.com', 'M', NULL, 2, '2021-11-29', NULL, 'REGISTERED', ''),
 ('T/UDOM/2019/00593', 2966, 'BSc - SE', 'Innocent', 'Rumishaeli', 'Masuki', 'innocentmasuki99@gmail.com', 'M', NULL, 2, '2021-11-22', NULL, 'REGISTERED', ''),
@@ -5675,8 +5716,7 @@ INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lna
 ('T/UDOM/2019/00597', 3677, 'BSc - SE', 'Zaidu', 'M', 'Nyoni', 'nyonizaidu8071@gmail.com', 'M', NULL, 2, '2021-12-06', NULL, 'REGISTERED', ''),
 ('T/UDOM/2019/00599', 2881, 'BSc - SE', 'SETH', 'D', 'WILSON', 'wilsonseeth904@gmail.com', 'M', NULL, 2, '2021-11-20', NULL, 'REGISTERED', ''),
 ('T/UDOM/2019/00600', 2274, 'BSc - SE', 'Petson', 'Vedastus', 'Nathanaeli', 'petsonvedastuskisenya1997@gmail.com', 'M', NULL, 2, '2021-11-15', NULL, 'REGISTERED', ''),
-('T/UDOM/2019/00601', 2426, 'BSc - SE', 'ligwa', 'bukelebe', 'madinda', 'madindaligwa@gmail.com', 'M', NULL, 2, '2021-11-16', NULL, 'REGISTERED', '');
-INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lname`, `email`, `gender`, `f4_index_no`, `YOS`, `DOR`, `phone`, `status`, `type`) VALUES
+('T/UDOM/2019/00601', 2426, 'BSc - SE', 'ligwa', 'bukelebe', 'madinda', 'madindaligwa@gmail.com', 'M', NULL, 2, '2021-11-16', NULL, 'REGISTERED', ''),
 ('T/UDOM/2019/00602', 3564, 'BSc - SE', 'kevin', 'B', 'Deus', 'kevindeus1999@gmail.com', 'M', NULL, 2, '2021-12-01', NULL, 'REGISTERED', ''),
 ('T/UDOM/2019/00603', 2765, 'BSc - SE', 'Valence', 'Fredrick', 'Kajuna', 'valencemuganda@gmail.com', 'M', NULL, 2, '2021-11-18', NULL, 'REGISTERED', ''),
 ('T/UDOM/2019/00605', 2258, 'BSc - SE', 'RAJABU', 'R', 'MASIKI', 'rajabumasiki1@gmail.com', 'M', NULL, 2, '2021-11-15', NULL, 'REGISTERED', ''),
@@ -6002,7 +6042,8 @@ INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lna
 ('T/UDOM/2020/0346', 1016, 'BSc - SE', 'RONALD', 'ALEX', 'MACHA', 'marisadd546@gmail.com', 'M', NULL, 2, '2021-11-11', NULL, 'REGISTERED', ''),
 ('T/UDOM/2020/05208', 1888, 'BSc - CNISE', 'MSAFIRI', 'MRADI', 'MCHOMVU', 'mchomvumsafiri@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
 ('T/UDOM/2020/05209', 1864, 'BSc - CNISE', 'ANNASTAZIA', 'SATURIN', 'KAWISHE', 'annastaziakawishe@gmail.com', 'F', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
-('T/UDOM/2020/05210', 3247, 'BSc - CNISE', 'Deogratius', 'Juma', 'Shanjila', 'shanjiladeogratiusshizya3545@gmail.com', 'M', NULL, 2, '2021-11-26', NULL, 'REGISTERED', ''),
+('T/UDOM/2020/05210', 3247, 'BSc - CNISE', 'Deogratius', 'Juma', 'Shanjila', 'shanjiladeogratiusshizya3545@gmail.com', 'M', NULL, 2, '2021-11-26', NULL, 'REGISTERED', '');
+INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lname`, `email`, `gender`, `f4_index_no`, `YOS`, `DOR`, `phone`, `status`, `type`) VALUES
 ('T/UDOM/2020/05212', 1727, 'BSc - CNISE', 'Gideon', 'Ayubu', 'Ngimbudzi', 'ngimbudzigideon@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
 ('T/UDOM/2020/05213', 1608, 'BSc - CNISE', 'Joseph', 'Samweli', 'Kasoboye', 'kasoboyejoseph@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
 ('T/UDOM/2020/05214', 1183, 'BSc - CNISE', 'Godwin', 'Aretas', 'Mareni', 'godymareni13@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
@@ -6011,8 +6052,7 @@ INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lna
 ('T/UDOM/2020/05218', 1899, 'BSc - CNISE', 'DEOGRATIUS', 'GEORGE', 'MUSHI', 'mushideogratius640@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
 ('T/UDOM/2020/05219', 1913, 'BSc - CNISE', 'ISAYA', 'OSWARD', 'NYAMAVINDI', 'ionthefirst97@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
 ('T/UDOM/2020/05220', 3460, 'BSc - CNISE', 'DEBORA', '', 'VEDASTUS', 'deboraruhumbika@gmail.com', 'F', NULL, 2, '2021-12-01', NULL, 'REGISTERED', ''),
-('T/UDOM/2020/05221', 1658, 'BSc - CNISE', 'Erick', 'I', 'Mutayoba', 'erickimani72@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', '');
-INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lname`, `email`, `gender`, `f4_index_no`, `YOS`, `DOR`, `phone`, `status`, `type`) VALUES
+('T/UDOM/2020/05221', 1658, 'BSc - CNISE', 'Erick', 'I', 'Mutayoba', 'erickimani72@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
 ('T/UDOM/2020/05222', 1855, 'BSc - CNISE', 'SUED', 'RASHID', 'MWAIGOMOLE', 'mwaigos123@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
 ('T/UDOM/2020/05223', 1821, 'BSc - CNISE', 'FLORENCE', 'GEORGE', 'VEDASTO', 'georgeflorence100@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
 ('T/UDOM/2020/05224', 1879, 'BSc - CNISE', 'ELISHA', 'ERNEST', 'CHALAHAN', 'elishaernest2020@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
@@ -6342,7 +6382,8 @@ INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lna
 ('T21-03-03657', 487, 'BSc - CSDFE', 'HAMDAN', 'ABDI', 'BULUSHI', 'hamdanbulushi5@gmail.com', 'M', NULL, 2, '2021-11-11', NULL, 'REGISTERED', ''),
 ('T21-03-03661', 1902, 'BSc - TE', 'Thobias', 'Leonard', 'Theobard', 'thobiastheobard52@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
 ('T21-03-03662', 755, 'BSc – CE', 'Lameck', 'Mshinda', 'Joel', 'lameckmshinda1@gmail.com', 'M', NULL, 2, '2021-11-11', NULL, 'REGISTERED', ''),
-('T21-03-03681', 1560, 'BSc – CE', 'CHRISTOPHER', 'KELVIN', 'MNDEME', 'christopherkelvin100@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
+('T21-03-03681', 1560, 'BSc – CE', 'CHRISTOPHER', 'KELVIN', 'MNDEME', 'christopherkelvin100@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', '');
+INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lname`, `email`, `gender`, `f4_index_no`, `YOS`, `DOR`, `phone`, `status`, `type`) VALUES
 ('T21-03-03692', 764, 'BSc – CS', 'Hassan', 'Rashid', 'Ally', 'hr537000@gmail.com', 'M', NULL, 2, '2021-11-11', NULL, 'REGISTERED', ''),
 ('T21-03-03693', 1141, 'BSc – CS', 'Allen', 'Ernest', 'Machunda', 'allenmachu1987@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
 ('T21-03-03701', 437, 'BSc – CE', 'AMANI', 'WILLIAM', 'SOLEZI', 'alvinsolezi8@gmail.com', 'M', NULL, 2, '2021-11-11', NULL, 'REGISTERED', ''),
@@ -6351,8 +6392,7 @@ INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lna
 ('T21-03-03759', 915, 'BSc - CSDFE', 'joseph', 'moses', 'mafala', 'eaglemaris1913@gmail.com', 'M', NULL, 2, '2021-11-11', NULL, 'REGISTERED', ''),
 ('T21-03-03760', 1053, 'BSc - SE', 'YOLANDA ', 'DIDAS', 'WAMBURA', 'yoladidas@gmail.com', 'F', NULL, 2, '2021-11-11', NULL, 'REGISTERED', ''),
 ('T21-03-03761', 675, 'BSc – CE', 'NOORIE', 'IDRISSA', 'NYAHEGA', 'noorie875@gmail.com', 'F', NULL, 2, '2021-11-11', NULL, 'REGISTERED', ''),
-('T21-03-03796', 3777, 'DCS', 'FAKE', 'k', 'STUDENT', 'jeholo@gmail.com', 'M', NULL, 2, '2021-12-07', NULL, 'REGISTERED', '');
-INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lname`, `email`, `gender`, `f4_index_no`, `YOS`, `DOR`, `phone`, `status`, `type`) VALUES
+('T21-03-03796', 3777, 'DCS', 'FAKE', 'k', 'STUDENT', 'jeholo@gmail.com', 'M', NULL, 2, '2021-12-07', NULL, 'REGISTERED', ''),
 ('T21-03-03819', 3188, 'BSc - TE', 'OMARY', 'MILAO', 'OMARI', 'omarymilao701@gmail.com', 'M', NULL, 2, '2021-11-25', NULL, 'REGISTERED', ''),
 ('T21-03-03824', 2427, 'BSc - CNISE', 'Bruno', 'Augustino', 'Qamara', 'brunoagustino106@gmail.com', 'M', NULL, 2, '2021-11-16', NULL, 'REGISTERED', ''),
 ('T21-03-03840', 680, 'BSc - TE', 'JOHN', 'HUSSEIN', 'GUMBA', 'johngumba4@gmail.com', 'M', NULL, 2, '2021-11-11', NULL, 'REGISTERED', ''),
@@ -6688,7 +6728,8 @@ INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lna
 ('T21-03-15170', 851, 'BSc – CS', 'MARTHA', 'MARK', 'KINGOLA', 'markmartha469@gmail.com', 'F', NULL, 2, '2021-11-11', NULL, 'REGISTERED', ''),
 ('T21-03-15174', 3558, 'BSc – CE', 'MOSES', 'B', 'PIUS', 'mosespius800@gmail.com', 'M', NULL, 2, '2021-12-01', NULL, 'REGISTERED', ''),
 ('T21-03-15292', 633, 'BSc - TE', 'INOCENT', 'P', 'MWAIPOPO', 'inocentpatrick16@gmail.com', 'M', NULL, 2, '2021-11-11', NULL, 'REGISTERED', ''),
-('T21-03-15306', 1626, 'BSc - CSDFE', 'FULGENS', 'LEOPOLD', 'LAURIAN', 'fulgenslaurian@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
+('T21-03-15306', 1626, 'BSc - CSDFE', 'FULGENS', 'LEOPOLD', 'LAURIAN', 'fulgenslaurian@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', '');
+INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lname`, `email`, `gender`, `f4_index_no`, `YOS`, `DOR`, `phone`, `status`, `type`) VALUES
 ('T21-03-15325', 1783, 'BSc - CNISE', 'ISSA', 'MUHAMMAD', 'ABDULRAHMAN', 'issam.abdulrahman20@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
 ('T21-03-15352', 3625, 'BSc - CSDFE', 'STANLEY', 'NICKSON', 'SAMBALA', 'stanleysambala@gmail.com', 'M', NULL, 2, '2021-12-03', NULL, 'REGISTERED', ''),
 ('T21-03-15362', 2817, 'BSc – CS', 'sharifu', 'abutwalibu', 'msuya', 'sharifusalim99@gmail.com', 'M', NULL, 2, '2021-11-19', NULL, 'REGISTERED', ''),
@@ -6696,8 +6737,7 @@ INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lna
 ('T21-03-15508', 1839, 'BSc - CSDFE', 'Boniphace', '', 'Charles', 'magangaboniphace627@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
 ('T21-03-15532', 525, 'BSc – CS', 'Andrew', 'Daniel', 'Kissiry', 'andrewkissiry@gmail.com', 'M', NULL, 2, '2021-11-11', NULL, 'REGISTERED', ''),
 ('T21-03-15602', 2885, 'BSc – CE', 'ELIFARIJI', 'JACKSON', 'KISAKA', 'elifarijijk@outlook.com', 'M', NULL, 2, '2021-11-20', NULL, 'REGISTERED', ''),
-('T21-03-15671', 733, 'BSc – CE', 'Joshua', 'Burton ', 'Lunogelo', 'joshuaburt0505@gmail.com', 'M', NULL, 2, '2021-11-11', NULL, 'REGISTERED', '');
-INSERT INTO `student` (`reg_no`, `userID`, `programCode`, `fname`, `mname`, `lname`, `email`, `gender`, `f4_index_no`, `YOS`, `DOR`, `phone`, `status`, `type`) VALUES
+('T21-03-15671', 733, 'BSc – CE', 'Joshua', 'Burton ', 'Lunogelo', 'joshuaburt0505@gmail.com', 'M', NULL, 2, '2021-11-11', NULL, 'REGISTERED', ''),
 ('T21-03-15705', 1690, 'BSc - CNISE', 'BARAKATI', 'ABDI', 'HUSSEIN', 'barakatihussein2001@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
 ('T21-03-15736', 2762, 'BSc - TE', 'ahmed ', 'ally', 'othuman', 'ahmedally142001@gmail.com', 'M', NULL, 2, '2021-11-18', NULL, 'REGISTERED', ''),
 ('T21-03-20501', 1114, 'BSc – CE', 'juma', 'juma', 'juma', 'juma@gmail.com', 'M', NULL, 2, '2021-11-12', NULL, 'REGISTERED', ''),
@@ -6779,6 +6819,148 @@ CREATE TRIGGER `academicyear_before_increment` BEFORE UPDATE ON `student` FOR EA
 END
 $$
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `studentbasicinfo`
+--
+
+CREATE TABLE `studentbasicinfo` (
+  `infoID` int(11) NOT NULL,
+  `profil` varchar(20) DEFAULT NULL,
+  `birthdate` datetime DEFAULT NULL,
+  `nida` varchar(25) DEFAULT NULL,
+  `region` varchar(25) NOT NULL,
+  `district` varchar(25) NOT NULL,
+  `ward` varchar(20) DEFAULT NULL,
+  `maritalstatus` varchar(20) NOT NULL,
+  `reg_no` varchar(20) NOT NULL,
+  `spouseaddress` varchar(20) DEFAULT NULL,
+  `spousephone` varchar(15) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `studentbasicinfo`
+--
+
+INSERT INTO `studentbasicinfo` (`infoID`, `profil`, `birthdate`, `nida`, `region`, `district`, `ward`, `maritalstatus`, `reg_no`, `spouseaddress`, `spousephone`) VALUES
+(1, NULL, '2022-08-13 00:00:00', '444', 'fff', 'ff', 'f', 'single', 'DIT07771897321', 'adas', 'asd'),
+(2, NULL, '2022-08-13 00:00:00', '444', 'fff', 'ff', 'f', 'single', 'DIT07771897321', 'adas', 'asd'),
+(3, NULL, '2022-08-20 00:00:00', '344f', 'fff', 'ff', 'f', 'married', 'loresa', 'adas', 'asd'),
+(4, NULL, '2022-08-20 00:00:00', '344f', 'fff', 'ff', 'f', 'married', 'loresa', 'adas', 'asd');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `studentdisabilities`
+--
+
+CREATE TABLE `studentdisabilities` (
+  `disabID` int(11) NOT NULL,
+  `DEAFBLIND` int(11) DEFAULT 0,
+  `MULTIIMPARED` int(11) DEFAULT 0,
+  `ALBINO` int(11) DEFAULT 0,
+  `VISUALLYIMPARED` int(11) DEFAULT 0,
+  `PHYSICALLYIMPARED` int(11) DEFAULT 0,
+  `HEARINGIMPARED` int(11) DEFAULT 0,
+  `reg_no` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `studentdisabilities`
+--
+
+INSERT INTO `studentdisabilities` (`disabID`, `DEAFBLIND`, `MULTIIMPARED`, `ALBINO`, `VISUALLYIMPARED`, `PHYSICALLYIMPARED`, `HEARINGIMPARED`, `reg_no`) VALUES
+(1, 1, 0, 1, 0, 0, 0, 'DIT07771897321'),
+(2, 1, 0, 1, 0, 0, 0, 'DIT07771897321'),
+(3, 1, 1, 0, 0, 0, 0, 'loresa'),
+(4, 1, 1, 0, 0, 0, 0, 'loresa');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `studenteducation`
+--
+
+CREATE TABLE `studenteducation` (
+  `educID` int(11) NOT NULL,
+  `level` varchar(30) DEFAULT NULL,
+  `type` varchar(20) DEFAULT NULL,
+  `intake` varchar(20) DEFAULT NULL,
+  `reg_no` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `studenteducation`
+--
+
+INSERT INTO `studenteducation` (`educID`, `level`, `type`, `intake`, `reg_no`) VALUES
+(1, 'we', 'we', 'we', 'DIT07771897321'),
+(2, 'we', 'we', 'we', 'DIT07771897321'),
+(3, 'we', 'we', 'we', 'loresa'),
+(4, 'we', 'we', 'we', 'loresa');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `studentguardianinfo`
+--
+
+CREATE TABLE `studentguardianinfo` (
+  `infoID` int(11) NOT NULL,
+  `address` varchar(30) NOT NULL,
+  `email` varchar(30) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `occupation` varchar(20) DEFAULT NULL,
+  `disabled` varchar(5) NOT NULL,
+  `reg_no` varchar(20) NOT NULL,
+  `fname` varchar(15) NOT NULL,
+  `mname` varchar(15) NOT NULL,
+  `lname` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `studentguardianinfo`
+--
+
+INSERT INTO `studentguardianinfo` (`infoID`, `address`, `email`, `phone`, `occupation`, `disabled`, `reg_no`, `fname`, `mname`, `lname`) VALUES
+(1, 'asd', 'asd', 'asd', 'asd', 'yes', 'DIT07771897321', 'asd', 'asdf', 'asd'),
+(2, 'asd', 'asd', 'asd', 'asd', 'yes', 'DIT07771897321', 'asd', 'asdf', 'asd'),
+(3, 'asd', 'asd', 'asd', 'asd', 'yes', 'DIT07771897321', 'asd', 'asdf', 'asd'),
+(4, 'asd', 'asd', 'asd', 'asd', 'yes', 'DIT07771897321', 'asd', 'asdf', 'asd'),
+(5, 'asd', 'asd', 'asd', 'asd', 'yes', 'DIT07771897321', 'asd', 'asdf', 'asd'),
+(6, 'asd', 'asd', 'asd', 'asd', 'yes', 'DIT07771897321', 'asd', 'asdf', 'asd'),
+(7, 'asd', 'asd', 'asd', 'asd', 'yes', 'loresa', 'asd', 'asdf', 'asd'),
+(8, 'asd', 'asd', 'asd', 'asd', 'yes', 'loresa', 'asd', 'asdf', 'asd');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `studentstatus`
+--
+
+CREATE TABLE `studentstatus` (
+  `ssID` int(11) NOT NULL,
+  `status` varchar(20) DEFAULT NULL,
+  `employmentstatsafter` varchar(30) DEFAULT NULL,
+  `reg_no` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `studentstatus`
+--
+
+INSERT INTO `studentstatus` (`ssID`, `status`, `employmentstatsafter`, `reg_no`) VALUES
+(1, 'Continuing', 'Unemployed', 'DIT07771897321'),
+(2, 'Continuing', 'Unemployed', 'DIT07771897321'),
+(3, 'Continuing', 'Unemployed', 'DIT07771897321'),
+(4, 'Continuing', 'Unemployed', 'DIT07771897321'),
+(5, 'Continuing', 'Unemployed', 'DIT07771897321'),
+(6, 'Continuing', 'Unemployed', 'DIT07771897321'),
+(7, 'Continuing', 'Unemployed', 'DIT07771897321'),
+(8, 'Continuing', 'Unemployed', 'loresa'),
+(9, 'Continuing', 'Unemployed', 'loresa');
 
 -- --------------------------------------------------------
 
@@ -6978,9 +7160,17 @@ CREATE TABLE `student_short_course` (
 --
 
 INSERT INTO `student_short_course` (`SC_ID`, `reg_no`, `course_code`) VALUES
+(341, '@gmail.com', 'SH112'),
+(337, 'DIT07771897321', 'SH112'),
 (332, 'DIT0777189733', 'SH112'),
 (335, 'DIT0777189735', 'SH11'),
-(330, 'DIT0777189736', 'SH112');
+(330, 'DIT0777189736', 'SH112'),
+(339, 'DIT07771897362', 'SH112'),
+(340, 'DIT077718973622', 'SH112'),
+(338, 'DIT07771897363', 'SH112'),
+(336, 'DIT09933333', 'SH112'),
+(343, 'loresa', 'SH112'),
+(342, 'mimimars', 'SH112');
 
 -- --------------------------------------------------------
 
@@ -7430,7 +7620,46 @@ INSERT INTO `tbl_audit_entry` (`audit_entry_id`, `audit_entry_timestamp`, `audit
 (210517, '0000-00-00 00:00:00', 'StudentGroup', 'INSERT', 'groupID', 'NA', '3172', '6367', '::1', 'N/A', 'N/A'),
 (210518, '0000-00-00 00:00:00', 'StudentGroup', 'INSERT', 'add_date', 'NA', NULL, '6367', '::1', 'N/A', 'N/A'),
 (210519, '0000-00-00 00:00:00', 'GroupGenerationTypes', 'DELETE', 'N/A', 'N/A', 'N/A', '6367', '::1', 'SH112', 'Course'),
-(210520, '0000-00-00 00:00:00', 'GroupGenerationTypes', 'DELETE', 'N/A', 'N/A', 'N/A', '6367', '::1', 'gg', 'Generation title');
+(210520, '0000-00-00 00:00:00', 'GroupGenerationTypes', 'DELETE', 'N/A', 'N/A', 'N/A', '6367', '::1', 'gg', 'Generation title'),
+(210521, '0000-00-00 00:00:00', 'Material', 'INSERT', 'material_ID', 'NA', '607', '6367', '::1', 'N/A', 'N/A'),
+(210522, '0000-00-00 00:00:00', 'Material', 'INSERT', 'instructorID', 'NA', '112', '6367', '::1', 'N/A', 'N/A'),
+(210523, '0000-00-00 00:00:00', 'Material', 'INSERT', 'course_code', 'NA', 'SH112', '6367', '::1', 'N/A', 'N/A'),
+(210524, '0000-00-00 00:00:00', 'Material', 'INSERT', 'title', 'NA', 'kk', '6367', '::1', 'N/A', 'N/A'),
+(210525, '0000-00-00 00:00:00', 'Material', 'INSERT', 'material_type', 'NA', 'Videos', '6367', '::1', 'N/A', 'N/A'),
+(210526, '0000-00-00 00:00:00', 'Material', 'INSERT', 'upload_date', 'NA', '2022-08-11', '6367', '::1', 'N/A', 'N/A'),
+(210527, '0000-00-00 00:00:00', 'Material', 'INSERT', 'upload_time', 'NA', '16:15:05', '6367', '::1', 'N/A', 'N/A'),
+(210528, '0000-00-00 00:00:00', 'Material', 'INSERT', 'fileName', 'NA', '62f500d91f423.pdf', '6367', '::1', 'N/A', 'N/A'),
+(210529, '0000-00-00 00:00:00', 'Material', 'INSERT', 'yearID', 'NA', '29', '6367', '::1', 'N/A', 'N/A'),
+(210530, '0000-00-00 00:00:00', 'Material', 'INSERT', 'moduleID', 'NA', '355', '6367', '::1', 'N/A', 'N/A'),
+(210531, '0000-00-00 00:00:00', 'Material', 'INSERT', 'material_ID', 'NA', '608', '6367', '::1', 'N/A', 'N/A'),
+(210532, '0000-00-00 00:00:00', 'Material', 'INSERT', 'instructorID', 'NA', '112', '6367', '::1', 'N/A', 'N/A'),
+(210533, '0000-00-00 00:00:00', 'Material', 'INSERT', 'course_code', 'NA', 'SH112', '6367', '::1', 'N/A', 'N/A'),
+(210534, '0000-00-00 00:00:00', 'Material', 'INSERT', 'title', 'NA', 'kk', '6367', '::1', 'N/A', 'N/A'),
+(210535, '0000-00-00 00:00:00', 'Material', 'INSERT', 'material_type', 'NA', 'Videos', '6367', '::1', 'N/A', 'N/A'),
+(210536, '0000-00-00 00:00:00', 'Material', 'INSERT', 'upload_date', 'NA', '2022-08-11', '6367', '::1', 'N/A', 'N/A'),
+(210537, '0000-00-00 00:00:00', 'Material', 'INSERT', 'upload_time', 'NA', '16:35:32', '6367', '::1', 'N/A', 'N/A'),
+(210538, '0000-00-00 00:00:00', 'Material', 'INSERT', 'fileName', 'NA', '62f505a49e599.mp4', '6367', '::1', 'N/A', 'N/A'),
+(210539, '0000-00-00 00:00:00', 'Material', 'INSERT', 'yearID', 'NA', '29', '6367', '::1', 'N/A', 'N/A'),
+(210540, '0000-00-00 00:00:00', 'Material', 'INSERT', 'moduleID', 'NA', '355', '6367', '::1', 'N/A', 'N/A'),
+(210541, '0000-00-00 00:00:00', 'Material', 'DELETE', 'N/A', 'N/A', 'N/A', '6367', '::1', '355', 'Module'),
+(210542, '0000-00-00 00:00:00', 'Material', 'DELETE', 'N/A', 'N/A', 'N/A', '6367', '::1', 'kk', 'Material title'),
+(210543, '0000-00-00 00:00:00', 'Material', 'DELETE', 'N/A', 'N/A', 'N/A', '6367', '::1', '355', 'Module'),
+(210544, '0000-00-00 00:00:00', 'Material', 'DELETE', 'N/A', 'N/A', 'N/A', '6367', '::1', 'kk', 'Material title'),
+(210545, '0000-00-00 00:00:00', 'Material', 'DELETE', 'N/A', 'N/A', 'N/A', '6367', '::1', '355', 'Module'),
+(210546, '0000-00-00 00:00:00', 'Material', 'DELETE', 'N/A', 'N/A', 'N/A', '6367', '::1', 'programming', 'Material title'),
+(210547, '0000-00-00 00:00:00', 'Material', 'INSERT', 'material_ID', 'NA', '609', '6367', '::1', 'N/A', 'N/A'),
+(210548, '0000-00-00 00:00:00', 'Material', 'INSERT', 'instructorID', 'NA', '112', '6367', '::1', 'N/A', 'N/A'),
+(210549, '0000-00-00 00:00:00', 'Material', 'INSERT', 'course_code', 'NA', 'SH112', '6367', '::1', 'N/A', 'N/A');
+INSERT INTO `tbl_audit_entry` (`audit_entry_id`, `audit_entry_timestamp`, `audit_entry_model_name`, `audit_entry_operation`, `audit_entry_field_name`, `audit_entry_old_value`, `audit_entry_new_value`, `audit_entry_user_id`, `audit_entry_ip`, `audit_entry_affected_record_reference`, `audit_entry_affected_record_reference_type`) VALUES
+(210550, '0000-00-00 00:00:00', 'Material', 'INSERT', 'title', 'NA', 'kll', '6367', '::1', 'N/A', 'N/A'),
+(210551, '0000-00-00 00:00:00', 'Material', 'INSERT', 'material_type', 'NA', 'Videos', '6367', '::1', 'N/A', 'N/A'),
+(210552, '0000-00-00 00:00:00', 'Material', 'INSERT', 'upload_date', 'NA', '2022-08-11', '6367', '::1', 'N/A', 'N/A'),
+(210553, '0000-00-00 00:00:00', 'Material', 'INSERT', 'upload_time', 'NA', '16:36:42', '6367', '::1', 'N/A', 'N/A'),
+(210554, '0000-00-00 00:00:00', 'Material', 'INSERT', 'fileName', 'NA', '62f505ea7e7cd.mp4', '6367', '::1', 'N/A', 'N/A'),
+(210555, '0000-00-00 00:00:00', 'Material', 'INSERT', 'yearID', 'NA', '29', '6367', '::1', 'N/A', 'N/A'),
+(210556, '0000-00-00 00:00:00', 'Material', 'INSERT', 'moduleID', 'NA', '355', '6367', '::1', 'N/A', 'N/A'),
+(210557, '0000-00-00 00:00:00', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '6367', '::1', 'SH112', 'Course'),
+(210558, '0000-00-00 00:00:00', 'Module', 'DELETE', 'N/A', 'N/A', 'N/A', '6367', '::1', 'good  morning', 'Module name');
 
 -- --------------------------------------------------------
 
@@ -11508,10 +11737,19 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 (6364, 'win@gmail.com', 'S5ov1Xy8iXWpo5DHc5cY-VTdI7alj4Jf', '$2y$13$1OJ089KSeQehZoW3SAX/7umi1u6dW81L4tBY1blGb7lCx8vZDvl/e', NULL, 10, 1654074711, 1654074711, 'DckthxWHlbHvC1zaioEI1SvV8jdT1ylo_1654074711', NULL),
 (6365, 'win22@gmail.com', 'sMTv-0hPoLRi3dE1MGeRZpAtt6ZMc5HY', '$2y$13$QXAMs5bXIaJ/Rero3uRcIOpIwfSeSBLkagc/jpuqNxjvTDbzEwCNa', NULL, 0, 1654075480, 1654087022, 'b1PrMaxHosmcty_3h6OVebaDcdxeDWdq_1654075584', '2022-06-01 12:26:45'),
 (6366, 'winw3@gmail.com', 'By1gC8jrrHVi-wZS8BTdOcWR20naJGW4', '$2y$13$/V4XWNwtKxUPtRfuCmDJke8h5FbtbAKtHd2cgVrpYDopZazrRoAZG', NULL, 0, 1654076497, 1654087014, 'ZO9nIlqwUjkcHUn_rbJdbC_GcEod-Ibc_1654076497', '2022-06-01 14:40:43'),
-(6367, 'dit@gmail.com', 'ofA5RIBMVgyTKBOwAQGanNyEd_U_5m3a', '$2y$13$QuyA93UG9k1nghHIB0zr7eRfnenP0Qsq56/ZYkEgrdR7D7fK9uCiq', NULL, 10, 1659694982, 1659793223, 'yyKlt98DL326WPSLl0T-a73ZIwhtB-Vu_1659696476', '2022-08-06 16:40:23'),
+(6367, 'dit@gmail.com', 'ofA5RIBMVgyTKBOwAQGanNyEd_U_5m3a', '$2y$13$QuyA93UG9k1nghHIB0zr7eRfnenP0Qsq56/ZYkEgrdR7D7fK9uCiq', NULL, 10, 1659694982, 1660324615, 'yyKlt98DL326WPSLl0T-a73ZIwhtB-Vu_1659696476', '2022-08-12 20:16:55'),
 (6370, 'mimi22@gmail.com', 'auIezxyqQ-pLO8r0A0zXWom_XQlahBPD', '$2y$13$Me71WDrQOWoLHBjJTxjZ7.HnXHQaIPV.YLOzGIyEhCIwa8GiCB5L.', NULL, 10, 1659788390, 1659788439, 'uTgkW1ypp07U80SwlyGVpdcPy6ehaUfF_1659788439', NULL),
 (6371, 'DIT0777189735', 'HiXyAchOmvSq6BgA53f98AhoxHlAgcfk', '$2y$13$jEnoAfKaTym7tKfRUu62DuztLb8mGBXA.63LcuVdYtmlhX9QjRihm', NULL, 10, 1659788764, 1659798938, 'QXNceBaQsYSgU5jxwvUfkbRwaLowzbU-_1659788815', '2022-08-06 18:15:38'),
-(6373, 'DIT0777189733', 'r4-9A4o7hWaXRNaSpnQD0Ouqa0yLvmBb', '$2y$13$fxSD/HGJ/ivQbxKOKRpiceM7xNDFlX875tE/oGl2ApBFBNBF/zEYu', NULL, 10, 1659790752, 1659790752, 'd5yX1-RdU_oJ-H5haeTpeKRr6GQHsNDn_1659790752', NULL);
+(6373, 'DIT0777189733', 'r4-9A4o7hWaXRNaSpnQD0Ouqa0yLvmBb', '$2y$13$fxSD/HGJ/ivQbxKOKRpiceM7xNDFlX875tE/oGl2ApBFBNBF/zEYu', NULL, 10, 1659790752, 1659790752, 'd5yX1-RdU_oJ-H5haeTpeKRr6GQHsNDn_1659790752', NULL),
+(6375, 'B123', 'YZ_-e92gEmAzNe8tFlRKiBiF26jPxhkY', '$2y$13$mXx/dXJbFgynQxSqjCEEm.PHEEzU918zwgc9DKVun0QPqmNjYA3YK', NULL, 10, 1660324606, 1660324701, 'EdAvgPNGBLXQIR0sxqUdM0EPaubIWpEp_1660324650', '2022-08-12 20:18:21'),
+(6376, 'DIT09933333', 'hJPp87g_GnmvhnMmAe9wbASKXAXCIZBW', '$2y$13$sdP8EYqw5n04ZGHddKaXY.VCSSnGUeGsl9V/DomSa.mWAvuFjrfey', NULL, 10, 1660326716, 1660326716, '4vcDm9_A5LeDpKh_9pbIfp_mAjqpQk63_1660326716', NULL),
+(6378, 'DIT07771897321', 'all6ZHiyiHeD64cmdmxcA2spN-J7GoIf', '$2y$13$8gjxMz1Hu/0dSXkSpjiWr.7n.9HBa5o7.qgY.3xj5iWL7oqhSnNRe', NULL, 10, 1660327259, 1660327259, 'WFtHJYGYdca4LIQ1veHWlFhoJGtvtGBQ_1660327259', NULL),
+(6380, 'DIT07771897363', '56bQ1bPSHay5l8FrK3_B9xkYo2vBARjH', '$2y$13$qdWfZF9QVDAlApe7eRnaYOdVjoDfzThfbhrTqhdpN8O1oqAsUkHlm', NULL, 10, 1660413730, 1660413730, 'Y7Smph31MFlJd6KslsU8Djm3P7-RHZgD_1660413730', NULL),
+(6383, 'DIT07771897362', 'GxChBN9QxJn0gzVa_Li0ZWCGG6DrCQtL', '$2y$13$5KmBmsoTyDDT1b6ynxkMjuvuZI6JWCq4C2JfvLujFShdMBRi3E9KC', NULL, 10, 1660414065, 1660414065, 'qpqXAzkjYtj40_wUVsu314OZ97laLZhm_1660414065', NULL),
+(6386, 'DIT077718973622', 'V0SOQqfg8a5TthhWK_02qEV0-mhALC-N', '$2y$13$YiwvUWTq8oAr7Knx04ZiO.jwRTh3BAoi8/xihaq2q0BCGe1wnT.wS', NULL, 10, 1660414500, 1660414500, 'aLFEiEcCt6nA-n1rGYN5e1PnAvhaLp0w_1660414500', NULL),
+(6391, '@gmail.com', 'z0TfUE7LJIMlubuG2WhktpAbegsKCae8', '$2y$13$7UPVSApHqimYfAagvxf31O0ve/YpI.NHCYw0377OIGvTywW33i9WW', NULL, 10, 1660417686, 1660417686, '6P_iuYRvJGzauXvPFjyO5Fx-74nRnR_Y_1660417686', NULL),
+(6392, 'mimimars', 'rmJq4fKA0wBTptnoPj83B0P5AJ679c6X', '$2y$13$ROTiq0lqdY5RB5hjELmife9OjuPQNYGIhw0tZvfF4w4f1FiHVV0Hq', NULL, 10, 1660417807, 1660417807, 'nteE9d_qdO4iRjU7cPSka9S7DbIWErrE_1660417807', NULL),
+(6393, 'loresa', 'GXI10r6NOvR2EkJZDtj2sYz07oS8M8db', '$2y$13$zbt3PK5M0ggYSD5To/0BAe03Fmn7i1Nzl0QFmTzDJN4cek6yvrGYe', NULL, 10, 1660418369, 1660418497, 'lsNtVjIFY4c8v4L223Imogx5azLVN_U5_1660418369', NULL);
 
 --
 -- Indexes for dumped tables
@@ -11583,6 +11821,13 @@ ALTER TABLE `auth_item_child`
 --
 ALTER TABLE `auth_rule`
   ADD PRIMARY KEY (`name`);
+
+--
+-- Indexes for table `backgroundinfo`
+--
+ALTER TABLE `backgroundinfo`
+  ADD PRIMARY KEY (`bi_info`),
+  ADD KEY `reg_no` (`reg_no`);
 
 --
 -- Indexes for table `chat`
@@ -11858,6 +12103,41 @@ ALTER TABLE `student`
   ADD KEY `userkey2` (`userID`);
 
 --
+-- Indexes for table `studentbasicinfo`
+--
+ALTER TABLE `studentbasicinfo`
+  ADD PRIMARY KEY (`infoID`),
+  ADD KEY `reg_no` (`reg_no`);
+
+--
+-- Indexes for table `studentdisabilities`
+--
+ALTER TABLE `studentdisabilities`
+  ADD PRIMARY KEY (`disabID`),
+  ADD KEY `reg_no` (`reg_no`);
+
+--
+-- Indexes for table `studenteducation`
+--
+ALTER TABLE `studenteducation`
+  ADD PRIMARY KEY (`educID`),
+  ADD KEY `reg_no` (`reg_no`);
+
+--
+-- Indexes for table `studentguardianinfo`
+--
+ALTER TABLE `studentguardianinfo`
+  ADD PRIMARY KEY (`infoID`),
+  ADD KEY `reg_no` (`reg_no`);
+
+--
+-- Indexes for table `studentstatus`
+--
+ALTER TABLE `studentstatus`
+  ADD PRIMARY KEY (`ssID`),
+  ADD KEY `reg_no` (`reg_no`);
+
+--
 -- Indexes for table `student_assignment`
 --
 ALTER TABLE `student_assignment`
@@ -12006,6 +12286,12 @@ ALTER TABLE `assq`
   MODIFY `assq_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=741;
 
 --
+-- AUTO_INCREMENT for table `backgroundinfo`
+--
+ALTER TABLE `backgroundinfo`
+  MODIFY `bi_info` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `chat`
 --
 ALTER TABLE `chat`
@@ -12135,7 +12421,7 @@ ALTER TABLE `logs`
 -- AUTO_INCREMENT for table `material`
 --
 ALTER TABLE `material`
-  MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=607;
+  MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=610;
 
 --
 -- AUTO_INCREMENT for table `module`
@@ -12177,13 +12463,43 @@ ALTER TABLE `rep_thread`
 -- AUTO_INCREMENT for table `session`
 --
 ALTER TABLE `session`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=861;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=867;
 
 --
 -- AUTO_INCREMENT for table `shortcourse_advert`
 --
 ALTER TABLE `shortcourse_advert`
   MODIFY `advID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `studentbasicinfo`
+--
+ALTER TABLE `studentbasicinfo`
+  MODIFY `infoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `studentdisabilities`
+--
+ALTER TABLE `studentdisabilities`
+  MODIFY `disabID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `studenteducation`
+--
+ALTER TABLE `studenteducation`
+  MODIFY `educID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `studentguardianinfo`
+--
+ALTER TABLE `studentguardianinfo`
+  MODIFY `infoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `studentstatus`
+--
+ALTER TABLE `studentstatus`
+  MODIFY `ssID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `student_assignment`
@@ -12231,7 +12547,7 @@ ALTER TABLE `student_quiz`
 -- AUTO_INCREMENT for table `student_short_course`
 --
 ALTER TABLE `student_short_course`
-  MODIFY `SC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=336;
+  MODIFY `SC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=344;
 
 --
 -- AUTO_INCREMENT for table `submit`
@@ -12255,7 +12571,7 @@ ALTER TABLE `system_modules`
 -- AUTO_INCREMENT for table `tbl_audit_entry`
 --
 ALTER TABLE `tbl_audit_entry`
-  MODIFY `audit_entry_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=210521;
+  MODIFY `audit_entry_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=210559;
 
 --
 -- AUTO_INCREMENT for table `thread`
@@ -12267,7 +12583,7 @@ ALTER TABLE `thread`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6375;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6394;
 
 --
 -- Constraints for dumped tables
@@ -12318,6 +12634,12 @@ ALTER TABLE `auth_item`
 ALTER TABLE `auth_item_child`
   ADD CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `backgroundinfo`
+--
+ALTER TABLE `backgroundinfo`
+  ADD CONSTRAINT `backgroundinfo_ibfk_1` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `chat`
@@ -12545,6 +12867,36 @@ ALTER TABLE `shortcourse_advert`
 ALTER TABLE `student`
   ADD CONSTRAINT `programkey1` FOREIGN KEY (`programCode`) REFERENCES `program` (`programCode`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `userkey2` FOREIGN KEY (`userID`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `studentbasicinfo`
+--
+ALTER TABLE `studentbasicinfo`
+  ADD CONSTRAINT `studentbasicinfo_ibfk_1` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `studentdisabilities`
+--
+ALTER TABLE `studentdisabilities`
+  ADD CONSTRAINT `studentdisabilities_ibfk_1` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `studenteducation`
+--
+ALTER TABLE `studenteducation`
+  ADD CONSTRAINT `studenteducation_ibfk_1` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `studentguardianinfo`
+--
+ALTER TABLE `studentguardianinfo`
+  ADD CONSTRAINT `studentguardianinfo_ibfk_1` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `studentstatus`
+--
+ALTER TABLE `studentstatus`
+  ADD CONSTRAINT `studentstatus_ibfk_1` FOREIGN KEY (`reg_no`) REFERENCES `student` (`reg_no`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `student_assignment`

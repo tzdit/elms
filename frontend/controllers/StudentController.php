@@ -44,6 +44,13 @@ use common\models\StudentExtAssess;
 use frontend\models\ShortCourseStudentRegister;
 use common\models\StudentShortCourse;
 use yii\helpers\Html;
+use common\models\Studentstatus;
+use common\models\Studentguardianinfo;
+use common\models\Studentbasicinfo;
+use common\models\Backgroundinfo;
+use common\models\Studenteducation;
+use common\models\Studentdisabilities;
+use common\models\User;
 
 class StudentController extends \yii\web\Controller
 {
@@ -77,7 +84,7 @@ class StudentController extends \yii\web\Controller
                     ],
                      //for students registration
                     [
-                        'actions' => ['register'],
+                        'actions' => ['register','short-student-profile'],
                         
 
                        'allow' => true,
@@ -128,8 +135,8 @@ class StudentController extends \yii\web\Controller
     if($model->load(Yii::$app->request->post())){
        
         $return=$model->create($course);
-        Yii::$app->session->setFlash('success', 'Registration Successful&nbsp&nbsp<a class="btn btn-primary" href="/auth/login">Login</a><br>username: '.$return.' & password: 123456&nbsp&nbsp&nbsp&nbsp<i class="fa fa-info-circle"></i>Change your password afterwards');
-        return $this->redirect(Yii::$app->request->referrer);
+        Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i>Step 2: Complete Your Account Information');
+        return $this->redirect(['short-student-profile','user'=>ClassRoomSecurity::encrypt($return)]);
         
    
             
@@ -887,6 +894,48 @@ public function actionClasswork($cid){
         $student=yii::$app->user->identity->student;
         $courses=$student->shortCourses();
         return $this->render('short_courses/index',['courses'=>$courses]);
+    }
+    public function actionShortStudentProfile($user)
+    {
+        $user=ClassRoomSecurity::decrypt($user);
+        $this->layout="registershort";
+        //models
+      
+        $status=new Studentstatus;
+        $guardian=new Studentguardianinfo;
+        $basic=new Studentbasicinfo;
+        $back=new Backgroundinfo;
+        $educ=new Studenteducation;
+        $disab=new Studentdisabilities;
+        if(yii::$app->request->isPost)
+        {
+            $post=yii::$app->request->post();
+            if($status->load($post) && $guardian->load($post) && $basic->load($post) && $back->load($post) && $educ->load($post) && $disab->load($post))
+            {
+              $status->reg_no=$user;
+              $guardian->reg_no=$user;
+              $basic->reg_no=$user;
+              $back->reg_no=$user;
+              $educ->reg_no=$user;
+              $disab->reg_no=$user;
+
+              //
+              $file = UploadedFile::getInstance($basic,'profil');
+              $basic->file=$file;
+
+              if($status->save() && $guardian->save() && $basic->save() && $back->save() && $educ->save() && $disab->save())
+              {
+                $userb=User::find()->where(['username'=>$user])->one();
+                $userb->status=10;
+                $userb->save();
+                Yii::$app->session->setFlash('success', 'Registration Successful&nbsp&nbsp<a class="btn btn-primary" href="/auth/login">Login</a><br>username: '.$user.' & password: 123456&nbsp&nbsp&nbsp&nbsp<i class="fa fa-info-circle"></i>Change your password afterwards');
+                return $this->redirect(yii::$app->request->referrer);
+              }
+
+            }
+          
+        }
+        return $this->render('complete_profile',['status'=>$status,'guard'=>$guardian,'basic'=>$basic,'back'=>$back,'educ'=>$educ,'disab'=>$disab]); 
     }
     public function actionRemoveshortcourse()
     {

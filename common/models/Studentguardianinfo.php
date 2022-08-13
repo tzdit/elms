@@ -8,7 +8,9 @@ use Yii;
  * This is the model class for table "studentguardianinfo".
  *
  * @property int $infoID
- * @property string $fullname
+ * @property string $fname
+ * @property string $mname
+ * @property string $lname
  * @property string $address
  * @property string|null $email
  * @property string|null $phone
@@ -34,8 +36,8 @@ class Studentguardianinfo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['fullname', 'address', 'disabled', 'reg_no'], 'required'],
-            [['fullname', 'address', 'email'], 'string', 'max' => 30],
+            [['fname','mname','lname', 'address', 'disabled', 'reg_no'], 'required'],
+            [['address', 'email'], 'string', 'max' => 30],
             [['phone'], 'string', 'max' => 15],
             [['occupation', 'reg_no'], 'string', 'max' => 20],
             [['disabled'], 'string', 'max' => 5],
@@ -50,12 +52,14 @@ class Studentguardianinfo extends \yii\db\ActiveRecord
     {
         return [
             'infoID' => 'Info ID',
-            'fullname' => 'Fullname',
             'address' => 'Address',
             'email' => 'Email',
             'phone' => 'Phone',
             'occupation' => 'Occupation',
             'disabled' => 'Disabled',
+            'fname' => 'First Name',
+            'mname' => 'Middle Name',
+            'lname' => 'Last Name',
             'reg_no' => 'Reg No',
         ];
     }

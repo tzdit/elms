@@ -57,8 +57,13 @@ class ShortCourseStudentRegister extends Model
         $user = new User();
         $student = new Student();
         
-        $reg="DIT".$this->phone;
+        $aind=strpos($this->email,'@');
+        $nameuser=substr($this->email,0,$aind);
+        $nameuser=(strlen($nameuser)>17)?substr($nameuser,0,17):$nameuser;
+        $nameuser=str_replace(" ","",$nameuser);
+        $reg=$nameuser;
         $user->username = $reg;
+        $user->status=9;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
