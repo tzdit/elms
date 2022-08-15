@@ -12,6 +12,7 @@ use frontend\models\ClassRoomBehaviours;
  * @property string $moduleName
  * @property string|null $module_description
  * @property string $course_code
+ * @property string|null status
  *
  * @property Material[] $materials
  * @property Material[] $materials0
@@ -48,6 +49,7 @@ class Module extends \yii\db\ActiveRecord
             [['moduleName', 'course_code'], 'required'],
             [['moduleName'], 'string', 'max' => 200],
             [['module_description'], 'string', 'max' => 400],
+            [['status'], 'default', 'value'=>"notpublished"],
             [['course_code'], 'string', 'max' => 20],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
         ];
@@ -94,5 +96,9 @@ class Module extends \yii\db\ActiveRecord
     public function getCourseCode()
     {
         return $this->hasOne(Course::className(), ['course_code' => 'course_code']);
+    }
+    public function isPublished()
+    {
+        return $this->status=="published";
     }
 }

@@ -910,6 +910,7 @@ public function actionClasswork($cid){
         if(yii::$app->request->isPost)
         {
             $post=yii::$app->request->post();
+            //print_r($post);return false;
             if($status->load($post) && $guardian->load($post) && $basic->load($post) && $back->load($post) && $educ->load($post) && $disab->load($post))
             {
               $status->reg_no=$user;
@@ -920,7 +921,7 @@ public function actionClasswork($cid){
               $disab->reg_no=$user;
 
               //
-              $file = UploadedFile::getInstance($basic,'profil');
+              $file = UploadedFile::getInstance($basic,'file');
               $basic->file=$file;
 
               if($status->save() && $guardian->save() && $basic->save() && $back->save() && $educ->save() && $disab->save())
@@ -929,6 +930,11 @@ public function actionClasswork($cid){
                 $userb->status=10;
                 $userb->save();
                 Yii::$app->session->setFlash('success', 'Registration Successful&nbsp&nbsp<a class="btn btn-primary" href="/auth/login">Login</a><br>username: '.$user.' & password: 123456&nbsp&nbsp&nbsp&nbsp<i class="fa fa-info-circle"></i>Change your password afterwards');
+                return $this->redirect(yii::$app->request->referrer);
+              }
+              else
+              {
+                Yii::$app->session->setFlash('error', 'registration failed'.Html::errorSummary($basic));
                 return $this->redirect(yii::$app->request->referrer);
               }
 

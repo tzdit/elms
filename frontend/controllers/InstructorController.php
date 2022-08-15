@@ -195,7 +195,9 @@ public $defaultAction = 'dashboard';
                             'publish-ca',
                             'delete-ca',
                             'ca-add-new',
-                            'receipt-validator'
+                            'receipt-validator',
+                            'publish-module',
+                            'unpublish-module'
 
                         ],
                         'allow' => true,
@@ -323,7 +325,9 @@ public $defaultAction = 'dashboard';
                             'mark-inputing',
                             'receipt-validator',
                             'shortcoursestudents',
-                            'sign-all'
+                            'sign-all',
+                            'publish-module',
+                            'unpublish-module'
                            
                         ],
                         'allow' => true,
@@ -374,7 +378,38 @@ public $defaultAction = 'dashboard';
     return $this->render('index', ['courses'=>$courses]);
     }
 
-
+     public function actionPublishModule($moduleID)
+     {
+        $moduleID=ClassRoomSecurity::decrypt($moduleID);
+        $module=Module::findOne($moduleID);
+        $module->status="published";
+        if($module->save())
+        {
+            Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> Module published successfully');
+            return $this->redirect(Yii::$app->request->referrer); 
+        }
+        else
+        {
+            Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Module publish failed, try again later');
+            return $this->redirect(Yii::$app->request->referrer); 
+        }
+     }
+     public function actionUnpublishModule($moduleID)
+     {
+        $moduleID=ClassRoomSecurity::decrypt($moduleID);
+        $module=Module::findOne($moduleID);
+        $module->status="notpublished";
+        if($module->save())
+        {
+            Yii::$app->session->setFlash('success', '<i class="fa fa-info-circle"></i> Module unpublished successfully');
+            return $this->redirect(Yii::$app->request->referrer); 
+        }
+        else
+        {
+            Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Module unpublish failed, try again later');
+            return $this->redirect(Yii::$app->request->referrer); 
+        }
+     }
     //switching academic year
 
     public function actionSwitchAcademicyear()

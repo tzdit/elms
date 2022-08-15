@@ -94,6 +94,20 @@ else
       </div>
       <div class="col-md-2">
       <a href="#" modid=<?=$module->moduleID?> data-toggle="tooltip" data-title="Delete Module" class="text-md text-danger float-right ml-3 moduledel"><span><i class="fas fa-trash"></i></span></a>
+      <?php
+        if($module->isPublished())
+        {
+          ?>
+           <a href="<?=Url::to(['/instructor/unpublish-module', 'moduleID'=>ClassRoomSecurity::encrypt($module->moduleID)])?>" data-toggle="tooltip" data-title="Publish Module" class="text-md ml-3 float-right"><span><i class="fa fa-eye-slash text-info"></span></i></a>
+          <?php
+        }
+        else
+        {
+          ?>
+          <a href="<?=Url::to(['/instructor/publish-module', 'moduleID'=>ClassRoomSecurity::encrypt($module->moduleID)])?>" data-toggle="tooltip" data-title="Publish Module" class="text-md ml-3 float-right"><span><i class="fa fa-eye text-info"></span></i></a>
+         <?php
+        }
+      ?>
       <a href="<?=Url::to(['/instructor/material-upload-form', 'moduleID'=>ClassRoomSecurity::encrypt($module->moduleID)])?>" data-toggle="tooltip" data-title="Upload Material" class="text-md float-right"><span><i class="fas fa-upload text-info"></span></i></a>
       <a href="<?=Url::to(['/instructor/share-link', 'module'=>ClassRoomSecurity::encrypt($module->moduleID)])?>" data-toggle="tooltip" data-title="Share External Link" class="text-md mr-3 float-right "><span><i class="fas fa-external-link-alt text-info"></span></i></a>
       </div>

@@ -37,7 +37,10 @@ use frontend\models\ClassRoomSecurity;
 <body>
     <div class="container mt-5">
         
-            <?php $form = ActiveForm::begin() ?>
+            <?php 
+            //$form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) 
+            $form = ActiveForm::begin() 
+            ?>
             <div class="card">
                 <div class="card-header ml-3">
                     <div class="row">

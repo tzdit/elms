@@ -42,7 +42,7 @@ class Studentbasicinfo extends \yii\db\ActiveRecord
             [['region','birthdate', 'district','ward','nida','maritalstatus', 'reg_no'], 'required'],
             [['profil', 'ward', 'maritalstatus', 'reg_no', 'spouseaddress'], 'string', 'max' => 20],
             [['nida', 'region', 'district'], 'string', 'max' => 25],
-            [['file'], 'file', 'skipOnEmpty' =>true,'extensions'=>['jpg','png']],
+            [['file'], 'file', 'skipOnEmpty' =>true,'extensions'=>'jpg, png'],
             [['spousephone'], 'string', 'max' => 15],
             [['reg_no'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['reg_no' => 'reg_no']],
         ];
@@ -70,18 +70,27 @@ class Studentbasicinfo extends \yii\db\ActiveRecord
       /*
        public function beforeSave($insert)
        {
-      
+         
           if($insert==true)
           {
-            $fileName = uniqid();
-            $filefordb=$fileName.'.'.$this->file->extension;
-            $this->file->saveAs('storage/tmpfiles/'.$filefordb);
-            $this->profil=$filefordb;
+            try
+            {
+                $fileName = uniqid();
+                $filefordb=$fileName.'.'.$this->file->extension;
+                $this->file->saveAs('storage/tmpfiles/'.$filefordb);
+                $this->profil=$filefordb;
+            }
+            catch(\Exception $e)
+            {
+                throw $e;
+            }
+          
           }
         return parent::beforeSave($insert);
         
        }
        */
+       
     /**
      * Gets query for [[RegNo]].
      *

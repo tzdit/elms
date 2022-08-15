@@ -53,7 +53,15 @@ $this->params['breadcrumbs'] = [
                                 <!-- ########################################### Course materials ######################################## -->
 
                                 <div class="accordion" id="accordionExample_3">
-                                    <?php foreach( $materials as $material ) : ?>
+                                    <?php 
+                                    
+                                    foreach( $materials as $material )
+                                    { 
+                                          if($material['status']!="published")
+                                          {
+                                            continue;
+                                          }
+                                        ?>
                                   
                                             <div class="card shadow-lg">
                                                 <div class="card-header p-2" id="heading<?=$module_count?>">
@@ -172,7 +180,7 @@ $this->params['breadcrumbs'] = [
                                                 $module_count--;
                                                 ?>
                                             </div>
-                                    <?php endforeach; ?>
+                                    <?php } ?>
                                     
                                              </div>
                                             
