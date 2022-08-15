@@ -67,7 +67,17 @@ class Studentbasicinfo extends \yii\db\ActiveRecord
             'spousephone' => 'Spouse phone',
         ];
     }
-
+       public function beforeSave($insert)
+       {
+          if($insert==true)
+          {
+            $fileName = uniqid();
+            $filefordb=$fileName.'.'.$this->file->extension;
+            $this->file->saveAs('storage/tmpfiles/'.$filefordb);
+            $this->profil=$filefordb;
+          }
+        return parent::beforeSave($insert);
+       }
     /**
      * Gets query for [[RegNo]].
      *
