@@ -23,7 +23,7 @@ use kartik\validators\PhoneValidator;
  * @property string|null $phone
  * @property string $status
  * @property string $type
- *
+ * @property Studenteducation $education
  * @property Chat[] $chats
  * @property ExtAssess[] $extAssesses
  * @property Groups[] $groups
@@ -165,6 +165,10 @@ class Student extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'userID']);
+    }
+    public function getEducation()
+    {
+        return $this->hasOne(Studenteducation::className(), ['reg_no' => 'reg_no']);
     }
 
     /**

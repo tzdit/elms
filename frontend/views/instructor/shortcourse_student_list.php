@@ -24,7 +24,7 @@ $this->params['courseTitle']="<i class='fa fa-graduation-cap'></i> Short Course 
             <!-- Custom tabs (Charts with tabs)-->
             <table class="table table-bordered table-striped table-hover" id="StudentList" style="width:100%; font-family:'Time New Roman'; font-size:14px;">
             <thead>
-            <tr><th>Full Name</th><th>Reg#</th><th>YOS</th><th>Department</th><th width="15%">Action</th></tr>
+            <tr><th>Reg#</th><th>Full Name</th><th>Gender</th><th>E-mail</th><th>Phone</th><th>Education Level</th><th>Department</th><th width="15%">Action</th></tr>
             
             </thead>
             <tbody>
@@ -37,9 +37,13 @@ $this->params['courseTitle']="<i class='fa fa-graduation-cap'></i> Short Course 
              
               ?>
               <tr>
-              <td><?=ucwords(strtolower($current_students->fullName))?></td>
               <td><?=$current_students->reg_no?></td>
-              <td><?=$current_students->YOS?></td>
+              <td><?=ucwords(strtolower($current_students->fullName))?></td>
+              <td><?=$current_students->gender?></td>
+              <td><?=$current_students->email?></td>
+              <td><?=$current_students->phone?></td>
+              <td><?=($current_students->education!=null)?$current_students->education->level:"Not Set"?></td>
+              <!--<td>//$current_students->YOS?></td>-->
               <td><?=$current_students->program->department->depart_abbrev?></td>
               <td>
                 <?=Html::a("<i class='fas fa-edit'> </i>",["updatestudent", "id"=>$current_students->reg_no], ["class"=>"text-info btn-sm m-0"])?>
