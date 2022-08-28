@@ -89,7 +89,7 @@ if($assignments==null)
   ?>
 
 <?php
-   return false;
+ 
 }
 
 
