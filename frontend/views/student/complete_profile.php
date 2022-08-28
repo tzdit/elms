@@ -127,7 +127,7 @@ use frontend\models\ClassRoomSecurity;
                                </div>
                                 <div class="form-row row mt-3">
                                 <div class="form-group col-md-12 required">
-                                    <label class="control-label ml-3" for="disabilities">Disabilities: </label><br />
+                                    <label class="text-primary ml-3" for="disabilities">Disabilities: </label><br />
                                     <div class="form-check form-check-inline">
                                     <?=$form->field($disab,'DEAFBLIND')->checkbox(['class'=>'form-check-input','id'=>'deaf_blind'])->label(false)?>
                                         <label class="form-check-label" for="deaf_blind">DEAF - BLIND</label>
