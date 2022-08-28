@@ -130,7 +130,7 @@ $this->params['breadcrumbs'] = [
 						 			<tr id=<?=$student->reg_no?>>
 									 	<td><?=Html::encode($student->reg_no);?></td>
                     <td><?=Html::encode($student->programCode); ?></td>
-                    <td><?=Html::encode($student->fname." ".$student->mname." ".$student->lname); ?></td>
+                    <td><?=ucwords(strtolower(Html::encode($student->fname." ".$student->mname." ".$student->lname))); ?></td>
                     <td><?=Html::encode($student->gender); ?></td>
                     <td><?=$student->email?></td>
                     <td><?=$student->phone?></td>
