@@ -17,6 +17,14 @@ use frontend\models\ClassRoomSecurity;
 AppAsset::register($this);
 
 $ads=ShortcourseAdvert::find()->all();
+
+foreach($ads as $index=>$ad)
+{
+    if($ad->isExpired())
+    {
+        unset($ads[$index]);
+    }
+}
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -91,6 +99,10 @@ $ads=ShortcourseAdvert::find()->all();
           $count=0;
             foreach($ads as $ad)
             {
+                if($ad->isExpired())
+                {
+                    continue;
+                }
               if($count==0)
               {
           ?>

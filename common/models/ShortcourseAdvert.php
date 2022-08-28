@@ -65,4 +65,11 @@ class ShortcourseAdvert extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Course::className(), ['course_code' => 'course_code']);
     }
+    public function isExpired()
+    {
+      date_default_timezone_set('Africa/Dar_es_Salaam');
+      $today=strtotime(date('Y-m-d H:i:s'));
+      $deadline=strtotime($this->deadlinedate." ".$this->deadlinetime);
+      return $deadline<$today;
+    }
 }
