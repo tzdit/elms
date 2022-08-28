@@ -101,6 +101,15 @@ $this->params['breadcrumbs'] = [
 				<th>
 					Gender
 				</th>
+        <th>
+					E-mail
+				</th>
+        <th>
+					  Phone
+          </th>
+          <th>
+					   Education
+          </th>
 				<th>
 				YOS
 				</th>
@@ -123,6 +132,9 @@ $this->params['breadcrumbs'] = [
                     <td><?=Html::encode($student->programCode); ?></td>
                     <td><?=Html::encode($student->fname." ".$student->mname." ".$student->lname); ?></td>
                     <td><?=Html::encode($student->gender); ?></td>
+                    <td><?=$student->email?></td>
+                    <td><?=$student->phone?></td>
+                    <td><?=($student->education!=null)?$student->education->level:"Not Set"?></td>
                     <td><?=Html::encode($student->YOS); ?></td>
                     <td></td>
                     <td></td>
