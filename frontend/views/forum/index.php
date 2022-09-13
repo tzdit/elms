@@ -106,7 +106,11 @@ $this->params['breadcrumbs'] = [
                                                 echo ucwords($reply_name->fname." ".$reply_name->lname);
                                             }
                                             else{
-                                                echo  ucwords($reply_inst_name->full_name);
+                                                if(!empty($reply_inst_name))
+                                                {
+                                                    echo  ucwords($reply_inst_name->full_name);
+                                                }
+                                               
                                             }
                                             ?>
                                         </a>
