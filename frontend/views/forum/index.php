@@ -64,7 +64,11 @@ $this->params['breadcrumbs'] = [
                                 echo ucwords($name->fname." ".$name->lname);
                             }
                             else{
-                               echo  ucwords($inst_name->full_name);
+                                if(!empty($inst_name))
+                                {
+                                    echo  ucwords($inst_name->full_name);
+                                }
+                               
                             }
                             ?>
                             </a>
