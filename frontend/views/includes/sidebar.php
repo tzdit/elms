@@ -239,5 +239,24 @@ use yii\helpers\Url;
   
     <div class="sidebar-custom">
       <a href="#" class="btn btn-link"><i class="fas fa-cogs"></i></a>
-      <a href="#" class="btn btn-secondary hide-on-collapse pos-right">Help</a>
+      <?php
+         $doc="/docs/";
+         if(yii::$app->user->can("STUDENT"))
+         {
+          $doc.="student_doc.pdf";
+         }
+         else if(yii::$app->user->can("INSTRUCTOR"))
+         {
+          $doc.="instructor_doc.pdf";
+         }
+         else if(yii::$app->user->can("INSTRUCTOR & HOD"))
+         {
+          $doc.="hod_doc.pdf";
+         }
+         else
+         {
+          $doc.="super_admin_doc.pdf";
+         }
+      ?>
+      <a href="<?=$doc?>" target="_blank" class="btn btn-secondary hide-on-collapse pos-right"><i class="fa fa-file"></i> Manual</a>
     </div>
