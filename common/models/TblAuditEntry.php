@@ -69,7 +69,7 @@ class TblAuditEntry extends \yii\db\ActiveRecord
     {
         parent::afterFind();
 
-        $this->audit_entry_user_id=User::findOne($this->audit_entry_user_id)->username;
+        //$this->audit_entry_user_id=User::findOne($this->audit_entry_user_id)->username;
 
         return true;
     }

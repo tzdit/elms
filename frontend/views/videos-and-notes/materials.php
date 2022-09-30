@@ -108,16 +108,13 @@ $this->params['breadcrumbs'] = [
                                                                             <div class="row">
                                                                                 <video  height="150" width="220" class=" m-0 p-0 col-sm-12">
 
-                                                                                    <source  src="<?php echo $MaterialObject->getVideoAndNotesLink($videos_note['fileName']) ?>" type='video/mp4' size="576"/>
-                                                                                    <source  src="<?php echo $MaterialObject->getVideoAndNotesLink($videos_note['fileName']) ?>" type='video/mp4' size="720"/>
-                                                                                    <source  src="<?php echo $MaterialObject->getVideoAndNotesLink($videos_note['fileName']) ?>" type='video/mp4' size="1080"/>
+                                                                                    <source  src="<?='/storage/temp/'.$videos_note['fileName']?>" type='video/mp4' size="576"/>
+                                                                                    <source  src="<?='/storage/temp/'.$videos_note['fileName']?>" type='video/mp4' size="720"/>
+                                                                                    <source  src="<?='/storage/temp/'.$videos_note['fileName']?>" type='video/mp4' size="1080"/>
 
                                                                                 </video>
                                                                             </div>
-                                                                            <!-- <?=
-                                                                            var_dump($MaterialObject->getVideoAndNotesLink($videos_note['fileName']));
-
-                                                                            ?> -->
+       
                                                                     </div>
                                                                     <div class="col-md-4 m-0 mb-3 text-sm responsivetext">
                                                                         <h4 class="text-sm responsivetext m-0"><span style="color:green"> Name: </span> <?php echo $videos_note['title'] ?></h4>
