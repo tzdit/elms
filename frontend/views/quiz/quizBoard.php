@@ -343,7 +343,7 @@ $('body').on('change','.qradio',function(){
  });
     }
 
-    var timeinterval=setInterval(updatetime, 1000);
+    var timeinterval=setInterval(updatetime, 30000);
     var quizz=$('.quiz').text();
     var localfocus=localStorage.getItem("offcus"+quizz);
     var off_focus_no=(localfocus!="" || localfocus!=null)?localfocus:0;
