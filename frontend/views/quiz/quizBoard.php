@@ -347,7 +347,7 @@ $('body').on('change','.qradio',function(){
     var quizz=$('.quiz').text();
     var localfocus=localStorage.getItem("offcus"+quizz);
     var off_focus_no=(localfocus!="" || localfocus!=null)?localfocus:0;
-document.addEventListener("visibilitychange", function() {
+    document.addEventListener("visibilitychange", function() {
  
   if (document.visibilityState === 'hidden') {
     off_focus_no++;

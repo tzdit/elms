@@ -1,4 +1,5 @@
 <?php
+use common\models\TblAuditEntry;
 use yii\bootstrap4\Breadcrumbs;
 use yii\grid\GridView;
 use fedemotta\datatables\DataTables;
@@ -26,6 +27,7 @@ use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
 use frontend\models\ClassRoomSecurity;
 use frontend\models\CourseStudents;
+
 
 /* @var $this yii\web\View */
 $this->params['courseTitle'] ="<i class='fa fa-graduation-cap text-info'></i> ".$cid. " Students";
@@ -117,11 +119,9 @@ $this->params['breadcrumbs'] = [
 			   Status
 				</th>
         <th>
-			   Profile
+			   No. of sessions
       </th>
-      <th>
-        Action
-          </th>
+
 				
 			</tr>
 		</thead>
@@ -137,8 +137,10 @@ $this->params['breadcrumbs'] = [
                     <td><?=($student->education!=null)?$student->education->level:"Not Set"?></td>
                     <td><?=Html::encode($student->YOS); ?></td>
                     <td></td>
-                    <td></td>
-                    <td id=<?=$student->userID?> class="contactelem" data-toggle="tooltip" data-title="Open Chat"><a href="#"><i class="fas fa-envelope fa-2x" ></i></a></td>
+                    <td>
+                      <?=TblAuditEntry::find()->where(['audit_entry_user_id'=>$student->userID])->count()?>
+                    </td>
+                    
                     
 						 			</tr>
 						 		
