@@ -7,11 +7,21 @@ use yii\widgets\ActiveForm;
 /* @var $model common\models\Student */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
+<style>
+    .help-block
+    {
+        color:red
+    }
+    </style>
 <div class="container pl-5 pr-5 pt-2 pb-3">
 
-    <?php $form = ActiveForm::begin(); ?>
-
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+    <div class="row border pt-3 pl-2"><div class="col-6 col-sm-6">
+    <?= $form->field($model, 'profilepic')->fileInput(['maxlength' => true])->label('Profile Picture') ?>
+    </div>
+    <div class="col-6 col-sm-6">
+    <?= $form->field($model, 'documents[]')->fileInput(['multiple'=>true])->label('Certificates') ?>
+    </div></div>
     <?= $form->field($model, 'reg_no')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'fname')->textInput(['maxlength' => true]) ?>

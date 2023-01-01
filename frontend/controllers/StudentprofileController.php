@@ -5,9 +5,12 @@ namespace frontend\controllers;
 use Yii;
 use common\models\Student;
 use frontend\models\StudentSearch;
+use yii\bootstrap4\Html;
+use yii\db\Exception;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * StudentprofileController implements the CRUD actions for Student model.
@@ -87,8 +90,20 @@ class StudentprofileController extends Controller
     {
         $id=yii::$app->user->identity->username;
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+      
+        if ($model->load(Yii::$app->request->post())) {
+            $model->documents = UploadedFile::getInstances($model,"documents");
+            $model->profilepic = UploadedFile::getInstance($model,"profilepic");
+            if(!$model->save())
+            {
+                //print_r($model);
+                yii::$app->session->setFlash("error", "<i class='fa fa-exclamation-triangle'></i> Profile Updating Failed! ".Html::errorSummary($model));
+                return $this->redirect(yii::$app->request->referrer);
+            }
+            else
+            {
+                yii::$app->session->setFlash("success", "<i class='fa fa-info-circle'></i> Profile Updated Successfully ! ");
+            }
             return $this->redirect(['view', 'id' => $model->reg_no]);
         }
 

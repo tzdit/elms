@@ -11,7 +11,29 @@ $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="student-update">
 
-<h1 class="text-center"><i class='fa fa-user-circle fa-2x text-info'></i></h1>
+<h1 class="text-center">
+    <?php
+    $docshome = "storage/studentfiles/";
+    $dir = yii::$app->user->identity->id;
+    $path = $docshome . $dir . "/";
+    $name = "profilepic";
+    $fullpath = $path . $name . ".png";
+     if(file_exists($fullpath))
+     {
+        ?>
+        <img class="img-rounded img-circle" height=130 width=130 src="/<?=$fullpath?>" />
+        <?php
+       
+
+     } else {
+
+
+        ?>
+    <i class='fa fa-user-circle fa-2x text-info'></i>
+    <?php
+    }
+    ?>
+</h1>
 
     <?= $this->render('_form', [
         'model' => $model,

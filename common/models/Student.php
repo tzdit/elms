@@ -5,6 +5,7 @@ use common\models\StudentGroup;
 use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 use Yii;
 use kartik\validators\PhoneValidator;
+use yii\db\Exception;
 
 /**
  * This is the model class for table "student".
@@ -40,6 +41,9 @@ use kartik\validators\PhoneValidator;
  */
 class Student extends \yii\db\ActiveRecord
 {
+
+    public $profilepic;
+    public $documents;
     /**
      * {@inheritdoc}
      */
@@ -77,6 +81,8 @@ class Student extends \yii\db\ActiveRecord
             ['email', 'unique', 'targetClass' => '\common\models\Student', 'message' => 'This email has already been taken.'],
             ['email', 'email','message' => 'Invalid Email Address.'],
             ['phone', 'unique', 'targetClass' => '\common\models\Student', 'message' => 'phone number already taken.'],
+            [['profilepic'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png','checkExtensionByMimeType' => false, 'maxFiles' => 1],
+            [['documents'], 'file', 'skipOnEmpty' => true, 'extensions' => 'pdf','checkExtensionByMimeType' => false, 'maxFiles' => 10],
             [['reg_no'], 'unique'],
             [['programCode'], 'exist', 'skipOnError' => true, 'targetClass' => Program::className(), 'targetAttribute' => ['programCode' => 'programCode']],
             [['userID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userID' => 'id']],
@@ -114,6 +120,15 @@ class Student extends \yii\db\ActiveRecord
           $user=User::findOne($userID);
           $user->username=$this->reg_no;
           $user->save();
+      }
+      if($insert==false && $this->documents!=null)
+      {
+            $this->uploaddocs();
+           
+      }
+      if($insert==false && $this->profilepic!=null)
+      {
+            $this->uploadpic();
       }
 
 
@@ -293,6 +308,49 @@ class Student extends \yii\db\ActiveRecord
            array_push($courses,$shortcourse->courseCode); 
         }
         return  $courses;
+    }
+
+    public function uploaddocs()
+    {
+        $docshome = "storage/studentfiles/";
+        $dir = $this->userID;
+        $path = $docshome . $dir . "/documents/";
+
+        if(!file_exists($path) || !is_dir($path))
+        {
+            mkdir($path, 0777, true);
+        }
+
+        foreach ($this->documents as $document) {
+            $id = uniqid();
+            $document->saveAs($path . $id . "." . $document->extension);
+        
+        }
+
+
+    }
+    public function uploadpic()
+    {
+        $docshome = "storage/studentfiles/";
+        $dir = $this->userID;
+        $path = $docshome . $dir . "/";
+
+        if(!file_exists($path) || !is_dir($path))
+        {
+            mkdir($path, 0777, true);
+        }
+
+
+        $name = "profilepic";
+        $fullpath = $path . $name . "." . $this->profilepic->extension;
+
+        if(file_exists($fullpath))
+        {
+            unlink($fullpath);
+        }
+        $this->profilepic->saveAs($fullpath);
+        
+        
     }
 
 }
