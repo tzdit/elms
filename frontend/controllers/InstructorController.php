@@ -197,7 +197,9 @@ public $defaultAction = 'dashboard';
                             'ca-add-new',
                             'receipt-validator',
                             'publish-module',
-                            'unpublish-module'
+                            'unpublish-module',
+                            'download-user-certificates',
+                            'pic-download'
 
                         ],
                         'allow' => true,
@@ -327,7 +329,9 @@ public $defaultAction = 'dashboard';
                             'shortcoursestudents',
                             'sign-all',
                             'publish-module',
-                            'unpublish-module'
+                            'unpublish-module',
+                            'download-user-certificates',
+                            'pic-download'
                            
                         ],
                         'allow' => true,
@@ -2605,6 +2609,74 @@ public function actionShortcoursestudents(){
         
     }
     return $this->render('shortcourse_student_list', ['students'=>$students]);
+}
+
+public function actionDownloadUserCertificates($user)
+{
+        $user = ClassRoomSecurity::decrypt($user);
+    try {
+        $docshome = "storage/studentfiles/";
+        $path = $docshome . $user . "/documents/";
+        if(!is_dir($docshome) || !is_dir($path))
+        {
+            throw new Exception("No Documents Found !");
+        }
+        $ziptmp = $docshome."certificates_tmp.zip";
+
+        $zipper = new \ZipArchive();
+        
+        if (!$zipper->open($ziptmp, \ZipArchive::CREATE | \ZipArchive::OVERWRITE)) {
+             throw new \Exception("could not create archive");
+        }
+        $zipper->addFromString('Readme.txt', "User Documents downloaded from civeclassroom.udom.ac.tz");
+        if (is_dir($path)){
+            if ($dh = opendir($path)){
+              while (($file = readdir($dh)) !== false){
+                        $awardfullpath = $path . $file;
+                        if (file_exists($awardfullpath) && $file!="." && $file!="..") {
+                            $zipper->addFile($awardfullpath, $file);
+                        }
+
+              }
+              closedir($dh);
+            }
+          }
+            $student = Student::find()->where(['userID' => $user])->one();
+            $reg_no = trim(str_replace("/", "-", $student->reg_no));
+            $zipper->close();
+
+        Yii::$app->response->sendFile($ziptmp, $reg_no. ".zip")->on(
+            \yii\web\Response::EVENT_AFTER_SEND,
+            function ($event) {
+                unlink($event->data);
+            },
+            $ziptmp
+        );
+        if (connection_aborted()) {
+            unlink($ziptmp);
+        }
+    } catch (\Exception $dn) {
+        yii::$app->session->setFlash('error', $dn->getMessage());
+        $this->redirect(yii::$app->request->referrer);
+    }
+}
+public function actionPicDownload($user)
+{
+    $user = ClassRoomSecurity::decrypt($user);
+    $docshome = "storage/studentfiles/";
+    $path = $docshome . $user . "/";
+    $name = "profilepic";
+    $fullpath = $path . $name . ".png";
+
+    if(file_exists($fullpath))
+    {
+            yii::$app->response->sendFile($fullpath);
+    }
+    else
+    {
+        Yii::$app->session->setFlash('error', '<i class="fa fa-exclamation-triangle"></i> Profile picture not found !');
+        return $this->redirect(Yii::$app->request->referrer); 
+    }
 }
 
      //Create program
