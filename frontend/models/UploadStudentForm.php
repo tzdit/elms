@@ -121,7 +121,7 @@ public function excelstd_importer(){
            if($std==0){continue;}
            else
            {
-           $username=$data[$std][0];
+           $username=strval($data[$std][0]);
            $status=$data[$std][1];
            $usermodel=new User();
           
