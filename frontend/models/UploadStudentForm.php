@@ -122,7 +122,12 @@ public function excelstd_importer(){
            else
            {
            $username=strval($data[$std][0]);
-           $status=$data[$std][1];
+           $name=explode(',',strval($data[$std][1]));
+           $fname=isset($name[0])?$name[0]:"";
+           $mname="";
+           $lname=isset($name[1])?$name[1]:"";
+           $yos=intval($data[$std][2]);
+           $status=$data[$std][3];
            $usermodel=new User();
           
            try
@@ -138,16 +143,16 @@ public function excelstd_importer(){
            }
         
            $stdmodel=new Student();
-           $stdmodel->fname="Not set";
-           $stdmodel->mname="Not set";
-           $stdmodel->lname="Not set";
+           $stdmodel->fname=$fname;
+           $stdmodel->mname=$mname;
+           $stdmodel->lname=$lname;
            $stdmodel->email=uniqid()."@example.com";
            $stdmodel->gender="Not set";
            $stdmodel->reg_no=$username;
            //$stdmodel->phone="0777000000";
            $stdmodel->programCode=$this->program;
            $stdmodel->status=$status."-status";
-           $stdmodel->YOS=1;
+           $stdmodel->YOS=$yos;
            $stdmodel->DOR=date('Y-m-d H:i:s');
            $stdmodel->userID = $usermodel->getId();
            

@@ -14,10 +14,11 @@ class StudentTemplateDownload extends Model{
 
     private function generateExcelOutputing()
     {
-    
      $stringforexcel="<table>
      <tr>
      <td>Registration Number</td>
+     <td>Full name  (f-name, l-name)</td>
+     <td>Year Of Study (1,2,3, etc)</td>
      <td>Registration Status<br> (1=complete, 2=partial, 3=not registered)</td>
      </tr>";
        
