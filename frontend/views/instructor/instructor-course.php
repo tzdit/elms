@@ -31,7 +31,12 @@ $this->title = 'Instructors $ Courses';
 
             
             
-            <?php foreach($instructors as $instructor): ?>
+            <?php foreach($instructors as $instructor): 
+              if($instructor->instructorID==yii::$app->user->identity->instructor->instructorID)
+              {
+                continue;
+              }
+              ?>
             
                 <tr>
                 <td><?= $instructor-> full_name; ?></td>
@@ -41,7 +46,7 @@ $this->title = 'Instructors $ Courses';
                   <b><?= $courses-> course_code. ','; ?></b>
                 <?php endforeach; ?>
                 </td>
-                <td> <?= Html::a('<i class="fas fa-minus-circle"></i>',['remove-instructor-course', 'instructorID'=>$instructor->instructorID], ['class'=>'btn btn-info btn-sm m-0','data-toggle'=>'tooltip','data-title'=>'Go to remove courses'])?> </td>
+                <td> <?= Html::a('<i class="fa fa-book"></i>',['instructor-courses', 'instructorID'=>base64_encode($instructor->instructorID)], ['class'=>'btn btn-info btn-sm m-0','data-toggle'=>'tooltip','data-title'=>'Instructor courses'])?> </td>
                 <?php endforeach; ?>
            
             </tbody>

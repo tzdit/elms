@@ -40,6 +40,7 @@ class InstructorCourse extends \yii\db\ActiveRecord
         return [
             [['instructorID'], 'integer'],
             [['course_code'], 'string', 'max' => 20],
+            ['course_code','unique','targetAttribute'=>['course_code','instructorID'],'message'=>'course already assigned'],
             [['course_code'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_code' => 'course_code']],
             [['instructorID'], 'exist', 'skipOnError' => true, 'targetClass' => Instructor::className(), 'targetAttribute' => ['instructorID' => 'instructorID']],
         ];

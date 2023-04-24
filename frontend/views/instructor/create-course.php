@@ -134,7 +134,6 @@ $this->params['courseTitle']="<i class='fa fa-book text-info'></i> Modules List"
             <?php endif; ?>
             </td>
             <td>
-                  
                 <?= Html::a('<i class="fas fa-eye inner text-info" data-toggle="tooltip" data-title="Module Profile"></i>',['view-coz', 'cid'=>$course->course_code], ['class'=>' ml-1'])?>
                 <?= Html::a('<i class="fas fa-edit text-info"></i>',['updatecoz', 'cozzid'=>$course->course_code], ['class'=>'mr-1'])?>
             <a href="#" cozid="<?=$course->course_code?>" class="text-danger  coursedel"><span><i class="fas fa-trash"></i></span></a>

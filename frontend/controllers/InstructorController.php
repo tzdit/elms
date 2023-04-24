@@ -246,8 +246,8 @@ public $defaultAction = 'dashboard';
                             'stdworklab',
                             'stdlabmark',
                             'update',
+                            'instructor-courses',
                             'instructor-course',
-                            'remove-instructor-course',
                             'updatetut',
                             'updatelab',
                             'updateprog',
@@ -2813,9 +2813,29 @@ public function actionPicDownload($user)
        return $this->render('instructor-course', [ 'instructors'=>$instructors]);
     }
 
-    public function actionRemoveInstructorCourse($instructorID)
+    public function actionInstructorCourses($instructorID)
     {
-        $instructorCoz=InstructorCourse::find()->where(['instructorID'=>$instructorID])->all();
+        if(yii::$app->request->isPost)
+        {
+           $model=new InstructorCourse;
+
+           if($model->load(yii::$app->request->post()))
+           {
+            $model->instructorID=base64_decode($instructorID);
+
+            if($model->save())
+            {
+                yii::$app->session->setFlash("success","Module assigned successfully !");
+                return $this->redirect(yii::$app->request->referrer);
+            }
+            else
+            {
+                yii::$app->session->setFlash("error","Module assigning failed !".Html::errorSummary($model));
+                return $this->redirect(yii::$app->request->referrer);
+            }
+           }
+        }
+        $instructorCoz=InstructorCourse::find()->where(['instructorID'=>base64_decode($instructorID)])->all();
        return $this->render('remove-instructor-course', [ 'instructorCoz'=>$instructorCoz]);
     }
     //will in the future add parameter

@@ -120,7 +120,10 @@ class Course extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Department::className(), ['departmentID' => 'departmentID']);
     }
-
+    public function getDepartmentdesc()
+    {
+        return $this->department->department_name." [".$this->department->depart_abbrev."]";
+    }
     /**
      * Gets query for [[ExtAssesses]].
      *
