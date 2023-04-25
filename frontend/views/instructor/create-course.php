@@ -57,7 +57,7 @@ $this->params['courseTitle']="<i class='fa fa-book text-info'></i> Modules List"
 
       <div class="row">
         <div class="col-md-6">
-        <?= $form->field($model, 'YOS')->dropdownList(['1'=>'First Year', '2'=>'Second Year', '3'=>'Third Year', '4'=>'Fourth Year', '5'=>'Fifth Year'], ['prompt'=>'--Select Year Of Study --'], ['class'=>'form-control form-control-sm'])->label(false) ?>
+        <?= $form->field($model, 'YOS')->dropdownList(['1'=>'1', '2'=>'2', '3'=>'3', '4'=>'4', '5'=>'5', '6'=>'6','7'=>'7','8'=>'8','9'=>'9','10'=>'10'], ['prompt'=>'--NTA Level --'], ['class'=>'form-control form-control-sm'])->label(false) ?>
         </div> 
        
 
