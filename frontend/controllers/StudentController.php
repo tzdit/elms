@@ -246,14 +246,6 @@ public function actionClasswork($cid){
         $assID = ClassRoomSecurity::decrypt($assID);
 
         $model =new AssSubmitForm;
-
-
-
-        // echo '<pre>';
-        //     var_dump($file);
-        // echo '</pre>';
-        // exit;
-
         try{
             if (Yii::$app->request->isPost) {
 
