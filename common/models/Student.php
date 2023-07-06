@@ -2,7 +2,6 @@
 
 namespace common\models;
 use common\models\StudentGroup;
-use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 use Yii;
 use kartik\validators\PhoneValidator;
 use yii\db\Exception;
@@ -133,6 +132,22 @@ class Student extends \yii\db\ActiveRecord
 
 
         return parent::beforeSave($insert);
+    }
+    public function beforeDelete()
+    {
+
+        $userID = $this->userID;
+        $user = User::findOne($userID);
+
+        if($user==null)
+        {
+            return true;
+        }
+        if(!$user->delete())
+        {
+            return false;
+        }
+        return parent::beforeDelete();
     }
   
 

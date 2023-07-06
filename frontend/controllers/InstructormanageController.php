@@ -281,14 +281,14 @@ class InstructormanageController extends Controller
     {
         $id=yii::$app->request->post('userid');
         $instructor=(new Instructor)->find()->where(['userID'=>$id])->one();
-        if($instructor->delete() && User::findOne($id)->setDeleted() )
+        if($instructor->delete())
         {
             return $this->asJson(['deleted'=>'User Deleted Successfully !']);
           
         }
         else
         {
-            return $this->asJson(['failure'=>'User Deleting Failed ! '.Html::errorSummary($model)]);
+            return $this->asJson(['failure'=>'User Deleting Failed ! ']);
            
         }
 

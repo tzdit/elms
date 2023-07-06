@@ -202,14 +202,14 @@ class StudentmanageController extends Controller
         {
             $id=yii::$app->request->post('userid');
             $student=$this->findModel($id);
-            if($student->delete() && User::findOne($id)->setDeleted() )
+            if($student->delete())
             {
                 return $this->asJson(['deleted'=>'User Deleted Successfully !']);
               
             }
             else
             {
-                return $this->asJson(['failure'=>'User Deleting Failed ! '.Html::errorSummary($model)]);
+                return $this->asJson(['failure'=>'User Deleting Failed ! ']);
                
             }
     

@@ -1,7 +1,6 @@
 <?php
 
 namespace common\models;
-use ruturajmaniyar\mod\audit\behaviors\AuditEntryBehaviors;
 use Yii;
 use kartik\validators\PhoneValidator;
 
@@ -41,14 +40,6 @@ class Instructor extends \yii\db\ActiveRecord
         return 'instructor';
     }
     
-    public function behaviors()
-    {
-        return [
-            'auditEntryBehaviors' => [
-                'class' => AuditEntryBehaviors::class
-             ],
-        ];
-    }
     /**
      * {@inheritdoc}
      */
@@ -97,6 +88,22 @@ class Instructor extends \yii\db\ActiveRecord
 
 
         return parent::beforeSave($insert);
+    }
+    public function beforeDelete()
+    {
+
+        $userID = $this->userID;
+        $user = User::findOne($userID);
+
+        if($user==null)
+        {
+            return true;
+        }
+        if(!$user->delete())
+        {
+            return false;
+        }
+        return parent::beforeDelete();
     }
 
     /**
