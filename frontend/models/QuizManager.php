@@ -475,7 +475,7 @@ class QuizManager extends Model
     $courseTitle=Course::findOne($course)->course_name;
     $stylesheet = file_get_contents('css/capdf.css');
     $mpdf->WriteHTML($stylesheet,1);
-    $mpdf->SetWatermarkText('elms.ditnet.ac.tz',0.09);
+    $mpdf->SetWatermarkText('elms.dit.ac.tz',0.09);
     $mpdf->showWatermarkText = true;
     $mpdf->WriteHTML('<div align="center"><img src="img/logo.png" width="125px" height="125px"/></div>',2);
     $mpdf->WriteHTML('<p align="center"><font size=7>Dar es salaam Institute of Technology</font></p>',3);
@@ -782,10 +782,10 @@ else
    $courseTitle=Course::findOne($course)->course_name;
    $stylesheet = file_get_contents('css/capdf.css');
    $mpdf->WriteHTML($stylesheet,1);
-   $mpdf->SetWatermarkText('civeclassroom.udom.ac.tz',0.09);
+   $mpdf->SetWatermarkText('elms.dit.ac.tz',0.09);
    $mpdf->showWatermarkText = true;
    $mpdf->WriteHTML('<div align="center"><img src="img/logo.png" width="125px" height="125px"/></div>',2);
-   $mpdf->WriteHTML('<p align="center"><font size=7>The University of Dodoma</font></p>',3);
+   $mpdf->WriteHTML('<p align="center"><font size=7>Dar Es Salaam Institute Of Technology</font></p>',3);
    $mpdf->WriteHTML('<p align="center"><font size=5>'.$college.'</font></p>',3);
    $mpdf->WriteHTML('<p align="center"><font size=5>'.$course.' '.$courseTitle.'</font></p>',3);
    $mpdf->WriteHTML('<p align="center"><font size=5>Quiz ('.$year.')</font></p>',3);
