@@ -107,6 +107,8 @@ public $defaultAction = 'dashboard';
 public function actionLectureRoom()
 {
  
+    try
+    {
     $serverstatus=true;
     $servermaster=(new BigBlueButton())->getApiVersion();
     if(!($servermaster instanceof ApiVersionResponse)){$serverstatus=false;}
@@ -114,6 +116,14 @@ public function actionLectureRoom()
     $recordings=(new Lectureroom)->recordings();
     $roomstatus=(new Lectureroom)->getRoomInfos();
     return $this->render("lectureRoom",["lectures"=>$lectures,"recordings"=>$recordings,"room"=>$roomstatus,"serverstatus"=>$serverstatus]);
+    }
+    catch(Exception $l)
+    {
+        $serverstatus=true;
+        $servermaster=(new BigBlueButton())->getApiVersion();
+        if(!($servermaster instanceof ApiVersionResponse)){$serverstatus=false;}  
+        return $this->render("lectureRoom",["lectures"=>[],"recordings"=>[],"room"=>$roomstatus,"serverstatus"=>$serverstatus]);
+    }
 
 }
 
