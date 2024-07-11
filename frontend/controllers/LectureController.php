@@ -117,7 +117,7 @@ public function actionLectureRoom()
     $roomstatus=(new Lectureroom)->getRoomInfos();
     return $this->render("lectureRoom",["lectures"=>$lectures,"recordings"=>$recordings,"room"=>$roomstatus,"serverstatus"=>$serverstatus]);
     }
-    catch(Exception $l)
+    catch(\Exception $l)
     {
         $serverstatus=true;
         $servermaster=(new BigBlueButton())->getApiVersion();
