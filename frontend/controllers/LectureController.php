@@ -122,7 +122,7 @@ public function actionLectureRoom()
         $serverstatus=true;
         $servermaster=(new BigBlueButton())->getApiVersion();
         if(!($servermaster instanceof ApiVersionResponse)){$serverstatus=false;}  
-        return $this->render("lectureRoom",["lectures"=>[],"recordings"=>[],"room"=>$roomstatus,"serverstatus"=>$serverstatus]);
+        return $this->render("lectureRoom",["lectures"=>[],"recordings"=>[],"room"=>null,"serverstatus"=>$serverstatus]);
     }
 
 }

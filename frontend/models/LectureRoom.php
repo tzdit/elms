@@ -28,7 +28,7 @@ class LectureRoom extends Model{
 
   public $moderatorPassword;
 
-  public $homeUrl="http://elms.ditnet.ac.tz/";
+  public $homeUrl="https://elms.dit.ac.tz/";
 
   public $maxParticipants;
 
