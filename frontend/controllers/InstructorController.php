@@ -1242,7 +1242,7 @@ public function actionPublishCa($ca)
 public function actionClassStudents($cid)
 {
     
-    $cid=base64_decode(urldecode($cid));
+    $cid=ClassRoomSecurity::decrypt($cid);
 
     return $this->render('class_students',['cid'=>$cid]);
 
@@ -2613,7 +2613,7 @@ public function actionShortcoursestudents(){
 
 public function actionDownloadUserCertificates($user)
 {
-        $user = ClassRoomSecurity::decrypt($user);
+        $user = base64_decode(urldecode($user));
     try {
         $docshome = "storage/studentfiles/";
         $path = $docshome . $user . "/documents/";
