@@ -144,9 +144,9 @@ $this->params['breadcrumbs'] = [
                       <?=TblAuditEntry::find()->where(['audit_entry_user_id'=>$student->userID])->count()?>
                     </td>
                     <td>
-                      <a class="btn btn-sm btn-default " href="<?=Url::to(['/instructor/pic-download','user'=>ClassRoomSecurity::encrypt($student->userID)])?>" data-toggle="tooltip" data-title="Download Profile Picture">picture <i class="fa fa-download"></i></a>
+                      <a class="btn btn-sm btn-default " href="<?=Url::to(['/instructor/pic-download','user'=>urlencode(base64_encode($student->userID))])?>" data-toggle="tooltip" data-title="Download Profile Picture">picture <i class="fa fa-download"></i></a>
 
-                      <a class="btn btn-sm btn-default " href="<?=Url::to(['/instructor/download-user-certificates','user'=>ClassRoomSecurity::encrypt($student->userID)])?>" data-toggle="tooltip" data-title="Download Documents/certificates"> Documents<i class="fa fa-download"></i></a>
+                      <a class="btn btn-sm btn-default " href="<?=Url::to(['/instructor/download-user-certificates','user'=>urlencode(base64_encode($student->userID))])?>" data-toggle="tooltip" data-title="Download Documents/certificates"> Documents<i class="fa fa-download"></i></a>
                     </td>
                     
                     

@@ -1241,8 +1241,8 @@ public function actionPublishCa($ca)
 
 public function actionClassStudents($cid)
 {
-    $secretKey=Yii::$app->params['app.dataEncryptionKey'];
-    $cid=Yii::$app->getSecurity()->decryptByPassword($cid, $secretKey);
+    
+    $cid=base64_decode(urldecode($cid));
 
     return $this->render('class_students',['cid'=>$cid]);
 
@@ -2662,7 +2662,7 @@ public function actionDownloadUserCertificates($user)
 }
 public function actionPicDownload($user)
 {
-    $user = ClassRoomSecurity::decrypt($user);
+    $user = base64_decode(urldecode($user));
     $docshome = "storage/studentfiles/";
     $path = $docshome . $user . "/";
     $name = "profilepic";
