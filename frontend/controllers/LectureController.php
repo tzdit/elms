@@ -196,6 +196,7 @@ public function actionStartSession()
             }
             catch(Exception $d)
             {
+            throw $d;
             yii::$app->session->setFlash("error","An error occured while opening lecture room, try again later!");
             return $this->redirect(yii::$app->request->referrer);
             }
