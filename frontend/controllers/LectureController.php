@@ -172,6 +172,7 @@ public function actionNewSession()
 }
 public function actionStartSession()
 {
+    print "SERVICE UNDER MAINTENANCE"; return null;
     $lectureroommanager=new LectureRoom();
     $rooms_master=new BigBlueButton();
     if($lectureroommanager->load(yii::$app->request->post()))
