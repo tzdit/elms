@@ -142,6 +142,7 @@ public function __construct($config=[])
 
    //now building the classroom
    try{
+    return $dynamicBuilding->getCreateMeetingUrl($roomspecs);
    $classroom=$dynamicBuilding->createMeeting($roomspecs);
    return $classroom;
    if($classroom->getReturnCode()=='SUCCESS'){return true;} //the room is ready made
