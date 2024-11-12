@@ -1,6 +1,7 @@
 <?php
 namespace frontend\models;
 use Yii;
+use yii\base\ErrorException;
 use yii\base\Model;
 use common\models\LiveLecture;
 use common\models\Lectureroominfo;
@@ -264,6 +265,10 @@ public function __construct($config=[])
       catch(Exception $e)
       {
           return [];
+      }
+      catch(ErrorException $er)
+      {
+        return [];
       }
     }
     public function joinSession()
