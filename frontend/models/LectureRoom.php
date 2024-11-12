@@ -54,7 +54,7 @@ class LectureRoom extends Model{
 
   public $logo;
 
-  public $copyright="Copyright © 2020 - 2022   The University of Dodoma.      All rights reserved.";
+  public $copyright="Copyright © 2020 - 2024 DIT";
 
   public $muteOnStart;
 
