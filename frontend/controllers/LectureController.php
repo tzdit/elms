@@ -189,7 +189,6 @@ public function actionStartSession()
             try
             {
             $room=$lectureroommanager->createLectureRoom();
-            print_r($room); return null;
             $door_open_registar= $lectureroommanager->joinSession();
                //now heading to the classroom like a boss
             header('status: 301 Moved Permanently',false,301);
@@ -197,7 +196,6 @@ public function actionStartSession()
             }
             catch(Exception $d)
             {
-            throw $d;
             yii::$app->session->setFlash("error","An error occured while opening lecture room, try again later!");
             return $this->redirect(yii::$app->request->referrer);
             }
