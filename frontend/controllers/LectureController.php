@@ -189,7 +189,7 @@ public function actionStartSession()
             try
             {
             $room=$lectureroommanager->createLectureRoom();
-            print($room); return null;
+            print_r($room); return null;
             $door_open_registar= $lectureroommanager->joinSession();
                //now heading to the classroom like a boss
             header('status: 301 Moved Permanently',false,301);
