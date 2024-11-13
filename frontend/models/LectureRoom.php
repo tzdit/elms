@@ -121,23 +121,23 @@ public function __construct($config=[])
    $logoutUrl=($this->homeUrl)."lecture/logout";
    $endmeetingUrl=$this->homeUrl."lecture/close-room";
    //$endmeetingUrl=Url::to(['lecture/close-room', 'room'=>ClassRoomSecurity::encrypt($this->meetingId)]);
-   $roomspecs=new CreateMeetingParameters($this->meetingId,$lecture->title);
-   $roomspecs=$roomspecs->setModeratorPassword($this->moderatorPassword);
-   $roomspecs=$roomspecs->setAttendeePassword($this->attendeePassword);
-   $roomspecs=$roomspecs->setDuration($lecture->duration);
-   $roomspecs=$roomspecs->setRecord($this->record);
-   $roomspecs=$roomspecs->setAutoStartRecording($this->autoStartRecording);
-   $roomspecs=$roomspecs->setAllowStartStopRecording($this->allowStartStopRecording);
-   $roomspecs=$roomspecs->setWelcomeMessage($this->welcomeMessage);
-   $roomspecs=$roomspecs->setLogoutUrl($logoutUrl);
-   $roomspecs=$roomspecs->setCopyright($this->copyright);
-   $roomspecs=$roomspecs->setLogo($this->logo);
-   $roomspecs=$roomspecs->setLockSettingsDisablePublicChat($this->lockSettingsDisablePublicChat);
-   $roomspecs=$roomspecs->setLockSettingsDisablePrivateChat($this->lockSettingsDisablePrivateChat);
-   $roomspecs=$roomspecs->setLockSettingsDisableNote($this->lockSettingsDisableNote);
-   $roomspecs=$roomspecs->setModeratorOnlyMessage($this->moderatorOnlyMessage);
-   $roomspecs=$roomspecs->setMaxParticipants($this->maxParticipants);
-   $roomspecs=$roomspecs->setEndCallbackUrl($endmeetingUrl);
+   $roomspecs=new CreateMeetingParameters("001","BUGFIX");
+   $roomspecs=$roomspecs->setModeratorPassword("002");
+   $roomspecs=$roomspecs->setAttendeePassword("003");
+  //  $roomspecs=$roomspecs->setDuration($lecture->duration);
+  //  $roomspecs=$roomspecs->setRecord($this->record);
+  //  $roomspecs=$roomspecs->setAutoStartRecording($this->autoStartRecording);
+  //  $roomspecs=$roomspecs->setAllowStartStopRecording($this->allowStartStopRecording);
+  //  $roomspecs=$roomspecs->setWelcomeMessage($this->welcomeMessage);
+   //$roomspecs=$roomspecs->setLogoutUrl($logoutUrl);
+   //$roomspecs=$roomspecs->setCopyright($this->copyright);
+   //$roomspecs=$roomspecs->setLogo($this->logo);
+  //  $roomspecs=$roomspecs->setLockSettingsDisablePublicChat($this->lockSettingsDisablePublicChat);
+  //  $roomspecs=$roomspecs->setLockSettingsDisablePrivateChat($this->lockSettingsDisablePrivateChat);
+  //  $roomspecs=$roomspecs->setLockSettingsDisableNote($this->lockSettingsDisableNote);
+  //  $roomspecs=$roomspecs->setModeratorOnlyMessage($this->moderatorOnlyMessage);
+  //  $roomspecs=$roomspecs->setMaxParticipants($this->maxParticipants);
+  //  $roomspecs=$roomspecs->setEndCallbackUrl($endmeetingUrl);
    //more specs to be added in the future as per needs
 
    //now building the classroom
