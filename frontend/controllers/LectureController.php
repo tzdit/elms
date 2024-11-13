@@ -119,7 +119,6 @@ public function actionLectureRoom()
     }
     catch(\Exception $l)
     {
-        throw $l;
         $serverstatus=true;
         $servermaster=(new BigBlueButton())->getApiVersion();
         if(!($servermaster instanceof ApiVersionResponse)){$serverstatus=false;}  
