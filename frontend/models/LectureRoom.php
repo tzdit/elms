@@ -142,9 +142,9 @@ public function __construct($config=[])
 
    //now building the classroom
    try{
-    return $dynamicBuilding->getCreateMeetingUrl($roomspecs);
+    //return $dynamicBuilding->getCreateMeetingUrl($roomspecs);
    $classroom=$dynamicBuilding->createMeeting($roomspecs);
-   return $classroom;
+   //return $classroom;
    if($classroom->getReturnCode()=='SUCCESS'){return true;} //the room is ready made
    else{ throw new Exception('Server error, could not create lecture room...'.$classroom->getReturnCode());} // any error might have occured
    }
