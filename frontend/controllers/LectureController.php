@@ -172,7 +172,6 @@ public function actionNewSession()
 }
 public function actionStartSession()
 {
-    print "SERVICE UNDER MAINTENANCE"; return null;
     $lectureroommanager=new LectureRoom();
     $rooms_master=new BigBlueButton();
     if($lectureroommanager->load(yii::$app->request->post()))
@@ -191,7 +190,7 @@ public function actionStartSession()
             try
             {
             $room=$lectureroommanager->createLectureRoom();
-            print_r($room); return null;
+            print($room); return null;
             $door_open_registar= $lectureroommanager->joinSession();
                //now heading to the classroom like a boss
             header('status: 301 Moved Permanently',false,301);
